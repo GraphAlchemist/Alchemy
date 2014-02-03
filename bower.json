@@ -1,0 +1,14 @@
+{
+  "name": "alchemy",
+  "private": true,
+  "dependencies": {
+    "jquery": "~2.1.0",
+    "d3": "~3.4.1",
+    "jqueryui": "~1.10.3",
+    "bootstrap": "~3.1.0"
+  },
+  "devDependencies": {},
+  "resolutions": {
+    "jquery": "~1.10.2"
+  }
+}
