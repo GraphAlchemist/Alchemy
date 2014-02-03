@@ -1,11 +1,11 @@
 ###
 ***********************************
 Notes:
-gaConf is defined in ga_base.coffee and custom.js
+conf is defined in ga_base.coffee and custom.js
 ***********************************
 ###
 
-gaConf = window.alchemyConf
+conf = window.alchemyConf
 
 #some helpers
 graph_elem = $('#graph')
@@ -28,152 +28,152 @@ zoom = null
 #rootNodeId
 
 #// API FIXME: allow different values for layout/appearance
-linkDistance = 2000
-rootNodeRadius = 45
-nodeRadius = 20
+linkDistance = conf.linkDistance
+rootNodeRadius = conf.rootNodeRadius
+nodeRadius = conf.nodeRadius
 initialComputationDone = false
 
 ###
 Graph initiation
 ###
 #check if the graph exists
-if not gaConf.hasOwnProperty('dataSource')# or (graph_id.length is 0) 
+if not conf.hasOwnProperty('dataSource')# or (graph_id.length is 0) 
     alert('dataSource not specified or #graph does not exist!')
 
 #
-updateGraph = (start=true) ->
-    # TODO - currently we are displaying all nodes/links, not a subset
-    # set currentNodes/currentLinks and call force.nodes(currentNodes).links(currentLinks).start();
-    # tick should also examine just the visible nodes
+# updateGraph = (start=true) ->
+#     # TODO - currently we are displaying all nodes/links, not a subset
+#     # set currentNodes/currentLinks and call force.nodes(currentNodes).links(currentLinks).start();
+#     # tick should also examine just the visible nodes
 
-    force.nodes(allNodes).links(allEdges)
-    if start then force.start()
+#     force.nodes(allNodes).links(allEdges)
+#     if start then force.start()
 
-    if not initialComputationDone
-        while force.alpha() > 0.005
-            force.tick()
-        initialComputationDone = true
-        $('#loading-spinner').hide()
-        $('#loading-spinner').removeClass('middle')
-        console.log(Date() + ' completed initial computation')
-        if(gaConf.locked) then force.stop()
+#     if not initialComputationDone
+#         while force.alpha() > 0.005
+#             force.tick()
+#         initialComputationDone = true
+#         $('#loading-spinner').hide()
+#         $('#loading-spinner').removeClass('middle')
+#         console.log(Date() + ' completed initial computation')
+#         if(conf.locked) then force.stop()
 
-    #enter/exit nodes/edges
-    path = vis.selectAll("line")
-            .data(allEdges, (d) ->
-                d.source.id + '-' + d.target.id)
-    path.enter()
-        .insert("svg:line", 'g.node')
-        .attr("class", (d) -> "link #{if d.shortest then 'highlighted' else ''}")
-        .attr('id', (d) -> d.source.id + '-' + d.target.id)
-        .on('click', edgeClick)
-    path.exit().remove()
+#     #enter/exit nodes/edges
+#     path = vis.selectAll("line")
+#             .data(allEdges, (d) ->
+#                 d.source.id + '-' + d.target.id)
+#     path.enter()
+#         .insert("svg:line", 'g.node')
+#         .attr("class", (d) -> "link #{if d.shortest then 'highlighted' else ''}")
+#         .attr('id', (d) -> d.source.id + '-' + d.target.id)
+#         .on('click', edgeClick)
+#     path.exit().remove()
 
-    path.attr('x1', (d) -> d.source.x)
-        .attr('y1', (d) -> d.source.y)
-        .attr('x2', (d) -> d.target.x)
-        .attr('y2', (d) -> d.target.y)
+#     path.attr('x1', (d) -> d.source.x)
+#         .attr('y1', (d) -> d.source.y)
+#         .attr('x2', (d) -> d.target.x)
+#         .attr('y2', (d) -> d.target.y)
 
-    node = vis.selectAll("g.node")
-              .data(allNodes, (d) -> d.id)
+#     node = vis.selectAll("g.node")
+#               .data(allNodes, (d) -> d.id)
 
-    nodeEnter = node.enter()
-                    .append("svg:g")
-                    .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
-                    .attr('id', (d) -> "node-#{d.id}")
-                    .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
-                    .on('mousedown', (d) -> d.fixed = true)
-                    .on('mouseover', nodeMouseOver)
-                    .on('dblclick', nodeDoubleClick)
-                    .on('click', nodeClick)
+#     nodeEnter = node.enter()
+#                     .append("svg:g")
+#                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
+#                     .attr('id', (d) -> "node-#{d.id}")
+#                     .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
+#                     .on('mousedown', (d) -> d.fixed = true)
+#                     .on('mouseover', nodeMouseOver)
+#                     .on('dblclick', nodeDoubleClick)
+#                     .on('click', nodeClick)
 
-    if gaConf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
+#     if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
-    nodeEnter
-        .append('circle')
-        .attr('class', (d) -> d.node_type)
-        .attr('id', (d) -> "circle-#{d.id}")
-        .attr('r', (d) ->
-            if d.node_type is 'root'
-                rootNodeRadius
-            else
-                if not gaConf.scaleNodes then nodeRadius else scale d.count
-            )
-        .attr('style', (d) ->
-            if gaConf.cluster
-                if isNaN parseInt d.cluster
-                    colour = '#EBECE4'
-                else if d.cluster < colours.length
-                    colour = colours[d.cluster]
-                else
-                    ''
-            else if gaConf.colours
-                if d[gaConf.colourProperty]? and gaConf.colours[d[gaConf.colourProperty]]?
-                    colour = gaConf.colours[d[gaConf.colourProperty]]
-                else
-                    colour = gaConf.colours['default']
-            else
-                ''
-            "fill: #{colour}; stroke: #{colour};"
-            )
+#     nodeEnter
+#         .append('circle')
+#         .attr('class', (d) -> d.node_type)
+#         .attr('id', (d) -> "circle-#{d.id}")
+#         .attr('r', (d) ->
+#             if d.node_type is 'root'
+#                 rootNodeRadius
+#             else
+#                 if not conf.scaleNodes then nodeRadius else scale d.count
+#             )
+#         .attr('style', (d) ->
+#             if conf.cluster
+#                 if isNaN parseInt d.cluster
+#                     colour = '#EBECE4'
+#                 else if d.cluster < colours.length
+#                     colour = colours[d.cluster]
+#                 else
+#                     ''
+#             else if conf.colours
+#                 if d[conf.colourProperty]? and conf.colours[d[conf.colourProperty]]?
+#                     colour = conf.colours[d[conf.colourProperty]]
+#                 else
+#                     colour = conf.colours['default']
+#             else
+#                 ''
+#             "fill: #{colour}; stroke: #{colour};"
+#             )
 
-    nodeEnter
-        .append('svg:text')
-        .text((d) -> d.label)
-        .attr('class', (d) -> d.node_type)
-        .attr('id', (d) -> "text-#{d.id}")
-        .attr('dy', (d) -> if d.node_type is 'root' then rootNodeRadius / 2 else nodeRadius * 2 - 5)
+#     nodeEnter
+#         .append('svg:text')
+#         .text((d) -> d.label)
+#         .attr('class', (d) -> d.node_type)
+#         .attr('id', (d) -> "text-#{d.id}")
+#         .attr('dy', (d) -> if d.node_type is 'root' then rootNodeRadius / 2 else nodeRadius * 2 - 5)
 
-    vis
-        .selectAll('.node text')
-        .text((d) -> return d.label)
+#     vis
+#         .selectAll('.node text')
+#         .text((d) -> return d.label)
 
-    node
-        .exit()
-        .remove()
+#     node
+#         .exit()
+#         .remove()
 
-  # API FIXME: run user specified afterLoad function here?
+#   # API FIXME: run user specified afterLoad function here?
 
 #position root nodes
-positionRootNodes = () ->
-    #fix or unfix root nodes
-    fixRootNodes = gaConf.fixRootNodes
-    #count root nodes
-    rootNodes = Array()
-    for n in allNodes
-        if (n.node_type == 'root') or (n.id == rootNodeId)
-            n.node_type = 'root'
-            rootNodes.push(n)
+# positionRootNodes = () ->
+#     #fix or unfix root nodes
+#     fixRootNodes = conf.fixRootNodes
+#     #count root nodes
+#     rootNodes = Array()
+#     for n in allNodes
+#         if (n.node_type == 'root') or (n.id == rootNodeId)
+#             n.node_type = 'root'
+#             rootNodes.push(n)
 
-    #currently we center the graph on one or two root nodes
-    if rootNodes.length == 1
-        rootNodes[0].x = container.width / 2
-        rootNodes[0].y = container.height / 2
-        rootNodes[0].px = container.width / 2
-        rootNodes[0].py = container.height / 2
-        rootNodes[0].fixed = fixRootNodes
-        rootNodes[0].r = rootNodeRadius
-    else
-        rootNodes[0].x = container.width * 0.25
-        rootNodes[0].y = container.height / 2
-        rootNodes[0].px = container.width * 0.25
-        rootNodes[0].py = container.height / 2
-        rootNodes[0].fixed = fixRootNodes
-        rootNodes[0].r = rootNodeRadius
-        rootNodes[1].x = container.width * 0.75
-        rootNodes[1].y = container.height / 2
-        rootNodes[1].px = container.width * 0.75
-        rootNodes[1].py = container.height / 2
-        rootNodes[1].fixed = fixRootNodes
-        rootNodes[1].r = rootNodeRadius
+#     #currently we center the graph on one or two root nodes
+#     if rootNodes.length == 1
+#         rootNodes[0].x = container.width / 2
+#         rootNodes[0].y = container.height / 2
+#         rootNodes[0].px = container.width / 2
+#         rootNodes[0].py = container.height / 2
+#         rootNodes[0].fixed = fixRootNodes
+#         rootNodes[0].r = rootNodeRadius
+#     else
+#         rootNodes[0].x = container.width * 0.25
+#         rootNodes[0].y = container.height / 2
+#         rootNodes[0].px = container.width * 0.25
+#         rootNodes[0].py = container.height / 2
+#         rootNodes[0].fixed = fixRootNodes
+#         rootNodes[0].r = rootNodeRadius
+#         rootNodes[1].x = container.width * 0.75
+#         rootNodes[1].y = container.height / 2
+#         rootNodes[1].px = container.width * 0.75
+#         rootNodes[1].py = container.height / 2
+#         rootNodes[1].fixed = fixRootNodes
+#         rootNodes[1].r = rootNodeRadius
 
 updateCaptions = () ->
     captions = []
     for key of allCaptions
-        captions.push({label: key, value: allCaptions[key]})
+        captions.push({caption: key, value: allCaptions[key]})
     captions.sort((a, b) ->
-        if a.label < b.label then return -1
-        if a.label > b.label then return 1
+        if a.caption < b.caption then return -1
+        if a.caption > b.caption then return 1
         0
     )
     $('#igraph-search').autocomplete('option', 'source', captions)
@@ -183,20 +183,20 @@ fixNodesTags = (nodes, edges) ->
     for n in nodes
         allCaptions[n.label] = n.id
         n._tags = []
-        if gaConf.nodeTypesProperty then currentNodeTypes[n[gaConf.nodeTypesProperty]] = true
-        if typeof(n[gaConf.tagsProperty]) == 'undefined' then continue
-        for t in n[gaConf.tagsProperty]
+        if conf.nodeTypesProperty then currentNodeTypes[n[conf.nodeTypesProperty]] = true
+        if typeof(n[conf.tagsProperty]) == 'undefined' then continue
+        for t in n[conf.tagsProperty]
             tag = t.trim().toLowerCase()
             allTags[tag] = true
             n._tags.push(tag)
 
     updateCaptions()
     
-    if 'nodeTypes' of gaConf
+    if 'nodeTypes' of conf
         # $('#filter-nodes').append('<fieldset id="filter-nodes"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
         column = 0
-        for t in gaConf.nodeTypes
+        for t in conf.nodeTypes
             if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
             checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
@@ -208,13 +208,13 @@ fixNodesTags = (nodes, edges) ->
         $('#filter-nodes').append(checkboxes)
         $('#filter-nodes input').click(updateFilters)
 
-    if 'edgeTypes' of gaConf
+    if 'edgeTypes' of conf
         for e in edges
             currentRelationshipTypes[[e].caption] = true
 
         checkboxes = ''
         column = 0
-        for t in gaConf.edgeTypes
+        for t in conf.edgeTypes
             if not t then continue
             caption = t.replace('_', ' ')
             checked = $('#filter-relationships input[name="' + t + '"]:checked').length ? ' checked' : ''
@@ -229,21 +229,21 @@ fixNodesTags = (nodes, edges) ->
     tags.sort()
     $('#add-tag').autocomplete('option', 'source', tags)
 
-#position the nodes
-positionNodes = (nodes, x, y) ->
-    if typeof(x) is 'undefined'
-        x = container.width / 2
-        y = container.height / 2
-    for n in nodes
-        min_radius = linkDistance * 3
-        max_radius = linkDistance * 5
-        radius = Math.random() * (max_radius - min_radius) + min_radius
-        angle = Math.random() * 2 * Math.PI
-        node_x = Math.cos(angle) * linkDistance
-        node_y = Math.sin(angle) * linkDistance
-        n.x = x + node_x
-        n.y = y + node_y
-####
+# #position the nodes
+# positionNodes = (nodes, x, y) ->
+#     if typeof(x) is 'undefined'
+#         x = container.width / 2
+#         y = container.height / 2
+#     for n in nodes
+#         min_radius = linkDistance * 3
+#         max_radius = linkDistance * 5
+#         radius = Math.random() * (max_radius - min_radius) + min_radius
+#         angle = Math.random() * 2 * Math.PI
+#         node_x = Math.cos(angle) * linkDistance
+#         node_y = Math.sin(angle) * linkDistance
+#         n.x = x + node_x
+#         n.y = y + node_y
+# ####
 
 
 ###
@@ -251,7 +251,7 @@ filters
 ###
 
 #create graph filters
-if gaConf.showFilters
+if conf.showFilters
     filter_html = """
                     <div id="filters">
                         <h4 data-toggle="collapse" data-target="#filters form">
@@ -320,7 +320,7 @@ addTag = (event, ui) ->
     event.preventDefault()
 
 #create tag box and tags
-if gaConf.tagsProperty
+if conf.tagsProperty
     tag_html = """
                 <fieldset id="tags">
                     <legend>Tags:</legend>
@@ -334,7 +334,7 @@ if gaConf.tagsProperty
         $(this).autocomplete('search')
 
 #create relationship filters
-if gaConf.edgeTypes
+if conf.edgeTypes
     rel_filter_html = """
                         <fieldset id="filter-relationships">
                             <legend>Filter Relationships 
@@ -345,7 +345,7 @@ if gaConf.edgeTypes
     $('#filters form').append(rel_filter_html)
 
 #create node filters
-if gaConf.nodeTypes
+if conf.nodeTypes
     node_filter_html = """
                         <fieldset id="filter-nodes">
                             <legend>Filter Nodes 
@@ -355,7 +355,7 @@ if gaConf.nodeTypes
                        """
     $('#filters form').append(node_filter_html)
 
-if gaConf.removeNodes
+if conf.removeNodes
     node_filter_html = """
                         <fieldset id="remove-nodes">
                             <legend>Remove Nodes
@@ -442,7 +442,8 @@ updateFilters = () ->
     )
 
 #label toggle
-if gaConf.labelsToggle
+if conf.captionsToggle
+    #todo, change every instance of 'label' to 'caption' to disambiguate with Graph property model
     $('#labels-toggle').click = () ->
         currentClasses = ($('svg').attr(class) or '').split(' ')
         if (currentClasses.indexOf('hidetext') > -1)
@@ -452,7 +453,7 @@ if gaConf.labelsToggle
         $('svg').attr('class', currentClasses.join(' '))
 
 #links toggle
-if gaConf.linksToggle
+if conf.linksToggle
     $('#links-toggle').click = () ->
         currentClasses = ($('svg').attr('class') or '').split(' ')
         if(currentClasses.indexOf('hidelinks') > -1)
@@ -460,8 +461,6 @@ if gaConf.linksToggle
         else
             currentClasses.push('hidelinks')
         $('svg').attr('class', currentClasses.join(' '))
-
-
 
 
 ###
@@ -593,135 +592,135 @@ $('#igraph-search').keyup(iGraphSearch)
                     .focus ->
                         $(this).autocomplete('search')
 
-###
-force layout functions
-###
-node_drag = d3.behavior.drag()
-            .on("dragstart", dragstart)
-            .on("drag", dragmove)
-            .on("dragend", dragend)
+# ###
+# force layout functions
+# ###
+# node_drag = d3.behavior.drag()
+#             .on("dragstart", dragstart)
+#             .on("drag", dragmove)
+#             .on("dragend", dragend)
 
-dragstart = (d, i) ->
-    @parentNode.appendChild(this)
+# dragstart = (d, i) ->
+#     @parentNode.appendChild(this)
 
-dragmove = (d, i) ->
-    d.px += d3.event.dx
-    d.py += d3.event.dy
-    d.x += d3.event.dx
-    d.y += d3.event.dy
+# dragmove = (d, i) ->
+#     d.px += d3.event.dx
+#     d.py += d3.event.dy
+#     d.x += d3.event.dx
+#     d.y += d3.event.dy
 
-    path.attr("x1", (d) -> d.source.x )
-      .attr("y1", (d) -> d.source.y )
-      .attr("x2", (d) -> d.target.x )
-      .attr("y2", (d) -> d.target.y )
+#     path.attr("x1", (d) -> d.source.x )
+#       .attr("y1", (d) -> d.source.y )
+#       .attr("x2", (d) -> d.target.x )
+#       .attr("y2", (d) -> d.target.y )
 
-    node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
+#     node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
 
-    force.stop()
+#     force.stop()
 
-dragend = (d, i) ->
-  force.stop()
+# dragend = (d, i) ->
+#   force.stop()
 
-charge = (n) ->
-    if gaConf.cluster
-        n.node_type == 'root' ? -1600 : -400
-    else
-        -350
+# charge = (n) ->
+#     if conf.cluster
+#         n.node_type == 'root' ? -1600 : -400
+#     else
+#         -350
 
-strength = (edge) ->
-    if edge.source.node_type == 'root'
-        .2
-    else
-        if gaConf.cluster
-            edge.source.cluster == edge.target.cluster ? 0.5 : 0.01
-        else
-            1
+# strength = (edge) ->
+#     if edge.source.node_type == 'root'
+#         .2
+#     else
+#         if conf.cluster
+#             edge.source.cluster == edge.target.cluster ? 0.5 : 0.01
+#         else
+#             1
 
-friction = () ->
-    if gaConf.cluster
-        0.7
-    else
-        0.9
+# friction = () ->
+#     if conf.cluster
+#         0.7
+#     else
+#         0.9
 
-linkDistanceFn = (edge) ->
-    if typeof(edge.distance) isnt 'undefined' then edge.distance
-    if gaConf.cluster
-        # FIXME: parameterise this
-        if edge.source.node_type is 'root' then 100
-        edge.source.cluster == edge.target.cluster ? 180 : 540
-    else
-        if typeof(edge.source.connectedNodes is 'undefined') then edge.source.connectedNodes = 0
-        if typeof(edge.target.connectedNodes is 'undefined') then edge.target.connectedNodes = 0
-        edge.source.connectedNodes++
-        edge.target.connectedNodes++
-        edge.distance = (Math.floor(Math.sqrt(edge.source.connectedNodes + edge.target.connectedNodes)) + 2) * 35
-        edge.distance
+# linkDistanceFn = (edge) ->
+#     if typeof(edge.distance) isnt 'undefined' then edge.distance
+#     if conf.cluster
+#         # FIXME: parameterise this
+#         if edge.source.node_type is 'root' then 100
+#         edge.source.cluster == edge.target.cluster ? 180 : 540
+#     else
+#         if typeof(edge.source.connectedNodes is 'undefined') then edge.source.connectedNodes = 0
+#         if typeof(edge.target.connectedNodes is 'undefined') then edge.target.connectedNodes = 0
+#         edge.source.connectedNodes++
+#         edge.target.connectedNodes++
+#         edge.distance = (Math.floor(Math.sqrt(edge.source.connectedNodes + edge.target.connectedNodes)) + 2) * 35
+#         edge.distance
 
-tick = () ->
-    # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
-    q = d3.geom.quadtree(allNodes)
-    if gaConf.cluster
-        c = cluster(10 * force.alpha() * force.alpha())
-    for n in allNodes
-        q.visit(collide(n))
-        if gaConf.cluster then c[n]
-    if path?
-        path.attr('x1', (d) -> d.source.x)
-        path.attr('y1', (d) -> d.source.y)
-        path.attr('x2', (d) -> d.target.x)
-        path.attr('y2', (d) -> d.source.y)
-    if node?
-        node.attr('transform', (d) ->
-            'translate(#{ d.x }, #{ d.y })')
+# tick = () ->
+#     # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
+#     q = d3.geom.quadtree(allNodes)
+#     if conf.cluster
+#         c = cluster(10 * force.alpha() * force.alpha())
+#     for n in allNodes
+#         q.visit(collide(n))
+#         if conf.cluster then c[n]
+#     if path?
+#         path.attr('x1', (d) -> d.source.x)
+#         path.attr('y1', (d) -> d.source.y)
+#         path.attr('x2', (d) -> d.target.x)
+#         path.attr('y2', (d) -> d.source.y)
+#     if node?
+#         node.attr('transform', (d) ->
+#             'translate(#{ d.x }, #{ d.y })')
 
-cluster = (alpha) ->
-    centroids = {}
-    allNodes.forEach (d) ->
-        if d.cluster == ''
-            return
-        if d.cluster not in centroids
-            centroids[d.cluster] = {'x':0, 'y':0, 'c':0}
-        centroids[d.cluster].x += d.x
-        centroids[d.cluster].y += d.y
-        centroids[d.cluster].c++
+# cluster = (alpha) ->
+#     centroids = {}
+#     allNodes.forEach (d) ->
+#         if d.cluster == ''
+#             return
+#         if d.cluster not in centroids
+#             centroids[d.cluster] = {'x':0, 'y':0, 'c':0}
+#         centroids[d.cluster].x += d.x
+#         centroids[d.cluster].y += d.y
+#         centroids[d.cluster].c++
         
-    for c in centroids
-        c.x = c.x / c.c
-        c.y = c.y / c.c
+#     for c in centroids
+#         c.x = c.x / c.c
+#         c.y = c.y / c.c
 
-    (d) ->
-        if d.cluster is '' then return
-        c = centroids[d.cluster]
-        x = d.x - c.x
-        y = d.y - c.y
-        l = Math.sqrt( x * x * y * y)
-        if l > nodeRadius * 2 + 5
-            l = (l - nodeRadius) / l * alpha
-            d.x -= x * l
-            d.y -= y * l
+#     (d) ->
+#         if d.cluster is '' then return
+#         c = centroids[d.cluster]
+#         x = d.x - c.x
+#         y = d.y - c.y
+#         l = Math.sqrt( x * x * y * y)
+#         if l > nodeRadius * 2 + 5
+#             l = (l - nodeRadius) / l * alpha
+#             d.x -= x * l
+#             d.y -= y * l
 
-collide = (node) ->
-    r = nodeRadius + 16
-    nx1 = node.x - r
-    nx2 = node.x + r
-    ny1 = node.y - r
-    ny2 = node.y + r
-    (quad, x1, y1, x2, y2) ->
-        if quad.point and (quad.point isnt node)
-            x = node.x - quad.point.x
-            y = node.y - quad.point.y
-            l = Math.sqrt(x * x + y * y)
-            r = nodeRadius + nodeRadius + 10
-            if l < r
-                l = (l - r) / l * .5
-                node.x -= x *= l
-                node.y -= y *= l
-                quad.point.x += x
-                quad.point.y += y
-        x1 > nx2 or
-        x2 < nx1 or
-        y1 > ny2 or
-        y2 < ny1
+# collide = (node) ->
+#     r = nodeRadius + 16
+#     nx1 = node.x - r
+#     nx2 = node.x + r
+#     ny1 = node.y - r
+#     ny2 = node.y + r
+#     (quad, x1, y1, x2, y2) ->
+#         if quad.point and (quad.point isnt node)
+#             x = node.x - quad.point.x
+#             y = node.y - quad.point.y
+#             l = Math.sqrt(x * x + y * y)
+#             r = nodeRadius + nodeRadius + 10
+#             if l < r
+#                 l = (l - r) / l * .5
+#                 node.x -= x *= l
+#                 node.y -= y *= l
+#                 quad.point.x += x
+#                 quad.point.y += y
+#         x1 > nx2 or
+#         x2 < nx1 or
+#         y1 > ny2 or
+#         y2 < ny1
 
 ###
 graph interaction
@@ -740,8 +739,8 @@ deselectAll = () ->
     # vis.selectAll('g.node,circle,text')
     #     .classed('selected unselected neighbor unconnected connecting', false)
     #call user-specified deselect function if specified
-    if gaConf.deselectAll and typeof(gaConf.deselectAll == 'function')
-        gaConf.deselectAll()
+    if conf.deselectAll and typeof(conf.deselectAll == 'function')
+        conf.deselectAll()
 
 edgeClick = (d) ->
     vis.selectAll('line')
@@ -749,22 +748,22 @@ edgeClick = (d) ->
     d3.select(this)
         .classed('highlight', true)
     d3.event.stopPropagation
-    if typeof gaConf.edgeClick? is 'function'
-        gaConf.edgeClick()
+    if typeof conf.edgeClick? is 'function'
+        conf.edgeClick()
 
 nodeMouseOver = (n) ->
-    if typeof gaConf.nodeMouseOver? is 'function'
-        gaConf.nodeMouseOver()
+    if typeof conf.nodeMouseOver? is 'function'
+        conf.nodeMouseOver()
 
 nodeDoubleClick = (c) ->
-    if not gaConf.extraDataSource or
+    if not conf.extraDataSource or
         c.expanded or
-        gaConf.unexpandable.indexOf c.type is not -1 then return
+        conf.unexpandable.indexOf c.type is not -1 then return
 
     $('#loading-spinner').show()
     console.log "loading more data for #{c.id}"
     c.expanded = true
-    d3.json gaConf.extraDataSource + c.id, loadMoreNodes
+    d3.json conf.extraDataSource + c.id, loadMoreNodes
 
     links = findAllEdges c
     for e of edges
@@ -802,8 +801,8 @@ loadMoreNodes = (data) ->
             node.py = requester.y + node_y
             allNodes.push node
 
-        if typeof gaConf.nodeAdded? is 'function'
-            gaConf.nodeAdded(node)
+        if typeof conf.nodeAdded? is 'function'
+            conf.nodeAdded(node)
 
     nodesMap = d3.map()
     allNodes.forEach (n) -> nodesMap.set n.id, n
@@ -817,8 +816,8 @@ loadMoreNodes = (data) ->
         if findEdge link.source, link.target isnt null
             allEdges.push link
 
-            if typeof gaConf.edgeAdded? is 'function'
-                gaConf.edgeAdded(node)
+            if typeof conf.edgeAdded? is 'function'
+                conf.edgeAdded(node)
 
             console.log "adding link #{link.source.id}-#{link.target.id}"
         else
@@ -830,13 +829,13 @@ loadMoreNodes = (data) ->
     requester.fixed = false
     setTimeout (-> requester.fixed = true), 1500
 
-    if gaConf.showFilters then updateFilters
+    if conf.showFilters then updateFilters
     $('#loading-spinner').hide
     console.log "#{allNodes.length} nodes afterwards"
     console.log "#{allEdges.length} edges afterwards"
 
-    if typeof gaConf.nodeDoubleClick? is 'function'
-        gaConf.nodeDoubleClick(requester)
+    if typeof conf.nodeDoubleClick? is 'function'
+        conf.nodeDoubleClick(requester)
 
 nodeClick = (c) ->
     vis.selectAll('line')
@@ -851,8 +850,8 @@ nodeClick = (c) ->
 
     if d3.event
         d3.event.stopPropagation()
-        if gaConf.nodeClick? and typeof gaConf.nodeClick is 'function'
-            gaConf.nodeClick c
+        if conf.nodeClick? and typeof conf.nodeClick is 'function'
+            conf.nodeClick c
 
 ###
 utility functions
@@ -912,107 +911,107 @@ resize = () ->
         .attr("width", container.width)
         .attr("height", container.height)
 
-startGraph = (data) ->
-    # debugger
-    # see if data is ok
-    if not data
-        # allow for user specified error
-        no_results = """
-                    <div class="modal fade" id="no-results">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Sorry!</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>No data found, try searching for movies, actors or directors.</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   """
-        $('body').append(no_results)
-        $('#no-results').modal('show')
-        $('#loading-spinner').hide()
-        return
+# startGraph = (data) ->
+    
+#     # see if data is ok
+#     if not data
+#         # allow for user specified error
+#         no_results = """
+#                     <div class="modal fade" id="no-results">
+#                         <div class="modal-dialog">
+#                             <div class="modal-content">
+#                                 <div class="modal-header">
+#                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+#                                     <h4 class="modal-title">Sorry!</h4>
+#                                 </div>
+#                                 <div class="modal-body">
+#                                     <p>No data found, try searching for movies, actors or directors.</p>
+#                                 </div>
+#                                 <div class="modal-footer">
+#                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+#                                 </div>
+#                             </div>
+#                         </div>
+#                     </div>
+#                    """
+#         $('body').append(no_results)
+#         $('#no-results').modal('show')
+#         $('#loading-spinner').hide()
+#         return
 
-    # save nodes & edges
-    allNodes = data.nodes
-    allEdges = data.edges
+#     # save nodes & edges
+#     allNodes = data.nodes
+#     allEdges = data.edges
 
-    #see if root node id has been specified
-    if 'id' of data
-        rootNodeId = data.id
+#     #see if root node id has been specified
+#     if 'id' of data
+#         rootNodeId = data.id
 
-    # create nodes map and update links
-    nodesMap = d3.map()
-    data.nodes.forEach (n) ->
-        nodesMap.set(n.id, n)
-    data.edges.forEach (e) ->
-        e.source = nodesMap.get(e.source)
-        e.target = nodesMap.get(e.target)
+#     # create nodes map and update links
+#     nodesMap = d3.map()
+#     data.nodes.forEach (n) ->
+#         nodesMap.set(n.id, n)
+#     data.edges.forEach (e) ->
+#         e.source = nodesMap.get(e.source)
+#         e.target = nodesMap.get(e.target)
 
-    #get graph size
-    container =
-        'width': $(window).width()
-        'height': $(window).height()
+#     #get graph size
+#     container =
+#         'width': $(window).width()
+#         'height': $(window).height()
 
-    #API FIXME: allow alternative root node positioning?
-    positionRootNodes();
+#     #API FIXME: allow alternative root node positioning?
+#     positionRootNodes();
 
-    #API FIXME: allow custom styling
-    #colours is spelled like whoever originally wrote this is from Scotland
-    # as it should be ;)
-    colours = gaConf.colours
-    if Array.isArray colours
-        colours.sort(() -> 0.5 - Math.random())
+#     #API FIXME: allow custom styling
+#     #colours is spelled like whoever originally wrote this is from Scotland
+#     # as it should be ;)
+#     colours = conf.colours
+#     if Array.isArray colours
+#         colours.sort(() -> 0.5 - Math.random())
 
-    #position nodes initially
-    # API FIXME: allow specified positions for nodes?
-    positionNodes(data.nodes)
+#     #position nodes initially
+#     # API FIXME: allow specified positions for nodes?
+#     positionNodes(data.nodes)
 
-    # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(allNodes, allEdges);
+#     # TODO: fix this in the graph file generating view instead of here
+#     fixNodesTags(allNodes, allEdges);
 
-    # create layout
-    force = d3.layout.force()
-        .charge(charge)
-        .linkDistance(linkDistanceFn)
-        .theta(1.0)
-        .gravity(0)
-        .linkStrength(strength)
-        .friction(friction())
-        .size([container.width, container.height])
-        .on("tick", tick);
+#     # create layout
+#     force = d3.layout.force()
+#         .charge(charge)
+#         .linkDistance(linkDistanceFn)
+#         .theta(1.0)
+#         .gravity(0)
+#         .linkStrength(strength)
+#         .friction(friction())
+#         .size([container.width, container.height])
+#         .on("tick", tick);
 
-    force.nodes(allNodes)
-         .links(allEdges)
-         .start()
+#     force.nodes(allNodes)
+#          .links(allEdges)
+#          .start()
 
-    zoom = d3.behavior.zoom()
-        .scaleExtent([0.1, 2])
+#     zoom = d3.behavior.zoom()
+#         .scaleExtent([0.1, 2])
 
-    #create SVG
-    vis = d3.select('#graph')
-        .attr("width", container.width)
-        .attr("height", container.height)
-        .attr("pointer-events", "all")
-        .call(zoom.on("zoom", redraw))
-        .on("dblclick.zoom", null)
-        .on('click', deselectAll)
-        .append('svg:g')
+#     #create SVG
+#     vis = d3.select('#graph')
+#         .attr("width", container.width)
+#         .attr("height", container.height)
+#         .attr("pointer-events", "all")
+#         .call(zoom.on("zoom", redraw))
+#         .on("dblclick.zoom", null)
+#         .on('click', deselectAll)
+#         .append('svg:g')
 
-    updateGraph()
+#     updateGraph()
 
-    window.onresize = resize
+#     window.onresize = resize
 
-    # call user-specified functions after load function if specified
-    user_spec = gaConf.afterLoad
-    if user_spec and typeof(user_spec is 'function') then user_spec()
+#     # call user-specified functions after load function if specified
+#     user_spec = conf.afterLoad
+#     if user_spec and typeof(user_spec is 'function') then user_spec()
 
-# start the graph
-d3.json(gaConf.dataSource, startGraph)
+# # start the graph
+# d3.json(conf.dataSource, startGraph)

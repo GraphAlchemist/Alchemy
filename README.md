@@ -27,19 +27,19 @@ Visualizing your graph data in a browser should be as simple as including the ja
 
 * Specify a data source in one of the following two ways: 
     1. In `youralchemyConf.js`, specify the `dataSource`.    
-        ```
+        ```    
         {...,    
             dataSource: '/path/or/url/to/graph/json/endpoint',}    
             ...}    
         ```
     2. Inline:
-        ```
+        ```    
         <script>
             alchemy.dataSource = '/path/or/url/to/graph/json/endpoint';
         </script>
         ```    
 
-    **Note:**data should be a properly formatted GraphJSON document.  GraphJSON parameters currently supported by Alchemy are listed in the [API](#).    
+    **Note:** data should be a properly formatted GraphJSON document.  GraphJSON parameters currently supported by Alchemy are listed in the [API](#).    
 
 *  Be amazed at your graph...
 
