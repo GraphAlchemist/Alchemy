@@ -34,6 +34,7 @@ updateGraph = (start=true) ->
     node = vis.selectAll("g.node")
               .data(allNodes, (d) -> d.id)
 
+    #bind node data to d3
     nodeEnter = node.enter()
                     .append("svg:g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
@@ -74,9 +75,10 @@ updateGraph = (start=true) ->
             "fill: #{colour}; stroke: #{colour};"
             )
 
+    #append caption to the node
     nodeEnter
         .append('svg:text')
-        .text((d) -> rod.caption)
+        .text((d) -> d.caption)
         .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if d.node_type is 'root' then rootNodeRadius / 2 else nodeRadius * 2 - 5)
