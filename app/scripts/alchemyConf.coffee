@@ -1,7 +1,9 @@
 #establish global variables
 window.alchemyConf = 
-    showFilters: true
-    tagsProperty: ''
+    nodeFilters: ['gender', 'type']
+    edgeFilters: false
+    filterAttribute: 
+    tagsProperty: ''    
     nodeTypes: [] #the key/value by which to categorize node types for filtering
     nodeTypesProperty: 'type'
     edgeTypes: [] #the key/value by which to categorize edge types for filtering
