@@ -18,7 +18,8 @@
         <!-- build:css(.tmp) styles/main.css -->
 
         <link rel="stylesheet" href="styles/main.css">
-        <link rel="stylesheeet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheeet" href"bower_components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="styles/alchemy.css">
         <!-- endbuild -->
     </head>
     <body>
@@ -27,10 +28,7 @@
         <![endif]-->
 
 
-        <!-- <div id="graph" class="alchemy"></div> -->
-        <svg xmlns="http://www.w3.org/2000/svg" id="graph"></svg>
-
-
+        <div class="alchemy"></div>
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
@@ -53,7 +51,7 @@
 
         <!-- build:js({app,.tmp}) scripts/main.js -->
         
-        // <script>
+        <script>
         // gaConf.dataSource = "{{ url_for('static', filename='data/kevin.json') }}";
         // {# wsConf.dataSource = '{{ graph_url }}'; #}
         </script>

@@ -1,9 +1,14 @@
 #establish global variables
 window.alchemyConf = 
+    dataSource: '/sample_data/charlize.json'
+        # if not alchemyConf.dataSource
+        #     '/sample_data/charlize.json'
+        # else
+        #     alchemyConf.dataSource
     nodeFilters: ['gender', 'type']
     edgeFilters: false
-    filterAttribute: 
-    tagsProperty: ''    
+    filterAttribute: null
+    tagsProperty: null    
     nodeTypes: [] #the key/value by which to categorize node types for filtering
     nodeTypesProperty: 'type'
     edgeTypes: [] #the key/value by which to categorize edge types for filtering
@@ -32,17 +37,12 @@ window.alchemyConf =
     nodeCat: []
     linkDistance: 2000 #default length of link
     rootNodeRadius: 45 #default size of root node
+    #interactions
+    nodeMouseOver: 'default'
     nodeRadius: 20 #default size of non-root nodes
-    nodeClick: null # A function to get data for the node 
-            # (n) ->
-            #   $.get('/ga_graph/bio/' + n.id, (data) ->
-            #         $('aside').html(data);)
-    dataSource: '/sample_data/charlize.json'
-        # if not alchemyConf.dataSource
-        #     '/sample_data/charlize.json'
-        # else
-        #     alchemyConf.dataSource
-
+    nodeClick: null#(n) ->
+                   # $.get('/ga_graph/bio/' + n.id, (data) ->
+                   #     $('aside').html(data);)
 
 # $('#search').autocomplete({
 #     source: ((request, response) ->

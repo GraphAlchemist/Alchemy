@@ -1,0 +1,214 @@
+/* major page elements */
+header {
+    height: 60px;
+    width: 100%;
+    padding: 12px 50px;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+#search-form {
+    display: inline;
+    margin-left: 100px;
+}
+#search-form input {
+    width: 300px;
+}
+
+aside {
+    position: absolute;
+    top: 60px;
+    bottom: 0;
+    left: 0;
+    width: 300px;
+    overflow-y: auto;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+aside .mod {
+    color: #333;
+    border: 1px solid #858886;
+    margin: 1em;
+    padding: 1em;
+    z-index: 0;
+    font-weight: 200;
+    overflow-x: hidden;
+}
+aside div > ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+
+#graph {
+    position: absolute;
+    background: #fff;
+    background: -moz-radial-gradient(center, ellipse cover, #fff 50%, #c8d3d4 100%);
+    background: -webkit-gradient(radial, center center, 0px, center center, 100%, color-stop(50%, #fff), color-stop(100%, #c8d3d4));
+    background: -webkit-radial-gradient(center, ellipse cover, #fff 50%, #c8d3d4 100%);
+    background: -o-radial-gradient(center, ellipse cover, #fff 50%, #c8d3d4 100%);
+    background: -ms-radial-gradient(center, ellipse cover, #fff 50%, #c8d3d4 100%);
+    background: radial-gradient(ellipse at center, #fff 50%, #c8d3d4 100%);
+    color: #333;
+    z-index: -1;
+}
+
+/* filters */
+
+#filters {
+    padding: 0.5em 1em;
+}
+
+#filters fieldset {
+    float: left;
+    width: 220px;
+    margin-right: 1em;
+}
+
+#filters legend {
+    font-size: 14px;
+    line-height: 2;
+    margin: 0.5em 0;
+}
+
+#filters legend button {
+    float: right;
+    line-height: 1.5;
+}
+
+#filters h4 {
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#tags input {
+    width: 220px;
+}
+
+#tags-list {
+    padding: 0;
+}
+
+#tags-list .icon-remove-sign {
+    cursor: pointer;
+}
+
+#tags-list li {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+#tags-list span {
+    background-color: #ccc;
+    color: #333;
+    border-radius: 10em;
+    display: inline-block;
+    padding: 1px 6px;
+}
+
+#filter-nodes label, #filter-relationships label {
+    font-weight: normal;
+    margin-right: 1em;
+}
+
+.clear {
+    clear: both;
+}
+
+/* graph controls */
+
+#controls-container {
+    background-color: rgba(255, 255, 255, 0.9);
+    position: absolute;
+    top: 60px;
+    left: 300px;
+    right: 0;
+}
+
+#controls {
+    margin: 10px;
+    position: absolute;
+    z-index: 1;
+    display: inline-block;
+}
+#controls button.zoom {
+    position: absolute;
+    left: 0;
+}
+#controls #zoom-in {
+    top: 0;
+}
+#controls #zoom-out {
+    top: 40px;
+}
+#controls #zoom-reset {
+    top: 80px;
+}
+#controls #igraph-search-container {
+    margin-left: 50px;
+}
+
+/* basic SVG styles */
+
+svg {
+    margin-bottom: -3px;
+    position: absolute;
+    top: 0;
+    z-index: -1;
+}
+circle  {
+    fill: #127dc1;
+    stroke: #127dc1;
+    stroke-width: 6px;
+    stroke-opacity: 0.4;
+}
+text {
+    fill: #495656;
+    text-shadow: 1px 1px 0px whitesmoke;
+    font-weight: 200;
+    text-anchor: middle;
+}
+line {
+    stroke-width: 3;
+    stroke: #ccc;
+}
+
+/* root styles */
+
+circle.root {
+    fill: #90c73d;
+    stroke: #90c73d;
+}
+text.root {
+    font-size: 32px;
+}
+
+/* hover styles */
+
+line:hover {
+    stroke: #E89619;
+    cursor: pointer;
+}
+.node {
+    cursor: pointer;
+}
+.node:hover circle {
+    stroke-width: 12px;
+}
+
+/* search/filter/selected styles */
+
+.selected circle {
+    stroke-width: 12px;
+}
+line.highlight {
+    stroke: #3399ff;
+}
+.search-active .node, .search-active line, .highlight-active .node, .highlight-active line {
+    opacity: 0.2;
+}
+.search-active .search-match, .highlight-active .node.highlight, .highlight-active line.highlight {
+    opacity: 1;
+}
+
+#loading-spinner {
+    position: absolute;
+    right: 0;
+}
