@@ -10,18 +10,20 @@ Visualizing your graph data in a browser should be as simple as including the ja
 
 ##Quick Start
 
-* Download most recent [Alchemy release](#).
-* Include Alchemy in your app:
+1. Download most recent [Alchemy release](#).
+2. Define custom settings in `<yourConf>.js`.  Read more about how to override defaults in the (wiki)[#].
+3. Include Alchemy in your app:
     ```
-    <script type="text/javascript src="path/to/vendor.js"> // To include dependencies
-    <script type="text/javascript" src="path/to/youralchemyConf.js">    
+    <link rel="stylesheet" href="path/to/alchemy.css">
+    ...
+    <script type="text/javascript src="path/to/vendor.js"> //if including dependencies
+    <script type="text/javascript" src="path/to/yourConf.js"> //if overriding default alchemy configuration    
     <script type="text/javascript src="path/to/alchemy.js">
     ```
-    -OR-    
+    -OR-
+    
     `bower install Alchemy --save`
-
-    `alchemy.js` includes the default alchemyConf file, which you can find [here](#).  `yourAlchemyconf.js` should include any of the defaults from `alchemyConf.js` that you would like to override.  
-
+    
 * Add an Alchemy div to the page:    
     `<div class="alchemy"></div>`
 

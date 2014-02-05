@@ -114,7 +114,9 @@ module.exports = (grunt) ->
                 bare: true
                 sourceMap: true
             files:
-              ".tmp/scripts/alchemy.js": "<%= yeoman.app %>/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
+              ".tmp/scripts/alchemy.js": ["<%= yeoman.app %>/scripts/alchemy/alchemyConf.coffee",
+                                          "<%= yeoman.app %>/scripts/alchemy/init.coffee", 
+                                          "<%= yeoman.app %>/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
   
         confDist:
           files:
