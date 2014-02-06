@@ -29,7 +29,7 @@ module.exports = (grunt) ->
     watch:
       coffee:
         files: ["<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["coffee:alchemyDist", "coffee:confDist"]
+        tasks: ["coffee:dist"]
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
@@ -109,20 +109,14 @@ module.exports = (grunt) ->
     
     # Compiles CoffeeScript to JavaScript
     coffee:
-        alchemyDist:
+        dist:
             options:
                 bare: true
                 sourceMap: true
             files:
-              ".tmp/scripts/alchemy.js": ["<%= yeoman.app %>/scripts/alchemy/alchemyConf.coffee",
+              ".tmp/scripts/alchemy.js": ["<%= yeoman.app %>/scripts/alchemy/defaultConf.coffee",
                                           "<%= yeoman.app %>/scripts/alchemy/init.coffee", 
                                           "<%= yeoman.app %>/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
-  
-        confDist:
-          files:
-            ".tmp/scripts/alchemyConf.js": "<%= yeoman.app %>/scripts/alchemyConf.coffee"
-
-
 
       test:
         files: [
@@ -292,7 +286,7 @@ module.exports = (grunt) ->
     
     # Run some tasks in parallel to speed up build process
     concurrent:
-      server: ["compass:server", "coffee:alchemyDist", "coffee:confDist", "copy:styles"]
+      server: ["compass:server", "coffee:dist", "copy:styles"]
       test: ["coffee", "copy:styles"]
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
 
