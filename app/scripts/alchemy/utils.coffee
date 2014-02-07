@@ -1,4 +1,18 @@
 #utility functions
+utils.deselectAll = () ->
+    # this function is also fired at the end of a drag, do nothing if this happens
+    if d3.event?.defaultPrevented then return
+    vis.selectAll('.node, line')
+        .classed('selected highlight', false)
+    $('#graph').removeClass('highlight-active')
+
+    # vis.selectAll('line.edge')
+    #     .classed('highlighted connected unconnected', false)
+    # vis.selectAll('g.node,circle,text')
+    #     .classed('selected unselected neighbor unconnected connecting', false)
+    #call user-specified deselect function if specified
+    if conf.deselectAll and typeof(conf.deselectAll == 'function')
+        conf.deselectAll()
 
 resize = () ->
     container =

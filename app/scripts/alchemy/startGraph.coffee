@@ -1,4 +1,4 @@
-startGraph = (data) ->
+app.startGraph = (data) ->
     
     # see if data is ok
     if not data
@@ -48,7 +48,7 @@ startGraph = (data) ->
         'height': $(window).height()
 
     #API FIXME: allow alternative root node positioning?
-    positionRootNodes();
+    layout.positionRootNodes();
 
     #API FIXME: allow custom styling
     #colours is spelled like whoever originally wrote this is from Scotland
@@ -59,21 +59,21 @@ startGraph = (data) ->
 
     #position nodes initially
     # API FIXME: allow specified positions for nodes?
-    positionNodes(data.nodes)
+    layout.positionNodes(data.nodes)
 
     # TODO: fix this in the graph file generating view instead of here
     fixNodesTags(allNodes, allEdges);
 
     # create layout
     force = d3.layout.force()
-        .charge(charge)
-        .linkDistance(linkDistanceFn)
+        .charge(layout.charge)
+        .linkDistance(layout.linkDistanceFn)
         .theta(1.0)
         .gravity(0)
-        .linkStrength(strength)
-        .friction(friction())
+        .linkStrength(layout.strength)
+        .friction(layout.friction())
         .size([container.width, container.height])
-        .on("tick", tick);
+        .on("tick", layout.tick)
 
     force.nodes(allNodes)
          .links(allEdges)
@@ -87,13 +87,14 @@ startGraph = (data) ->
         .append("svg:svg")
             .attr("width", container.width)
             .attr("height", container.height)
+            .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
             .call(zoom.on("zoom", redraw))
             .on("dblclick.zoom", null)
-            .on('click', deselectAll)
+            .on('click', utils.deselectAll)
             .append('svg:g')
 
-    updateGraph()
+    app.updateGraph()
 
     window.onresize = resize
 
@@ -101,4 +102,4 @@ startGraph = (data) ->
     user_spec = conf.afterLoad
     if user_spec and typeof(user_spec is 'function') then user_spec()
 
-d3.json(alchemyConf.dataSource, startGraph)
+d3.json(alchemyConf.dataSource, app.startGraph)

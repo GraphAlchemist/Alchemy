@@ -1,21 +1,6 @@
 # all interactions with Graph
 # TODO: support touch
-deselectAll = () ->
-    # this function is also fired at the end of a drag, do nothing if this happens
-    if d3.event?.defaultPrevented then return
-    vis.selectAll('.node, line')
-        .classed('selected highlight', false)
-    $('#graph').removeClass('highlight-active')
-
-    # vis.selectAll('line.edge')
-    #     .classed('highlighted connected unconnected', false)
-    # vis.selectAll('g.node,circle,text')
-    #     .classed('selected unselected neighbor unconnected connecting', false)
-    #call user-specified deselect function if specified
-    if conf.deselectAll and typeof(conf.deselectAll == 'function')
-        conf.deselectAll()
-
-edgeClick = (d) ->
+interactions.edgeClick = (d) ->
     vis.selectAll('line')
         .classed('highlight', false)
     d3.select(this)
@@ -24,13 +9,15 @@ edgeClick = (d) ->
     if typeof conf.edgeClick? is 'function'
         conf.edgeClick()
 
-nodeMouseOver = (n) ->
+interactions.nodeMouseOver = (n) ->
     if typeof conf.nodeMouseOver? is 'function'
         conf.nodeMouseOver()
     else if conf.nodeMouseOver is 'default'
-        console.log("default nodeMouseOver interaction on #{n.caption}")
+        #default interaction will likely be some popover
+        return
+        #console.log("default nodeMouseOver interaction on #{n.caption}")
 
-nodeDoubleClick = (c) ->
+interactions.nodeDoubleClick = (c) ->
     if not conf.extraDataSource or
         c.expanded or
         conf.unexpandable.indexOf c.type is not -1 then return
@@ -44,7 +31,7 @@ nodeDoubleClick = (c) ->
     for e of edges
         edges[e].distance *= 2
 
-loadMoreNodes = (data) ->
+interactions.loadMoreNodes = (data) ->
     ###
     TRY:
       - fixing all nodes before laying out graph with added nodes, so only the new ones move
@@ -112,7 +99,8 @@ loadMoreNodes = (data) ->
     if typeof conf.nodeDoubleClick? is 'function'
         conf.nodeDoubleClick(requester)
 
-nodeClick = (c) ->
+interactions.nodeClick = (c) ->
+    # debugger
     vis.selectAll('line')
         .classed('highlight', (d) -> return c.id is d.source.id or c.id is d.target.id)
     vis.selectAll('.node')
@@ -127,3 +115,29 @@ nodeClick = (c) ->
         d3.event.stopPropagation()
         if conf.nodeClick? and typeof conf.nodeClick is 'function'
             conf.nodeClick c
+
+interactions.node_drag = d3.behavior.drag()
+                .on("dragstart", interactions.dragstart)
+                .on("drag", interactions.dragmove)
+                .on("dragend", interactions.dragend)
+
+interactions.dragstart = (d, i) ->
+    @parentNode.appendChild(this)
+
+interactions.dragmove = (d, i) ->
+    d.px += d3.event.dx
+    d.py += d3.event.dy
+    d.x += d3.event.dx
+    d.y += d3.event.dy
+
+    path.attr("x1", (d) -> d.source.x )
+      .attr("y1", (d) -> d.source.y )
+      .attr("x2", (d) -> d.target.x )
+      .attr("y2", (d) -> d.target.y )
+
+    node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
+
+    force.stop()
+
+interactions.dragend = (d, i) ->
+  force.stop()
