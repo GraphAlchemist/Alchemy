@@ -29,7 +29,7 @@ module.exports = (grunt) ->
     watch:
       coffee:
         files: ["<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["coffee:dist"]
+        tasks: ["copy:coffee", "coffee:dist"]
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
@@ -109,14 +109,16 @@ module.exports = (grunt) ->
     
     # Compiles CoffeeScript to JavaScript
     coffee:
-        dist:
-            options:
-                bare: true
-                sourceMap: true
-            files:
-              ".tmp/scripts/alchemy.js": ["<%= yeoman.app %>/scripts/alchemy/defaultConf.coffee",
-                                          "<%= yeoman.app %>/scripts/alchemy/init.coffee", 
-                                          "<%= yeoman.app %>/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
+      dist:
+        options:
+          bare: true
+          sourceMap: true
+        files: ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/defaultConf.coffee",
+                                             ".tmp/scripts/alchemy/init.coffee",
+                                             ".tmp/scripts/alchemy/errors.coffee",
+                                             ".tmp/scripts/alchemy/startGraph.coffee",
+                                             ".tmp/scripts/alchemy/update.coffee",
+                                             ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
 
       test:
         files: [
@@ -267,6 +269,15 @@ module.exports = (grunt) ->
     
     # Copies remaining files to places other tasks can use
     copy:
+      coffee:
+        files: [
+          expand: true,
+          dot: true,
+          cwd: '<%= yeoman.app %>/scripts',
+          dest: '.tmp/scripts',
+          src: '**/*.coffee'
+        ]
+
       dist:
         files: [
           expand: true
@@ -286,9 +297,9 @@ module.exports = (grunt) ->
     
     # Run some tasks in parallel to speed up build process
     concurrent:
-      server: ["compass:server", "coffee:dist", "copy:styles"]
-      test: ["coffee", "copy:styles"]
-      dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
+      server: ["compass:server", "copy:coffee", "coffee:dist", "copy:styles"]
+      test: ["copy:coffee", "coffee", "copy:styles"]
+      dist: ["copy:coffee", "coffee", "compass", "copy:styles", "imagemin", "svgmin"]
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
