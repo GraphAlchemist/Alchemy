@@ -1,0 +1,11 @@
+line {
+    stroke-width: 3;
+    stroke: #ccc;
+    &.highlight {
+    stroke: #3399ff;
+    }
+    &:hover {
+        stroke: #E89619;
+        cursor: pointer;
+    }
+}

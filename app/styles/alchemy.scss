@@ -1,3 +1,7 @@
+@import 'nodes';
+@import 'edges';
+@import 'utils';
+
 /* major page elements */
 header {
     height: 60px;
@@ -13,7 +17,7 @@ header {
     width: 300px;
 }
 
-aside {
+/*aside {
     position: absolute;
     top: 60px;
     bottom: 0;
@@ -34,7 +38,7 @@ aside .mod {
 aside div > ul {
     list-style-type: none;
     padding-left: 0;
-}
+}*/
 
 
 #graph {
@@ -155,54 +159,61 @@ svg {
     cursor: -webkit-grab;
     /*z-index: -1;*/
 }
-circle  {
+/*circle  {
     fill: #127dc1;
     stroke: #127dc1;
     stroke-width: 6px;
     stroke-opacity: 0.4;
-}
-text {
+}*/
+/*text {
     fill: #495656;
     text-shadow: 1px 1px 0px whitesmoke;
     font-weight: 200;
     text-anchor: middle;
-}
-line {
+}*/
+/*line {
     stroke-width: 3;
     stroke: #ccc;
-}
+}*/
 
 /* root styles */
 
-circle.root {
+/*circle.root {
     fill: #90c73d;
     stroke: #90c73d;
 }
 text.root {
     font-size: 32px;
 }
-
+*/
 /* hover styles */
 
-line:hover {
+/*line:hover {
     stroke: #E89619;
     cursor: pointer;
-}
-.node {
+}*/
+/*.node {
     cursor: pointer;
 }
 .node:hover circle {
     stroke-width: 12px;
-}
+}*/
 
 /* search/filter/selected styles */
 
-.selected circle {
+/*.selected circle {
     stroke-width: 12px;
-}
-line.highlight {
+}*/
+
+/*line.highlight {
     stroke: #3399ff;
-}
+}*/
+
+// TODO: `nodes` and `edges` should have states.  e.g. `active` or `inactive`,
+// `selected` or `unselected`.  These classes should be applied dynamically, based
+// on application logic. 
+// Not "custom" states for every interaction - like `search`, `filter`, etc.
+// this creates conflicts in the styles and makes them hard to extend.
 .search-active .node, .search-active line, .highlight-active .node, .highlight-active line {
     opacity: 0.2;
 }
@@ -210,7 +221,7 @@ line.highlight {
     opacity: 1;
 }
 
-#loading-spinner {
-    position: absolute;
-    right: 0;
-}
+// #loading-spinner {
+//     position: absolute;
+//     right: 0;
+// }
