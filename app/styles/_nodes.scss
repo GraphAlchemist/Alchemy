@@ -1,0 +1,31 @@
+// Isabella to clean up?
+.node {
+    cursor: pointer;
+    circle  {
+        fill: #127dc1;
+        stroke: #127dc1;
+        stroke-width: 6px;
+        stroke-opacity: 0.4;
+        // TODO: `.node` should have a `root` class
+        // NOT `circle`.... uh.
+        &.root {
+            fill: #90c73d;
+            stroke: #90c73d;
+        }
+    }
+    text.root {
+        font-size: 32px;
+    }
+    text {
+        fill: #495656;
+        // text-shadow: 1px 1px 0px whitesmoke;
+        font-weight: 200;
+        text-anchor: middle;
+    }
+    &:hover circle {
+        stroke-width: 12px;
+        }
+    &.selected circle {
+        stroke-width: 12px;
+        }
+}
