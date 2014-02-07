@@ -1,39 +1,13 @@
 ###
 force layout functions
 ###
-node_drag = d3.behavior.drag()
-            .on("dragstart", dragstart)
-            .on("drag", dragmove)
-            .on("dragend", dragend)
-
-dragstart = (d, i) ->
-    @parentNode.appendChild(this)
-
-dragmove = (d, i) ->
-    d.px += d3.event.dx
-    d.py += d3.event.dy
-    d.x += d3.event.dx
-    d.y += d3.event.dy
-
-    path.attr("x1", (d) -> d.source.x )
-      .attr("y1", (d) -> d.source.y )
-      .attr("x2", (d) -> d.target.x )
-      .attr("y2", (d) -> d.target.y )
-
-    node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
-
-    force.stop()
-
-dragend = (d, i) ->
-  force.stop()
-
-charge = (n) ->
+layout.charge = (n) ->
     if conf.cluster
         n.node_type == 'root' ? -1600 : -400
     else
         -350
 
-strength = (edge) ->
+layout.strength = (edge) ->
     if edge.source.node_type == 'root'
         .2
     else
@@ -42,13 +16,13 @@ strength = (edge) ->
         else
             1
 
-friction = () ->
+layout.friction = () ->
     if conf.cluster
         0.7
     else
         0.9
 
-linkDistanceFn = (edge) ->
+layout.linkDistanceFn = (edge) ->
     if typeof(edge.distance) isnt 'undefined' then edge.distance
     if conf.cluster
         # FIXME: parameterise this
@@ -62,13 +36,13 @@ linkDistanceFn = (edge) ->
         edge.distance = (Math.floor(Math.sqrt(edge.source.connectedNodes + edge.target.connectedNodes)) + 2) * 35
         edge.distance
 
-tick = () ->
+layout.tick = () ->
     # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
     q = d3.geom.quadtree(allNodes)
     if conf.cluster
         c = cluster(10 * force.alpha() * force.alpha())
     for n in allNodes
-        q.visit(collide(n))
+        q.visit(layout.collide(n))
         if conf.cluster then c[n]
     if path?
         path.attr('x1', (d) -> d.source.x)
@@ -76,10 +50,11 @@ tick = () ->
         path.attr('x2', (d) -> d.target.x)
         path.attr('y2', (d) -> d.source.y)
     if node?
+        # debugger
         node.attr('transform', (d) ->
-            'translate(#{ d.x }, #{ d.y })')
+            "translate(#{ d.x }, #{ d.y })")
 
-cluster = (alpha) ->
+layout.cluster = (alpha) ->
     centroids = {}
     allNodes.forEach (d) ->
         if d.cluster == ''
@@ -105,7 +80,7 @@ cluster = (alpha) ->
             d.x -= x * l
             d.y -= y * l
 
-collide = (node) ->
+layout.collide = (node) ->
     r = nodeRadius + 16
     nx1 = node.x - r
     nx2 = node.x + r
@@ -128,7 +103,7 @@ collide = (node) ->
         y1 > ny2 or
         y2 < ny1
 
-positionRootNodes = () ->
+layout.positionRootNodes = () ->
     #fix or unfix root nodes
     fixRootNodes = conf.fixRootNodes
     #count root nodes
@@ -161,7 +136,7 @@ positionRootNodes = () ->
         rootNodes[1].r = rootNodeRadius
 
 #position the nodes
-positionNodes = (nodes, x, y) ->
+layout.positionNodes = (nodes, x, y) ->
     if typeof(x) is 'undefined'
         x = container.width / 2
         y = container.height / 2

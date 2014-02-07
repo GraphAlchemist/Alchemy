@@ -1,6 +1,11 @@
+#default configuration
 conf = window.alchemyConf
+#application scopes
+window.app = {}
+window.layout = {}
+window.interactions = {}
+window.utils = {}
 
-#configure the graph
 linkDistance = conf.linkDistance
 rootNodeRadius = conf.rootNodeRadius
 nodeRadius = conf.nodeRadius

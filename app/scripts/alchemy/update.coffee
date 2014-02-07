@@ -1,4 +1,4 @@
-updateGraph = (start=true) ->
+app.updateGraph = (start=true) ->
     # TODO - currently we are displaying all nodes/edges, not a subset
     # set currentNodes/currentEdges and call force.nodes(currentNodes).edges(currentEdges).start();
     # tick should also examine just the visible nodes
@@ -23,7 +23,7 @@ updateGraph = (start=true) ->
         .insert("svg:line", 'g.node')
         .attr("class", (d) -> "edge #{if d.shortest then 'highlighted' else ''}")
         .attr('id', (d) -> d.source.id + '-' + d.target.id)
-        .on('click', edgeClick)
+        .on('click', interactions.edgeClick)
     path.exit().remove()
 
     path.attr('x1', (d) -> d.source.x)
@@ -35,16 +35,16 @@ updateGraph = (start=true) ->
               .data(allNodes, (d) -> d.id)
 
     #bind node data to d3
-    nodeEnter = node.enter()
-                    .append("svg:g")
+    nodeEnter = node.enter().append("svg:g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
                     .attr('id', (d) -> "node-#{d.id}")
                     .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
                     .on('mousedown', (d) -> d.fixed = true)
-                    .on('mouseover', nodeMouseOver)
-                    .on('dblclick', nodeDoubleClick)
-                    .on('click', nodeClick)
-
+                    .on('mouseover', interactions.nodeMouseOver)
+                    .on('dblclick', interactions.nodeDoubleClick)
+                    .on('click', interactions.nodeClick)
+     
+    # debugger
     if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
     nodeEnter

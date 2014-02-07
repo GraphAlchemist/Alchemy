@@ -1,19 +1,26 @@
-#establish global variables
+#establish configuration variables
 window.alchemyConf = 
     dataSource: '/sample_data/charlize.json'
         # if not alchemyConf.dataSource
         #     '/sample_data/charlize.json'
         # else
         #     alchemyConf.dataSource
+    #graph filters
     nodeFilters: ['gender', 'type']
     edgeFilters: false
     filterAttribute: null
     tagsProperty: null    
-    nodeTypes: [] #the key/value by which to categorize node types for filtering
-    nodeTypesProperty: 'type'
-    edgeTypes: [] #the key/value by which to categorize edge types for filtering
-    removeNodes: true #?
+    nodeTypes: {} #the key/value by which to categorize node types for filtering
+    #e.g. {'type': 'movie', 'type': 'actor'...}
+    # nodeTypesProperty: 'type'
+    edgeTypes: {} #the key/value by which to categorize edge types for filtering
+    #e.g. {'type': ACTED_IN, 'type': PRODUCED...}
+
+    #editor settings
+    removeNodes: false #allow the removal of nodes with controls
     fixRootNodes: true #root nodes are not dragable by default
+    
+    #style settings
     colours: {
         'default':"#06799F", 
        'clusters':[ "#045E91", "#06799F", 
@@ -28,7 +35,7 @@ window.alchemyConf =
                     "#A5D165", "#1272A8", 
                     "#41A8B1", "#2A8AC7"]
                 }
-    positions: false #?
+    positions: false #not currently used - pre-calcuglated layout positions for nodes
     captionToggle: false #allow toggle of node captions
     #to do - change every instance of 'links' to 'edges'
     linksToggle: false #toggle edges on or off 
@@ -40,9 +47,10 @@ window.alchemyConf =
     #interactions
     nodeMouseOver: 'default'
     nodeRadius: 20 #default size of non-root nodes
-    nodeClick: null#(n) ->
-                   # $.get('/ga_graph/bio/' + n.id, (data) ->
-                   #     $('aside').html(data);)
+    # nodeClick: (n) ->
+    #                 $.get('/ga_graph/bio/' + n.id, (data) ->
+    #                     $('aside').html(data);)
+    # nodeDrag:   'default'
 
 # $('#search').autocomplete({
 #     source: ((request, response) ->

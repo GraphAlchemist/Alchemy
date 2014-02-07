@@ -47,7 +47,7 @@ aside div > ul {
     background: -ms-radial-gradient(center, ellipse cover, #fff 50%, #c8d3d4 100%);
     background: radial-gradient(ellipse at center, #fff 50%, #c8d3d4 100%);
     color: #333;
-    z-index: -1;
+    /*z-index: -1;*/
 }
 
 /* filters */
@@ -151,7 +151,9 @@ svg {
     margin-bottom: -3px;
     position: absolute;
     top: 0;
-    z-index: -1;
+    left: 0;
+    cursor: -webkit-grab;
+    /*z-index: -1;*/
 }
 circle  {
     fill: #127dc1;
