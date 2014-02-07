@@ -113,13 +113,12 @@ module.exports = (grunt) ->
         options:
           bare: true
           sourceMap: true
-        files: ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/defaultConf.coffee",
+        files: ".tmp/scripts/alchemy.js": [  ".tmp/scripts/alchemy/defaultConf.coffee",
                                              ".tmp/scripts/alchemy/init.coffee",
                                              ".tmp/scripts/alchemy/errors.coffee",
                                              ".tmp/scripts/alchemy/startGraph.coffee",
                                              ".tmp/scripts/alchemy/update.coffee",
                                              ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
-
       test:
         files: [
           expand: true
@@ -297,21 +296,21 @@ module.exports = (grunt) ->
     
     # Run some tasks in parallel to speed up build process
     concurrent:
-      server: ["compass:server", "copy:coffee", "coffee:dist", "copy:styles"]
-      test: ["copy:coffee", "coffee", "copy:styles"]
-      dist: ["copy:coffee", "coffee", "compass", "copy:styles", "imagemin", "svgmin"]
+      server: ["compass:server", "coffee:dist", "copy:styles"]
+      test: ["coffee", "copy:styles"]
+      dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
-    grunt.task.run ["clean:server", "concurrent:server", "autoprefixer", "connect:livereload", "watch"]
+    grunt.task.run ["clean:server", "copy:coffee", "concurrent:server", "autoprefixer", "connect:livereload", "watch"]
 
   grunt.registerTask "server", ->
     grunt.log.warn "The `server` task has been deprecated. Use `grunt serve` to start a server."
     grunt.task.run ["serve"]
 
   grunt.registerTask "test", (target) ->
-    grunt.task.run ["clean:server", "concurrent:test", "autoprefixer"]  if target isnt "watch"
+    grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     grunt.task.run ["connect:test", "mocha"]
 
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify", "copy:dist", "rev", "usemin", "htmlmin"]
+  grunt.registerTask "build", ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify", "copy:dist", "rev", "usemin", "htmlmin"]
   grunt.registerTask "default", ["newer:jshint", "test", "build"]
