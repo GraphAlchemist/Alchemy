@@ -38,6 +38,7 @@ layout.linkDistanceFn = (edge) ->
 
 layout.tick = () ->
     # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
+    force = layout.force
     q = d3.geom.quadtree(allNodes)
     if conf.cluster
         c = cluster(10 * force.alpha() * force.alpha())
@@ -50,7 +51,7 @@ layout.tick = () ->
         path.attr('x2', (d) -> d.target.x)
         path.attr('y2', (d) -> d.source.y)
     if node?
-        # debugger
+        #debugger
         node.attr('transform', (d) ->
             "translate(#{ d.x }, #{ d.y })")
 

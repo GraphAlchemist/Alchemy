@@ -65,7 +65,7 @@ app.startGraph = (data) ->
     fixNodesTags(allNodes, allEdges);
 
     # create layout
-    force = d3.layout.force()
+    layout.force = d3.layout.force()
         .charge(layout.charge)
         .linkDistance(layout.linkDistanceFn)
         .theta(1.0)
@@ -75,7 +75,7 @@ app.startGraph = (data) ->
         .size([container.width, container.height])
         .on("tick", layout.tick)
 
-    force.nodes(allNodes)
+    layout.force.nodes(allNodes)
          .links(allEdges)
          .start()
 
@@ -83,7 +83,7 @@ app.startGraph = (data) ->
         .scaleExtent([0.1, 2])
 
     #create SVG
-    vis = d3.select('.alchemy')
+    app.vis = d3.select('.alchemy')
         .append("svg:svg")
             .attr("width", container.width)
             .attr("height", container.height)
@@ -96,10 +96,8 @@ app.startGraph = (data) ->
 
     app.updateGraph()
 
-    window.onresize = resize
+    window.onresize = utils.resize
 
     # call user-specified functions after load function if specified
     user_spec = conf.afterLoad
     if user_spec and typeof(user_spec is 'function') then user_spec()
-
-d3.json(alchemyConf.dataSource, app.startGraph)

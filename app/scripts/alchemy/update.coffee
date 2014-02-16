@@ -2,10 +2,11 @@ app.updateGraph = (start=true) ->
     # TODO - currently we are displaying all nodes/edges, not a subset
     # set currentNodes/currentEdges and call force.nodes(currentNodes).edges(currentEdges).start();
     # tick should also examine just the visible nodes
-
+    force = layout.force
+    vis = app.vis
     force.nodes(allNodes).links(allEdges)
     if start then force.start()
-
+    #debugger
     if not initialComputationDone
         while force.alpha() > 0.005
             force.tick()
@@ -33,7 +34,7 @@ app.updateGraph = (start=true) ->
 
     node = vis.selectAll("g.node")
               .data(allNodes, (d) -> d.id)
-
+    #debugger
     #bind node data to d3
     nodeEnter = node.enter().append("svg:g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
@@ -43,9 +44,10 @@ app.updateGraph = (start=true) ->
                     .on('mouseover', interactions.nodeMouseOver)
                     .on('dblclick', interactions.nodeDoubleClick)
                     .on('click', interactions.nodeClick)
+                    .call(layout.force.drag)
      
-    # debugger
-    if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
+    
+    # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
     nodeEnter
         .append('circle')
@@ -86,7 +88,7 @@ app.updateGraph = (start=true) ->
     vis
         .selectAll('.node text')
         .text((d) -> return d.caption)
-
+    
     node
         .exit()
         .remove()

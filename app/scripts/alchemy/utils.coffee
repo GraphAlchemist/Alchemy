@@ -2,7 +2,7 @@
 utils.deselectAll = () ->
     # this function is also fired at the end of a drag, do nothing if this happens
     if d3.event?.defaultPrevented then return
-    vis.selectAll('.node, line')
+    app.vis.selectAll('.node, line')
         .classed('selected highlight', false)
     $('#graph').removeClass('highlight-active')
 
@@ -14,7 +14,7 @@ utils.deselectAll = () ->
     if conf.deselectAll and typeof(conf.deselectAll == 'function')
         conf.deselectAll()
 
-resize = () ->
+utils.resize = () ->
     container =
         'width': $(window).width()
         'height': $(window).height()
@@ -22,7 +22,7 @@ resize = () ->
         .attr("width", container.width)
         .attr("height", container.height)
 
-scale = (x) ->
+utils.scale = (x) ->
     #returns minimum 10, maximum 60
     #scale linearly from 1 to 50 (?), then logarithmically
     min = 100
@@ -47,7 +47,7 @@ jQuery.fn.d3Click = () ->
         e.dispatchEvent(evt)
     )
 
-centreView = (id) ->
+utils.centreView = (id) ->
     # centre view on node with given id
     svg = $('#graph').get(0)
     node = $(id).get(0)
@@ -59,5 +59,5 @@ centreView = (id) ->
     x = parseFloat(params[0]) + delta[0]
     y = parseFloat(params[1]) + delta[1]
     level = parseFloat(params[2])
-    vis.transition().attr('transform', "translate(#{ x }, #{ y }) scale(#{level})")
+    app.vis.transition().attr('transform', "translate(#{ x }, #{ y }) scale(#{level})")
     zoom.translate([x, y]).scale(level)

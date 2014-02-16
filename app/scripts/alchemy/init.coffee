@@ -1,10 +1,12 @@
 #default configuration
 conf = window.alchemyConf
+
 #application scopes
 window.app = {}
 window.layout = {}
 window.interactions = {}
 window.utils = {}
+window.visControls = {}
 
 linkDistance = conf.linkDistance
 rootNodeRadius = conf.rootNodeRadius
@@ -21,7 +23,7 @@ allCaptions = {}
 currentNodeTypes = {}
 currentRelationshipTypes = {}
 container = null
-force = null
-vis = null
+# force = null
+# vis = null
 rootNodeId = null
-zoom = null
+# zoom = null
