@@ -2,7 +2,7 @@
 visual controls
 ###
 #current scope of the view
-getCurrentViewParams = () ->
+visControls.getCurrentViewParams = () ->
     #return array with current translation & scale settings
     params = $('#graph > g').attr('transform')
     if not params
@@ -16,6 +16,7 @@ getCurrentViewParams = () ->
 
 #redraw
 redraw = () ->
+    vis = app.vis
     vis.attr("transform",
              "translate(#{ d3.event.translate }) scale(#{ d3.event.scale })")
 
@@ -23,7 +24,8 @@ redraw = () ->
 zoomIn = () ->
     #google analytics event tracking -  keep?
     #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'zoom', 'in']);
-    params = getCurrentViewParams()
+    vis = app.vis
+    params = visControls.getCurrentViewParams()
     x = params[0]
     y = params[1]
     level = parseFloat(params[2]) * 1.2
@@ -33,7 +35,8 @@ zoomIn = () ->
 zoomOut = () ->
      #google analytics
      #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'zoom', 'out']);
-     params = getCurrentViewParams()
+     vis = app.vis
+     params = visControls.getCurrentViewParams()
      x = params[0]
      y = params[1]
      level = parseFloat(params[2]) / 1.2
@@ -43,7 +46,8 @@ zoomOut = () ->
 zoomReset = () ->
     #google analytics old
     #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'reset', 'reset']);
-    deselectAll()
+    app.vis
+    utils.deselectAll()
     ax = ay = ar = 0
     for n in allNodes
         delete n.fixed
@@ -62,3 +66,5 @@ zoomReset = () ->
 $('#zoom-in').click(zoomIn)
 $('#zoom-out').click(zoomOut)
 $('#zoom-reset').click(zoomReset)
+
+d3.json(alchemyConf.dataSource, app.startGraph)

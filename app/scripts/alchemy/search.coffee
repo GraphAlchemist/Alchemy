@@ -21,6 +21,7 @@ findAllEdges = (source) ->
 #igraphsearch
 #deprecated: graphSearch
 iGraphSearch = (event) ->
+    vis = app.vis
     if event and (event.keyCode == 27)
         $('#igraph-search').val('')
     term = $('#igraph-search').val().toLowerCase()

@@ -1,6 +1,7 @@
 # all interactions with Graph
 # TODO: support touch
 interactions.edgeClick = (d) ->
+    vis = app.vis
     vis.selectAll('line')
         .classed('highlight', false)
     d3.select(this)
@@ -100,7 +101,8 @@ interactions.loadMoreNodes = (data) ->
         conf.nodeDoubleClick(requester)
 
 interactions.nodeClick = (c) ->
-    # debugger
+    #dirty
+    vis = app.vis
     vis.selectAll('line')
         .classed('highlight', (d) -> return c.id is d.source.id or c.id is d.target.id)
     vis.selectAll('.node')
