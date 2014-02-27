@@ -27,15 +27,20 @@ app.startGraph = (data) ->
         return
 
     # save nodes & edges
+    # !!!!!!!!!!!!!!!!!
     # remove
-    allNodes = data.nodes
-    allEdges = data.edges
+    # !!!!!!!!!!!!!!!!!
+    app.nodes = data.nodes
+    app.edges = data.edges
 
     #see if root node id has been specified
     if 'id' of data
         rootNodeId = data.id
 
     # create nodes map and update links
+    # !!!!!!!!!!!!!!!!!
+    # remove
+    # !!!!!!!!!!!!!!!!!
     nodesMap = d3.map()
     data.nodes.forEach (n) ->
         nodesMap.set(n.id, n)
@@ -60,11 +65,10 @@ app.startGraph = (data) ->
 
     #position nodes initially
     # API FIXME: allow specified positions for nodes?
-    layout.positionNodes(data.nodes)
+    layout.positionNodes(app.nodes)
 
     # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(data.nodes, data.edges);
-
+    fixNodesTags(app.nodes, app.edges);
     # create layout
     app.force = d3.layout.force()
         .charge(layout.charge)

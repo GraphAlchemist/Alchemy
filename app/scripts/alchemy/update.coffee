@@ -4,7 +4,7 @@ app.updateGraph = (start=true) ->
     # tick should also examine just the visible nodes
     force = app.force
     vis = app.vis
-    force.nodes(allNodes).links(allEdges)
+    force.nodes(app.nodes).links(app.edges)
     if start then force.start()
         # debugger
     if not initialComputationDone
@@ -16,9 +16,11 @@ app.updateGraph = (start=true) ->
         console.log(Date() + ' completed initial computation')
         if(conf.locked) then force.stop()
 
+    styles.edgeGradient(app.edges)
+
     #enter/exit nodes/edges
     app.edge = vis.selectAll("line")
-            .data(allEdges, (d) ->
+            .data(app.edges, (d) ->
                 d.source.id + '-' + d.target.id)
     app.edge.enter()
         .insert("line", 'g.node')
@@ -31,9 +33,25 @@ app.updateGraph = (start=true) ->
         .attr('y1', (d) -> d.source.y)
         .attr('x2', (d) -> d.target.x)
         .attr('y2', (d) -> d.target.y)
+        .attr "style", (d) ->
+            index = undefined
+            if d.source.node_type is "root" or d.target.node_type is "root"
+                index = (if d.source.node_type is "root" then d.target.cluster else d.source.cluster)
+            else if d.source.cluster is d.target.cluster
+                index = d.source.cluster
+            else
+                # use gradient between the two clusters' colours
+                if d.target.cluster < d.source.cluster
+                    id = d.target.cluster + "-" + d.source.cluster
+                else
+                    id = d.source.cluster + "-" + d.target.cluster
+                id = "cluster-gradient-" + id
+            return "stroke: url(#" + id + ")"
+            "stroke: " + styles.getClusterColour(index)
+
 
     app.node = vis.selectAll("g.node")
-              .data(allNodes, (d) -> d.id)
+              .data(app.nodes, (d) -> d.id)
     #bind node data to d3
     nodeEnter = app.node.enter().append("g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
@@ -42,13 +60,12 @@ app.updateGraph = (start=true) ->
                     .on('mousedown', (d) -> d.fixed = true)
                     .on('mouseover', interactions.nodeMouseOver)
                     .on('dblclick', interactions.nodeDoubleClick)
-                    .on "click", ->
-                        return if d3.event.defaultPrevented
-                        console.log("clicked!")
-                        return
+                    # .on "click", ->
+                    #     return if d3.event.defaultPrevented
+                    #     console.log("clicked!")
+                    #     return
+                    .on('click', interactions.nodeClick)
                     .call(interactions.drag)
-                        
-                    #.on('click', interactions.nodeClick)
                     
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
@@ -62,12 +79,12 @@ app.updateGraph = (start=true) ->
             else
                 if not conf.scaleNodes then nodeRadius else scale d.count
             )
-        .attr('style', (d) ->
+        .attr('style', (d) -> #TODO - everything should be css
             if conf.cluster
                 if isNaN parseInt d.cluster
                     colour = '#EBECE4'
-                else if d.cluster < colours.length
-                    colour = colours[d.cluster]
+                else if d.cluster < conf.colours.length
+                    colour = conf.colours[d.cluster]
                 else
                     ''
             else if conf.colours
@@ -92,6 +109,6 @@ app.updateGraph = (start=true) ->
         .selectAll('.node text')
         .text((d) -> return d.caption)
     
-    node
+    app.node
         .exit()
         .remove()

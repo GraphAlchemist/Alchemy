@@ -1,13 +1,18 @@
 ###
 force layout functions
 ###
-layout.charge = (n) ->
+layout.charge = (node) ->
+    # if conf.cluster
+    #     node.node_type == 'root' ? -1600 : -400
+    # else
+    #     -350
     if conf.cluster
-        n.node_type == 'root' ? -1600 : -400
+        -1600
     else
-        -350
+        -150
 
 layout.strength = (edge) ->
+    # debugger
     if edge.source.node_type == 'root'
         .2
     else
@@ -26,8 +31,8 @@ layout.linkDistanceFn = (edge) ->
     if typeof(edge.distance) isnt 'undefined' then edge.distance
     if conf.cluster
         # FIXME: parameterise this
-        if edge.source.node_type is 'root' then 100
-        edge.source.cluster == edge.target.cluster ? 180 : 540
+        if edge.source.node_type is 'root' then 300
+        edge.source.cluster == edge.target.cluster ? 200 : 600
     else
         if typeof(edge.source.connectedNodes is 'undefined') then edge.source.connectedNodes = 0
         if typeof(edge.target.connectedNodes is 'undefined') then edge.target.connectedNodes = 0
@@ -36,28 +41,9 @@ layout.linkDistanceFn = (edge) ->
         edge.distance = (Math.floor(Math.sqrt(edge.source.connectedNodes + edge.target.connectedNodes)) + 2) * 35
         edge.distance
 
-layout.tick = () ->
-    # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
-    q = d3.geom.quadtree(allNodes)
-    if conf.cluster
-        debugger
-        c = cluster(10 * force.alpha() * force.alpha())
-    for n in allNodes
-        q.visit(layout.collide(n))
-        if conf.cluster then c[n]
-    if path?
-        path.attr('x1', (d) -> d.source.x)
-        path.attr('y1', (d) -> d.source.y)
-        path.attr('x2', (d) -> d.target.x)
-        path.attr('y2', (d) -> d.source.y)
-    if node?
-        #debugger
-        node.attr('transform', (d) ->
-            "translate(#{ d.x }, #{ d.y })")
-
 layout.cluster = (alpha) ->
     centroids = {}
-    allNodes.forEach (d) ->
+    app.nodes.forEach (d) ->
         if d.cluster == ''
             return
         if d.cluster not in centroids
@@ -104,12 +90,31 @@ layout.collide = (node) ->
         y1 > ny2 or
         y2 < ny1
 
+layout.tick = () ->
+    # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
+    q = d3.geom.quadtree(app.nodes)
+    # debugger
+    if conf.cluster
+        c = layout.cluster(10 * app.force.alpha() * app.force.alpha())
+    for n in app.nodes
+        q.visit(layout.collide(n))
+        if conf.cluster then c[n]
+    if path?
+        path.attr('x1', (d) -> d.source.x)
+        path.attr('y1', (d) -> d.source.y)
+        path.attr('x2', (d) -> d.target.x)
+        path.attr('y2', (d) -> d.source.y)
+    if node?
+        #debugger
+        node.attr('transform', (d) ->
+            "translate(#{ d.x }, #{ d.y })")
+
 layout.positionRootNodes = () ->
     #fix or unfix root nodes
     fixRootNodes = conf.fixRootNodes
     #count root nodes
     rootNodes = Array()
-    for n in allNodes
+    for n in app.nodes
         if (n.node_type == 'root') or (n.id == rootNodeId)
             n.node_type = 'root'
             rootNodes.push(n)
