@@ -118,28 +118,62 @@ interactions.nodeClick = (c) ->
         if conf.nodeClick? and typeof conf.nodeClick is 'function'
             conf.nodeClick c
 
-interactions.node_drag = d3.behavior.drag()
-                .on("dragstart", interactions.dragstart)
-                .on("drag", interactions.dragmove)
-                .on("dragend", interactions.dragend)
+interactions.dragstarted = (d, i) ->
+    d3.event.sourceEvent.stopPropagation()
+    d3.select(this).classed("dragging", true)
+    return
 
-interactions.dragstart = (d, i) ->
-    @parentNode.appendChild(this)
-
-interactions.dragmove = (d, i) ->
-    d.px += d3.event.dx
-    d.py += d3.event.dy
+interactions.dragged = (d, i) ->
+    debugger
     d.x += d3.event.dx
     d.y += d3.event.dy
+    d.px += d3.event.dx
+    d.py += d3.event.dy
+    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+    
+    app.edge.attr("x1", (d) -> d.source.x )
+        .attr("y1", (d) -> d.source.y )
+        .attr("x2", (d) -> d.target.x )
+        .attr("y2", (d) -> d.target.y )
+        .attr "cx", d.x = d3.event.x
+        .attr "cy", d.y = d3.event.y
+    return
 
-    path.attr("x1", (d) -> d.source.x )
-      .attr("y1", (d) -> d.source.y )
-      .attr("x2", (d) -> d.target.x )
-      .attr("y2", (d) -> d.target.y )
+interactions.dragended = (d, i) ->
+    d3.select(this)
+      .classed "dragging", false
+    return
 
-    node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
+interactions.drag = d3.behavior.drag()
+    .origin(Object)
+    .on("dragstart", interactions.dragstarted)
+    .on("drag", interactions.dragged)
+    .on("dragend", interactions.dragended)
+###
+deprecated in version d3.js version 3
+###
+# interactions.node_drag = d3.behavior.drag()
+#                 .on("dragstart", interactions.dragstart)
+#                 .on("drag", interactions.dragmove)
+#                 .on("dragend", interactions.dragend)
 
-    force.stop()
+# interactions.dragstart = (d, i) ->
+#     @parentNode.appendChild(this)
 
-interactions.dragend = (d, i) ->
-  force.stop()
+# interactions.dragmove = (d, interactions) ->
+#     d.px += d3.event.dx
+#     d.py += d3.event.dy
+#     d.x += d3.event.dx
+#     d.y += d3.event.dy
+
+#     path.attr("x1", (d) -> d.source.x )
+#       .attr("y1", (d) -> d.source.y )
+#       .attr("x2", (d) -> d.target.x )
+#       .attr("y2", (d) -> d.target.y )
+
+#     node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
+
+#     force.stop()
+
+# interactions.dragend = (d, i) ->
+#   force.stop()

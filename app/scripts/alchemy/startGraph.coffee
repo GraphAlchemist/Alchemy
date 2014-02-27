@@ -27,6 +27,7 @@ app.startGraph = (data) ->
         return
 
     # save nodes & edges
+    # remove
     allNodes = data.nodes
     allEdges = data.edges
 
@@ -62,10 +63,10 @@ app.startGraph = (data) ->
     layout.positionNodes(data.nodes)
 
     # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(allNodes, allEdges);
+    fixNodesTags(data.nodes, data.edges);
 
     # create layout
-    layout.force = d3.layout.force()
+    app.force = d3.layout.force()
         .charge(layout.charge)
         .linkDistance(layout.linkDistanceFn)
         .theta(1.0)
@@ -75,8 +76,8 @@ app.startGraph = (data) ->
         .size([container.width, container.height])
         .on("tick", layout.tick)
 
-    layout.force.nodes(allNodes)
-         .links(allEdges)
+    app.force.nodes(data.nodes)
+         .links(data.edges)
          .start()
 
     zoom = d3.behavior.zoom()
@@ -84,7 +85,7 @@ app.startGraph = (data) ->
 
     #create SVG
     app.vis = d3.select('.alchemy')
-        .append("svg:svg")
+        .append("svg")
             .attr("width", container.width)
             .attr("height", container.height)
             .attr("xmlns", "http://www.w3.org/2000/svg")
@@ -92,7 +93,7 @@ app.startGraph = (data) ->
             .call(zoom.on("zoom", redraw))
             .on("dblclick.zoom", null)
             .on('click', utils.deselectAll)
-            .append('svg:g')
+            .append('g')
 
     app.updateGraph()
 
