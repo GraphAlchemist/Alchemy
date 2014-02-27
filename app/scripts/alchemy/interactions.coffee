@@ -101,16 +101,14 @@ interactions.loadMoreNodes = (data) ->
         conf.nodeDoubleClick(requester)
 
 interactions.nodeClick = (c) ->
-    #dirty
-    vis = app.vis
-    vis.selectAll('line')
+    app.vis.selectAll('line')
         .classed('highlight', (d) -> return c.id is d.source.id or c.id is d.target.id)
-    vis.selectAll('.node')
+    app.vis.selectAll('.node')
         .classed('selected', (d) -> return c.id is d.id)
         .classed('highlight', (d) ->
-            return d.id is c.id or allEdges.some (e) ->
+            return d.id is c.id or app.edges.some (e) ->
                 return (e.source.id is c.id and e.target.id is d.id) or (e.source.id is d.id and e.target.id is c.id))
-
+    #fix
     $('#graph').addClass 'highlight-active'
 
     if d3.event
@@ -124,7 +122,6 @@ interactions.dragstarted = (d, i) ->
     return
 
 interactions.dragged = (d, i) ->
-    debugger
     d.x += d3.event.dx
     d.y += d3.event.dy
     d.px += d3.event.dx
