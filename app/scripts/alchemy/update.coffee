@@ -2,11 +2,11 @@ app.updateGraph = (start=true) ->
     # TODO - currently we are displaying all nodes/edges, not a subset
     # set currentNodes/currentEdges and call force.nodes(currentNodes).edges(currentEdges).start();
     # tick should also examine just the visible nodes
-    force = layout.force
+    force = app.force
     vis = app.vis
     force.nodes(allNodes).links(allEdges)
     if start then force.start()
-    #debugger
+        # debugger
     if not initialComputationDone
         while force.alpha() > 0.005
             force.tick()
@@ -17,36 +17,39 @@ app.updateGraph = (start=true) ->
         if(conf.locked) then force.stop()
 
     #enter/exit nodes/edges
-    path = vis.selectAll("line")
+    app.edge = vis.selectAll("line")
             .data(allEdges, (d) ->
                 d.source.id + '-' + d.target.id)
-    path.enter()
-        .insert("svg:line", 'g.node')
+    app.edge.enter()
+        .insert("line", 'g.node')
         .attr("class", (d) -> "edge #{if d.shortest then 'highlighted' else ''}")
         .attr('id', (d) -> d.source.id + '-' + d.target.id)
         .on('click', interactions.edgeClick)
-    path.exit().remove()
+    app.edge.exit().remove()
 
-    path.attr('x1', (d) -> d.source.x)
+    app.edge.attr('x1', (d) -> d.source.x)
         .attr('y1', (d) -> d.source.y)
         .attr('x2', (d) -> d.target.x)
         .attr('y2', (d) -> d.target.y)
 
-    node = vis.selectAll("g.node")
+    app.node = vis.selectAll("g.node")
               .data(allNodes, (d) -> d.id)
-    #debugger
     #bind node data to d3
-    nodeEnter = node.enter().append("svg:g")
+    nodeEnter = app.node.enter().append("g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
                     .attr('id', (d) -> "node-#{d.id}")
                     .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
                     .on('mousedown', (d) -> d.fixed = true)
                     .on('mouseover', interactions.nodeMouseOver)
                     .on('dblclick', interactions.nodeDoubleClick)
-                    .on('click', interactions.nodeClick)
-                    .call(layout.force.drag)
-     
-    
+                    .on "click", ->
+                        return if d3.event.defaultPrevented
+                        console.log("clicked!")
+                        return
+                    .call(interactions.drag)
+                        
+                    #.on('click', interactions.nodeClick)
+                    
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
     nodeEnter

@@ -38,9 +38,9 @@ layout.linkDistanceFn = (edge) ->
 
 layout.tick = () ->
     # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
-    force = layout.force
     q = d3.geom.quadtree(allNodes)
     if conf.cluster
+        debugger
         c = cluster(10 * force.alpha() * force.alpha())
     for n in allNodes
         q.visit(layout.collide(n))

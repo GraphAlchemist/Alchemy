@@ -111,7 +111,7 @@ module.exports = (grunt) ->
     coffee:
       dist:
         options:
-          bare: true
+          bare: false
           sourceMap: true
         files: ".tmp/scripts/alchemy.js": [  ".tmp/scripts/alchemy/defaultConf.coffee",
                                              ".tmp/scripts/alchemy/init.coffee",

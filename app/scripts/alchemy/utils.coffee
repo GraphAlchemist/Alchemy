@@ -35,17 +35,17 @@ utils.scale = (x) ->
         # linear
         (mid_scale - min) * (x / elbow_point) + min
 
-jQuery.fn.d3Click = () ->
-    @each((i, e) ->
-        evt = document.createEvent("MouseEvents")
-        evt.initMouseEvent("click", true,
-                            true, window,
-                            0, 0, 0, 0, 0,
-                            false, false,
-                            false, false,
-                            0, null)
-        e.dispatchEvent(evt)
-    )
+# jQuery.fn.d3Click = () ->
+#     @each((i, e) ->
+#         evt = document.createEvent("MouseEvents")
+#         evt.initMouseEvent("click", true,
+#                             true, window,
+#                             0, 0, 0, 0, 0,
+#                             false, false,
+#                             false, false,
+#                             0, null)
+#         e.dispatchEvent(evt)
+#     )
 
 utils.centreView = (id) ->
     # centre view on node with given id
