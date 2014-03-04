@@ -28,7 +28,7 @@ module.exports = (grunt) ->
     # Watches files for changes and runs tasks based on the changed files
     watch:
       coffee:
-        files: ["<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}"]
+        files: ["app/scripts/{,*/,*/*/}*.{coffee,litcoffee,coffee.md}"]
         tasks: ["copy:coffee", "coffee:dist"]
 
       coffeeTest:
@@ -111,13 +111,13 @@ module.exports = (grunt) ->
     coffee:
       dist:
         options:
-          bare: true
+          bare: false
           sourceMap: true
         files: ".tmp/scripts/alchemy.js": [  ".tmp/scripts/alchemy/defaultConf.coffee",
                                              ".tmp/scripts/alchemy/init.coffee",
                                              ".tmp/scripts/alchemy/errors.coffee",
                                              ".tmp/scripts/alchemy/startGraph.coffee",
-                                             ".tmp/scripts/alchemy/update.coffee",
+                                             ".tmp/scripts/alchemy/updateCoffee.coffee",
                                              ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
       test:
         files: [

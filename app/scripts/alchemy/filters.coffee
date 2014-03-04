@@ -119,6 +119,7 @@ toggle_button.click ->
 
 #update filters
 updateFilters = () ->
+    vis = app.vis
     tagList = $('#tags-list')
     nodeTypeList = $('#filter-nodes :checked')
     relationshipTypeList = $('#filter-relationships :checked')

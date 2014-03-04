@@ -1,11 +1,11 @@
 line {
     stroke-width: 3;
     stroke: #ccc;
-    &.highlight {
-    stroke: #3399ff;
-    }
-    &:hover {
-        stroke: #E89619;
+    stroke-opacity: 0.2;
+    &:hover, &.selected {
+        stroke: white !important;
         cursor: pointer;
+        stroke-opacity: 1;
+        stroke-width: 5;
     }
 }

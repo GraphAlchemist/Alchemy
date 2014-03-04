@@ -27,14 +27,20 @@ app.startGraph = (data) ->
         return
 
     # save nodes & edges
-    allNodes = data.nodes
-    allEdges = data.edges
+    # !!!!!!!!!!!!!!!!!
+    # remove
+    # !!!!!!!!!!!!!!!!!
+    app.nodes = data.nodes
+    app.edges = data.edges
 
     #see if root node id has been specified
     if 'id' of data
         rootNodeId = data.id
 
     # create nodes map and update links
+    # !!!!!!!!!!!!!!!!!
+    # remove
+    # !!!!!!!!!!!!!!!!!
     nodesMap = d3.map()
     data.nodes.forEach (n) ->
         nodesMap.set(n.id, n)
@@ -59,47 +65,45 @@ app.startGraph = (data) ->
 
     #position nodes initially
     # API FIXME: allow specified positions for nodes?
-    layout.positionNodes(data.nodes)
+    layout.positionNodes(app.nodes)
 
     # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(allNodes, allEdges);
-
+    fixNodesTags(app.nodes, app.edges);
     # create layout
-    force = d3.layout.force()
+    app.force = d3.layout.force()
         .charge(layout.charge)
         .linkDistance(layout.linkDistanceFn)
         .theta(1.0)
         .gravity(0)
         .linkStrength(layout.strength)
         .friction(layout.friction())
+        .chargeDistance(layout.chargeDistance(1000))
         .size([container.width, container.height])
         .on("tick", layout.tick)
 
-    force.nodes(allNodes)
-         .links(allEdges)
+    app.force.nodes(data.nodes)
+         .links(data.edges)
          .start()
 
-    zoom = d3.behavior.zoom()
-        .scaleExtent([0.1, 2])
-
     #create SVG
-    vis = d3.select('.alchemy')
-        .append("svg:svg")
+    app.vis = d3.select('.alchemy')
+        .append("svg")
             .attr("width", container.width)
             .attr("height", container.height)
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
-            .call(zoom.on("zoom", redraw))
             .on("dblclick.zoom", null)
             .on('click', utils.deselectAll)
-            .append('svg:g')
+            .call(interactions.zoom)
+            .append('g')
+            .attr("transform", "translate(#{conf.initialTranslate} scale(#{conf.initialScale})")
+    # dirty fix for SVG background
+    utils.resize()
 
     app.updateGraph()
 
-    window.onresize = resize
+    window.onresize = utils.resize
 
     # call user-specified functions after load function if specified
     user_spec = conf.afterLoad
     if user_spec and typeof(user_spec is 'function') then user_spec()
-
-d3.json(alchemyConf.dataSource, app.startGraph)

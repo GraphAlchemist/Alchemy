@@ -1,6 +1,7 @@
 # all interactions with Graph
 # TODO: support touch
 interactions.edgeClick = (d) ->
+    vis = app.vis
     vis.selectAll('line')
         .classed('highlight', false)
     d3.select(this)
@@ -100,44 +101,77 @@ interactions.loadMoreNodes = (data) ->
         conf.nodeDoubleClick(requester)
 
 interactions.nodeClick = (c) ->
-    # debugger
-    vis.selectAll('line')
-        .classed('highlight', (d) -> return c.id is d.source.id or c.id is d.target.id)
-    vis.selectAll('.node')
+    app.vis.selectAll('line')
+        .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
+    # d3.select(this).classed({'selected':true})
+    app.vis.selectAll('.node')
         .classed('selected', (d) -> return c.id is d.id)
-        .classed('highlight', (d) ->
-            return d.id is c.id or allEdges.some (e) ->
-                return (e.source.id is c.id and e.target.id is d.id) or (e.source.id is d.id and e.target.id is c.id))
+        # also select 1st degree connections
+        .classed('selected', (d) ->
+             return d.id is c.id or app.edges.some (e) ->
+                 return (e.source.id is c.id and e.target.id is d.id) or (e.source.id is d.id and e.target.id is c.id))
+    #fix
+    # d3.select('.alchemy svg').classed({'highlight-active':true})
 
-    $('#graph').addClass 'highlight-active'
+    # if d3.event
+    #     d3.event.stopPropagation()
+    #     if conf.nodeClick? and typeof conf.nodeClick is 'function'
+    #         conf.nodeClick c
 
-    if d3.event
-        d3.event.stopPropagation()
-        if conf.nodeClick? and typeof conf.nodeClick is 'function'
-            conf.nodeClick c
+interactions.dragstarted = (d, i) ->
+    d3.event.sourceEvent.stopPropagation()
+    d3.select(this).classed("dragging", true)
+    return
 
-interactions.node_drag = d3.behavior.drag()
-                .on("dragstart", interactions.dragstart)
-                .on("drag", interactions.dragmove)
-                .on("dragend", interactions.dragend)
-
-interactions.dragstart = (d, i) ->
-    @parentNode.appendChild(this)
-
-interactions.dragmove = (d, i) ->
-    d.px += d3.event.dx
-    d.py += d3.event.dy
+interactions.dragged = (d, i) ->
     d.x += d3.event.dx
     d.y += d3.event.dy
+    d.px += d3.event.dx
+    d.py += d3.event.dy
+    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+    
+    app.edge.attr("x1", (d) -> d.source.x )
+        .attr("y1", (d) -> d.source.y )
+        .attr("x2", (d) -> d.target.x )
+        .attr("y2", (d) -> d.target.y )
+        .attr "cx", d.x = d3.event.x
+        .attr "cy", d.y = d3.event.y
+    return
 
-    path.attr("x1", (d) -> d.source.x )
-      .attr("y1", (d) -> d.source.y )
-      .attr("x2", (d) -> d.target.x )
-      .attr("y2", (d) -> d.target.y )
+interactions.dragended = (d, i) ->
+    d3.select(this)
+      .classed "dragging", false
+    return
 
-    node.attr("transform", (d) "translate(" + d.x + "," + d.y + ")" )
+interactions.drag = d3.behavior.drag()
+    .origin(Object)
+    .on("dragstart", interactions.dragstarted)
+    .on("drag", interactions.dragged)
+    .on("dragend", interactions.dragended)
 
-    force.stop()
+# interactions.zoomstart = ->
+#     if app.vis.select("line").attr('display') is 'inline'
+#         app.vis.selectAll("line").attr('display', 'none')
+#  å   return
 
-interactions.dragend = (d, i) ->
-  force.stop()
+interactions.zooming = ->
+    interactions.levels = 
+                          'translate' : d3.event.translate
+                          'scale' : d3.event.scale
+
+interactions.zoomend = ->
+    d3.select(".alchemy svg g")
+    .attr("transform",
+          "translate(#{ interactions.levels.translate }) scale(#{ interactions.levels.scale })")
+    # return
+    # app.drawing.drawedges(app.edge)
+    # return
+
+interactions.zoom = d3.behavior.zoom()
+     .scale(conf.initialScale)
+     .translate(conf.initialTranslate)
+     .scaleExtent([0.28, 2])
+     .on("zoomstart", interactions.zoomstart)
+     .on("zoom", interactions.zooming)
+     .on("zoomend", interactions.zoomend)
+
