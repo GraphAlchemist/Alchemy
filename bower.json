@@ -7,8 +7,5 @@
     "jqueryui": "~1.10.3",
     "sass-bootstrap": "~3.0.2"
   },
-  "devDependencies": {},
-  "resolutions": {
-    "jquery": "~1.10.2"
-  }
+  "devDependencies": {}
 }
