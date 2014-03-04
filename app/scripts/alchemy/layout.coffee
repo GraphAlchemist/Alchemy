@@ -2,10 +2,6 @@
 force layout functions
 ###
 layout.charge = (node) ->
-    # if conf.cluster
-    #     node.node_type == 'root' ? -1600 : -400
-    # else
-    #     -350
     if conf.cluster
         -1600
     else
@@ -13,11 +9,11 @@ layout.charge = (node) ->
 
 layout.strength = (edge) ->
     # debugger
-    if edge.source.node_type == 'root'
+    if (edge.source.node_type or edge.target.node_type) is 'root'
         .2
     else
         if conf.cluster
-            edge.source.cluster == edge.target.cluster ? 0.5 : 0.01
+            edge.source.cluster is edge.target.cluster ? 0.011 : 0.01
         else
             1
 
@@ -32,7 +28,7 @@ layout.linkDistanceFn = (edge) ->
     if conf.cluster
         # FIXME: parameterise this
         if edge.source.node_type is 'root' then 300
-        edge.source.cluster == edge.target.cluster ? 200 : 600
+        edge.source.cluster is edge.target.cluster ? 200 : 600
     else
         if typeof(edge.source.connectedNodes is 'undefined') then edge.source.connectedNodes = 0
         if typeof(edge.target.connectedNodes is 'undefined') then edge.target.connectedNodes = 0
@@ -93,21 +89,19 @@ layout.collide = (node) ->
 layout.tick = () ->
     # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
     q = d3.geom.quadtree(app.nodes)
-    # debugger
     if conf.cluster
         c = layout.cluster(10 * app.force.alpha() * app.force.alpha())
     for n in app.nodes
         q.visit(layout.collide(n))
-        if conf.cluster then c[n]
-    if path?
-        path.attr('x1', (d) -> d.source.x)
-        path.attr('y1', (d) -> d.source.y)
-        path.attr('x2', (d) -> d.target.x)
-        path.attr('y2', (d) -> d.source.y)
-    if node?
-        #debugger
-        node.attr('transform', (d) ->
-            "translate(#{ d.x }, #{ d.y })")
+    # if conf.cluster then c(n)
+    # if path?
+    #     path.attr('x1', (d) -> d.source.x)
+    #     path.attr('y1', (d) -> d.source.y)
+    #     path.attr('x2', (d) -> d.target.x)
+    #     path.attr('y2', (d) -> d.source.y)
+    # if node?
+    #     node.attr('transform', (d) ->
+    #         "translate(#{ d.x }, #{ d.y })")
 
 layout.positionRootNodes = () ->
     #fix or unfix root nodes
@@ -156,3 +150,6 @@ layout.positionNodes = (nodes, x, y) ->
         n.x = x + node_x
         n.y = y + node_y
 ####
+
+layout.chargeDistance = (distance) ->
+     distance

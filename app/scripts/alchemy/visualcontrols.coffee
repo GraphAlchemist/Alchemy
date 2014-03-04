@@ -14,12 +14,6 @@ visControls.getCurrentViewParams = () ->
         if not params[2] then params[2] = 1
         params
 
-#redraw
-redraw = () ->
-    vis = app.vis
-    vis.attr("transform",
-             "translate(#{ d3.event.translate }) scale(#{ d3.event.scale })")
-
 #graph control actions
 zoomIn = () ->
     #google analytics event tracking -  keep?

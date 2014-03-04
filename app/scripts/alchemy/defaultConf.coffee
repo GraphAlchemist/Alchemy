@@ -22,7 +22,7 @@ window.alchemyConf =
     nodeFilters: ['gender', 'type']
     edgeFilters: false
     filterAttribute: null
-    tagsProperty: null    
+    tagsProperty: null
     nodeTypes: {} #the key/value by which to categorize node types for filtering
     #e.g. {'type': 'movie', 'type': 'actor'...}
     # nodeTypesProperty: 'type'
@@ -30,42 +30,50 @@ window.alchemyConf =
     #e.g. {'type': ACTED_IN, 'type': PRODUCED...}
 
     #editor settings
-    removeNodes: false #allow the removal of nodes with controls
-    fixRootNodes: true #root nodes are not dragable by default
+    removeNodes: false # allow the removal of nodes with controls
+    fixRootNodes: true # root nodes are not dragable by default
     
-    #style settings
-    # colours: {
-    #     'default':"#06799F" 
-    #             }
-
-    colours: fisherYates([ "#045E91", "#06799F", 
-            "#69B1DA", "#9CC0D6", 
-            "#9CCBD5", "#7AC5CD", 
-            "#CDE5F3", "#3B8686", 
-            "#408B94", "#4F868C", 
-            "#11929E", "#00928C", 
-            "#76BFB3", "#61B4CF", 
-            "#AEEEEE", "#719DAE", 
-            "#00CDCD", "#009B95", 
-            "#A5D165", "#1272A8", 
-            "#41A8B1", "#2A8AC7"])
-
-    positions: false #not currently used - pre-calcuglated layout positions for nodes
-    captionToggle: false #allow toggle of node captions
-    #to do - change every instance of 'links' to 'edges'
-    linksToggle: false #toggle edges on or off 
-    cluster: true #assign ids to clusters of nodes e.g. communities in a social network
-    locked: false #all non-root nodes are draggable by default
+    # node style settings
+    colours: fisherYates(["#DD79FF", "#FFFC00",
+                         "#00FF30", "#5168FF",
+                         "#00C0FF", "#FF004B",
+                         "#00CDCD"])
+    positions: false # not currently used - pre-calcuglated layout positions for nodes
+    captionToggle: false # allow toggle of node captions
+    edgesToggle: false # toggle edges on or off 
+    cluster: true # assign ids to clusters of nodes e.g. communities in a social network
+    locked: true # all non-root nodes are draggable by default
     nodeCat: []
-    linkDistance: 2000 #default length of link
-    rootNodeRadius: 45 #default size of root node
-    #interactions
+    linkDistance: 2000 # default length of link
+    rootNodeRadius: 45 # default size of root node
+    # interactions
     nodeMouseOver: 'default'
-    nodeRadius: 20 #default size of non-root nodes
+    # default size of non-root nodes
+    nodeRadius: 20# can be string for key that indicates node size, based on nodes mo
+    nodeRadiusTest: 'degree'
+    # integer, or function
+    # string
+    # nodeRadius: 'degree'
+    # function
+    #   nodeRadius: (n) ->
+        #some function
     # nodeClick: (n) ->
     #                 $.get('/ga_graph/bio/' + n.id, (data) ->
     #                     $('aside').html(data);)
     # nodeDrag:   'default'
+    
+    #default
+    # caption: 'caption'
+    #string
+    #caption: 'li_firstName'
+    #function:
+    caption: (n) ->
+        "#{n.li_firstName} #{n.li_lastName}"
+    #nodeStandOut: 'betweeness'
+    initialScale: 0.3081060106225185
+    initialTranslate:[462.646563149586,276.6962475525915]
+
+
 
 # $('#search').autocomplete({
 #     source: ((request, response) ->
