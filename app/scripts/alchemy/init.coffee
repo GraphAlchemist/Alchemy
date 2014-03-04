@@ -5,8 +5,9 @@ conf = window.alchemyConf
 application scopes
 ###
 window.app = {}
-# app.nodes - all nodes in the application scope
-# app.edges - all edges in the application scope
+# app.drawing
+# app.nodes - holds all nodes in the application scope
+# app.edges - holds all edges in the application scope
 # app.node - the model for returning node instances in the app scope
 # app.edge - the model for returning edges in the app scope
 # app.force - the d3 force layout visualization

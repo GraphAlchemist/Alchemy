@@ -1,24 +1,25 @@
 #utility functions
 utils.deselectAll = () ->
     # this function is also fired at the end of a drag, do nothing if this happens
-    if d3.event?.defaultPrevented then return
-    app.vis.selectAll('.node, line')
-        .classed('selected highlight', false)
-    $('#graph').removeClass('highlight-active')
+    # if d3.event?.defaultPrevented then return
+    # app.vis.selectAll('.node, line')
+    #     .classed('selected highlight', false)
+    
+    # d3.select('.alchemy svg').classed({'highlight-active':false})
 
-    # vis.selectAll('line.edge')
-    #     .classed('highlighted connected unconnected', false)
-    # vis.selectAll('g.node,circle,text')
-    #     .classed('selected unselected neighbor unconnected connecting', false)
-    #call user-specified deselect function if specified
-    if conf.deselectAll and typeof(conf.deselectAll == 'function')
-        conf.deselectAll()
+    # # vis.selectAll('line.edge')
+    # #     .classed('highlighted connected unconnected', false)
+    # # vis.selectAll('g.node,circle,text')
+    # #     .classed('selected unselected neighbor unconnected connecting', false)
+    # #call user-specified deselect function if specified
+    # if conf.deselectAll and typeof(conf.deselectAll == 'function')
+    #     conf.deselectAll()
 
-utils.resize = () ->
+utils.resize = ->
     container =
         'width': $(window).width()
         'height': $(window).height()
-    d3.select('#graph')
+    d3.select('.alchemy svg')
         .attr("width", container.width)
         .attr("height", container.height)
 
@@ -61,3 +62,21 @@ utils.centreView = (id) ->
     level = parseFloat(params[2])
     app.vis.transition().attr('transform', "translate(#{ x }, #{ y }) scale(#{level})")
     zoom.translate([x, y]).scale(level)
+
+utils.nodeText = (d) -> 
+    if d.caption
+        d.caption
+    else if conf.caption and typeof conf.caption is 'string'
+        if d[conf.caption]?
+            d[conf.caption]
+        else
+            ''
+    else if conf.caption and typeof conf.caption is 'function'
+        conf.caption(d)
+
+#redraw
+    # utils.redraw = () ->
+    #     app.vis.selectAll("line").remove()
+    #     app.vis.attr("transform",
+    #              "translate(#{ d3.event.translate }) scale(#{ d3.event.scale })")
+

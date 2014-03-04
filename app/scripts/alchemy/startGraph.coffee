@@ -77,15 +77,13 @@ app.startGraph = (data) ->
         .gravity(0)
         .linkStrength(layout.strength)
         .friction(layout.friction())
+        .chargeDistance(layout.chargeDistance(1000))
         .size([container.width, container.height])
         .on("tick", layout.tick)
 
     app.force.nodes(data.nodes)
          .links(data.edges)
          .start()
-
-    zoom = d3.behavior.zoom()
-        .scaleExtent([0.1, 2])
 
     #create SVG
     app.vis = d3.select('.alchemy')
@@ -94,10 +92,13 @@ app.startGraph = (data) ->
             .attr("height", container.height)
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
-            .call(zoom.on("zoom", redraw))
             .on("dblclick.zoom", null)
             .on('click', utils.deselectAll)
+            .call(interactions.zoom)
             .append('g')
+            .attr("transform", "translate(#{conf.initialTranslate} scale(#{conf.initialScale})")
+    # dirty fix for SVG background
+    utils.resize()
 
     app.updateGraph()
 
