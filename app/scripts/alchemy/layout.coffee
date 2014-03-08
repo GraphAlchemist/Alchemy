@@ -24,10 +24,10 @@ layout.friction = () ->
         0.9
 
 layout.linkDistanceFn = (edge) ->
-    if typeof(edge.distance) isnt 'undefined' then edge.distance
+    #if typeof(edge.distance) isnt 'undefined' then edge.distance
     if conf.cluster
         # FIXME: parameterise this
-        if edge.source.node_type is 'root' then 300
+        if (edge.source.node_type or edge.target.node_type) is 'root' then 300
         edge.source.cluster is edge.target.cluster ? 200 : 600
     else
         if typeof(edge.source.connectedNodes is 'undefined') then edge.source.connectedNodes = 0
@@ -64,7 +64,8 @@ layout.cluster = (alpha) ->
             d.y -= y * l
 
 layout.collide = (node) ->
-    r = nodeRadius + 16
+    # this is not working...
+    r = utils.nodeSize(node) + 20
     nx1 = node.x - r
     nx2 = node.x + r
     ny1 = node.y - r
@@ -86,13 +87,18 @@ layout.collide = (node) ->
         y1 > ny2 or
         y2 < ny1
 
-layout.tick = () ->
-    # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
+layout.final = ->
     q = d3.geom.quadtree(app.nodes)
-    if conf.cluster
-        c = layout.cluster(10 * app.force.alpha() * app.force.alpha())
     for n in app.nodes
         q.visit(layout.collide(n))
+
+layout.tick = () ->
+    # NOTE: allNodes should be changed to currentNodes when node hiding is introduced
+    # q = d3.geom.quadtree(app.nodes)
+    # if conf.cluster
+    #     c = layout.cluster(10 * app.force.alpha() * app.force.alpha())
+    # for n in app.nodes
+    #     q.visit(layout.collide(n))
     # if conf.cluster then c(n)
     # if path?
     #     path.attr('x1', (d) -> d.source.x)

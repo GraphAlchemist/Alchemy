@@ -1,19 +1,19 @@
 #utility functions
 utils.deselectAll = () ->
     # this function is also fired at the end of a drag, do nothing if this happens
-    # if d3.event?.defaultPrevented then return
-    # app.vis.selectAll('.node, line')
-    #     .classed('selected highlight', false)
+    if d3.event?.defaultPrevented then return
+    app.vis.selectAll('.node, line')
+        .classed('selected highlight', false)
     
-    # d3.select('.alchemy svg').classed({'highlight-active':false})
+    d3.select('.alchemy svg').classed({'highlight-active':false})
 
-    # # vis.selectAll('line.edge')
-    # #     .classed('highlighted connected unconnected', false)
-    # # vis.selectAll('g.node,circle,text')
-    # #     .classed('selected unselected neighbor unconnected connecting', false)
-    # #call user-specified deselect function if specified
-    # if conf.deselectAll and typeof(conf.deselectAll == 'function')
-    #     conf.deselectAll()
+    vis.selectAll('line.edge')
+        .classed('highlighted connected unconnected', false)
+    vis.selectAll('g.node,circle,text')
+        .classed('selected unselected neighbor unconnected connecting', false)
+    # call user-specified deselect function if specified
+    if conf.deselectAll and typeof(conf.deselectAll == 'function')
+        conf.deselectAll()
 
 utils.resize = ->
     container =
@@ -79,4 +79,26 @@ utils.nodeText = (d) ->
     #     app.vis.selectAll("line").remove()
     #     app.vis.attr("transform",
     #              "translate(#{ d3.event.translate }) scale(#{ d3.event.scale })")
-
+if conf.nodeRadius?
+    if typeof conf.nodeRadius is 'function'
+        utils.nodeSize = (d) ->
+            if d.node_type is 'root'
+                conf.rootNodeRadius
+            else                
+                conf.nodeRadius(d)
+    else if typeof conf.nodeRadius is 'string'
+        # this does not work
+        key = conf.nodeRadius
+        utils.nodeSize = (d) ->
+            if d.node_type is 'root'
+                conf.rootNodeRadius
+            else                  
+                d.degree
+    else if typeof conf.nodeRadius is 'number'
+        utils.nodeSize = (d) ->
+            if d.node_type is 'root'
+                conf.rootNodeRadius
+            else
+                conf.nodeRadius
+    else
+        20

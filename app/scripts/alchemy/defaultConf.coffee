@@ -11,13 +11,8 @@ fisherYates = (arr) ->
         arr[j] = tempi
     return arr
 
-# establish configuration variables
-window.alchemyConf = 
+defaults = 
     dataSource: '/sample_data/ego_network.json'
-        # if not alchemyConf.dataSource
-        #     '/sample_data/charlize.json'
-        # else
-        #     alchemyConf.dataSource
     #graph filters
     nodeFilters: ['gender', 'type']
     edgeFilters: false
@@ -37,7 +32,10 @@ window.alchemyConf =
     colours: fisherYates(["#DD79FF", "#FFFC00",
                          "#00FF30", "#5168FF",
                          "#00C0FF", "#FF004B",
-                         "#00CDCD"])
+                         "#00CDCD", "#f83f00",
+                         "#f800df", "#ff8d8f",
+                         "#ffcd00", "#184fff",
+                         "#ff7e00"])
     positions: false # not currently used - pre-calcuglated layout positions for nodes
     captionToggle: false # allow toggle of node captions
     edgesToggle: false # toggle edges on or off 
@@ -47,32 +45,25 @@ window.alchemyConf =
     linkDistance: 2000 # default length of link
     rootNodeRadius: 45 # default size of root node
     # interactions
-    nodeMouseOver: 'default'
+    nodeMouseOver: null
+    tipBody: null
     # default size of non-root nodes
     nodeRadius: 20# can be string for key that indicates node size, based on nodes mo
-    nodeRadiusTest: 'degree'
-    # integer, or function
-    # string
-    # nodeRadius: 'degree'
-    # function
-    #   nodeRadius: (n) ->
-        #some function
-    # nodeClick: (n) ->
-    #                 $.get('/ga_graph/bio/' + n.id, (data) ->
-    #                     $('aside').html(data);)
-    # nodeDrag:   'default'
     
-    #default
-    # caption: 'caption'
-    #string
-    #caption: 'li_firstName'
-    #function:
-    caption: (n) ->
-        "#{n.li_firstName} #{n.li_lastName}"
+    caption: 'caption'
     #nodeStandOut: 'betweeness'
-    initialScale: 0.3081060106225185
-    initialTranslate:[462.646563149586,276.6962475525915]
+    # initial graph elevation
+    initialScale: 0
+    initialTranslate: [0,0]
 
+userDefined = d3.map(window.alchemyConf)
+if userDefined? and not userDefined.empty()
+    defaultsMap = d3.map(defaults)
+    for k of defaults
+        if not userDefined.has(k)
+            window.alchemyConf[k] = defaults[k]
+else
+    window.alchemyConf = defaults
 
 
 # $('#search').autocomplete({

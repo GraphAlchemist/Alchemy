@@ -36,6 +36,7 @@
         <script src="bower_components/sass-bootstrap/dist/js/bootstrap.js"></script>
         <script src="bower_components/jqueryui/ui/jquery-ui.js"></script>
         <script src="bower_components/d3/d3.js"></script>
+        <script src="bower_components/d3-tip/index.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
@@ -52,9 +53,10 @@
         <!-- build:js({app,.tmp}) scripts/main.js -->
         
         <script>
-        // gaConf.dataSource = "{{ url_for('static', filename='data/kevin.json') }}";
-        // {# wsConf.dataSource = '{{ graph_url }}'; #}
+        // window.alchemyConf = {}
+        // alchemyConf.dataSource = 'test'
         </script>
+        <script src="scripts/else.js"></script>
         <script src="scripts/alchemy.js"></script>
         <!-- endbuild -->
 </body>
