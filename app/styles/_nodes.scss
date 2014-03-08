@@ -28,8 +28,8 @@
     &.selected, &:hover {        
         circle {
             stroke-width: 12px;
-            fill-opacity: 1;
-            stroke-opacity: 0.7;
+            fill-opacity: .8;
+            stroke-opacity: 1;
             stroke: white !important;
             fill: white !important;
         }

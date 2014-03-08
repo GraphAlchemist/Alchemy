@@ -1,30 +1,5 @@
 #bind node data to d3
-app.drawing.drawnodes = (node) -> 
-    # refucktor
-    if conf.nodeRadius?
-        if typeof conf.nodeRadius is 'function'
-            app.drawing.nodeSize = (d) ->
-                if d.node_type is 'root'
-                    conf.rootNodeRadius
-                else                
-                    conf.nodeRadius(d)
-        else if typeof(conf.nodeRadius) is 'string'
-            # this does not work
-            key = conf.nodeRadius
-            app.drawing.nodeSize = (d) ->
-                if d.node_type is 'root'
-                    conf.rootNodeRadius
-                else                  
-                    d.degree
-        else if typeof conf.nodeRadius is 'number'
-            app.drawing.nodeSize = (d) ->
-                #debugger
-                if d.node_type is 'root'
-                    conf.rootNodeRadius
-                else
-                    d.degree
-        else
-            20
+app.drawing.drawnodes = (node) ->
     
     nodeEnter = node.enter().append("g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
@@ -32,6 +7,7 @@ app.drawing.drawnodes = (node) ->
                     .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
                     .on('mousedown', (d) -> d.fixed = true)
                     .on('mouseover', interactions.nodeMouseOver)
+                    .on('mouseout', interactions.nodeMouseOut)
                     .on('dblclick', interactions.nodeDoubleClick)
                     .on('click', interactions.nodeClick)
                     .call(interactions.drag)
@@ -42,7 +18,7 @@ app.drawing.drawnodes = (node) ->
         .append('circle')
         .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "circle-#{d.id}")
-        .attr('r', (d) -> app.drawing.nodeSize(d))
+        .attr('r', (d) -> utils.nodeSize(d))#app.drawing.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('style', (d) -> #TODO - everything should be css
             if conf.cluster

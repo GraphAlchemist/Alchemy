@@ -11,6 +11,7 @@ app.updateGraph = (start=true) ->
         while force.alpha() > 0.005
             force.tick()
         initialComputationDone = true
+        layout.final()
         $('#loading-spinner').hide()
         $('#loading-spinner').removeClass('middle')
         console.log(Date() + ' completed initial computation')
@@ -24,7 +25,7 @@ app.updateGraph = (start=true) ->
                     d.source.id + '-' + d.target.id)
     app.node = vis.selectAll("g.node")
               .data(app.nodes, (d) -> d.id)
-    
+    #draw node and edge objects with all of their interactions
     app.drawing.drawedges(app.edge)
     app.drawing.drawnodes(app.node)
 

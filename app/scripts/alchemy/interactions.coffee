@@ -10,13 +10,31 @@ interactions.edgeClick = (d) ->
     if typeof conf.edgeClick? is 'function'
         conf.edgeClick()
 
+tip = {}
+
+if conf.tipBody?
+    if typeof conf.tipBody is 'function'
+        tip.body = (d) ->
+            conf.tipBody(d)
+    else if typeof conf.tipBody is 'string'
+        tip.body = (d) -> 
+            "<h3>#{d[conf.tipBody]}</h3>"
+
+interactions.tip = d3.tip()
+      .attr('class', 'd3-tip')
+      .html((d) -> tip.body(d))#(d) -> '<span>' + d.id + '</span>' + ' entries' )
+      .offset([-30, 100])
+
+
 interactions.nodeMouseOver = (n) ->
-    if typeof conf.nodeMouseOver? is 'function'
-        conf.nodeMouseOver()
-    else if conf.nodeMouseOver is 'default'
-        #default interaction will likely be some popover
-        return
-        #console.log("default nodeMouseOver interaction on #{n.caption}")
+    #TODO: support user defined functions
+    #if typeof conf.nodeMouseOver is 'function'
+    if conf.nodeMouseOver
+        interactions.tip.show(n)
+    return
+
+interactions.nodeMouseOut = (n) ->
+    d3.timer(interactions.tip.hide, 750)
 
 interactions.nodeDoubleClick = (c) ->
     if not conf.extraDataSource or
@@ -101,6 +119,7 @@ interactions.loadMoreNodes = (data) ->
         conf.nodeDoubleClick(requester)
 
 interactions.nodeClick = (c) ->
+    d3.event.stopPropagation()
     app.vis.selectAll('line')
         .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
     # d3.select(this).classed({'selected':true})
@@ -149,11 +168,6 @@ interactions.drag = d3.behavior.drag()
     .on("drag", interactions.dragged)
     .on("dragend", interactions.dragended)
 
-# interactions.zoomstart = ->
-#     if app.vis.select("line").attr('display') is 'inline'
-#         app.vis.selectAll("line").attr('display', 'none')
-#  å   return
-
 interactions.zooming = ->
     interactions.levels = 
                           'translate' : d3.event.translate
@@ -166,12 +180,22 @@ interactions.zoomend = ->
     # return
     # app.drawing.drawedges(app.edge)
     # return
-
+###TODO###
+# if app.edges.length > 1500
+# interactions.zoom = d3.behavior.zoom()
+#      .scale(conf.initialScale)
+#      .translate(conf.initialTranslate)
+#      .scaleExtent([0.28, 2])
+#      .on("zoomstart", interactions.zoomstart)
+#      .on("zoom", interactions.zooming)
+#      .on("zoomend", interactions.zoomend)
+# else
 interactions.zoom = d3.behavior.zoom()
-     .scale(conf.initialScale)
-     .translate(conf.initialTranslate)
-     .scaleExtent([0.28, 2])
-     .on("zoomstart", interactions.zoomstart)
-     .on("zoom", interactions.zooming)
-     .on("zoomend", interactions.zoomend)
+    # .scale(conf.initialScale)
+    # .translate(conf.initialTranslate)
+    .scaleExtent([0.28, 2])
+    .on("zoom", -> 
+        d3.select(".alchemy svg g")
+          .attr("transform",
+                "translate(#{ d3.event.translate}) scale(#{ d3.event.scale })"))
 

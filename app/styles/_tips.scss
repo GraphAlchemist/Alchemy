@@ -1,0 +1,10 @@
+.d3-tip {
+    opacity: 1 !important;
+    background: rgba(255, 255, 255, 0.2);
+    border: #FFF;
+    border-width: 2px;
+    border-style: solid;
+    #{headings(all)} {
+        color: white;
+    }
+}
