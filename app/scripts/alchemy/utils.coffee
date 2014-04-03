@@ -101,4 +101,4 @@ if conf.nodeRadius?
             else
                 conf.nodeRadius
     else
-        20
+        utils.nodeSize = 20

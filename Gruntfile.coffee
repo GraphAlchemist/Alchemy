@@ -23,6 +23,7 @@ module.exports = (grunt) ->
       # Configurable paths
       app: "app"
       dist: "dist"
+      django_path: "/Users/huston/Dropbox/Projects/ga-mainsite/apps/social_login/static/social_login"
 
     
     # Watches files for changes and runs tasks based on the changed files
@@ -295,9 +296,14 @@ module.exports = (grunt) ->
         dest: ".tmp/styles/"
         src: "{,*/}*.css"
 
-    
-    # Run some tasks in parallel to speed up build process
+      django:
+        files:
+          "<%= yeoman.django_path %>/js/alchemy/main.js":"dist/scripts/main.js"
+          "<%= yeoman.django_path %>/js/alchemy/vendor.js":"dist/scripts/vendor.js"
+          "<%= yeoman.django_path %>/css/alchemy/main.css":"dist/styles/main.css"
+
     concurrent:
+      # Run some tasks in parallel to speed up build process
       server: ["compass:server", "coffee:dist", "copy:styles"]
       test: ["coffee", "copy:styles"]
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
@@ -314,5 +320,7 @@ module.exports = (grunt) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     grunt.task.run ["connect:test", "mocha"]
 
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify", "copy:dist", "rev", "usemin", "htmlmin"]
+  grunt.registerTask "build", ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify", "copy:dist"]#, "rev", "usemin", "htmlmin"]
   grunt.registerTask "default", ["newer:jshint", "test", "build"]
+
+  grunt.registerTask 'django', ['build', 'copy:django']

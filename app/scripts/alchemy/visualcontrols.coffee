@@ -61,4 +61,9 @@ $('#zoom-in').click(zoomIn)
 $('#zoom-out').click(zoomOut)
 $('#zoom-reset').click(zoomReset)
 
-d3.json(alchemyConf.dataSource, app.startGraph)
+if typeof alchemyConf.dataSource == 'string'
+    # data source is a url
+    d3.json(alchemyConf.dataSource, app.startGraph)
+else if typeof alchemyConf.dataSource == 'object'
+    # data is being provided directly
+    app.startGraph(alchemyConf.dataSource)

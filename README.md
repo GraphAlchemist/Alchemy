@@ -49,3 +49,4 @@ Visualizing your graph data in a browser should be as simple as including the ja
 ## Contributing 
 1) Add new template locations in the Grunt file under watch `jade` task
 2)
+    

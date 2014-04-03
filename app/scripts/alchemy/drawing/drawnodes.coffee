@@ -4,7 +4,6 @@ app.drawing.drawnodes = (node) ->
     nodeEnter = node.enter().append("g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
                     .attr('id', (d) -> "node-#{d.id}")
-                    .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
                     .on('mousedown', (d) -> d.fixed = true)
                     .on('mouseover', interactions.nodeMouseOver)
                     .on('mouseout', interactions.nodeMouseOut)

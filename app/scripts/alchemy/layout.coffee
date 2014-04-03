@@ -63,21 +63,49 @@ layout.cluster = (alpha) ->
             d.x -= x * l
             d.y -= y * l
 
+# layout.collide = (node) ->
+#     # this is not working...
+#     r = utils.nodeSize(node) + 20
+#     nx1 = node.x - r
+#     nx2 = node.x + r
+#     ny1 = node.y - r
+#     ny2 = node.y + r
+#     (quad, x1, y1, x2, y2) ->
+#         if quad.point and (quad.point isnt node)
+#             x = node.x - quad.point.x
+#             y = node.y - quad.point.y
+#             l = Math.sqrt(x * x + y * y)
+#             r = nodeRadius + nodeRadius + 10
+#             if l < r
+#                 l = (l - r) / l * .5
+#                 node.x -= x *= l
+#                 node.y -= y *= l
+#                 quad.point.x += x
+#                 quad.point.y += y
+#         x1 > nx2 or
+#         x2 < nx1 or
+#         y1 > ny2 or
+#         y2 < ny1
+
+# layout.collide = (alpha) ->
+#     # this is not working...
+#     quadtree = d3.geom.quadtree(app.nodes)
+#     return 
+
 layout.collide = (node) ->
-    # this is not working...
-    r = utils.nodeSize(node) + 20
+    r = utils.nodeSize(node) + 200
     nx1 = node.x - r
     nx2 = node.x + r
     ny1 = node.y - r
     ny2 = node.y + r
-    (quad, x1, y1, x2, y2) ->
+    return (quad, x1, y1, x2, y2) ->
         if quad.point and (quad.point isnt node)
             x = node.x - quad.point.x
             y = node.y - quad.point.y
             l = Math.sqrt(x * x + y * y)
-            r = nodeRadius + nodeRadius + 10
+            r = conf.nodeRadius + quad.point.radius
             if l < r
-                l = (l - r) / l * .5
+                l = (l - r) / l * conf.alpha
                 node.x -= x *= l
                 node.y -= y *= l
                 quad.point.x += x
@@ -87,10 +115,10 @@ layout.collide = (node) ->
         y1 > ny2 or
         y2 < ny1
 
-layout.final = ->
-    q = d3.geom.quadtree(app.nodes)
-    for n in app.nodes
-        q.visit(layout.collide(n))
+# layout.final = ->
+#     q = d3.geom.quadtree(app.nodes)
+#     for n in app.nodes
+#         q.visit(layout.collide(n))
 
 layout.tick = () ->
     # NOTE: allNodes should be changed to currentNodes when node hiding is introduced

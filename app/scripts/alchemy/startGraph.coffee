@@ -95,7 +95,6 @@ app.startGraph = (data) ->
             .on("dblclick.zoom", null)
             .on('click', utils.deselectAll)
             .call(interactions.zoom)
-            .call(interactions.tip)
             .append('g')
             .attr("transform", "translate(#{conf.initialTranslate} scale(#{conf.initialScale})")
     
