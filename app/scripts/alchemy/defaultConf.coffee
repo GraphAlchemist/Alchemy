@@ -10,9 +10,13 @@ fisherYates = (arr) ->
         arr[i] = tempj
         arr[j] = tempi
     return arr
+    
+if not window.alchemyConf
+    window.alchemyConf = {}
 
-defaults = 
-    dataSource: '/sample_data/ego_network.json'
+defaults =  
+    alpha: .5
+    dataSource: null
     #graph filters
     nodeFilters: ['gender', 'type']
     edgeFilters: false
@@ -27,7 +31,6 @@ defaults =
     #editor settings
     removeNodes: false # allow the removal of nodes with controls
     fixRootNodes: true # root nodes are not dragable by default
-    
     # node style settings
     colours: fisherYates(["#DD79FF", "#FFFC00",
                          "#00FF30", "#5168FF",
@@ -49,21 +52,23 @@ defaults =
     tipBody: null
     # default size of non-root nodes
     nodeRadius: 20# can be string for key that indicates node size, based on nodes mo
-    
     caption: 'caption'
     #nodeStandOut: 'betweeness'
     # initial graph elevation
     initialScale: 0
     initialTranslate: [0,0]
+    warningMessage: "There be no data!  What's going on?"
 
-userDefined = d3.map(window.alchemyConf)
-if userDefined? and not userDefined.empty()
-    defaultsMap = d3.map(defaults)
-    for k of defaults
-        if not userDefined.has(k)
-            window.alchemyConf[k] = defaults[k]
-else
-    window.alchemyConf = defaults
+# more elegant way to do this?
+window.alchemyConf = $.extend({}, defaults, window.alchemyConf  )
+# userDefined = d3.map(window.alchemyConf)
+# if userDefined? and not userDefined.empty()
+#     defaultsMap = d3.map(defaults)
+#     for k of defaults
+#         if not userDefined.has(k)
+#             window.alchemyConf[k] = defaults[k]
+# else
+#     window.alchemyConf = defaults
 
 
 # $('#search').autocomplete({

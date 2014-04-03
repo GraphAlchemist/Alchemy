@@ -6,19 +6,15 @@ app.updateGraph = (start=true) ->
     vis = app.vis
     force.nodes(app.nodes).links(app.edges)
     if start then force.start()
-        # debugger
     if not initialComputationDone
         while force.alpha() > 0.005
             force.tick()
         initialComputationDone = true
-        layout.final()
         $('#loading-spinner').hide()
         $('#loading-spinner').removeClass('middle')
         console.log(Date() + ' completed initial computation')
         if(conf.locked) then force.stop()
-
     styles.edgeGradient(app.edges)
-
     #enter/exit nodes/edges
     app.edge = vis.selectAll("line")
                .data(app.edges, (d) ->
@@ -28,6 +24,14 @@ app.updateGraph = (start=true) ->
     #draw node and edge objects with all of their interactions
     app.drawing.drawedges(app.edge)
     app.drawing.drawnodes(app.node)
+
+    q = d3.geom.quadtree(app.nodes)
+    i = 0
+    q.visit(layout.collide(app.nodes[i])) while (++i < app.nodes.length)
+        
+    vis.selectAll('g.node')
+        .attr('transform', (d) -> 
+            "translate(#{d.px}, #{d.py})")
 
     vis
         .selectAll('.node text')

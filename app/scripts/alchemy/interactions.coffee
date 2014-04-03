@@ -10,31 +10,25 @@ interactions.edgeClick = (d) ->
     if typeof conf.edgeClick? is 'function'
         conf.edgeClick()
 
-tip = {}
-
-if conf.tipBody?
-    if typeof conf.tipBody is 'function'
-        tip.body = (d) ->
-            conf.tipBody(d)
-    else if typeof conf.tipBody is 'string'
-        tip.body = (d) -> 
-            "<h3>#{d[conf.tipBody]}</h3>"
-
-interactions.tip = d3.tip()
-      .attr('class', 'd3-tip')
-      .html((d) -> tip.body(d))#(d) -> '<span>' + d.id + '</span>' + ' entries' )
-      .offset([-30, 100])
-
-
 interactions.nodeMouseOver = (n) ->
     #TODO: support user defined functions
     #if typeof conf.nodeMouseOver is 'function'
-    if conf.nodeMouseOver
-        interactions.tip.show(n)
-    return
+    if conf.nodeMouseOver?
+        if typeof conf.nodeMouseOver == 'function'
+            conf.nodeMouseOver(n)
+        else if typeof conf.nodeMouseOver == ('number' or 'string')
+            # the user provided an integer or string to be used
+            # as a data lookup key on the node in the graph json
+            return n[conf.nodeMouseOver]
+    else
+        null
 
 interactions.nodeMouseOut = (n) ->
-    d3.timer(interactions.tip.hide, 750)
+    if conf.nodeMouseOut? and typeof conf.nodeMouseOut == 'function'
+        conf.nodeMouseOut(n)
+    else
+        null
+
 
 interactions.nodeDoubleClick = (c) ->
     if not conf.extraDataSource or
@@ -129,6 +123,9 @@ interactions.nodeClick = (c) ->
         .classed('selected', (d) ->
              return d.id is c.id or app.edges.some (e) ->
                  return (e.source.id is c.id and e.target.id is d.id) or (e.source.id is d.id and e.target.id is c.id))
+    if typeof conf.nodeClick == 'function'
+        conf.nodeClick(c)
+        return
     #fix
     # d3.select('.alchemy svg').classed({'highlight-active':true})
 
