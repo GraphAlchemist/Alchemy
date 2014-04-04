@@ -1,0 +1,319 @@
+/* line 1, ../../app/styles/alchemy.scss */
+
+.alchemy {
+  /* major page elements */
+  /* filters */
+  /* graph controls */
+  /* basic SVG styles */
+  /* root styles */
+  /* hover styles */
+  /* search/filter/selected styles */
+}
+
+/* line 1, ../../app/styles/_svg.scss */
+
+.alchemy svg {
+  background: #333;
+  margin-bottom: -3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: -webkit-grab;
+  color: #333;
+  /*z-index: -1;*/
+}
+
+/* line 1, ../../app/styles/_nodes.scss */
+
+.alchemy .node {
+  cursor: pointer;
+}
+
+/* line 3, ../../app/styles/_nodes.scss */
+
+.alchemy .node circle {
+  fill: #127dc1;
+  fill-opacity: 0.8;
+  stroke: #127dc1;
+  stroke-width: 6px;
+  stroke-opacity: 1;
+}
+
+/* line 11, ../../app/styles/_nodes.scss */
+
+.alchemy .node circle.root {
+  fill: #90c73d;
+  stroke: #90c73d;
+}
+
+/* line 16, ../../app/styles/_nodes.scss */
+
+.alchemy .node text.root {
+  font-size: 32px;
+}
+
+/* line 19, ../../app/styles/_nodes.scss */
+
+.alchemy .node text {
+  display: none;
+  fill: #FFF;
+  text-shadow: 1px 1px 0px #333;
+  font-weight: 200;
+  text-anchor: middle;
+  z-index: 1000;
+}
+
+/* line 29, ../../app/styles/_nodes.scss */
+
+.alchemy .node.selected circle,
+.alchemy .node:hover circle {
+  stroke-width: 12px;
+  fill-opacity: .8;
+  stroke-opacity: 1;
+  stroke: white !important;
+  fill: white !important;
+}
+
+/* line 36, ../../app/styles/_nodes.scss */
+
+.alchemy .node.selected text,
+.alchemy .node:hover text {
+  display: block;
+}
+
+/* line 1, ../../app/styles/_edges.scss */
+
+.alchemy line {
+  stroke-width: 3;
+  stroke: #ccc;
+  stroke-opacity: 0.2;
+}
+
+/* line 5, ../../app/styles/_edges.scss */
+
+.alchemy line:hover,
+.alchemy line.selected {
+  stroke: white !important;
+  cursor: pointer;
+  stroke-opacity: 1;
+  stroke-width: 5;
+}
+
+/* line 1, ../../app/styles/_utils.scss */
+
+.alchemy #loading-spinner {
+  position: absolute;
+  right: 0;
+}
+
+/* line 8, ../../app/styles/alchemy.scss */
+
+.alchemy header {
+  height: 60px;
+  width: 100%;
+  padding: 12px 50px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+/* line 14, ../../app/styles/alchemy.scss */
+
+.alchemy #search-form {
+  display: inline;
+  margin-left: 100px;
+}
+
+/* line 18, ../../app/styles/alchemy.scss */
+
+.alchemy #search-form input {
+  width: 300px;
+}
+
+/* line 48, ../../app/styles/alchemy.scss */
+
+.alchemy #filters {
+  padding: 0.5em 1em;
+}
+
+/* line 52, ../../app/styles/alchemy.scss */
+
+.alchemy #filters fieldset {
+  float: left;
+  width: 220px;
+  margin-right: 1em;
+}
+
+/* line 58, ../../app/styles/alchemy.scss */
+
+.alchemy #filters legend {
+  font-size: 14px;
+  line-height: 2;
+  margin: 0.5em 0;
+}
+
+/* line 64, ../../app/styles/alchemy.scss */
+
+.alchemy #filters legend button {
+  float: right;
+  line-height: 1.5;
+}
+
+/* line 69, ../../app/styles/alchemy.scss */
+
+.alchemy #filters h4 {
+  cursor: pointer;
+  font-size: 1em;
+}
+
+/* line 74, ../../app/styles/alchemy.scss */
+
+.alchemy #tags input {
+  width: 220px;
+}
+
+/* line 78, ../../app/styles/alchemy.scss */
+
+.alchemy #tags-list {
+  padding: 0;
+}
+
+/* line 82, ../../app/styles/alchemy.scss */
+
+.alchemy #tags-list .icon-remove-sign {
+  cursor: pointer;
+}
+
+/* line 86, ../../app/styles/alchemy.scss */
+
+.alchemy #tags-list li {
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* line 91, ../../app/styles/alchemy.scss */
+
+.alchemy #tags-list span {
+  background-color: #ccc;
+  color: #333;
+  border-radius: 10em;
+  display: inline-block;
+  padding: 1px 6px;
+}
+
+/* line 99, ../../app/styles/alchemy.scss */
+
+.alchemy #filter-nodes label,
+.alchemy #filter-relationships label {
+  font-weight: normal;
+  margin-right: 1em;
+}
+
+/* line 104, ../../app/styles/alchemy.scss */
+
+.alchemy .clear {
+  clear: both;
+}
+
+/* line 110, ../../app/styles/alchemy.scss */
+
+.alchemy #controls-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  position: absolute;
+  top: 60px;
+  left: 300px;
+  right: 0;
+}
+
+/* line 118, ../../app/styles/alchemy.scss */
+
+.alchemy #controls {
+  margin: 10px;
+  position: absolute;
+  z-index: 1;
+  display: inline-block;
+}
+
+/* line 124, ../../app/styles/alchemy.scss */
+
+.alchemy #controls button.zoom {
+  position: absolute;
+  left: 0;
+}
+
+/* line 128, ../../app/styles/alchemy.scss */
+
+.alchemy #controls #zoom-in {
+  top: 0;
+}
+
+/* line 131, ../../app/styles/alchemy.scss */
+
+.alchemy #controls #zoom-out {
+  top: 40px;
+}
+
+/* line 134, ../../app/styles/alchemy.scss */
+
+.alchemy #controls #zoom-reset {
+  top: 80px;
+}
+
+/* line 137, ../../app/styles/alchemy.scss */
+
+.alchemy #controls #igraph-search-container {
+  margin-left: 50px;
+}
+
+/* line 149, ../../app/styles/alchemy.scss */
+
+.alchemy text {
+  fill: #495656;
+  text-shadow: 1px 1px 0px whitesmoke;
+  font-weight: 200;
+  text-anchor: middle;
+}
+
+/* line 1, ../../app/styles/_tips.scss */
+
+.d3-tip {
+  opacity: 1 !important;
+  background: rgba(255, 255, 255, 0.2);
+  border: #FFF;
+  border-width: 2px;
+  border-style: solid;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  padding: 15px;
+}
+
+/* line 11, ../../app/styles/_tips.scss */
+
+.d3-tip h1,
+.d3-tip h2,
+.d3-tip h3,
+.d3-tip h4,
+.d3-tip h5,
+.d3-tip h6 {
+  color: white;
+}
+
+/* line 14, ../../app/styles/_tips.scss */
+
+.d3-tip ul {
+  list-style: none;
+  color: white;
+  display: inline-block;
+  vertical-align: top;
+}
+
+/* line 20, ../../app/styles/_tips.scss */
+
+.d3-tip img {
+  display: inline-block;
+}
+
+/* line 23, ../../app/styles/_tips.scss */
+
+.d3-tip .coming-soon {
+  color: #FBB;
+}
