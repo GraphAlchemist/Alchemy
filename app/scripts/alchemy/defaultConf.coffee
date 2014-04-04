@@ -15,6 +15,7 @@ if not window.alchemyConf
     window.alchemyConf = {}
 
 defaults =  
+    afterLoad: 'drawingComplete'
     alpha: .5
     dataSource: null
     #graph filters

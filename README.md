@@ -49,4 +49,13 @@ Visualizing your graph data in a browser should be as simple as including the ja
 ## Contributing 
 1) Add new template locations in the Grunt file under watch `jade` task
 2)
+
+## Documentation DRAFTS
+
+### Globals ###
+
+**alchemyConf:** all configurations needed to draw the graph.
+
+**drawingCompete:** initializes as `false` and switches to `true`.  Useful for signaling interactions for integrations in third party apps.  This is implemented by the default `afterLoad` parameter in the configuration.
+
     
