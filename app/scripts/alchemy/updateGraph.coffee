@@ -31,7 +31,7 @@ app.updateGraph = (start=true) ->
         
     vis.selectAll('g.node')
         .attr('transform', (d) -> 
-            "translate(#{d.px}, #{d.py})")
+              "translate(#{d.px}, #{d.py})")
 
     vis
         .selectAll('.node text')

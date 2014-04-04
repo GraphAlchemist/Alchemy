@@ -96,7 +96,7 @@ app.startGraph = (data) ->
             .on('click', utils.deselectAll)
             .call(interactions.zoom)
             .append('g')
-            .attr("transform", "translate(#{conf.initialTranslate} scale(#{conf.initialScale})")
+            .attr("transform", "translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
     
     #allow bootstrap popovers
     $('body').popover();
