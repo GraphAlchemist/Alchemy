@@ -115,7 +115,9 @@ module.exports = (grunt) ->
           bare: false
           sourceMap: true
         files:
+          # all of the files used in testing and development - configuration, etc.
           ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
+          # all of the core, alchemy.js files
           ".tmp/scripts/alchemy.js": [  ".tmp/scripts/alchemy/defaultConf.coffee",
                                              ".tmp/scripts/alchemy/init.coffee",
                                              ".tmp/scripts/alchemy/errors.coffee",
@@ -256,19 +258,30 @@ module.exports = (grunt) ->
     #         }
     #     }
     # },
-    # uglify: {
-    #     dist: {
-    #         files: {
-    #             '<%= yeoman.dist %>/scripts/scripts.js': [
-    #                 '<%= yeoman.dist %>/scripts/scripts.js'
-    #             ]
-    #         }
-    #     }
-    # },
-    # concat: {
-    #     dist: {}
-    # },
-    
+    uglify:
+      dist:
+        files: [
+          dest: '<%= yeoman.dist %>/scripts/alchemy.min.js'
+          src: '.tmp/concat/scripts/alchemy.js'
+        ]
+
+    concat:
+      dist:
+        files: [
+          {
+            dest: ".tmp/concat/scripts/alchemy.js"
+            src: "{app,.tmp}/scripts/alchemy.js"
+          }
+          {
+            dest: '<%= yeoman.dist %>/scripts/alchemy.js'
+            src: "{app,.tmp}/scripts/alchemy.js"
+          }
+          {
+            dest: 'dist/styles/alchemy.css'
+            src: '.tmp/styles/alchemy.css'
+          }
+        ]
+
     # Copies remaining files to places other tasks can use
     copy:
       coffee:
