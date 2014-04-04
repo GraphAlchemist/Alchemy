@@ -51,7 +51,7 @@ window.alchemyConf = $.extend({},
         "#{n.li_firstName} #{n.li_lastName}"
     # dataSource: '/sample_data/org_graph_root_nodes_in_community.json'
     dataSource: '/sample_data/grace_huston_team.json'
-    initialScale: 0.3081060106225185
+    initialScale: 0.305
     initialTranslate:[462.646563149586, 276.6962475525915]
     nodeMouseOver: (n) ->
        $("#node-#{n.id}")[0].popover({title: n.id, container: 'body'})

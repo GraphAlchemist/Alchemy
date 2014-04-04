@@ -137,7 +137,7 @@
     fixNodesTags(app.nodes, app.edges);
     app.force = d3.layout.force().charge(layout.charge).linkDistance(layout.linkDistanceFn).theta(1.0).gravity(0).linkStrength(layout.strength).friction(layout.friction()).chargeDistance(layout.chargeDistance(1000)).size([container.width, container.height]).on("tick", layout.tick);
     app.force.nodes(data.nodes).links(data.edges).start();
-    app.vis = d3.select('.alchemy').append("svg").attr("width", container.width).attr("height", container.height).attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', utils.deselectAll).call(interactions.zoom).append('g').attr("transform", "translate(" + conf.initialTranslate + " scale(" + conf.initialScale + ")");
+    app.vis = d3.select('.alchemy').append("svg").attr("width", container.width).attr("height", container.height).attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', utils.deselectAll).call(interactions.zoom).append('g').attr("transform", "translate(" + conf.initialTranslate + ") scale(" + conf.initialScale + ")");
     $('body').popover();
     utils.resize();
     app.updateGraph();
@@ -707,7 +707,9 @@
 
   /*TODO */
 
-  interactions.zoom = d3.behavior.zoom().scaleExtent([0.28, 2]).on("zoom", function() {
+  interactions.zoom = d3.behavior.zoom().translate(conf.initialTranslate).scale(conf.initialScale).scaleExtent([0.28, 2]);
+
+  interactions.zoom.on("zoom", function() {
     return d3.select(".alchemy svg g").attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
   });
 

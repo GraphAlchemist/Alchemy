@@ -188,11 +188,13 @@ interactions.zoomend = ->
 #      .on("zoomend", interactions.zoomend)
 # else
 interactions.zoom = d3.behavior.zoom()
-    # .scale(conf.initialScale)
-    # .translate(conf.initialTranslate)
+    .translate(conf.initialTranslate)
+    # .scale(currentScale)
+    .scale(conf.initialScale)
     .scaleExtent([0.28, 2])
-    .on("zoom", -> 
-        d3.select(".alchemy svg g")
-          .attr("transform",
-                "translate(#{ d3.event.translate}) scale(#{ d3.event.scale })"))
+
+interactions.zoom.on("zoom", ->
+    d3.select(".alchemy svg g")
+    .attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })"))
+    # .scale(console.log(currentScale))
 
