@@ -23,6 +23,7 @@
   }
 
   defaults = {
+    afterLoad: 'drawingComplete',
     alpha: .5,
     dataSource: null,
     nodeFilters: ['gender', 'type'],
@@ -101,7 +102,7 @@
   }
 
   app.startGraph = function(data) {
-    var colours, no_results, nodesMap, user_spec;
+    var colours, no_results, nodesMap;
     if (!data) {
       no_results = "<div class=\"modal fade\" id=\"no-results\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n                <h4 class=\"modal-title\">Sorry!</h4>\n            </div>\n            <div class=\"modal-body\">\n                <p>No data found, try searching for movies, actors or directors.</p>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>";
       $('body').append(no_results);
@@ -142,9 +143,12 @@
     utils.resize();
     app.updateGraph();
     window.onresize = utils.resize;
-    user_spec = conf.afterLoad;
-    if (user_spec && typeof (user_spec === 'function')) {
-      return user_spec();
+    if (conf.afterLoad != null) {
+      if (typeof conf.afterLoad === 'function') {
+        return conf.afterLoad();
+      } else if (typeof conf.afterLoad === 'string') {
+        return window[conf.afterLoad] = true;
+      }
     }
   };
 

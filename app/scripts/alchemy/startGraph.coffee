@@ -109,5 +109,9 @@ app.startGraph = (data) ->
     window.onresize = utils.resize
 
     # call user-specified functions after load function if specified
-    user_spec = conf.afterLoad
-    if user_spec and typeof(user_spec is 'function') then user_spec()
+    if conf.afterLoad?
+        if typeof conf.afterLoad is 'function'
+            conf.afterLoad()
+        else if typeof conf.afterLoad is 'string'
+            window[conf.afterLoad] = true
+            
