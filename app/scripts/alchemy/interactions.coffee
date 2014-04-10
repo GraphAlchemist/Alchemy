@@ -1,7 +1,9 @@
 # all interactions with Graph
 # TODO: support touch
+(interactions = alchemy.interactions
+
 interactions.edgeClick = (d) ->
-    vis = app.vis
+    vis = alchemy.vis
     vis.selectAll('line')
         .classed('highlight', false)
     d3.select(this)
@@ -114,14 +116,14 @@ interactions.loadMoreNodes = (data) ->
 
 interactions.nodeClick = (c) ->
     d3.event.stopPropagation()
-    app.vis.selectAll('line')
+    alchemy.vis.selectAll('line')
         .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
     # d3.select(this).classed({'selected':true})
-    app.vis.selectAll('.node')
+    alchemy.vis.selectAll('.node')
         .classed('selected', (d) -> return c.id is d.id)
         # also select 1st degree connections
         .classed('selected', (d) ->
-             return d.id is c.id or app.edges.some (e) ->
+             return d.id is c.id or alchemy.edges.some (e) ->
                  return (e.source.id is c.id and e.target.id is d.id) or (e.source.id is d.id and e.target.id is c.id))
     if typeof conf.nodeClick == 'function'
         conf.nodeClick(c)
@@ -146,7 +148,7 @@ interactions.dragged = (d, i) ->
     d.py += d3.event.dy
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
     
-    app.edge.attr("x1", (d) -> d.source.x )
+    alchemy.edge.attr("x1", (d) -> d.source.x )
         .attr("y1", (d) -> d.source.y )
         .attr("x2", (d) -> d.target.x )
         .attr("y2", (d) -> d.target.y )
@@ -175,10 +177,10 @@ interactions.zoomend = ->
     .attr("transform",
           "translate(#{ interactions.levels.translate }) scale(#{ interactions.levels.scale })")
     # return
-    # app.drawing.drawedges(app.edge)
+    # alchemy.drawing.drawedges(alchemy.edge)
     # return
 ###TODO###
-# if app.edges.length > 1500
+# if alchemy.edges.length > 1500
 # interactions.zoom = d3.behavior.zoom()
 #      .scale(conf.initialScale)
 #      .translate(conf.initialTranslate)
@@ -197,4 +199,4 @@ interactions.zoom.on("zoom", ->
     d3.select(".alchemy svg g")
     .attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })"))
     # .scale(console.log(currentScale))
-
+)

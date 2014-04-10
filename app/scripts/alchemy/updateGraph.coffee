@@ -1,43 +1,40 @@
-app.updateGraph = (start=true) ->
+alchemy.updateGraph = (start=true) ->
     # TODO - currently we are displaying all nodes/edges, not a subset
     # set currentNodes/currentEdges and call force.nodes(currentNodes).edges(currentEdges).start();
     # tick should also examine just the visible nodes
-    force = app.force
-    vis = app.vis
-    force.nodes(app.nodes).links(app.edges)
-    if start then force.start()
+    if start then @force.start()
     if not initialComputationDone
-        while force.alpha() > 0.005
-            force.tick()
+        while @force.alpha() > 0.005
+            alchemy.force.tick()
         initialComputationDone = true
         $('#loading-spinner').hide()
         $('#loading-spinner').removeClass('middle')
         console.log(Date() + ' completed initial computation')
-        if(conf.locked) then force.stop()
-    styles.edgeGradient(app.edges)
+        if(conf.locked) then alchemy.force.stop()
+    
+    alchemy.styles.edgeGradient(alchemy.edges)
+    
     #enter/exit nodes/edges
-    app.edge = vis.selectAll("line")
-               .data(app.edges, (d) ->
+    alchemy.edge = alchemy.vis.selectAll("line")
+               .data(alchemy.edges, (d) ->
                     d.source.id + '-' + d.target.id)
-    app.node = vis.selectAll("g.node")
-              .data(app.nodes, (d) -> d.id)
+    alchemy.node = alchemy.vis.selectAll("g.node")
+              .data(alchemy.nodes, (d) -> d.id)
     #draw node and edge objects with all of their interactions
-    app.drawing.drawedges(app.edge)
-    app.drawing.drawnodes(app.node)
-
-    q = d3.geom.quadtree(app.nodes)
-    i = 0
-    q.visit(layout.collide(app.nodes[i])) while (++i < app.nodes.length)
+    alchemy.drawing.drawedges(alchemy.edge)
+    alchemy.drawing.drawnodes(alchemy.node)
         
-    vis.selectAll('g.node')
+    alchemy.vis.selectAll('g.node')
         .attr('transform', (d) -> 
-              "translate(#{d.px}, #{d.py})")
+              "translate(#{d.x}, #{d.y})")
 
-    vis
-        .selectAll('.node text')
-        #.text((d) -> return d.caption)
-        .text((d) -> utils.nodeText(d))
+    alchemy.vis.selectAll('.node text')
+        .text((d) => @utils.nodeText(d))
 
-    app.node
-        .exit()
-        .remove()
+    alchemy.node
+           .exit()
+           .remove()
+
+    alchemy.edge
+           .exit()
+           .remove()

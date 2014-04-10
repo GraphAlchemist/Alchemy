@@ -3,14 +3,9 @@
     @import 'nodes';
     @import 'edges';
     @import 'utils';
-
-    /* major page elements */
-    header {
-        height: 60px;
-        width: 100%;
-        padding: 12px 50px;
-        background-color: rgba(255, 255, 255, 0.9);
-    }
+    
+    height: 1000px;
+    width: 1000px;
     #search-form {
         display: inline;
         margin-left: 100px;
