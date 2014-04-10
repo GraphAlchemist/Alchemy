@@ -1,5 +1,5 @@
 #bind node data to d3
-app.drawing.drawnodes = (node) ->
+alchemy.drawing.drawnodes = (node) ->
     
     nodeEnter = node.enter().append("g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
@@ -17,7 +17,7 @@ app.drawing.drawnodes = (node) ->
         .append('circle')
         .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "circle-#{d.id}")
-        .attr('r', (d) -> utils.nodeSize(d))#app.drawing.nodeSize(d))
+        .attr('r', (d) -> alchemy.utils.nodeSize(d))#app.drawing.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('style', (d) -> #TODO - everything should be css
             if conf.cluster
@@ -44,4 +44,4 @@ app.drawing.drawnodes = (node) ->
         .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if d.node_type is 'root' then rootNodeRadius / 2 else nodeRadius * 2 - 5)
-        .text((d) -> utils.nodeText(d))
+        .text((d) -> alchemy.utils.nodeText(d))

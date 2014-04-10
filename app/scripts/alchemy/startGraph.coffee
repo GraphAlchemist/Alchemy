@@ -1,5 +1,4 @@
-app.startGraph = (data) ->
-    
+startGraph = (data) ->
     # see if data is ok
     if not data
         # allow for user specified error
@@ -27,34 +26,29 @@ app.startGraph = (data) ->
         return
 
     # save nodes & edges
-    # !!!!!!!!!!!!!!!!!
-    # remove
-    # !!!!!!!!!!!!!!!!!
-    app.nodes = data.nodes
-    app.edges = data.edges
-
-    #see if root node id has been specified
+    alchemy.nodes = data.nodes
+    alchemy.edges = data.edges
+    
+    # see if root node id has been specified
+    # remove?
     if 'id' of data
         rootNodeId = data.id
 
     # create nodes map and update links
-    # !!!!!!!!!!!!!!!!!
-    # remove
-    # !!!!!!!!!!!!!!!!!
     nodesMap = d3.map()
-    data.nodes.forEach (n) ->
+    alchemy.nodes.forEach (n) ->
         nodesMap.set(n.id, n)
-    data.edges.forEach (e) ->
+    alchemy.edges.forEach (e) ->
         e.source = nodesMap.get(e.source)
         e.target = nodesMap.get(e.target)
 
     #get graph size
-    container =
-        'width': $(window).width()
-        'height': $(window).height()
+    # container =
+    #     'width': $(window).width()
+    #     'height': $(window).height()
 
     #API FIXME: allow alternative root node positioning?
-    layout.positionRootNodes();
+    #*******alchemy.layout.positionRootNodes();
 
     #API FIXME: allow custom styling
     #colours is spelled like whoever originally wrote this is from Scotland
@@ -65,48 +59,49 @@ app.startGraph = (data) ->
 
     #position nodes initially
     # API FIXME: allow specified positions for nodes?
-    layout.positionNodes(app.nodes)
+    #*****alchemy.layout.positionNodes(alchemy.nodes)
 
     # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(app.nodes, app.edges);
+    fixNodesTags(alchemy.nodes, alchemy.edges);
     # create layout
-    app.force = d3.layout.force()
-        .charge(layout.charge)
-        .linkDistance(layout.linkDistanceFn)
+    alchemy.force = d3.layout.force()
+        .charge(alchemy.layout.charge)
+        .linkDistance(alchemy.layout.linkDistanceFn)
         .theta(1.0)
-        .gravity(0)
-        .linkStrength(layout.strength)
-        .friction(layout.friction())
-        .chargeDistance(layout.chargeDistance(1000))
-        .size([container.width, container.height])
-        .on("tick", layout.tick)
+        .gravity(0.1)
+        .linkStrength(alchemy.layout.strength)
+        .friction(alchemy.layout.friction())
+        .chargeDistance(alchemy.layout.chargeDistance(500))
+        .size([alchemy.container.width * 2 , alchemy.container.height * 2 ])
 
-    app.force.nodes(data.nodes)
-         .links(data.edges)
-         .start()
+    alchemy.force
+           .nodes(data.nodes)
+           .links(data.edges)
+           .on("tick", alchemy.layout.tick)
+           .start()
 
     #create SVG
-    app.vis = d3.select('.alchemy')
+    alchemy.vis = d3.select('.alchemy')
         .append("svg")
-            .attr("width", container.width)
-            .attr("height", container.height)
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
-            .on('click', utils.deselectAll)
+            .on('click', alchemy.utils.deselectAll)
             .call(interactions.zoom)
             .append('g')
             .attr("transform", "translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
+            # .attr("width", alchemy.container.width)
+            # .attr("height", alchemy.container.height)
     
-    #allow bootstrap popovers
-    $('body').popover();
+    # #allow bootstrap popovers
+    # $('body').popover();
 
     # dirty fix for SVG background
-    utils.resize()
+    alchemy.utils.resize()
 
-    app.updateGraph()
+    alchemy.updateGraph()
 
-    window.onresize = utils.resize
+    window.onresize = @utils.resize
 
     # call user-specified functions after load function if specified
     if conf.afterLoad?
@@ -114,4 +109,3 @@ app.startGraph = (data) ->
             conf.afterLoad()
         else if typeof conf.afterLoad is 'string'
             window[conf.afterLoad] = true
-            
