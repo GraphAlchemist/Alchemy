@@ -10,9 +10,6 @@ fisherYates = (arr) ->
         arr[i] = tempj
         arr[j] = tempi
     return arr
-    
-if not window.alchemyConf
-    window.alchemyConf = {}
 
 defaults =  
     afterLoad: 'drawingComplete'
@@ -47,12 +44,13 @@ defaults =
     locked: true # all non-root nodes are draggable by default
     nodeCat: []
     linkDistance: 2000 # default length of link
-    rootNodeRadius: 45 # default size of root node
+    rootNodeRadius: 15 # default size of root node
     # interactions
     nodeMouseOver: null
     tipBody: null
     # default size of non-root nodes
-    nodeRadius: 20# can be string for key that indicates node size, based on nodes mo
+    nodeRadius: 10# can be string for key that indicates node size, based on nodes mo
+    nodeOverlap: 40# used in the collision detection function.  Defaults so that the nodes are roughly 100% apart from their radius.  A number less than the 2 x the radius would allow overlap.
     caption: 'caption'
     #nodeStandOut: 'betweeness'
     # initial graph elevation
@@ -60,26 +58,4 @@ defaults =
     initialTranslate: [0,0]
     warningMessage: "There be no data!  What's going on?"
 
-# more elegant way to do this?
-window.alchemyConf = $.extend({}, defaults, window.alchemyConf  )
-# userDefined = d3.map(window.alchemyConf)
-# if userDefined? and not userDefined.empty()
-#     defaultsMap = d3.map(defaults)
-#     for k of defaults
-#         if not userDefined.has(k)
-#             window.alchemyConf[k] = defaults[k]
-# else
-#     window.alchemyConf = defaults
-
-
-# $('#search').autocomplete({
-#     source: ((request, response) ->
-#         $.getJSON '/live-search/' + request.term, response),
-#     minLength: 2,
-#     focus: ((event, ui) ->
-#         $('#search').val ui.item.label
-#         false),
-#     select: (event, ui) ->
-#         window.location = '/ga_graph/profile/' + ui.item.value
-#         false
-#     })
+conf = _.assign({}, defaults)

@@ -48,7 +48,7 @@ startGraph = (data) ->
     #     'height': $(window).height()
 
     #API FIXME: allow alternative root node positioning?
-    #*******alchemy.layout.positionRootNodes();
+    alchemy.layout.positionRootNodes();
 
     #API FIXME: allow custom styling
     #colours is spelled like whoever originally wrote this is from Scotland
@@ -72,7 +72,7 @@ startGraph = (data) ->
         .linkStrength(alchemy.layout.strength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance(500))
-        .size([alchemy.container.width * 2 , alchemy.container.height * 2 ])
+        .size([alchemy.container.width, alchemy.container.height])
 
     alchemy.force
            .nodes(data.nodes)
@@ -87,12 +87,11 @@ startGraph = (data) ->
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
             .on('click', alchemy.utils.deselectAll)
-            .call(interactions.zoom)
+            .call(alchemy.interactions.zoom)
             .append('g')
-            .attr("transform", "translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
             # .attr("width", alchemy.container.width)
             # .attr("height", alchemy.container.height)
-    
+
     # #allow bootstrap popovers
     # $('body').popover();
 
@@ -101,11 +100,12 @@ startGraph = (data) ->
 
     alchemy.updateGraph()
 
-    window.onresize = @utils.resize
+    window.onresize = alchemy.utils.resize
 
     # call user-specified functions after load function if specified
     if conf.afterLoad?
         if typeof conf.afterLoad is 'function'
             conf.afterLoad()
         else if typeof conf.afterLoad is 'string'
-            window[conf.afterLoad] = true
+            debugger
+            alchemyConf.afterLoad = true
