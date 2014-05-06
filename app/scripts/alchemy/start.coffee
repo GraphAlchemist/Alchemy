@@ -1,11 +1,11 @@
 #default configuration
-conf = window.alchemyConf
+class Animal
+  @find: (name) ->
 
-###
-application scopes
-###
+Animal.find("Parrot")
+
 class Alchemy
-    constructor: ->    
+    constructor: (@conf) ->   
         # app.drawing
         # app.nodes - holds all nodes in the application scope
         # app.edges - holds all edges in the application scope
@@ -44,7 +44,7 @@ currentRelationshipTypes = {}
 container = null
 rootNodeId = null
 
-window.alchemy = new Alchemy
+window.alchemy = new Alchemy(conf)
 
 alchemy.container =
     'width': parseInt(d3.select('.alchemy').style('width'))

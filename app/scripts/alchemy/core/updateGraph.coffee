@@ -7,8 +7,6 @@ alchemy.updateGraph = (start=true) ->
         while @force.alpha() > 0.005
             alchemy.force.tick()
         initialComputationDone = true
-        $('#loading-spinner').hide()
-        $('#loading-spinner').removeClass('middle')
         console.log(Date() + ' completed initial computation')
         if(conf.locked) then alchemy.force.stop()
     
@@ -16,8 +14,7 @@ alchemy.updateGraph = (start=true) ->
     
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy.edges, (d) ->
-                    d.source.id + '-' + d.target.id)
+               .data(alchemy.edges, (d) -> d.source.id + '-' + d.target.id)
     alchemy.node = alchemy.vis.selectAll("g.node")
               .data(alchemy.nodes, (d) -> d.id)
     #draw node and edge objects with all of their interactions
@@ -25,16 +22,11 @@ alchemy.updateGraph = (start=true) ->
     alchemy.drawing.drawnodes(alchemy.node)
         
     alchemy.vis.selectAll('g.node')
-        .attr('transform', (d) -> 
-              "translate(#{d.x}, #{d.y})")
+           .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
 
     alchemy.vis.selectAll('.node text')
         .text((d) => @utils.nodeText(d))
 
     alchemy.node
-           .exit()
-           .remove()
-
-    alchemy.edge
            .exit()
            .remove()

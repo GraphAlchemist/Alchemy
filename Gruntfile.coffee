@@ -1,4 +1,4 @@
-# Generated on 2014-01-30 using generator-webapp 0.4.7
+  # Generated on 2014-01-30 using generator-webapp 0.4.7
 "use strict"
 
 # # Globbing
@@ -118,12 +118,11 @@ module.exports = (grunt) ->
           # all of the files used in testing and development - configuration, etc.
           ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
           # all of the core, alchemy.js files
-          ".tmp/scripts/alchemy.js": [  ".tmp/scripts/alchemy/defaultConf.coffee"
-                                             ".tmp/scripts/alchemy/init.coffee"
-                                             ".tmp/scripts/alchemy/errors.coffee"
-                                             ".tmp/scripts/alchemy/updateCoffee.coffee"
-                                             ".tmp/scripts/alchemy/startGraph.coffee"
-                                             ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
+          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/defaultConf.coffee"
+                                      ".tmp/scripts/alchemy/start.coffee"
+                                      ".tmp/scripts/alchemy/*/*.{coffee,litcoffee,coffee.md}"
+                                      ".tmp/scripts/alchemy/end.coffee"]
+
       test:
         files: [
           expand: true
@@ -290,7 +289,7 @@ module.exports = (grunt) ->
           dot: true,
           cwd: '<%= yeoman.app %>/scripts',
           dest: '.tmp/scripts',
-          src: '**/*.coffee'
+          src: '**/{,*/}*.coffee'
         ]
 
       dist:

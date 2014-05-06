@@ -2,6 +2,7 @@
 visual controls
 ###
 #current scope of the view
+# TODO unfucktor
 alchemy.visControls = () ->
     
     @visControls.getCurrentViewParams = () ->
@@ -62,11 +63,3 @@ alchemy.visControls = () ->
     $('#zoom-in').click(zoomIn)
     $('#zoom-out').click(zoomOut)
     $('#zoom-reset').click(zoomReset)
-
-alchemy.begin = () ->
-    if typeof alchemyConf.dataSource == 'string'
-        # data source is a url
-        d3.json(alchemyConf.dataSource, startGraph)
-    else if typeof alchemyConf.dataSource == 'object'
-        # data is being provided directly
-        startGraph(alchemyConf.dataSource)

@@ -1,7 +1,3 @@
-###
-force layout functions
-###
-
 alchemy.layout = 
     # debugger
     charge: (node) ->
@@ -78,7 +74,7 @@ alchemy.layout =
                 x = node.x - Math.abs(quad.point.x)
                 y = node.y - quad.point.y
                 l = Math.sqrt(x * x + y * y)
-                r = conf.nodeRadius * 2
+                r = conf.nodeOverlap
                 if l < r
                     l = (l - r) / l * conf.alpha
                     node.x -= x *= l
@@ -94,19 +90,19 @@ alchemy.layout =
         nodes = alchemy.nodes
         q = d3.geom.quadtree(nodes)
         r = conf.nodeRadius
-        w = alchemy.container.width
-        h = alchemy.container.height
+        w = alchemy.container.width * .9
+        h = alchemy.container.height * .9
         for node in nodes
+            q.visit(alchemy.layout.collide(node))
             node.x = Math.max(r, Math.min(w - r, node.x))
             node.y = Math.max(r, Math.min(h - r, node.y))
-            q.visit(alchemy.layout.collide(node))
     
     positionRootNodes: () ->
-        #fix or unfix root nodes
+        container = alchemy.container
         fixRootNodes = conf.fixRootNodes
-        #count root nodes
         rootNodes = Array()
         for n in alchemy.nodes
+            # this is fucking inefficient
             if (n.node_type == 'root') or (n.id == rootNodeId)
                 n.node_type = 'root'
                 rootNodes.push(n)
@@ -147,7 +143,6 @@ alchemy.layout =
             node_y = Math.sin(angle) * linkDistance
             n.x = x + node_x
             n.y = y + node_y
-    ####
 
     chargeDistance: (distance) ->
          distance
