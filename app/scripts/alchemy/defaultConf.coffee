@@ -1,16 +1,3 @@
-# algorithm to randomly shuffle an array
-fisherYates = (arr) ->
-    i = arr.length;
-    if i == 0 then return false
- 
-    while --i
-        j = Math.floor(Math.random() * (i+1))
-        tempi = arr[i]
-        tempj = arr[j]
-        arr[i] = tempj
-        arr[j] = tempi
-    return arr
-
 defaults =  
     afterLoad: 'drawingComplete'
     alpha: .5
@@ -30,7 +17,7 @@ defaults =
     removeNodes: false # allow the removal of nodes with controls
     fixRootNodes: true # root nodes are not dragable by default
     # node style settings
-    colours: fisherYates(["#DD79FF", "#FFFC00",
+    colours: d3.shuffle(["#DD79FF", "#FFFC00",
                          "#00FF30", "#5168FF",
                          "#00C0FF", "#FF004B",
                          "#00CDCD", "#f83f00",
