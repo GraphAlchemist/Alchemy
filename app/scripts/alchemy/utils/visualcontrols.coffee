@@ -1,8 +1,4 @@
-###
-visual controls
-###
-#current scope of the view
-# TODO unfucktor
+#not currently implemented
 alchemy.visControls = () ->
     
     @visControls.getCurrentViewParams = () ->

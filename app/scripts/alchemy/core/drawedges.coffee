@@ -1,10 +1,9 @@
-alchemy.drawing.drawedges = (edge) -> 
-    
+alchemy.drawing.drawedges = (edge) ->  
     edge.enter()
         .insert("line", 'g.node')
         .attr("class", (d) -> "edge #{if d.shortest then 'highlighted' else ''}")
         .attr('id', (d) -> d.source.id + '-' + d.target.id)
-        .on('click', interactions.edgeClick)
+        .on('click', alchemy.interactions.edgeClick)
     edge.exit().remove()
 
     edge.attr('x1', (d) -> d.source.x)

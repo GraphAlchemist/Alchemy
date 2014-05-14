@@ -1,45 +1,29 @@
-# all interactions with Graph
-# TODO: support touch
-do interactions = ->
+nodeDragStarted = (d, i) ->
+    d3.event.sourceEvent.stopPropagation()
+    d3.select(this).classed("dragging", true)
+    return
 
-    nodeDragStarted = (d, i) ->
-        d3.event.sourceEvent.stopPropagation()
-        d3.select(this).classed("dragging", true)
-        return
+nodeDragged = (d, i) ->
+    d.x += d3.event.dx
+    d.y += d3.event.dy
+    d.px += d3.event.dx
+    d.py += d3.event.dy
+    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+    
+    alchemy.edge.attr("x1", (d) -> d.source.x )
+        .attr("y1", (d) -> d.source.y )
+        .attr("x2", (d) -> d.target.x )
+        .attr("y2", (d) -> d.target.y )
+        .attr "cx", d.x = d3.event.x
+        .attr "cy", d.y = d3.event.y
+    return
 
-    nodeDragged = (d, i) ->
-        d.x += d3.event.dx
-        d.y += d3.event.dy
-        d.px += d3.event.dx
-        d.py += d3.event.dy
-        d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-        
-        alchemy.edge.attr("x1", (d) -> d.source.x )
-            .attr("y1", (d) -> d.source.y )
-            .attr("x2", (d) -> d.target.x )
-            .attr("y2", (d) -> d.target.y )
-            .attr "cx", d.x = d3.event.x
-            .attr "cy", d.y = d3.event.y
-        return
+nodeDragended = (d, i) ->
+    d3.select(this).classed "dragging", false
+    return
 
-    nodeDragended = (d, i) ->
-        d3.select(this).classed "dragging", false
-        return
-
-
-    zooming = ->
-        interactions.levels = 
-                              'translate' : d3.event.translate
-                              'scale' : d3.event.scale
-
-    zoomend = ->
-        d3.select(".alchemy svg g")
-        .attr("transform",
-              "translate(#{ interactions.levels.translate }) scale(#{ interactions.levels.scale })")
-
-    interactions = {}
-
-    interactions.edgeClick = (d) ->
+alchemy.interactions =
+    edgeClick: (d) ->
         vis = alchemy.vis
         vis.selectAll('line')
             .classed('highlight', false)
@@ -49,10 +33,9 @@ do interactions = ->
         if typeof conf.edgeClick? is 'function'
             conf.edgeClick()
 
-    interactions.nodeMouseOver = (n) ->
-        #TODO: support user defined functions
-        #if typeof conf.nodeMouseOver is 'function'
+    nodeMouseOver: (n) ->
         if conf.nodeMouseOver?
+            debugger
             if typeof conf.nodeMouseOver == 'function'
                 conf.nodeMouseOver(n)
             else if typeof conf.nodeMouseOver == ('number' or 'string')
@@ -62,14 +45,14 @@ do interactions = ->
         else
             null
 
-    interactions.nodeMouseOut = (n) ->
+    nodeMouseOut: (n) ->
         if conf.nodeMouseOut? and typeof conf.nodeMouseOut == 'function'
             conf.nodeMouseOut(n)
         else
             null
 
-
-    interactions.nodeDoubleClick = (c) ->
+    #not currently implemented
+    nodeDoubleClick: (c) ->
         if not conf.extraDataSource or
             c.expanded or
             conf.unexpandable.indexOf c.type is not -1 then return
@@ -83,7 +66,8 @@ do interactions = ->
         for e of edges
             edges[e].distance *= 2
 
-    interactions.loadMoreNodes = (data) ->
+    #not currently implemented
+    loadMoreNodes: (data) ->
         ###
         TRY:
           - fixing all nodes before laying out graph with added nodes, so only the new ones move
@@ -151,7 +135,7 @@ do interactions = ->
         if typeof conf.nodeDoubleClick? is 'function'
             conf.nodeDoubleClick(requester)
 
-    interactions.nodeClick = (c) ->
+    nodeClick: (c) ->
         d3.event.stopPropagation()
         alchemy.vis.selectAll('line')
             .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
@@ -166,13 +150,13 @@ do interactions = ->
             conf.nodeClick(c)
             return
 
-    interactions.drag = d3.behavior.drag()
+    drag: d3.behavior.drag()
                           .origin(Object)
                           .on("dragstart", nodeDragStarted)
                           .on("drag", nodeDragged)
                           .on("dragend", nodeDragended)
     
-    interactions.zoom = d3.behavior.zoom()
+    zoom: d3.behavior.zoom()
                           # to do, allow UDF initial scale and zoom
                           # .translate conf.initialTranslate
                           # .scale conf.initialScale
@@ -181,5 +165,3 @@ do interactions = ->
                             d3.select(".alchemy svg g")
                             .attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })")
                             return
-
-    alchemy.interactions = interactions

@@ -5,11 +5,11 @@ alchemy.drawing.drawnodes = (node) ->
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
                     .attr('id', (d) -> "node-#{d.id}")
                     .on('mousedown', (d) -> d.fixed = true)
-                    .on('mouseover', interactions.nodeMouseOver)
-                    .on('mouseout', interactions.nodeMouseOut)
-                    .on('dblclick', interactions.nodeDoubleClick)
-                    .on('click', interactions.nodeClick)
-                    .call(interactions.drag)
+                    .on('mouseover', alchemy.interactions.nodeMouseOver)
+                    .on('mouseout', alchemy.interactions.nodeMouseOut)
+                    .on('dblclick', alchemy.interactions.nodeDoubleClick)
+                    .on('click', alchemy.interactions.nodeClick)
+                    .call(alchemy.interactions.drag)
                     
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
@@ -23,15 +23,15 @@ alchemy.drawing.drawnodes = (node) ->
             if conf.cluster
                 if isNaN parseInt d.cluster
                     colour = '#EBECE4'
-                else if d.cluster < conf.colours.length
-                    colour = conf.colours[d.cluster]
+                else if d.cluster < conf.clusterColours.length
+                    colour = conf.clusterColours[d.cluster]
                 else
                     ''
-            else if conf.colours
-                if d[conf.colourProperty]? and conf.colours[d[conf.colourProperty]]?
-                    colour = conf.colours[d[conf.colourProperty]]
+            else if conf.clusterColours
+                if d[conf.colourProperty]? and conf.clusterColours[d[conf.colourProperty]]?
+                    colour = conf.clusterColours[d[conf.colourProperty]]
                 else
-                    colour = conf.colours['default']
+                    colour = conf.clusterColours['default']
             else
                 ''
             "fill: #{colour}; stroke: #{colour};"

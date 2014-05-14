@@ -2,6 +2,7 @@ startGraph = (data) ->
     # see if data is ok
     if not data
         # allow for user specified error
+        # clean up search modal
         no_results = """
                     <div class="modal fade" id="no-results">
                         <div class="modal-dialog">
@@ -29,11 +30,6 @@ startGraph = (data) ->
     alchemy.nodes = data.nodes
     alchemy.edges = data.edges
     
-    # see if root node id has been specified
-    # remove?
-    if 'id' of data
-        rootNodeId = data.id
-
     # create nodes map and update links
     nodesMap = d3.map()
     alchemy.nodes.forEach (n) ->
@@ -48,18 +44,7 @@ startGraph = (data) ->
     #     'height': $(window).height()
 
     #API FIXME: allow alternative root node positioning?
-    alchemy.layout.positionRootNodes();
-
-    #API FIXME: allow custom styling
-    #colours is spelled like whoever originally wrote this is from Scotland
-    # as it should be ;)
-    colours = conf.colours
-    if Array.isArray colours
-        colours.sort(() -> 0.5 - Math.random())
-
-    #position nodes initially
-    # API FIXME: allow specified positions for nodes?
-    #*****alchemy.layout.positionNodes(alchemy.nodes)
+    alchemy.layout.positionRootNodes()
 
     # TODO: fix this in the graph file generating view instead of here
     fixNodesTags(alchemy.nodes, alchemy.edges);
@@ -69,7 +54,7 @@ startGraph = (data) ->
         .linkDistance(alchemy.layout.linkDistanceFn)
         .theta(1.0)
         .gravity(0.1)
-        .linkStrength(alchemy.layout.strength)
+        .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance(500))
         .size([alchemy.container.width, alchemy.container.height])
@@ -92,20 +77,12 @@ startGraph = (data) ->
             # .attr("width", alchemy.container.width)
             # .attr("height", alchemy.container.height)
 
-    # #allow bootstrap popovers
-    # $('body').popover();
-
-    # dirty fix for SVG background
-    alchemy.utils.resize()
-
     alchemy.updateGraph()
 
-    window.onresize = alchemy.utils.resize
-
     # call user-specified functions after load function if specified
+    # deprecate?
     if conf.afterLoad?
         if typeof conf.afterLoad is 'function'
             conf.afterLoad()
         else if typeof conf.afterLoad is 'string'
-            debugger
-            alchemyConf.afterLoad = true
+            alchemy[conf.afterLoad] = true

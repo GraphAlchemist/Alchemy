@@ -1,7 +1,8 @@
-#utility functions
 alchemy.utils =
+    #TODO
+    #not yet working
     deselectAll: () ->
-        # this function is also fired at the end of a drag, do nothing if this halchemyens
+        # this function is also fired at the end of a drag, do nothing if this 
         if d3.event?.defaultPrevented then return
         alchemy.vis.selectAll('.node, line')
             .classed('selected highlight', false)
@@ -20,20 +21,22 @@ alchemy.utils =
         d3.select('.alchemy svg')
             .attr("width", alchemy.container.width)
             .attr("height", alchemy.container.height)
+    
+    # Not currently used - Deprecate?
+    # scale: (x) ->
+    #     #returns minimum 10, maximum 60
+    #     #scale linearly from 1 to 50 (?), then logarithmically
+    #     min = 100
+    #     mid_scale = 40
+    #     elbow_point = 50
+    #     if x > elbow_point
+    #         # log
+    #         Math.min(max, mid_scale + (Math.log(x) - Math.log(elbow_point)))
+    #     else 
+    #         # linear
+    #         (mid_scale - min) * (x / elbow_point) + min
 
-    scale: (x) ->
-        #returns minimum 10, maximum 60
-        #scale linearly from 1 to 50 (?), then logarithmically
-        min = 100
-        mid_scale = 40
-        elbow_point = 50
-        if x > elbow_point
-            # log
-            Math.min(max, mid_scale + (Math.log(x) - Math.log(elbow_point)))
-        else 
-            # linear
-            (mid_scale - min) * (x / elbow_point) + min
-
+    # Not currently used - Deprecate?
     # jQuery.fn.d3Click = () ->
     #     @each((i, e) ->
     #         evt = document.createEvent("MouseEvents")
@@ -45,7 +48,8 @@ alchemy.utils =
     #                             0, null)
     #         e.dispatchEvent(evt)
     #     )
-
+    
+    # not currently used, but can be implemented
     centreView: (id) ->
         # centre view on node with given id
         svg = $('#graph').get(0)
@@ -72,12 +76,8 @@ alchemy.utils =
         else if conf.caption and typeof conf.caption is 'function'
             conf.caption(d)
 
-    #redraw
-        # utils.redraw = () ->
-        #     alchemy.vis.selectAll("line").remove()
-        #     alchemy.vis.attr("transform",
-        #              "translate(#{ d3.event.translate }) scale(#{ d3.event.scale })")
     nodeSize: (d, i) ->
+        # refactor for speed
         if d is undefined
             debugger
         if conf.nodeRadius?

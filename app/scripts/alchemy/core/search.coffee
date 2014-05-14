@@ -1,3 +1,5 @@
+# not working - but, logic here for search
+
 #find node
 findNode = (id) ->
     if n.id == id then n for n in allNodes

@@ -1,3 +1,4 @@
+# not working
 if conf.removeNodes
     node_filter_html = """
                         <fieldset id="remove-nodes">

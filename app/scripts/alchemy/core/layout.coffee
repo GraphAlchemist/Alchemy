@@ -1,13 +1,11 @@
 alchemy.layout = 
-    # debugger
     charge: (node) ->
         if conf.cluster
             -1600
         else
             -150
 
-    strength: (edge) ->
-        # debugger
+    linkStrength: (edge) ->
         if (edge.source.node_type or edge.target.node_type) is 'root'
             .2
         else
@@ -23,7 +21,6 @@ alchemy.layout =
             0.9
 
     linkDistanceFn: (edge) ->
-        #if typeof(edge.distance) isnt 'undefined' then edge.distance
         if conf.cluster
             # FIXME: parameterise this
             if (edge.source.node_type or edge.target.node_type) is 'root' then 300
@@ -103,7 +100,7 @@ alchemy.layout =
         rootNodes = Array()
         for n in alchemy.nodes
             # this is fucking inefficient
-            if (n.node_type == 'root') or (n.id == rootNodeId)
+            if (n.node_type == 'root')
                 n.node_type = 'root'
                 rootNodes.push(n)
 
