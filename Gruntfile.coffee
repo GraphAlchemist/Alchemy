@@ -1,4 +1,3 @@
-  # Generated on 2014-01-30 using generator-webapp 0.4.7
 "use strict"
 
 # # Globbing
@@ -7,14 +6,10 @@
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
 module.exports = (grunt) ->
-  
-  # Load grunt tasks automatically
   require("load-grunt-tasks") grunt
-  
-  # Time how long tasks take. Can help when optimizing build times
   require("time-grunt") grunt
-  
-  # Define the configuration for all the tasks
+  AlchemyTasks = require('./AlchemyTasks')
+  console.log(AlchemyTasks.CoffeeTask)
   grunt.initConfig
     
     # Project settings
@@ -109,19 +104,19 @@ module.exports = (grunt) ->
 
     
     # Compiles CoffeeScript to JavaScript
-    coffee:
-      dist:
-        options:
-          bare: false
-          sourceMap: true
-        files:
-          # all of the files used in testing and development - configuration, etc.
-          ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
-          # all of the core, alchemy.js files
-          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/defaultConf.coffee"
-                                      ".tmp/scripts/alchemy/start.coffee"
-                                      ".tmp/scripts/alchemy/*/*.{coffee,litcoffee,coffee.md}"
-                                      ".tmp/scripts/alchemy/end.coffee"]
+    coffee: AlchemyTasks.CoffeeTask
+      # dist:
+      #   options:
+      #     bare: false
+      #     sourceMap: true
+      #   files:
+      #     # all of the files used in testing and development - configuration, etc.
+      #     ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
+      #     # all of the core, alchemy.js files
+      #     ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/defaultConf.coffee"
+      #                                 ".tmp/scripts/alchemy/start.coffee"
+      #                                 ".tmp/scripts/alchemy/*/*.{coffee,litcoffee,coffee.md}"
+      #                                 ".tmp/scripts/alchemy/end.coffee"]
 
       test:
         files: [

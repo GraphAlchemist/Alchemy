@@ -1,15 +1,11 @@
-# not sure that we sorts of things we really want to let the controllers
-# do with the styles... we should leave most styling to the css.  
-# Even user defined over rides...
 alchemy.styles =
     getClusterColour: (index) ->
-        if conf.colours[index]?
-            conf.colours[index]
+        if conf.clusterColours[index]?
+            conf.clusterColours[index]
         else
             '#EBECE4'
 
     edgeGradient: (edges) ->
-        # FIX this to work with other edge loop
         defs = d3.select(".alchemy svg").append("svg:defs")
         Q = {}
         for edge in edges
@@ -18,8 +14,6 @@ alchemy.styles =
             # skip nodes from the same cluster
             continue if edge.source.cluster is edge.target.cluster
             if edge.target.cluster isnt edge.source.cluster
-                # if (edge.source.id or edge.target.id) is "Y3v2tCCCgr"
-                #     console.log(this)
                 id = edge.source.cluster + "-" + edge.target.cluster
                 if id of Q
                     continue
@@ -32,5 +26,4 @@ alchemy.styles =
             gradient = defs.append("svg:linearGradient").attr("id", gradient_id)
             gradient.append("svg:stop").attr("offset", "0%").attr "stop-color", Q[ids]['startColour']
             gradient.append("svg:stop").attr("offset", "100%").attr "stop-color", Q[ids]['endColour']
-
-    nodeStandOut: (nodes) ->
+    

@@ -3,4 +3,5 @@ node_modules
 .sass-cache
 app/bower_components
 app/sample_data
+app/scripts/testConf.coffee
 test/bower_components

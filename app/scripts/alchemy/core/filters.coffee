@@ -1,6 +1,4 @@
-#filters
-
-#create graph filters
+#not working
 if conf.showFilters
     filter_html = """
                     <div id="filters">
@@ -19,6 +17,7 @@ if conf.showFilters
 
     $('#filters form').submit(false)
 
+# notworking - deprecate?
 updateTagsAutocomplete = () ->
     # if no tags have been selected, use entire list
     # otherwise, only use tags that match one or more nodes that match all tags that have been selected
