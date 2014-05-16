@@ -1,5 +1,5 @@
 #not working
-if conf.showFilters
+if true#conf.showFilters
     filter_html = """
                     <div id="filters">
                         <h4 data-toggle="collapse" data-target="#filters form">
@@ -69,7 +69,7 @@ addTag = (event, ui) ->
     event.preventDefault()
 
 #create tag box and tags
-if conf.tagsProperty
+if true #conf.tagsProperty
     tag_html = """
                 <fieldset id="tags">
                     <legend>Tags:</legend>
@@ -83,7 +83,7 @@ if conf.tagsProperty
         $(this).autocomplete('search')
 
 #create relationship filters
-if conf.edgeTypes
+if true #conf.edgeTypes
     rel_filter_html = """
                         <fieldset id="filter-relationships">
                             <legend>Filter Relationships 
@@ -94,7 +94,7 @@ if conf.edgeTypes
     $('#filters form').append(rel_filter_html)
 
 #create node filters
-if conf.nodeTypes
+if true #conf.nodeTypes
     node_filter_html = """
                         <fieldset id="filter-nodes">
                             <legend>Filter Nodes 
@@ -196,15 +196,16 @@ fixNodesTags = (nodes, edges) ->
     updateCaptions()
     
     if 'nodeTypes' of conf
-        # $('#filter-nodes').append('<fieldset id="filter-nodes"><legend>Show Only</legend></fieldset>')
+        $('#filter-nodes').append('<fieldset id="filter-nodes"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
         column = 0
         for t in conf.nodeTypes
-            if not currentNodeTypes[t] then continue
+            # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
             checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checkboxes += '<label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label>'
             column++
+            checkboxes += '<label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label>'
+
             #check boxes should create a column of 3
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-nodes label, #filter-nodes br').remove()
