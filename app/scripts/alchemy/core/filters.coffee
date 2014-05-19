@@ -119,42 +119,39 @@ toggle_button.click ->
 #update filters
 updateFilters = () ->
     vis = alchemy.vis
-    tagList = $('#tags-list')
-    nodeTypeList = $('#filter-nodes :checked')
-    # unselectedTypeList = $('#filter-nodes :not(:checked) input')
+    # tagList = $('#tags-list')
+    # nodeTypeList = $('#filter-nodes :checked')
+    # unselectedTypeList = $('.checkbox :not(:checked)')
+    checkboxStates = $('.checkbox input')
     relationshipTypeList = $('#filter-relationships :checked')
-    nodes = vis.selectAll('g.node')
+    # nodes = vis.selectAll('g.node')
     edges = vis.selectAll('line')
 
-    if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
-        active = true
-        # graph_elem.attr('class', 'search-active')
-    else
-        nodes.classed('search-match', false)
-        edges.classed('search-match', false)
-        # graph_elem.attr('class', '')
-        return
-    nodes.classed('search-match', (d) ->
-        if tagList.children().length + nodeTypeList.length is 0
-            return false
-        match = true
-        for tag in tagList.children()
-            if d._tags.indexOf(tag.textContent.trim()) is -1
-                match = false
+    # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
+    #     active = true
+    # else
+    #     nodes.classed('search-match', false)
+    #     edges.classed('search-match', false)
+    #     return
+    # nodes.classed('search-match', (d) ->
+    #     if tagList.children().length + nodeTypeList.length is 0
+    #         return false
+    #     match = true
+    #     for tag in tagList.children()
+    #         if d._tags.indexOf(tag.textContent.trim()) is -1
+    #             match = false
 
-        if match and nodeTypeList.length > 0
-            match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
+    #     if match and nodeTypeList.length > 0
+    #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
 
-        match
-    )
+    #     match
+    # )
 
-    for type in nodeTypeList
-        d3.selectAll(".#{type.name}").attr("class", "#{type.name} inactive")
-    
-    # for type in unselectedTypeList
-        # console.log(type)
-        # d3.selectAll(".movie").attr("class", "#{type.name} active")
-    
+    for box in checkboxStates
+        state = if box.checked then "active" else "inactive"
+        d3.selectAll(".#{box.name}").attr("class", "#{box.name} #{state}")
+        
+
     edges.classed('search-match', (d) ->
         if relationshipTypeList.filter('[name="' + d.label + '"]').length
             $('#node-' + d.source.id)[0].classList.add('search-match')
