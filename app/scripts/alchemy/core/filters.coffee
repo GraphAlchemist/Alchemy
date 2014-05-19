@@ -121,6 +121,7 @@ updateFilters = () ->
     vis = alchemy.vis
     tagList = $('#tags-list')
     nodeTypeList = $('#filter-nodes :checked')
+    # unselectedTypeList = $('#filter-nodes :not(:checked) input')
     relationshipTypeList = $('#filter-relationships :checked')
     nodes = vis.selectAll('g.node')
     edges = vis.selectAll('line')
@@ -149,7 +150,10 @@ updateFilters = () ->
 
     for type in nodeTypeList
         d3.selectAll(".#{type.name}").attr("class", "#{type.name} inactive")
-        console.log("yo")
+    
+    # for type in unselectedTypeList
+        # console.log(type)
+        # d3.selectAll(".movie").attr("class", "#{type.name} active")
     
     edges.classed('search-match', (d) ->
         if relationshipTypeList.filter('[name="' + d.label + '"]').length
@@ -202,7 +206,7 @@ fixNodesTags = (nodes, edges) ->
     updateCaptions()
     
     if 'nodeTypes' of conf
-        $('#filter-nodes').append('<fieldset id="filter-nodes"><legend>Show Only</legend></fieldset>')
+        $('#filter-nodes').append('<fieldset id="filter-nodes-show-only"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
         column = 0
         for t in conf.nodeTypes
@@ -210,12 +214,12 @@ fixNodesTags = (nodes, edges) ->
             l = t.replace('_', ' ')
             checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
             column++
-            checkboxes += '<label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label>'
+            checkboxes += '<div class="checkbox-container"><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label></div>'
 
             #check boxes should create a column of 3
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-nodes label, #filter-nodes br').remove()
-        $('#filter-nodes').append(checkboxes)
+        $('#filter-nodes-show-only').append(checkboxes)
         $('#filter-nodes input').click(updateFilters)
 
     if 'edgeTypes' of conf
