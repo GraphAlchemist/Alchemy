@@ -45,9 +45,11 @@
 
     #filters {
         padding: 0.5em 1em;
+        background-color: rgba(255,255,255,.8);
     }
 
     #filters fieldset {
+        background-color: rgba(255,255,255,.8);
         float: left;
         width: 220px;
         margin-right: 1em;
@@ -209,6 +211,10 @@
         fill-opacity: 0;
         stroke-opacity: 0;
         opacity: 0 !important;
+    }
+
+    .checkbox-container {
+        display: inline-block;
     }
 
     // #loading-spinner {
