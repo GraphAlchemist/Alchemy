@@ -72,6 +72,6 @@ customConf = _.assign {},
        $("#node-#{n.id}")[0].popover({title: "title", container: 'body'})
     nodeClick: (d) ->
         custom.nodeClick(d, window.alchemyConf.bio_url)
-    nodeFilters: {node_type:"movies", "awards", "people"}
-    nodeTypes: ["movies", "awards", "people"]    
+    nodeFilters: {node_type:"movie", "award", "person"}
+    nodeTypes: ["movie", "award", "person"]    
 alchemy.conf = _.assign(alchemy.conf, customConf)
