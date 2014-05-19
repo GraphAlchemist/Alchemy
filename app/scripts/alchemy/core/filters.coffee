@@ -209,7 +209,8 @@ fixNodesTags = (nodes, edges) ->
         for t in conf.nodeTypes
             # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
-            checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
+            # checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
+            checked = " checked"
             column++
             checkboxes += '<div class="checkbox-container"><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label></div>'
 
