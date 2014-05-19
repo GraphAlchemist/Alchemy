@@ -124,13 +124,14 @@ updateFilters = () ->
     relationshipTypeList = $('#filter-relationships :checked')
     nodes = vis.selectAll('g.node')
     edges = vis.selectAll('line')
+
     if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
         active = true
-        graph_elem.attr('class', 'search-active')
+        # graph_elem.attr('class', 'search-active')
     else
         nodes.classed('search-match', false)
         edges.classed('search-match', false)
-        graph_elem.attr('class', '')
+        # graph_elem.attr('class', '')
         return
     nodes.classed('search-match', (d) ->
         if tagList.children().length + nodeTypeList.length is 0
@@ -145,6 +146,11 @@ updateFilters = () ->
 
         match
     )
+
+    for type in nodeTypeList
+        d3.selectAll(".#{type.name}").attr("class", "#{type.name} inactive")
+        console.log("yo")
+    
     edges.classed('search-match', (d) ->
         if relationshipTypeList.filter('[name="' + d.label + '"]').length
             $('#node-' + d.source.id)[0].classList.add('search-match')

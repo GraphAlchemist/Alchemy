@@ -6,11 +6,13 @@
     
     min-height: 1000px;
     width: 100%;
-    #search-form {
+
+    #search form {
         z-index: 2;
         display: inline;
         margin-left: 100px;
     }
+
     #search-form input {
         width: 300px;
     }
@@ -102,9 +104,7 @@
     }
 
     /* graph controls */
-
     #controls-container {
-        background-color: rgba(255, 255, 255, 0.9);
         position: absolute;
         top: 60px;
         left: 300px;
@@ -199,6 +199,17 @@
     // .search-active .search-match, .highlight-active .node.highlight, .highlight-active line.highlight {
     //     opacity: 1;
     // }
+
+    .active {
+
+        opacity: 1 !important;
+    }
+
+    .inactive {
+        fill-opacity: 0;
+        stroke-opacity: 0;
+        opacity: 0 !important;
+    }
 
     // #loading-spinner {
     //     position: absolute;
