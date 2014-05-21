@@ -149,8 +149,16 @@ updateFilters = () ->
 
     for box in checkboxStates
         state = if box.checked then "active" else "inactive"
-        d3.selectAll(".#{box.name}").attr("class", "#{box.name} #{state}")
+        d3.selectAll(".#{box.name}")
+          .attr("class", "#{box.name} #{state}")
+
+    inactive_nodes = d3.selectAll("circle").filter(".inactive")[0]
+    d3.selectAll("line").attr("class", "edge active")
         
+    for node in inactive_nodes
+        d3.selectAll("line")
+          .filter("[target-id='#{node.id[7..13]}']")
+          .attr("class", "edge inactive")
 
     edges.classed('search-match', (d) ->
         if relationshipTypeList.filter('[name="' + d.label + '"]').length
