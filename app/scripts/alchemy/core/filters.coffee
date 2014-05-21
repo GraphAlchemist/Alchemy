@@ -211,10 +211,12 @@ fixNodesTags = (nodes, edges) ->
     updateCaptions()
     
     if 'nodeTypes' of conf
+        nodeKey = Object.keys(conf.nodeTypes)
+
         $('#filter-nodes').append('<fieldset id="filter-nodes-show-only"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
         column = 0
-        for t in conf.nodeTypes
+        for t in conf.nodeTypes[nodeKey]
             # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
             # checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
@@ -229,6 +231,7 @@ fixNodesTags = (nodes, edges) ->
         $('#filter-nodes input').click(updateFilters)
 
     if 'edgeTypes' of conf
+        $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
         for e in edges
             currentRelationshipTypes[[e].caption] = true
 
@@ -238,11 +241,11 @@ fixNodesTags = (nodes, edges) ->
             if not t then continue
             caption = t.replace('_', ' ')
             checked = $('#filter-relationships input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checkboxes += '<label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + caption + '</label>'
+            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + caption + '</label></div>'
             column++
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-relationships label, #filter-relationships br').remove()
-        $('#filter-relationships').append(checkboxes)
+        $('#filter-relationships-show-only').append(checkboxes)
         $('#filter-relationships input').click(updateFilters)
 
     tags = Object.keys(allTags)
