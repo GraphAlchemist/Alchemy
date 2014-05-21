@@ -124,7 +124,7 @@ updateFilters = () ->
     # unselectedTypeList = $('.checkbox :not(:checked)')
     checkboxStates = $('.checkbox input')
     relationshipTypeList = $('#filter-relationships :checked')
-    # nodes = vis.selectAll('g.node')
+    nodes = vis.selectAll('circle')
     edges = vis.selectAll('line')
 
     # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
@@ -152,13 +152,13 @@ updateFilters = () ->
         d3.selectAll(".#{box.name}")
           .attr("class", "#{box.name} #{state}")
 
-    inactive_nodes = d3.selectAll("circle").filter(".inactive")[0]
-    d3.selectAll("line").attr("class", "edge active")
+    inactive_nodes = nodes.filter(".inactive")[0]
+    edges.attr("class", "edge active")
         
     for node in inactive_nodes
-        d3.selectAll("line")
-          .filter("[target-id='#{node.id[7..13]}']")
-          .attr("class", "edge inactive")
+        edges.filter("[id*='#{node.id[7..13]}']")
+             .attr("class", "edge inactive")
+
 
     edges.classed('search-match', (d) ->
         if relationshipTypeList.filter('[name="' + d.label + '"]').length
