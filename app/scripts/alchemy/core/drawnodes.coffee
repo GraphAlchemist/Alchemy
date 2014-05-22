@@ -1,6 +1,6 @@
 #bind node data to d3
 alchemy.drawing.drawnodes = (node) ->
-    
+
     nodeEnter = node.enter().append("g")
                     .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
                     .attr('id', (d) -> "node-#{d.id}")
@@ -9,8 +9,8 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
                     .on('click', alchemy.interactions.nodeClick)
-                    .call(alchemy.interactions.drag)
-                    
+                    .call(alchemy.force.drag)
+
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
     nodeEnter
