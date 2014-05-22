@@ -82,6 +82,7 @@ startGraph = (data) ->
 
     alchemy.updateGraph()
 
+    # this was split from above to allow force functionality
     alchemy.force
            .on("tick", alchemy.layout.tick)
            .start()

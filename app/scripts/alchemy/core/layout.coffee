@@ -90,6 +90,8 @@ alchemy.layout =
         w = alchemy.container.width * .9
         h = alchemy.container.height * .9
 
+        # force layout enabled with these attributes assigned
+        # change to variables?
         alchemy.edge.attr("x1", (d) -> d.source.x )
               .attr("y1", (d) -> d.source.y )
               .attr("x2", (d) -> d.target.x )
