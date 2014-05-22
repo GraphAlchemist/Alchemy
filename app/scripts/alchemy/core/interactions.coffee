@@ -35,7 +35,6 @@ alchemy.interactions =
 
     nodeMouseOver: (n) ->
         if conf.nodeMouseOver?
-            debugger
             if typeof conf.nodeMouseOver == 'function'
                 conf.nodeMouseOver(n)
             else if typeof conf.nodeMouseOver == ('number' or 'string')

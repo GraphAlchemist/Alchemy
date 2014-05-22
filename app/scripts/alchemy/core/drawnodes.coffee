@@ -15,10 +15,11 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter
         .append('circle')
-        .attr('class', (d) -> d.node_type)
+        .attr('class', (d) -> "#{d.node_type} active")
         .attr('id', (d) -> "circle-#{d.id}")
         .attr('r', (d) -> alchemy.utils.nodeSize(d))#app.drawing.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
+        .attr('target-id', (d) -> d.id)
         .attr('style', (d) -> #TODO - everything should be css
             if conf.cluster
                 if isNaN parseInt d.cluster
