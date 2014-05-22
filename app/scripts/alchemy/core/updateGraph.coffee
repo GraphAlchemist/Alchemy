@@ -9,9 +9,9 @@ alchemy.updateGraph = (start=true) ->
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
         if(conf.locked) then alchemy.force.stop()
-    
+
     alchemy.styles.edgeGradient(alchemy.edges)
-    
+
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
                .data(alchemy.edges, (d) -> d.source.id + '-' + d.target.id)
@@ -20,7 +20,7 @@ alchemy.updateGraph = (start=true) ->
     #draw node and edge objects with all of their interactions
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
-        
+
     alchemy.vis.selectAll('g.node')
            .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
 
@@ -32,6 +32,6 @@ alchemy.updateGraph = (start=true) ->
            .remove()
 
     # initialize graph to size of window
-    alchemy.utils.resize() 
-    # resize svg on resizing of the window - if the div changes 
+    alchemy.utils.resize()
+    # resize svg on resizing of the window - if the div changes
     window.onresize = alchemy.utils.resize
