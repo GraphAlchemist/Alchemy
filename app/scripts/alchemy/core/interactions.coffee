@@ -9,6 +9,7 @@ nodeDragged = (d, i) ->
     d.px += d3.event.dx
     d.py += d3.event.dy
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+    alchemy.force.start() #restarts force on drag
 
     alchemy.edge.attr("x1", (d) -> d.source.x )
         .attr("y1", (d) -> d.source.y )
