@@ -1,4 +1,4 @@
-defaults =  
+defaults =
     # Helpers
     afterLoad: 'drawingComplete'
     dataSource: null
@@ -15,7 +15,7 @@ defaults =
                          "#ff7e00"])
     fixNodes: false # not implemented
     fixRootNodes: false # not implemented
-    forceLocked: true # not currently implemented
+    forceLocked: false # not currently implemented
     linkDistance: 2000
     nodePositions: null # not currently implemented
 
@@ -34,7 +34,7 @@ defaults =
     # Nodes
     caption: 'caption'
     nodeMouseOver: 'caption' # partially implemented
-    nodeOverlap: 20 
+    nodeOverlap: 20
     nodeRadius: 10 # partially implemented
     rootNodeRadius: 15
 

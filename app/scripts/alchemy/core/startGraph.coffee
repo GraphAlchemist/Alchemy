@@ -82,10 +82,11 @@ startGraph = (data) ->
 
     alchemy.updateGraph()
 
-    # this was split from above to allow force functionality
-    alchemy.force
-           .on("tick", alchemy.layout.tick)
-           .start()
+    # configuration for forceLocked
+    if conf.forceLocked == true
+        alchemy.force
+               .on("tick", alchemy.layout.tick)
+               .start()
 
 
     # call user-specified functions after load function if specified
