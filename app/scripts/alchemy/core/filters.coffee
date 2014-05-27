@@ -148,11 +148,11 @@ updateFilters = () ->
     for box in checkboxes
         state = if box.checked then "active" else "inactive"
 
-        [nodes, edges].forEach (t)->
+        [edges, nodes].forEach (t)->
             t.filter(".#{box.name}")
              .attr("class", "#{box.name} #{state}")
 
-    for node in nodes.filter(".inactive")
+    for node in nodes.filter(".inactive")[0]
         edges.filter("[id*='#{node.id[7..13]}']")
              .classed({"inactive":true, "active": false})
 
@@ -236,8 +236,7 @@ fixNodesTags = (nodes, edges) ->
         for t in conf.edgeTypes
             if not t then continue
             caption = t.replace('_', ' ')
-            checked = $('#filter-relationships input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + caption + '</label></div>'
+            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + 'checked> ' + caption + '</label></div>'
             column++
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-relationships label, #filter-relationships br').remove()
