@@ -1,5 +1,5 @@
 #not working
-if conf.showFilters
+if true#conf.showFilters
     filter_html = """
                     <div id="filters">
                         <h4 data-toggle="collapse" data-target="#filters form">
@@ -69,7 +69,7 @@ addTag = (event, ui) ->
     event.preventDefault()
 
 #create tag box and tags
-if conf.tagsProperty
+if true #conf.tagsProperty
     tag_html = """
                 <fieldset id="tags">
                     <legend>Tags:</legend>
@@ -83,7 +83,7 @@ if conf.tagsProperty
         $(this).autocomplete('search')
 
 #create relationship filters
-if conf.edgeTypes
+if true #conf.edgeTypes
     rel_filter_html = """
                         <fieldset id="filter-relationships">
                             <legend>Filter Relationships 
@@ -94,7 +94,7 @@ if conf.edgeTypes
     $('#filters form').append(rel_filter_html)
 
 #create node filters
-if conf.nodeTypes
+if true #conf.nodeTypes
     node_filter_html = """
                         <fieldset id="filter-nodes">
                             <legend>Filter Nodes 
@@ -119,32 +119,47 @@ toggle_button.click ->
 #update filters
 updateFilters = () ->
     vis = alchemy.vis
-    tagList = $('#tags-list')
-    nodeTypeList = $('#filter-nodes :checked')
+    # tagList = $('#tags-list')
+    # nodeTypeList = $('#filter-nodes :checked')
+    # unselectedTypeList = $('.checkbox :not(:checked)')
+    checkboxStates = $('.checkbox input')
     relationshipTypeList = $('#filter-relationships :checked')
-    nodes = vis.selectAll('g.node')
+    nodes = vis.selectAll('circle')
     edges = vis.selectAll('line')
-    if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
-        active = true
-        graph_elem.attr('class', 'search-active')
-    else
-        nodes.classed('search-match', false)
-        edges.classed('search-match', false)
-        graph_elem.attr('class', '')
-        return
-    nodes.classed('search-match', (d) ->
-        if tagList.children().length + nodeTypeList.length is 0
-            return false
-        match = true
-        for tag in tagList.children()
-            if d._tags.indexOf(tag.textContent.trim()) is -1
-                match = false
 
-        if match and nodeTypeList.length > 0
-            match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
+    # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
+    #     active = true
+    # else
+    #     nodes.classed('search-match', false)
+    #     edges.classed('search-match', false)
+    #     return
+    # nodes.classed('search-match', (d) ->
+    #     if tagList.children().length + nodeTypeList.length is 0
+    #         return false
+    #     match = true
+    #     for tag in tagList.children()
+    #         if d._tags.indexOf(tag.textContent.trim()) is -1
+    #             match = false
 
-        match
-    )
+    #     if match and nodeTypeList.length > 0
+    #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
+
+    #     match
+    # )
+
+    for box in checkboxStates
+        state = if box.checked then "active" else "inactive"
+        d3.selectAll(".#{box.name}")
+          .attr("class", "#{box.name} #{state}")
+
+    inactive_nodes = nodes.filter(".inactive")[0]
+    edges.attr("class", "edge active")
+        
+    for node in inactive_nodes
+        edges.filter("[id*='#{node.id[7..13]}']")
+             .attr("class", "edge inactive")
+
+
     edges.classed('search-match', (d) ->
         if relationshipTypeList.filter('[name="' + d.label + '"]').length
             $('#node-' + d.source.id)[0].classList.add('search-match')
@@ -196,22 +211,27 @@ fixNodesTags = (nodes, edges) ->
     updateCaptions()
     
     if 'nodeTypes' of conf
-        # $('#filter-nodes').append('<fieldset id="filter-nodes"><legend>Show Only</legend></fieldset>')
+        nodeKey = Object.keys(conf.nodeTypes)
+
+        $('#filter-nodes').append('<fieldset id="filter-nodes-show-only"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
         column = 0
-        for t in conf.nodeTypes
-            if not currentNodeTypes[t] then continue
+        for t in conf.nodeTypes[nodeKey]
+            # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
-            checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checkboxes += '<label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label>'
+            # checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
+            checked = " checked"
             column++
+            checkboxes += '<div class="checkbox-container"><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label></div>'
+
             #check boxes should create a column of 3
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-nodes label, #filter-nodes br').remove()
-        $('#filter-nodes').append(checkboxes)
+        $('#filter-nodes-show-only').append(checkboxes)
         $('#filter-nodes input').click(updateFilters)
 
     if 'edgeTypes' of conf
+        $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
         for e in edges
             currentRelationshipTypes[[e].caption] = true
 
@@ -221,11 +241,11 @@ fixNodesTags = (nodes, edges) ->
             if not t then continue
             caption = t.replace('_', ' ')
             checked = $('#filter-relationships input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checkboxes += '<label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + caption + '</label>'
+            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + caption + '</label></div>'
             column++
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-relationships label, #filter-relationships br').remove()
-        $('#filter-relationships').append(checkboxes)
+        $('#filter-relationships-show-only').append(checkboxes)
         $('#filter-relationships input').click(updateFilters)
 
     tags = Object.keys(allTags)
