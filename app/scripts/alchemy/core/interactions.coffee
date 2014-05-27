@@ -9,7 +9,7 @@ nodeDragged = (d, i) ->
     d.px += d3.event.dx
     d.py += d3.event.dy
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-    if conf.forceLocked == true #configuration for forceLocked
+    if !conf.forceLocked  #configuration for forceLocked
         alchemy.force.start() #restarts force on drag
 
     alchemy.edge.attr("x1", (d) -> d.source.x )
