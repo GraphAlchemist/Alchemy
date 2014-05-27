@@ -120,9 +120,7 @@ toggle_button.click ->
 updateFilters = () ->
     vis = alchemy.vis
     # tagList = $('#tags-list')
-    # nodeTypeList = $('#filter-nodes :checked')
-    # unselectedTypeList = $('.checkbox :not(:checked)')
-    checkboxStates = $('.checkbox input')
+    checkboxes = $("[type='checkbox']")
     relationshipTypeList = $('#filter-relationships :checked')
     nodes = vis.selectAll('circle')
     edges = vis.selectAll('line')
@@ -145,35 +143,33 @@ updateFilters = () ->
     #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
 
     #     match
-    # )
+    # )    
 
-    for box in checkboxStates
+    for box in checkboxes
         state = if box.checked then "active" else "inactive"
-        d3.selectAll(".#{box.name}")
-          .attr("class", "#{box.name} #{state}")
 
-    inactive_nodes = nodes.filter(".inactive")[0]
-    edges.attr("class", "edge active")
-        
-    for node in inactive_nodes
+        [edges, nodes].forEach (t)->
+            t.filter(".#{box.name}")
+             .attr("class", "#{box.name} #{state}")
+
+    for node in nodes.filter(".inactive")[0]
         edges.filter("[id*='#{node.id[7..13]}']")
-             .attr("class", "edge inactive")
+             .classed({"inactive":true, "active": false})
 
-
-    edges.classed('search-match', (d) ->
-        if relationshipTypeList.filter('[name="' + d.label + '"]').length
-            $('#node-' + d.source.id)[0].classList.add('search-match')
-            $('#node-' + d.target.id)[0].classList.add('search-match')
-            return true
-        else
-            return false
-    )
-    matched = false
-    relationshipTypeList.each( (d) ->
-        if d.caption is $(this).attr('name')
-            matched = true
-    matched
-    )
+    # edges.classed('search-match', (d) ->
+    #     if relationshipTypeList.filter('[name="' + d.label + '"]').length
+    #         $('#node-' + d.source.id)[0].classList.add('search-match')
+    #         $('#node-' + d.target.id)[0].classList.add('search-match')
+    #         return true
+    #     else
+    #         return false
+    # )
+    # matched = false
+    # relationshipTypeList.each( (d) ->
+    #     if d.caption is $(this).attr('name')
+    #         matched = true
+    # matched
+    # )
 
 #label toggle
 if conf.captionsToggle
@@ -240,8 +236,7 @@ fixNodesTags = (nodes, edges) ->
         for t in conf.edgeTypes
             if not t then continue
             caption = t.replace('_', ' ')
-            checked = $('#filter-relationships input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + caption + '</label></div>'
+            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + 'checked> ' + caption + '</label></div>'
             column++
             if column % 3 == 0 then checkboxes += '<br>'
         $('#filter-relationships label, #filter-relationships br').remove()
