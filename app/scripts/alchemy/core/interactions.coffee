@@ -9,7 +9,9 @@ nodeDragged = (d, i) ->
     d.px += d3.event.dx
     d.py += d3.event.dy
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-    
+    if conf.forceLocked == true #configuration for forceLocked
+        alchemy.force.start() #restarts force on drag
+
     alchemy.edge.attr("x1", (d) -> d.source.x )
         .attr("y1", (d) -> d.source.y )
         .attr("x2", (d) -> d.target.x )
@@ -35,7 +37,6 @@ alchemy.interactions =
 
     nodeMouseOver: (n) ->
         if conf.nodeMouseOver?
-            debugger
             if typeof conf.nodeMouseOver == 'function'
                 conf.nodeMouseOver(n)
             else if typeof conf.nodeMouseOver == ('number' or 'string')
@@ -155,12 +156,12 @@ alchemy.interactions =
                           .on("dragstart", nodeDragStarted)
                           .on("drag", nodeDragged)
                           .on("dragend", nodeDragended)
-    
+
     zoom: d3.behavior.zoom()
                           # to do, allow UDF initial scale and zoom
                           # .translate conf.initialTranslate
                           # .scale conf.initialScale
-                          .scaleExtent [0.28, 2] 
+                          .scaleExtent [0.28, 2]
                           .on "zoom", ->
                             d3.select(".alchemy svg g")
                             .attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })")

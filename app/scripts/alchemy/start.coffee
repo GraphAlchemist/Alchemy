@@ -9,7 +9,6 @@ class Alchemy
 
 #this is establishing local variables for things that have been configured... 
 #This may be redundant
-debugger
 linkDistance = conf.linkDistance
 rootNodeRadius = conf.rootNodeRadius
 nodeRadius = conf.nodeRadius

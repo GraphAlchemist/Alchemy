@@ -1,4 +1,4 @@
-alchemy.layout = 
+alchemy.layout =
     charge: (node) ->
         if conf.cluster
             -1600
@@ -43,7 +43,7 @@ alchemy.layout =
             centroids[d.cluster].x += d.x
             centroids[d.cluster].y += d.y
             centroids[d.cluster].c++
-            
+
         for c in centroids
             c.x = c.x / c.c
             c.y = c.y / c.c
@@ -82,18 +82,25 @@ alchemy.layout =
             x2 < nx1 or
             y1 > ny2 or
             y2 < ny1
-    
+
     tick: () ->
         nodes = alchemy.nodes
         q = d3.geom.quadtree(nodes)
         r = conf.nodeRadius
         w = alchemy.container.width * .9
         h = alchemy.container.height * .9
-        for node in nodes
-            q.visit(alchemy.layout.collide(node))
-            node.x = Math.max(r, Math.min(w - r, node.x))
-            node.y = Math.max(r, Math.min(h - r, node.y))
-    
+
+        # force layout enabled with these attributes assigned
+        # change to variables?
+        alchemy.edge.attr("x1", (d) -> d.source.x )
+              .attr("y1", (d) -> d.source.y )
+              .attr("x2", (d) -> d.target.x )
+              .attr("y2", (d) -> d.target.y )
+
+        alchemy.node
+               .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+
+
     positionRootNodes: () ->
         container = alchemy.container
         fixRootNodes = conf.fixRootNodes

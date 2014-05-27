@@ -6,10 +6,13 @@
     
     min-height: 1000px;
     width: 100%;
-    #search-form {
+
+    #search form {
+        z-index: 2;
         display: inline;
         margin-left: 100px;
     }
+
     #search-form input {
         width: 300px;
     }
@@ -42,9 +45,11 @@
 
     #filters {
         padding: 0.5em 1em;
+        background-color: rgba(255,255,255,.8);
     }
 
     #filters fieldset {
+        background-color: rgba(255,255,255,.8);
         float: left;
         width: 220px;
         margin-right: 1em;
@@ -54,11 +59,6 @@
         font-size: 14px;
         line-height: 2;
         margin: 0.5em 0;
-    }
-
-    #filters legend button {
-        float: right;
-        line-height: 1.5;
     }
 
     #filters h4 {
@@ -101,13 +101,12 @@
     }
 
     /* graph controls */
-
     #controls-container {
-        background-color: rgba(255, 255, 255, 0.9);
         position: absolute;
         top: 60px;
         left: 300px;
         right: 0;
+        z-index: 2;
     }
 
     #controls {
@@ -197,6 +196,21 @@
     // .search-active .search-match, .highlight-active .node.highlight, .highlight-active line.highlight {
     //     opacity: 1;
     // }
+
+    .active {
+
+        opacity: 1 !important;
+    }
+
+    .inactive {
+        fill-opacity: 0;
+        stroke-opacity: 0;
+        opacity: 0 !important;
+    }
+
+    .checkbox-container {
+        display: inline-block;
+    }
 
     // #loading-spinner {
     //     position: absolute;
