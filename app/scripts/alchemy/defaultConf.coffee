@@ -13,9 +13,9 @@ defaults =
                          "#f800df", "#ff8d8f",
                          "#ffcd00", "#184fff",
                          "#ff7e00"])
-    fixNodes: false # not implemented
+    fixNodes: false
     fixRootNodes: false # not implemented
-    forceLocked: true # not currently implemented
+    forceLocked: true
     linkDistance: 2000
     nodePositions: null # not currently implemented
 
