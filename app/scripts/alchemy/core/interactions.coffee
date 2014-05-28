@@ -140,13 +140,15 @@ alchemy.interactions =
         d3.event.stopPropagation()
         alchemy.vis.selectAll('line')
             .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
-        # d3.select(this).classed({'selected':true})
         alchemy.vis.selectAll('.node')
             .classed('selected', (d) -> return c.id is d.id)
             # also select 1st degree connections
             .classed('selected', (d) ->
-                 return d.id is c.id or alchemy.edges.some (e) ->
-                     return (e.source.id is c.id and e.target.id is d.id) or (e.source.id is d.id and e.target.id is c.id))
+                return d.id is c.id or alchemy.edges.some (e) ->
+                    return ((e.source.id is c.id and e.target.id is d.id) or 
+                            (e.source.id is d.id and e.target.id is c.id)) and 
+                            d3.select(".edge[id*='#{d.id}']").classed("active"))
+
         if typeof conf.nodeClick == 'function'
             conf.nodeClick(c)
             return

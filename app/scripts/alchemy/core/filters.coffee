@@ -122,9 +122,11 @@ updateFilters = () ->
     # tagList = $('#tags-list')
     checkboxes = $("[type='checkbox']")
     relationshipTypeList = $('#filter-relationships :checked')
-    nodes = vis.selectAll('circle')
-    edges = vis.selectAll('line')
-
+    graphElements = {
+        "node" : vis.selectAll('circle'),
+        "edge" : vis.selectAll('line'),
+        "caption" : vis.selectAll('text')
+    }
     # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
     #     active = true
     # else
@@ -147,13 +149,12 @@ updateFilters = () ->
 
     for box in checkboxes
         state = if box.checked then "active" else "inactive"
+        ["node", "edge","caption"].forEach (t)->
+            graphElements[t].filter(".#{box.name}")
+             .attr("class", "#{t} #{box.name} #{state}")
 
-        [edges, nodes].forEach (t)->
-            t.filter(".#{box.name}")
-             .attr("class", "#{box.name} #{state}")
-
-    for node in nodes.filter(".inactive")[0]
-        edges.filter("[id*='#{node.id[7..13]}']")
+    for node in graphElements["node"].filter(".inactive")[0]
+        graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
              .classed({"inactive":true, "active": false})
 
     # edges.classed('search-match', (d) ->
