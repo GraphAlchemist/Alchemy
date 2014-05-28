@@ -9,7 +9,9 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
                     .on('click', alchemy.interactions.nodeClick)
-                    .call(alchemy.interactions.drag)
+
+    if conf.fixNodes
+        nodeEnter.call(alchemy.interactions.drag)
 
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
