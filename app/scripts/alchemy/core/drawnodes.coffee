@@ -10,7 +10,7 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
                     .on('click', alchemy.interactions.nodeClick)
 
-    if conf.fixNodes
+    if not conf.fixNodes
         nodeEnter.call(alchemy.interactions.drag)
 
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag

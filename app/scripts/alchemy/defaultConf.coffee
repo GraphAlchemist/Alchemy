@@ -13,7 +13,7 @@ defaults =
                          "#f800df", "#ff8d8f",
                          "#ffcd00", "#184fff",
                          "#ff7e00"])
-    fixNodes: true
+    fixNodes: false
     fixRootNodes: false # not implemented
     forceLocked: true
     linkDistance: 2000
