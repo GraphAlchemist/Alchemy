@@ -10,8 +10,14 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
                     .on('click', alchemy.interactions.nodeClick)
 
+    rootNodes = nodeEnter.filter((d) -> return d.node_type == "root")
+    nonRootNodes = nodeEnter.filter((d) -> return d.node_type != "root")
+
     if not conf.fixNodes
-        nodeEnter.call(alchemy.interactions.drag)
+        nonRootNodes.call(alchemy.interactions.drag)
+
+    if not conf.fixRootNodes
+        rootNodes.call(alchemy.interactions.drag)
 
     # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
 
