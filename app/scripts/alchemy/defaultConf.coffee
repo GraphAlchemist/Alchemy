@@ -36,10 +36,11 @@ defaults =
     nodeMouseOver: 'caption' # partially implemented
     nodeOverlap: 20
     nodeRadius: 10 # partially implemented
+    nodeTypes: null
     rootNodeRadius: 15
 
     # Edges
-    #...
+    edgeTypes: null
 
     # Init
     initialScale: 0 #not yet implemented
