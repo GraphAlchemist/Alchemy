@@ -10,8 +10,9 @@
         margin-left: 100px;
     }
 
-    #search-form input {
+    #add-tag {
         width: 300px;
+        display: inline-block;
     }
 
     /*aside {
@@ -183,9 +184,6 @@
         opacity: 0 !important;
     }
 
-    .checkbox-container {
-        display: inline-block;
-    }
 
     // #loading-spinner {
     //     position: absolute;
