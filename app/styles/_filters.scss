@@ -4,20 +4,11 @@
         background-color: rgba(255,255,255,.8);
     }
 
-    #filters fieldset {
-        background-color: rgba(255,255,255,.8);
-        float: left;
-        width: 220px;
-        margin-right: 1em;
-    }
-
-    #filters legend {
-        font-size: 14px;
-        line-height: 2;
-        margin: 0.5em 0;
-    }
-
     #filters h4 {
         cursor: pointer;
         font-size: 1em;
+    }
+
+    #filters li input {
+        opacity: 0;
     }
