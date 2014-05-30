@@ -3,9 +3,6 @@
     @import 'nodes';
     @import 'edges';
     @import 'utils';
-    
-    min-height: 1000px;
-    width: 100%;
 
     #search form {
         z-index: 2;
@@ -43,29 +40,6 @@
 
     /* filters */
 
-    #filters {
-        padding: 0.5em 1em;
-        background-color: rgba(255,255,255,.8);
-    }
-
-    #filters fieldset {
-        background-color: rgba(255,255,255,.8);
-        float: left;
-        width: 220px;
-        margin-right: 1em;
-    }
-
-    #filters legend {
-        font-size: 14px;
-        line-height: 2;
-        margin: 0.5em 0;
-    }
-
-    #filters h4 {
-        cursor: pointer;
-        font-size: 1em;
-    }
-
     #tags input {
         width: 220px;
     }
@@ -102,35 +76,36 @@
 
     /* graph controls */
     #controls-container {
-        position: absolute;
-        top: 60px;
-        left: 300px;
+        position: relative;
+        top: 0;
+        left: 0;
         right: 0;
         z-index: 2;
+        @import 'filters';
     }
 
-    #controls {
-        margin: 10px;
-        position: absolute;
-        z-index: 1;
-        display: inline-block;
-    }
-    #controls button.zoom {
-        position: absolute;
-        left: 0;
-    }
-    #controls #zoom-in {
-        top: 0;
-    }
-    #controls #zoom-out {
-        top: 40px;
-    }
-    #controls #zoom-reset {
-        top: 80px;
-    }
-    #controls #igraph-search-container {
-        margin-left: 50px;
-    }
+    // #controls {
+    //     margin: 10px;
+    //     position: absolute;
+    //     z-index: 1;
+    //     display: inline-block;
+    // }
+    // #controls button.zoom {
+    //     position: absolute;
+    //     left: 0;
+    // }
+    // #controls #zoom-in {
+    //     top: 0;
+    // }
+    // #controls #zoom-out {
+    //     top: 40px;
+    // }
+    // #controls #zoom-reset {
+    //     top: 80px;
+    // }
+    // #controls #igraph-search-container {
+    //     margin-left: 50px;
+    // }
 
     /* basic SVG styles */
 

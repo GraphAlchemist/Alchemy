@@ -1,5 +1,6 @@
 #not working
 if true#conf.showFilters
+    # #old
     filter_html = """
                     <div id="filters">
                         <h4 data-toggle="collapse" data-target="#filters form">
@@ -10,10 +11,10 @@ if true#conf.showFilters
                         </form>
                     </div>
                   """
-    $('#controls-container').prepend(filter_html)
-    $('#filters form')
-        .on('hide.bs.collapse', () -> $('#filters>h4').html('<i class="icon-caret-right"></i> Show Filters'))
-        .on('show.bs.collapse', () -> $('#filters>h4').html('<i class="icon-caret-down"></i> Hide Filters'))
+    d3.select('#controls-container').html(filter_html)
+    d3.select('#filters form')
+        .on('hide.bs.collapse', () -> d3.select('#filters>h4').html('<i class="icon-caret-right"></i> Show Filters'))
+        .on('show.bs.collapse', () -> d3.select('#filters>h4').html('<i class="icon-caret-down"></i> Hide Filters'))
 
     $('#filters form').submit(false)
 
