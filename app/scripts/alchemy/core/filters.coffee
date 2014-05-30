@@ -97,7 +97,7 @@ if true #conf.edgeTypes
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 Nodes<span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" role="menu">
+                            <ul id="rel-dropdown" class="dropdown-menu" role="menu">
                                 <li>Test</li>
                             </ul>
                        </div>
@@ -119,7 +119,7 @@ if true #conf.nodeTypes
                             <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                                 Nodes<span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" role="menu">
+                            <ul id="node-dropdown" class="dropdown-menu" role="menu">
                                 <li>Test</li>
                             </ul>
                        </div>
@@ -233,18 +233,14 @@ fixNodesTags = (nodes, edges) ->
     if 'nodeTypes' of conf
         nodeKey = Object.keys(conf.nodeTypes)
 
-        $('#filter-nodes').append('<fieldset id="filter-nodes-show-only"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
         for t in conf.nodeTypes[nodeKey]
             # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
-            checkboxes += "<div class='checkbox-container'><label class='checkbox' data-toggle='tooltip'><input type='checkbox' name='#{t}' checked>#{l}</label></div>"
-        $('#filter-nodes label, #filter-nodes br').remove()
-        $('#filter-nodes-show-only').append(checkboxes)
-        $('#filter-nodes input').click(updateFilters)
+            checkboxes += "<li><input type='checkbox' name='#{t}' checked>#{l}</input></li>"
+        $('#node-dropdown').append(checkboxes)
 
     if 'edgeTypes' of conf
-        $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
         for e in edges
             currentRelationshipTypes[[e].caption] = true
 
@@ -252,9 +248,8 @@ fixNodesTags = (nodes, edges) ->
         for t in conf.edgeTypes
             if not t then continue
             caption = t.replace('_', ' ')
-            checkboxes += "<div class='checkbox-container'><label class='checkbox' data-toggle='tooltip'><input type='checkbox' name='#{t}' checked>#{l}</label></div>"        $('#filter-relationships label, #filter-relationships br').remove()
-        $('#filter-relationships-show-only').append(checkboxes)
-        $('#filter-relationships input').click(updateFilters)
+            checkboxes += "<li><input type='checkbox' name='#{t}' checked>#{caption}</input></li>"
+        $('#rel-dropdown').append(checkboxes)
 
     tags = Object.keys(allTags)
     tags.sort()
