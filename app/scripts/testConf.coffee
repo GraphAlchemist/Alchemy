@@ -74,4 +74,7 @@ customConf = _.assign {},
         custom.nodeClick(d, window.alchemyConf.bio_url)
     nodeTypes: {"node_type":["movie", "award", "person"]}
     edgeTypes: ["ACTED_IN", "NOMINATED", "RECEIVED", "PARENT_OF", "PARTNER_OF", "BORN_AT", "PRODUCED"]
+    nodeFilters: true
+    edgeFilters: true
+    
 alchemy.conf = _.assign(alchemy.conf, customConf)
