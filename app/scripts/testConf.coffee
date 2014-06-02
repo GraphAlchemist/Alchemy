@@ -65,7 +65,7 @@ custom.mouseOut = (d) ->
                 .remove()
 
 customConf = _.assign {},
-    graphHeight: 1028
+    graphHeight: 800
     graphWidth: 800
     caption: (n) ->
         "#{caption}"

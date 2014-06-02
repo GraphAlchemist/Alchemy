@@ -4,8 +4,8 @@ defaults =
     dataSource: null
 
     # Layout
-    graphHeight: 500
-    graphWidth: 500
+    graphHeight: window.innerHeight
+    graphWidth: window.innerWidth
     alpha: .5
     cluster: true # defaults to false fix to take a string
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
