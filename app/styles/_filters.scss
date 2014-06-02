@@ -12,3 +12,11 @@
     #filters li input {
         opacity: 0;
     }
+
+    .active-label {
+        color: rgba(0,0,0,1);
+    }
+
+    .inactive-label {
+        color: rgba(0,0,0,.4);
+    }
