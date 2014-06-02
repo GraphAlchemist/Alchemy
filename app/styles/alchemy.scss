@@ -4,6 +4,8 @@
     @import 'edges';
     @import 'utils';
 
+    position: relative;
+
     #search form {
         z-index: 2;
         display: inline;

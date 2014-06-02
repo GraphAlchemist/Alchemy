@@ -48,9 +48,9 @@ startGraph = (data) ->
 
     # TODO: fix this in the graph file generating view instead of here
     fixNodesTags(alchemy.nodes, alchemy.edges);
-
     #create SVG
     alchemy.vis = d3.select('.alchemy')
+        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphWidth}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
@@ -58,8 +58,6 @@ startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
-            .attr("width", alchemy.container.width)
-            .attr("height", alchemy.container.height)
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
