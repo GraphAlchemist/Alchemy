@@ -38,11 +38,6 @@ startGraph = (data) ->
         e.source = nodesMap.get(e.source)
         e.target = nodesMap.get(e.target)
 
-    #get graph size
-    # container =
-    #     'width': $(window).width()
-    #     'height': $(window).height()
-
     #API FIXME: allow alternative root node positioning?
     alchemy.layout.positionRootNodes()
 
@@ -50,7 +45,7 @@ startGraph = (data) ->
     fixNodesTags(alchemy.nodes, alchemy.edges);
     #create SVG
     alchemy.vis = d3.select('.alchemy')
-        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphWidth}px")
+        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
