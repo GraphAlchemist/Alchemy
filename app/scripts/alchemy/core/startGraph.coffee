@@ -58,8 +58,8 @@ startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
-            # .attr("width", alchemy.container.width)
-            # .attr("height", alchemy.container.height)
+            .attr("width", alchemy.container.width)
+            .attr("height", alchemy.container.height)
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")

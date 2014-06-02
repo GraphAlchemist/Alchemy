@@ -152,13 +152,9 @@ updateFilters = () ->
 
     for box in checkboxes
         state = if box.checked then "active" else "inactive"
-        
-        if box.checked
-            d3.select("#li-#{box.name}")
-              .classed({'active-label':true, 'inactive-label':false})
-        else
-            d3.select("#li-#{box.name}")
-              .classed({'active-label': false, 'inactive-label':true})
+
+        d3.select("#li-#{box.name}")
+            .classed({'active-label': box.checked, 'inactive-label': !box.checked})
 
         ["node", "edge", "caption"].forEach (t)->
             graphElements[t].filter(".#{box.name}")
