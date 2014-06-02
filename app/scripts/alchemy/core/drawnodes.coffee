@@ -18,7 +18,17 @@ alchemy.drawing.drawnodes = (node) ->
         rootNodes = nodeEnter.filter((d) -> return d.node_type == "root")
         rootNodes.call(alchemy.interactions.drag)
 
-    # if conf.locked then nodeEnter.call node_drag else nodeEnter.call force.drag
+    nodeColours = (d) ->
+        if conf.cluster
+            if isNaN parseInt d.cluster
+                colour = conf.nodeColour
+            else if d.cluster < conf.clusterColours.length
+                colour = conf.clusterColours[d.cluster]
+            else
+                colour = conf.nodeColour
+            "fill: #{colour}; stroke: #{colour};"
+        else
+            ''
 
     nodeEnter
         .append('circle')
@@ -27,23 +37,25 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('r', (d) -> alchemy.utils.nodeSize(d))#app.drawing.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('target-id', (d) -> d.id)
-        .attr('style', (d) -> #TODO - everything should be css
-            if conf.cluster
-                if isNaN parseInt d.cluster
-                    colour = '#EBECE4'
-                else if d.cluster < conf.clusterColours.length
-                    colour = conf.clusterColours[d.cluster]
-                else
-                    ''
-            else if conf.clusterColours
-                if d[conf.colourProperty]? and conf.clusterColours[d[conf.colourProperty]]?
-                    colour = conf.clusterColours[d[conf.colourProperty]]
-                else
-                    colour = conf.clusterColours['default']
-            else
-                ''
-            "fill: #{colour}; stroke: #{colour};"
-            )
+        .attr('style', (d) ->
+            nodeColours(d))
+        # .attr('style', (d) -> #TODO - everything should be css
+        #     if conf.cluster
+        #         if isNaN parseInt d.cluster
+        #             colour = '#EBECE4'
+        #         else if d.cluster < conf.clusterColours.length
+        #             colour = conf.clusterColours[d.cluster]
+        #         else
+        #             ''
+        #     else if conf.clusterColours
+        #         if d[conf.colourProperty]? and conf.clusterColours[d[conf.colourProperty]]?
+        #             colour = conf.clusterColours[d[conf.colourProperty]]
+        #         else
+        #             colour = conf.clusterColours['default']
+        #     else
+        #         ''
+        #     "fill: #{colour}; stroke: #{colour};"
+        #     )
 
     #append caption to the node
     nodeEnter

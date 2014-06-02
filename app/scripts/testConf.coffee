@@ -76,5 +76,7 @@ customConf = _.assign {},
     edgeTypes: ["ACTED_IN", "NOMINATED", "RECEIVED", "PARENT_OF", "PARTNER_OF", "BORN_AT", "PRODUCED"]
     nodeFilters: true
     edgeFilters: true
-    
+    # cluster: true
+    # nodeColour: '#68B9FE'
+
 alchemy.conf = _.assign(alchemy.conf, customConf)
