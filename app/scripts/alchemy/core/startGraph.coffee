@@ -69,7 +69,7 @@ startGraph = (data) ->
         .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance(500))
-        .size([alchemy.container.width, alchemy.container.height])
+        .size([conf.graphWidth, conf.graphHeight])
         .nodes(data.nodes)
         .links(data.edges)
 
