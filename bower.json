@@ -6,7 +6,8 @@
     "d3": "~3.4.1",
     "jqueryui": "~1.10.3",
     "sass-bootstrap": "~3.0.2",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "components-font-awesome": "~4.1.0"
   },
   "devDependencies": {}
 }
