@@ -35,6 +35,9 @@ defaults =
     edgeFilters: false # not currently implemented
     nodeFilters: false
 
+    # Controls
+    zoomControls: true
+
     # Nodes
     nodeCaption: 'caption' #changed key
     nodeColour: null
