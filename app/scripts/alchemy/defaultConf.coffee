@@ -5,7 +5,7 @@ defaults =
 
     # Layout
     alpha: .5
-    cluster: true # defaults to false fix to take a string
+    cluster: false
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
                          "#00FF30", "#5168FF",
                          "#00C0FF", "#FF004B",
@@ -16,6 +16,8 @@ defaults =
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
+    graphHeight: null
+    graphWidth: null
     linkDistance: 2000
     nodePositions: null # not currently implemented
 
@@ -28,11 +30,10 @@ defaults =
     # Filtering
     edgeFilters: false # not currently implemented
     nodeFilters: false
-
-
-
+    
     # Nodes
-    caption: 'caption'
+    nodeCaption: 'caption' #changed key
+    nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
     nodeOverlap: 20
     nodeRadius: 10 # partially implemented
@@ -40,6 +41,7 @@ defaults =
     rootNodeRadius: 15
 
     # Edges
+    edgeCaption: 'caption' # not implemented
     edgeTypes: null
 
     # Init

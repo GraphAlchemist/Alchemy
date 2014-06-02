@@ -1,3 +1,7 @@
+// Alchemy colors
+$blue: #68B9FE;
+$orange: #FDC670;
+
 .alchemy {
     @import 'svg';
     @import 'nodes';
@@ -192,5 +196,3 @@
     //     right: 0;
     // }
 }
-// dirty - lets make a better way
-@import 'tips';
