@@ -149,10 +149,18 @@ updateFilters = () ->
 
     #     match
     # )    
-    console.log(checkboxes)
+
     for box in checkboxes
         state = if box.checked then "active" else "inactive"
-        ["node", "edge","caption"].forEach (t)->
+        
+        if box.checked
+            d3.select("#li-#{box.name}")
+              .classed({'active-label':true, 'inactive-label':false})
+        else
+            d3.select("#li-#{box.name}")
+              .classed({'active-label': false, 'inactive-label':true})
+
+        ["node", "edge", "caption"].forEach (t)->
             graphElements[t].filter(".#{box.name}")
              .attr("class", "#{t} #{box.name} #{state}")
 
@@ -217,7 +225,7 @@ fixNodesTags = (nodes, edges) ->
         for t in conf.nodeTypes[nodeKey]
             # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
-            checkboxes += "<li><label><input type='checkbox' class='btn btn-default' name='#{t}' checked>#{l}</label></li>"
+            checkboxes += "<li id='li-#{t}'><label><input type='checkbox' name='#{t}' checked>#{l}</label></li>"
         $('#node-dropdown').append(checkboxes)
         $('#node-dropdown input').click(updateFilters)
 
@@ -229,7 +237,7 @@ fixNodesTags = (nodes, edges) ->
         for t in conf.edgeTypes
             if not t then continue
             caption = t.replace('_', ' ')
-            checkboxes += "<li><label><input type='checkbox' name='#{t}' checked>#{caption}</label></li>"
+            checkboxes += "<li id='li-#{t}'><label><input type='checkbox' name='#{t}' checked>#{caption}</label></li>"
         $('#rel-dropdown').append(checkboxes)
         $('#rel-dropdown input').click(updateFilters)
 
