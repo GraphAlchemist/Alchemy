@@ -70,7 +70,7 @@ addTag = (event, ui) ->
     event.preventDefault()
 
 #create tag box and tags
-if true #conf.tagsProperty
+if conf.tagsProperty
     tag_html = """
                     <input type="text" id="add-tag" class="form-control" placeholder="search for tags" data-toggle="tooltip" title="tags">
                """
