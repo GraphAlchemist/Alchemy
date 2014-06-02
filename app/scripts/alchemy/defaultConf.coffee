@@ -36,6 +36,7 @@ defaults =
     nodeFilters: false
 
     # Controls
+    controlOrientation: 'vertical'
     zoomControls: true
 
     # Nodes
