@@ -10,7 +10,6 @@ defaults =
             return window.innerHeight
         else 
             return d3.select(".alchemy").node().parentElement.clientHeight
-   
     alpha: .5
     cluster: false
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
@@ -23,8 +22,6 @@ defaults =
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
-    graphHeight: null
-    graphWidth: null
     linkDistance: 2000
     nodePositions: null # not currently implemented
 
