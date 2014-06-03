@@ -10,12 +10,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css styles/vendor.css -->
+        <!-- build:css({.tmp,app}) styles/vendor.css -->
         <!-- bower:css -->
         <link rel="stylesheet" href="bower_components/sass-bootstrap/dist/css/bootstrap.css">
         <!-- endbower -->
         <!-- endbuild -->
-        <!-- build:css(.tmp) styles/alchemy.min.css -->
+        <!-- build:css({.tmp,app}) styles/alchemy.min.css -->
         <link rel="stylesheet" href="styles/alchemy.css">
         <!-- endbuild -->
     </head>
@@ -28,7 +28,7 @@
             <div id="controls-container"></div>
         </div>
 
-        <!-- build:js scripts/vendor.js -->
+        <!-- build:js({.tmp,app}) scripts/vendor.js -->
         <!-- bower:js -->
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/lodash/dist/lodash.js"></script>
