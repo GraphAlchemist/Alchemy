@@ -1,4 +1,4 @@
-startGraph = (data) ->
+alchemy.startGraph = (data) ->
     # see if data is ok
     if not data
         # allow for user specified error

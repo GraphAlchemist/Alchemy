@@ -1,4 +1,5 @@
 {
+    "comment": "A fake Linkedin network as GraphJSON",
     "edges": [
         {
             "source": "Y6DoWZTf9a",

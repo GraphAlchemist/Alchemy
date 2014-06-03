@@ -34,7 +34,7 @@ alchemy.drawing.drawnodes = (node) ->
         .append('circle')
         .attr('class', (d) -> "#{d.node_type} active")
         .attr('id', (d) -> "circle-#{d.id}")
-        .attr('r', (d) -> alchemy.utils.nodeSize(d))#app.drawing.nodeSize(d))
+        .attr('r', (d) -> alchemy.utils.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('target-id', (d) -> d.id)
         .attr('style', (d) ->
@@ -63,5 +63,5 @@ alchemy.drawing.drawnodes = (node) ->
         #.text((d) -> d.caption)
         .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "text-#{d.id}")
-        .attr('dy', (d) -> if d.node_type is 'root' then rootNodeRadius / 2 else nodeRadius * 2 - 5)
+        .attr('dy', (d) -> if d.node_type is 'root' then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
         .text((d) -> alchemy.utils.nodeText(d))
