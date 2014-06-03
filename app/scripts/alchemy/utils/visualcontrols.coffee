@@ -1,7 +1,6 @@
 #not currently implemented
-alchemy.visControls = () ->
-    
-    @visControls.getCurrentViewParams = () ->
+alchemy.visControls =
+    getCurrentViewParams : () ->
         #return array with current translation & scale settings
         params = $('#graph > g').attr('transform')
         if not params
@@ -14,29 +13,39 @@ alchemy.visControls = () ->
             params
 
     #graph control actions
-    @zoomIn = () ->
+    zoomIn : () ->
         #google analytics event tracking -  keep?
         #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'zoom', 'in']);
         vis = alchemy.vis
-        params = visControls.getCurrentViewParams()
+        params = this.getCurrentViewParams()
         x = params[0]
         y = params[1]
         level = parseFloat(params[2]) * 1.2
         vis.attr('transform', "translate(#{ x }, #{ y }) scale(#{level})")
         zoom.translate([x, y]).scale(level)
 
-    @zoomOut = () ->
+    clickZoomIn : () ->
+        vis = alchemy.vis
+        x = 0
+        y = 0
+        level = parseFloat(1 * 1.2)
+        vis.attr('tranform', "translate(#{x}, #{y}) scale(#{level})")
+
+        d3.behavior.zoom.translate([x,y]).scale(level)
+
+
+    zoomOut : () ->
          #google analytics
          #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'zoom', 'out']);
          vis = alchemy.vis
-         params = visControls.getCurrentViewParams()
+         params = this.getCurrentViewParams()
          x = params[0]
          y = params[1]
          level = parseFloat(params[2]) / 1.2
          vis.attr('transform', "translate(#{ x }, #{ y }) scale(#{level})")
          zoom.translate([x, y]).scale(level)
 
-    @zoomReset = () ->
+    zoomReset : () ->
         #google analytics old
         #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'reset', 'reset']);
         alchemy.vis
@@ -56,6 +65,6 @@ alchemy.visControls = () ->
         vis.attr('transform', "translate(#{ x }, #{ y }) scale(1)")
         zoom.translate([x, y]).scale(1)
 
-    $('#zoom-in').click(zoomIn)
-    $('#zoom-out').click(zoomOut)
-    $('#zoom-reset').click(zoomReset)
+$('#zoom-in').click(alchemy.visControls.clickZoomIn)
+# $('#zoom-out').click(alchemy.visControls.zoomOut)
+# $('#zoom-reset').click(alchemy.visControls.zoomReset)
