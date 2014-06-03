@@ -208,7 +208,7 @@ fixNodesTags = (nodes, edges) ->
 
     updateCaptions()
     
-    if 'nodeTypes' of conf
+    if conf.nodeTypes
         nodeKey = Object.keys(conf.nodeTypes)
 
         $('#filter-nodes').append('<fieldset id="filter-nodes-show-only"><legend>Show Only</legend></fieldset>')
@@ -228,7 +228,7 @@ fixNodesTags = (nodes, edges) ->
         $('#filter-nodes-show-only').append(checkboxes)
         $('#filter-nodes input').click(updateFilters)
 
-    if 'edgeTypes' of conf
+    if conf.edgeTypes
         $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
         for e in edges
             currentRelationshipTypes[[e].caption] = true
