@@ -1,18 +1,12 @@
 class Alchemy
     constructor: (@conf) ->   
+        @version = "0.1.0"
         @layout = {}
         @interactions = {}
         @utils = {}
         @visControls = {}
         @styles = {}
         @drawing = {}
-
-#this is establishing local variables for things that have been configured... 
-#This may be redundant
-linkDistance = conf.linkDistance
-rootNodeRadius = conf.rootNodeRadius
-nodeRadius = conf.nodeRadius
-initialComputationDone = false
 
 graph_elem = $('#graph')
 igraph_search = $('#igraph-search')

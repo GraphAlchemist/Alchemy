@@ -30,7 +30,7 @@ defaults =
     # Filtering
     edgeFilters: false # not currently implemented
     nodeFilters: false
-    
+
     # Nodes
     nodeCaption: 'caption' #changed key
     nodeColour: null
@@ -42,6 +42,7 @@ defaults =
 
     # Edges
     edgeCaption: 'caption' # not implemented
+    edgeColour: null
     edgeTypes: null
 
     # Init
