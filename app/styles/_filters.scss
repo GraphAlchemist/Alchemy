@@ -20,4 +20,12 @@
     cursor: pointer;
     font-size: 1em;
     }
+
+    .active-label {
+        color: rgba(0,0,0,1);
+    }
+
+    .inactive-label {
+        color: rgba(0,0,0,.4);
+    }
 }

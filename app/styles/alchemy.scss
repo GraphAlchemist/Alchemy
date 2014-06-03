@@ -8,14 +8,17 @@ $orange: #FDC670;
     @import 'edges';
     @import 'utils';
 
+    position: relative;
+
     #search form {
         z-index: 2;
         display: inline;
         margin-left: 100px;
     }
 
-    #search-form input {
+    #add-tag {
         width: 300px;
+        display: inline-block;
     }
 
     /*aside {
@@ -45,7 +48,7 @@ $orange: #FDC670;
     /* filters */
 
     #tags input {
-        width: 220px;
+        max-width: 220px;
     }
 
     #tags-list {
@@ -187,9 +190,6 @@ $orange: #FDC670;
         opacity: 0 !important;
     }
 
-    .checkbox-container {
-        display: inline-block;
-    }
 
     // #loading-spinner {
     //     position: absolute;

@@ -70,13 +70,9 @@ addTag = (event, ui) ->
     event.preventDefault()
 
 #create tag box and tags
-if true #conf.tagsProperty
+if conf.tagsProperty
     tag_html = """
-                <fieldset id="tags">
-                    <legend>Tags:</legend>
-                    <input type="text" id="add-tag" placeholder="search for tags in graph" data-toggle="tooltip" title="tags">
-                    <ul id="tags-list" class="unstyled"></ul>
-                </fieldset>
+                    <input type="text" id="add-tag" class="form-control" placeholder="search for tags" data-toggle="tooltip" title="tags">
                """
     $('#filters form').append(tag_html)
     $('#add-tag').autocomplete({select: addTag, minLength: 0})
@@ -86,22 +82,28 @@ if true #conf.tagsProperty
 #create relationship filters
 if true #conf.edgeTypes
     rel_filter_html = """
-                        <fieldset id="filter-relationships">
-                            <legend>Filter Relationships 
-                                <button class="toggle">Toggle All</button>
-                            </legend>
-                        </fieldset>
-                      """
+                       <div id="filter-relationships" class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Edges<span class="caret"></span>
+                            </button>
+                            <ul id="rel-dropdown" class="dropdown-menu" role="menu">
+                            </ul>
+                       </div>
+
+                       """
     $('#filters form').append(rel_filter_html)
 
 #create node filters
 if true #conf.nodeTypes
     node_filter_html = """
-                        <fieldset id="filter-nodes">
-                            <legend>Filter Nodes 
-                                <button class="toggle">Toggle All</button>
-                            </legend>
-                        </fieldset>
+                       <div id="filter-nodes" class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                Nodes<span class="caret"></span>
+                            </button>
+                            <ul id="node-dropdown" class="dropdown-menu" role="menu">
+                            </ul>
+                       </div>
+
                        """
     $('#filters form').append(node_filter_html)
 
@@ -150,7 +152,11 @@ updateFilters = () ->
 
     for box in checkboxes
         state = if box.checked then "active" else "inactive"
-        ["node", "edge","caption"].forEach (t)->
+
+        d3.select("#li-#{box.name}")
+            .classed({'active-label': box.checked, 'inactive-label': !box.checked})
+
+        ["node", "edge", "caption"].forEach (t)->
             graphElements[t].filter(".#{box.name}")
              .attr("class", "#{t} #{box.name} #{state}")
 
@@ -211,22 +217,13 @@ fixNodesTags = (nodes, edges) ->
     if conf.nodeTypes
         nodeKey = Object.keys(conf.nodeTypes)
 
-        $('#filter-nodes').append('<fieldset id="filter-nodes-show-only"><legend>Show Only</legend></fieldset>')
         checkboxes = ''
-        column = 0
         for t in conf.nodeTypes[nodeKey]
             # if not currentNodeTypes[t] then continue
             l = t.replace('_', ' ')
-            # checked = $('#filter-nodes input[name="' + t + '"]:checked').length ? ' checked' : ''
-            checked = " checked"
-            column++
-            checkboxes += '<div class="checkbox-container"><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + checked + '> ' + l + '</label></div>'
-
-            #check boxes should create a column of 3
-            if column % 3 == 0 then checkboxes += '<br>'
-        $('#filter-nodes label, #filter-nodes br').remove()
-        $('#filter-nodes-show-only').append(checkboxes)
-        $('#filter-nodes input').click(updateFilters)
+            checkboxes += "<li id='li-#{t}'><label><input type='checkbox' name='#{t}' checked>#{l}</label></li>"
+        $('#node-dropdown').append(checkboxes)
+        $('#node-dropdown input').click(updateFilters)
 
     if conf.edgeTypes
         $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
@@ -234,16 +231,12 @@ fixNodesTags = (nodes, edges) ->
             currentRelationshipTypes[[e].caption] = true
 
         checkboxes = ''
-        column = 0
         for t in conf.edgeTypes
             if not t then continue
             caption = t.replace('_', ' ')
-            checkboxes += '<div class="checkbox-container><label class="checkbox" data-toggle="tooltip"><input type="checkbox" name="' + t + '"' + 'checked> ' + caption + '</label></div>'
-            column++
-            if column % 3 == 0 then checkboxes += '<br>'
-        $('#filter-relationships label, #filter-relationships br').remove()
-        $('#filter-relationships-show-only').append(checkboxes)
-        $('#filter-relationships input').click(updateFilters)
+            checkboxes += "<li id='li-#{t}'><label><input type='checkbox' name='#{t}' checked>#{caption}</label></li>"
+        $('#rel-dropdown').append(checkboxes)
+        $('#rel-dropdown input').click(updateFilters)
 
     tags = Object.keys(allTags)
     tags.sort()

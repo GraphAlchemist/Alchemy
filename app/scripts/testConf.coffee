@@ -65,6 +65,8 @@ custom.mouseOut = (d) ->
                 .remove()
 
 customConf = _.assign {},
+    # graphHeight: 500
+    # graphWidth: 500
     caption: (n) ->
         "#{caption}"
     dataSource: '/sample_data/charlize.json'
