@@ -4,12 +4,12 @@ defaults =
     dataSource: null
 
     # Layout
-    graphWidth: $("#graph").parent().width()
+    graphWidth: d3.select(".alchemy").node().parentElement.clientWidth
     graphHeight: () ->
-        if $("#graph").parent().prop("tagName") == "BODY"
+        if d3.select(".alchemy").node().parentElement.nodeName == "BODY"
             return window.innerHeight
         else 
-            return $("#graph").parent().height()
+            return d3.select(".alchemy").node().parentElement.clientHeight
    
     alpha: .5
     cluster: true # defaults to false fix to take a string
