@@ -45,7 +45,7 @@ startGraph = (data) ->
     fixNodesTags(alchemy.nodes, alchemy.edges);
     #create SVG
     alchemy.vis = d3.select('.alchemy')
-        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight}px")
+        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight()}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
@@ -69,7 +69,7 @@ startGraph = (data) ->
         .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance(500))
-        .size([conf.graphWidth, conf.graphHeight])
+        .size([conf.graphWidth, conf.graphHeight()])
         .nodes(data.nodes)
         .links(data.edges)
 
