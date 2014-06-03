@@ -105,19 +105,6 @@ module.exports = (grunt) ->
     
     # Compiles CoffeeScript to JavaScript
     coffee: AlchemyTasks.CoffeeTask
-      # dist:
-      #   options:
-      #     bare: false
-      #     sourceMap: true
-      #   files:
-      #     # all of the files used in testing and development - configuration, etc.
-      #     ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
-      #     # all of the core, alchemy.js files
-      #     ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/defaultConf.coffee"
-      #                                 ".tmp/scripts/alchemy/start.coffee"
-      #                                 ".tmp/scripts/alchemy/*/*.{coffee,litcoffee,coffee.md}"
-      #                                 ".tmp/scripts/alchemy/end.coffee"]
-
       test:
         files: [
           expand: true
@@ -255,7 +242,18 @@ module.exports = (grunt) ->
     uglify:
       dist:
         files: [
-          dest: '<%= yeoman.dist %>/scripts/alchemy.min.js'
+          {
+            dest: '<%= yeoman.dist %>/scripts/alchemy.min.js'
+            src: '.tmp/concat/scripts/alchemy.js'
+          }
+          {
+            dest: '<%= yeoman.dist %>/scripts/vendor.js'
+            src: '.tmp/concat/scripts/vendor.js'
+          }
+        ]
+      buildjs: 
+        files: [
+          dest: '<%= yeoman.dist %>/alchemy.min.js'
           src: '.tmp/concat/scripts/alchemy.js'
         ]
 
@@ -271,7 +269,7 @@ module.exports = (grunt) ->
             src: "{app,.tmp}/scripts/alchemy.js"
           }
           {
-            dest: 'dist/styles/alchemy.css'
+            dest: '<%= yeoman.dist %>/styles/alchemy.css'
             src: '.tmp/styles/alchemy.css'
           }
         ]
@@ -293,7 +291,7 @@ module.exports = (grunt) ->
           dot: true
           cwd: "<%= yeoman.app %>"
           dest: "<%= yeoman.dist %>"
-          src: ["*.{ico,png,txt}", ".htaccess", "images/{,*/}*.webp", "{,*/}*.html", "styles/fonts/{,*/}*.*"]
+          src: ["*.{ico,png,txt}", "images/{,*/}*.webp", "{,*/}*.html", "styles/fonts/{,*/}*.*", "sample_data/{,*/}*.json"]
         ]
 
       styles:
@@ -308,6 +306,15 @@ module.exports = (grunt) ->
           "<%= yeoman.django_path %>/js/alchemy/main.js":"dist/scripts/main.js"
           "<%= yeoman.django_path %>/js/alchemy/vendor.js":"dist/scripts/vendor.js"
           "<%= yeoman.django_path %>/css/alchemy/main.css":"dist/styles/main.css"
+
+      # buildjs:
+      #   files: [
+      #     expand: true
+      #     dot: true
+      #     cwd: "<%= yeoman.app %>"
+      #     dest: "<%= yeoman.dist %>"
+      #     src: ["styles/fonts/{,*/}*.*"]
+      #   ]
 
     concurrent:
       # Run some tasks in parallel to speed up build process
@@ -327,7 +334,8 @@ module.exports = (grunt) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     grunt.task.run ["connect:test", "mocha"]
 
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify", "copy:dist"]#, "rev", "usemin", "htmlmin"]
+  grunt.registerTask "build", ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify:dist", "copy:dist", "rev", "usemin", "htmlmin"]
   grunt.registerTask "default", ["newer:jshint", "test", "build"]
 
-  grunt.registerTask 'django', ['build', 'copy:django']
+  #same as `build` but leaves out html
+  grunt.registerTask 'buildjs', ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify:buildjs"]

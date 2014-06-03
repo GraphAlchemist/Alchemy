@@ -1,4 +1,4 @@
-startGraph = (data) ->
+alchemy.startGraph = (data) ->
     # see if data is ok
     if not data
         # allow for user specified error
@@ -38,10 +38,6 @@ startGraph = (data) ->
         e.source = nodesMap.get(e.source)
         e.target = nodesMap.get(e.target)
 
-    #get graph size
-    # container =
-    #     'width': $(window).width()
-    #     'height': $(window).height()
 
     #API FIXME: allow alternative root node positioning?
     alchemy.layout.positionRootNodes()
