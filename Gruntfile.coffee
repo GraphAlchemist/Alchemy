@@ -47,7 +47,6 @@ module.exports = (grunt) ->
           livereload: "<%= connect.options.livereload %>"
 
         files: ["<%= yeoman.app %>/{,*/}*.html", ".tmp/styles/{,*/}*.css", ".tmp/scripts/{,*/}*.js", "<%= yeoman.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}"]
-
     
     # The actual grunt server settings
     connect:
@@ -229,16 +228,13 @@ module.exports = (grunt) ->
     # By default, your `index.html`'s <!-- Usemin block --> will take care of
     # minification. These next options are pre-configured if you do not wish
     # to use the Usemin blocks.
-    # cssmin: {
-    #     dist: {
-    #         files: {
-    #             '<%= yeoman.dist %>/styles/main.css': [
-    #                 '.tmp/styles/{,*/}*.css',
-    #                 '<%= yeoman.app %>/styles/{,*/}*.css'
-    #             ]
-    #         }
-    #     }
-    # },
+    cssmin:
+      buildAlchemy:
+        files: [
+          '<%= yeoman.dist %>/alchemy.min.css': '.tmp/concat/styles/alchemy.min.css'
+          '<%= yeoman.dist %>/styles/vendor.css': '.tmp/concat/styles/vendor.css'
+              ]
+      
     uglify:
       dist:
         files: [
@@ -251,10 +247,16 @@ module.exports = (grunt) ->
             src: '.tmp/concat/scripts/vendor.js'
           }
         ]
-      buildjs: 
+      buildAlchemy: 
         files: [
-          dest: '<%= yeoman.dist %>/alchemy.min.js'
-          src: '.tmp/concat/scripts/alchemy.js'
+          {
+            dest: '<%= yeoman.dist %>/alchemy.min.js'
+            src: '.tmp/concat/scripts/alchemy.js'
+          }
+          {
+            dest: '<%= yeoman.dist %>/scripts/vendor.js'
+            src: '.tmp/concat/scripts/vendor.js'
+          }
         ]
 
     concat:
@@ -270,6 +272,22 @@ module.exports = (grunt) ->
           }
           {
             dest: '<%= yeoman.dist %>/styles/alchemy.css'
+            src: '.tmp/styles/alchemy.css'
+          }
+        ]
+      
+      buildAlchemy:
+        files: [
+          {
+            dest: ".tmp/concat/scripts/alchemy.js"
+            src: "{app,.tmp}/scripts/alchemy.js"
+          }
+          {
+            dest: '<%= yeoman.dist %>/alchemy.js'
+            src: "{app,.tmp}/scripts/alchemy.js"
+          }
+          {
+            dest: '<%= yeoman.dist %>/alchemy.css'
             src: '.tmp/styles/alchemy.css'
           }
         ]
@@ -307,20 +325,12 @@ module.exports = (grunt) ->
           "<%= yeoman.django_path %>/js/alchemy/vendor.js":"dist/scripts/vendor.js"
           "<%= yeoman.django_path %>/css/alchemy/main.css":"dist/styles/main.css"
 
-      # buildjs:
-      #   files: [
-      #     expand: true
-      #     dot: true
-      #     cwd: "<%= yeoman.app %>"
-      #     dest: "<%= yeoman.dist %>"
-      #     src: ["styles/fonts/{,*/}*.*"]
-      #   ]
-
     concurrent:
       # Run some tasks in parallel to speed up build process
       server: ["compass:server", "coffee:dist", "copy:styles"]
       test: ["coffee", "copy:styles"]
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
+      buildAlchemy: ["coffee", "compass", "copy:styles"]
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
@@ -334,8 +344,19 @@ module.exports = (grunt) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     grunt.task.run ["connect:test", "mocha"]
 
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify:dist", "copy:dist", "rev", "usemin", "htmlmin"]
+  grunt.registerTask "build", ["clean:dist", "useminPrepare", 
+                               "copy:coffee", "concurrent:dist", 
+                               "autoprefixer", "concat:dist", 
+                               "concat:generated", "cssmin", 
+                               "uglify:dist", "copy:dist", 
+                               "rev", "usemin", 
+                               "htmlmin"]
+
   grunt.registerTask "default", ["newer:jshint", "test", "build"]
 
-  #same as `build` but leaves out html
-  grunt.registerTask 'buildjs', ["clean:dist", "useminPrepare", "copy:coffee", "concurrent:dist", "autoprefixer", "concat", "cssmin", "uglify:buildjs"]
+  #same as `build` but builds Alchemy for distribution
+  grunt.registerTask 'buildAlchemy', ["clean:dist", "useminPrepare", 
+                                      "copy:coffee", "concurrent:buildAlchemy", 
+                                      "autoprefixer", "concat:buildAlchemy", 
+                                      "concat:generated", "cssmin:buildAlchemy", 
+                                      "uglify:buildAlchemy"]
