@@ -4,8 +4,13 @@ defaults =
     dataSource: null
 
     # Layout
-    graphHeight: window.innerHeight
-    graphWidth: window.innerWidth
+    graphWidth: $("#graph").parent().width()
+    graphHeight: () ->
+        if $("#graph").parent().prop("tagName") == "BODY"
+            return window.innerHeight
+        else 
+            return $("#graph").parent().height()
+   
     alpha: .5
     cluster: true # defaults to false fix to take a string
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
