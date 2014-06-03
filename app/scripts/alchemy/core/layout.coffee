@@ -118,20 +118,20 @@ alchemy.layout =
             rootNodes[0].px = container.width / 2
             rootNodes[0].py = container.height / 2
             rootNodes[0].fixed = fixRootNodes
-            rootNodes[0].r = rootNodeRadius
+            rootNodes[0].r = conf.rootNodeRadius
         else
             rootNodes[0].x = container.width * 0.25
             rootNodes[0].y = container.height / 2
             rootNodes[0].px = container.width * 0.25
             rootNodes[0].py = container.height / 2
             rootNodes[0].fixed = fixRootNodes
-            rootNodes[0].r = rootNodeRadius
+            rootNodes[0].r = conf.rootNodeRadius
             rootNodes[1].x = container.width * 0.75
             rootNodes[1].y = container.height / 2
             rootNodes[1].px = container.width * 0.75
             rootNodes[1].py = container.height / 2
             rootNodes[1].fixed = fixRootNodes
-            rootNodes[1].r = rootNodeRadius
+            rootNodes[1].r = conf.rootNodeRadius
 
     #position the nodes
     positionNodes: (nodes, x, y) ->
