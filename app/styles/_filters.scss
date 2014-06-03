@@ -1,24 +1,14 @@
-
 #filters {
     padding: 0.5em 1em;
     background-color: rgba(255,255,255,.8);
 
-    fieldset {
-    background-color: rgba(255,255,255,.8);
-    float: left;
-    width: 220px;
-    margin-right: 1em;
+    h4 {
+        cursor: pointer;
+        font-size: 1em;
     }
 
-    legend {
-    font-size: 14px;
-    line-height: 2;
-    margin: 0.5em 0;
-    }   
- 
-    h4 {
-    cursor: pointer;
-    font-size: 1em;
+    li input {
+        opacity: 0;
     }
 
     .active-label {
