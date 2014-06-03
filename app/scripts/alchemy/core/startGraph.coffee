@@ -38,19 +38,14 @@ startGraph = (data) ->
         e.source = nodesMap.get(e.source)
         e.target = nodesMap.get(e.target)
 
-    #get graph size
-    # container =
-    #     'width': $(window).width()
-    #     'height': $(window).height()
-
     #API FIXME: allow alternative root node positioning?
     alchemy.layout.positionRootNodes()
 
     # TODO: fix this in the graph file generating view instead of here
     fixNodesTags(alchemy.nodes, alchemy.edges);
-
     #create SVG
     alchemy.vis = d3.select('.alchemy')
+        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight()}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
@@ -58,8 +53,6 @@ startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
-            # .attr("width", alchemy.container.width)
-            # .attr("height", alchemy.container.height)
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
@@ -76,7 +69,7 @@ startGraph = (data) ->
         .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance(500))
-        .size([alchemy.container.width, alchemy.container.height])
+        .size([conf.graphWidth, conf.graphHeight()])
         .nodes(data.nodes)
         .links(data.edges)
 

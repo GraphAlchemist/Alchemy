@@ -4,6 +4,13 @@ defaults =
     dataSource: null
 
     # Layout
+    graphWidth: d3.select(".alchemy").node().parentElement.clientWidth
+    graphHeight: () ->
+        if d3.select(".alchemy").node().parentElement.nodeName == "BODY"
+            return window.innerHeight
+        else 
+            return d3.select(".alchemy").node().parentElement.clientHeight
+   
     alpha: .5
     cluster: false
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
