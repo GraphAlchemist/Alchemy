@@ -2,7 +2,12 @@
 alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter = node.enter().append("g")
-                    .attr('class', (d) -> "node #{if d.category? then d.category.join ' ' else ''}")
+                    .attr("class", (d) ->
+                        if conf.nodeTypes
+                            nodeType = d[Object.keys(conf.nodeTypes)]
+                            "node #{nodeType}"
+                        else
+                            "node")
                     .attr('id', (d) -> "node-#{d.id}")
                     .on('mousedown', (d) -> d.fixed = true)
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
@@ -32,7 +37,7 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter
         .append('circle')
-        .attr('class', (d) -> "#{d.node_type} active")
+        # .attr('class', (d) -> "#{d.node_type} active")
         .attr('id', (d) -> "circle-#{d.id}")
         .attr('r', (d) -> alchemy.utils.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
@@ -61,7 +66,7 @@ alchemy.drawing.drawnodes = (node) ->
     nodeEnter
         .append('svg:text')
         #.text((d) -> d.caption)
-        .attr('class', (d) -> d.node_type)
+        # .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if d.node_type is 'root' then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
         .text((d) -> alchemy.utils.nodeText(d))
