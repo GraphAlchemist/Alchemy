@@ -226,7 +226,6 @@ fixNodesTags = (nodes, edges) ->
         $('#node-dropdown input').click(updateFilters)
 
     if conf.edgeTypes
-        $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
         for e in edges
             currentRelationshipTypes[[e].caption] = true
 
