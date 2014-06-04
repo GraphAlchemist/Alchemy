@@ -126,9 +126,8 @@ updateFilters = () ->
     checkboxes = $("[type='checkbox']")
     relationshipTypeList = $('#filter-relationships :checked')
     graphElements = {
-        "node" : vis.selectAll('circle'),
+        "node" : vis.selectAll('g'),
         "edge" : vis.selectAll('line'),
-        "caption" : vis.selectAll('text')
     }
     # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
     #     active = true
@@ -156,7 +155,7 @@ updateFilters = () ->
         d3.select("#li-#{box.name}")
             .classed({'active-label': box.checked, 'inactive-label': !box.checked})
 
-        ["node", "edge", "caption"].forEach (t)->
+        ["node", "edge"].forEach (t)->
             graphElements[t].filter(".#{box.name}")
              .attr("class", "#{t} #{box.name} #{state}")
 
@@ -226,7 +225,6 @@ fixNodesTags = (nodes, edges) ->
         $('#node-dropdown input').click(updateFilters)
 
     if conf.edgeTypes
-        $('#filter-relationships').append('<fieldset id="filter-relationships-show-only"><legend>Show Only</legend></fieldset>')
         for e in edges
             currentRelationshipTypes[[e].caption] = true
 
