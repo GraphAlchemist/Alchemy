@@ -6,3 +6,5 @@ app/sample_data
 app/scripts/testConf.coffee
 test/bower_components
 dist/
+ToDo.md
+app/scripts/alchemy/.DS_Store
