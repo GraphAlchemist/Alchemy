@@ -174,11 +174,8 @@ alchemy.interactions =
                  .on "zoom", ->
                     graph = d3.select(".alchemy svg g")
                     currTransform = graph.attr("transform")
-                                        .replace(/[a-zA-Z()]/g, "")
-                                        .split(/[\s,]/)
-                                        .map( (a) -> 
-                                            return parseFloat(a) 
-                                        )
+                                        .match(/(-*\d+\.*\d*)/g)
+                                        .map( (a) -> return parseFloat(a) )
                     graph
                       .attr("transform","translate(#{currTransform[0]},#{currTransform[1]}) scale(#{currTransform[2]+0.28})")
                       return
