@@ -170,7 +170,6 @@ alchemy.interactions =
                             currTransform = graph.attr("transform")
                                         .match(/(-*\d+\.*\d*)/g)
                                         .map( (a) -> return parseFloat(a) )
-                            # d3.event.scale
                             graph
                               .attr("transform","translate(#{ d3.event.translate}) scale(#{ currTransform[2] })")
                             return
