@@ -1,0 +1,24 @@
+#zoom-controls {
+    z-index: 1;
+    position: relative;
+
+    color: #333;
+}
+
+#zoom-controls button {
+    margin: 12px 12px 6px 6px;
+}
+
+#zoom-controls.horizontal {
+    display: inline-block;
+}
+
+#zoom-controls.vertical {
+    display: block;
+    width: 30px;
+}
+
+i {
+    color: #E89619;    
+}
+

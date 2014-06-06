@@ -1,5 +1,6 @@
 #not working
-if true#conf.showFilters
+
+if conf.showFilters
     # #old
     filter_html = """
                     <div id="filters">
