@@ -53,6 +53,7 @@ alchemy.startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
+                .attr("transform","translate(0,0) sale(1)")
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
