@@ -179,7 +179,12 @@ alchemy.interactions =
                     currTransform = graph.attr("transform")
                                            .match(/(-*\d+\.*\d*)/g)
                                            .map( (a) -> return parseFloat(a) )
+                    id = this.id
                     graph
-                        .attr("transform", "translate(#{currTransform[0]},#{currTransform[1]}) scale(" + 
-                            ( if this.id == "zoom-in" then "#{ currTransform[2]+0.3 })" else "#{ currTransform[2]-0.3 })" ))
-                    return
+                        .attr("transform", ->
+                            if id == "zoom-in"
+                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]+0.3 })" 
+                                
+                            else 
+                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]-0.3 })" 
+                            )
