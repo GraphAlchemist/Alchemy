@@ -173,13 +173,17 @@ alchemy.interactions =
                             graph
                               .attr("transform","translate(#{ d3.event.translate}) scale(#{ currTransform[2] })")
                             return
-    clickZoom: d3.behavior.zoom()
-                 .scaleExtent [0.28, 2]
-                 .on "zoom", ->
-                    graph = d3.select(".alchemy svg g")
-                    currTransform = graph.attr("transform")
-                                        .match(/(-*\d+\.*\d*)/g)
-                                        .map( (a) -> return parseFloat(a) )
-                    graph
-                      .attr("transform","translate(#{currTransform[0]},#{currTransform[1]}) scale(#{currTransform[2]+0.28})")
-                      return
+
+    clickZoom:  d3.behavior.zoom()
+                    .on "zoom", ->
+                        graph = d3.select(".alchemy svg g")
+                        currTransform = graph.attr("transform")
+                                           .match(/(-*\d+\.*\d*)/g)
+                                           .map( (a) -> return parseFloat(a) )
+                        console.log(currTransform)
+                        graph
+                            .transition()
+                            .duration(200)
+                            .attr("transform", "translate(#{currTransform[0]},#{currTransform[1]}) scale(" + 
+                                ( if this.id == "zoom-in" then "#{ currTransform[2]+0.2 })" else "#{ currTransform[2]-0.2 })" ))
+                        return
