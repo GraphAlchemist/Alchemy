@@ -8,7 +8,7 @@ if conf.zoomControls
     
     d3.select("#zoom-in")
       .on("click", ->
-        alchemy.visControls.clickZoomIn)
+        alchemy.visControls.zoomIn)
     # d3.select("#zoom-out")
     #   .on("click", -> 
     #     alchemy.interactions.controlClick())
