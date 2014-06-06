@@ -165,9 +165,14 @@ alchemy.interactions =
                           # .scale conf.initialScale
                           .scaleExtent [0.28, 2]
                           .on "zoom", ->
-                            console.log(d3.select(".alchemy svg g").attr("transform"))
-                            d3.select(".alchemy svg g")
-                              .attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })")
+                            graph = d3.select(".alchemy svg g")
+                            
+                            currTransform = graph.attr("transform")
+                                        .match(/(-*\d+\.*\d*)/g)
+                                        .map( (a) -> return parseFloat(a) )
+                            # d3.event.scale
+                            graph
+                              .attr("transform","translate(#{ d3.event.translate}) scale(#{ currTransform[2] })")
                             return
     clickZoom: d3.behavior.zoom()
                  .scaleExtent [0.28, 2]
