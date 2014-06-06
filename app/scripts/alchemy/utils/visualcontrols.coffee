@@ -24,17 +24,6 @@ alchemy.visControls =
         vis.attr('transform', "translate(#{ x }, #{ y }) scale(#{level})")
         zoom.translate([x, y]).scale(level)
 
-    clickZoomIn : () ->
-        # vis = alchemy.vis
-        # x = 0
-        # y = 0
-        # level = parseFloat(1 * 1.2)
-        # vis.attr('tranform', "translate(#{x}, #{y}) scale(#{level})")
-
-        # d3.behavior.zoom.translate([x,y]).scale(level)
-        d3.behavior.zoom().scaleExtent([0.28, 2]).select(".alchemy").attr("transform", "translate(#{d3.event.tranlate}) scale(#{ d3.event.scale })")
-
-
     zoomOut : () ->
          #google analytics
          #if(typeof _gaq != 'undefined') _gaq.push(['_trackEvent', 'graph', 'zoom', 'out']);
@@ -66,6 +55,5 @@ alchemy.visControls =
         vis.attr('transform', "translate(#{ x }, #{ y }) scale(1)")
         zoom.translate([x, y]).scale(1)
 
-d3.select('#zoom-in').on("click", alchemy.utils.deselectAll).call(alchemy.interactions.clickZoom)
-# $('#zoom-out').click(alchemy.visControls.zoomOut)
-# $('#zoom-reset').click(alchemy.visControls.zoomReset)
+d3.select('.zoom-in').on("click", alchemy.utils.deselectAll).call(alchemy.interactions.clickZoom)
+d3.select('.zoom-out').on("click", alchemy.utils.deselectAll).call(alchemy.interactions.clickZoom)
