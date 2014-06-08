@@ -97,7 +97,6 @@ alchemy.filters =
 
     show: () ->
         # #old
-        console.log "show called"
         filter_html = """
                         <div id="filters">
                             <h4 data-toggle="collapse" data-target="#filters form">
@@ -117,7 +116,6 @@ alchemy.filters =
 
     #create relationship filters
     showEdgeFilters: () ->
-        console.log "edgeF called"
         rel_filter_html = """
                            <div id="filter-relationships" class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -132,7 +130,6 @@ alchemy.filters =
 
     #create node filters
     showNodeFilters: () ->
-        console.log "nodeF called"
         node_filter_html = """
                            <div id="filter-nodes" class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -179,15 +176,150 @@ alchemy.filters =
             state = if box.checked then "active" else "inactive"
 
             d3.select("#li-#{box.name}")
-                .classed({'active-label': box.checked, 'inactive-label': !box.checked})
+                .classed({'active-label': box.checked,'inactive-label': !box.checked}) 
 
-            ["node", "edge"].forEach (t)->
-                graphElements[t].filter(".#{box.name}")
-                 .attr("class", "#{t} #{box.name} #{state}")
 
-        for node in graphElements["node"].filter(".inactive")[0]
-            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                 .classed({"inactive":true, "active": false})
+            if !box.checked
+                # console.log "inactive-label: "
+                # console.log d3.select(".inactive-label") unless d3.select("inactive-label").empty()
+                # console.log "select this: "
+                console.log d3.select(this) unless d3.select(this).empty()
+                console.log this.name
+                that = this
+                # console.log "box name: #{box.name} is inactive"
+                # console.log "select by box.name: "
+                # console.log d3.select("#li-#{box.name}")
+                # console.log d3.select(".inactive-label")
+                # console.log d3.selectAll(".inactive-label")
+                # console.log d3.select()
+                #console.log d3.select(that)
+                console.log that.name
+                boxName = "#li-" + that.name + ""
+                console.log boxName
+                # console.log d3.select(boxName)
+                console.log d3.selectAll(".inactive-label")
+                d3.select(boxName)
+                    .on "mouseenter", (d) ->
+                        state = "inactive-hover"
+                        console.log "mousenter #{that.name}"
+                        # console.log state
+                        # console.log that.name
+                        # # console.log "this selected after mousover"
+                        # # console.log d3.select(that)
+                        # # console.log "that selected after mousover"
+                        ["node", "edge"].forEach (t) ->
+                            graphElements[t].filter(".#{that.name}")
+                                .attr("class", "#{t} #{that.name} #{state}")
+
+                        for node in graphElements["node"].filter(".inactive-hover")[0]
+                            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                                .classed({"inactive":false, "active": false, "inactive-hover":true})
+
+                    .on "mouseleave", (d) ->
+                        # if state is "inactive-hover"
+                        state = "inactive"
+                        console.log "mouseleave #{that.name}"
+                        ["node", "edge"].forEach (t) ->
+                            graphElements[t].filter(".#{that.name}")
+                                .attr("class", "#{t} #{that.name} #{state}")
+
+                        for node in graphElements["node"].filter(".inactive")[0]
+                            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                                .classed({"inactive":true, "active": false, "inactive-hover":false})
+                        # else console.log "mouseleave and state is now inactive-hover"
+
+                    .on "click", (d) ->
+                        console.log "click"
+                        # console.log d3.select(boxName).classed({'active-label': true, 'inactive-label':false})
+                        console.log d3.select(this)
+                        # toggle state
+                        # state = !state 
+                        ["node", "edge"].forEach (t) ->
+                            graphElements[t].filter(".#{that.name}")
+                                .attr("class", "#{t} #{that.name} #{state}")
+                                # .classed({"inactive-hover": false, "inactive": false})
+                        state = !state
+                        for node in graphElements["node"].filter(".inactive")[0]
+                            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                                .classed({"inactive":false, "active": true})
+
+
+            # if !d3.select("#li-#{box.name}.inactive-label").empty()
+            #     d3.select("#li-#{box.name}.inactive-label")
+            #         .on "mouseover", ->
+            #             console.log "box: #{box.name}"
+            #             console.log "state: " + state
+            #             if state is "inactive"
+            #                 console.log "box: #{box.name}"
+            #                 console.log "state: " + state
+            #                 state = "inactive-hover"
+            #                 ["node", "edge"].forEach (t) ->
+            #                     graphElements[t].filter(".#{box.name}")
+            #                         .attr("class", "#{t} #{box.name} #{state}") 
+
+            # if !box.checked
+            #     # console.log "inactive-label: "
+            #     # console.log d3.select(".inactive-label") unless d3.select("inactive-label").empty()
+            #     # console.log "select this: "
+            #     console.log d3.select(this) unless d3.select(this).empty()
+            #     console.log this.name
+            #     that = this
+            #     # console.log "box name: #{box.name} is inactive"
+            #     # console.log "select by box.name: "
+            #     # console.log d3.select("#li-#{box.name}")
+            #     # console.log d3.select(".inactive-label")
+            #     # console.log d3.selectAll(".inactive-label")
+            #     # console.log d3.select()
+            #     #console.log d3.select(that)
+            #     console.log that.name
+            #     boxName = "#li-" + that.name + ""
+            #     console.log boxName
+            #     # console.log d3.select(boxName)
+            #     console.log d3.selectAll(".inactive-label")
+            #     d3.select(boxName)
+            #         .on "mouseenter", (d) ->
+            #             state = "inactive-hover"
+            #             console.log "mousenter #{that.name}"
+            #             # console.log state
+            #             # console.log that.name
+            #             # # console.log "this selected after mousover"
+            #             # # console.log d3.select(that)
+            #             # # console.log "that selected after mousover"
+            #             ["node", "edge"].forEach (t) ->
+            #                 graphElements[t].filter(".#{that.name}")
+            #                     .attr("class", "#{t} #{that.name} #{state}")
+
+            #             for node in graphElements["node"].filter(".inactive-hover")[0]
+            #                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+            #                     .classed({"inactive":false, "active": false, "inactive-hover":true})
+
+            #         .on "mouseleave", (d) ->
+            #             state = "inactive"
+            #             console.log "mouseleave #{that.name}"
+            #             console.log this.name
+            #             ["node", "edge"].forEach (t) ->
+            #                 graphElements[t].filter(".#{that.name}")
+            #                     .attr("class", "#{t} #{that.name} #{state}")
+
+            #             for node in graphElements["node"].filter(".inactive")[0]
+            #                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+            #                     .classed({"inactive":true, "active": false, "inactive-hover":false})
+
+            #         .on "click", (d) ->
+            #             console.log "click"
+            #             # console.log d3.select(boxName).classed({'active-label': true, 'inactive-label':false})
+            #             console.log d3.select(this)
+            #             console.log this.name
+            #             # toggle state
+            #             state = !state 
+            #             ["node", "edge"].forEach (t) ->
+            #                 graphElements[t].filter(".#{that.name}")
+            #                     .attr("class", "#{t} #{that.name} #{state}")
+            #                     # .classed({"inactive-hover": false, "inactive": false})
+                
+            #             for node in graphElements["node"].filter(".inactive")[0]
+            #                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+            #                     .classed({"inactive":false, "active": true})
 
 
         # edges.classed('search-match', (d) ->

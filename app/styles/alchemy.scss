@@ -191,6 +191,20 @@ $orange: #FDC670;
         opacity: 0 !important;
     }
 
+    .node.inactive-hover{
+        opacity: .8 !important;
+        circle{
+            stroke: $orange !important;
+            fill: lighten($orange, 15%) !important;
+        }
+    }
+
+    .edge.inactive-hover{
+        opacity: 1 !important;
+        stroke-width: 2 !important;
+        stroke: $orange !important;
+    }
+
 
     // #loading-spinner {
     //     position: absolute;
