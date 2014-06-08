@@ -216,17 +216,17 @@ alchemy.filters =
                                 .classed({"inactive":false, "active": false, "inactive-hover":true})
 
                     .on "mouseleave", (d) ->
-                        # if state is "inactive-hover"
-                        state = "inactive"
-                        console.log "mouseleave #{that.name}"
-                        ["node", "edge"].forEach (t) ->
-                            graphElements[t].filter(".#{that.name}")
-                                .attr("class", "#{t} #{that.name} #{state}")
+                        if state is "inactive-hover"
+                            state = "inactive"
+                            console.log "mouseleave #{that.name}"
+                            ["node", "edge"].forEach (t) ->
+                                graphElements[t].filter(".#{that.name}")
+                                    .attr("class", "#{t} #{that.name} #{state}")
 
-                        for node in graphElements["node"].filter(".inactive")[0]
-                            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                                .classed({"inactive":true, "active": false, "inactive-hover":false})
-                        # else console.log "mouseleave and state is now inactive-hover"
+                            for node in graphElements["node"].filter(".inactive")[0]
+                                graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                                    .classed({"inactive":true, "active": false, "inactive-hover":false})
+                        else console.log "mouseleave and state is not inactive-hover"
 
                     .on "click", (d) ->
                         console.log "click"
