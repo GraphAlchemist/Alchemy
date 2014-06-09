@@ -1,4 +1,16 @@
-line {
+// line {
+//     stroke-width: 3;
+//     stroke: #ccc;
+//     stroke-opacity: 0.2;
+//     &:hover, &.selected {
+//         stroke: white !important;
+//         cursor: pointer;
+//         stroke-opacity: 1;
+//         stroke-width: 5;
+//     }
+// }
+
+.edge{
     stroke-width: 3;
     stroke: #ccc;
     stroke-opacity: 0.2;
@@ -7,5 +19,11 @@ line {
         cursor: pointer;
         stroke-opacity: 1;
         stroke-width: 5;
+    }
+
+    &.inactive-hover{
+        stroke-width: 2 !important;
+        stroke-opacity: .3 !important;
+        stroke: $orange !important;
     }
 }

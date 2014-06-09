@@ -143,39 +143,6 @@ alchemy.filters =
         $('#filters form').append(node_filter_html)
 
     #update filters
-    updateBoxStatus: () ->
-        vis = alchemy.vis
-        # tagList = $('#tags-list')
-        checkboxes = $("[type='checkbox']")
-        relationshipTypeList = $('#filter-relationships :checked')
-        graphElements = {
-            "node" : vis.selectAll('g'),
-            "edge" : vis.selectAll('line'),
-        } 
-
-        console.log "called mini update"
-        for box in checkboxes
-            state = if box.checked then "active" else "inactive"
-            console.log box.name + " " + box.checked + " " + state
-
-            d3.select("#li-#{box.name}")
-                .classed({'active-label': box.checked,'inactive-label': !box.checked})
-                .on "click", () ->
-                    console.log state
-                    state = !state
-                    console.log state
-
-            ["node", "edge"].forEach (t) ->
-                graphElements[t].filter(".#{box.name}")
-                .attr("class", "#{t} #{box.name} #{state}")
-
-        for node in graphElements["node"].filter(".inactive")[0]
-            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                .classed({"inactive":false, "active": false})
-
-            #reset the state
-            state = null
-
     update: () ->
         vis = alchemy.vis
         # tagList = $('#tags-list')
@@ -193,15 +160,6 @@ alchemy.filters =
 
             d3.select("#li-#{box.name}")
                 .classed({'active-label': box.checked,'inactive-label': !box.checked})
-
-            # # filter out the correct nodes and edges
-            # ["node", "edge"].forEach (t) ->
-            #     graphElements[t].filter(".#{box.name}")
-            #     .attr("class", "#{t} #{box.name} #{state}")
-
-            # for node in graphElements["node"].filter(".inactive")[0]
-            #     graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-            #         .classed({"inactive":false, "active": false})
  
         checked = null
         hoverState = null
@@ -211,15 +169,17 @@ alchemy.filters =
                     boxName = this.outerText
                     console.log boxName
                     hoverState = true
-                    console.log "mousenter #{boxName} " + state
+                    console.log "mousenter #{boxName} " + state + " checked " + checked
                     state = "inactive-hover"
+
+                    # filter(checked, hoverState)
                     # filter out the right nodes
                     ["node", "edge"].forEach (t) ->
                         graphElements[t].filter(".#{boxName}")
                             .attr("class", "#{t} #{boxName} #{state}")
                     for node in graphElements["node"].filter(".#{state}")[0]
                         graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                            .classed({"inactive":false, "active": false, "inactive-hover": hoverState})
+                            .classed({"inactive": !checked, "active": checked, "inactive-hover": hoverState})
 
             .on "mouseleave", () ->
                 # console.log d3.select(this)
@@ -234,11 +194,12 @@ alchemy.filters =
                             .attr("class", "#{t} #{boxName} #{state}")
                     for node in graphElements["node"].filter(".#{state}")[0]
                         graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                            .classed({"inactive":true, "active": false, "inactive-hover":hoverState})
+                            .classed({"inactive": !checked, "active": checked, "inactive-hover":hoverState})
 
             .on "click", () ->
                 boxName = this.outerText
-                console.log "click"
+                hoverState = false
+                console.log "click + hoverState " + hoverState 
                 #get checked property and toggle it
                 checked = d3.select("#li-#{boxName} input").property("checked")
                 console.log checked + " " + state
@@ -250,7 +211,7 @@ alchemy.filters =
                 console.log state
                 for node in graphElements["node"].filter(".#{state}")[0]
                     graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                        .classed({"inactive": !checked, "active": checked, "inactive-hover":false})
+                        .classed({"inactive": !checked, "active": checked, "inactive-hover":hoverState})
                                 
                 
                 # d3.select("#li-#{boxName} input").property("checked", !checked)

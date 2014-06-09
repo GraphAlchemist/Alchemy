@@ -1,3 +1,6 @@
+
+
+
 .node {
     cursor: pointer;
     circle  {
@@ -37,5 +40,12 @@
             display: block;
         }
     }
-
+    &.inactive-hover{
+        circle{
+            fill-opacity: 1 !important;
+            stroke: darken($orange, 10%) !important;
+            stroke-width: 3px !important;
+            fill: lighten($orange, 15%) !important;
+        }
+    }
 }
