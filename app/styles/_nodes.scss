@@ -40,7 +40,7 @@
             display: block;
         }
     }
-    &.inactive-hover{
+    &.highlight{
         circle{
             fill-opacity: 1 !important;
             stroke: darken($orange, 10%) !important;
