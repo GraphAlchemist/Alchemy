@@ -156,36 +156,44 @@ alchemy.filters =
             "edge" : vis.selectAll('line'),
         }
 
+        reFilter = (boxName, state, checked, highlight) ->
+            ["node", "edge"].forEach (t) ->
+                graphElements[t].filter(".#{boxName}")
+                    .attr("class", "#{t} #{boxName} #{state}")
+
+            #remove spaces from state
+            state = state.replace(/\s+/g, '.');
+            for node in graphElements["node"].filter(".#{state}")[0]
+                graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                    .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+
+            console.log  "refiltered #{boxName} with state #{state} and checked #{checked} and highlight #{highlight}"
+
+        # add label active / inactive classes
         for box in checkboxes
             state = if box.checked then "active" else "inactive"
             d3.select("#li-#{box.name}")
                 .classed({'active-label': box.checked,'inactive-label': !box.checked})
+            reFilter(box.name, state, box.checked, false)
 
-        reFilter = (boxName, state, checked, highlight) ->
-	        ["node", "edge"].forEach (t) ->
-	            graphElements[t].filter(".#{boxName}")
-	                .attr("class", "#{t} #{boxName} #{state}")
-	        for node in graphElements["node"].filter(".#{state}")[0]
-	            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-	                .classed({"inactive": !checked, "active": checked, "highlight": highlight})
-
-	        console.log  "refiltered #{boxName} with state #{state} and checked #{checked} and highlight #{highlight}"
-
-        d3.selectAll(".inactive-label")
+        # filter previews
+        d3.selectAll(".inactive-label, .active-label")
             .on "mouseenter", () ->
-            	boxName = this.outerText
-            	highlight = true
-                state += ".highlight"
+                boxName = this.outerText
+                checked = d3.select("#li-#{boxName} input").property("checked")
+                state = if checked then "active" else "inactive"
+                highlight = true
+                state += " highlight"
                 reFilter(boxName, state, checked, highlight)
-
 
             .on "mouseleave", () ->
                 boxName = this.outerText
+                checked = d3.select("#li-#{boxName} input").property("checked")
+                state = if checked then "active" else "inactive"
                 if highlight
                     highlight = false
-                    if checked then state is "active" else "inactive"
+                    state = if checked then "active" else "inactive"
                     reFilter(boxName, state, checked, highlight)
-
 
             .on "click", () ->
                 boxName = this.outerText

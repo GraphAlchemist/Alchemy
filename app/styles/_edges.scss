@@ -20,10 +20,27 @@
         stroke-opacity: 1;
         stroke-width: 5;
     }
+    &.active{
+    	@include active();
+    	&.selected{
 
-    &.hightlight{
-        stroke-width: 2 !important;
-        stroke-opacity: .3 !important;
-        stroke: $orange !important;
+    	}
+    	&.highlight{
+    		@include highlight();
+    		stroke-width: 3 !important;
+	        stroke-opacity: .6 !important;
+	        stroke: lighten($blue, 15%) !important;
+
+    	}
     }
+
+    &.inactive{
+    	@include inactive();
+    	&.highlight{
+    		@include highlight();
+	        stroke-width: 2 !important;
+	        stroke-opacity: .3 !important;
+	        stroke: $orange !important;
+    	}
+	}
 }
