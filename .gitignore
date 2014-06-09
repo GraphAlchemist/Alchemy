@@ -4,6 +4,7 @@ node_modules
 app/bower_components
 app/sample_data
 app/scripts/testConf.coffee
+app/scripts/core/filterPreview.coffee
 test/bower_components
 dist/
 ToDo.md

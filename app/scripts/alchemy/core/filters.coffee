@@ -143,6 +143,39 @@ alchemy.filters =
         $('#filters form').append(node_filter_html)
 
     #update filters
+    updateBoxStatus: () ->
+        vis = alchemy.vis
+        # tagList = $('#tags-list')
+        checkboxes = $("[type='checkbox']")
+        relationshipTypeList = $('#filter-relationships :checked')
+        graphElements = {
+            "node" : vis.selectAll('g'),
+            "edge" : vis.selectAll('line'),
+        } 
+
+        console.log "called mini update"
+        for box in checkboxes
+            state = if box.checked then "active" else "inactive"
+            console.log box.name + " " + box.checked + " " + state
+
+            d3.select("#li-#{box.name}")
+                .classed({'active-label': box.checked,'inactive-label': !box.checked})
+                .on "click", () ->
+                    console.log state
+                    state = !state
+                    console.log state
+
+            ["node", "edge"].forEach (t) ->
+                graphElements[t].filter(".#{box.name}")
+                .attr("class", "#{t} #{box.name} #{state}")
+
+        for node in graphElements["node"].filter(".inactive")[0]
+            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                .classed({"inactive":false, "active": false})
+
+            #reset the state
+            state = null
+
     update: () ->
         vis = alchemy.vis
         # tagList = $('#tags-list')
@@ -152,174 +185,77 @@ alchemy.filters =
             "node" : vis.selectAll('g'),
             "edge" : vis.selectAll('line'),
         }
-        # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
-        #     active = true
-        # else
-        #     nodes.classed('search-match', false)
-        #     edges.classed('search-match', false)
-        #     return
-        # nodes.classed('search-match', (d) ->
-        #     if tagList.children().length + nodeTypeList.length is 0
-        #         return false
-        #     match = true
-        #     for tag in tagList.children()
-        #         if d._tags.indexOf(tag.textContent.trim()) is -1
-        #             match = false
-
-        #     if match and nodeTypeList.length > 0
-        #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
-
-        #     match
-        # )    
+        # alchemy.filters.updateBoxStatus()
 
         for box in checkboxes
             state = if box.checked then "active" else "inactive"
+            console.log box.name + " " + box.checked + " " + state
 
             d3.select("#li-#{box.name}")
-                .classed({'active-label': box.checked,'inactive-label': !box.checked}) 
+                .classed({'active-label': box.checked,'inactive-label': !box.checked})
 
+            # # filter out the correct nodes and edges
+            # ["node", "edge"].forEach (t) ->
+            #     graphElements[t].filter(".#{box.name}")
+            #     .attr("class", "#{t} #{box.name} #{state}")
 
-            if !box.checked
-                # console.log "inactive-label: "
-                # console.log d3.select(".inactive-label") unless d3.select("inactive-label").empty()
-                # console.log "select this: "
-                console.log d3.select(this) unless d3.select(this).empty()
-                console.log this.name
-                that = this
-                # console.log "box name: #{box.name} is inactive"
-                # console.log "select by box.name: "
-                # console.log d3.select("#li-#{box.name}")
-                # console.log d3.select(".inactive-label")
-                # console.log d3.selectAll(".inactive-label")
-                # console.log d3.select()
-                #console.log d3.select(that)
-                console.log that.name
-                boxName = "#li-" + that.name + ""
-                console.log boxName
-                # console.log d3.select(boxName)
-                console.log d3.selectAll(".inactive-label")
-                d3.select(boxName)
-                    .on "mouseenter", (d) ->
-                        state = "inactive-hover"
-                        console.log "mousenter #{that.name}"
-                        # console.log state
-                        # console.log that.name
-                        # # console.log "this selected after mousover"
-                        # # console.log d3.select(that)
-                        # # console.log "that selected after mousover"
-                        ["node", "edge"].forEach (t) ->
-                            graphElements[t].filter(".#{that.name}")
-                                .attr("class", "#{t} #{that.name} #{state}")
+            # for node in graphElements["node"].filter(".inactive")[0]
+            #     graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+            #         .classed({"inactive":false, "active": false})
+ 
+        checked = null
+        hoverState = null
+        d3.selectAll(".inactive-label")
+            .on "mouseenter", () ->
+                if !checked
+                    boxName = this.outerText
+                    console.log boxName
+                    hoverState = true
+                    console.log "mousenter #{boxName} " + state
+                    state = "inactive-hover"
+                    # filter out the right nodes
+                    ["node", "edge"].forEach (t) ->
+                        graphElements[t].filter(".#{boxName}")
+                            .attr("class", "#{t} #{boxName} #{state}")
+                    for node in graphElements["node"].filter(".#{state}")[0]
+                        graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                            .classed({"inactive":false, "active": false, "inactive-hover": hoverState})
 
-                        for node in graphElements["node"].filter(".inactive-hover")[0]
-                            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                                .classed({"inactive":false, "active": false, "inactive-hover":true})
+            .on "mouseleave", () ->
+                # console.log d3.select(this)
+                console.log "mouseleave #{boxName} " + state +  " " + checked +  " " + hoverState
+                boxName = this.outerText
+                if hoverState and !checked
+                    hoverState = false
+                    state = "inactive"
+                    console.log "mouseleave #{boxName} " + state
+                    ["node", "edge"].forEach (t) ->
+                        graphElements[t].filter(".#{boxName}")
+                            .attr("class", "#{t} #{boxName} #{state}")
+                    for node in graphElements["node"].filter(".#{state}")[0]
+                        graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                            .classed({"inactive":true, "active": false, "inactive-hover":hoverState})
 
-                    .on "mouseleave", (d) ->
-                        if state is "inactive-hover"
-                            state = "inactive"
-                            console.log "mouseleave #{that.name}"
-                            ["node", "edge"].forEach (t) ->
-                                graphElements[t].filter(".#{that.name}")
-                                    .attr("class", "#{t} #{that.name} #{state}")
+            .on "click", () ->
+                boxName = this.outerText
+                console.log "click"
+                #get checked property and toggle it
+                checked = d3.select("#li-#{boxName} input").property("checked")
+                console.log checked + " " + state
+                state = if checked then "active" else "inactive"
 
-                            for node in graphElements["node"].filter(".inactive")[0]
-                                graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                                    .classed({"inactive":true, "active": false, "inactive-hover":false})
-                        else console.log "mouseleave and state is not inactive-hover"
-
-                    .on "click", (d) ->
-                        console.log "click"
-                        # console.log d3.select(boxName).classed({'active-label': true, 'inactive-label':false})
-                        console.log d3.select(this)
-                        # toggle state
-                        # state = !state 
-                        ["node", "edge"].forEach (t) ->
-                            graphElements[t].filter(".#{that.name}")
-                                .attr("class", "#{t} #{that.name} #{state}")
-                                # .classed({"inactive-hover": false, "inactive": false})
-                        state = !state
-                        for node in graphElements["node"].filter(".inactive")[0]
-                            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                                .classed({"inactive":false, "active": true})
-
-
-            # if !d3.select("#li-#{box.name}.inactive-label").empty()
-            #     d3.select("#li-#{box.name}.inactive-label")
-            #         .on "mouseover", ->
-            #             console.log "box: #{box.name}"
-            #             console.log "state: " + state
-            #             if state is "inactive"
-            #                 console.log "box: #{box.name}"
-            #                 console.log "state: " + state
-            #                 state = "inactive-hover"
-            #                 ["node", "edge"].forEach (t) ->
-            #                     graphElements[t].filter(".#{box.name}")
-            #                         .attr("class", "#{t} #{box.name} #{state}") 
-
-            # if !box.checked
-            #     # console.log "inactive-label: "
-            #     # console.log d3.select(".inactive-label") unless d3.select("inactive-label").empty()
-            #     # console.log "select this: "
-            #     console.log d3.select(this) unless d3.select(this).empty()
-            #     console.log this.name
-            #     that = this
-            #     # console.log "box name: #{box.name} is inactive"
-            #     # console.log "select by box.name: "
-            #     # console.log d3.select("#li-#{box.name}")
-            #     # console.log d3.select(".inactive-label")
-            #     # console.log d3.selectAll(".inactive-label")
-            #     # console.log d3.select()
-            #     #console.log d3.select(that)
-            #     console.log that.name
-            #     boxName = "#li-" + that.name + ""
-            #     console.log boxName
-            #     # console.log d3.select(boxName)
-            #     console.log d3.selectAll(".inactive-label")
-            #     d3.select(boxName)
-            #         .on "mouseenter", (d) ->
-            #             state = "inactive-hover"
-            #             console.log "mousenter #{that.name}"
-            #             # console.log state
-            #             # console.log that.name
-            #             # # console.log "this selected after mousover"
-            #             # # console.log d3.select(that)
-            #             # # console.log "that selected after mousover"
-            #             ["node", "edge"].forEach (t) ->
-            #                 graphElements[t].filter(".#{that.name}")
-            #                     .attr("class", "#{t} #{that.name} #{state}")
-
-            #             for node in graphElements["node"].filter(".inactive-hover")[0]
-            #                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-            #                     .classed({"inactive":false, "active": false, "inactive-hover":true})
-
-            #         .on "mouseleave", (d) ->
-            #             state = "inactive"
-            #             console.log "mouseleave #{that.name}"
-            #             console.log this.name
-            #             ["node", "edge"].forEach (t) ->
-            #                 graphElements[t].filter(".#{that.name}")
-            #                     .attr("class", "#{t} #{that.name} #{state}")
-
-            #             for node in graphElements["node"].filter(".inactive")[0]
-            #                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-            #                     .classed({"inactive":true, "active": false, "inactive-hover":false})
-
-            #         .on "click", (d) ->
-            #             console.log "click"
-            #             # console.log d3.select(boxName).classed({'active-label': true, 'inactive-label':false})
-            #             console.log d3.select(this)
-            #             console.log this.name
-            #             # toggle state
-            #             state = !state 
-            #             ["node", "edge"].forEach (t) ->
-            #                 graphElements[t].filter(".#{that.name}")
-            #                     .attr("class", "#{t} #{that.name} #{state}")
-            #                     # .classed({"inactive-hover": false, "inactive": false})
+                ["node", "edge"].forEach (t) ->
+                    graphElements[t].filter(".#{boxName}")
+                        .attr("class", "#{t} #{boxName} #{state}")
+                console.log state
+                for node in graphElements["node"].filter(".#{state}")[0]
+                    graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                        .classed({"inactive": !checked, "active": checked, "inactive-hover":false})
+                                
                 
-            #             for node in graphElements["node"].filter(".inactive")[0]
-            #                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-            #                     .classed({"inactive":false, "active": true})
+                # d3.select("#li-#{boxName} input").property("checked", !checked)
+
+
 
 
         # edges.classed('search-match', (d) ->
@@ -348,6 +284,26 @@ alchemy.filters =
 #     $('#add-tag').focus ->
 #         $(this).autocomplete('search')
 
+
+        # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
+        #     active = true
+        # else
+        #     nodes.classed('search-match', false)
+        #     edges.classed('search-match', false)
+        #     return
+        # nodes.classed('search-match', (d) ->
+        #     if tagList.children().length + nodeTypeList.length is 0
+        #         return false
+        #     match = true
+        #     for tag in tagList.children()
+        #         if d._tags.indexOf(tag.textContent.trim()) is -1
+        #             match = false
+
+        #     if match and nodeTypeList.length > 0
+        #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
+
+        #     match
+        # )    
 
 
 # $('#filters form').append('<div class="clear"></div>')
