@@ -3,6 +3,15 @@ $blue: #68B9FE;
 $orange: #FDC670;
 
 .alchemy {
+    @mixin highlight(){
+        opacity: .8 !important;
+    }
+    @mixin inactive(){
+        opacity: 0;
+    }
+    @mixin active(){
+        opacity: 1;
+    }
     @import 'svg';
     @import 'nodes';
     @import 'edges';
@@ -179,18 +188,6 @@ $orange: #FDC670;
     // .search-active .search-match, .highlight-active .node.highlight, .highlight-active line.highlight {
     //     opacity: 1;
     // }
-
-    .active {
-        opacity: 1 !important;
-    }
-
-    .inactive {
-        opacity: 0;
-    }
-
-    .inactive-hover {
-        opacity: .6 !important;
-    }
 
 
     // #loading-spinner {
