@@ -4,7 +4,7 @@
         fill: $blue;
         fill-opacity: 0.8;
         stroke: #127dc1;
-        stroke-width: 6px;
+        stroke-width: 4px;
         stroke-opacity: 1;
         // TODO: `.node` should have a `root` class
         // NOT `circle`.... uh.
@@ -25,17 +25,40 @@
         z-index: 1000;
     }
 
-    &.selected, &:hover {        
-        circle {
-            stroke-width: 12px;
-            fill-opacity: .8;
-            stroke-opacity: 1;
-            stroke: white !important;
-            fill: white !important;
-        }
-        text {
-            display: block;
-        }
+    &.active{
+		@include active();
+		&.highlight{
+			@include highlight();
+	        circle{
+	            fill-opacity: 1 !important;
+	            stroke: darken($blue, 20%) !important;
+	            stroke-width: 3px !important;
+	            fill: white !important;
+	        }
+		}
+	    &.selected, &:hover {        
+	        circle {
+	            stroke-width: 5px;
+	            fill-opacity: .8;
+	            stroke-opacity: 1;
+	            stroke: white !important;
+	            fill: white !important;
+	        }
+	        text {
+	            display: block;
+	        }
+	    }
     }
-
+    &.inactive{
+    	@include inactive();
+    	&.highlight{
+    		@include highlight();
+	        circle{
+	            fill-opacity: 1 !important;
+	            stroke: $orange !important;
+	            stroke-width: 2px !important;
+	            fill: white !important;
+	        }
+    	}
+    }
 }
