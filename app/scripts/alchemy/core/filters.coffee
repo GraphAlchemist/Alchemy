@@ -1,9 +1,4 @@
 fixNodesTags = (nodes, edges) ->
-    #show the appropriate filters:
-    if conf.showFilters then alchemy.filters.show()
-    if conf.edgeFilters then alchemy.filters.showEdgeFilters()
-    if conf.nodeFilters then alchemy.filters.showNodeFilters()
-
     for n in nodes
         allCaptions[n.label] = n.id
         n._tags = []
@@ -15,35 +10,46 @@ fixNodesTags = (nodes, edges) ->
             n._tags.push(tag)
 
     updateCaptions()
-    
-    if conf.nodeTypes
-        nodeKey = Object.keys(conf.nodeTypes)
-
-        checkboxes = ''
-        for t in conf.nodeTypes[nodeKey]
-            # if not currentNodeTypes[t] then continue
-            l = t.replace('_', ' ')
-            checkboxes += "<li id='li-#{t}'><label><input type='checkbox' name='#{t}' checked>#{l}</label></li>"
-        $('#node-dropdown').append(checkboxes)
-        $('#node-dropdown input').click(alchemy.filters.update)
-
-    if conf.edgeTypes
-        for e in edges
-            currentRelationshipTypes[[e].caption] = true
-
-        checkboxes = ''
-        for t in conf.edgeTypes
-            if not t then continue
-            caption = t.replace('_', ' ')
-            checkboxes += "<li id='li-#{t}'><label><input type='checkbox' name='#{t}' checked>#{caption}</label></li>"
-        $('#rel-dropdown').append(checkboxes)
-        $('#rel-dropdown input').click(alchemy.filters.update)
 
     tags = Object.keys(allTags)
     tags.sort()
     $('#add-tag').autocomplete('option', 'source', tags)
 
+    # shouldn't nodetypes be renamed to nodetags? since adding a tag is essentially adding a nodetype? and vice-versa?
+
 alchemy.filters = 
+    init: (nodes, edges) -> 
+        #show the appropriate filters:
+        if conf.showFilters then alchemy.filters.show()
+        if conf.edgeFilters then alchemy.filters.showEdgeFilters()
+        if conf.nodeFilters then alchemy.filters.showNodeFilters()
+
+        #generate filter forms
+        if conf.nodeTypes
+            nodeKey = Object.keys(conf.nodeTypes)
+
+            nodeTypes = ''
+            for nodeType in conf.nodeTypes[nodeKey]
+                # if not currentNodeTypes[t] then continue
+                caption = nodeType.replace('_', ' ')
+                nodeTypes += "<li class = 'nodeType' role = 'menuitem' id='li-#{nodeType}' name = #{caption}>#{caption}</li>"
+            $('#node-dropdown').append(nodeTypes)
+            # $('#node-dropdown li').click(alchemy.filters.update())
+
+        if conf.edgeTypes
+            for e in edges
+                currentRelationshipTypes[[e].caption] = true
+
+            edgeTypes = ''
+            for edgeType in conf.edgeTypes
+                if not edgeType then continue
+                caption = edgeType.replace('_', ' ')
+                edgeTypes += "<li class = 'edgeType' role = 'menuitem' id='li-#{edgeType}' name = #{caption}>#{caption}</li>"
+            $('#rel-dropdown').append(edgeTypes)
+            # $('#rel-dropdown li').click(alchemy.filters.update())
+        
+        alchemy.filters.update()
+
     # not working, deprecate?
     updateTagsAutocomplete: () ->
         # if no tags have been selected, use entire list
@@ -97,7 +103,6 @@ alchemy.filters =
 
     show: () ->
         # #old
-        console.log "show called"
         filter_html = """
                         <div id="filters">
                             <h4 data-toggle="collapse" data-target="#filters form">
@@ -117,7 +122,6 @@ alchemy.filters =
 
     #create relationship filters
     showEdgeFilters: () ->
-        console.log "edgeF called"
         rel_filter_html = """
                            <div id="filter-relationships" class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -132,7 +136,6 @@ alchemy.filters =
 
     #create node filters
     showNodeFilters: () ->
-        console.log "nodeF called"
         node_filter_html = """
                            <div id="filter-nodes" class="btn-group">
                                 <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -145,49 +148,86 @@ alchemy.filters =
                            """
         $('#filters form').append(node_filter_html)
 
+    ##refactor without checkboxes
+
     #update filters
     update: () ->
         vis = alchemy.vis
-        # tagList = $('#tags-list')
-        checkboxes = $("[type='checkbox']")
-        relationshipTypeList = $('#filter-relationships :checked')
         graphElements = {
-            "node" : vis.selectAll('g'),
-            "edge" : vis.selectAll('line'),
+            "node" : vis.selectAll("g"),
+            "edge" : vis.selectAll("line"),
         }
-        # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
-        #     active = true
-        # else
-        #     nodes.classed('search-match', false)
-        #     edges.classed('search-match', false)
-        #     return
-        # nodes.classed('search-match', (d) ->
-        #     if tagList.children().length + nodeTypeList.length is 0
-        #         return false
-        #     match = true
-        #     for tag in tagList.children()
-        #         if d._tags.indexOf(tag.textContent.trim()) is -1
-        #             match = false
+        tags = d3.selectAll(".nodeType, .edgeType")
+        # relationshipTypeList = $('#filter-relationships :checked')
 
-        #     if match and nodeTypeList.length > 0
-        #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
+        reFilter = (boxName, state, checked, highlight) ->
+            boxName = boxName.replace(/\s+/g, '_');
+            console.log boxName + " " + state
+            ["node", "edge"].forEach (t) ->
+                graphElements[t].filter(".#{boxName}")
+                    .attr("class", "#{t} #{boxName} #{state}")
 
-        #     match
-        # )    
+            #remove spaces from state
+            state = state.replace(/\s+/g, '.');
+            console.log boxName + " " + state
 
-        for box in checkboxes
-            state = if box.checked then "active" else "inactive"
 
-            d3.select("#li-#{box.name}")
-                .classed({'active-label': box.checked, 'inactive-label': !box.checked})
+            for node in graphElements["node"].filter(".#{state}")[0]
+                graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
+                    .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+            console.log  "refiltered #{boxName} with state #{state} and checked #{checked} and highlight #{highlight}"
 
-            ["node", "edge"].forEach (t)->
-                graphElements[t].filter(".#{box.name}")
-                 .attr("class", "#{t} #{box.name} #{state}")
+        # add label active / inactive classes
+        for tag in tags[0]
+            element = d3.select("##{tag.id}")
+            name = element[0][0].innerText
+            state = if element.classed("disabled") then "inactive" else "active"
+            checked = !element.classed("disabled")
+            element.classed({'active-label': checked,'disabled': !checked})
+            reFilter(name, state, checked, false)
 
-        for node in graphElements["node"].filter(".inactive")[0]
-            graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                 .classed({"inactive":true, "active": false})
+        # filter previews
+        tags
+            .on "mouseenter", () ->
+                #get the element and state
+                element = d3.select("##{this.id}")
+                checked = !element.classed("disabled")
+                name = element[0][0].innerText
+                state = if checked then "active" else "inactive"
+
+                highlight = true
+                state += " highlight"
+                reFilter(name, state, checked, highlight)
+
+            .on "mouseleave", () ->
+                #get the element and state
+                console.log "mouseleave"
+                element = d3.select("##{this.id}")
+                checked = !element.classed("disabled")
+                name = element[0][0].innerText
+                state = if checked then "active" else "inactive"
+
+                highlight = false
+                reFilter(name, state, checked, highlight)
+
+            .on "click", () ->
+                #find the current state of the element
+                element = d3.select("##{this.id}")
+                checked = !element.classed("disabled")
+
+                #toggle the checked property and add disabled class
+                checked = !checked
+                element.classed({'active-label': checked,'disabled': !checked})
+
+                name = element[0][0].innerText
+                console.log name + " click and checked" + checked
+                state = if checked then "active" else "inactive"
+
+                highlight = false
+                reFilter(name, state, checked, highlight)
+                                
+
+
 
 
         # edges.classed('search-match', (d) ->
@@ -216,6 +256,26 @@ alchemy.filters =
 #     $('#add-tag').focus ->
 #         $(this).autocomplete('search')
 
+
+        # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
+        #     active = true
+        # else
+        #     nodes.classed('search-match', false)
+        #     edges.classed('search-match', false)
+        #     return
+        # nodes.classed('search-match', (d) ->
+        #     if tagList.children().length + nodeTypeList.length is 0
+        #         return false
+        #     match = true
+        #     for tag in tagList.children()
+        #         if d._tags.indexOf(tag.textContent.trim()) is -1
+        #             match = false
+
+        #     if match and nodeTypeList.length > 0
+        #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
+
+        #     match
+        # )    
 
 
 # $('#filters form').append('<div class="clear"></div>')
