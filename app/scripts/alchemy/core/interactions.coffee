@@ -170,9 +170,15 @@ alchemy.interactions =
                             currTransform = graph.attr("transform")
                                         .match(/(-*\d+\.*\d*)/g)
                                         .map( (a) -> return parseFloat(a) )
-                            graph
-                              .attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })")
-                              
+
+                            if d3.event.sourceEvent.type == "mousemove"
+                                graph.attr("transform", "translate(#{ d3.event.translate }) scale(#{ currTransform[2] })")
+                            
+                            else if d3.event.sourceEvent.type == "wheel"
+                                scrollDirection = d3.event.sourceEvent.wheelDelta / Math.abs(d3.event.sourceEvent.wheelDelta)
+                                graph
+                                  .attr("transform", "translate(#{ currTransform[0] },#{ currTransform[1] }) 
+                                                      scale(#{ currTransform[2] + (scrollDirection * 0.2) })")
                             return
 
     clickZoom:  ()->
@@ -184,8 +190,8 @@ alchemy.interactions =
                     graph
                         .attr("transform", ->
                             if id == "zoom-in"
-                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]+0.3 })" 
+                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]+0.2 })" 
                                 
                             else 
-                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]-0.3 })" 
+                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]-0.2 })" 
                             )
