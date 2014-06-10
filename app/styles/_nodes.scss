@@ -25,18 +25,6 @@
         z-index: 1000;
     }
 
-    &.selected, &:hover {        
-        circle {
-            stroke-width: 10px;
-            fill-opacity: .8;
-            stroke-opacity: 1;
-            stroke: white !important;
-            fill: white !important;
-        }
-        text {
-            display: block;
-        }
-    }
     &.active{
 		@include active();
 		&.highlight{
@@ -44,13 +32,22 @@
 	        circle{
 	            fill-opacity: 1 !important;
 	            stroke: darken($blue, 20%) !important;
-	            stroke-width: 5px !important;
+	            stroke-width: 3px !important;
 	            fill: white !important;
 	        }
 		}
-		&.selected{
-
-		}
+	    &.selected, &:hover {        
+	        circle {
+	            stroke-width: 5px;
+	            fill-opacity: .8;
+	            stroke-opacity: 1;
+	            stroke: white !important;
+	            fill: white !important;
+	        }
+	        text {
+	            display: block;
+	        }
+	    }
     }
     &.inactive{
     	@include inactive();
