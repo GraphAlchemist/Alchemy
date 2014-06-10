@@ -41,8 +41,6 @@ alchemy.startGraph = (data) ->
     #API FIXME: allow alternative root node positioning?
     alchemy.layout.positionRootNodes()
 
-    # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(alchemy.nodes, alchemy.edges);
     #create SVG
     alchemy.vis = d3.select('.alchemy')
         .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight()}px")
@@ -75,6 +73,7 @@ alchemy.startGraph = (data) ->
         .links(data.edges)
 
     alchemy.updateGraph()
+    alchemy.filters.init(alchemy.nodes, alchemy.edges)
 
     # configuration for forceLocked
     if !conf.forceLocked 

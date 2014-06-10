@@ -11,25 +11,23 @@
 // }
 
 .edge{
-    stroke-width: 3;
+    stroke-width: 2;
     stroke: #ccc;
     stroke-opacity: 0.2;
-    &:hover, &.selected {
-        stroke: white !important;
-        cursor: pointer;
-        stroke-opacity: 1;
-        stroke-width: 5;
-    }
+
     &.active{
     	@include active();
-    	&.selected{
-
-    	}
+    	&:hover, &.selected {
+	        stroke: white !important;
+	        cursor: pointer;
+	        stroke-opacity: 1;
+	        stroke-width: 4;
+	    }
     	&.highlight{
     		@include highlight();
-    		stroke-width: 3 !important;
+    		stroke-width: 2 !important;
 	        stroke-opacity: .6 !important;
-	        stroke: lighten($blue, 15%) !important;
+	        stroke: lighten($blue, 20%) !important;
 
     	}
     }
