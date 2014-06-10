@@ -163,19 +163,21 @@ alchemy.interactions =
                           # to do, allow UDF initial scale and zoom
                           # .translate conf.initialTranslate
                           # .scale conf.initialScale
-                          .scaleExtent [0.28, 2]
+                          .scaleExtent [0.2, 2.4]
                           .on "zoom", ->
                             graph = d3.select(".alchemy svg g")
-                            
+
                             currTransform = graph.attr("transform")
                                         .match(/(-*\d+\.*\d*)/g)
                                         .map( (a) -> return parseFloat(a) )
 
-                            if d3.event.sourceEvent.type == "mousemove"
+                            e = d3.event.sourceEvent
+
+                            if e.type == "mousemove"
                                 graph.attr("transform", "translate(#{ d3.event.translate }) scale(#{ currTransform[2] })")
                             
-                            else if d3.event.sourceEvent.type == "wheel"
-                                scrollDirection = d3.event.sourceEvent.wheelDelta / Math.abs(d3.event.sourceEvent.wheelDelta)
+                            else if e.type == "wheel"
+                                scrollDirection = e.wheelDelta / Math.abs(e.wheelDelta)
                                 graph
                                   .attr("transform", "translate(#{ currTransform[0] },#{ currTransform[1] }) 
                                                       scale(#{ currTransform[2] + (scrollDirection * 0.2) })")
