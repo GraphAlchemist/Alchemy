@@ -74,6 +74,7 @@ alchemy.startGraph = (data) ->
 
     alchemy.updateGraph()
     alchemy.filters.init(alchemy.nodes, alchemy.edges)
+    alchemy.zoomControls.init()
 
     # configuration for forceLocked
     if !conf.forceLocked 

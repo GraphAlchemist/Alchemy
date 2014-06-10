@@ -32,13 +32,13 @@ defaults =
     removeNodes: false # not currently implemented
 
     # Filtering
-    showFilters: true
+    showFilters: false
     edgeFilters: false # not currently implemented
     nodeFilters: false
 
     # Controls
     controlOrientation: 'vertical'
-    zoomControls: true
+    zoomControls: false
 
     # Nodes
     nodeCaption: 'caption' #changed key
