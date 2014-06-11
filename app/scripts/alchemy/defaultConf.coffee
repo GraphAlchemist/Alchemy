@@ -30,6 +30,10 @@ defaults =
     edgesToggle: false # not currently implemented
     nodesToggle: false # not currently implemented
     removeNodes: false # not currently implemented
+    removeEdges: false # not currently implemented
+    addNodes: false # not currently implemented
+    addEdges: false # not currently implemented
+
 
     # Filtering
     showFilters: false

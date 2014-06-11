@@ -66,15 +66,17 @@ alchemy.utils =
         zoom.translate([x, y]).scale(level)
 
     nodeText: (d) -> 
-        if d.caption
-            d.caption
-        else if conf.caption and typeof conf.caption is 'string'
+        if conf.caption and typeof conf.caption is 'string'
             if d[conf.caption]?
                 d[conf.caption]
             else
                 ''
         else if conf.caption and typeof conf.caption is 'function'
-            conf.caption(d)
+            caption = conf.caption(d)
+            if caption == undefined or String(caption) == 'undefined'
+                alchemy.log["caption"] = "At least one caption returned undefined"
+                conf.caption = false
+            return caption
 
     nodeSize: (d, i) ->
         # refactor for speed
