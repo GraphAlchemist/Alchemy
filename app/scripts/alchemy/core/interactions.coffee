@@ -165,35 +165,22 @@ alchemy.interactions =
                           # .scale conf.initialScale
                           .scaleExtent [0.2, 2.4]
                           .on "zoom", ->
-                            graph = d3.select(".alchemy svg g")
-
-                            currTransform = graph.attr("transform")
-                                        .match(/(-*\d+\.*\d*)/g)
-                                        .map( (a) -> return parseFloat(a) )
-
-                            e = d3.event.sourceEvent
-
-                            if e.type == "mousemove"
-                                graph.attr("transform", "translate(#{ d3.event.translate }) scale(#{ currTransform[2] })")
-                            
-                            else if e.type == "wheel"
-                                scrollDirection = e.wheelDelta / Math.abs(e.wheelDelta)
-                                graph
-                                  .attr("transform", "translate(#{ currTransform[0] },#{ currTransform[1] }) 
-                                                      scale(#{ currTransform[2] + (scrollDirection * 0.2) })")
+                            alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
+                                                                scale(#{ d3.event.scale })" )
                             return
 
-    clickZoom:  ()->
+    clickZoom:  (direction) ->
                     graph = d3.select(".alchemy svg g")
-                    currTransform = graph.attr("transform")
+                    startTransform = graph.attr("transform")
                                            .match(/(-*\d+\.*\d*)/g)
                                            .map( (a) -> return parseFloat(a) )
-                    id = this.id
+                    endTransform = startTransform
                     graph
                         .attr("transform", ->
-                            if id == "zoom-in"
-                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]+0.2 })" 
-                                
-                            else 
-                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]-0.2 })" 
+                            if direction == "in"
+                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]+0.2 })" 
+                            else if direction == "out" 
+                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]-0.2 })" 
                             )
+                    @.zoom.scale(endTransform[2])
+        
