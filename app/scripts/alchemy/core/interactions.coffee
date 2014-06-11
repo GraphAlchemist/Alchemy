@@ -163,28 +163,24 @@ alchemy.interactions =
                           # to do, allow UDF initial scale and zoom
                           # .translate conf.initialTranslate
                           # .scale conf.initialScale
-                          .scaleExtent [0.28, 2]
+                          .scaleExtent [0.2, 2.4]
                           .on "zoom", ->
-                            graph = d3.select(".alchemy svg g")
-                            # if graph.attr('transform') 
-                            #     currTransform = graph.attr("transform")
-                            #         .match(/(-*\d+\.*\d*)/g)
-                            #         .map( (a) -> return parseFloat(a) )
-                            # else    
-                            graph.attr("transform","translate(#{ d3.event.translate}) scale(#{ d3.event.scale })")
+                            alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
+                                                                scale(#{ d3.event.scale })" )
                             return
 
-    clickZoom:  ()->
+    clickZoom:  (direction) ->
                     graph = d3.select(".alchemy svg g")
-                    currTransform = graph.attr("transform")
+                    startTransform = graph.attr("transform")
                                            .match(/(-*\d+\.*\d*)/g)
                                            .map( (a) -> return parseFloat(a) )
-                    id = this.id
+                    endTransform = startTransform
                     graph
                         .attr("transform", ->
-                            if id == "zoom-in"
-                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]+0.3 })" 
-                                
-                            else 
-                                return "translate(#{ currTransform[0] },#{ currTransform[1] }) scale(#{ currTransform[2]-0.3 })" 
+                            if direction == "in"
+                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]+0.2 })" 
+                            else if direction == "out" 
+                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]-0.2 })" 
                             )
+                    @.zoom.scale(endTransform[2])
+        
