@@ -72,10 +72,15 @@ alchemy.startGraph = (data) ->
         .nodes(data.nodes)
         .links(data.edges)
 
-    alchemy.updateGraph()
-    alchemy.filters.init(alchemy.nodes, alchemy.edges)
-    alchemy.zoomControls.init()
+    # TODO: fix this in the graph file generating view instead of here
+    fixNodesTags(alchemy.nodes, alchemy.edges);
 
+    alchemy.updateGraph()
+    # alchemy.zoomControls.init()
+    alchemy.controlDash.init()
+    # alchemy.filters.init(alchemy.nodes, alchemy.edges)
+    # alchemy.stats.init()
+    
     # configuration for forceLocked
     if !conf.forceLocked 
         alchemy.force

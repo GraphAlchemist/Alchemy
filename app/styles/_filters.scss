@@ -1,24 +1,52 @@
 #filters {
     padding: 0.5em 1em;
-    background-color: rgba(255,255,255,.8);
-
-    h4 {
-        cursor: pointer;
-        font-size: 1em;
+    background-color: transparent;
+    border-bottom: thin dashed $bright-orange;
+    form{
+        width: 100%;
     }
 
-    li {
-        cursor: pointer;
+    #filter-relationships, #filter-nodes{
+        background-color: transparent;
+        display: inline-block;
+        width: 45%;
+        margin-left: 2%;
+        overflow: auto;
+        vertical-align: top;
+        button{
+            color: white;
+            width: 100%;
+            // .caret{
+            //     margin-left:  4px;
+            //     color: $bright-orange;
+            // }
+        }
+        #rel-dropdown, #node-dropdown{
+            margin: 20px 0;
+            border-radius: none;
+            border: none;
+            background: transparent;
+            li{
+                padding: 5px;
+                &:first-child{
+                margin-top: 40px;
+                }
+
+                &:hover{
+                    background-color: rgba(white, .2);
+                }
+            }
+        }
     }
 
     .active-label {
-        color: rgba(0,0,0,1);
+        color: white;
     }
 
     .disabled {
-        color: rgba(0,0,0,.4);
+        color: rgba(white,.5);
         &:hover{
-            color: rgba($orange, .6);
+            color: $orange;
         }
     }
 }
