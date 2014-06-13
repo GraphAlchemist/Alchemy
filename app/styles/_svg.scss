@@ -2,7 +2,7 @@ svg {
     background: #252525;
     // margin-bottom: -3px;
     position: absolute;
-    top: 0;
+    // top: 0;
     cursor: -webkit-grab;
     height: 100%;
     width: 100%;
@@ -13,5 +13,6 @@ svg {
     // background: -ms-radial-gradient(center, ellipse cover, #fff 50%, #c8d3d4 100%);
     // background: radial-gradient(ellipse at center, #fff 50%, #c8d3d4 100%);
     color: #333;
+
     /*z-index: -1;*/
 }
