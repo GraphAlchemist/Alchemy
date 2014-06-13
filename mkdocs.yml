@@ -1,0 +1,6 @@
+site_name: AlchemyDocs
+pages:
+- [index.md, Home]
+- [Contributing.md, Contributing]
+- [Nodes.md, Nodes]
+theme: readthedocs
