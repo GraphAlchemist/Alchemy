@@ -58,7 +58,7 @@ alchemy.controlDash =
         # d3.select('#zoom-out').on("click", () -> alchemy.interactions.clickZoom 'out' )
 
     zoomCtrl: () ->
-        if conf.zoomControl 
+        if conf.zoomControls 
             d3.select("#control-dash-wrapper")
                 .append("div")
                 .attr("id", "zoom-controls")
