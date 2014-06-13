@@ -26,8 +26,8 @@
     	&.highlight{
     		@include highlight();
     		stroke-width: 2 !important;
-	        stroke-opacity: .6 !important;
-	        stroke: lighten($blue, 20%) !important;
+	        stroke-opacity: .7 !important;
+	        stroke: lighten($blue, 30%) !important;
 
     	}
     }
@@ -37,8 +37,8 @@
     	&.highlight{
     		@include highlight();
 	        stroke-width: 2 !important;
-	        stroke-opacity: .3 !important;
-	        stroke: $orange !important;
+	        stroke-opacity: .5 !important;
+	        stroke: $bright-orange !important;
     	}
 	}
 }
