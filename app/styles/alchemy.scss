@@ -1,23 +1,12 @@
-// Alchemy colors
-$blue: #68B9FE;
-$orange: #FDC670;
+@import 'varsMixinsAnimation';
+@import 'svg';
+@import 'nodes';
+@import 'edges';
+@import 'utils';
+@import 'controls';
+@import 'filters';
 
 .alchemy {
-    @mixin highlight(){
-        opacity: .8 !important;
-    }
-    @mixin inactive(){
-        opacity: 0;
-    }
-    @mixin active(){
-        opacity: 1;
-    }
-    @import 'svg';
-    @import 'nodes';
-    @import 'edges';
-    @import 'utils';
-    @import 'controls';
-
     position: relative;
 
     #search form {
@@ -92,15 +81,14 @@ $orange: #FDC670;
     }
 
     /* graph controls */
-    #controls-container {
-        position: relative;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 2;
-        @import 'filters';
-    }
-
+    // #controls-container {
+    //     display: none;
+    //     position: relative;
+    //     top: 0;
+    //     left: 0;
+    //     right: 0;
+    //     z-index: 2;
+    // }
     // #controls {
     //     margin: 10px;
     //     position: absolute;
