@@ -15,15 +15,11 @@ fixNodesTags = (nodes, edges) ->
     tags.sort()
     $('#add-tag').autocomplete('option', 'source', tags)
 
-    # shouldn't nodetypes be renamed to nodetags? since adding a tag is essentially adding a nodetype? and vice-versa?
-
 alchemy.filters = 
-    init: (nodes, edges) -> 
-        #show the appropriate filters:
+    init: () -> 
         if conf.showFilters then alchemy.filters.show()
         if conf.edgeFilters then alchemy.filters.showEdgeFilters()
         if conf.nodeFilters then alchemy.filters.showNodeFilters()
-
         #generate filter forms
         if conf.nodeTypes
             nodeKey = Object.keys(conf.nodeTypes)
@@ -32,91 +28,89 @@ alchemy.filters =
             for nodeType in conf.nodeTypes[nodeKey]
                 # if not currentNodeTypes[t] then continue
                 caption = nodeType.replace('_', ' ')
-                nodeTypes += "<li class = 'nodeType' role = 'menuitem' id='li-#{nodeType}' name = #{caption}>#{caption}</li>"
+                nodeTypes += "<li class = 'list-group-item nodeType' role = 'menuitem' id='li-#{nodeType}' name = #{caption}>#{caption}</li>"
             $('#node-dropdown').append(nodeTypes)
             # $('#node-dropdown li').click(alchemy.filters.update())
 
         if conf.edgeTypes
-            for e in edges
+            for e in d3.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
             edgeTypes = ''
             for edgeType in conf.edgeTypes
                 if not edgeType then continue
                 caption = edgeType.replace('_', ' ')
-                edgeTypes += "<li class = 'edgeType' role = 'menuitem' id='li-#{edgeType}' name = #{caption}>#{caption}</li>"
+                edgeTypes += "<li class = 'list-group-item edgeType' role = 'menuitem' id='li-#{edgeType}' name = #{caption}>#{caption}</li>"
             $('#rel-dropdown').append(edgeTypes)
             # $('#rel-dropdown li').click(alchemy.filters.update())
         
         alchemy.filters.update()
 
-    # not working, deprecate?
-    updateTagsAutocomplete: () ->
-        # if no tags have been selected, use entire list
-        # otherwise, only use tags that match one or more nodes that match all tags that have been selected
-        tags = Object.keys(allTags)
-        selected = (tag.textContent.trim() for tag in $('#tags-list').children())
-        if selected
-            newTags = {}
-            for node in allNodes
-                ok = true
-                for tag in selected
-                    if node._tags.indexOf(tag) is -1
-                        ok = false
-                        break
-                if ok
-                    # this node matches all tags, add all of its tags to new autocomplete list
-                    # exclude tags that have already been selected though
-                    for tag in node._tags
-                        if selected.indexOf(tag) is -1
-                            newTags[tag] = true
+    # NOT IMPLEMENTED: 
+    # # not working, deprecate?
+    # updateTagsAutocomplete: () ->
+    #     # if no tags have been selected, use entire list
+    #     # otherwise, only use tags that match one or more nodes that match all tags that have been selected
+    #     tags = Object.keys(allTags)
+    #     selected = (tag.textContent.trim() for tag in $('#tags-list').children())
+    #     if selected
+    #         newTags = {}
+    #         for node in allNodes
+    #             ok = true
+    #             for tag in selected
+    #                 if node._tags.indexOf(tag) is -1
+    #                     ok = false
+    #                     break
+    #             if ok
+    #                 # this node matches all tags, add all of its tags to new autocomplete list
+    #                 # exclude tags that have already been selected though
+    #                 for tag in node._tags
+    #                     if selected.indexOf(tag) is -1
+    #                         newTags[tag] = true
 
-            tags = Object.keys(newTags)
+    #         tags = Object.keys(newTags)
 
-        tags.sort()
-        $('#add-tag').autocomplete('option', 'source', tags)
+    #     tags.sort()
+    #     $('#add-tag').autocomplete('option', 'source', tags)
 
-    #add a tag NEEDS TESTING
-    addTag: (event, ui) ->
-        tag = ui.item.value
-        list = $('#tags-list')
-        #check if tag is already present
-        if list.children().filter(() -> @textContent is tag).length is 0
+    # #add a tag NEEDS TESTING
+    # addTag: (event, ui) ->
+    #     tag = ui.item.value
+    #     list = $('#tags-list')
+    #     #check if tag is already present
+    #     if list.children().filter(() -> @textContent is tag).length is 0
 
-            li = $("""<li>
-                        <span>#{ tag }<i class="icon-remove-sign"></i></span>
-                      </li>
-                   """)
-            li.find('i').click(() ->
-                $(this).parents('li').remove()
-                updateTagsAutocomplete()
-                updateFilters()
-            )
-            list.append(li)
-            li.after(' ')
+    #         li = $("""<li>
+    #                     <span>#{ tag }<i class="icon-remove-sign"></i></span>
+    #                   </li>
+    #                """)
+    #         li.find('i').click(() ->
+    #             $(this).parents('li').remove()
+    #             updateTagsAutocomplete()
+    #             updateFilters()
+    #         )
+    #         list.append(li)
+    #         li.after(' ')
 
-        @value = '';
-        @blur()
-        updateTagsAutocomplete()
-        alchemy.filters.update
-        event.preventDefault()
+    #     @value = '';
+    #     @blur()
+    #     updateTagsAutocomplete()
+    #     alchemy.filters.update
+    #     event.preventDefault()
 
     show: () ->
-        # #old
         filter_html = """
-                        <div id="filters">
-                            <h4 data-toggle="collapse" data-target="#filters form">
-                                <i class="icon-caret-right"></i> 
-                                Show Filters
-                            </h4>
-                            <form class="form-inline collapse">
-                            </form>
-                        </div>
+                        <h3 data-toggle="collapse" data-target="#filters form">
+                            Filters
+                            <span class = "fa fa-caret-right"></span>
+                        </h3>
+                        <form class="form-inline collapse">
+                        </form>
                       """
-        d3.select('#controls-container').html(filter_html)
-        d3.select('#filters form')
-            .on('hide.bs.collapse', () -> d3.select('#filters>h4').html('<i class="icon-caret-right"></i> Show Filters'))
-            .on('show.bs.collapse', () -> d3.select('#filters>h4').html('<i class="icon-caret-down"></i> Hide Filters'))
+        d3.select('#control-dash #filters').html(filter_html)
+        # d3.select('#filters>h3')
+        #     .on('hide.bs.collapse', () -> d3.select('#filters>h3').html('<span class="fa fa-caret-right"></span>Show Filters'))
+        #     .on('show.bs.collapse', () -> d3.select('#filters>h3').html('<span class="fa fa-caret-down"></span>Hide Filters'))
 
         $('#filters form').submit(false)
 
@@ -124,10 +118,10 @@ alchemy.filters =
     showEdgeFilters: () ->
         rel_filter_html = """
                            <div id="filter-relationships" class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    Edges<span class="caret"></span>
+                                <button type="button" data-target = "#rel-dropdown" class="btn btn-default" data-toggle="collapse">
+                                    Edge Types<span class="fa fa-caret-down"></span>
                                 </button>
-                                <ul id="rel-dropdown" class="dropdown-menu" role="menu">
+                                <ul id="rel-dropdown" class="collapse list-group" role="menu">
                                 </ul>
                            </div>
 
@@ -138,17 +132,15 @@ alchemy.filters =
     showNodeFilters: () ->
         node_filter_html = """
                            <div id="filter-nodes" class="btn-group">
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                    Nodes<span class="caret"></span>
+                                <button type="button" data-target="#node-dropdown" class="btn btn-default" data-toggle="collapse">
+                                    Node Types<span class="fa fa-caret-down"></span>
                                 </button>
-                                <ul id="node-dropdown" class="dropdown-menu" role="menu">
+                                <ul id="node-dropdown" class="collapse list-group" role="menu">
                                 </ul>
                            </div>
 
                            """
         $('#filters form').append(node_filter_html)
-
-    ##refactor without checkboxes
 
     #update filters
     update: () ->
@@ -162,27 +154,28 @@ alchemy.filters =
 
         reFilter = (boxName, state, checked, highlight) ->
             boxName = boxName.replace(/\s+/g, '_');
-            console.log boxName + " " + state
             ["node", "edge"].forEach (t) ->
                 graphElements[t].filter(".#{boxName}")
                     .attr("class", "#{t} #{boxName} #{state}")
 
             #remove spaces from state
             state = state.replace(/\s+/g, '.');
-            console.log boxName + " " + state
-
-
             for node in graphElements["node"].filter(".#{state}")[0]
+                # console.log "nodes with state: #{state}"
+                # console.log graphElements["node"].filter(".#{state}")[0]
+                # console.log "edge with node as one end: "
+                # console.log graphElements["edge"].filter("[id*='#{node.id[7..13]}']")[0][0]
                 graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
                     .classed({"inactive": !checked, "active": checked, "highlight": highlight})
-            console.log  "refiltered #{boxName} with state #{state} and checked #{checked} and highlight #{highlight}"
+
+            alchemy.stats.update()
 
         # add label active / inactive classes
         for tag in tags[0]
             element = d3.select("##{tag.id}")
             name = element[0][0].innerText
-            state = if element.classed("disabled") then "inactive" else "active"
             checked = !element.classed("disabled")
+            state = if checked then "active" else "inactive"
             element.classed({'active-label': checked,'disabled': !checked})
             reFilter(name, state, checked, false)
 
@@ -201,7 +194,6 @@ alchemy.filters =
 
             .on "mouseleave", () ->
                 #get the element and state
-                console.log "mouseleave"
                 element = d3.select("##{this.id}")
                 checked = !element.classed("disabled")
                 name = element[0][0].innerText
@@ -220,14 +212,11 @@ alchemy.filters =
                 element.classed({'active-label': checked,'disabled': !checked})
 
                 name = element[0][0].innerText
-                console.log name + " click and checked" + checked
                 state = if checked then "active" else "inactive"
 
                 highlight = false
                 reFilter(name, state, checked, highlight)
                                 
-
-
 
 
         # edges.classed('search-match', (d) ->
@@ -255,27 +244,6 @@ alchemy.filters =
 #     $('#add-tag').autocomplete({select: addTag, minLength: 0})
 #     $('#add-tag').focus ->
 #         $(this).autocomplete('search')
-
-
-        # if tagList.children().length + nodeTypeList.length + relationshipTypeList.length > 0
-        #     active = true
-        # else
-        #     nodes.classed('search-match', false)
-        #     edges.classed('search-match', false)
-        #     return
-        # nodes.classed('search-match', (d) ->
-        #     if tagList.children().length + nodeTypeList.length is 0
-        #         return false
-        #     match = true
-        #     for tag in tagList.children()
-        #         if d._tags.indexOf(tag.textContent.trim()) is -1
-        #             match = false
-
-        #     if match and nodeTypeList.length > 0
-        #         match = nodeTypeList.filter('[name="' + d.type + '"]').length > 0
-
-        #     match
-        # )    
 
 
 # $('#filters form').append('<div class="clear"></div>')

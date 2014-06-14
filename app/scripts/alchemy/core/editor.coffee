@@ -27,5 +27,5 @@ if conf.removeNodes
         # clear all filters
         $('#tags-list').html('')
         $('#filters input:checked').parent().remove()
-        updateFilters()
+        # updateFilters()
         deselectAll()
