@@ -2,7 +2,7 @@
 #zoom-controls{
 	@include tabs();
 	margin-top: 10%;
-	z-index: 1;
+	z-index: 5;
 	position: relative;
     display: block;
     width: 55px;
@@ -22,9 +22,27 @@
 	}    
 }
 
-.fa-caret-right, .fa-caret-down{
-    margin: 0 5px;
+.fa-caret-right, .fa-caret-down, .fa-search{
+	margin: 0 5px;
     color: $bright-orange;
+}
+
+#search{
+	margin-top: 2em;
+	margin-bottom: 1em;
+	padding: .5em 1em;
+	span{
+		margin-left: 0;
+		vertical-align: bottom;
+		padding: 3px 0;
+	}
+	input{
+		background-color: black;
+		border: none;
+		font-size: 20px;
+		width: 90%;
+		color: white;
+	}
 }
 
 #stats{
@@ -56,40 +74,33 @@
     }
 }
 
-/*Filter Styles*/
-// #filters {
-//     padding: 0.5em 1em;
-//     border-bottom: thin dashed $bright-orange;
-
-//     h4 {
-//         cursor: pointer;
-//         font-size: 1em;
-//     }
-
-//     li {
-//         cursor: pointer;
-//     }
-
-//     .active-label {
-//         color: rgba(0,0,0,1);
-//     }
-
-//     .disabled {
-//         color: rgba(0,0,0,.4);
-//         &:hover{
-//             color: rgba($bright-orange, .6);
-//         }
-//     }
-// }
-// ::-webkit-scrollbar{
-// 		color: $bright-orange;
-// }
+#control-dash-background{
+	display: none;
+	padding: 0;
+	margin: 0;
+	z-index: 0;
+	background-color: rgba(white, .15);
+	-webkit-filter: blur(5px);
+	filter: blur(5px);
+	height: inherit;
+	&.off-canvas{
+	    transform: translate(-200%, 0);
+	    -webkit-animation: slide-out .75s linear;
+	    animation: slide-out .75s linear;
+	}
+	&.on-canvas{
+		transform: translate(-100%, 0);
+	    -webkit-animation: slide-in .75s ease-in-out;
+	    animation: slide-in .75s ease-in-out;
+	}
+}
 
 #control-dash-wrapper{
 	font-family: 'Source Sans Pro', Helvetica, sans-serif;
 	letter-spacing: .05em;
 	height: inherit;
-	position: relative;
+	z-index: inherit;
+	// position: relative;
 	padding: 0;
 	&.off-canvas{
 	    transform: translate(-100%, 0);
@@ -118,6 +129,7 @@
 	    z-index: 5;
 	}
 	#dash-toggle{
+		z-index: 5;
 		@include tabs();
 		position: absolute;
 	    top: 50%;

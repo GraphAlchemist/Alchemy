@@ -7,6 +7,11 @@ alchemy.controlDash =
                 .attr("id", "control-dash-wrapper")
                 .attr("class", "col-md-4 off-canvas")
 
+            d3.select(".alchemy")
+                .append("div")
+                .attr("id", "control-dash-background")
+                .attr("class", "col-md-4")
+
             # add the dash toggle button 
             d3.select("#control-dash-wrapper") 
                 .append("i")
@@ -22,8 +27,15 @@ alchemy.controlDash =
             d3.select('#dash-toggle').on('click', alchemy.interactions.toggleControlDash)
 
             alchemy.controlDash.zoomCtrl()
+            alchemy.controlDash.search()
             alchemy.controlDash.filters()
             alchemy.controlDash.stats()
+
+    search: () ->
+        d3.select("#control-dash")
+                .append("div")
+                .attr("id", "search")
+                .html("<span class='fa fa-search fa-2x'></span><input placeholder='Search'></input>")
 
     zoomCtrl: () ->
         if conf.zoomControls 
