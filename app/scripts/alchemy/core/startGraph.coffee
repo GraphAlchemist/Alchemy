@@ -69,18 +69,24 @@ alchemy.startGraph = (data) ->
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance(500))
         .size([conf.graphWidth, conf.graphHeight()])
-        .nodes(data.nodes)
-        .links(data.edges)
+        .nodes(alchemy.nodes)
+        .links(alchemy.edges)
+        .on("tick", alchemy.layout.tick)
+
+    # TODO: fix this in the graph file generating view instead of here
+    fixNodesTags(alchemy.nodes, alchemy.edges);
 
     alchemy.updateGraph()
-    alchemy.filters.init(alchemy.nodes, alchemy.edges)
-    alchemy.zoomControls.init()
-
+    # alchemy.zoomControls.init()
+    alchemy.controlDash.init()
+    # alchemy.filters.init(alchemy.nodes, alchemy.edges)
+    # alchemy.stats.init()
+    
     # configuration for forceLocked
     if !conf.forceLocked 
-        alchemy.force
-               .on("tick", alchemy.layout.tick)
-               .start()
+         alchemy.force
+                .on("tick", alchemy.layout.tick)
+                .start()
 
 
     # call user-specified functions after load function if specified

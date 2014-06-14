@@ -6,8 +6,6 @@
         stroke: #127dc1;
         stroke-width: 4px;
         stroke-opacity: 1;
-        // TODO: `.node` should have a `root` class
-        // NOT `circle`.... uh.
         &.root {
             fill: #90c73d;
             stroke: #90c73d;
@@ -19,7 +17,7 @@
     text {
         display: none;
         fill: #FFF;
-        text-shadow: 1px 1px 0px #333;
+        //text-shadow: 1px 1px 0px #333;
         font-weight: 200;
         text-anchor: middle;
         z-index: 1000;
@@ -31,7 +29,7 @@
 			@include highlight();
 	        circle{
 	            fill-opacity: 1 !important;
-	            stroke: darken($blue, 20%) !important;
+	            stroke: darken($blue, 40%) !important;
 	            stroke-width: 3px !important;
 	            fill: white !important;
 	        }
@@ -55,7 +53,7 @@
     		@include highlight();
 	        circle{
 	            fill-opacity: 1 !important;
-	            stroke: $orange !important;
+	            stroke: $bright-orange !important;
 	            stroke-width: 2px !important;
 	            fill: white !important;
 	        }

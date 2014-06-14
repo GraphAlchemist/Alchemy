@@ -13,12 +13,12 @@ defaults =
     alpha: .5
     cluster: false
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
-                         "#00FF30", "#5168FF",
-                         "#00C0FF", "#FF004B",
-                         "#00CDCD", "#f83f00",
-                         "#f800df", "#ff8d8f",
-                         "#ffcd00", "#184fff",
-                         "#ff7e00"])
+                                "#00FF30", "#5168FF",
+                                "#00C0FF", "#FF004B",
+                                "#00CDCD", "#f83f00",
+                                "#f800df", "#ff8d8f",
+                                "#ffcd00", "#184fff",
+                                "#ff7e00"])
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
@@ -48,7 +48,7 @@ defaults =
     nodeCaption: 'caption' #changed key
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
-    nodeOverlap: 20
+    nodeOverlap: 25
     nodeRadius: 10 # partially implemented
     nodeTypes: null
     rootNodeRadius: 15

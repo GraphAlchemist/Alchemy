@@ -6,9 +6,14 @@ alchemy.updateGraph = (start=true) ->
     if not initialComputationDone
         while @force.alpha() > 0.005
             alchemy.force.tick()
+            # alchemy.layout.tick()
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
         if(conf.locked) then alchemy.force.stop()
+
+    for node in alchemy.nodes
+        alchemy.layout.collide(node)
+        alchemy.layout.tick()
 
     alchemy.styles.edgeGradient(alchemy.edges)
 
