@@ -51,7 +51,7 @@ alchemy.startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
-                .attr("transform","translate(0.1,0.1) scale(#{conf.initialScale})")
+                .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
