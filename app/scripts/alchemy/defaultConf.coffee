@@ -59,7 +59,7 @@ defaults =
     edgeTypes: null
 
     # Init
-    initialScale: 0 #not yet implemented
+    initialScale: 1
     initialTranslate: [0,0] #not yet implemented
     warningMessage: "There be no data!  What's going on?" #not yet implemented
 
