@@ -12,7 +12,7 @@ alchemy.startGraph = (data) ->
                                     <h4 class="modal-title">Sorry!</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p>No data found, try searching for movies, actors or directors.</p>
+                                    <p>#{conf.warningMessage}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
