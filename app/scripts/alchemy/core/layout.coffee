@@ -3,20 +3,22 @@ alchemy.layout =
         if conf.cluster
             -1600
         else
-            if typeof(node.connectedNodes is 'undefined') then node.connectedNodes = 0
-            node.connectedNodes++
-            value = Math.floor(Math.sqrt(node.connectedNodes * 2)) * 35
-            -value
-            # -30
+            -150
+            # if typeof(node.connectedNodes is 'undefined') then node.connectedNodes = 0
+            # node.connectedNodes++
+            # value = Math.floor(Math.sqrt(node.connectedNodes * 2)) * 35
+            # -value
+            # # -30
 
     linkStrength: (edge) ->
-        if conf.cluster
-            if edge.source.cluster is edge.target.cluster then 0.011 else 0.01
-        else
-            if edge.source.root or edge.target.root
-                .2
-            else
-                1
+        # if conf.cluster
+        #     if edge.source.cluster is edge.target.cluster then 0.011 else 0.01
+        # else
+        #     if edge.source.root or edge.target.root
+        #         .2
+        #     else
+        #         1
+        1
     
 
     friction: () ->
@@ -26,16 +28,17 @@ alchemy.layout =
             0.9
 
     linkDistanceFn: (edge) ->
-        if conf.cluster
-            if edge.source.root or edge.target.root
-                300
-            else
-                false
-            # if edge.source.cluster is edge.target.cluster then false
-        else 
-            if edge.source.root and edge.target.root then 500
-            else if edge.source.root or edge.target.root then 700
-            else 800
+        # if conf.cluster
+        #     if edge.source.root or edge.target.root
+        #         300
+        #     else
+        #         false
+        #     # if edge.source.cluster is edge.target.cluster then false
+        # else 
+        #     if edge.source.root and edge.target.root then 500
+        #     else if edge.source.root or edge.target.root then 700
+        #     else 800
+        20
 
     # cluster: (alpha) ->
     #     centroids = {}
