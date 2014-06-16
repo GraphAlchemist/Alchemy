@@ -26,7 +26,7 @@ defaults =
     nodePositions: null # not currently implemented
 
     # Editing
-    captionToggle: false # not currently implemented
+    captionToggle: false
     edgesToggle: false # not currently implemented
     nodesToggle: false # not currently implemented
     removeNodes: false # not currently implemented
@@ -37,7 +37,7 @@ defaults =
 
     # Filtering
     showFilters: false
-    edgeFilters: false # not currently implemented
+    edgeFilters: false
     nodeFilters: false
 
     # Controls

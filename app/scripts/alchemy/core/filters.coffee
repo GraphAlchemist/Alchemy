@@ -44,6 +44,8 @@ alchemy.filters =
             $('#rel-dropdown').append(edgeTypes)
             # $('#rel-dropdown li').click(alchemy.filters.update())
         
+        if conf.captionsToggle then alchemy.filters.captionsToggle()
+
         alchemy.filters.update()
 
     # NOT IMPLEMENTED: 
@@ -141,6 +143,18 @@ alchemy.filters =
 
                            """
         $('#filters form').append(node_filter_html)
+
+    #create captions toggle button
+    captionsToggle: () ->
+        d3.select("#filters form")
+          .append("div")
+          .attr({"id":"toggle-buttons", "class":"btn-group"})
+          .html("<li class='list-group-item active-label'>Show Captions</li>")
+          .on("click", ->
+            isNowHidden = !d3.selectAll("#filters form li").classed("disabled")
+            d3.selectAll("#filters form li").classed("disabled", () -> return isNowHidden )
+            d3.selectAll("g text").classed("hidden", isNowHidden)
+            )
 
     #update filters
     update: () ->
@@ -257,18 +271,6 @@ alchemy.filters =
 #     checked = $(@).parents('fieldset').find('input:checked').length
 #     checkboxes.prop('checked', (checked == 0))
 #     alchemy.filters.update
-
-
-# #label toggle
-# if conf.captionsToggle
-#     #todo, change every instance of 'label' to 'caption' to disambiguate with Graph property model
-#     $('#labels-toggle').click = () ->
-#         currentClasses = ($('svg').attr(class) or '').split(' ')
-#         if (currentClasses.indexOf('hidetext') > -1)
-#             currentClasses.splice(currentClasses.indexOf('hidetext'), 1)
-#         else
-#             currentClasses.push('hidetext')
-#         $('svg').attr('class', currentClasses.join(' '))
 
 # #links toggle
 # if conf.linksToggle
