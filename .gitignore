@@ -4,8 +4,11 @@ node_modules
 *.DS_Store
 app/bower_components
 app/sample_data
+app/scripts/testConf.coffee
+app/scripts/alchemy/.DS_Store
 test/bower_components
 dist/
 ToDo.md
 Alchemy.wiki
 /site
+testConf.coffee
