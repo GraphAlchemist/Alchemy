@@ -164,16 +164,12 @@ alchemy.filters =
           .attr({"id":"toggle-edges","class":"list-group-item active-label toggle"})
           .html("Toggle Edges")
           .on("click", ->
-            if d3.selectAll(".edge.active")[0].length == 0
+            if d3.selectAll(".edge.hidden")[0].length == 0
                 d3.selectAll(".edge")
-                  .classed({ "inactive": false, "active": true })
-                d3.selectAll(".edgeType")
-                  .classed({ "disabled": false, "active-label": true })
+                  .classed("hidden", true)
             else
                 d3.selectAll(".edge")
-                  .classed({ "inactive": true, "active": false })
-                d3.selectAll(".edgeType")
-                  .classed({"active-label":true, "disabled":false})
+                  .classed("hidden", false)
             )
 
     #create nodes toggle
@@ -183,16 +179,12 @@ alchemy.filters =
           .attr({"id":"toggle-nodes","class":"list-group-item active-label toggle"})
           .html("Toggle Nodes")
           .on("click", ->
-            if d3.selectAll(".node.active")[0].length == 0
+            if d3.selectAll(".node.hidden")[0].length == 0
                 d3.selectAll(".node:not(.root)")
-                  .classed({ "inactive": false, "active": true })
-                d3.selectAll(".nodeType")
-                  .classed({ "disabled": false, "active-label": true })
+                  .classed("hidden", true)
             else
-                d3.selectAll(".node:not(.root), .edge")
-                  .classed({ "inactive": true, "active": false })
-                d3.selectAll(".nodeType, .edgeType")
-                  .classed({"active-label":false, "disabled":true})
+                d3.selectAll(".node.hidden:not(.root), .edge")
+                  .classed("hidden", false)
             )
 
 
