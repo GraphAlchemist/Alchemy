@@ -5,7 +5,7 @@ defaults =
 
     # Layout
     graphWidth: d3.select(".alchemy").node().parentElement.clientWidth
-    graphHeight: () ->
+    graphHeight: do () ->
         if d3.select(".alchemy").node().parentElement.nodeName == "BODY"
             return window.innerHeight
         else 
