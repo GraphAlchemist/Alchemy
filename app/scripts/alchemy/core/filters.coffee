@@ -149,7 +149,7 @@ alchemy.filters =
     captionsToggle: () ->
         d3.select("#filters form")
           .append("li")
-          .attr({"id":"toggle-captions","class":"list-group-item active-label"})
+          .attr({"id":"toggle-captions","class":"list-group-item active-label toggle"})
           .html("Show Captions")
           .on("click", ->
             isNowHidden = !d3.select("#toggle-captions").classed("disabled")
@@ -161,7 +161,7 @@ alchemy.filters =
     edgesToggle: () ->
         d3.select("#filters form")
           .append("li")
-          .attr({"id":"toggle-edges","class":"list-group-item active-label"})
+          .attr({"id":"toggle-edges","class":"list-group-item active-label toggle"})
           .html("Toggle Edges")
           .on("click", ->
             if d3.selectAll(".edge.active")[0].length == 0
@@ -180,7 +180,7 @@ alchemy.filters =
     nodesToggle: () ->
         d3.select("#filters form")
           .append("li")
-          .attr({"id":"toggle-nodes","class":"list-group-item active-label"})
+          .attr({"id":"toggle-nodes","class":"list-group-item active-label toggle"})
           .html("Toggle Nodes")
           .on("click", ->
             if d3.selectAll(".node.active")[0].length == 0
