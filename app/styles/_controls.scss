@@ -82,6 +82,20 @@
     }
 }
 
+#update-elements {
+    padding: 0.5em 1em;
+    border-bottom: thin dashed $bright-orange;
+
+    h4 {
+        cursor: pointer;
+        font-size: 1em;
+    }
+
+    li {
+        cursor: pointer;
+    }
+}
+
 ::-webkit-scrollbar{
 		color: $bright-orange;
 }

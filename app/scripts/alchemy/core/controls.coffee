@@ -36,6 +36,7 @@ alchemy.controlDash =
         alchemy.controlDash.zoomCtrl()
         alchemy.controlDash.filters()
         alchemy.controlDash.stats()
+        alchemy.controlDash.modifyElements()
 
         # add zoom controls
         # d3.select("#control-dash-wrapper")
@@ -82,6 +83,8 @@ alchemy.controlDash =
             .attr("id", "stats")
         alchemy.stats.init()
 
-
-
-
+    modifyElements: () ->
+        d3.select("#control-dash")
+            .append("div")
+            .attr("id", "update-elements")
+        alchemy.modifyElements.init()
