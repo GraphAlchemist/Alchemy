@@ -28,7 +28,7 @@ defaults =
     # Editing
     captionToggle: false
     edgesToggle: false
-    nodesToggle: false # not currently implemented
+    nodesToggle: false
     removeNodes: false # not currently implemented
     removeEdges: false # not currently implemented
     addNodes: false # not currently implemented
