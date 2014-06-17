@@ -180,7 +180,7 @@ alchemy.filters =
           .html("Toggle Nodes")
           .on("click", ->
             if d3.selectAll(".node.hidden")[0].length == 0
-                d3.selectAll(".node:not(.root)")
+                d3.selectAll(".node:not(.root), .edge")
                   .classed("hidden", true)
             else
                 d3.selectAll(".node.hidden:not(.root), .edge")
