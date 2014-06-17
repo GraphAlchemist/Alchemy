@@ -34,6 +34,13 @@ defaults =
     addNodes: false # not currently implemented
     addEdges: false # not currently implemented
 
+    #Control Dash
+    showControlDash: false 
+
+    #Stats
+    showStats: false
+    nodeStats: false
+    edgeStats: false
 
     # Filtering
     showFilters: false
@@ -41,7 +48,7 @@ defaults =
     nodeFilters: false
 
     # Controls
-    controlOrientation: 'vertical'
+    # controlOrientation: 'vertical' no longer implemented or used
     zoomControls: false
 
     # Nodes

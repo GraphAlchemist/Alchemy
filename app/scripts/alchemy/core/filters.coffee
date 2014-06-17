@@ -108,10 +108,12 @@ alchemy.filters =
                         </form>
                       """
         d3.select('#control-dash #filters').html(filter_html)
-        # d3.select('#filters>h3')
-        #     .on('hide.bs.collapse', () -> d3.select('#filters>h3').html('<span class="fa fa-caret-right"></span>Show Filters'))
-        #     .on('show.bs.collapse', () -> d3.select('#filters>h3').html('<span class="fa fa-caret-down"></span>Hide Filters'))
-
+        d3.select("#filters>h3")    
+            .on('click', () ->
+                if d3.select('#filters>form').classed("in")
+                    d3.select("#filters>h3").html("Filters<span class = 'fa fa-caret-right'></span>")
+                else d3.select("#filters>h3").html("Filters<span class = 'fa fa-caret-down'></span>")
+            )
         $('#filters form').submit(false)
 
     #create relationship filters
@@ -119,7 +121,7 @@ alchemy.filters =
         rel_filter_html = """
                            <div id="filter-relationships" class="btn-group">
                                 <button type="button" data-target = "#rel-dropdown" class="btn btn-default" data-toggle="collapse">
-                                    Edge Types<span class="fa fa-caret-down"></span>
+                                    Edge Types<span class="fa fa-caret-right"></span>
                                 </button>
                                 <ul id="rel-dropdown" class="collapse list-group" role="menu">
                                 </ul>
@@ -127,13 +129,19 @@ alchemy.filters =
 
                            """
         $('#filters form').append(rel_filter_html)
+        d3.select("#filter-relationships>button")    
+            .on('click', () ->
+                if d3.select('#rel-dropdown').classed("in")
+                    d3.select("#filter-relationships>button").html("Edge Types<span class = 'fa fa-caret-right'></span>")
+                else d3.select("#filter-relationships>button").html("Edge Types<span class = 'fa fa-caret-down'></span>")
+            )
 
     #create node filters
     showNodeFilters: () ->
         node_filter_html = """
                            <div id="filter-nodes" class="btn-group">
                                 <button type="button" data-target="#node-dropdown" class="btn btn-default" data-toggle="collapse">
-                                    Node Types<span class="fa fa-caret-down"></span>
+                                    Node Types<span class="fa fa-caret-right"></span>
                                 </button>
                                 <ul id="node-dropdown" class="collapse list-group" role="menu">
                                 </ul>
@@ -141,6 +149,12 @@ alchemy.filters =
 
                            """
         $('#filters form').append(node_filter_html)
+        d3.select("#filter-nodes>button")    
+            .on('click', () ->
+                if d3.select('#node-dropdown').classed("in")
+                    d3.select("#filter-nodes>button").html("Node Types<span class = 'fa fa-caret-right'></span>")
+                else d3.select("#filter-nodes>button").html("Node Types<span class = 'fa fa-caret-down'></span>")
+            )
 
     #update filters
     update: () ->

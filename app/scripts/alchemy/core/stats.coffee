@@ -1,8 +1,9 @@
 alchemy.stats = 
     init: () -> 
-        alchemy.stats.show()
-        alchemy.stats.update()
-        alchemy.stats.insertSVG()
+        if conf.showStats is true
+            alchemy.stats.show()
+            alchemy.stats.update()
+            alchemy.stats.insertSVG()
     show: () -> 
         stats_html = """
                         <h3 data-toggle="collapse" data-target="#stats #all-stats">
@@ -14,8 +15,12 @@ alchemy.stats =
                             <ul class = "list-group" id="rel-stats"></ul>  
                     """
         d3.select('#stats').html(stats_html)
-        # d3.select('h3')
-        #     .on("show.bs.collapse").html("<span class = 'fa fa-caret-down'></span>")
+        d3.select('#stats>h3')
+            .on('click', () ->
+                if d3.select('#all-stats').classed("in")
+                    d3.select("#stats>h3").html("Statistics<span class = 'fa fa-caret-right'></span>")
+                else d3.select("#stats>h3").html("Statistics<span class = 'fa fa-caret-down'></span>")
+            )
 
     nodeStats: () ->
         #general node stats
@@ -92,17 +97,7 @@ alchemy.stats =
 
 
     update: () -> 
-        #get all the nodes
-        # nodeNum = d3.selectAll(".node")[0].length
-        # activeNodes = d3.selectAll(".node.active")[0].length
-        # inactiveNodes = d3.selectAll(".node.inactive")[0].length
-        # console.log "number of nodes: " + nodeNum + " activeNodes: " + activeNodes + " inactiveNodes: " + inactiveNodes  
-
-        # #get all the edges
-        # edgeNum = d3.selectAll(".edge")[0].length
-        # activeEdges = d3.selectAll(".edge.active")[0].length
-        # inactiveEdges = d3.selectAll(".edge.inactive")[0].length
-        # console.log "number of edges: " + edgeNum + " activeEdges: " + activeEdges + " inactiveEdges: " + inactiveEdges
-
-        alchemy.stats.nodeStats()
-        alchemy.stats.edgeStats()
+        if conf.nodeStats is true
+            alchemy.stats.nodeStats()
+        if conf.edgeStats is true
+            alchemy.stats.edgeStats()
