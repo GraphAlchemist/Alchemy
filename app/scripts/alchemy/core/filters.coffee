@@ -45,6 +45,7 @@ alchemy.filters =
             # $('#rel-dropdown li').click(alchemy.filters.update())
         
         if conf.captionsToggle then alchemy.filters.captionsToggle()
+        if conf.edgesToggle then alchemy. filters.edgesToggle()
 
         alchemy.filters.update()
 
@@ -144,16 +145,35 @@ alchemy.filters =
                            """
         $('#filters form').append(node_filter_html)
 
-    #create captions toggle button
+    #create captions toggle
     captionsToggle: () ->
         d3.select("#filters form")
-          .append("div")
-          .attr({"id":"toggle-buttons", "class":"btn-group"})
-          .html("<li class='list-group-item active-label'>Show Captions</li>")
+          .append("li")
+          .attr({"id":"toggle-captions","class":"list-group-item active-label"})
+          .html("Show Captions")
           .on("click", ->
-            isNowHidden = !d3.selectAll("#filters form li").classed("disabled")
-            d3.selectAll("#filters form li").classed("disabled", () -> return isNowHidden )
+            isNowHidden = !d3.select("#toggle-captions").classed("disabled")
+            d3.select("#toggle-captions").classed("disabled", () -> return isNowHidden )
             d3.selectAll("g text").classed("hidden", isNowHidden)
+            )
+
+    #create edges toggle
+    edgesToggle: () ->
+        d3.select("#filters form")
+          .append("li")
+          .attr({"id":"toggle-edges","class":"list-group-item active-label"})
+          .html("Toggle Edges")
+          .on("click", ->
+            if d3.selectAll(".edge.active")[0].length == 0
+                d3.selectAll(".edge")
+                  .classed({ "inactive": false, "active": true })
+                d3.selectAll(".edgeType")
+                  .classed({ "disabled": false, "active-label": true })
+            else
+                d3.selectAll(".edge")
+                  .classed({ "inactive": true, "active": false })
+                d3.selectAll(".edgeType")
+                  .classed({"active-label":false, "disabled":true})
             )
 
     #update filters
@@ -224,6 +244,7 @@ alchemy.filters =
                 #toggle the checked property and add disabled class
                 checked = !checked
                 element.classed({'active-label': checked,'disabled': !checked})
+
 
                 name = element[0][0].innerText
                 state = if checked then "active" else "inactive"
