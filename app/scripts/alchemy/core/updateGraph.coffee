@@ -37,6 +37,7 @@ alchemy.updateGraph = (start=true) ->
            .remove()
 
     # initialize graph to size of window
-    alchemy.utils.resize()
+    # alchemy.utils.resize()
     # resize svg on resizing of the window - if the div changes
-    window.onresize = alchemy.utils.resize
+    
+    # window.onresize = alchemy.utils.resize
