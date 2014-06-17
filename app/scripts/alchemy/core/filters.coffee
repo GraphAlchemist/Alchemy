@@ -45,8 +45,8 @@ alchemy.filters =
             # $('#rel-dropdown li').click(alchemy.filters.update())
         
         if conf.captionsToggle then alchemy.filters.captionsToggle()
-        if conf.edgesToggle then alchemy. filters.edgesToggle()
-
+        if conf.edgesToggle then alchemy.filters.edgesToggle()
+        if conf.nodesToggle then alchemy.filters.nodesToggle()
         alchemy.filters.update()
 
     # NOT IMPLEMENTED: 
@@ -173,8 +173,28 @@ alchemy.filters =
                 d3.selectAll(".edge")
                   .classed({ "inactive": true, "active": false })
                 d3.selectAll(".edgeType")
+                  .classed({"active-label":true, "disabled":false})
+            )
+
+    #create nodes toggle
+    nodesToggle: () ->
+        d3.select("#filters form")
+          .append("li")
+          .attr({"id":"toggle-nodes","class":"list-group-item active-label"})
+          .html("Toggle Nodes")
+          .on("click", ->
+            if d3.selectAll(".node.active")[0].length == 0
+                d3.selectAll(".node:not(.root)")
+                  .classed({ "inactive": false, "active": true })
+                d3.selectAll(".nodeType")
+                  .classed({ "disabled": false, "active-label": true })
+            else
+                d3.selectAll(".node:not(.root), .edge")
+                  .classed({ "inactive": true, "active": false })
+                d3.selectAll(".nodeType, .edgeType")
                   .classed({"active-label":false, "disabled":true})
             )
+
 
     #update filters
     update: () ->
