@@ -61,7 +61,3 @@ alchemy.controlDash =
             .append("div")
             .attr("id", "stats")
         alchemy.stats.init()
-
-
-
-

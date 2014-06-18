@@ -37201,7 +37201,8 @@
             "id": 3,
             "li_firstName": "Grace",
             "li_lastName": "Andrews",
-            "node_type": "root"
+            "node_type": "root",
+            "root": true
         },
         {
             "cluster": 3,

@@ -5970,7 +5970,8 @@
             "id": "pMlFQGZ1Nc",
             "li_firstName": "Huston",
             "li_lastName": "Hedinger",
-            "node_type": "root"
+            "node_type": "root",
+            "root": true
         },
         {
             "cluster": 2,
@@ -6453,7 +6454,8 @@
             "id": "K1J3V8EI9M",
             "li_firstName": "Grace",
             "li_lastName": "Andrews",
-            "node_type": "root"
+            "node_type": "root",
+            "root": true
         },
         {
             "cluster": 2,

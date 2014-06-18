@@ -31604,7 +31604,8 @@
             "id": 2,
             "li_firstName": "Huston",
             "li_lastName": "Hedinger",
-            "node_type": "root"
+            "node_type": "root",
+            "root": true
         },
         {
             "cluster": 3,
