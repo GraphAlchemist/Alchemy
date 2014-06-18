@@ -44,6 +44,9 @@ alchemy.filters =
             $('#rel-dropdown').append(edgeTypes)
             # $('#rel-dropdown li').click(alchemy.filters.update())
         
+        if conf.captionsToggle then alchemy.filters.captionsToggle()
+        if conf.edgesToggle then alchemy.filters.edgesToggle()
+        if conf.nodesToggle then alchemy.filters.nodesToggle()
         alchemy.filters.update()
 
     # NOT IMPLEMENTED: 
@@ -156,6 +159,49 @@ alchemy.filters =
                 else d3.select("#filter-nodes>button").html("Node Types<span class = 'fa fa-caret-down'></span>")
             )
 
+    #create captions toggle
+    captionsToggle: () ->
+        d3.select("#filters form")
+          .append("li")
+          .attr({"id":"toggle-captions","class":"list-group-item active-label toggle"})
+          .html("Show Captions")
+          .on("click", ->
+            isNowHidden = !d3.select("#toggle-captions").classed("disabled")
+            d3.select("#toggle-captions").classed("disabled", () -> return isNowHidden )
+            d3.selectAll("g text").classed("hidden", isNowHidden)
+            )
+
+    #create edges toggle
+    edgesToggle: () ->
+        d3.select("#filters form")
+          .append("li")
+          .attr({"id":"toggle-edges","class":"list-group-item active-label toggle"})
+          .html("Toggle Edges")
+          .on("click", ->
+            if d3.selectAll(".edge.hidden")[0].length == 0
+                d3.selectAll(".edge")
+                  .classed("hidden", true)
+            else
+                d3.selectAll(".edge")
+                  .classed("hidden", false)
+            )
+
+    #create nodes toggle
+    nodesToggle: () ->
+        d3.select("#filters form")
+          .append("li")
+          .attr({"id":"toggle-nodes","class":"list-group-item active-label toggle"})
+          .html("Toggle Nodes")
+          .on("click", ->
+            if d3.selectAll(".node.hidden")[0].length == 0
+                d3.selectAll(".node:not(.root), .edge")
+                  .classed("hidden", true)
+            else
+                d3.selectAll(".node.hidden:not(.root), .edge")
+                  .classed("hidden", false)
+            )
+
+
     #update filters
     update: () ->
         vis = alchemy.vis
@@ -225,6 +271,7 @@ alchemy.filters =
                 checked = !checked
                 element.classed({'active-label': checked,'disabled': !checked})
 
+
                 name = element[0][0].innerText
                 state = if checked then "active" else "inactive"
 
@@ -271,18 +318,6 @@ alchemy.filters =
 #     checked = $(@).parents('fieldset').find('input:checked').length
 #     checkboxes.prop('checked', (checked == 0))
 #     alchemy.filters.update
-
-
-# #label toggle
-# if conf.captionsToggle
-#     #todo, change every instance of 'label' to 'caption' to disambiguate with Graph property model
-#     $('#labels-toggle').click = () ->
-#         currentClasses = ($('svg').attr(class) or '').split(' ')
-#         if (currentClasses.indexOf('hidetext') > -1)
-#             currentClasses.splice(currentClasses.indexOf('hidetext'), 1)
-#         else
-#             currentClasses.push('hidetext')
-#         $('svg').attr('class', currentClasses.join(' '))
 
 # #links toggle
 # if conf.linksToggle

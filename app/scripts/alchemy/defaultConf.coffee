@@ -26,9 +26,9 @@ defaults =
     nodePositions: null # not currently implemented
 
     # Editing
-    captionToggle: false # not currently implemented
-    edgesToggle: false # not currently implemented
-    nodesToggle: false # not currently implemented
+    captionToggle: false
+    edgesToggle: false
+    nodesToggle: false
     removeNodes: false # not currently implemented
     removeEdges: false # not currently implemented
     addNodes: false # not currently implemented
@@ -44,7 +44,7 @@ defaults =
 
     # Filtering
     showFilters: false
-    edgeFilters: false # not currently implemented
+    edgeFilters: false
     nodeFilters: false
 
     # Controls
@@ -66,8 +66,8 @@ defaults =
     edgeTypes: null
 
     # Init
-    initialScale: 0 #not yet implemented
-    initialTranslate: [0,0] #not yet implemented
+    initialScale: 1
+    initialTranslate: [0,0]
     warningMessage: "There be no data!  What's going on?" #not yet implemented
 
 conf = _.assign({}, defaults)

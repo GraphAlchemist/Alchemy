@@ -12,7 +12,7 @@ alchemy.startGraph = (data) ->
                                     <h4 class="modal-title">Sorry!</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p>No data found, try searching for movies, actors or directors.</p>
+                                    <p>#{conf.warningMessage}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -51,7 +51,7 @@ alchemy.startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
-                .attr("transform","translate(0.1,0.1) scale(1)")
+                .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
