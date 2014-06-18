@@ -16,7 +16,6 @@ alchemy.layout =
                 0.9
             else
                 1
-        
 
     friction: () ->
         if conf.cluster
@@ -25,22 +24,12 @@ alchemy.layout =
             0.9
 
     linkDistanceFn: (edge, k) ->
-        # if conf.cluster
-        #     if edge.source.root or edge.target.root
-        #         500
-        #     else if edge.source.cluster is edge.target.cluster 
-        #         50
-        #     else
-        #         300
-        # else
-        #     20
         if conf.cluster
             # FIXME: parameterise this
             if (edge.source.node_type or edge.target.node_type) is 'root' then 300
             if edge.source.cluster is edge.target.cluster then 10 else 600
         else
             10 / (k * 5)
-
 
     # cluster: (alpha) ->
     #     centroids = {}
@@ -132,7 +121,6 @@ alchemy.layout =
                 alchemy.nodes[n.i].x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
                 alchemy.nodes[n.i].y = container.height / 2 #container.height / (rootNodes.length / number)
                 alchemy.nodes[n.i].fixed = true
-
 
     # #position the nodes
     # positionNodes: (nodes, x, y) ->
