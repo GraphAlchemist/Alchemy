@@ -1,28 +1,22 @@
 alchemy.layout =
-    charge: (node) ->
-        # debugger
+    gravity: (k) ->
+        8 * k
+
+    charge: (k) ->
         if conf.cluster
-            # value = Math.floor(Math.sqrt(node.connectedNodes * 2)) * 35
-            # -value
             -500
         else
-            -150
-            # if typeof(node.connectedNodes is 'undefined') then node.connectedNodes = 0
-            # node.connectedNodes++
-            # value = Math.floor(Math.sqrt(node.connectedNodes * 2)) * 35
-            # -value
-            # # -30
+            -10 / k
 
     linkStrength: (edge) ->
         if conf.cluster
-             if edge.source.cluster is edge.target.cluster then 1 else 0.1
+            if edge.source.cluster is edge.target.cluster then 1 else 0.1
         else
-             if edge.source.root or edge.target.root
-                 1
-             else
-                 .5
+            if edge.source.root or edge.target.root
+                0.9
+            else
+                1
         
-    
 
     friction: () ->
         if conf.cluster
@@ -30,22 +24,23 @@ alchemy.layout =
         else
             0.9
 
-    linkDistanceFn: (edge) ->
+    linkDistanceFn: (edge, k) ->
+        # if conf.cluster
+        #     if edge.source.root or edge.target.root
+        #         500
+        #     else if edge.source.cluster is edge.target.cluster 
+        #         50
+        #     else
+        #         300
+        # else
+        #     20
         if conf.cluster
-            if edge.source.root or edge.target.root
-                500
-            else if edge.source.cluster is edge.target.cluster 
-                50
-            else
-                300
+            # FIXME: parameterise this
+            if (edge.source.node_type or edge.target.node_type) is 'root' then 300
+            if edge.source.cluster is edge.target.cluster then 10 else 600
         else
-            20
-        #     # if edge.source.cluster is edge.target.cluster then false
-        # else 
-        #     if edge.source.root and edge.target.root then 500
-        #     else if edge.source.root or edge.target.root then 700
-        #     else 800
-        # 20
+            10 / (k * 5)
+
 
     # cluster: (alpha) ->
     #     centroids = {}
@@ -75,7 +70,7 @@ alchemy.layout =
 
 
     collide: (node) ->
-        r = alchemy.utils.nodeSize(node) + conf.nodeOverlap
+        r = 2.2 * alchemy.utils.nodeSize(node) + conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
         ny1 = node.y - r
@@ -85,7 +80,7 @@ alchemy.layout =
                 x = node.x - Math.abs(quad.point.x)
                 y = node.y - quad.point.y
                 l = Math.sqrt(x * x + y * y)
-                r = conf.nodeOverlap
+                r = r
                 if l < r
                     l = (l - r) / l * conf.alpha
                     node.x -= x *= l
@@ -101,16 +96,13 @@ alchemy.layout =
         if conf.collisionDetection
             q = d3.geom.quadtree(alchemy.nodes)
             for node in alchemy.nodes
-                if not node.root
-                    q.visit(alchemy.layout.collide(node))
+                q.visit(alchemy.layout.collide(node))
         alchemy.edge.attr("x1", (d) -> d.source.x )
               .attr("y1", (d) -> d.source.y )
               .attr("x2", (d) -> d.target.x )
               .attr("y2", (d) -> d.target.y )
         alchemy.node
-               .attr("transform", (d) -> 
-                if d.root then debugger
-                "translate(#{d.x},#{d.y})")
+               .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
 
 
     positionRootNodes: () ->
@@ -118,40 +110,29 @@ alchemy.layout =
             width: conf.graphWidth
             height: conf.graphHeight
         rootNodes = Array()
-        for n in alchemy.nodes
+        for n, i in alchemy.nodes
             if not n.root then continue
             else
-        #currently we center the graph on one or two root nodes
-                n.x = container.width / 2
-                n.y = container.height / 2
-                n.px = container.width / 2
-                n.py = container.height / 2
-                # n.fixed = conf.fixRootNodes
-                n.fixed = true
-                n.r = conf.rootNodeRadius
-                return
-                # if rootNodes.length == 1
-                #     rootNodes[0].x = container.width / 2
-                #     rootNodes[0].y = container.height / 2
-                #     rootNodes[0].px = container.width / 2
-                #     rootNodes[0].py = container.height / 2
-                #     rootNodes[0].fixed = conf.fixRootNodes
-                #     rootNodes[0].r = conf.rootNodeRadius
-                #     return
-                # else
-                #     rootNodes[0].x = container.width * 0.25
-                #     rootNodes[0].y = container.height / 2
-                #     rootNodes[0].px = container.width * 0.25
-                #     rootNodes[0].py = container.height / 2
-                #     rootNodes[0].fixed = conf.fixRootNodes
-                #     rootNodes[0].r = conf.rootNodeRadius
-                #     rootNodes[1].x = container.width * 0.75
-                #     rootNodes[1].y = container.height / 2
-                #     rootNodes[1].px = container.width * 0.75
-                #     rootNodes[1].py = container.height / 2
-                #     rootNodes[1].fixed = conf.fixRootNodes
-                #     rootNodes[1].r = conf.rootNodeRadius
-                #     return
+                n.i = i
+                rootNodes.push(n)
+        # if there is one root node, position it in the center
+        if rootNodes.length == 1
+            n = rootNodes[0]
+            alchemy.nodes[n.i].x = container.width / 2
+            alchemy.nodes[n.i].y = container.height / 2
+            alchemy.nodes[n.i].px = container.width / 2
+            alchemy.nodes[n.i].py = container.height / 2
+            alchemy.nodes[n.i].fixed = conf.fixRootNodes
+            return
+        # position nodes towards center of graph
+        else
+            number = 0
+            for n in rootNodes
+                number++
+                alchemy.nodes[n.i].x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
+                alchemy.nodes[n.i].y = container.height / 2 #container.height / (rootNodes.length / number)
+                alchemy.nodes[n.i].fixed = true
+
 
     # #position the nodes
     # positionNodes: (nodes, x, y) ->
@@ -168,5 +149,6 @@ alchemy.layout =
     #         n.x = x + node_x
     #         n.y = y + node_y
 
-    chargeDistance: (distance) ->
+    chargeDistance: () ->
+         distance = 500
          distance
