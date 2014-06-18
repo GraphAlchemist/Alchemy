@@ -97,24 +97,7 @@ alchemy.stats =
 
 
     update: () -> 
-<<<<<<< HEAD
         if conf.nodeStats is true
             alchemy.stats.nodeStats()
         if conf.edgeStats is true
             alchemy.stats.edgeStats()
-=======
-        #get all the nodes
-        # nodeNum = d3.selectAll(".node")[0].length
-        # activeNodes = d3.selectAll(".node.active")[0].length
-        # inactiveNodes = d3.selectAll(".node.inactive")[0].length
-        # console.log "number of nodes: " + nodeNum + " activeNodes: " + activeNodes + " inactiveNodes: " + inactiveNodes  
-
-        # #get all the edges
-        # edgeNum = d3.selectAll(".edge")[0].length
-        # activeEdges = d3.selectAll(".edge.active")[0].length
-        # inactiveEdges = d3.selectAll(".edge.inactive")[0].length
-        # console.log "number of edges: " + edgeNum + " activeEdges: " + activeEdges + " inactiveEdges: " + inactiveEdges
-
-        alchemy.stats.nodeStats()
-        alchemy.stats.edgeStats()
->>>>>>> f54c02fe24ecacca45bca2570a5f7561fe308bde
