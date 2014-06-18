@@ -17,10 +17,10 @@ alchemy.utils =
         if conf.deselectAll and typeof(conf.deselectAll == 'function')
             conf.deselectAll()
 
-    resize: ->
-        d3.select('.alchemy svg')
-            .attr("width", alchemy.container.width)
-            .attr("height", alchemy.container.height)
+    # resize: ->
+    #     d3.select('.alchemy svg')
+    #         .attr("width", alchemy.container.width)
+    #         .attr("height", alchemy.container.height)
     
     # Not currently used - Deprecate?
     # scale: (x) ->
@@ -80,8 +80,6 @@ alchemy.utils =
 
     nodeSize: (d, i) ->
         # refactor for speed
-        if d is undefined
-            debugger
         if conf.nodeRadius?
             if typeof conf.nodeRadius is 'function'
                 if d.node_type is 'root'
