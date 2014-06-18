@@ -99,3 +99,11 @@ alchemy.startGraph = (data) ->
             conf.afterLoad()
         else if typeof conf.afterLoad is 'string'
             alchemy[conf.afterLoad] = true
+
+    if conf.initialScale isnt defaults.initialScale
+        alchemy.interactions.zoom.scale(conf.initialScale)
+        return
+
+    if conf.initialTranslate isnt defaults.initialTranslate
+        alchemy.interactions.zoom.translate(conf.initialTranslate)
+        return

@@ -68,6 +68,7 @@ defaults =
     # Init
     initialScale: 1
     initialTranslate: [0,0]
+    scaleExtent: [0.01, 5] # not yet implemented
     warningMessage: "There be no data!  What's going on?" #not yet implemented
 
 conf = _.assign({}, defaults)

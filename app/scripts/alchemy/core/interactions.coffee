@@ -165,6 +165,7 @@ alchemy.interactions =
                           # .scale conf.initialScale
                           .scaleExtent [0.2, 2.4]
                           .on "zoom", ->
+                            debugger
                             alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )
                             return
@@ -183,9 +184,10 @@ alchemy.interactions =
                                 return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]-0.2 })" 
                             )
                     @.zoom.scale(endTransform[2])
+                    @.zoom.translate(endTransform[0..1])
 
     toggleControlDash: () ->
         #toggle off-canvas class on click
         offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas")
         d3.select("#control-dash-wrapper").classed("off-canvas": !offCanvas, "on-canvas": offCanvas)
-        
+     
