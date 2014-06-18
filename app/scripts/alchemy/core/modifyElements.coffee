@@ -9,8 +9,7 @@ alchemy.modifyElements =
                                     <span class = "fa fa-caret-right"></span>
                                 </h3>
                                 <div id="element-options" class="collapse">
-                                    <ul class = "list-group" id="remove-node"></ul>
-                                    <ul class = "list-group" id="remove-edge"></ul>
+                                    <ul class = "list-group" id="remove">Remove Selected</ul>
                                 </div>
                               """
         d3.select("#update-elements").html(modifyElements_html)
@@ -18,4 +17,4 @@ alchemy.modifyElements =
     remove: () ->
         alchemy.nodes.splice(1,30)
         alchemy.updateGraph()
-        #update statisticss
+        #update statistics
