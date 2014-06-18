@@ -25,7 +25,6 @@ alchemy.startGraph = (data) ->
         $('#no-results').modal('show')
         $('#loading-spinner').hide()
         return
-
     # save nodes & edges
     alchemy.nodes = data.nodes
     alchemy.edges = data.edges
@@ -54,11 +53,10 @@ alchemy.startGraph = (data) ->
                 .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
     #enter/exit nodes/edges
-    alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy.edges, (d) -> d.source.id + '-' + d.target.id)
-    alchemy.node = alchemy.vis.selectAll("g.node")
-              .data(alchemy.nodes, (d) -> d.id)
-
+    # alchemy.edge = alchemy.vis.selectAll("line")
+    #            .data(alchemy.edges)#, (d) -> d.source.id + '-' + d.target.id + d.node_type)
+    # alchemy.node = alchemy.vis.selectAll("g.node")
+    #           .data(alchemy.nodes)#, (d) -> d.id)
     # force layout constant
     k = Math.sqrt(alchemy.nodes.length / (conf.graphWidth * conf.graphHeight))
 

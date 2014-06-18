@@ -1,4 +1,11 @@
 alchemy.updateGraph = (start=true) ->
+    hello = 0
+    #enter/exit nodes/edges
+    alchemy.edge = alchemy.vis.selectAll("line")
+               .data(alchemy.edges)
+    alchemy.node = alchemy.vis.selectAll("g.node")
+              .data(alchemy.nodes, (d) -> d.id)
+    console.log(hello)
     # TODO - currently we are displaying all nodes/edges, not a subset
     # set currentNodes/currentEdges and call force.nodes(currentNodes).edges(currentEdges).start();
     # tick should also examine just the visible nodes
@@ -17,11 +24,6 @@ alchemy.updateGraph = (start=true) ->
 
     alchemy.styles.edgeGradient(alchemy.edges)
 
-    #enter/exit nodes/edges
-    alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy.edges, (d) -> d.source.id + '-' + d.target.id)
-    alchemy.node = alchemy.vis.selectAll("g.node")
-              .data(alchemy.nodes, (d) -> d.id)
     #draw node and edge objects with all of their interactions
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
