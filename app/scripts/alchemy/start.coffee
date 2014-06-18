@@ -21,6 +21,6 @@ rootNodeId = null
 
 window.alchemy = new Alchemy(conf)
 
-alchemy.container =
-    'width': parseInt(d3.select('.alchemy').style('width'))
-    'height': parseInt(d3.select('.alchemy').style('height'))
+# alchemy.container =
+#     'width': parseInt(d3.select('.alchemy').style('width'))
+#     'height': parseInt(d3.select('.alchemy').style('height'))

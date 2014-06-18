@@ -6,9 +6,14 @@ alchemy.updateGraph = (start=true) ->
     if not initialComputationDone
         while @force.alpha() > 0.005
             alchemy.force.tick()
+            # alchemy.layout.tick()
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
         if(conf.locked) then alchemy.force.stop()
+
+    for node in alchemy.nodes
+        alchemy.layout.collide(node)
+        alchemy.layout.tick()
 
     alchemy.styles.edgeGradient(alchemy.edges)
 
@@ -32,6 +37,7 @@ alchemy.updateGraph = (start=true) ->
            .remove()
 
     # initialize graph to size of window
-    alchemy.utils.resize()
+    # alchemy.utils.resize()
     # resize svg on resizing of the window - if the div changes
-    window.onresize = alchemy.utils.resize
+    
+    # window.onresize = alchemy.utils.resize
