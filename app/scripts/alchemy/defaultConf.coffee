@@ -29,6 +29,7 @@ defaults =
     captionToggle: false
     edgesToggle: false
     nodesToggle: false
+    toggleRootNodes: true
     removeNodes: false # not currently implemented
     removeEdges: false # not currently implemented
     addNodes: false # not currently implemented
