@@ -15,6 +15,11 @@ alchemy.modifyElements =
         d3.select("#update-elements").html(modifyElements_html)
 
     remove: () ->
-        alchemy.nodes.splice(1,30)
+
+        selection = d3.selectAll(".selected:not(.root)").data()
+
+        for i in selection
+            alchemy.edges = _.without(alchemy.edges, i)
+            alchemy.nodes = _.without(alchemy.nodes, i)
+        
         alchemy.updateGraph()
-        #update statistics
