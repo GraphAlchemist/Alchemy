@@ -68,73 +68,73 @@ alchemy.interactions =
             edges[e].distance *= 2
 
     #not currently implemented
-    loadMoreNodes: (data) ->
-        ###
-        TRY:
-          - fixing all nodes before laying out graph with added nodes, so only the new ones move
-          - extending length of connection between requester node and root so there is some space around it for new nodes to display in
-        ###
-        console.log "loading more data for #{data.type} #{data.permalink}, #{data.nodes.length} nodes, #{data.links.length} edges"
-        console.log "#{allNodes.length} nodes initially"
-        console.log "#{allEdges.length} edges initially"
-        requester = allNodes[findNode data.id]
-        console.log "requester node index #{findNode data.id}"
+    # loadMoreNodes: (data) ->
+    #     ###
+    #     TRY:
+    #       - fixing all nodes before laying out graph with added nodes, so only the new ones move
+    #       - extending length of connection between requester node and root so there is some space around it for new nodes to display in
+    #     ###
+    #     console.log "loading more data for #{data.type} #{data.permalink}, #{data.nodes.length} nodes, #{data.links.length} edges"
+    #     console.log "#{allNodes.length} nodes initially"
+    #     console.log "#{allEdges.length} edges initially"
+    #     requester = allNodes[findNode data.id]
+    #     console.log "requester node index #{findNode data.id}"
 
-        fixNodesTags data.nodes, data.links
+    #     fixNodesTags data.nodes, data.links
 
-        for i in data.nodes
-            node = data.nodes[i]
-            if findNode node.id is null
-                console.log "adding node #{node.id}"
+    #     for i in data.nodes
+    #         node = data.nodes[i]
+    #         if findNode node.id is null
+    #             console.log "adding node #{node.id}"
 
-                min_radius = linkDistance * 3
-                max_radius = linkDistance * 5
-                radius = Math.random * (max_radius - min_radius) + min_radius
-                angle = Math.random * 2 * Math.PI
-                node_x = Math.cos angle * linkDistance
-                node_y = Math.sin angle * linkDistance
+    #             min_radius = linkDistance * 3
+    #             max_radius = linkDistance * 5
+    #             radius = Math.random * (max_radius - min_radius) + min_radius
+    #             angle = Math.random * 2 * Math.PI
+    #             node_x = Math.cos angle * linkDistance
+    #             node_y = Math.sin angle * linkDistance
 
-                node.x = requester.x + node_x
-                node.y = requester.y + node_y
-                node.px = requester.x + node_x
-                node.py = requester.y + node_y
-                allNodes.push node
+    #             node.x = requester.x + node_x
+    #             node.y = requester.y + node_y
+    #             node.px = requester.x + node_x
+    #             node.py = requester.y + node_y
+    #             allNodes.push node
 
-            if typeof conf.nodeAdded? is 'function'
-                conf.nodeAdded(node)
+    #         if typeof conf.nodeAdded? is 'function'
+    #             conf.nodeAdded(node)
 
-        nodesMap = d3.map()
-        allNodes.forEach (n) -> nodesMap.set n.id, n
-        data.links.forEach (l) ->
-            l.source = nodesMap.get(l.source)
-            l.target = nodesMap.get(l.target)
+    #     nodesMap = d3.map()
+    #     allNodes.forEach (n) -> nodesMap.set n.id, n
+    #     data.links.forEach (l) ->
+    #         l.source = nodesMap.get(l.source)
+    #         l.target = nodesMap.get(l.target)
 
-        for i in data.links
-            link = data.links[i]
-            # see if link is already in dataset
-            if findEdge link.source, link.target isnt null
-                allEdges.push link
+    #     for i in data.links
+    #         link = data.links[i]
+    #         # see if link is already in dataset
+    #         if findEdge link.source, link.target isnt null
+    #             allEdges.push link
 
-                if typeof conf.edgeAdded? is 'function'
-                    conf.edgeAdded(node)
+    #             if typeof conf.edgeAdded? is 'function'
+    #                 conf.edgeAdded(node)
 
-                console.log "adding link #{link.source.id}-#{link.target.id}"
-            else
-                console.log "already have link #{link.source.id}-#{link.target.id} index #{findEdge link.source, link.target}"
+    #             console.log "adding link #{link.source.id}-#{link.target.id}"
+    #         else
+    #             console.log "already have link #{link.source.id}-#{link.target.id} index #{findEdge link.source, link.target}"
 
-        updateGraph()
-        nodeClick requester
+    #     updateGraph()
+    #     nodeClick requester
 
-        requester.fixed = false
-        setTimeout (-> requester.fixed = true), 1500
+    #     requester.fixed = false
+    #     setTimeout (-> requester.fixed = true), 1500
 
-        if conf.showFilters then updateFilters
-        $('#loading-spinner').hide
-        console.log "#{allNodes.length} nodes afterwards"
-        console.log "#{allEdges.length} edges afterwards"
+    #     if conf.showFilters then updateFilters
+    #     $('#loading-spinner').hide
+    #     console.log "#{allNodes.length} nodes afterwards"
+    #     console.log "#{allEdges.length} edges afterwards"
 
-        if typeof conf.nodeDoubleClick? is 'function'
-            conf.nodeDoubleClick(requester)
+    #     if typeof conf.nodeDoubleClick? is 'function'
+    #         conf.nodeDoubleClick(requester)
 
     nodeClick: (c) ->
         d3.event.stopPropagation()

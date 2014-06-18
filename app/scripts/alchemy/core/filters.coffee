@@ -239,9 +239,6 @@ alchemy.filters =
             else if element.classed("edgeType")
                 for edge in graphElements["edge"].filter(".#{name}.#{state}")[0]
                     node = d3.select(".node").filter("[id='.node-#{edge.id[7..13]}']")
-                    console.log node
-                    console.log edge
-                    console.log edge.target
                 # for node in graphElements["node"].filter(".#{state}")[0]
                     #TO DO: WE ONLY WANT THE EDGE TO SHOW IF THE NODE'S STATE
                     # IS ACTIVE, ACTIVE.HIGHLIGHT, OR INACTIVE.HIGHLIGHT

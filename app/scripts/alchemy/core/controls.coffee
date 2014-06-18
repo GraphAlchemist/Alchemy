@@ -18,18 +18,11 @@ alchemy.controlDash =
                 .attr("id", "dash-toggle")
                 .attr("class", "fa fa-flask col-md-offset-12")
 
-<<<<<<< HEAD
-        alchemy.controlDash.zoomCtrl()
-        alchemy.controlDash.filters()
-        alchemy.controlDash.stats()
-        alchemy.controlDash.modifyElements()
-=======
             # add the control dash
             d3.select("#control-dash-wrapper") 
                 .append("div")
                 .attr("id", "control-dash")
                 .attr("class", "col-md-12")
->>>>>>> toggles
 
             d3.select('#dash-toggle').on('click', alchemy.interactions.toggleControlDash)
 
@@ -37,7 +30,7 @@ alchemy.controlDash =
             alchemy.controlDash.search()
             alchemy.controlDash.filters()
             alchemy.controlDash.stats()
-
+            alchemy.controlDash.modifyElements()
     search: () ->
         d3.select("#control-dash")
                 .append("div")
