@@ -165,7 +165,6 @@ alchemy.interactions =
                           # .scale conf.initialScale
                           .scaleExtent [0.2, 2.4]
                           .on "zoom", ->
-                            debugger
                             alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )
                             return
