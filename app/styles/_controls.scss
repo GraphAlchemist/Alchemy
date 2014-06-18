@@ -93,6 +93,36 @@
 	    -webkit-animation: slide-in .75s ease-in-out;
 	    animation: slide-in .75s ease-in-out;
 	}
+// =======
+// /*Filter Styles*/
+//  #filters {
+//     padding: 0.5em 1em;
+//     border-bottom: thin dashed $bright-orange;
+    
+//     h4 {
+//         cursor: pointer;
+//         font-size: 1em;
+//     }
+
+//     li {
+//         cursor: pointer;
+//     }
+
+//     .active-label {
+//         color: rgba(0,0,0,1);
+//     }
+
+//     .disabled {
+//         color: rgba(0,0,0,.4);
+//         &:hover{
+//             color: rgba($bright-orange, .6);
+//         }
+//     }
+// }
+
+// ::-webkit-scrollbar{
+// 		color: $bright-orange;
+// >>>>>>> master
 }
 
 #control-dash-wrapper{
