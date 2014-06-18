@@ -193,11 +193,14 @@ alchemy.filters =
           .attr({"id":"toggle-nodes","class":"list-group-item active-label toggle"})
           .html("Toggle Nodes")
           .on("click", ->
+
+            affectedNodes = if conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
+
             if d3.selectAll(".node.hidden")[0].length == 0
-                d3.selectAll(".node:not(.root), .edge")
+                d3.selectAll(affectedNodes)
                   .classed("hidden", true)
             else
-                d3.selectAll(".node.hidden:not(.root), .edge")
+                d3.selectAll(affectedNodes)
                   .classed("hidden", false)
             )
 
