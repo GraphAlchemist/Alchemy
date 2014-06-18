@@ -6,12 +6,15 @@
         width: 100%;
     }
 
-    #filter-relationships, #filter-nodes{
+    #filter-relationships, #filter-nodes, 
+    #toggle-nodes, #toggle-edges, 
+    #toggle-captions {
         background-color: transparent;
         display: inline-block;
         width: 45%;
         margin-left: 2%;
         overflow: auto;
+        text-align: center;
         vertical-align: top;
         button{
             color: white;
