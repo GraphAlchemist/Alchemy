@@ -25,15 +25,16 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeColours = (d) ->
         if conf.cluster
-            if isNaN parseInt d.cluster
-                colour = conf.nodeColour
-            else if d.cluster < conf.clusterColours.length
-                colour = conf.clusterColours[d.cluster]
+            if (isNaN parseInt d.cluster) or (d.cluster > conf.clusterColours.length)
+                colour = conf.clusterColours[conf.clusterColours.length - 1]
             else
-                colour = conf.nodeColour
+                colour = conf.clusterColours[d.cluster]
             "fill: #{colour}; stroke: #{colour};"
         else
-            ''
+            if conf.nodeColour
+                colour = conf.nodeColour
+            else
+                ''
 
     nodeEnter
         .append('circle')

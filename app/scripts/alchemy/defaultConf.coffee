@@ -5,20 +5,20 @@ defaults =
 
     # Layout
     graphWidth: d3.select(".alchemy").node().parentElement.clientWidth
-    graphHeight: () ->
+    graphHeight: do () ->
         if d3.select(".alchemy").node().parentElement.nodeName == "BODY"
             return window.innerHeight
         else 
             return d3.select(".alchemy").node().parentElement.clientHeight
     alpha: .5
-    cluster: false
+    cluster: true
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
-                         "#00FF30", "#5168FF",
-                         "#00C0FF", "#FF004B",
-                         "#00CDCD", "#f83f00",
-                         "#f800df", "#ff8d8f",
-                         "#ffcd00", "#184fff",
-                         "#ff7e00"])
+                                "#00FF30", "#5168FF",
+                                "#00C0FF", "#FF004B",
+                                "#00CDCD", "#f83f00",
+                                "#f800df", "#ff8d8f",
+                                "#ffcd00", "#184fff",
+                                "#ff7e00"])
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
@@ -29,11 +29,19 @@ defaults =
     captionToggle: false
     edgesToggle: false
     nodesToggle: false
+    toggleRootNodes: true
     removeNodes: false # not currently implemented
     removeEdges: false # not currently implemented
     addNodes: false # not currently implemented
     addEdges: false # not currently implemented
 
+    #Control Dash
+    showControlDash: false 
+
+    #Stats
+    showStats: false
+    nodeStats: false
+    edgeStats: false
 
     # Filtering
     showFilters: false
@@ -41,14 +49,14 @@ defaults =
     nodeFilters: false
 
     # Controls
-    controlOrientation: 'vertical'
+    # controlOrientation: 'vertical' no longer implemented or used
     zoomControls: false
 
     # Nodes
     nodeCaption: 'caption' #changed key
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
-    nodeOverlap: 20
+    nodeOverlap: 25
     nodeRadius: 10 # partially implemented
     nodeTypes: null
     rootNodeRadius: 15
@@ -61,6 +69,7 @@ defaults =
     # Init
     initialScale: 1
     initialTranslate: [0,0]
+    scaleExtent: [0.01, 5] # not yet implemented
     warningMessage: "There be no data!  What's going on?" #not yet implemented
 
 conf = _.assign({}, defaults)

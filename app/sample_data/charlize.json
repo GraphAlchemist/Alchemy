@@ -189,7 +189,8 @@
     {
       "caption": "Charlize Theron",
       "node_type": "root",
-      "id": 314003
+      "id": 314003,
+      "root": true
     },
     {
       "caption": "Stuart Townsend",

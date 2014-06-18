@@ -43,7 +43,7 @@ alchemy.startGraph = (data) ->
 
     #create SVG
     alchemy.vis = d3.select('.alchemy')
-        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight()}px")
+        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
@@ -59,18 +59,22 @@ alchemy.startGraph = (data) ->
     alchemy.node = alchemy.vis.selectAll("g.node")
               .data(alchemy.nodes, (d) -> d.id)
 
+    # force layout constant
+    k = Math.sqrt(alchemy.nodes.length / (conf.graphWidth * conf.graphHeight))
+
     # create layout
     alchemy.force = d3.layout.force()
-        .charge(alchemy.layout.charge)
-        .linkDistance(alchemy.layout.linkDistanceFn)
+        .charge(alchemy.layout.charge(k))
+        .linkDistance((d) -> alchemy.layout.linkDistanceFn(d,k))
         .theta(1.0)
-        .gravity(0.1)
+        .gravity(alchemy.layout.gravity(k))
         .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
-        .chargeDistance(alchemy.layout.chargeDistance(500))
-        .size([conf.graphWidth, conf.graphHeight()])
-        .nodes(data.nodes)
-        .links(data.edges)
+        .chargeDistance(alchemy.layout.chargeDistance())
+        .size([conf.graphWidth, conf.graphHeight])
+        .nodes(alchemy.nodes)
+        .links(alchemy.edges)
+        .on("tick", alchemy.layout.tick)
 
     # TODO: fix this in the graph file generating view instead of here
     fixNodesTags(alchemy.nodes, alchemy.edges);
@@ -83,9 +87,9 @@ alchemy.startGraph = (data) ->
     
     # configuration for forceLocked
     if !conf.forceLocked 
-        alchemy.force
-               .on("tick", alchemy.layout.tick)
-               .start()
+         alchemy.force
+                .on("tick", alchemy.layout.tick)
+                .start()
 
 
     # call user-specified functions after load function if specified
@@ -95,3 +99,11 @@ alchemy.startGraph = (data) ->
             conf.afterLoad()
         else if typeof conf.afterLoad is 'string'
             alchemy[conf.afterLoad] = true
+
+    if conf.initialScale isnt defaults.initialScale
+        alchemy.interactions.zoom.scale(conf.initialScale)
+        return
+
+    if conf.initialTranslate isnt defaults.initialTranslate
+        alchemy.interactions.zoom.translate(conf.initialTranslate)
+        return

@@ -11,6 +11,10 @@ Allow toggling of edges to be visible or invisible.  Assigns a `.hidden` to all 
 [bool] `false`
 Allow toggling of nodes to be visible or invisible.  Assigns a `.hidden` to all edges.  The default Alchemy `hidden` class can easily be overridden to include different levels of opacity or color.
 
+#####toggleRootNodes:   
+[bool] `true`    
+Chooses whether or not root nodes are affected by nodesToggle.
+
 #####removeNodes:
 [bool] `false`    
 **not currently implemented** allow the removal of nodes with controls
