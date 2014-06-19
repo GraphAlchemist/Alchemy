@@ -19,7 +19,6 @@ alchemy.stats =
         if alchemy.conf.showStats is true
             alchemy.stats.show()
             alchemy.stats.update()
-            alchemy.stats.insertNodeSVG()
     show: () -> 
         stats_html = """
                         <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
@@ -124,7 +123,7 @@ alchemy.stats =
     insertSVG: (element, data) ->
         width = alchemy.conf.graphWidth * .25
         height = 250
-        radius = width / 3
+        radius = width / 4
         color = d3.scale.category20()
 
         arc = d3.svg.arc()
@@ -137,8 +136,8 @@ alchemy.stats =
 
         svg = d3.select("##{element}-stats-graph")
             .append("svg")
-            # .attr("style", "width:#{width}px; height:#{height}px")
             .append("g")
+            .style({"width": width, "height":height})
             .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
 
         arcs = svg.selectAll(".arc")
@@ -149,12 +148,14 @@ alchemy.stats =
         arcs.append("path")
             .attr("d", arc)
             .attr("stroke", (d, i) -> color(i)) 
+            .attr("stroke-width", 2)
+            .attr("fill", "none")
 
         arcs.append("text")
             .attr("transform", (d) -> "translate(" + arc.centroid(d) + ")")
             .attr("dy", ".35em")
-            .style("text-anchor", "middle")
             .text((d, i) -> data[i][0])
+
 
     update: () -> 
         if alchemy.conf.nodeStats is true
