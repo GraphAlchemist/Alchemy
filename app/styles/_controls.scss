@@ -71,11 +71,18 @@
         	padding: 3px;
         }
     }
-	#node-stats-graph{
+	#node-stats-graph, #edge-stats-graph{
 		height: 250px;
 		svg{
+			width: 100%;
+			height: 250px;
+			opacity: .6;
 			background: transparent;
 			border: $blue solid thin;
+			text{
+				color: white;
+				z-index: 1000;
+			}
 		}
 	}
 
