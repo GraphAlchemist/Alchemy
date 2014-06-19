@@ -25,5 +25,9 @@ alchemy.modifyElements =
         alchemy.edges = _.difference(alchemy.edges, selectedEdges)
         alchemy.nodes = _.difference(alchemy.nodes, selectedNodes)
 
+        alchemy.force.friction(1)
         alchemy.updateGraph(false)
+        
         alchemy.force.resume()
+        alchemy.force.friction(0.9)
+
