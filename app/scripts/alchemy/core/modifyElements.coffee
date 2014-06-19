@@ -19,10 +19,11 @@ alchemy.modifyElements =
 
     remove: () ->
 
-        selection = d3.selectAll(".selected:not(.root)").data()
+        selectedNodes = d3.selectAll(".selected.node").data()
+        selectedEdges = d3.selectAll(".selected.edge").data()
+        
+        alchemy.edges = _.difference(alchemy.edges, selectedEdges)
+        alchemy.nodes = _.difference(alchemy.nodes, selectedNodes)
 
-        for i in selection
-            alchemy.edges = _.without(alchemy.edges, i)
-            alchemy.nodes = _.without(alchemy.nodes, i)
-        alchemy.updateGraph()
-        alchemy.force.start()
+        alchemy.updateGraph(false)
+        alchemy.force.resume()
