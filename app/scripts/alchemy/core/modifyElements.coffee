@@ -27,7 +27,9 @@ alchemy.modifyElements =
 
         alchemy.force.friction(1)
         alchemy.updateGraph(false)
-        
+
         alchemy.force.resume()
         alchemy.force.friction(0.9)
+        
+        d3.selectAll(".selected").classed("selected", false)
 
