@@ -80,8 +80,8 @@ alchemy.startGraph = (data) ->
     alchemy.updateGraph()
     # alchemy.zoomControls.init()
     alchemy.controlDash.init()
-    # alchemy.filters.init(alchemy.nodes, alchemy.edges)
-    # alchemy.stats.init()
+    alchemy.filters.init(alchemy.nodes, alchemy.edges)
+    alchemy.stats.init()
     
     # configuration for forceLocked
     if !conf.forceLocked 

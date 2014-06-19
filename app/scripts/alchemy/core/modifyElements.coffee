@@ -13,6 +13,9 @@ alchemy.modifyElements =
                                 </div>
                               """
         d3.select("#update-elements").html(modifyElements_html)
+          
+        d3.select("#remove")
+          .on("click", ()-> alchemy.modifyElements.remove())
 
     remove: () ->
 
@@ -21,5 +24,5 @@ alchemy.modifyElements =
         for i in selection
             alchemy.edges = _.without(alchemy.edges, i)
             alchemy.nodes = _.without(alchemy.nodes, i)
-        
         alchemy.updateGraph()
+        alchemy.force.start()
