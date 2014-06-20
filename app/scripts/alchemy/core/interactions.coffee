@@ -197,6 +197,10 @@ alchemy.interactions =
                                 return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]+0.2 })" 
                             else if direction == "out" 
                                 return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]-0.2 })" 
+                            else if direction == "reset"
+                                return "translate(0,0) scale(1)"
+                            else 
+                                console.log 'error'
                             )
                     @.zoom.scale(endTransform[2])
                     @.zoom.translate(endTransform[0..1])

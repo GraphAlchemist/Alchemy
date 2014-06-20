@@ -6,7 +6,7 @@
 	position: relative;
     display: block;
     width: 55px;
-	#zoom-in, #zoom-out {
+	#zoom-in, #zoom-out, #zoom-reset{
 		padding: 12px;
 		margin: 0;
 		width: 100%;
@@ -26,6 +26,7 @@
 	margin: 0 5px;
     color: $bright-orange;
 }
+
 
 #search{
 	margin-top: 2em;
@@ -49,6 +50,9 @@
 	padding: 0.5em 1em;
     background-color: transparent;
     border-bottom: thin dashed $bright-orange;
+    #stats-header{
+    	padding: 10px;
+    }
     #all-stats{
     	color: white;            
     	border-radius: none;
@@ -93,36 +97,6 @@
 	    -webkit-animation: slide-in .75s ease-in-out;
 	    animation: slide-in .75s ease-in-out;
 	}
-// =======
-// /*Filter Styles*/
-//  #filters {
-//     padding: 0.5em 1em;
-//     border-bottom: thin dashed $bright-orange;
-    
-//     h4 {
-//         cursor: pointer;
-//         font-size: 1em;
-//     }
-
-//     li {
-//         cursor: pointer;
-//     }
-
-//     .active-label {
-//         color: rgba(0,0,0,1);
-//     }
-
-//     .disabled {
-//         color: rgba(0,0,0,.4);
-//         &:hover{
-//             color: rgba($bright-orange, .6);
-//         }
-//     }
-// }
-
-// ::-webkit-scrollbar{
-// 		color: $bright-orange;
-// >>>>>>> master
 }
 
 #control-dash-wrapper{
@@ -130,7 +104,6 @@
 	letter-spacing: .05em;
 	height: inherit;
 	z-index: inherit;
-	// position: relative;
 	padding: 0;
 	&.off-canvas{
 	    transform: translate(-100%, 0);
@@ -157,6 +130,10 @@
 	    padding: 0;
 	    height: inherit;
 	    z-index: 5;
+	    h3{
+	    	display: inline;
+	    	margin: 0;
+	    }
 	}
 	#dash-toggle{
 		z-index: 5;
@@ -182,6 +159,7 @@
         margin-top: 10px;
         color: white;
         cursor: pointer;
+        vertical-align: top;
     }
     li {
         cursor: pointer;

@@ -59,11 +59,13 @@ alchemy.controlDash =
                 .append("div")
                 .attr("id", "zoom-controls")
                 .attr("class", "col-md-offset-12")
-                .html("<button id='zoom-in'  class='btn btn-defualt btn-primary'><i class='fa fa-plus'></i></button>
-                            <button id='zoom-out' class='btn btn-default btn-primary'><i class='fa fa-minus'></i></button>")
+                .html("<button id='zoom-reset'  class='btn btn-defualt btn-primary'><i class='fa fa-crosshairs fa-lg'></i></button>
+                        <button id='zoom-in'  class='btn btn-defualt btn-primary'><i class='fa fa-plus'></i></button>
+                        <button id='zoom-out' class='btn btn-default btn-primary'><i class='fa fa-minus'></i></button>")
             
             d3.select('#zoom-in').on("click", () -> alchemy.interactions.clickZoom 'in' )
             d3.select('#zoom-out').on("click", () -> alchemy.interactions.clickZoom 'out' )
+            d3.select('#zoom-reset').on("click", () -> alchemy.interactions.clickZoom 'reset')
 
     filters: () ->
         #show the appropriate filters:

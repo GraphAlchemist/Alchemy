@@ -6,9 +6,11 @@
         width: 100%;
     }
 
-    #filter-relationships, #filter-nodes, 
-    #toggle-nodes, #toggle-edges, 
-    #toggle-captions {
+    #filter-header{
+        padding: 10px;
+    }
+
+    #filter-relationships, #filter-nodes{
         background-color: transparent;
         display: inline-block;
         width: 45%;
@@ -16,13 +18,22 @@
         overflow: auto;
         text-align: center;
         vertical-align: top;
-        button{
-            color: white;
+        #filter-node-header, #filter-rel-header{
+            margin: 10px 0;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            border-radius: 0;
             width: 100%;
-            // .caret{
-            //     margin-left:  4px;
-            //     color: $bright-orange;
-            // }
+            h4{
+                font-weight: 200;
+                display: inline;
+                color: white;
+            }
+            &:active{
+                border: none;
+                box-shadow: none;
+            }
         }
         #rel-dropdown, #node-dropdown{
             margin: 20px 0;
@@ -31,10 +42,6 @@
             background: transparent;
             li{
                 padding: 5px;
-                &:first-child{
-                margin-top: 40px;
-                }
-
                 &:hover{
                     background-color: rgba(white, .2);
                 }

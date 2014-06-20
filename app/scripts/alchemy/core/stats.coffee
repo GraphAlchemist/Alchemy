@@ -22,20 +22,22 @@ alchemy.stats =
             alchemy.stats.insertSVG()
     show: () -> 
         stats_html = """
-                        <h3 data-toggle="collapse" data-target="#stats #all-stats">
+                        <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
+                        <h3>
                             Statistics
-                            <span class = "fa fa-caret-right"></span>
                         </h3>
+                        <span class = "fa fa-caret-right fa-2x"></span>
+                        </div>
                         <div id="all-stats" class="collapse">
                             <ul class = "list-group" id="node-stats"></ul>
                             <ul class = "list-group" id="rel-stats"></ul>  
                     """
         d3.select('#stats').html(stats_html)
-        d3.select('#stats>h3')
+        d3.selectAll('#stats-header')
             .on('click', () ->
                 if d3.select('#all-stats').classed("in")
-                    d3.select("#stats>h3").html("Statistics<span class = 'fa fa-caret-right'></span>")
-                else d3.select("#stats>h3").html("Statistics<span class = 'fa fa-caret-down'></span>")
+                    d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-right")
+                else d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-down")
             )
 
     nodeStats: () ->
