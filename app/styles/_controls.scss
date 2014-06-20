@@ -1,153 +1,168 @@
 /*Zoom Controls Styles*/
 #zoom-controls{
-	@include tabs();
-	margin-top: 10%;
-	z-index: 1;
-	position: relative;
+    @include tabs();
+    margin-top: 10%;
+    z-index: 5;
+    position: relative;
     display: block;
     width: 55px;
-	#zoom-in, #zoom-out {
-		padding: 12px;
-		margin: 0;
-		width: 100%;
-		i {
-		color: #E89619;
-    	}
-    	&:hover{
-    		background-color: rgba(white, .2)
-    	}
-    	&:active{
+    #zoom-in, #zoom-out, #zoom-reset{
+        padding: 12px;
+        margin: 0;
+        width: 100%;
+        i {
+        color: #E89619;
+        }
+        &:hover{
+            background-color: rgba(white, .2)
+        }
+        &:active{
             border: none;
         }
-	}    
+    }    
 }
 
-.fa-caret-right, .fa-caret-down{
+.fa-caret-right, .fa-caret-down, .fa-search{
     margin: 0 5px;
     color: $bright-orange;
 }
 
+
+#search{
+    margin-top: 2em;
+    margin-bottom: 1em;
+    padding: .5em 1em;
+    span{
+        margin-left: 0;
+        vertical-align: bottom;
+        padding: 3px 0;
+    }
+    input{
+        background-color: black;
+        border: none;
+        font-size: 20px;
+        width: 90%;
+        color: white;
+    }
+}
+
 #stats{
-	padding: 0.5em 1em;
+    padding: 0.5em 1em;
     background-color: transparent;
     border-bottom: thin dashed $bright-orange;
+    #stats-header{
+        padding: 10px;
+    }
     #all-stats{
-    	color: white;            
-    	border-radius: none;
+        color: white;            
+        border-radius: none;
         border: none;
         background: transparent;
         overflow: auto;
         li{
-        	padding: 3px;
+            padding: 3px;
         }
     }
-	#node-stats-graph{
-		height: 250px;
-		svg{
-			background: transparent;
-			border: $blue solid thin;
-		}
-	}
+    #node-stats-graph{
+        height: 250px;
+        svg{
+            background: transparent;
+            border: $blue solid thin;
+        }
+    }
 
     .badge{
-    	border-radius: 0;
-    	height: 100%;
-    	background-color: rgba($blue, .6);
-    }
-}
-
-/*Filter Styles*/
- #filters {
-    padding: 0.5em 1em;
-    border-bottom: thin dashed $bright-orange;
-    
-    h4 {
-        cursor: pointer;
-        font-size: 1em;
-    }
-
-    li {
-        cursor: pointer;
-    }
-
-    .active-label {
-        color: rgba(0,0,0,1);
-    }
-
-    .disabled {
-        color: rgba(0,0,0,.4);
-        &:hover{
-            color: rgba($bright-orange, .6);
-        }
+        border-radius: 0;
+        height: 100%;
+        background-color: rgba($blue, .6);
     }
 }
 
 #update-elements {
     padding: 0.5em 1em;
+    background-color: transparent;
     border-bottom: thin dashed $bright-orange;
 
-    h4 {
-        cursor: pointer;
-        font-size: 1em;
+    h3 {
+        padding: 10px;
     }
 
-    li {
-        cursor: pointer;
-    }
-
-    #remove {
-        text-align: center;
-        color: #E89619;
+    #element-options {
+        margin-top: 10px;
+        margin-left: 2%;
+        color: white;
     }
 }
 
-::-webkit-scrollbar{
-		color: $bright-orange;
+#control-dash-background{
+    display: none;
+    padding: 0;
+    margin: 0;
+    z-index: 0;
+    background-color: rgba(white, .15);
+    -webkit-filter: blur(5px);
+    filter: blur(5px);
+    height: inherit;
+    &.off-canvas{
+        transform: translate(-200%, 0);
+        -webkit-animation: slide-out .75s linear;
+        animation: slide-out .75s linear;
+    }
+    &.on-canvas{
+        transform: translate(-100%, 0);
+        -webkit-animation: slide-in .75s ease-in-out;
+        animation: slide-in .75s ease-in-out;
+    }
 }
 
 #control-dash-wrapper{
-	font-family: 'Source Sans Pro', Helvetica, sans-serif;
-	letter-spacing: .05em;
-	height: inherit;
-	position: relative;
-	padding: 0;
-	&.off-canvas{
-	    transform: translate(-100%, 0);
-	    -webkit-animation: slide-out .75s linear;
-	    animation: slide-out .75s linear;
-	    #dash-toggle{
-	        color: $bright-orange !important;
-	        -webkit-animation: 4s pulse linear;
-	        animation: 4s pulse linear;
-	    }
-	}
-	&.on-canvas{
-		* {
-			box-shadow: none !important;
-		}
-	    -webkit-animation: slide-in .75s ease-in-out;
-	    animation: slide-in .75s ease-in-out;
-	}
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
+    letter-spacing: .05em;
+    height: inherit;
+    z-index: inherit;
+    padding: 0;
+    &.off-canvas{
+        transform: translate(-100%, 0);
+        -webkit-animation: slide-out .75s linear;
+        animation: slide-out .75s linear;
+        #dash-toggle{
+            color: $bright-orange !important;
+            -webkit-animation: 4s pulse linear;
+            animation: 4s pulse linear;
+        }
+    }
+    &.on-canvas{
+        * {
+            box-shadow: none !important;
+        }
+        -webkit-animation: slide-in .75s ease-in-out;
+        animation: slide-in .75s ease-in-out;
+    }
 
-	#control-dash{
-		overflow-y: scroll;
-		background-color: transparent;
-		background-image: $ctrl-dash-background;
-	    padding: 0;
-	    height: inherit;
-	    z-index: 5;
-	}
-	#dash-toggle{
-		@include tabs();
-		position: absolute;
-	    top: 50%;
-	    font-size: 2.2em;
-	    color: rgba(white, .2);
-	    padding: 10px;
-	    margin-left: 100%;
-	}
+    #control-dash{
+        overflow-y: scroll;
+        background-color: transparent;
+        background-image: $ctrl-dash-background;
+        padding: 0;
+        height: inherit;
+        z-index: 5;
+        h3{
+            display: inline;
+            margin: 0;
+        }
+    }
+    #dash-toggle{
+        z-index: 5;
+        @include tabs();
+        position: absolute;
+        top: 50%;
+        font-size: 2.2em;
+        color: rgba(white, .2);
+        padding: 10px;
+        margin-left: 100%;
+    }
 
-	button{
+    button{
         border-radius: 0;
         border: none;
         background-color: transparent;
@@ -160,6 +175,7 @@
         margin-top: 10px;
         color: white;
         cursor: pointer;
+        vertical-align: top;
     }
     li {
         cursor: pointer;
@@ -168,4 +184,3 @@
         border-radius: 0;
     }
 }
-

@@ -3,7 +3,6 @@ node_modules
 .sass-cache
 *.DS_Store
 app/bower_components
-app/sample_data
 app/scripts/testConf.coffee
 app/scripts/alchemy/.DS_Store
 test/bower_components

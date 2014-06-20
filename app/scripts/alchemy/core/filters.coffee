@@ -1,3 +1,20 @@
+
+# Alchemy.js is a graph drawing application for the web.
+# Copyright (C) 2014  GraphAlchemist, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 fixNodesTags = (nodes, edges) ->
     for n in nodes
         allCaptions[n.label] = n.id
@@ -103,60 +120,67 @@ alchemy.filters =
 
     show: () ->
         filter_html = """
-                        <h3 data-toggle="collapse" data-target="#filters form">
+                    <div id = "filter-header" data-toggle="collapse" data-target="#filters form">
+                        <h3>
                             Filters
-                            <span class = "fa fa-caret-right"></span>
                         </h3>
+                        <span class = "fa fa-2x fa-caret-right"></span>
+                    </div>
                         <form class="form-inline collapse">
                         </form>
                       """
         d3.select('#control-dash #filters').html(filter_html)
-        d3.select("#filters>h3")    
+        d3.selectAll('#filter-header')
             .on('click', () ->
                 if d3.select('#filters>form').classed("in")
-                    d3.select("#filters>h3").html("Filters<span class = 'fa fa-caret-right'></span>")
-                else d3.select("#filters>h3").html("Filters<span class = 'fa fa-caret-down'></span>")
+                    d3.select("#filter-header>span").attr("class", "fa fa-2x fa-caret-right")
+                else d3.select("#filter-header>span").attr("class", "fa fa-2x fa-caret-down")
             )
         $('#filters form').submit(false)
 
     #create relationship filters
     showEdgeFilters: () ->
         rel_filter_html = """
-                           <div id="filter-relationships" class="btn-group">
-                                <button type="button" data-target = "#rel-dropdown" class="btn btn-default" data-toggle="collapse">
-                                    Edge Types<span class="fa fa-caret-right"></span>
-                                </button>
+                           <div id="filter-relationships">
+                                <div id="filter-rel-header" data-target = "#rel-dropdown" data-toggle="collapse">
+                                    <h4>
+                                        Edge Types
+                                    </h4>
+                                    <span class="fa fa-lg fa-caret-right"></span>
+                                </div>
                                 <ul id="rel-dropdown" class="collapse list-group" role="menu">
                                 </ul>
                            </div>
 
                            """
         $('#filters form').append(rel_filter_html)
-        d3.select("#filter-relationships>button")    
+        d3.select("#filter-rel-header")    
             .on('click', () ->
                 if d3.select('#rel-dropdown').classed("in")
-                    d3.select("#filter-relationships>button").html("Edge Types<span class = 'fa fa-caret-right'></span>")
-                else d3.select("#filter-relationships>button").html("Edge Types<span class = 'fa fa-caret-down'></span>")
+                    d3.select("#filter-rel-header>span").attr("class", "fa fa-lg fa-caret-right")
+                else d3.select("#filter-rel-header>span").attr("class", "fa fa-lg fa-caret-down")
             )
 
     #create node filters
     showNodeFilters: () ->
         node_filter_html = """
-                           <div id="filter-nodes" class="btn-group">
-                                <button type="button" data-target="#node-dropdown" class="btn btn-default" data-toggle="collapse">
-                                    Node Types<span class="fa fa-caret-right"></span>
-                                </button>
+                            <div id="filter-nodes">
+                                <div id="filter-node-header" data-target = "#node-dropdown" data-toggle="collapse">
+                                    <h4>
+                                        Node Types
+                                    </h4>
+                                    <span class="fa fa-lg fa-caret-right"></span>
+                                </div>
                                 <ul id="node-dropdown" class="collapse list-group" role="menu">
                                 </ul>
                            </div>
-
                            """
         $('#filters form').append(node_filter_html)
-        d3.select("#filter-nodes>button")    
+        d3.select("#filter-node-header")    
             .on('click', () ->
                 if d3.select('#node-dropdown').classed("in")
-                    d3.select("#filter-nodes>button").html("Node Types<span class = 'fa fa-caret-right'></span>")
-                else d3.select("#filter-nodes>button").html("Node Types<span class = 'fa fa-caret-down'></span>")
+                    d3.select("#filter-node-header>span").attr("class", "fa fa-lg fa-caret-right")
+                else d3.select("#filter-node-header>span").attr("class", "fa fa-lg fa-caret-down")
             )
 
     #create captions toggle

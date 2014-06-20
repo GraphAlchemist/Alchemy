@@ -1,3 +1,20 @@
+
+# Alchemy.js is a graph drawing application for the web.
+# Copyright (C) 2014  GraphAlchemist, Inc.
+
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU Affero General Public License for more details.
+
+# You should have received a copy of the GNU Affero General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 alchemy.stats = 
     init: () -> 
         if conf.showStats is true
@@ -6,20 +23,22 @@ alchemy.stats =
             alchemy.stats.insertSVG()
     show: () -> 
         stats_html = """
-                        <h3 data-toggle="collapse" data-target="#stats #all-stats">
+                        <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
+                        <h3>
                             Statistics
-                            <span class = "fa fa-caret-right"></span>
                         </h3>
+                        <span class = "fa fa-caret-right fa-2x"></span>
+                        </div>
                         <div id="all-stats" class="collapse">
                             <ul class = "list-group" id="node-stats"></ul>
                             <ul class = "list-group" id="rel-stats"></ul>  
                     """
         d3.select('#stats').html(stats_html)
-        d3.select('#stats>h3')
+        d3.selectAll('#stats-header')
             .on('click', () ->
                 if d3.select('#all-stats').classed("in")
-                    d3.select("#stats>h3").html("Statistics<span class = 'fa fa-caret-right'></span>")
-                else d3.select("#stats>h3").html("Statistics<span class = 'fa fa-caret-down'></span>")
+                    d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-right")
+                else d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-down")
             )
 
     nodeStats: () ->
