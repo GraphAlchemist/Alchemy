@@ -37,13 +37,25 @@
 		vertical-align: bottom;
 		padding: 3px 0;
 	}
-	input{
+    input{
 		background-color: black;
-		border: none;
-		font-size: 20px;
+        border:none;
+		/*border-width: 1px;
+		border-color: #222;
+        border-left-color: #111;*/
+        font-size: 20px;
 		width: 90%;
 		color: white;
 	}
+    .search-icon {
+        height: 22px;
+        border-color: #222;
+        border-left-color:#000;
+        border-right-color:#111;
+        background-color: #333;
+    }
+
+
 }
 
 #stats{

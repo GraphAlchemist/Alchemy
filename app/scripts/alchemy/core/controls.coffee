@@ -52,7 +52,12 @@ alchemy.controlDash =
         d3.select("#control-dash")
                 .append("div")
                 .attr("id", "search")
-                .html("<span class='fa fa-search fa-2x'></span><input placeholder='Search'></input>")
+                .html("""
+                    <div class='input-group'>
+                        <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
+                        <input class='form-control' placeholder='Search'>
+                    </div> 
+                      """)
         alchemy.search.init()
     
     zoomCtrl: () ->
