@@ -46,6 +46,7 @@ alchemy.controlDash =
             alchemy.controlDash.search()
             alchemy.controlDash.filters()
             alchemy.controlDash.stats()
+            alchemy.controlDash.modifyElements()
 
     search: () ->
         d3.select("#control-dash")
@@ -79,3 +80,9 @@ alchemy.controlDash =
             .append("div")
             .attr("id", "stats")
         alchemy.stats.init()
+
+    modifyElements: () ->
+        d3.select("#control-dash")
+            .append("div")
+            .attr("id", "update-elements")
+        alchemy.modifyElements.init()
