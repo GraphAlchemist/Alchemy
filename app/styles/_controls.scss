@@ -78,6 +78,22 @@
     }
 }
 
+#update-elements {
+    padding: 0.5em 1em;
+    background-color: transparent;
+    border-bottom: thin dashed $bright-orange;
+
+    h3 {
+        padding: 10px;
+    }
+
+    #element-options {
+        margin-top: 10px;
+        margin-left: 2%;
+        color: white;
+    }
+}
+
 #control-dash-background{
 	display: none;
 	padding: 0;
