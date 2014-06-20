@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class Alchemy
-    constructor: (@conf) ->   
+    constructor: () ->   
         @version = "0.1.0"
         @layout = {}
         @interactions = {}
@@ -35,7 +35,7 @@ currentRelationshipTypes = {}
 container = null
 rootNodeId = null
 
-window.alchemy = new Alchemy(conf)
+window.alchemy = new Alchemy()
 
 # alchemy.container =
 #     'width': parseInt(d3.select('.alchemy').style('width'))
