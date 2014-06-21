@@ -8,8 +8,7 @@
 module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
-  AlchemyTasks = require('./AlchemyTasks')
-  console.log(AlchemyTasks.CoffeeTask)
+
   grunt.initConfig
     
     # Project settings
@@ -103,7 +102,18 @@ module.exports = (grunt) ->
 
     
     # Compiles CoffeeScript to JavaScript
-    coffee: AlchemyTasks.CoffeeTask
+    coffee:
+      dist:
+        options:
+            bare: false
+            sourceMap: true
+        files:
+            # all of the files used in testing and development - configuration, etc.
+            ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
+            # all of the core, alchemy.js files
+            ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
+                                        ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
+                                        ".tmp/scripts/alchemy/end.coffee"]
       test:
         files: [
           expand: true
@@ -342,7 +352,10 @@ module.exports = (grunt) ->
 
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
-    grunt.task.run ["connect:test", "mocha"]
+    if target is "keepalive"
+      grunt.task.run ["connect:test:keepalive", "mocha"]
+    else
+      grunt.task.run ["connect:test", "mocha"]
 
   grunt.registerTask "build", ["clean:dist", "useminPrepare", 
                                "copy:coffee", "concurrent:dist", 
