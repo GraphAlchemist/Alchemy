@@ -14,86 +14,38 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-# not working - but, logic here for search
+alchemy.search = 
+    init: () ->
+        searchBox = d3.select("#search input")
 
-#find node
-findNode = (id) ->
-    if n.id == id then n for n in allNodes
+        searchBox.on("keyup", ()->
+            d3.selectAll(".node").classed("inactive", false)
 
-#find edge
-findEdge = (source, target) ->
-    for e in allEdges
-        if e.source.id == source.id and e.target.id == target.id
-            e
-        if e.target.id == source.id and e.source.id == target.id
-            e
+            d3.selectAll(".node")
+              .classed("inactive", (node) ->
+                input = searchBox[0][0].value.toLowerCase()
+                
+                hidden = node.caption
+                             .toLowerCase()
+                             .indexOf(input) < 0
 
-#find all those links
-findAllEdges = (source) ->
-    Q = []
-    for e in allEdges
-        if (e.source.id == source.id) or (e.target.id == source.id)
-            Q.push(e)
-    Q
+                if hidden
+                    d3.selectAll("[source-target*='#{node.id}']")
+                      .classed("inactive", hidden)
+                else
+                    d3.selectAll("[source-target*='#{node.id}']")
+                      .classed("inactive", (edge)-> 
+                        nodeIDs = [edge.source.id, edge.target.id]
+                        
+                        sourceHidden = d3.select("#node-#{nodeIDs[0]}").classed("inactive")
+                        targetHidden = d3.select("#node-#{nodeIDs[1]}").classed("inactive")
+                        
+                        targetHidden or sourceHidden 
+                    )
+              
+                hidden
+                
+                )
 
-#igraphsearch
-#deprecated: graphSearch
-iGraphSearch = (event) ->
-    vis = app.vis
-    if event and (event.keyCode == 27)
-        $('#igraph-search').val('')
-    term = $('#igraph-search').val().toLowerCase()
-    nodes = vis.selectAll('g.node')
-    if term == ''
-        #deactivate search
-        updateFilters()
-        return
-    graph_elem.attr('class', 'search-active')
-    #Feature: allow for different property name(s) to be matched
-    matches = (d) -> d.name.toLowerCase().indexOf(term) >= 0
-    nodes.classed('search-match', matches)
-    #Feature: autocomplete drop down list
-    #Feature: zoom and pan to first node in list
-    #and then other nodes if user selects them
-#clear-graph-search does not exist just now
-#$('#clear-graph-search').click(function() {
-#  $('#graph-search').val('');
-#  graphSearch();
-#  return false;
-#});
-
-
-iGraphSearchSelect = (event, ui) ->
-    # item has been selected from list, centre on it, click it and clear in graph search
-    id = "#node-#{ui.item.value}"
-    $(id).d3Click()
-    centreView(id)
-    @value = ''
-    updateFilters()
-    event.preventDefault()
-
-iGraphSearchFocus = (event, ui) ->
-    # if there is only one item in the list, centre on it
-    # if $('.ui-autocomplete').children().length is 1
-    centreView "#node-#{ui.item.value}"
-    event.preventDefault()
-
-$('#igraph-search').keyup(iGraphSearch)
-                    .autocomplete({
-                        select: iGraphSearchSelect,
-                        focus: iGraphSearchFocus,
-                        minLength: 0
-                    })
-                    .focus ->
-                        $(this).autocomplete('search')
-
-updateCaptions = () ->
-    captions = []
-    for key of allCaptions
-        captions.push({caption: key, value: allCaptions[key]})
-    captions.sort((a, b) ->
-        if a.caption < b.caption then return -1
-        if a.caption > b.caption then return 1
-        0
-    )
-    $('#igraph-search').autocomplete('option', 'source', captions)
+        )
+        

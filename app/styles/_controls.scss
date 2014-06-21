@@ -32,18 +32,26 @@
 	margin-top: 2em;
 	margin-bottom: 1em;
 	padding: .5em 1em;
+    width: 90%;
+
 	span{
-		margin-left: 0;
 		vertical-align: bottom;
-		padding: 3px 0;
 	}
-	input{
+    input{
 		background-color: black;
-		border: none;
-		font-size: 20px;
-		width: 90%;
+        border:none;
+        font-size: 20px;
 		color: white;
+        padding-left: 0.5em;
 	}
+    .search-icon {
+        height: 22px;
+        background-color: #000;
+        border-color: #000;
+        border-right-color:#111;
+    }
+
+
 }
 
 #stats{

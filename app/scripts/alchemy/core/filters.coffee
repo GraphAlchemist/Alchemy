@@ -25,7 +25,7 @@ fixNodesTags = (nodes, edges) ->
             allTags[tag] = true
             n._tags.push(tag)
 
-    updateCaptions()
+#    updateCaptions()
 
     tags = Object.keys(allTags)
     tags.sort()
