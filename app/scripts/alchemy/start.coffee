@@ -13,6 +13,10 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# lets 
+debugger
+if not d3.select('.alchemy')
+    console.warn("create an element with `alchemy` as a class")
 
 class Alchemy
     constructor: () ->   
@@ -36,7 +40,3 @@ container = null
 rootNodeId = null
 
 window.alchemy = new Alchemy()
-
-# alchemy.container =
-#     'width': parseInt(d3.select('.alchemy').style('width'))
-#     'height': parseInt(d3.select('.alchemy').style('height'))

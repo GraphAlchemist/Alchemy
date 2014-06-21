@@ -30,8 +30,8 @@ alchemy.utils =
         alchemy.vis.selectAll('g.node,circle,text')
             .classed('selected unselected neighbor unconnected connecting', false)
         # call user-specified deselect function if specified
-        if conf.deselectAll and typeof(conf.deselectAll == 'function')
-            conf.deselectAll()
+        if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
+            alchemy.conf.deselectAll()
 
     # resize: ->
     #     d3.select('.alchemy svg')
@@ -82,37 +82,37 @@ alchemy.utils =
         zoom.translate([x, y]).scale(level)
 
     nodeText: (d) -> 
-        if conf.caption and typeof conf.caption is 'string'
-            if d[conf.caption]?
-                d[conf.caption]
+        if alchemy.conf.caption and typeof alchemy.conf.caption is 'string'
+            if d[alchemy.conf.caption]?
+                d[alchemy.conf.caption]
             else
                 ''
-        else if conf.caption and typeof conf.caption is 'function'
-            caption = conf.caption(d)
+        else if alchemy.conf.caption and typeof alchemy.conf.caption is 'function'
+            caption = alchemy.conf.caption(d)
             if caption == undefined or String(caption) == 'undefined'
                 alchemy.log["caption"] = "At least one caption returned undefined"
-                conf.caption = false
+                alchemy.conf.caption = false
             return caption
 
     nodeSize: (d, i) ->
         # refactor for speed
-        if conf.nodeRadius?
-            if typeof conf.nodeRadius is 'function'
+        if alchemy.conf.nodeRadius?
+            if typeof alchemy.conf.nodeRadius is 'function'
                 if d.node_type is 'root'
-                    conf.rootNodeRadius
+                    alchemy.conf.rootNodeRadius
                 else                
-                    conf.nodeRadius(d)
-            else if typeof conf.nodeRadius is 'string'
+                    alchemy.conf.nodeRadius(d)
+            else if typeof alchemy.conf.nodeRadius is 'string'
                 # this does not work
-                key = conf.nodeRadius
+                key = alchemy.conf.nodeRadius
                 if d.node_type is 'root'
-                    conf.rootNodeRadius
+                    alchemy.conf.rootNodeRadius
                 else                  
                     d.degree
-            else if typeof conf.nodeRadius is 'number'
+            else if typeof alchemy.conf.nodeRadius is 'number'
                 if d.node_type is 'root'
-                    conf.rootNodeRadius
+                    alchemy.conf.rootNodeRadius
                 else
-                    conf.nodeRadius
+                    alchemy.conf.nodeRadius
         else
             20

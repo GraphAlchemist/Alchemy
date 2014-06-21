@@ -25,7 +25,7 @@ nodeDragged = (d, i) ->
     d.px += d3.event.dx
     d.py += d3.event.dy
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-    if !conf.forceLocked  #configuration for forceLocked
+    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
         alchemy.force.start() #restarts force on drag
 
     alchemy.edge.attr("x1", (d) -> d.source.x )
@@ -48,36 +48,36 @@ alchemy.interactions =
         d3.select(this)
             .classed('highlight', true)
         d3.event.stopPropagation
-        if typeof conf.edgeClick? is 'function'
-            conf.edgeClick()
+        if typeof alchemy.conf.edgeClick? is 'function'
+            alchemy.conf.edgeClick()
 
     nodeMouseOver: (n) ->
-        if conf.nodeMouseOver?
-            if typeof conf.nodeMouseOver == 'function'
-                conf.nodeMouseOver(n)
-            else if typeof conf.nodeMouseOver == ('number' or 'string')
+        if alchemy.conf.nodeMouseOver?
+            if typeof alchemy.conf.nodeMouseOver == 'function'
+                alchemy.conf.nodeMouseOver(n)
+            else if typeof alchemy.conf.nodeMouseOver == ('number' or 'string')
                 # the user provided an integer or string to be used
                 # as a data lookup key on the node in the graph json
-                return n[conf.nodeMouseOver]
+                return n[alchemy.conf.nodeMouseOver]
         else
             null
 
     nodeMouseOut: (n) ->
-        if conf.nodeMouseOut? and typeof conf.nodeMouseOut == 'function'
-            conf.nodeMouseOut(n)
+        if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut == 'function'
+            alchemy.conf.nodeMouseOut(n)
         else
             null
 
     #not currently implemented
     nodeDoubleClick: (c) ->
-        if not conf.extraDataSource or
+        if not alchemy.conf.extraDataSource or
             c.expanded or
-            conf.unexpandable.indexOf c.type is not -1 then return
+            alchemy.conf.unexpandable.indexOf c.type is not -1 then return
 
         $('<div id="loading-spi"></div>nner').show()
         console.log "loading more data for #{c.id}"
         c.expanded = true
-        d3.json conf.extraDataSource + c.id, loadMoreNodes
+        d3.json alchemy.conf.extraDataSource + c.id, loadMoreNodes
 
         links = findAllEdges c
         for e of edges
@@ -116,8 +116,8 @@ alchemy.interactions =
     #             node.py = requester.y + node_y
     #             allNodes.push node
 
-    #         if typeof conf.nodeAdded? is 'function'
-    #             conf.nodeAdded(node)
+    #         if typeof alchemy.conf.nodeAdded? is 'function'
+    #             alchemy.conf.nodeAdded(node)
 
     #     nodesMap = d3.map()
     #     allNodes.forEach (n) -> nodesMap.set n.id, n
@@ -131,8 +131,8 @@ alchemy.interactions =
     #         if findEdge link.source, link.target isnt null
     #             allEdges.push link
 
-    #             if typeof conf.edgeAdded? is 'function'
-    #                 conf.edgeAdded(node)
+    #             if typeof alchemy.conf.edgeAdded? is 'function'
+    #                 alchemy.conf.edgeAdded(node)
 
     #             console.log "adding link #{link.source.id}-#{link.target.id}"
     #         else
@@ -144,13 +144,13 @@ alchemy.interactions =
     #     requester.fixed = false
     #     setTimeout (-> requester.fixed = true), 1500
 
-    #     if conf.showFilters then updateFilters
+    #     if alchemy.conf.showFilters then updateFilters
     #     $('#loading-spinner').hide
     #     console.log "#{allNodes.length} nodes afterwards"
     #     console.log "#{allEdges.length} edges afterwards"
 
-    #     if typeof conf.nodeDoubleClick? is 'function'
-    #         conf.nodeDoubleClick(requester)
+    #     if typeof alchemy.conf.nodeDoubleClick? is 'function'
+    #         alchemy.conf.nodeDoubleClick(requester)
 
     nodeClick: (c) ->
         d3.event.stopPropagation()
@@ -165,8 +165,8 @@ alchemy.interactions =
                             (e.source.id is d.id and e.target.id is c.id)) and 
                             d3.select(".edge[id*='#{d.id}']").classed("active"))
 
-        if typeof conf.nodeClick == 'function'
-            conf.nodeClick(c)
+        if typeof alchemy.conf.nodeClick == 'function'
+            alchemy.conf.nodeClick(c)
             return
 
     drag: d3.behavior.drag()
@@ -177,8 +177,8 @@ alchemy.interactions =
 
     zoom: d3.behavior.zoom()
                           # to do, allow UDF initial scale and zoom
-                          # .translate conf.initialTranslate
-                          # .scale conf.initialScale
+                          # .translate alchemy.conf.initialTranslate
+                          # .scale alchemy.conf.initialScale
                           .scaleExtent [0.2, 2.4]
                           .on "zoom", ->
                             alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 

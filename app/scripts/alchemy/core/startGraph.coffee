@@ -28,7 +28,7 @@ alchemy.startGraph = (data) ->
                                     <h4 class="modal-title">Sorry!</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <p>#{conf.warningMessage}</p>
+                                    <p>#{alchemy.conf.warningMessage}</p>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -58,7 +58,7 @@ alchemy.startGraph = (data) ->
 
     #create SVG
     alchemy.vis = d3.select('.alchemy')
-        .attr("style", "width:#{conf.graphWidth}px; height:#{conf.graphHeight}px")
+        .attr("style", "width:#{alchemy.conf.graphWidth}px; height:#{alchemy.conf.graphHeight}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
@@ -66,7 +66,7 @@ alchemy.startGraph = (data) ->
             .on('click', alchemy.utils.deselectAll)
             .call(alchemy.interactions.zoom)
             .append('g')
-                .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
+                .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
     #enter/exit nodes/edges
     # alchemy.edge = alchemy.vis.selectAll("line")
@@ -74,7 +74,7 @@ alchemy.startGraph = (data) ->
     # alchemy.node = alchemy.vis.selectAll("g.node")
     #           .data(alchemy.nodes)#, (d) -> d.id)
     # force layout constant
-    k = Math.sqrt(alchemy.nodes.length / (conf.graphWidth * conf.graphHeight))
+    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth * alchemy.conf.graphHeight))
 
     # create layout
     alchemy.force = d3.layout.force()
@@ -85,7 +85,7 @@ alchemy.startGraph = (data) ->
         .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
-        .size([conf.graphWidth, conf.graphHeight])
+        .size([alchemy.conf.graphWidth, alchemy.conf.graphHeight])
         .nodes(alchemy.nodes)
         .links(alchemy.edges)
         .on("tick", alchemy.layout.tick)
@@ -99,8 +99,8 @@ alchemy.startGraph = (data) ->
     # alchemy.filters.init(alchemy.nodes, alchemy.edges)
     # alchemy.stats.init()
     
-    # configuration for forceLocked
-    if !conf.forceLocked 
+    # alchemy.configuration for forceLocked
+    if !alchemy.conf.forceLocked 
          alchemy.force
                 .on("tick", alchemy.layout.tick)
                 .start()
@@ -108,16 +108,16 @@ alchemy.startGraph = (data) ->
 
     # call user-specified functions after load function if specified
     # deprecate?
-    if conf.afterLoad?
-        if typeof conf.afterLoad is 'function'
-            conf.afterLoad()
-        else if typeof conf.afterLoad is 'string'
-            alchemy[conf.afterLoad] = true
+    if alchemy.conf.afterLoad?
+        if typeof alchemy.conf.afterLoad is 'function'
+            alchemy.conf.afterLoad()
+        else if typeof alchemy.conf.afterLoad is 'string'
+            alchemy[alchemy.conf.afterLoad] = true
 
-    if conf.initialScale isnt defaults.initialScale
-        alchemy.interactions.zoom.scale(conf.initialScale)
+    if alchemy.conf.initialScale isnt alchemy.defaults.initialScale
+        alchemy.interactions.zoom.scale(alchemy.conf.initialScale)
         return
 
-    if conf.initialTranslate isnt defaults.initialTranslate
-        alchemy.interactions.zoom.translate(conf.initialTranslate)
+    if alchemy.conf.initialTranslate isnt alchemy.defaults.initialTranslate
+        alchemy.interactions.zoom.translate(alchemy.conf.initialTranslate)
         return

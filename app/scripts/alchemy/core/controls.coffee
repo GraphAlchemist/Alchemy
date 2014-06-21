@@ -16,7 +16,7 @@
 
 alchemy.controlDash = 
     init: () ->
-        if conf.showControlDash is true 
+        if alchemy.conf.showControlDash is true 
             # add dashboard wrapper
             d3.select(".alchemy")
                 .append("div")
@@ -55,7 +55,7 @@ alchemy.controlDash =
                 .html("<span class='fa fa-search fa-2x'></span><input placeholder='Search'></input>")
 
     zoomCtrl: () ->
-        if conf.zoomControls 
+        if alchemy.conf.zoomControls 
             d3.select("#control-dash-wrapper")
                 .append("div")
                 .attr("id", "zoom-controls")

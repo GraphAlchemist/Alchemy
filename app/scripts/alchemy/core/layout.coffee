@@ -19,13 +19,13 @@ alchemy.layout =
         8 * k
 
     charge: (k) ->
-        if conf.cluster
+        if alchemy.conf.cluster
             -500
         else
             -10 / k
 
     linkStrength: (edge) ->
-        if conf.cluster
+        if alchemy.conf.cluster
             if edge.source.cluster is edge.target.cluster then 1 else 0.1
         else
             if edge.source.root or edge.target.root
@@ -34,13 +34,13 @@ alchemy.layout =
                 1
 
     friction: () ->
-        if conf.cluster
+        if alchemy.conf.cluster
             0.7
         else
             0.9
 
     linkDistanceFn: (edge, k) ->
-        if conf.cluster
+        if alchemy.conf.cluster
             # FIXME: parameterise this
             if (edge.source.node_type or edge.target.node_type) is 'root' then 300
             if edge.source.cluster is edge.target.cluster then 10 else 600
@@ -75,7 +75,7 @@ alchemy.layout =
 
 
     collide: (node) ->
-        r = 2.2 * alchemy.utils.nodeSize(node) + conf.nodeOverlap
+        r = 2.2 * alchemy.utils.nodeSize(node) + alchemy.conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
         ny1 = node.y - r
@@ -87,7 +87,7 @@ alchemy.layout =
                 l = Math.sqrt(x * x + y * y)
                 r = r
                 if l < r
-                    l = (l - r) / l * conf.alpha
+                    l = (l - r) / l * alchemy.conf.alpha
                     node.x -= x *= l
                     node.y -= y *= l
                     quad.point.x += x
@@ -98,7 +98,7 @@ alchemy.layout =
             y2 < ny1
 
     tick: () ->
-        if conf.collisionDetection
+        if alchemy.conf.collisionDetection
             q = d3.geom.quadtree(alchemy.nodes)
             for node in alchemy.nodes
                 q.visit(alchemy.layout.collide(node))
@@ -112,8 +112,8 @@ alchemy.layout =
 
     positionRootNodes: () ->
         container = 
-            width: conf.graphWidth
-            height: conf.graphHeight
+            width: alchemy.conf.graphWidth
+            height: alchemy.conf.graphHeight
         rootNodes = Array()
         for n, i in alchemy.nodes
             if not n.root then continue
@@ -127,7 +127,7 @@ alchemy.layout =
             alchemy.nodes[n.i].y = container.height / 2
             alchemy.nodes[n.i].px = container.width / 2
             alchemy.nodes[n.i].py = container.height / 2
-            alchemy.nodes[n.i].fixed = conf.fixRootNodes
+            alchemy.nodes[n.i].fixed = alchemy.conf.fixRootNodes
             return
         # position nodes towards center of graph
         else

@@ -16,7 +16,7 @@
 
 alchemy.stats = 
     init: () -> 
-        if conf.showStats is true
+        if alchemy.conf.showStats is true
             alchemy.stats.show()
             alchemy.stats.update()
             alchemy.stats.insertSVG()
@@ -51,10 +51,10 @@ alchemy.stats =
         nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>"
 
         #add stats for all node types
-        if conf.nodeTypes
-            nodeKey = Object.keys(conf.nodeTypes)
+        if alchemy.conf.nodeTypes
+            nodeKey = Object.keys(alchemy.conf.nodeTypes)
             nodeTypes = ''
-            for nodeType in conf.nodeTypes[nodeKey]
+            for nodeType in alchemy.conf.nodeTypes[nodeKey]
                 # if not currentNodeTypes[t] then continue
                 caption = nodeType.replace('_', ' ')
                 nodeNum = d3.selectAll("g.node.#{nodeType}")[0].length
@@ -80,12 +80,12 @@ alchemy.stats =
         edgeStats += "<li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>#{inactiveEdges}</span></li>"
 
         #add stats for edge types
-        if conf.edgeTypes
+        if alchemy.conf.edgeTypes
             for e in d3.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
             edgeTypes = ''
-            for edgeType in conf.edgeTypes
+            for edgeType in alchemy.conf.edgeTypes
                 if not edgeType then continue
                 caption = edgeType.replace('_', ' ')
                 edgeNum = d3.selectAll(".edge.#{edgeType}")[0].length
@@ -96,7 +96,7 @@ alchemy.stats =
         $('#rel-stats').html(edgeStats)
 
     insertSVG: () ->
-        width = conf.graphWidth * .25
+        width = alchemy.conf.graphWidth * .25
         height = 250
         radius = width / 2
         arc = d3.svg.arc()
@@ -115,7 +115,7 @@ alchemy.stats =
 
 
     update: () -> 
-        if conf.nodeStats is true
+        if alchemy.conf.nodeStats is true
             alchemy.stats.nodeStats()
-        if conf.edgeStats is true
+        if alchemy.conf.edgeStats is true
             alchemy.stats.edgeStats()
