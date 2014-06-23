@@ -59,7 +59,7 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('target-id', (d) -> d.id)
         .attr('style', (d) ->
-            nodeColours(d))
+           "#{nodeColours(d)}; stroke-width: #{if d.node_type == 'root' then alchemy.conf.rootNodeRadius/3 else alchemy.conf.nodeRadius/3}")
         # .attr('style', (d) -> #TODO - everything should be css
         #     if alchemy.conf.cluster
         #         if isNaN parseInt d.cluster
