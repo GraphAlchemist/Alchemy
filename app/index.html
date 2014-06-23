@@ -41,30 +41,7 @@
         <script src="scripts/alchemy.js"></script>
         <script src="scripts/else.js"></script>
         <script>
-            var testConf;
-
-            testConf = _.assign({}, {
-              caption: function(n) {
-                return "" + n.caption;
-              },
-              dataSource: '/../sample_data/movies.json',
-              nodeRadius: 7,
-              rootNodeRadius: 10,
-              nodeTypes: {
-                "node_type": ["movie", "award", "person"]
-              },
-              edgeTypes: ["ACTED_IN", "NOMINATED", "RECEIVED", "PARENT_OF", "PARTNER_OF", "BORN_AT", "EXEC_PRODUCED","PRODUCED"],
-              showControlDash: true,
-              showStats: true,
-              nodeStats: true,
-              edgeStats: true,
-              showFilters: true,
-              nodeFilters: true,
-              edgeFilters: true,
-              zoomControls: true
-            });
-
-            alchemy.begin(testConf)
+            alchemy.begin()
         </script>
 
         
