@@ -20,7 +20,7 @@ alchemy.drawing.drawnodes = (node) ->
                     .attr("class", (d) ->
                         if conf.nodeTypes
                             nodeType = d[Object.keys(conf.nodeTypes)]
-                            "node #{nodeType}"
+                            "node #{nodeType} active"
                         else
                             "node")
                     .attr('id', (d) -> "node-#{d.id}")
@@ -53,7 +53,7 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter
         .append('circle')
-        # .attr('class', (d) -> "#{d.node_type} active")
+        .attr('class', (d) -> "#{d.node_type} active")
         .attr('id', (d) -> "circle-#{d.id}")
         .attr('r', (d) -> alchemy.utils.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
