@@ -258,8 +258,18 @@ alchemy.filters =
             if element.classed("nodeType")
                 for node in alchemy.node.filter(".#{name}.#{state}").data()
                     nodeId = node.id
-                    alchemy.edge.filter("[source-target*='#{nodeId}']")
-                        .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+
+                    for edge in alchemy.edge.filter("[source-target*='#{nodeId}']").data()
+                        edgeType = edge.caption
+                        console.log edgeType
+                        #the edge should not show if target of source node is inactive
+                        console.log d3.select("#li-#{edgeType}").classed("disabled")
+                        if d3.select("#li-#{edgeType}").classed("disabled")
+                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                                .classed({"inactive": true, "active": false, "highlight": false})
+                        else 
+                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                                .classed({"inactive": !checked, "active": checked, "highlight": highlight})
 
             else if element.classed("edgeType")
                 for edge in alchemy.edge.filter(".#{name}.#{state}").data()
@@ -267,12 +277,13 @@ alchemy.filters =
                     targetNode = edge.target
                     #the edge should not show if target of source node is inactive
                     if d3.select("#node-#{targetNode.id}").classed("inactive") or d3.select("#node-#{sourceNode.id}").classed("inactive")
-                        # console.log alchemy.edge.filter("[source-target*='#{sourceNode.id}-#{targetNode.id}']")
                         alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
                             .classed({"inactive": true, "active": false, "highlight": false})
+                    else 
+                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
 
             else console.log "ERROR tag was neither edgeType nor nodeType halp"
-
+            #update stats
             alchemy.stats.update()
 
         # add active / disabled classes for all labels
