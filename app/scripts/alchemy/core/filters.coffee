@@ -253,28 +253,37 @@ alchemy.filters =
             state = state.replace(/\s+/g, '.');
 
             #filter if tag is a nodeType
+            #note that this had a bug: e.g disable movies and then mouseover person
+            # the filter for the movie edges turns off for some reason
             if element.classed("nodeType")
-                for node in graphElements["node"].filter(".#{state}")[0]
-                    graphElements["edge"].filter("[id*='#{node.id[5..10]}']")
-                        .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+                for node in alchemy.node.filter(".#{name}.#{state}").data()
+                    nodeId = node.id
 
-            # filter if the tag is an edgeType
+                    for edge in alchemy.edge.filter("[source-target*='#{nodeId}']").data()
+                        edgeType = edge.caption
+                        console.log edgeType
+                        #the edge should not show if target of source node is inactive
+                        console.log d3.select("#li-#{edgeType}").classed("disabled")
+                        if d3.select("#li-#{edgeType}").classed("disabled")
+                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                                .classed({"inactive": true, "active": false, "highlight": false})
+                        else 
+                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                                .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+
             else if element.classed("edgeType")
-                for edge in graphElements["edge"].filter(".#{name}.#{state}")[0]
-                    node = d3.select(".node").filter("[id='.node-#{edge.id[7..13]}']")
-                # for node in graphElements["node"].filter(".#{state}")[0]
-                    #TO DO: WE ONLY WANT THE EDGE TO SHOW IF THE NODE'S STATE
-                    # IS ACTIVE, ACTIVE.HIGHLIGHT, OR INACTIVE.HIGHLIGHT
-                    # graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                    #     .classed({"inactive": !checked, "active": checked, "highlight": highlight})
-                # for edge in graphElements["edge"].filter(".#{name}.#{state}")[0]
-                #     d3.select(edge)
-                #     sourceNode = d3.select
-                #     if d3.select(edge).filter("[id*='#{node.id[7..13]}']")
-                #         .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+                for edge in alchemy.edge.filter(".#{name}.#{state}").data()
+                    sourceNode = edge.source
+                    targetNode = edge.target
+                    #the edge should not show if target of source node is inactive
+                    if d3.select("#node-#{targetNode.id}").classed("inactive") or d3.select("#node-#{sourceNode.id}").classed("inactive")
+                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
+                            .classed({"inactive": true, "active": false, "highlight": false})
+                    else 
+                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
 
             else console.log "ERROR tag was neither edgeType nor nodeType halp"
-
+            #update stats
             alchemy.stats.update()
 
         # add active / disabled classes for all labels
@@ -290,32 +299,24 @@ alchemy.filters =
         tags
             .on "mouseenter", () ->
                 element = d3.select(this)
-                #get the element and re-filter
                 highlight = true
                 reFilter(element, highlight)
 
             .on "mouseleave", () ->
                 element = d3.select(this)
-                #get the element and re-filter
                 highlight = false
                 reFilter(element, highlight)
 
             .on "click", () ->
-                #get the element
                 element = d3.select(this)
-
-                #get the checked property and
+                #get the checked property
                 #toggle it and update active / disabled classes
                 checked = !element.classed("disabled")
                 checked = !checked
                 element.classed({'active-label': checked,'disabled': !checked})
-                name = element[0][0].innerText
-                state = if checked then "active" else "inactive"
                 highlight = false
                 reFilter(element, highlight)
                                 
-
-
         # edges.classed('search-match', (d) ->
         #     if relationshipTypeList.filter('[name="' + d.label + '"]').length
         #         $('#node-' + d.source.id)[0].classList.add('search-match')
