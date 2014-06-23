@@ -13,9 +13,13 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# lets
+
+if d3.select('.alchemy').empty()
+    console.warn("create an element with `alchemy` as a class")
 
 class Alchemy
-    constructor: (@conf) ->   
+    constructor: () ->   
         @version = "0.1.0"
         @layout = {}
         @interactions = {}
@@ -35,8 +39,4 @@ currentRelationshipTypes = {}
 container = null
 rootNodeId = null
 
-window.alchemy = new Alchemy(conf)
-
-# alchemy.container =
-#     'width': parseInt(d3.select('.alchemy').style('width'))
-#     'height': parseInt(d3.select('.alchemy').style('height'))
+window.alchemy = new Alchemy()

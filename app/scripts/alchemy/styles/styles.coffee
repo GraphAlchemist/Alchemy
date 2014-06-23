@@ -16,8 +16,8 @@
 
 alchemy.styles =
     getClusterColour: (index) ->
-        if conf.clusterColours[index]?
-            conf.clusterColours[index]
+        if alchemy.conf.clusterColours[index]?
+            alchemy.conf.clusterColours[index]
         else
             '#EBECE4'
 

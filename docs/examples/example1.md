@@ -1,3 +1,4 @@
+```html
 <html>
 <head>
     <link rel="stylesheet" href="../dist/styles/vendor.css"/>
@@ -9,3 +10,4 @@
     <script src="../dist/scripts/vendor.js"></script>
     <script src="../dist/alchemy.min.js"></script>
 </html>
+```

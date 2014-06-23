@@ -14,7 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.begin = () ->
+alchemy.begin = (userConf) ->
+    alchemy.conf = _.assign({}, alchemy.defaults, userConf)
     if typeof alchemy.conf.dataSource == 'string'
         d3.json(alchemy.conf.dataSource, alchemy.startGraph)
     else if typeof alchemy.conf.dataSource == 'object'

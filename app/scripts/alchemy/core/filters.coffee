@@ -18,9 +18,9 @@ fixNodesTags = (nodes, edges) ->
     for n in nodes
         allCaptions[n.label] = n.id
         n._tags = []
-        if conf.nodeTypesProperty then currentNodeTypes[n[conf.nodeTypesProperty]] = true
-        if typeof(n[conf.tagsProperty]) == 'undefined' then continue
-        for t in n[conf.tagsProperty]
+        if alchemy.conf.nodeTypesProperty then currentNodeTypes[n[alchemy.conf.nodeTypesProperty]] = true
+        if typeof(n[alchemy.conf.tagsProperty]) == 'undefined' then continue
+        for t in n[alchemy.conf.tagsProperty]
             tag = t.trim().toLowerCase()
             allTags[tag] = true
             n._tags.push(tag)
@@ -33,36 +33,36 @@ fixNodesTags = (nodes, edges) ->
 
 alchemy.filters = 
     init: () -> 
-        if conf.showFilters then alchemy.filters.show()
-        if conf.edgeFilters then alchemy.filters.showEdgeFilters()
-        if conf.nodeFilters then alchemy.filters.showNodeFilters()
+        if alchemy.conf.showFilters then alchemy.filters.show()
+        if alchemy.conf.edgeFilters then alchemy.filters.showEdgeFilters()
+        if alchemy.conf.nodeFilters then alchemy.filters.showNodeFilters()
         #generate filter forms
-        if conf.nodeTypes
-            nodeKey = Object.keys(conf.nodeTypes)
+        if alchemy.conf.nodeTypes
+            nodeKey = Object.keys(alchemy.conf.nodeTypes)
 
             nodeTypes = ''
-            for nodeType in conf.nodeTypes[nodeKey]
+            for nodeType in alchemy.conf.nodeTypes[nodeKey]
                 # if not currentNodeTypes[t] then continue
                 caption = nodeType.replace('_', ' ')
                 nodeTypes += "<li class = 'list-group-item nodeType' role = 'menuitem' id='li-#{nodeType}' name = #{nodeType}>#{caption}</li>"
             $('#node-dropdown').append(nodeTypes)
             # $('#node-dropdown li').click(alchemy.filters.update())
 
-        if conf.edgeTypes
+        if alchemy.conf.edgeTypes
             for e in d3.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
             edgeTypes = ''
-            for edgeType in conf.edgeTypes
+            for edgeType in alchemy.conf.edgeTypes
                 if not edgeType then continue
                 caption = edgeType.replace('_', ' ')
                 edgeTypes += "<li class = 'list-group-item edgeType' role = 'menuitem' id='li-#{edgeType}' name = #{edgeType}>#{caption}</li>"
             $('#rel-dropdown').append(edgeTypes)
             # $('#rel-dropdown li').click(alchemy.filters.update())
         
-        if conf.captionsToggle then alchemy.filters.captionsToggle()
-        if conf.edgesToggle then alchemy.filters.edgesToggle()
-        if conf.nodesToggle then alchemy.filters.nodesToggle()
+        if alchemy.conf.captionsToggle then alchemy.filters.captionsToggle()
+        if alchemy.conf.edgesToggle then alchemy.filters.edgesToggle()
+        if alchemy.conf.nodesToggle then alchemy.filters.nodesToggle()
         alchemy.filters.update()
 
     # NOT IMPLEMENTED: 
@@ -217,7 +217,7 @@ alchemy.filters =
           .html("Toggle Nodes")
           .on("click", ->
 
-            affectedNodes = if conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
+            affectedNodes = if alchemy.conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
 
             if d3.selectAll(".node.hidden")[0].length == 0
                 d3.selectAll(affectedNodes)
@@ -333,7 +333,7 @@ alchemy.filters =
 
 #create tag box and tags
 
-# if conf.tagsProperty
+# if alchemy.conf.tagsProperty
 #     tag_html = """
 #                     <input type="text" id="add-tag" class="form-control" placeholder="search for tags" data-toggle="tooltip" title="tags">
 #                """
@@ -356,7 +356,7 @@ alchemy.filters =
 #     alchemy.filters.update
 
 # #links toggle
-# if conf.linksToggle
+# if alchemy.conf.linksToggle
 #     $('#links-toggle').click = () ->
 #         currentClasses = ($('svg').attr('class') or '').split(' ')
 #         if(currentClasses.indexOf('hidelinks') > -1)

@@ -15,7 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawedges = (edge) ->  
-    if conf.cluster
+    if alchemy.conf.cluster
         edgeStyle = (d) ->
             if d.source.node_type is "root" or d.target.node_type is "root"
                 index = (if d.source.node_type is "root" then d.target.cluster else d.source.cluster)
@@ -27,9 +27,9 @@ alchemy.drawing.drawedges = (edge) ->
                 gid = "cluster-gradient-#{id}"
                 return "stroke: url(##{gid})"
             "stroke: #{alchemy.styles.getClusterColour(index)}"
-    else if conf.edgeColour and not conf.cluster
+    else if alchemy.conf.edgeColour and not alchemy.conf.cluster
         edgeStyle = (d) ->
-            "stroke: #{conf.edgeColour}"
+            "stroke: #{alchemy.conf.edgeColour}"
     else
         edgeStyle = (d) -> 
             ""

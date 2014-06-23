@@ -18,8 +18,8 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
-                        if conf.nodeTypes
-                            nodeType = d[Object.keys(conf.nodeTypes)]
+                        if alchemy.conf.nodeTypes
+                            nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
                             "node #{nodeType}"
                         else
                             "node")
@@ -30,24 +30,24 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
                     .on('click', alchemy.interactions.nodeClick)
 
-    if not conf.fixNodes
+    if not alchemy.conf.fixNodes
         nonRootNodes = nodeEnter.filter((d) -> return d.node_type != "root")
         nonRootNodes.call(alchemy.interactions.drag)
 
-    if not conf.fixRootNodes
+    if not alchemy.conf.fixRootNodes
         rootNodes = nodeEnter.filter((d) -> return d.node_type == "root")
         rootNodes.call(alchemy.interactions.drag)
 
     nodeColours = (d) ->
-        if conf.cluster
-            if (isNaN parseInt d.cluster) or (d.cluster > conf.clusterColours.length)
-                colour = conf.clusterColours[conf.clusterColours.length - 1]
+        if alchemy.conf.cluster
+            if (isNaN parseInt d.cluster) or (d.cluster > alchemy.conf.clusterColours.length)
+                colour = alchemy.conf.clusterColours[alchemy.conf.clusterColours.length - 1]
             else
-                colour = conf.clusterColours[d.cluster]
+                colour = alchemy.conf.clusterColours[d.cluster]
             "fill: #{colour}; stroke: #{colour};"
         else
-            if conf.nodeColour
-                colour = conf.nodeColour
+            if alchemy.conf.nodeColour
+                colour = alchemy.conf.nodeColour
             else
                 ''
 
@@ -61,18 +61,18 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('style', (d) ->
             nodeColours(d))
         # .attr('style', (d) -> #TODO - everything should be css
-        #     if conf.cluster
+        #     if alchemy.conf.cluster
         #         if isNaN parseInt d.cluster
         #             colour = '#EBECE4'
-        #         else if d.cluster < conf.clusterColours.length
-        #             colour = conf.clusterColours[d.cluster]
+        #         else if d.cluster < alchemy.conf.clusterColours.length
+        #             colour = alchemy.conf.clusterColours[d.cluster]
         #         else
         #             ''
-        #     else if conf.clusterColours
-        #         if d[conf.colourProperty]? and conf.clusterColours[d[conf.colourProperty]]?
-        #             colour = conf.clusterColours[d[conf.colourProperty]]
+        #     else if alchemy.conf.clusterColours
+        #         if d[alchemy.conf.colourProperty]? and alchemy.conf.clusterColours[d[alchemy.conf.colourProperty]]?
+        #             colour = alchemy.conf.clusterColours[d[alchemy.conf.colourProperty]]
         #         else
-        #             colour = conf.clusterColours['default']
+        #             colour = alchemy.conf.clusterColours['default']
         #     else
         #         ''
         #     "fill: #{colour}; stroke: #{colour};"
@@ -84,5 +84,5 @@ alchemy.drawing.drawnodes = (node) ->
         #.text((d) -> d.caption)
         # .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "text-#{d.id}")
-        .attr('dy', (d) -> if d.node_type is 'root' then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
+        .attr('dy', (d) -> if d.node_type is 'root' then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
         .text((d) -> alchemy.utils.nodeText(d))
