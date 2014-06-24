@@ -108,12 +108,18 @@ module.exports = (grunt) ->
             bare: false
             sourceMap: true
         files:
-            # all of the files used in testing and development - configuration, etc.
-            ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
             # all of the core, alchemy.js files
             ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
                                         ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
                                         ".tmp/scripts/alchemy/end.coffee"]
+      dev:
+        options:
+            bare: false
+            sourceMap: true
+        files:
+            # all of the files used in testing and development - configuration, etc.
+            ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
+
       test:
         files: [
           expand: true
@@ -337,10 +343,10 @@ module.exports = (grunt) ->
 
     concurrent:
       # Run some tasks in parallel to speed up build process
-      server: ["compass:server", "coffee:dist", "copy:styles"]
-      test: ["coffee", "copy:styles"]
+      server: ["compass:server", "coffee",  "copy:styles"]
+      test: ["coffee:test", "coffee:dist", "copy:styles"]
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
-      buildAlchemy: ["coffee", "compass", "copy:styles"]
+      buildAlchemy: ["coffee:dist", "coffee:test", "compass", "copy:styles"]
 
   grunt.loadNpmTasks('grunt-mocha');
 
