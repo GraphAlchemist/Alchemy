@@ -1,5 +1,4 @@
 do ->
-    
     afterEach ->
         d3.select(".alchemy").remove() 
     
@@ -7,13 +6,15 @@ do ->
 
         describe "alchemy.edge", ->
             alchemy.begin({'dataSource': 'sample_data/movies.json'})
+            
             it "should be defined", ->
-                console.log(alchemy.edge)
                 alchemy.edge.should.not.equal undefined
+                
+        describe "alchemy.node", ->
+            alchemy.begin({'dataSource': 'sample_data/movies.json'})
 
-            it "should contain one DOM object for each edge in dataset", ->
-                console.log(alchemy.edge[0].length)
-                expect(alchemy.edge[0].length).to.equal 83
-
+            it "should be defined", ->
+                # console.log(alchemy.node)
+                alchemy.node.should.not.equal undefined
         return
     return
