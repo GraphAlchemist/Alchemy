@@ -1,4 +1,6 @@
 site_name: AlchemyDocs
+docs_dir: 'app/docs'
+site_dir: '.tmp/documentation'
 pages:
 - [index.md, Home]
 - [Contributing.md, Contributing]

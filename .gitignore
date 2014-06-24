@@ -1,13 +1,8 @@
 node_modules
+dist
 .tmp
 .sass-cache
-*.DS_Store
-app/bower_components
-app/scripts/testConf.coffee
+bower_components
 test/bower_components
-dist/
-ToDo.md
-Alchemy.wiki
-/site
-testConf.coffee
-app/index.html
+app/.docs
+*.DS_Store
