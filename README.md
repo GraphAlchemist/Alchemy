@@ -1,6 +1,7 @@
 Alchemy
 =======
 #IN DEVELOPMENT 
+[![Build Status](https://travis-ci.org/GraphAlchemist/Alchemy.svg?branch=master)](https://travis-ci.org/GraphAlchemist/Alchemy)
 ##Philosophy 
 Alchemy.js is a graph drawing application, built with d3.
 
