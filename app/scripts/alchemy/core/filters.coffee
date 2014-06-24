@@ -13,24 +13,6 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-fixNodesTags = (nodes, edges) ->
-    for n in nodes
-        allCaptions[n.label] = n.id
-        n._tags = []
-        if alchemy.conf.nodeTypesProperty then currentNodeTypes[n[alchemy.conf.nodeTypesProperty]] = true
-        if typeof(n[alchemy.conf.tagsProperty]) == 'undefined' then continue
-        for t in n[alchemy.conf.tagsProperty]
-            tag = t.trim().toLowerCase()
-            allTags[tag] = true
-            n._tags.push(tag)
-
-#    updateCaptions()
-
-    tags = Object.keys(allTags)
-    tags.sort()
-    $('#add-tag').autocomplete('option', 'source', tags)
-
 alchemy.filters = 
     init: () -> 
         if alchemy.conf.showFilters then alchemy.filters.show()
@@ -42,11 +24,9 @@ alchemy.filters =
 
             nodeTypes = ''
             for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                # if not currentNodeTypes[t] then continue
                 caption = nodeType.replace('_', ' ')
                 nodeTypes += "<li class = 'list-group-item nodeType' role = 'menuitem' id='li-#{nodeType}' name = #{nodeType}>#{caption}</li>"
             $('#node-dropdown').append(nodeTypes)
-            # $('#node-dropdown li').click(alchemy.filters.update())
 
         if alchemy.conf.edgeTypes
             for e in d3.selectAll(".edge")[0]
@@ -58,64 +38,11 @@ alchemy.filters =
                 caption = edgeType.replace('_', ' ')
                 edgeTypes += "<li class = 'list-group-item edgeType' role = 'menuitem' id='li-#{edgeType}' name = #{edgeType}>#{caption}</li>"
             $('#rel-dropdown').append(edgeTypes)
-            # $('#rel-dropdown li').click(alchemy.filters.update())
         
         if alchemy.conf.captionsToggle then alchemy.filters.captionsToggle()
         if alchemy.conf.edgesToggle then alchemy.filters.edgesToggle()
         if alchemy.conf.nodesToggle then alchemy.filters.nodesToggle()
         alchemy.filters.update()
-
-    # NOT IMPLEMENTED: 
-    # # not working, deprecate?
-    # updateTagsAutocomplete: () ->
-    #     # if no tags have been selected, use entire list
-    #     # otherwise, only use tags that match one or more nodes that match all tags that have been selected
-    #     tags = Object.keys(allTags)
-    #     selected = (tag.textContent.trim() for tag in $('#tags-list').children())
-    #     if selected
-    #         newTags = {}
-    #         for node in allNodes
-    #             ok = true
-    #             for tag in selected
-    #                 if node._tags.indexOf(tag) is -1
-    #                     ok = false
-    #                     break
-    #             if ok
-    #                 # this node matches all tags, add all of its tags to new autocomplete list
-    #                 # exclude tags that have already been selected though
-    #                 for tag in node._tags
-    #                     if selected.indexOf(tag) is -1
-    #                         newTags[tag] = true
-
-    #         tags = Object.keys(newTags)
-
-    #     tags.sort()
-    #     $('#add-tag').autocomplete('option', 'source', tags)
-
-    # #add a tag NEEDS TESTING
-    # addTag: (event, ui) ->
-    #     tag = ui.item.value
-    #     list = $('#tags-list')
-    #     #check if tag is already present
-    #     if list.children().filter(() -> @textContent is tag).length is 0
-
-    #         li = $("""<li>
-    #                     <span>#{ tag }<i class="icon-remove-sign"></i></span>
-    #                   </li>
-    #                """)
-    #         li.find('i').click(() ->
-    #             $(this).parents('li').remove()
-    #             updateTagsAutocomplete()
-    #             updateFilters()
-    #         )
-    #         list.append(li)
-    #         li.after(' ')
-
-    #     @value = '';
-    #     @blur()
-    #     updateTagsAutocomplete()
-    #     alchemy.filters.update
-    #     event.preventDefault()
 
     show: () ->
         filter_html = """
@@ -236,7 +163,6 @@ alchemy.filters =
             "edge" : vis.selectAll("line"),
         }
         tags = d3.selectAll(".nodeType, .edgeType")
-        # relationshipTypeList = $('#filter-relationships :checked')
 
         reFilter = (tag, highlight) ->
             #get tag info
@@ -254,27 +180,33 @@ alchemy.filters =
 
             #filter if tag is a nodeType
             if element.classed("nodeType")
-                for node in graphElements["node"].filter(".#{state}")[0]
-                    graphElements["edge"].filter("[id*='#{node.id[5..10]}']")
-                        .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+                for node in alchemy.node.filter(".#{name}.#{state}").data()
+                    nodeId = node.id
 
-            # filter if the tag is an edgeType
+                    for edge in alchemy.edge.filter("[source-target*='#{nodeId}']").data()
+                        edgeType = edge.caption
+                        #the edge should not show if target of source node is inactive
+                        if d3.select("#li-#{edgeType}").classed("disabled")
+                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                                .classed({"inactive": true, "active": false, "highlight": false})
+                        else 
+                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                                .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+
             else if element.classed("edgeType")
-                for edge in graphElements["edge"].filter(".#{name}.#{state}")[0]
-                    node = d3.select(".node").filter("[id='.node-#{edge.id[7..13]}']")
-                # for node in graphElements["node"].filter(".#{state}")[0]
-                    #TO DO: WE ONLY WANT THE EDGE TO SHOW IF THE NODE'S STATE
-                    # IS ACTIVE, ACTIVE.HIGHLIGHT, OR INACTIVE.HIGHLIGHT
-                    # graphElements["edge"].filter("[id*='#{node.id[7..13]}']")
-                    #     .classed({"inactive": !checked, "active": checked, "highlight": highlight})
-                # for edge in graphElements["edge"].filter(".#{name}.#{state}")[0]
-                #     d3.select(edge)
-                #     sourceNode = d3.select
-                #     if d3.select(edge).filter("[id*='#{node.id[7..13]}']")
-                #         .classed({"inactive": !checked, "active": checked, "highlight": highlight})
+                for edge in alchemy.edge.filter(".#{name}.#{state}").data()
+                    sourceNode = edge.source
+                    targetNode = edge.target
+                    if d3.select("#node-#{targetNode.id}").classed("inactive") or d3.select("#node-#{sourceNode.id}").classed("inactive")
+                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
+                            .classed({"inactive": true, "active": false, "highlight": false})
+                    else 
+                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
 
-            else console.log "ERROR tag was neither edgeType nor nodeType halp"
+            else console.log "ERROR tag was neither edgeType nor nodeType"
 
+
+            #update stats
             alchemy.stats.update()
 
         # add active / disabled classes for all labels
@@ -290,78 +222,22 @@ alchemy.filters =
         tags
             .on "mouseenter", () ->
                 element = d3.select(this)
-                #get the element and re-filter
                 highlight = true
                 reFilter(element, highlight)
 
             .on "mouseleave", () ->
                 element = d3.select(this)
-                #get the element and re-filter
                 highlight = false
                 reFilter(element, highlight)
 
             .on "click", () ->
-                #get the element
                 element = d3.select(this)
-
-                #get the checked property and
+                #get the checked property
                 #toggle it and update active / disabled classes
                 checked = !element.classed("disabled")
                 checked = !checked
                 element.classed({'active-label': checked,'disabled': !checked})
-                name = element[0][0].innerText
-                state = if checked then "active" else "inactive"
                 highlight = false
                 reFilter(element, highlight)
                                 
-
-
-        # edges.classed('search-match', (d) ->
-        #     if relationshipTypeList.filter('[name="' + d.label + '"]').length
-        #         $('#node-' + d.source.id)[0].classList.add('search-match')
-        #         $('#node-' + d.target.id)[0].classList.add('search-match')
-        #         return true
-        #     else
-        #         return false
-        # )
-        # matched = false
-        # relationshipTypeList.each( (d) ->
-        #     if d.caption is $(this).attr('name')
-        #         matched = true
-        # matched
-        # )
-
-#create tag box and tags
-
-# if alchemy.conf.tagsProperty
-#     tag_html = """
-#                     <input type="text" id="add-tag" class="form-control" placeholder="search for tags" data-toggle="tooltip" title="tags">
-#                """
-#     $('#filters form').append(tag_html)
-#     $('#add-tag').autocomplete({select: addTag, minLength: 0})
-#     $('#add-tag').focus ->
-#         $(this).autocomplete('search')
-
-
-# $('#filters form').append('<div class="clear"></div>')
-
-# toggle_button = $('#filters form').find('button.toggle')
-# toggle_button.click ->
-#     #if all boxes are unchecked, check them all
-#     #otherwise uncheck all
-#     #todo not sure if @ is used correctly here for "this"
-#     checkboxes = $(@).parents('fieldset').find('input')
-#     checked = $(@).parents('fieldset').find('input:checked').length
-#     checkboxes.prop('checked', (checked == 0))
-#     alchemy.filters.update
-
-# #links toggle
-# if alchemy.conf.linksToggle
-#     $('#links-toggle').click = () ->
-#         currentClasses = ($('svg').attr('class') or '').split(' ')
-#         if(currentClasses.indexOf('hidelinks') > -1)
-#             currentClasses.splice(currentClasses.indexOf('hidelinks'), 1)
-#         else
-#             currentClasses.push('hidelinks')
-#         $('svg').attr('class', currentClasses.join(' '))
 

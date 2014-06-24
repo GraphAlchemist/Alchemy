@@ -60,29 +60,10 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('target-id', (d) -> d.id)
         .attr('style', (d) ->
            "#{nodeColours(d)}; stroke-width: #{if d.node_type == 'root' then alchemy.conf.rootNodeRadius/3 else alchemy.conf.nodeRadius/3}")
-        # .attr('style', (d) -> #TODO - everything should be css
-        #     if alchemy.conf.cluster
-        #         if isNaN parseInt d.cluster
-        #             colour = '#EBECE4'
-        #         else if d.cluster < alchemy.conf.clusterColours.length
-        #             colour = alchemy.conf.clusterColours[d.cluster]
-        #         else
-        #             ''
-        #     else if alchemy.conf.clusterColours
-        #         if d[alchemy.conf.colourProperty]? and alchemy.conf.clusterColours[d[alchemy.conf.colourProperty]]?
-        #             colour = alchemy.conf.clusterColours[d[alchemy.conf.colourProperty]]
-        #         else
-        #             colour = alchemy.conf.clusterColours['default']
-        #     else
-        #         ''
-        #     "fill: #{colour}; stroke: #{colour};"
-        #     )
 
     #append caption to the node
     nodeEnter
         .append('svg:text')
-        #.text((d) -> d.caption)
-        # .attr('class', (d) -> d.node_type)
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if d.node_type is 'root' then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
         .text((d) -> alchemy.utils.nodeText(d))

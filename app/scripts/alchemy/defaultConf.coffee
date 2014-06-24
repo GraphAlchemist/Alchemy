@@ -65,7 +65,6 @@ alchemy.defaults =
     nodeFilters: false
 
     # Controls
-    # controlOrientation: 'vertical' no longer implemented or used
     zoomControls: false
 
     # Nodes
@@ -87,6 +86,3 @@ alchemy.defaults =
     initialTranslate: [0,0]
     scaleExtent: [0.01, 5] # not yet implemented
     warningMessage: "There be no data!  What's going on?" #not yet implemented
-
-# conf = _.assign({}, defaults)
-# alchemy.defaults = defaults
