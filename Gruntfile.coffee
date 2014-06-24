@@ -367,11 +367,11 @@ module.exports = (grunt) ->
                                "rev", "usemin", 
                                "htmlmin"]
 
-  grunt.registerTask "default", ["newer:jshint", "test", "build"]
-
   #same as `build` but builds Alchemy for distribution
   grunt.registerTask 'buildAlchemy', ["clean:dist", "useminPrepare", 
                                       "copy:coffee", "concurrent:buildAlchemy", 
                                       "autoprefixer", "concat:buildAlchemy", 
                                       "concat:generated", "cssmin:buildAlchemy", 
                                       "uglify:buildAlchemy"]
+
+  grunt.registerTask "default", ["newer:jshint", "test", "buildAlchemy"]

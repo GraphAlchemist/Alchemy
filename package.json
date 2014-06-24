@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "dependencies": {},
   "devDependencies": {
+    "yo": "~1.1.2",
     "grunt": "~0.4.1",
     "grunt-autoprefixer": "~0.5.0",
     "grunt-bower-install": "~0.7.0",
@@ -30,5 +31,8 @@
   },
   "engines": {
     "node": ">=0.8.0"
+  },
+  "scripts": {
+    "test": "node_modules/.bin/grunt test --verbose"
   }
 }
