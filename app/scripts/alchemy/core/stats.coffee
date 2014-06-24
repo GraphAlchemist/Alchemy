@@ -106,7 +106,6 @@ alchemy.stats =
         if alchemy.conf.nodeTypes
             nodeKey = Object.keys(alchemy.conf.nodeTypes)
             for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                # caption = nodeType.replace('_', ' ')
                 nodeNum = d3.selectAll("g.node.#{nodeType}")[0].length
                 nodeData.push(["#{nodeType}", nodeNum])
 

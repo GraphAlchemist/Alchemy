@@ -138,21 +138,6 @@ alchemy.layout =
                 alchemy.nodes[n.i].y = container.height / 2 #container.height / (rootNodes.length / number)
                 alchemy.nodes[n.i].fixed = true
 
-    # #position the nodes
-    # positionNodes: (nodes, x, y) ->
-    #     if typeof(x) is 'undefined'
-    #         x = container.width / 2
-    #         y = container.height / 2
-    #     for n in nodes
-    #         min_radius = linkDistance * 3
-    #         max_radius = linkDistance * 5
-    #         radius = Math.random() * (max_radius - min_radius) + min_radius
-    #         angle = Math.random() * 2 * Math.PI
-    #         node_x = Math.cos(angle) * linkDistance
-    #         node_y = Math.sin(angle) * linkDistance
-    #         n.x = x + node_x
-    #         n.y = y + node_y
-
     chargeDistance: () ->
          distance = 500
          distance
