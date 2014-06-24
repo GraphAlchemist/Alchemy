@@ -40,8 +40,14 @@
         
         <script src="scripts/alchemy.js"></script>
         <script src="scripts/else.js"></script>
-        <script>
-            alchemy.begin()
+        <script>    
+            mocha.setup('bdd')
+            mocha.reporter('html');
+            
+            var config = {
+                dataSource: "/sample_data/movies.json"
+            }
+            alchemy.begin(config)
         </script>
 
         

@@ -342,6 +342,8 @@ module.exports = (grunt) ->
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
       buildAlchemy: ["coffee", "compass", "copy:styles"]
 
+  grunt.loadNpmTasks('grunt-mocha');
+
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:server", "autoprefixer", "connect:livereload", "watch"]
