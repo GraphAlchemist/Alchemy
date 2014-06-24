@@ -38,33 +38,6 @@ alchemy.utils =
     #         .attr("width", alchemy.container.width)
     #         .attr("height", alchemy.container.height)
     
-    # Not currently used - Deprecate?
-    # scale: (x) ->
-    #     #returns minimum 10, maximum 60
-    #     #scale linearly from 1 to 50 (?), then logarithmically
-    #     min = 100
-    #     mid_scale = 40
-    #     elbow_point = 50
-    #     if x > elbow_point
-    #         # log
-    #         Math.min(max, mid_scale + (Math.log(x) - Math.log(elbow_point)))
-    #     else 
-    #         # linear
-    #         (mid_scale - min) * (x / elbow_point) + min
-
-    # Not currently used - Deprecate?
-    # jQuery.fn.d3Click = () ->
-    #     @each((i, e) ->
-    #         evt = document.createEvent("MouseEvents")
-    #         evt.initMouseEvent("click", true,
-    #                             true, window,
-    #                             0, 0, 0, 0, 0,
-    #                             false, false,
-    #                             false, false,
-    #                             0, null)
-    #         e.dispatchEvent(evt)
-    #     )
-    
     # not currently used, but can be implemented
     centreView: (id) ->
         # centre view on node with given id

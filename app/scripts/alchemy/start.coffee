@@ -29,9 +29,6 @@ class Alchemy
         @drawing = {}
         @log = {}
 
-graph_elem = $('#graph')
-igraph_search = $('#igraph-search')
-
 allTags = {}
 allCaptions = {}
 currentNodeTypes = {}

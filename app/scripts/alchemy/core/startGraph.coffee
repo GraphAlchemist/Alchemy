@@ -68,11 +68,6 @@ alchemy.startGraph = (data) ->
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
-    #enter/exit nodes/edges
-    # alchemy.edge = alchemy.vis.selectAll("line")
-    #            .data(alchemy.edges)#, (d) -> d.source.id + '-' + d.target.id + d.node_type)
-    # alchemy.node = alchemy.vis.selectAll("g.node")
-    #           .data(alchemy.nodes)#, (d) -> d.id)
     # force layout constant
     k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth * alchemy.conf.graphHeight))
 
@@ -90,14 +85,8 @@ alchemy.startGraph = (data) ->
         .links(alchemy.edges)
         .on("tick", alchemy.layout.tick)
 
-    # TODO: fix this in the graph file generating view instead of here
-    fixNodesTags(alchemy.nodes, alchemy.edges);
-
     alchemy.updateGraph()
-    # alchemy.zoomControls.init()
     alchemy.controlDash.init()
-    # alchemy.filters.init(alchemy.nodes, alchemy.edges)
-    # alchemy.stats.init()
     
     # alchemy.configuration for forceLocked
     if !alchemy.conf.forceLocked 
