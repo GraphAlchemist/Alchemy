@@ -4,15 +4,23 @@ alchemy.modifyElements =
 
     show: () ->
         modifyElements_html = """
-        <h3 data-toggle="collapse" data-target="#update-elements #element-options">
-                                    Elements
-                                    <span class = "fa fa-caret-right"></span>
+                            <div id = "editor-header" data-toggle="collapse" data-target="#update-elements #element-options">
+                                 <h3>
+                                    Editor
                                 </h3>
+                                <span class = "fa fa-2x fa-caret-right"></span>
+                            </div>
                                 <div id="element-options" class="collapse">
                                     <ul class = "list-group" id="remove">Remove Selected</ul>
                                 </div>
                             """
-        d3.select("#update-elements").html(modifyElements_html)           
+        d3.select("#update-elements").html(modifyElements_html)
+        d3.selectAll('#editor-header')
+            .on('click', () ->
+                if d3.select('#element-options').classed("in")
+                    d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-right")
+                else d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-down")
+            )           
         d3.select("#remove")
             .on("click", ()-> alchemy.modifyElements.remove())
     
