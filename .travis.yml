@@ -8,5 +8,5 @@ before_script:
     - gem install compass
 script:
     - bower install
-    - cd test && bower install
+    - bower install ./test
     - grunt
