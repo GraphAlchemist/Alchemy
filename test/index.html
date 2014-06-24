@@ -10,7 +10,10 @@
     <div class="alchemy"></div>
     <div id="mocha"></div>
     <script src="bower_components/mocha/mocha.js"></script>
-    <script>mocha.setup('bdd')</script>
+    <script>
+        mocha.setup('bdd');
+        mocha.reporter('html');
+    </script>
     <script src="bower_components/chai/chai.js"></script>
     <script>
         var assert = chai.assert;
@@ -32,6 +35,7 @@
     <script src="spec/init.js"></script>
     <script src="spec/nodes.js"></script>
     <script src="spec/startGraph.js"></script>
+    <script src="spec/updateGraph.js"></script>
     <script>mocha.run()</script>
 </body>
 </html>
