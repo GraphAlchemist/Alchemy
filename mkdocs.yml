@@ -4,4 +4,7 @@ pages:
 - [Contributing.md, Contributing]
 - [Nodes.md, Nodes]
 - [examples/example1.md]
+- [examples/example2.md]
+- [examples/example3.md]
+- [examples/example4.md]
 theme: readthedocs
