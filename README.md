@@ -1,5 +1,6 @@
 Alchemy
 =======
+#IN DEVELOPMENT 
 ##Philosophy 
 Alchemy.js is a graph drawing application, built with d3.
 
