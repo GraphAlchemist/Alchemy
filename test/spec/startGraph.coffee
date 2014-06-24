@@ -13,11 +13,9 @@ do ->
         it "should append svg to .alchemy div", () ->
             expect(d3.select('.alchemy').select("svg")).to.have.length(1)
         
-
         describe "alchemy.nodes", ->
             it "should define alchemy.nodes", ->
                 alchemy.nodes.should.not.equal undefined
-            
 
             it "should create an object for each node in dataset", ->
                 alchemy.nodes.length.should.equal 69
