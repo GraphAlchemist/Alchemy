@@ -3,13 +3,18 @@ docs_dir: 'app/docs'
 site_dir: '.tmp/documentation'
 pages:
 - [index.md, Home]
-- [Contributing.md, Contributing]
-- [Nodes.md, Nodes]
-- [Examples.md, Examples]
-# - [examples.md, Exampless]
-# - [examples/example.md, Examples]
-# - [examples/example2.md]
-# - [examples/example3.md]
+- [Configuration.md]
+# - [Contributing.md, Contributing]
+# - [Init.md]
+# - [Init.md]
+# - [Editing.md]
+# - [Filtering.md]
+# - [Helpers.md]
+# - [Layout.md]
+# - [Nodes.md]
+# - [Edges.md]
+
+#to add: examples
+
 theme: readthedocs
 
-# examples
