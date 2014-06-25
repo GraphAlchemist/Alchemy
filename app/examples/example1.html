@@ -1,11 +1,39 @@
 <html>
 <head>
-    <title>Basic Graph -- Example 1 -- AlchemyJS</title>
+  <title>Basic Graph -- Example 1 -- AlchemyJS</title>
 </head>
 <body>
-    <div class="content">
-        <div class="alchemy"></div>
-        <div class="example-code"></div>
+  <div class="content">
+    <div id="graph-container">
+      <div class="alchemy"></div>
     </div>
+    <div class="example-code">
+      <p>HTML and Configuration</p>
+      <pre>
+        <code>
+          &lt;html&gt;
+            &lt;head&gt;
+              &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
+              &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+              &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+          
+              &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
+              &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
+              &lt;script type=&quot;text/javascript&quot;&gt;
+
+                  var config = {
+                      dataSource: '/sample_data/team.json',
+                      };
+
+                  alchemy.begin(config)
+              &lt;/script&gt;
+            &lt;/body&gt;
+          &lt;/html&gt;
+        </code>
+      </pre>
+    </div>
+  </div>
 </body>
 </html>
