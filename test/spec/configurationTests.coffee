@@ -1,6 +1,6 @@
 do ->
     afterEach ->
-        d3.select(".alchemy").remove() 
+        d3.select("#alchemy").remove() 
 
     # Define default configuration for easy testing
     defaultConf = alchemy.defaults
@@ -32,15 +32,15 @@ do ->
                 alchemy.conf.graphWidth.should.equal(200)
 
             it "should fill parent div by default", ->
-                d3.select(".alchemy").remove()
+                d3.select("#alchemy").remove()
                 parentDiv = d3.select("body")
                               .append("div")
                               .attr("id", "parentDiv")
                 parentDiv.append("div")
-                         .classed("alchemy", true)
+                         .attr("id", "alchemy")
 
                 runWithConf({dataSource:"sample_data/movies.json"})
-                d3.select(".alchemy").style("width").should.equal parentDiv.style("width")
+                d3.select("#alchemy").style("width").should.equal parentDiv.style("width")
 
         describe "graphHeight", ->
             it "should reassign default configuration", ->

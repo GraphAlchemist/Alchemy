@@ -3,12 +3,12 @@ do ->
         alchemy.begin({'dataSource': 'sample_data/movies.json'})
     
     afterEach ->
-        d3.select(".alchemy").remove()
+        d3.select("#alchemy").remove()
 
     describe "alchemy.startGraph()", ->
     
-        it "should append svg to .alchemy div", () ->
-            expect(d3.select('.alchemy').select("svg")).to.have.length(1)
+        it "should append svg to #alchemy div", () ->
+            expect(d3.select('#alchemy').select("svg")).to.have.length(1)
         
         describe "alchemy.nodes", ->
             it "should define alchemy.nodes", ->
