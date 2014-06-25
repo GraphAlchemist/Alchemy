@@ -1,13 +1,10 @@
 do ->
     beforeEach ->
-        d3.json('sample_data/movies.json', (data) ->
-            this.graphJSON = data
-            alchemy.begin({'dataSource': data})
-            return)
+        alchemy.begin({'dataSource': 'sample_data/movies.json'})
     
     afterEach ->
-        d3.select(".alchemy").remove() 
-    
+        d3.select(".alchemy").remove()
+        
     describe "alchemy.startGraph()", ->
     
         it "should append svg to .alchemy div", () ->

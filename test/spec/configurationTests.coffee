@@ -1,7 +1,7 @@
 do ->
     afterEach ->
         d3.select(".alchemy").remove() 
-  
+
     # Define default configuration for easy testing
     defaultConf = alchemy.defaults
 
@@ -20,7 +20,6 @@ do ->
         describe "dataSource", ->
             it "can find non-default datasets", ->
                 runWithConf({dataSource:"sample_data/ego1.json"})
-
                 # Make sure dataSource was changed from default (null)
                 alchemy.conf.dataSource.should.equal("sample_data/ego1.json") and                
                 # Make sure it can use the dataset to create elements
@@ -28,13 +27,30 @@ do ->
 
         #Layout
         describe "graphWidth", ->
-            "placeholder"
+            it "should reassign default configuration", ->
+                runWithConf({dataSource:"sample_data/movies.json", graphWidth:200 })
+                alchemy.conf.graphWidth.should.equal(200)
+
+            it "should fill parent div by default", ->
+                d3.select(".alchemy").remove()
+                parentDiv = d3.select("body")
+                              .append("div")
+                              .attr("id", "parentDiv")
+                parentDiv.append("div")
+                         .classed("alchemy", true)
+
+                runWithConf({dataSource:"sample_data/movies.json"})
+                d3.select(".alchemy").style("width").should.equal parentDiv.style("width")
 
         describe "graphHeight", ->
-            "placeholder"
+            it "should reassign default configuration", ->
+                runWithConf({dataSource:"sample_data/movies.json", graphHeight:200 })
+                alchemy.conf.graphHeight.should.equal(200)
 
         describe "alpha", ->
-            "placeholder"
+            it "should reassign default configuration", ->
+                runWithConf({dataSource:"sample_data/movies.json", alpha:0.23})
+                alchemy.conf.alpha.should.equal(0.23)
 
         describe "cluster", ->
             "placeholder"
