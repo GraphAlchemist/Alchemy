@@ -4,7 +4,7 @@
 </head>
 <body>
   <div class="content">
-    <div id="graph-container">
+    <div id="graph-container" style="width:240px; height:240px">
       <div class="alchemy"></div>
     </div>
     <div class="example-code">
@@ -24,7 +24,7 @@
               &lt;script type=&quot;text/javascript&quot;&gt;
 
                   var config = {
-                      dataSource: '/sample_data/team.json',
+                      dataSource: 'data/contrib.json',
                       };
 
                   alchemy.begin(config)
@@ -35,5 +35,17 @@
       </pre>
     </div>
   </div>
+  
+  <script src="../scripts/vendor.js"></script>
+  <script src="../scripts/alchemy.min.js"></script>
+  
+  <script type="text/javascript">
+    var config = {
+          dataSource: 'data/contrib.json',
+          linkDistance: function(){ return 40; }
+          };
+
+    alchemy.begin(config)
+  </script>
 </body>
 </html>
