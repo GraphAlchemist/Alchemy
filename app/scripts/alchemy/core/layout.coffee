@@ -39,14 +39,6 @@ alchemy.layout =
         else
             0.9
 
-    linkDistanceFn: (edge, k) ->
-        if alchemy.conf.cluster
-            # FIXME: parameterise this
-            if (edge.source.node_type or edge.target.node_type) is 'root' then 300
-            if edge.source.cluster is edge.target.cluster then 10 else 600
-        else
-            10 / (k * 5)
-
     # cluster: (alpha) ->
     #     centroids = {}
     #     alchemy.nodes.forEach (d) ->
