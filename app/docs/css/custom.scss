@@ -1,0 +1,49 @@
+/* Variables */
+$blue: #1e75bb;
+$orange: #FDC670;
+$bright-orange: #E89619;
+
+body{
+	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
+	color: black;
+}
+
+/* Nav Search Styles */
+.wy-side-nav-search{
+	background-color: $blue;
+}
+
+
+/* Nav Menu Styles*/
+.wy-menu.wy-menu-vertical{
+	font-size: 1.1em;
+	overflow-y: scroll;
+
+	li.toctree-l1{
+		& a:active{
+			background-color: $blue;
+		}
+	}
+	li.toctree-l2{
+		border-bottom: solid rgba($bright-orange, .4) thin;
+		& a{
+			color: $blue;
+		}
+		& a:hover{
+			color: $bright-orange;
+		}
+		& a:active{
+			background-color: white;
+		}
+	}
+
+	a.toctree-l3{
+		padding-left: 3.5em;
+		&:hover{
+			color: $bright-orange;
+		}
+		&:active{
+			background-color: white;
+		}
+	}
+}
