@@ -15,6 +15,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.startGraph = (data) ->
+    
+    if d3.select(alchemy.conf.divSelector).empty()
+        console.warn("""
+                     create an element with the alchemy.conf.divSelector.
+                     e.g. the defaul #alchemy
+                     """)
+
     # see if data is ok
     if not data
         # allow for user specified error
@@ -57,8 +64,8 @@ alchemy.startGraph = (data) ->
     alchemy.layout.positionRootNodes()
 
     #create SVG
-    alchemy.vis = d3.select('.alchemy')
-        .attr("style", "width:#{alchemy.conf.graphWidth}px; height:#{alchemy.conf.graphHeight}px")
+    alchemy.vis = d3.select(alchemy.conf.divSelector)
+        .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
@@ -69,7 +76,7 @@ alchemy.startGraph = (data) ->
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
     # force layout constant
-    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth * alchemy.conf.graphHeight))
+    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
 
     # create layout
     alchemy.force = d3.layout.force()
@@ -80,7 +87,7 @@ alchemy.startGraph = (data) ->
         .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
-        .size([alchemy.conf.graphWidth, alchemy.conf.graphHeight])
+        .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
         .nodes(alchemy.nodes)
         .links(alchemy.edges)
         .on("tick", alchemy.layout.tick)

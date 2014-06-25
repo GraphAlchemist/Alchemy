@@ -30,6 +30,7 @@ alchemy.updateGraph = (start=true) ->
         if(alchemy.conf.locked) then alchemy.force.stop()
 
     for node in alchemy.nodes
+        debugger
         alchemy.layout.collide(node)
         alchemy.layout.tick()
 
