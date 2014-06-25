@@ -74,7 +74,7 @@ alchemy.startGraph = (data) ->
     # create layout
     alchemy.force = d3.layout.force()
         .charge(alchemy.layout.charge(k))
-        .linkDistance((d) -> alchemy.layout.linkDistanceFn(d,k))
+        .linkDistance((d) -> alchemy.conf.linkDistance(d,k))
         .theta(1.0)
         .gravity(alchemy.layout.gravity(k))
         .linkStrength(alchemy.layout.linkStrength)
