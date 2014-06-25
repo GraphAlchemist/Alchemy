@@ -1,15 +1,17 @@
 <html>
 <head>
   <title>Basic Graph -- Example 1 -- AlchemyJS</title>
+  <link rel="stylesheet" type="text/css" href="../styles/vendor.css">
+  <link rel="stylesheet" type="text/css" href="../styles/alchemy.min.css">
 </head>
 <body>
   <div class="content">
-    <div id="graph-container" style="width:240px; height:240px">
+    <div id="graph-container" style="width:400px; height:400px">
       <div class="alchemy"></div>
     </div>
     <div class="example-code">
-      <p>HTML and Configuration</p>
       <pre>
+        <p class="filename">HTML and Configuration</p>
         <code>
           &lt;html&gt;
             &lt;head&gt;
@@ -24,7 +26,7 @@
               &lt;script type=&quot;text/javascript&quot;&gt;
 
                   var config = {
-                      dataSource: 'data/contrib.json',
+                      dataSource: 'data/charlize.json',
                       };
 
                   alchemy.begin(config)
@@ -41,7 +43,7 @@
   
   <script type="text/javascript">
     var config = {
-          dataSource: 'data/contrib.json',
+          dataSource: 'data/charlize.json',
           linkDistance: function(){ return 40; }
           };
 
