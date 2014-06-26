@@ -39,13 +39,8 @@ Alchemy.js was built so that developers could easily get up and running with Gra
 4. Be amazed by your sexy graph visualization.
 
 ##Documentation
-Read more about how to use alchemy in the [docs](#).
-
-To build the docs locally install mkdocs and then serve them up.
-```python
-pip install mkdocs
-mkdocs serve
-```
+Read more about how to use alchemy [here](#).
+The documentation is a constant work in progress that is hosted on the gh-pages branch of alchemy.
 
 ##Contributing 
 Read about how to contribute in the [docs](#).
