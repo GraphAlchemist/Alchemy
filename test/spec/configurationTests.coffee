@@ -44,8 +44,8 @@ do ->
 
         describe "graphHeight", ->
             it "should reassign default configuration", ->
-                runWithConf({dataSource:"sample_data/movies.json", graphHeight:200 })
-                alchemy.conf.graphHeight.should.equal(200)
+                runWithConf({dataSource:"sample_data/movies.json", graphHeight: () -> 200 })
+                alchemy.conf.graphHeight().should.equal(200)
 
         describe "alpha", ->
             it "should reassign default configuration", ->
