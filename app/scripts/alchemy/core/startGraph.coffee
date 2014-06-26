@@ -97,7 +97,7 @@ alchemy.startGraph = (data) ->
     
     # alchemy.configuration for forceLocked
     if !alchemy.conf.forceLocked 
-         alchemy.force
+        alchemy.force
                 .on("tick", alchemy.layout.tick)
                 .start()
 

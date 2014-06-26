@@ -33,15 +33,11 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
+    collisionDetection: true
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
-    linkDistance: (edge, k) ->
-        if alchemy.conf.cluster
-            if (edge.source.node_type or edge.target.node_type) is 'root' then 300
-            if edge.source.cluster is edge.target.cluster then 10 else 600
-        else
-            10 / (k * 5)
+    linkDistance: alchemy.layout.linkDistancefn
     nodePositions: null # not currently implemented
 
     # Editing
