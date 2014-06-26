@@ -5,13 +5,60 @@ $bright-orange: #E89619;
 body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
+	background: #eee;
 }
 
-#alchemyLogo{
-	img{
-		margin-right: auto;
-		margin-left: auto;
+.header{
+	padding: 15px;
+	background-color: $blue;
+	border-bottom: thin solid darken($blue, 10%);
+	.h3{
+		margin: 0;
+		line-height: 40px;
+		color: $bright-orange;
+		text-shadow: 0px 0px 1px $blue, 0px 0px 20px white;
 	}
+}
+.nav-pills{
+	float: right;
+	> li + li {
+		margin: 0;
+	}
+	li > a{
+		color: rgba(white, .7);
+		border-radius: 0;
+	}
+	li{
+		color: transparent;
+		a{
+			padding-right: 10px;
+			padding-left: 10px;
+			&:active, &:hover{
+				color: $bright-orange;
+			}
+		}
+	}
+}
+#sm-alchemy-logo{
+	padding: 20px 0;
+	img{
+		height: 90px;
+	}
+}
+#alchemy-logo{
+	min-height: 50vh;
+	padding: 100px;
+	padding-top: 200px;
+}
+
+hr{
+	border-top: solid 1px $bright-orange;
+	margin: 0;
+} 
+
+#alchemy-logo, #about, #team-info{
+	background: white;
+	border-bottom: 
 }
 
 .footer{
@@ -19,14 +66,45 @@ body{
 		height: 30px;
 	}
 	p{
-		margin: 0 10%;
+		padding: 0 20px;
+		margin: 0;
+	}
+}
+
+#about{
+	min-height: 350px;
+	padding: 0 50px 50px 50px;
+	h5>a:hover{
+		text-decoration: none;
+		color: $bright-orange;
 	}
 }
 
 #meet-the-team{
-}
+	#team-info{
+		// box-shadow: inset 0px 0px 15px lighten($blue, 20%);
+		// border: thin solid lighten($blue, 15%);
+		padding: 0 50px 50px 50px;
+		h2{
+			padding: 20px 0;
+		}
+	}
 
-pre{
-	height: 350px;
-	overflow: scroll;
+	#team-data, #team-html{
+		pre{
+			height: 350px;
+			overflow: scroll;
+		}
+	}
+
+	#team-svg{
+		height: 500px;
+		#alchemy{
+			color:white;
+			height: 450px;
+			border: thin $orange dashed;
+			border-radius: 5px;
+			background-color: black;
+		}
+	}
 }
