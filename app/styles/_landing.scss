@@ -7,7 +7,26 @@ body{
 	color: black;
 }
 
+#alchemyLogo{
+	img{
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
 
-#footer-ga-logo{
-	height: 30px;
+.footer{
+	#footer-ga-logo{
+		height: 30px;
+	}
+	p{
+		margin: 0 10%;
+	}
+}
+
+#meet-the-team{
+}
+
+pre{
+	height: 350px;
+	overflow: scroll;
 }
