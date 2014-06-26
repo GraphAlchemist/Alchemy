@@ -9,17 +9,19 @@ body{
 }
 
 .header{
-	padding: 15px;
 	background-color: $blue;
 	border-bottom: thin solid darken($blue, 10%);
+	margin-bottom: 0;
 	.h3{
+		padding: 0 20px;
 		margin: 0;
-		line-height: 40px;
+		line-height: 60px;
 		color: $bright-orange;
 		text-shadow: 0px 0px 1px $blue, 0px 0px 20px white;
 	}
 }
 .nav-pills{
+	padding-top: 10px;
 	float: right;
 	> li + li {
 		margin: 0;
@@ -30,6 +32,7 @@ body{
 	}
 	li{
 		color: transparent;
+		vertical-align: middle;
 		a{
 			padding-right: 10px;
 			padding-left: 10px;
@@ -58,7 +61,7 @@ hr{
 
 #alchemy-logo, #about, #team-info{
 	background: white;
-	border-bottom: 
+	border-bottom: thin $orange solid;
 }
 
 .footer{
