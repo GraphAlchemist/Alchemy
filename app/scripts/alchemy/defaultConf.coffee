@@ -41,6 +41,7 @@ alchemy.defaults =
     nodePositions: null # not currently implemented
 
     # Editing
+    showEditor: false
     captionToggle: false
     edgesToggle: false
     nodesToggle: false

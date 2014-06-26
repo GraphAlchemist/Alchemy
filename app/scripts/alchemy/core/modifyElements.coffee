@@ -1,6 +1,6 @@
 alchemy.modifyElements = 
     init: () ->
-        alchemy.modifyElements.show()
+        if alchemy.conf.showEditor then alchemy.modifyElements.show()
 
     show: () ->
         modifyElements_html = """
