@@ -2,18 +2,9 @@ site_name: AlchemyDocs
 docs_dir: 'app/docs'
 site_dir: '.tmp/documentation'
 pages:
-- [index.md, Home]
-- [Configuration.md]
-# - [Contributing.md, Contributing]
-# - [Init.md]
-# - [Init.md]
-# - [Editing.md]
-# - [Filtering.md]
-# - [Helpers.md]
-# - [Layout.md]
-# - [Nodes.md]
-# - [Edges.md]
-
+- ['index.md', 'Home']
+- ['Configuration.md']
+- ['Overriding-Defaults.md', 'Overriding Default Behavior']
 #to add: examples
 
 theme: readthedocs
