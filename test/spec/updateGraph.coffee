@@ -1,6 +1,6 @@
 do ->
     afterEach ->
-        d3.select(".alchemy").remove() 
+        d3.select("#alchemy").remove() 
 
     describe "alchemy.updateGraph()", ->
 
