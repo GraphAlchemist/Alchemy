@@ -67,7 +67,7 @@ alchemy.defaults =
     zoomControls: false #this is broken - see alchemy.interactions.clickZoom
 
     # Nodes
-    nodeCaption: 'caption' #changed key
+    nodeCaption: 'caption'
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
     nodeOverlap: 25
