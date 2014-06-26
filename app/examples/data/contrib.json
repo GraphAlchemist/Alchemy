@@ -1,0 +1,56 @@
+{
+    "comment": "AlchemyJS contributors",
+    "nodes": [
+        {
+            "id": 0,
+            "caption": "AlchemyJS",
+            "node_type": "root"
+        },
+        {
+            "id": 1,
+            "caption": "Huston Hedinger",
+            "github": "hustonhedinger",
+            "node_type": "GA CEO"
+        },
+        {
+            "id": 2,
+            "caption": "Grace Andrews",
+            "github": "Grace-Andrews",
+            "node_type": "GA Employee"
+        },
+        {
+            "id": 3,
+            "caption": "Isabella Jorissen",
+            "github": "ifjorissen",
+            "node_type": "GA Employee"
+        },
+        {
+            "id": 4,
+            "caption": "Matt Cox",
+            "github": "MDCox",
+            "node_type": "GA Employee"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 2,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 3,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 4,
+            "target": 0,
+            "caption": "WORKED_ON"
+        }
+    ]
+}
