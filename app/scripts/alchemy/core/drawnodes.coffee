@@ -58,8 +58,8 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('r', (d) -> alchemy.utils.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('target-id', (d) -> d.id)
-        .attr('style', (d) ->
-           "#{nodeColours(d)}; stroke-width: #{if d.node_type == 'root' then alchemy.conf.rootNodeRadius/3 else alchemy.conf.nodeRadius/3}")
+        # .attr('style', (d) ->
+        #    "#{nodeColours(d)}; stroke-width: #{if d.node_type == 'root' then alchemy.conf.rootNodeRadius/3 else alchemy.conf.nodeRadius/3}")
 
     #append caption to the node
     nodeEnter
