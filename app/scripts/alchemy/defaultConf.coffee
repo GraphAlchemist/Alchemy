@@ -45,8 +45,7 @@ alchemy.defaults =
     edgesToggle: false
     nodesToggle: false
     toggleRootNodes: true
-    removeNodes: false # not currently implemented
-    removeEdges: false # not currently implemented
+    removeElement: false
     addNodes: false # not currently implemented
     addEdges: false # not currently implemented
 
