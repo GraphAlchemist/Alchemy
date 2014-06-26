@@ -14,9 +14,10 @@
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/alchemy.css">
         <!-- endbuild -->
         <!-- build:js scripts/vendor/modernizr.js -->
-        <script src="../bower_components/modernizr/modernizr.js"></script>
+        <script src="../bower_components/modernizer/modernizr.js"></script>
         <!-- endbuild -->
 
     </head>
@@ -26,7 +27,7 @@
         <![endif]-->
 
 
-        <div class="container">
+        <div class="container-fluid">
             <div class="header">
                 <ul class="nav nav-pills pull-right">
                     <li class="active"><a href="#">Home</a></li>
@@ -39,39 +40,110 @@
             </div>
 
             <div class="row" id = "alchemyLogo">
-                <div class="col-lg-12">
+                <div class="col-lg-6 col-lg-offset-3">
                     <img src="assets/alchemy-01.svg"></img>
-                </div>
-            </div>
-
-            <div class="row" id = "about">
-                <div class="col-lg-6">
                     <h4>alchemy.js</h4>
                     <p>Description of alchemy.js and how it's used</p>
                 </div>
             </div>
-            <div class="row" id = "meet-the-team">
-                <div class = "row">
-                    <div class="col-lg-12">
-                        <h4>Meet the Team</h4>
-                    </div>
+
+<!--             <div class="row" id = "about">
+                <div class="col-lg-6 co">
+                    <h4>alchemy.js</h4>
+                    <p>Description of alchemy.js and how it's used</p>
                 </div>
+            </div> -->
+            <hr>
+            <div class="row" id = "meet-the-team">
+                <div class="col-lg-12">
+                    <h4>Meet the Team</h4>
+                </div>
+            </div>
 
                 <div class="col-lg-4" id ="team_html">
+                    <pre>
                     <code>
-                        A little code here
+var config = {
+    dataSource: 'data/contrib.json',
+    graphHeight: 260,
+    graphWidth: 300,
+    
+    linkDistance: function(){ return 40; },
+
+    nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
+    caption: function(node){ return node.caption; }
+};
+
+alchemy.begin(config)
                     </code>
+                    </pre>
                 </div>
-                <div class="col-lg-4" id="team_conf">
+                <div class="col-lg-4" id="team_data">
+                    <pre>
                     <code>
-                        SOME MOAR CODE HURRR
+{
+    "comment": "AlchemyJS contributors",
+    "nodes": [
+        {
+            "id": 0,
+            "caption": "AlchemyJS",
+            "node_type": "root"
+        },
+        {
+            "id": 1,
+            "caption": "Huston Hedinger",
+            "github": "hustonhedinger",
+            "node_type": "GA CEO"
+        },
+        {
+            "id": 2,
+            "caption": "Grace Andrews",
+            "github": "Grace-Andrews",
+            "node_type": "GA Employee"
+        },
+        {
+            "id": 3,
+            "caption": "Isabella Jorissen",
+            "github": "ifjorissen",
+            "node_type": "GA Employee"
+        },
+        {
+            "id": 4,
+            "caption": "Matt Cox",
+            "github": "MDCox",
+            "node_type": "GA Employee"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 2,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 3,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 4,
+            "target": 0,
+            "caption": "WORKED_ON"
+        }
+    ]
+}
                     </code>
+                    </pre>
                 </div>
                  <div class="col-lg-4" id ="team-svg">
                     <div class = "alchemy"></div>
                 </div>
             </div>
-
             <div class="footer">
                 <p>Brought to you by: <img id="footer-ga-logo" src="assets/GA-logo-full-100px.png"><img></p>
             </div>
@@ -82,6 +154,9 @@
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+        <script src="scripts/alchemy.js"></script>
+        <script src="scripts/else.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 

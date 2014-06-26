@@ -14,13 +14,19 @@ body{
 	}
 }
 
-
-#footer-ga-logo{
-	height: 30px;
+.footer{
+	#footer-ga-logo{
+		height: 30px;
+	}
+	p{
+		margin: 0 10%;
+	}
 }
 
 #meet-the-team{
-	#team-html, #team-conf, #team-svg{
-		height: 300px;
-	}
+}
+
+pre{
+	height: 350px;
+	overflow: scroll;
 }
