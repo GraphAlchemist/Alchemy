@@ -24,7 +24,7 @@ module.exports = (grunt) ->
     watch:
       coffee:
         files: ["app/scripts/{,*/,*/*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["copy:coffee", "coffee:dist"]
+        tasks: ["copy:coffee", "coffee:dist", "coffee:dev"]
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]

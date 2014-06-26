@@ -104,8 +104,8 @@ alchemy.layout =
 
     positionRootNodes: () ->
         container = 
-            width: alchemy.conf.graphWidth
-            height: alchemy.conf.graphHeight
+            width: alchemy.conf.graphWidth()
+            height: alchemy.conf.graphHeight()
         rootNodes = Array()
         for n, i in alchemy.nodes
             if not n.root then continue

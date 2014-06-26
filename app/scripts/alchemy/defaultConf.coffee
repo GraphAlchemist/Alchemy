@@ -15,17 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.defaults =
-    # Helpers
-    afterLoad: 'drawingComplete'
-    dataSource: null
 
     # Layout
-    graphWidth: d3.select(".alchemy").node().parentElement.clientWidth
-    graphHeight: do () ->
-        if d3.select(".alchemy").node().parentElement.nodeName == "BODY"
+    graphWidth: ->
+        d3.select(@divSelector).node().parentElement.clientWidth
+    graphHeight: ->
+        if d3.select(@divSelector).node().parentElement.nodeName == "BODY"
             return window.innerHeight
         else 
-            return d3.select(".alchemy").node().parentElement.clientHeight
+            return d3.select(@divSelector).node().parentElement.clientHeight
     alpha: .5
     cluster: false
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
@@ -70,7 +68,7 @@ alchemy.defaults =
     nodeFilters: false
 
     # Controls
-    zoomControls: false
+    zoomControls: false #this is broken - see alchemy.interactions.clickZoom
 
     # Nodes
     nodeCaption: 'caption' #changed key
@@ -86,7 +84,10 @@ alchemy.defaults =
     edgeColour: null
     edgeTypes: null
 
-    # Init
+    # Misc
+    afterLoad: 'drawingComplete'
+    divSelector: '#alchemy'
+    dataSource: null
     initialScale: 1
     initialTranslate: [0,0]
     scaleExtent: [0.01, 5] # not yet implemented
