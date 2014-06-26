@@ -29,10 +29,8 @@ alchemy.updateGraph = (start=true) ->
         console.log(Date() + ' completed initial computation')
         if(alchemy.conf.locked) then alchemy.force.stop()
 
-    for node in alchemy.nodes
-        debugger
-        alchemy.layout.collide(node)
-        alchemy.layout.tick()
+    # for node in alchemy.nodes
+    #     alchemy.layout.tick()
 
     alchemy.styles.edgeGradient(alchemy.edges)
 
