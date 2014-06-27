@@ -149,46 +149,63 @@ ___
 
 #Editing
 
-#####captionToggle: 
+#####showEditor:
 [bool] `false`    
-Allow toggling of node captions to be visible or invisible.  By assigning `.hidden` to all nodes.  The `hidden` class can easily be overridden to allow different colors or opacities for node captions when hidden.
+When both `showEditor` and `showControlDash` are true, creates an Editor menu where you can directly edit elements on the graph. If `showControlDash` is false, nothing will happen.
 
-#####edgesToggle:
+#####removeElement:
 [bool] `false`    
-Allow toggling of edges to be visible or invisible.  Assigns a `.hidden` to all edges.  The default Alchemy `hidden` class can easily be overridden to include different levels of opacity or color.
+Adds a "Remove Element" button to the editor dropdown in the control dash.  When clicked, it will remove any selected node or edge.  Keep in mind this is to completely remove the element, not hide it.
 
-#####nodesToggle:
-[bool] `false`
-Allow toggling of nodes to be visible or invisible.  Assigns a `.hidden` to all edges.  The default Alchemy `hidden` class can easily be overridden to include different levels of opacity or color.
-
-#####toggleRootNodes:   
-[bool] `true`    
-Chooses whether or not root nodes are affected by nodesToggle.
-
-#####removeNodes:
+<!-- #####addNodes:
 [bool] `false`    
-**not currently implemented** allow the removal of nodes with controls
+**not currently implemented** Adds an "Add node" button to the editor dropdown in the control dash.  When clicked, it will insert a new node into the graph. -->
+
+<!-- #####addEdges:
+[bool] `false`    
+**not currently implemented** Adds an "Add edge" button to the editor dropdown in the control dash.  When clicked, it will insert a new node into the graph. Note that an edge cannot exist without both a source and a target node.-->
 
 ___
 
 #Filtering
 
+#####showFilters:
+[bool] `false`    
+When both `showFilters` and `showControlDash` are true, creates a Filter menu where you can apply different fitlers to the graph.  If `showControlDash` is false, nothing will happen.
+
 #####edgeFilters:
-[bool] `false`
-If set to true, alchemy will load a set of filters that correspond to edge types defined in the [`alchemy.conf.edgeTypes`](https://github.com/GraphAlchemist/Alchemy/wiki/Edges#edgetypes) parameter.
+[bool] `false`    
+If set to true, alchemy will load a set of filters that correspond to edge types defined in the [`alchemy.conf.edgeTypes`](https://github.com/GraphAlchemist/Alchemy/wiki/Edges#edgetypes) parameter, and load an easy to use dropdown into the Filters section of the control dash.
 
 #####nodeFilters:
 [bool] `false`
-If set to true, alchemy will load a set of filters that correspond to node types as defined in the [`alchemy.conf.nodeTypes`](https://github.com/GraphAlchemist/Alchemy/wiki/Nodes#nodetypes) parameter.
+If set to true, alchemy will load a set of filters that correspond to node types as defined in the [`alchemy.conf.nodeTypes`](https://github.com/GraphAlchemist/Alchemy/wiki/Nodes#nodetypes) parameter and load an easy to use dropdown into the Filters section of the control dash.
 
-#####edgesTagsFilter:
+#####captionToggle: 
+[bool] `false`    
+Allow toggling of caption visibility.  When toggled, `.hidden` is assigned to all captions.  The default `hidden` class can easily be overwritten to allow different colors or opacities for node captions when hidden.
+
+#####edgesToggle:
+[bool] `false`    
+Allow toggling of edge visibility.  When toggled, `.hidden` is assigned to all edges.  The default `hidden` class can easily be overwritten to include different levels of opacity or color upon toggle.
+
+#####nodesToggle:
+[bool] `false`
+Allow toggling of node visibility.  When toggled, `.hidden` is assigned to all nodes.  The default `hidden` class can easily be overwritten to include different levels of opacity or color upon toggle.
+
+#####toggleRootNodes:   
+[bool] `true`    
+If true, root nodes are affected by nodesToggle.
+
+<!-- #####edgesTagsFilter:
 [array of strings|object] `false`
 **not currently implemented**
-
-#####nodesTagsFilter:
+ -->
+<!-- #####nodesTagsFilter:
 [array of strings|object] `false`
 **not currently implemented**
-
+ -->
+ 
 _____
 
 #Layout
