@@ -117,11 +117,12 @@ alchemy.interactions =
                             return
 
     clickZoom:  (direction) ->
-                    startTransform = alchemy.vis.attr("transform")
-                                                .match(/(-*\d+\.*\d*)/g)
-                                                .map( (a)-> return parseFloat(a))
+                    startTransform = alchemy.vis
+                                            .attr("transform")
+                                            .match(/(-*\d+\.*\d*)/g)
+                                            .map( (a) -> return parseFloat(a) )
                     endTransform = startTransform
-                    graph
+                    alchemy.vis
                         .attr("transform", ->
                             if direction == "in"
                                 return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]+0.2 })" 
