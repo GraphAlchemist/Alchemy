@@ -246,26 +246,26 @@ ____
 
 
 #Misc
+##### dataSource:     
+[string, object], `null`
+Does not receive a default value and is the single parameter that **must** be defined by the user in order to use Alchemy.js.  `dataSource` receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's [`d3.json` method](https://github.com/mbostock/d3/wiki/Requests#d3_json) with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.
 
 #####initialScale:    
-[integer] `0`  
-Specifies the initial "height" of the zoom on the svg.   
+[integer] **default**: `1`  
+Specifies the initial distance of the zoom on the svg.  A value assiged here initiates "scale" value directly in the svg's "transform" attribute.
 
 #####initialTranslate:    
-[2 element array] `[0,0]`  
-Specifies the initial "pan" of the svg.
+[2 integer array] `[0,0]`  
+Specifies the initial "pan" of the svg, corresponding directly to the "translate" value in the svg's "transform" attribute.  Because graphs layout differently every time, and because there is currently not support for setting initial node positions, there is limited utility to setting different values for the "translate" of the svg.
 
 #####warningMessage: 
 [string] `"There be no data!  What's going on?"`  
 Specifies a custom warning message if there is no data.
 
 ##### afterLoad:     
-[str, function] **default**: 'drawingComplete'    
-If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This is helpful to be used as a flag to watch for in the context of a larger application.  If `afterLoad` receives a function, that function is simply run after the graph is drawn.  This is another way to signal that the graph has been drawn.
+[str, function] **default**: 'afterLoad'      
+If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This maybe helpful for certain applications where the graph context is being watch and events can be fired when `alchemy.afterLoad` or `alchemy.someOtherString` is `true`.
 
-##### dataSource:     
-[string, object], `null`
-Does not receive a default value and is the single parameter that must be defined by the user in order to use Alchemy.js.  `dataSource` receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's [`d3.json` method](https://github.com/mbostock/d3/wiki/Requests#d3_json) with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.
-
+If `afterLoad` receives a function, that function is simply run after the graph is drawn.  E.g. `alchemy.someFunction()`
 ____
 

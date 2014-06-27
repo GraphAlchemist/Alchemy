@@ -81,7 +81,7 @@ alchemy.defaults =
     edgeTypes: null
 
     # Misc
-    afterLoad: 'drawingComplete'
+    afterLoad: 'afterLoad'
     divSelector: '#alchemy'
     dataSource: null
     initialScale: 1
