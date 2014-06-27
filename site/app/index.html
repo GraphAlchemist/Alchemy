@@ -1,0 +1,194 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>alchemy huston</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="shortcut icon" href="assets/alchemyFlatfavicon.ico">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+        <!-- bower:css -->
+
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/alchemy.css">
+        <!-- endbuild -->
+        <!-- build:js scripts/vendor/modernizr.js -->
+        <script src="../bower_components/modernizer/modernizr.js"></script>
+        <!-- endbuild -->
+
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
+        <div class="header navbar nevbar-default navbar-fixed-top">
+            <div class = "text-center" id="sm-alchemy-logo">
+                <img src="assets/alchemyLogoFlat.png"></img>
+            </div>
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#">Home</a></li>
+                <li><a href="/documentation">Documentation</a></li>
+                <li><a href="/documentation/Contributing">Contribute</a></li>
+                <li><a href="/examples">Examples</a></li>
+                <li><a href="#" data-toggle="tooltip" data-placement="bottom" title="Coming Soon!">Tutorial</a></li>
+            </ul>
+            <span class="h3" id="project">alchemy.js</span>
+        </div>
+
+        <div class="container-fluid">
+            <div class="row text-center" id = "alchemy-logo">
+                <img src="assets/alchemy-01.svg"></img>
+            </div>
+
+            <div class="row">
+                 <div class="col-md-12" id ="about">
+                    <h1>alchemy.js</h1>
+                    <p>Description of alchemy.js and how it's used</p>
+                    <h5>You can read more about how alchemy.js is used in the <a href="/documentation">Docs</a></h5>
+                </div>
+            </div>
+
+            <div class="row" id = "meet-the-team">
+                <div class="col-md-12" id ="team-info">
+                    <h2>Meet the Team</h2>
+                    <div id ="team-svg">
+                        <div class = "alchemy" id="alchemy">placeholder for svg</div>
+                    </div>
+                    <div class = "col-md-6" id ="team-html">
+                    <h3>Config</h3>
+                    <pre>
+                        <code>
+var config = {
+    dataSource: 'data/contrib.json',
+    graphHeight: 260,
+    graphWidth: 300,
+    
+    linkDistance: function(){ return 40; },
+
+    nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
+    caption: function(node){ return node.caption; }
+};
+
+alchemy.begin(config)
+                        </code>
+                    </pre>
+                </div>
+
+                <div class="col-md-6" id="team-data">
+                    <h3>Contributor Data</h3>
+                    <pre>
+                    <code>
+{
+    "comment": "AlchemyJS contributors",
+    "nodes": [
+        {
+            "id": 0,
+            "caption": "AlchemyJS",
+            "node_type": "root"
+        },
+        {
+            "id": 1,
+            "caption": "Huston Hedinger",
+            "github": "hustonhedinger",
+            "node_type": "GA CEO"
+        },
+        {
+            "id": 2,
+            "caption": "Grace Andrews",
+            "github": "Grace-Andrews",
+            "node_type": "GA Employee"
+        },
+        {
+            "id": 3,
+            "caption": "Isabella Jorissen",
+            "github": "ifjorissen",
+            "node_type": "GA Employee"
+        },
+        {
+            "id": 4,
+            "caption": "Matt Cox",
+            "github": "MDCox",
+            "node_type": "GA Employee"
+        }
+    ],
+    "edges": [
+        {
+            "source": 1,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 2,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 3,
+            "target": 0,
+            "caption": "WORKED_ON"
+        },
+        {
+            "source": 4,
+            "target": 0,
+            "caption": "WORKED_ON"
+        }
+    ]
+}
+                        </code>
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>    
+        
+        <div class="footer">
+            <p>Brought to you by: <img id="footer-ga-logo" src="assets/GA-logo-full-100px.png"><img></p>
+        </div>
+
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/d3/d3.js"></script>
+        <script src="scripts/alchemy.js"></script>
+        <script src="scripts/else.js"></script>
+        <script type="text/javascript" src="scripts/tooltip.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+
+        <!-- build:js scripts/plugins.js -->
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/dropdown.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tooltip.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/modal.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/transition.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/popover.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/carousel.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/scrollspy.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
+        <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js({app,.tmp}) scripts/main.js -->
+        <script src="scripts/main.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

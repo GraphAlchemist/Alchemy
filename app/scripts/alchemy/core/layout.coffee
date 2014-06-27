@@ -103,7 +103,6 @@ alchemy.layout =
 
 
     positionRootNodes: () ->
-        debugger
         container = 
             width: alchemy.conf.graphWidth()
             height: alchemy.conf.graphHeight()
