@@ -6,94 +6,68 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 
 @import 'landing';
 
-.browsehappy {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-.container-fluid{
-    margin: 0 10%;
-}
-
-/* Space out content a bit */
-body {
-    padding-top: 20px;
-    padding-bottom: 20px;
-}
-
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-/* Custom page header */
-.header {
-    border-bottom: 1px solid #e5e5e5;
-
-    /* Make the masthead heading the same height as the navigation */
-    h3 {
-        margin-top: 0;
-        margin-bottom: 0;
-        line-height: 40px;
-        padding-bottom: 19px;
-    }
+.container-fluid {
+    padding: 0;
+    margin: 0;
 }
 
 /* Custom page footer */
 .footer {
-    padding-top: 19px;
+    padding: 20px 0;
     color: #777;
     border-top: 1px solid #e5e5e5;
 }
 
-.container-narrow > hr {
-    margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-    text-align: center;
-    border-bottom: 1px solid #e5e5e5;
-    .btn {
-        font-size: 21px;
-        padding: 14px 24px;
-    }
-}
-
-/* Supporting marketing content */
-.marketing {
-    margin: 40px 0;
-    p + h4 {
-        margin-top: 28px;
-    }
-}
-
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-    .container {
-        max-width: 730px;
+    #sm-alchemy-logo{
+        display: none;
     }
-
-    /* Remove the padding we set earlier */
-    .header,
-    .marketing,
-    .footer {
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    /* Space out the masthead */
-    .header {
-        margin-bottom: 30px;
-    }
-
-    /* Remove the bottom border on the jumbotron for visual effect */
-    .jumbotron {
-        border-bottom: 0;
+    .row{
+        margin: 0 10%;
     }
 }
+@media only screen and (max-width: 767px) and (min-width: 481px){
+    #sm-alchemy-logo{
+        display: none;
+    }
+    #alchemy-logo{
+        display: none;
+    }
+    #about{
+        //nav is 62px here
+        padding-top: 90px;
+    }
+}
+
+@media only screen and (min-width: 320px) 
+and (max-width: 480px){
+    #alchemy-logo, #project{
+        display:none;
+    }
+    #sm-alchemy-logo{
+        display: visible;
+    }
+    .nav-pills{
+        float: none;
+        margin-top: 0;
+    }
+    #about{
+        //nav is 170px here
+        padding-top: 180px;
+    }
+}
+
+// @media only screen and (min-device-width: 320px) 
+// and (max-device-width: 480px){
+//     #alchemy-logo, #project{
+//         display:none;
+//     }
+//     header{
+//         width: 100%;
+//     }
+//     .nav-pills{
+//         float: none;
+//         margin-top;
+//     }
+// }
