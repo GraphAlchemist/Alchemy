@@ -6,7 +6,8 @@
     "modernizr": "~2.6.2",
     "jquery": "~1.11.0",
     "d3": "~3.4.8",
-    "modernizer": "~2.8.2"
+    "modernizer": "~2.8.2",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {}
 }
