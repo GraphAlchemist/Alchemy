@@ -2,6 +2,7 @@ bower_components
 node_modules
 .tmp
 .sass-cache
+*.swp
 *.DS_Store
 app/bower_components
 app/scripts/testConf.coffee
