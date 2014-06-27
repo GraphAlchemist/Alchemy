@@ -117,11 +117,9 @@ alchemy.interactions =
                             return
 
     clickZoom:  (direction) ->
-                    # THIS WILL BE BROKEN now using alchemy.conf.divSelector
-                    graph = d3.select(".alchemy svg g")
-                    startTransform = graph.attr("transform")
-                                           .match(/(-*\d+\.*\d*)/g)
-                                           .map( (a) -> return parseFloat(a) )
+                    startTransform = alchemy.vis.attr("transform")
+                                                .match(/(-*\d+\.*\d*)/g)
+                                                .map( (a)-> return parseFloat(a))
                     endTransform = startTransform
                     graph
                         .attr("transform", ->
