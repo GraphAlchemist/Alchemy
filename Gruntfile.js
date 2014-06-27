@@ -49,7 +49,8 @@ module.exports = function(grunt) {
                 files: ['Gruntfile.js']
             },
             sass: {
-                files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}'],
+                files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}',
+                        '<%= config.app %>/docs/css/{,*/}*.{scss,sass}'],
                 tasks: ['sass:server', 'autoprefixer']
             },
             styles: {
@@ -64,7 +65,9 @@ module.exports = function(grunt) {
                     '<%= config.app %>/{,*/}*.html',
                     '.tmp/styles/{,*/}*.css',
                     '.tmp/scripts/{,*/}*.js',
-                    '<%= config.app %>/images/{,*/}*'
+                    '.tmp/documentation/{,*/}*.html',
+                    '<%= config.app %>/images/{,*/}*',
+                    '<%= config.app %>/{,*/}*.html'
                 ]
             }
         },
@@ -193,6 +196,13 @@ module.exports = function(grunt) {
                     src: ['*.scss'],
                     dest: '.tmp/styles',
                     ext: '.css'
+                },
+                {
+                    expand: true,
+                    cwd: '<%= config.app %>/docs/css',
+                    src: ['*.scss'],
+                    dest: '.tmp/documentation/css',
+                    ext: '.css'
                 }]
             },
             server: {
@@ -201,6 +211,13 @@ module.exports = function(grunt) {
                     cwd: '<%= config.app %>/styles',
                     src: ['*.scss'],
                     dest: '.tmp/styles',
+                    ext: '.css'
+                },
+                {
+                    expand: true,
+                    cwd: '<%= config.app %>/docs/css',
+                    src: ['*.scss'],
+                    dest: '.tmp/documentation/css',
                     ext: '.css'
                 }]
             }
