@@ -3,11 +3,14 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 // bower:scss
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss';
 // endbower
-
 @import 'landing';
+@import 'svg';
 
 .container-fluid {
     padding: 0;
+    margin: 0;
+}
+.row{
     margin: 0;
 }
 
@@ -16,6 +19,10 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
     padding: 20px 0;
     color: #777;
     border-top: 1px solid #e5e5e5;
+    p{
+        padding: 0 20px;
+        margin: 0;
+    }
 }
 
 /* Responsive: Portrait tablets and up */
@@ -23,7 +30,7 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
     #sm-alchemy-logo{
         display: none;
     }
-    .row{
+    .container-fluid>.row{
         margin: 0 10%;
     }
 }
@@ -42,8 +49,12 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 
 @media only screen and (min-width: 320px) 
 and (max-width: 480px){
-    #alchemy-logo, #project{
+    #alchemy-logo, #project, #btn-alchemy-rel>img{
         display:none;
+    }
+    #btn-alchemy-rel{
+        margin-right: 0;
+        width: 100%;
     }
     #sm-alchemy-logo{
         display: visible;
@@ -54,8 +65,8 @@ and (max-width: 480px){
         padding-right: 0;
     }
     #about{
-        //nav is 170px here
-        padding-top: 180px;
+        //nav is 170px here + btn height
+        padding-top: 220px;
     }
 }
 
