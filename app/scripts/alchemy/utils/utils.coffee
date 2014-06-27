@@ -55,13 +55,13 @@ alchemy.utils =
         zoom.translate([x, y]).scale(level)
 
     nodeText: (d) -> 
-        if alchemy.conf.caption and typeof alchemy.conf.caption is 'string'
-            if d[alchemy.conf.caption]?
-                d[alchemy.conf.caption]
+        if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'string'
+            if d[alchemy.conf.nodeCaption]?
+                d[alchemy.conf.nodeCaption]
             else
                 ''
-        else if alchemy.conf.caption and typeof alchemy.conf.caption is 'function'
-            caption = alchemy.conf.caption(d)
+        else if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'function'
+            caption = alchemy.conf.nodeCaption(d)
             if caption == undefined or String(caption) == 'undefined'
                 alchemy.log["caption"] = "At least one caption returned undefined"
                 alchemy.conf.caption = false

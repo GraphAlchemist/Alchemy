@@ -41,12 +41,12 @@ alchemy.defaults =
     nodePositions: null # not currently implemented
 
     # Editing
+    showEditor: false
     captionToggle: false
     edgesToggle: false
     nodesToggle: false
     toggleRootNodes: true
-    removeNodes: false # not currently implemented
-    removeEdges: false # not currently implemented
+    removeElement: false
     addNodes: false # not currently implemented
     addEdges: false # not currently implemented
 
@@ -67,7 +67,7 @@ alchemy.defaults =
     zoomControls: false #this is broken - see alchemy.interactions.clickZoom
 
     # Nodes
-    nodeCaption: 'caption' #changed key
+    nodeCaption: 'caption'
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
     nodeOverlap: 25

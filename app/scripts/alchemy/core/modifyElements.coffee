@@ -1,6 +1,6 @@
 alchemy.modifyElements = 
     init: () ->
-        alchemy.modifyElements.show()
+        if alchemy.conf.showEditor then alchemy.modifyElements.show()
 
     show: () ->
         modifyElements_html = """
@@ -10,12 +10,19 @@ alchemy.modifyElements =
                                 </h3>
                                 <span class = "fa fa-2x fa-caret-right"></span>
                             </div>
-                                <div id="element-options" class="collapse">
-                                    <ul class = "list-group" id="remove">Remove Selected</ul>
-                                </div>
                             """
         d3.select("#update-elements").html(modifyElements_html)
+        if alchemy.conf.removeElement then alchemy.modifyElements.showRemove()
+    
+    showRemove: () ->
+        removeElement_html = """
+                            <div id="element-options" class="collapse">
+                                <ul class = "list-group" id="remove">Remove Selected</ul>
+                            </div>
+                             """
         d3.selectAll('#editor-header')
+            .append("div")
+            .html(removeElement_html)
             .on('click', () ->
                 if d3.select('#element-options').classed("in")
                     d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-right")
@@ -23,7 +30,7 @@ alchemy.modifyElements =
             )           
         d3.select("#remove")
             .on("click", ()-> alchemy.modifyElements.remove())
-    
+
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node").data()
         selectedEdges = d3.selectAll(".selected.edge").data()         
