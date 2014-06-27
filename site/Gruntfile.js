@@ -79,6 +79,13 @@ module.exports = function(grunt) {
             }
         },
 
+        'gh-pages': {
+            options: {
+                base: 'dist'
+            },
+            src: ['**']
+        },
+
         // The actual grunt server settings
         connect: {
             options: {
@@ -433,8 +440,9 @@ module.exports = function(grunt) {
             ]
         }
     });
-
+    
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-gh-pages');
 
     grunt.registerTask('serve', function(target) {
         if (target === 'dist') {
@@ -489,6 +497,7 @@ module.exports = function(grunt) {
     grunt.registerTask('default', [
         'newer:jshint',
         'test',
-        'build'
+        'build',
+        'gh-pages'
     ]);
 };
