@@ -10,6 +10,7 @@ test/bower_components
 dist/
 ToDo.md
 Alchemy.wiki
-/site
 testConf.coffee
 app/index.html
+site/bower_components
+site/node_modules

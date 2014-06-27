@@ -1,0 +1,12 @@
+site_name: AlchemyDocs
+docs_dir: 'app/docs'
+site_dir: '.tmp/documentation'
+pages:
+- ['index.md', 'Home']
+- ['Configuration.md']
+- ['Overriding-Defaults.md', 'Overriding Default Behavior']
+# - ['Contributing.md', 'Contribute']
+#to add: examples
+
+theme: readthedocs
+

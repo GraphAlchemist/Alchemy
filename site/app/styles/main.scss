@@ -1,0 +1,74 @@
+$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+
+// bower:scss
+@import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss';
+// endbower
+
+@import 'landing';
+
+.container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+/* Custom page footer */
+.footer {
+    padding: 20px 0;
+    color: #777;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* Responsive: Portrait tablets and up */
+@media screen and (min-width: 768px) {
+    #sm-alchemy-logo{
+        display: none;
+    }
+    .row{
+        margin: 0 10%;
+    }
+}
+@media only screen and (max-width: 767px) and (min-width: 481px){
+    #sm-alchemy-logo{
+        display: none;
+    }
+    #alchemy-logo{
+        display: none;
+    }
+    #about{
+        //nav is 62px here
+        padding-top: 90px;
+    }
+}
+
+@media only screen and (min-width: 320px) 
+and (max-width: 480px){
+    #alchemy-logo, #project{
+        display:none;
+    }
+    #sm-alchemy-logo{
+        display: visible;
+    }
+    .nav-pills{
+        float: none;
+        margin-top: 0;
+        padding-right: 0;
+    }
+    #about{
+        //nav is 170px here
+        padding-top: 180px;
+    }
+}
+
+// @media only screen and (min-device-width: 320px) 
+// and (max-device-width: 480px){
+//     #alchemy-logo, #project{
+//         display:none;
+//     }
+//     header{
+//         width: 100%;
+//     }
+//     .nav-pills{
+//         float: none;
+//         margin-top;
+//     }
+// }
