@@ -4,53 +4,70 @@
         {
             "id": 0,
             "caption": "AlchemyJS",
+            "role": "project",
             "node_type": "root"
         },
         {
             "id": 1,
             "caption": "Huston Hedinger",
             "github": "hustonhedinger",
-            "node_type": "GA CEO"
+            "role": "Maintainer",
+            "fun_fact": ""
         },
         {
             "id": 2,
             "caption": "Grace Andrews",
             "github": "Grace-Andrews",
-            "node_type": "GA Employee"
+            "role": "Maintainer",
+            "fun_fact": ""
         },
         {
             "id": 3,
             "caption": "Isabella Jorissen",
             "github": "ifjorissen",
-            "node_type": "GA Employee"
+            "role": "Maintainer",
+            "fun_fact": ""
         },
         {
             "id": 4,
             "caption": "Matt Cox",
             "github": "MDCox",
-            "node_type": "GA Employee"
+            "role": "Maintainer",
+            "fun_fact": ""
+        },
+        {
+            "id": 5,
+            "caption": "Dave Torbeck",
+            "github": "DaveTorbeck",
+            "role": "Maintainer",
+            "fun_fact": ""
         }
     ],
     "edges": [
         {
             "source": 1,
             "target": 0,
-            "caption": "WORKED_ON"
+            "caption": "Maintains"
         },
         {
             "source": 2,
             "target": 0,
-            "caption": "WORKED_ON"
+            "caption": "Maintains"
         },
         {
             "source": 3,
             "target": 0,
-            "caption": "WORKED_ON"
+            "caption": "Maintains"
         },
         {
             "source": 4,
             "target": 0,
-            "caption": "WORKED_ON"
+            "caption": "Often Breaks"
+        },
+        {
+            "source": 5,
+            "target": 0,
+            "caption": "contributes"
         }
     ]
 }
