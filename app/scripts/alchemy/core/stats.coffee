@@ -120,7 +120,7 @@ alchemy.stats =
         return nodeData
 
     insertSVG: (element, data) ->
-        width = alchemy.conf.graphWidth * .25
+        width = alchemy.conf.graphWidth() * .25
         height = 250
         radius = width / 4
         color = d3.scale.category20()
