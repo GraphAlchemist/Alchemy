@@ -1,5 +1,8 @@
 #examples{
 	padding: 100px 0;
+	.active{
+		background: $blue;
+	}
 }
 
 .example-list{
@@ -8,14 +11,9 @@
 		text-decoration: none;
 	}
 }
-
-#graph-container, .example-code{
-	h3{
-		// margin-top: 0; 
-	}
-}
 .example-code{
 	pre{
 		overflow: scroll;
+		height: 450px;
 	}
 }

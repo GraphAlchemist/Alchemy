@@ -27,9 +27,9 @@
           </div>
           <ul class="nav nav-pills">
               <li ><a href="/">Home</a></li>
-              <li><a href="/documentation">Documentation</a></li>
-              <li><a href="/documentation/Contributing">Contribute</a></li>
-              <li class="active"><a href="/#">Examples</a></li>
+              <li><a href="documentation">Documentation</a></li>
+              <li><a href="documentation/Contributing">Contribute</a></li>
+              <li class="active"><a href="#">Examples</a></li>
               <li><a href="#" id="tutorial" data-toggle="tooltip" data-placement="bottom" title="Coming Soon!">Tutorial</a></li>
           </ul>
           <span class="h3" id="project">Alchemy.js</span>
@@ -42,18 +42,18 @@
   <div class="container-fluid">
     <div class="row" id ="examples">
       <div class="col-md-12">
-        <h1>Examples</h1>
         <div class="row">
           <div class = "list-group col-md-3">
+            <a class="list-group-item h1" href="#">Examples</a>
             <a class="list-group-item example"href="example1.html">Basic Graph</a>
             <a class="list-group-item active example" href="example2.html">Embedded Graphs</a>
             <a class="list-group-item example" href="example3.html">Full Application</a>
             <a class="list-group-item example" href="example4.html">Custom Styling</a>      
           </div>
           <div class = "col-md-9">
-            <div class = "row">
+            <div class = "row">-
               <div class = "col-md-6">
-                <div id="graph-container" style="width:400px; height:400px">
+                <div id="graph-container">
                   <div class="alchemy"></div>
                 </div>
               </div>
@@ -76,8 +76,8 @@
 
                               var config = {
                                   dataSource: 'data/contrib.json',
-                                  graphHeight: 260,
-                                  graphWidth: 300,
+                                  graphHeight: 450,
+                                  graphWidth: 450,
                                   
                                   linkDistance: function(){ return 40; },
 
@@ -112,8 +112,8 @@
   <script type="text/javascript">
     var config = {
           dataSource: 'data/contrib.json',
-          graphHeight: 260,
-          graphWidth: 300,
+          graphHeight: 350,
+          graphWidth: 350,
 
           linkDistance: function(){ return 40; },
 
