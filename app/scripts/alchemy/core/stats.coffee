@@ -142,18 +142,23 @@ alchemy.stats =
         arcs = svg.selectAll(".arc")
             .data(pie(data))
             .enter().append("g")
-            .attr("class", "arc")
+            .classed("arc", true)
+            .on("mouseover", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", false))
+            .on("mouseout", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", true))
 
         arcs.append("path")
             .attr("d", arc)
             .attr("stroke", (d, i) -> color(i)) 
             .attr("stroke-width", 2)
-            .attr("fill", "none")
+            .attr("fill-opacity", "0.3")
 
         arcs.append("text")
             .attr("transform", (d) -> "translate(" + arc.centroid(d) + ")")
+            .attr("id", (d, i)-> "#{data[i][0]}-stat")
             .attr("dy", ".35em")
+            .classed("hidden", true)
             .text((d, i) -> data[i][0])
+
 
 
     update: () -> 
