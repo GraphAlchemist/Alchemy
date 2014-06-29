@@ -210,59 +210,98 @@ _____
 
 #Layout
 
-#####graphHeight:
-[int] **not yet implemented**
-Height of graph in pixels.  Unless specified, graph height defaults to the height of the current window.
-#####graphWidth:
-[int] **not yet implemented** 
-Width of graph in pixels.  Unless specified, graph width defaults to the width of the current window.
-#####alpha: 
-[float] `.5`    
-Is a part of the d3 force layout, `alpha` sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the layout [here](https://github.com/mbostock/d3/wiki/Force-Layout#alpha).
-#####cluster:
-[string] `false` 
-**fix to correspond to a key e.g. "cluster" or "type"**    
-Clustering nodes will have an effect on layout and color.  To cluster nodes, simply set cluster to `true`. Alchemy.js will expect a 'cluster' object key for each node in the GraphJSON that will result in an integer when being looked up and will be used to look up an integer value off of `clusterColours`.
+#####graphHeight
+[function] **default**: [See source.](https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L20)
 
-#####clusterColours: 
-[array of strings]     
-`["#DD79FF", "#FFFC00","#00FF30", "#5168FF","#00C0FF", "#FF004B", "#00CDCD", 
-  "#f83f00", "#f800df", "#ff8d8f","#ffcd00", "#184fff","#ff7e00"])
-`
-Provides a list of colors that can be assigned to different clusters.  Elements are strings of hex or rgb values that can be assigned as css styles dynamically.  The above colors are the defaults that are randomly assigned to the clusters using the [d3.shuffle](https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle) method.
+Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen height on load.  The user can define there own custom function for graphHeight or a function that returns an integer to be converted to pixels.  e.g. `function() {return 500}`
 
-#####forceLocked: 
-[bool] `true`
-force layout does not continue after initial node layout 
-#####linkDistance: 
-[integer|function] `2000`
-Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance.  Read more about how linkDistance is used in d3's force layout [here](https://github.com/mbostock/d3/wiki/Force-Layout#linkDistance)
-#####nodePositions:
+#####graphWidth
+[function] **default**: [See source.](https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L22)
+
+Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen width on load.  The user can define there own custom function for **graphWidth** or a function that returns an integer to be converted to pixels.  e.g. `function() {return 500}`
+
+#####alpha 
+[float] **default**: `.5`    
+Is a part of the d3 force layout, `alpha` sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the force layout in the [d3 docs](https://github.com/mbostock/d3/wiki/Force-Layout#alpha).
+
+#####cluster
+[bool] **default**: `false`     
+Clustering nodes will have a major effect on layout and color and is one of Alchemy's most powerful off the shelf features..  To cluster nodes, simply set cluster to `true`. Alchemy.js will expect a 'cluster' key for each node in the provided GraphJSON whose value is an integer.  For example:    
+```json
+{
+    "edges":[...
+    ],    
+    "nodes": [
+        {
+            "cluster": 4,
+            "degree": 8,
+            "id": "P7jQJNVTAG",
+            "firstName": "Kate",
+        },
+        {
+            "cluster": 0,
+            "degree": 19,
+            "id": "fPKtFfXDds",
+            "firstName": "Katherine",
+        },
+        {
+            "cluster": 0,
+            "degree": 4,
+            "id": "QgVAXaBQg2",
+            "firstName": "Duane",
+        },...
+    ]
+}
+```
+The value for cluster will be used to look up a color from [`alchemy.conf.clusterColours`](#clusterColours).  All nodes of the same cluster will receive the same colour.  Edges between nodes of the same cluster will receive that cluster's colour, while edges that span between two nodes in different clusters will receive an inverse gradient of the colours of the two colours.  For example:
+![cluster](../img/cluster.png)
+This makes it easy to visually identify 'boundary spanners' in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.
+<!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON-->
+
+#####clusterColours
+[array of css colors] **default**:
+```js
+d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", 
+            "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f",
+            "#ffcd00", "#184fff", "#ff7e00"])
+```
+Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the [d3.shuffle](https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle) method.  Colours can be predictably assigned to colours by simply providing the colours in the position of the corresponding cluster.  For instance, in an array of the following colours `[red, green, yellow, orange]`, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster orange would be 3, etc.
+
+#####forceLocked
+[bool] **default**: `true`    
+By default that force layout does not continue after initial layout is performed.  Setting **forceLocked** to `false` will allow the force layout to run on node drag, click, and other interactions.
+
+#####linkDistance 
+[function] **default**: [See source.](https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/layout.coffee#L137)    
+Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance in the config.  Your custom function will have the edge as well as our layout constant [k](https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/startGraph.coffee#L79) available.  For example, `yourLinkDistanceFn: function(edge, k) { return edge.something * k}`
+Read more about how linkDistance is used in d3's force layout [here](https://github.com/mbostock/d3/wiki/Force-Layout#linkDistance).
+
+<!-- #####nodePositions:
 [array] `null` 
 **not currently implemented**
-Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide GraphJSON with nodes that contain pre-calculated layout positions for nodes in pixel length.  The nodePositions parameter tells alchemy where to look up the node position.  The most obvious parameter for the user to pass would be `["x","y"]` telling alchemy to look for the `x` position for nodes with the `"x"` key on each node where available, and the `y` position with the "y" key.  A user could just as easily define a custom set of keys for their GraphJSON.  For example, ["apples","oranges"] would tell alchemy to look for the x position of nodes with the `"apples"` key and the `y` position of nodes with the `"oranges"` key.
+Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide GraphJSON with nodes that contain pre-calculated layout positions for nodes in pixel length.  The nodePositions parameter tells alchemy where to look up the node position.  The most obvious parameter for the user to pass would be `["x","y"]` telling alchemy to look for the `x` position for nodes with the `"x"` key on each node where available, and the `y` position with the "y" key.  A user could just as easily define a custom set of keys for their GraphJSON.  For example, ["apples","oranges"] would tell alchemy to look for the x position of nodes with the `"apples"` key and the `y` position of nodes with the `"oranges"` key. -->
 
 ____
 
 
-#Misc
-##### dataSource:     
+#Other
+##### dataSource     
 [string, object], `null`
 Does not receive a default value and is the single parameter that **must** be defined by the user in order to use Alchemy.js.  `dataSource` receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's [`d3.json` method](https://github.com/mbostock/d3/wiki/Requests#d3_json) with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.
 
-#####initialScale:    
+#####initialScale    
 [integer] **default**: `1`  
 Specifies the initial distance of the zoom on the svg.  A value assiged here initiates "scale" value directly in the svg's "transform" attribute.
 
-#####initialTranslate:    
+#####initialTranslate    
 [2 integer array] `[0,0]`  
 Specifies the initial "pan" of the svg, corresponding directly to the "translate" value in the svg's "transform" attribute.  Because graphs layout differently every time, and because there is currently not support for setting initial node positions, there is limited utility to setting different values for the "translate" of the svg.
 
-#####warningMessage: 
+#####warningMessage 
 [string] `"There be no data!  What's going on?"`  
 Specifies a custom warning message if there is no data.
 
-##### afterLoad:     
+##### afterLoad     
 [str, function] **default**: 'afterLoad'      
 If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This maybe helpful for certain applications where the graph context is being watch and events can be fired when `alchemy.afterLoad` or `alchemy.someOtherString` is `true`.
 
