@@ -7,9 +7,6 @@ If you are familiar with Yeoman already, it will be helpful to know how Alchemy'
 
 In development, there is an `alchemy.src.coffee` file in the `.tmp` directory, making it easy to use mapping files to debug the coffeescript directly.
 
-### Overriding Default Functions
-...
-
 ### Including Your Code
 We'd love to include that awesome new feature you've built.  Here is the process:
 * Fork this repo
