@@ -151,7 +151,7 @@ module.exports = function(grunt) {
             },
             all: [
                 'Gruntfile.js',
-                '<%= config.app %>/scripts/{,*/}*.js',
+                // '<%= config.app %>/scripts/{,*/}*.js',
                 '!<%= config.app %>/scripts/vendor/*',
                 'test/spec/{,*/}*.js'
             ]
@@ -394,8 +394,9 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     dot: true,
-                    src: '.tmp/documentation/**/*',
-                    dest: '<%= config.dist %>/documentation/'
+                    cwd: '.tmp',
+                    src: 'documentation/**',
+                    dest: '<%= config.dist %>'
                 }]
             }
         },
@@ -432,7 +433,6 @@ module.exports = function(grunt) {
             dist: [
                 'coffee',
                 'sass',
-                'copy:docs',
                 'copy:styles',
                 'imagemin',
                 'svgmin',
@@ -483,6 +483,7 @@ module.exports = function(grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
+        'copy:docs',
         'autoprefixer',
         'concat',
         'cssmin',

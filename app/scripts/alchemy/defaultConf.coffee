@@ -64,7 +64,7 @@ alchemy.defaults =
     nodeFilters: false
 
     # Controls
-    zoomControls: false #this is broken - see alchemy.interactions.clickZoom
+    zoomControls: false
 
     # Nodes
     nodeCaption: 'caption'
