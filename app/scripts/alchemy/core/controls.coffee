@@ -23,11 +23,6 @@ alchemy.controlDash =
                 .attr("id", "control-dash-wrapper")
                 .attr("class", "col-md-4 off-canvas")
 
-            d3.select(".alchemy")
-                .append("div")
-                .attr("id", "control-dash-background")
-                .attr("class", "col-md-4")
-
             # add the dash toggle button 
             d3.select("#control-dash-wrapper") 
                 .append("i")

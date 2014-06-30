@@ -112,27 +112,6 @@
     }
 }
 
-#control-dash-background{
-	display: none;
-	padding: 0;
-	margin: 0;
-	z-index: 0;
-	background-color: rgba(white, .15);
-	-webkit-filter: blur(5px);
-	filter: blur(5px);
-	height: inherit;
-	&.off-canvas{
-	    transform: translate(-200%, 0);
-	    -webkit-animation: slide-out .75s linear;
-	    animation: slide-out .75s linear;
-	}
-	&.on-canvas{
-		transform: translate(-100%, 0);
-	    -webkit-animation: slide-in .75s ease-in-out;
-	    animation: slide-in .75s ease-in-out;
-	}
-}
-
 #control-dash-wrapper{
 	font-family: 'Source Sans Pro', Helvetica, sans-serif;
 	letter-spacing: .05em;
