@@ -1,6 +1,8 @@
 $(document).ready ->
     $("#tutorial").tooltip placement: "bottom"
     $("#btn-alchemy-rel").tooltip placement: "bottom"
+    $('pre').addClass('prettyprint')
+    prettyPrint()
 
     $("#example3").addClass("hidden")
     $("#full-app-btn")
@@ -16,5 +18,4 @@ $(document).ready ->
                 else
                     return "View Full App"
                 )
-    return
 console.log "'Allo from CoffeeScript!"
