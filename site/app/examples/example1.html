@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Basic Graph -- Example 1 -- AlchemyJS</title>
+    <title>Basic Graph -- Example 1 -- Alchemy.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <link rel="shortcut icon" href="../assets/alchemyFlatfavicon.ico">
@@ -27,9 +27,9 @@
           </div>
           <ul class="nav nav-pills">
               <li ><a href="/">Home</a></li>
-              <li><a href="/documentation">Documentation</a></li>
-              <li><a href="/documentation/Contributing">Contribute</a></li>
-              <li class="active"><a href="/#">Examples</a></li>
+              <li><a href="documentation/">Documentation</a></li>
+              <li><a href="documentation/Contributing/">Contribute</a></li>
+              <li class="active"><a href="example1">Examples</a></li>
               <li><a href="#" id="tutorial" data-toggle="tooltip" data-placement="bottom" title="Coming Soon!">Tutorial</a></li>
           </ul>
           <span class="h3" id="project">Alchemy.js</span>
@@ -40,29 +40,23 @@
         </button>
     </div>
   <div class="container-fluid">
-    <div class="row" id ="examples">
-      <div class="col-md-12">
-<!--         <h1>Examples</h1> -->
-        <div class="row">
-          <div class = "list-group col-md-3">
-            <a class="list-group-item h1" href="#">Examples</a>
-            <a class="list-group-item active example"href="example1.html">Basic Graph</a>
-            <a class="list-group-item example-list" href="example2.html">Embedded Graphs</a>
-            <a class="list-group-item example-list" href="example3.html">Full Application</a>
-            <a class="list-group-item example-list" href="example4.html">Custom Styling</a>      
-          </div>
-          <div class = "col-md-9">
-            <div class = "row">
-              <div class = "col-md-6">
-                <div id="graph-container" style="width:400px; height:400px">
-                  <h3 class="filename">Graph</h3>
-                  <div class="alchemy"></div>
-                </div>
-              </div>
-              <div class = "col-md-6">
-                <div class="example-code">
-                <h3 class="filename">HTML and Configuration</h3>
-                  <pre>
+      <div class="row" id ="examples">
+        <div id= "example-list" class = "list-group col-md-3">
+          <a class="list-group-item h1" href="#">Examples</a>
+          <a class="list-group-item active example"href="example1.html">Basic Graph</a>
+          <a class="list-group-item example" href="example2.html">Embedded Graphs</a>
+          <a class="list-group-item example" href="example3.html">Full Application</a>
+          <a class="list-group-item example" href="example4.html">Custom Styling</a>      
+        </div>
+        <div id = "example1" class = "col-md-9">
+          <div class = "row">
+            <div id="graph-container" class="col-md-6">
+              <h3 class="filename">Graph</h3>
+              <div class="alchemy" style ="height:450px"></div>
+            </div>
+            <div class="col-md-6" id="example-code">
+              <h3 class="filename">HTML and Configuration</h3>
+              <pre>
 <code>
 &lt;html&gt;
   &lt;head&gt;
@@ -85,15 +79,12 @@
   &lt;/body&gt;
 &lt;/html&gt;
 </code>
-                  </pre>
-                </div>
+                </pre>
               </div>
             </div>
-
           </div>
         </div>
       </div>
-  </div>
 
   <div class="footer">
         <p>Brought to you by: <img id="footer-ga-logo" src="../assets/GA-logo-full-100px.png"><img></p>
