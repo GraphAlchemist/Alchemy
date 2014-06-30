@@ -36,6 +36,8 @@
 	margin:0;
 	#graph-container{
 		padding:0;
+		// min-height: 100vh;
+		height: 100%;
 	}
 }
 
@@ -82,5 +84,10 @@
 	pre{
 		overflow: scroll;
 		height: 450px;
+	}
+}
+.alchemy{
+	svg{
+		overflow: scroll;
 	}
 }
