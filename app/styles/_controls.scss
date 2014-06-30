@@ -1,49 +1,49 @@
 /*Zoom Controls Styles*/
 #zoom-controls{
-	@include tabs();
-	margin-top: 10%;
-	z-index: 5;
-	position: relative;
+    @include tabs();
+    margin-top: 10%;
+    z-index: 5;
+    position: relative;
     display: block;
     width: 55px;
-	#zoom-in, #zoom-out, #zoom-reset{
-		padding: 12px;
-		margin: 0;
-		width: 100%;
-		i {
-		color: #E89619;
-    	}
-    	&:hover{
-    		background-color: rgba(white, .2)
-    	}
-    	&:active{
+    #zoom-in, #zoom-out, #zoom-reset{
+        padding: 12px;
+        margin: 0;
+        width: 100%;
+        i {
+        color: #E89619;
+        }
+        &:hover{
+            background-color: rgba(white, .2)
+        }
+        &:active{
             border: none;
         }
-	}    
+    }    
 }
 
 .fa-caret-right, .fa-caret-down, .fa-search{
-	margin: 0 5px;
+    margin: 0 5px;
     color: $bright-orange;
 }
 
 
 #search{
-	margin-top: 2em;
-	margin-bottom: 1em;
-	padding: .5em 1em;
+    margin-top: 2em;
+    margin-bottom: 1em;
+    padding: .5em 1em;
     width: 90%;
 
-	span{
-		vertical-align: bottom;
-	}
+    span{
+        vertical-align: bottom;
+    }
     input{
-		background-color: black;
+        background-color: black;
         border:none;
         font-size: 20px;
-		color: white;
+        color: white;
         padding-left: 0.5em;
-	}
+    }
     .search-icon {
         height: 22px;
         background-color: #000;
@@ -55,43 +55,45 @@
 }
 
 #stats{
-	padding: 0.5em 1em;
+    padding: 0.5em 1em;
     background-color: transparent;
     border-bottom: thin dashed $bright-orange;
     #stats-header{
-    	padding: 10px;
+        padding: 10px;
     }
     #all-stats{
-    	color: white;            
-    	border-radius: none;
+        color: white;            
+        border-radius: none;
         border: none;
         background: transparent;
         overflow: auto;
         li{
-        	padding: 3px;
+            padding: 3px;
         }
     }
-	#node-stats-graph, #edge-stats-graph{
-		height: 250px;
-		svg{
-			// width: 100%;
-			// height: 250px;
-			// transform: translate(width/2, height/2);
-			opacity: .6;
-			background: transparent;
-		}
-		text{
-        	fill: white;
-        	font-weight: 200;
-        	text-anchor: middle;
-			z-index: 1000;
-		}
-	}
+    #node-stats-graph, #edge-stats-graph{
+        height: 250px;
+        svg{
+            opacity: .6;
+            background: transparent;
+        }
+        text{
+            font-size: 16px;
+            fill: white;
+            font-weight: 200;
+            text-anchor: middle;
+            z-index: 1000;
+        }
+        .no-data{
+            margin: 30px 0;
+            color: $bright-orange;
+        }
+    }
 
     .badge{
-    	border-radius: 0;
-    	height: 100%;
-    	background-color: rgba($blue, .6);
+        border-radius: 0;
+        height: 100%;
+        background-color: rgba($blue, .6);
     }
 }
 
@@ -105,7 +107,7 @@
     }
 
     #element-options {
-    	cursor: pointer;
+        cursor: pointer;
         margin-top: 10px;
         margin-left: 2%;
         color: white;
@@ -113,62 +115,62 @@
 }
 
 #control-dash-wrapper{
-	font-family: 'Source Sans Pro', Helvetica, sans-serif;
-	letter-spacing: .05em;
-	height: inherit;
-	z-index: inherit;
-	padding: 0;
-	&.initial{
-		transform: translate(-100%, 0);
-		#dash-toggle{
-	        color: $bright-orange !important;
-	        -webkit-animation: 4s pulse linear;
-	        animation: 4s pulse linear;
-	    }
-	}
-	&.off-canvas{
-	    transform: translate(-100%, 0);
-	    -webkit-animation: slide-out .75s linear;
-	    animation: slide-out .75s linear;
-	    #dash-toggle{
-	        color: $bright-orange !important;
-	        -webkit-animation: 4s pulse linear;
-	        animation: 4s pulse linear;
-	    }
-	}
-	&.on-canvas{
-		* {
-			box-shadow: none !important;
-		}
-	    -webkit-animation: slide-in .75s ease-in-out;
-	    animation: slide-in .75s ease-in-out;
-	}
+    font-family: 'Source Sans Pro', Helvetica, sans-serif;
+    letter-spacing: .05em;
+    height: inherit;
+    z-index: inherit;
+    padding: 0;
+    &.initial{
+        transform: translate(-100%, 0);
+        #dash-toggle{
+            color: $bright-orange !important;
+            -webkit-animation: 4s pulse linear;
+            animation: 4s pulse linear;
+        }
+    }
+    &.off-canvas{
+        transform: translate(-100%, 0);
+        -webkit-animation: slide-out .75s linear;
+        animation: slide-out .75s linear;
+        #dash-toggle{
+            color: $bright-orange !important;
+            -webkit-animation: 4s pulse linear;
+            animation: 4s pulse linear;
+        }
+    }
+    &.on-canvas{
+        * {
+            box-shadow: none !important;
+        }
+        -webkit-animation: slide-in .75s ease-in-out;
+        animation: slide-in .75s ease-in-out;
+    }
 
-	#control-dash{
-		overflow-x: hidden;
-		overflow-y: scroll;
-		background-color: transparent;
-		background-image: $ctrl-dash-background;
-	    padding: 0;
-	    height: inherit;
-	    z-index: 5;
-	    h3{
-	    	display: inline;
-	    	margin: 0;
-	    }
-	}
-	#dash-toggle{
-		z-index: 5;
-		@include tabs();
-		position: absolute;
-	    top: 50%;
-	    font-size: 2.2em;
-	    color: rgba(white, .2);
-	    padding: 10px;
-	    margin-left: 100%;
-	}
+    #control-dash{
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background-color: transparent;
+        background-image: $ctrl-dash-background;
+        padding: 0;
+        height: inherit;
+        z-index: 5;
+        h3{
+            display: inline;
+            margin: 0;
+        }
+    }
+    #dash-toggle{
+        z-index: 5;
+        @include tabs();
+        position: absolute;
+        top: 50%;
+        font-size: 2.2em;
+        color: rgba(white, .2);
+        padding: 10px;
+        margin-left: 100%;
+    }
 
-	button{
+    button{
         border-radius: 0;
         border: none;
         background-color: transparent;

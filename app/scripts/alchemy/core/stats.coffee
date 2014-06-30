@@ -70,7 +70,7 @@ alchemy.stats =
 
     edgeStats: () ->
         #general edge stats
-        edgeData = []
+        edgeData = null
         edgeNum = d3.selectAll(".edge")[0].length
         activeEdges = d3.selectAll(".edge.active")[0].length
         inactiveEdges = d3.selectAll(".edge.inactive")[0].length
@@ -82,6 +82,7 @@ alchemy.stats =
 
         #add stats for edge types
         if alchemy.conf.edgeTypes
+            edgeData = []
             for e in d3.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
@@ -97,13 +98,14 @@ alchemy.stats =
 
     nodeStats: () ->
         #general node stats
-        nodeData = []
+        nodeData = null
         totalNodes = d3.selectAll(".node")[0].length
         activeNodes = d3.selectAll(".node.active")[0].length
         inactiveNodes = d3.selectAll(".node.inactive")[0].length
 
         #add stats for all node types
         if alchemy.conf.nodeTypes
+            nodeData = []
             nodeKey = Object.keys(alchemy.conf.nodeTypes)
             for nodeType in alchemy.conf.nodeTypes[nodeKey]
                 nodeNum = d3.selectAll("g.node.#{nodeType}")[0].length
@@ -120,44 +122,52 @@ alchemy.stats =
         return nodeData
 
     insertSVG: (element, data) ->
-        width = alchemy.conf.graphWidth() * .25
-        height = 250
-        radius = width / 4
-        color = d3.scale.category20()
+        console.log data
+        if data is null 
+            console.log "no data!"
+            d3.select("##{element}-stats-graph")
+                .html("<br><h4 class='no-data'>There are no #{element}Types listed in your conf.</h4>")
 
-        arc = d3.svg.arc()
-            .outerRadius(radius - 10)
-            .innerRadius(radius/2)
 
-        pie = d3.layout.pie()
-            .sort(null)
-            .value((d) -> d[1])
+        else
+            width = alchemy.conf.graphWidth() * .25
+            height = 250
+            radius = width / 4
+            color = d3.scale.category20()
 
-        svg = d3.select("##{element}-stats-graph")
-            .append("svg")
-            .append("g")
-            .style({"width": width, "height":height})
-            .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
+            arc = d3.svg.arc()
+                .outerRadius(radius - 10)
+                .innerRadius(radius/2)
 
-        arcs = svg.selectAll(".arc")
-            .data(pie(data))
-            .enter().append("g")
-            .classed("arc", true)
-            .on("mouseover", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", false))
-            .on("mouseout", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", true))
+            pie = d3.layout.pie()
+                .sort(null)
+                .value((d) -> d[1])
 
-        arcs.append("path")
-            .attr("d", arc)
-            .attr("stroke", (d, i) -> color(i)) 
-            .attr("stroke-width", 2)
-            .attr("fill-opacity", "0.3")
+            svg = d3.select("##{element}-stats-graph")
+                .append("svg")
+                .append("g")
+                .style({"width": width, "height":height})
+                .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
 
-        arcs.append("text")
-            .attr("transform", (d) -> "translate(" + arc.centroid(d) + ")")
-            .attr("id", (d, i)-> "#{data[i][0]}-stat")
-            .attr("dy", ".35em")
-            .classed("hidden", true)
-            .text((d, i) -> data[i][0])
+            arcs = svg.selectAll(".arc")
+                .data(pie(data))
+                .enter().append("g")
+                .classed("arc", true)
+                .on("mouseover", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", false))
+                .on("mouseout", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", true))
+
+            arcs.append("path")
+                .attr("d", arc)
+                .attr("stroke", (d, i) -> color(i)) 
+                .attr("stroke-width", 2)
+                .attr("fill-opacity", "0.3")
+
+            arcs.append("text")
+                .attr("transform", (d) -> "translate(" + arc.centroid(d) + ")")
+                .attr("id", (d, i)-> "#{data[i][0]}-stat")
+                .attr("dy", ".35em")
+                .classed("hidden", true)
+                .text((d, i) -> data[i][0])
 
 
 
@@ -166,3 +176,4 @@ alchemy.stats =
             alchemy.stats.nodeStats()
         if alchemy.conf.edgeStats is true
             alchemy.stats.edgeStats()
+
