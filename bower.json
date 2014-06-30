@@ -1,5 +1,6 @@
 {
   "name": "alchemyjs",
+  "version": "0.1.0",
   "main": ["dist/alchemy.min.css", "dist/alchemy.min.js"],
   "dependencies": {
     "jquery": "~2.1.0",
