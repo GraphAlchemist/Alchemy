@@ -19,7 +19,7 @@
             "caption": "Grace Andrews",
             "github": "Grace-Andrews",
             "role": "Maintainer",
-            "fun_fact": ""
+            "fun_fact": "Born left-handed, now right-handed."
         },
         {
             "id": 3,
@@ -39,7 +39,7 @@
             "id": 5,
             "caption": "Dave Torbeck",
             "github": "DaveTorbeck",
-            "role": "Maintainer",
+            "role": "Contributor",
             "fun_fact": ""
         }
     ],
