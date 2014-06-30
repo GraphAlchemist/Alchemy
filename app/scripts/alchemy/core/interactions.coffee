@@ -138,6 +138,10 @@ alchemy.interactions =
 
     toggleControlDash: () ->
         #toggle off-canvas class on click
-        offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas")
-        d3.select("#control-dash-wrapper").classed("off-canvas": !offCanvas, "on-canvas": offCanvas)
-        d3.select("#control-dash-background").classed("off-canvas": !offCanvas, "on-canvas": offCanvas)
+        offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas") or d3.select("#control-dash-wrapper").classed("initial")
+        d3.select("#control-dash-wrapper").classed("off-canvas": !offCanvas, "initial": false, "on-canvas": offCanvas)
+
+
+
+
+

@@ -185,7 +185,7 @@ alchemy.filters =
 
                     for edge in alchemy.edge.filter("[source-target*='#{nodeId}']").data()
                         edgeType = edge.caption
-                        if edgeType in alchemy.conf.edgeTypes
+                        if alchemy.conf.edgeTypes? and edgeType in alchemy.conf.edgeTypes
                             #the edge should not show if target of source node is inactive
                             if d3.select("#li-#{edgeType}").classed("disabled")
                                 alchemy.edge.filter("[source-target*='#{nodeId}']")
