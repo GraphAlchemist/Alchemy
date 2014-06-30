@@ -1,6 +1,6 @@
 {
   "name": "alchemy",
-  "private": true,
+  "main": ["dist/alchemy.min.css", "dist/alchemy.min.js"],
   "dependencies": {
     "jquery": "~2.1.0",
     "d3": "~3.4.1",
