@@ -118,6 +118,14 @@
 	height: inherit;
 	z-index: inherit;
 	padding: 0;
+	&.initial{
+		transform: translate(-100%, 0);
+		#dash-toggle{
+	        color: $bright-orange !important;
+	        -webkit-animation: 4s pulse linear;
+	        animation: 4s pulse linear;
+	    }
+	}
 	&.off-canvas{
 	    transform: translate(-100%, 0);
 	    -webkit-animation: slide-out .75s linear;
