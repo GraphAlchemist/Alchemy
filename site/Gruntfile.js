@@ -18,8 +18,7 @@ module.exports = function(grunt) {
     // Configurable paths
     var config = {
         app: 'app',
-        dist: 'dist',
-        test: '/test/this'
+        dist: 'dist'
     };
 
     // Define the configuration for all the tasks
@@ -39,7 +38,7 @@ module.exports = function(grunt) {
                 tasks: ['bowerInstall']
             },
             coffee: {
-                files: ['<%= config.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}'],
+                files: ['<%= config.app %>/scripts/{,*/,*/*/}*.{coffee,litcoffee,coffee.md}'],
                 tasks: ['coffee:dist']
             },
             coffeeTest: {
