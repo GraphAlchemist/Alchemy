@@ -71,19 +71,19 @@ alchemy.utils =
         # refactor for speed
         if alchemy.conf.nodeRadius?
             if typeof alchemy.conf.nodeRadius is 'function'
-                if d.node_type is 'root'
+                if d.root? and d.root
                     alchemy.conf.rootNodeRadius
                 else                
                     alchemy.conf.nodeRadius(d)
             else if typeof alchemy.conf.nodeRadius is 'string'
                 # this does not work
                 key = alchemy.conf.nodeRadius
-                if d.node_type is 'root'
+                if d.root? and d.root
                     alchemy.conf.rootNodeRadius
                 else                  
                     d.degree
             else if typeof alchemy.conf.nodeRadius is 'number'
-                if d.node_type is 'root'
+                if d.root? and d.root
                     alchemy.conf.rootNodeRadius
                 else
                     alchemy.conf.nodeRadius

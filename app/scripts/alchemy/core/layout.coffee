@@ -136,7 +136,7 @@ alchemy.layout =
 
     linkDistancefn: (edge, k) ->
         if alchemy.conf.cluster
-            if (edge.source.node_type or edge.target.node_type) is 'root' then 300
+            if edge.source.node.root or edge.target.node.root then 300
             if edge.source.cluster is edge.target.cluster then 10 else 600
         else
             10 / (k * 5)

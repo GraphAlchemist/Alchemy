@@ -17,8 +17,8 @@
 alchemy.drawing.drawedges = (edge) ->  
     if alchemy.conf.cluster
         edgeStyle = (d) ->
-            if d.source.node_type is "root" or d.target.node_type is "root"
-                index = (if d.source.node_type is "root" then d.target.cluster else d.source.cluster)
+            if d.source.root or d.target.root
+                index = (if d.source.root then d.target.cluster else d.source.cluster)
             else if d.source.cluster is d.target.cluster
                 index = d.source.cluster
             else if d.source.cluster isnt d.target.cluster

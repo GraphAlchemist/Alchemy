@@ -26,7 +26,7 @@ alchemy.styles =
         Q = {}
         for edge in edges
             # skip root
-            continue if edge.source.node_type is "root" or edge.target.node_type is "root"
+            continue if edge.source.root or edge.target.root
             # skip nodes from the same cluster
             continue if edge.source.cluster is edge.target.cluster
             if edge.target.cluster isnt edge.source.cluster
