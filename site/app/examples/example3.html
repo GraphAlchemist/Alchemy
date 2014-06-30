@@ -1,11 +1,9 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <title>Full Application -- Example 3 -- Alchemy.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <title>Full Application -- Example 3 -- AlchemyJS</title>
-    <link rel="stylesheet" type="text/css" href="../styles/vendor.css">
-    <link rel="stylesheet" type="text/css" href="../styles/alchemy.min.css">
     <link rel="shortcut icon" href="../assets/alchemyFlatfavicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
@@ -14,10 +12,14 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" type="text/css" href="../styles/alchemy.min.css">
     <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../bower_components/google-code-prettify/src/prettify.css"></link>
+
     <!-- endbuild -->
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="../bower_components/modernizer/modernizr.js"></script>
+    <!-- endbuild -->
 </head>
 <body>
   <div class="navbar navbar-default navbar-fixed-top">
@@ -27,93 +29,123 @@
       </div>
       <ul class="nav nav-pills">
           <li ><a href="/">Home</a></li>
-          <li><a href="/documentation">Documentation</a></li>
-          <li><a href="/documentation/Contributing">Contribute</a></li>
-          <li class="active"><a href="/#">Examples</a></li>
+          <li><a href="documentation/">Documentation</a></li>
+          <li><a href="documentation/Contributing/">Contribute</a></li>
+          <li class="active"><a href="#">Examples</a></li>
           <li><a href="#" id="tutorial" data-toggle="tooltip" data-placement="bottom" title="Coming Soon!">Tutorial</a></li>
       </ul>
       <span class="h3" id="project">Alchemy.js</span>
-    </div>
+      <!-- end header div -->
+    </div> 
     <button id="btn-alchemy-rel" type="button" class="btn btn-default" href="#" data-toggle="tooltip" data-placement="bottom" title="You'll like it. We promise.">
         <img src="../assets/alchemyLogoFlat.png"></img>
         <h3>Download the Latest Release</h3>
     </button>
+    <button id="full-app-btn" type="button" class="btn btn-default" href="#">
+      <h3>Click to view the Full App in Action <i class = "glyphicon glyphicon-arrow-right"></i></h3>
+    </button>
+      <!-- end navbar -->
   </div>
   <div class="container-fluid">
-    <div class="row">
-    <div id="graph-container-full-app">
-      <div class="alchemy"></div>
+    <div class="row" id ="examples">
+      <div id= "example-list" class = "list-group col-md-3">
+        <a class="list-group-item h1" href="#">Examples</a>
+        <a class="list-group-item example"href="example1.html">Basic Graph</a>
+        <a class="list-group-item example" href="example2.html">Embedded Graphs</a>
+        <a class="list-group-item active example" href="example3.html">Full Application</a>
+        <a class="list-group-item example" href="example4.html">Custom Styling</a>      
+      </div>
+      <div class="col-md-9" id="example3-code">
+        <div class="row">
+          <div class = "col-md-6">
+            <h3 class="filename">alchemyConfig.js</h3>
+            <pre>
+<code>
+var config = {
+    dataSource: 'data/charlize.json',                      
+    
+    forceLocked: false,
+
+    nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
+    edgeTypes: ["ACTED_IN", "NOMINATED", "RECEIVED", "PARENT_OF", "PARTNER_OF", "BORN_AT", "PRODUCED"],
+    
+    showControlDash: true,
+
+    showStats: true,
+    nodeStats: true,
+    edgeStats: true,
+
+    showFilters: true,
+    nodeFilters: true,
+    edgeFilters: true,
+
+    captionToggle: true,
+    edgesToggle: true,
+    nodesToggle: true,
+    toggleRootNotes: false,
+    
+    zoomControls: true,
+
+    caption: function(node){ return node.caption; }
+    };
+
+  alchemy.begin(config)
+</code>
+            </pre>
+          </div>
+          <div class="col-md-6">
+            <h3 class="filename">index.html</h3>
+            <pre>
+<code>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+
+    &lt;script src=&quot;../scripts/vendor.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;../scripts/alchemy.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;../scripts/alchemyConfig.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        alchemy.begin(config)
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code>
+            </pre>
+<!--             <button id="full-app-btn" type="button" class="btn btn-default" href="#">
+              <h3>Click to view the Full Appliction</h3>
+            </button> -->
+          </div>
+        </div>
+      </div>
+    <!-- end examples div -->
     </div>
-    <div class="example-code">
-      <pre>
-        <p class="filename">alchemyConfig.js</p>
-        <code>
-          var config = {
-              dataSource: 'data/charlize.json',                      
-              
-              forceLocked: false,
-
-              nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
-              edgeTypes: ["ACTED_IN", "NOMINATED", "RECEIVED", "PARENT_OF", "PARTNER_OF", "BORN_AT", "PRODUCED"],
-              
-              showControlDash: true,
-
-              showStats: true,
-              nodeStats: true,
-              edgeStats: true,
-
-              showFilters: true,
-              nodeFilters: true,
-              edgeFilters: true,
-
-              captionToggle: true,
-              edgesToggle: true,
-              nodesToggle: true,
-              toggleRootNotes: false,
-              
-              zoomControls: true,
-
-              caption: function(node){ return node.caption; }
-              };
-
-            alchemy.begin(config)
-        </code>
-      </pre>
-
-      <pre>
-        <p class="filename">index.html</p>
-        <code>
-          &lt;html&gt;
-            &lt;head&gt;
-              &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
-              &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
-            &lt;/head&gt;
-            &lt;body&gt;
-              &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
-          
-              &lt;script src=&quot;../scripts/vendor.js&quot;&gt;&lt;/script&gt;
-              &lt;script src=&quot;../scripts/alchemy.min.js&quot;&gt;&lt;/script&gt;
-              &lt;script src=&quot;../scripts/alchemyConfig.js&quot;&gt;&lt;/script&gt;
-              &lt;script type=&quot;text/javascript&quot;&gt;
-                  alchemy.begin(config)
-              &lt;/script&gt;
-            &lt;/body&gt;
-          &lt;/html&gt;
-        </code>
-      </pre>
-   
+    <div class="row" id="example3">
+      <div id="graph-container" class="col-md-12">
+        <div class="alchemy"></div>
+      </div>
+      <!-- end example3 div -->
     </div>
-    </div>
+    <!-- end container-fluid div -->
   </div>
-  
+
+  <div class="footer">
+        <p>Brought to you by: <img id="footer-ga-logo" src="../assets/GA-logo-full-100px.png"><img></p>
+  </div>
+
+
+  <script src="../bower_components/jquery/dist/jquery.js"></script>
+  <script src="../bower_components/d3/d3.js"></script>
   <script src="../scripts/vendor.js"></script>
   <script src="../scripts/alchemy.min.js"></script>
-  
   <script type="text/javascript">
     var config = {
       dataSource: 'data/charlize.json',                      
       
-      graphHeight: 600,
+      graphHeight: 900,
       // graphWidth: 600,
 
       forceLocked: false,
@@ -144,7 +176,8 @@
     alchemy.begin(config)
   </script>
 
-    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+
+  <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
   <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
@@ -167,10 +200,12 @@
   <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/scrollspy.js"></script>
   <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/collapse.js"></script>
   <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tab.js"></script>
+  <script src="../bower_components/google-code-prettify/src/prettify.js"></script>
   <!-- endbuild -->
 
   <!-- build:js({app,.tmp}) scripts/main.js -->
   <script src="../scripts/main.js"></script>
+
 </body>
 </html>
 

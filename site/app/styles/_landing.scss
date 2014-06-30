@@ -5,7 +5,11 @@ $bright-orange: #E89619;
 body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
+	font-weight: 300;
 	background: #eee;
+	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
+		font-weight: 300;
+	}
 }
 
 .header{
@@ -82,7 +86,6 @@ hr{
 	margin: 0;
 } 
 
-
 #btn-alchemy-rel{
 	background: rgba($blue, .3);
 	color: $blue;
@@ -95,6 +98,13 @@ hr{
 	}
 	h3{
 		margin-top: 10px;
+	}
+	&:active{
+		background: rgba($blue, .9);
+		border: none;
+	}
+	&:focus, &:active{
+		outline: none;
 	}
 }
 
