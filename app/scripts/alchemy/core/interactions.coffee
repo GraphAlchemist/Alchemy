@@ -94,7 +94,7 @@ alchemy.interactions =
                 return d.id is c.id or alchemy.edges.some (e) ->
                     return ((e.source.id is c.id and e.target.id is d.id) or 
                             (e.source.id is d.id and e.target.id is c.id)) and 
-                            d3.select(".edge[id*='#{d.id}']").classed("active"))
+                            d3.select(".edge[source-target*='#{d.id}']").classed("active"))
 
         if typeof alchemy.conf.nodeClick == 'function'
             alchemy.conf.nodeClick(c)

@@ -40,7 +40,25 @@
         <script src="scripts/alchemy.js"></script>
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
-            alchemy.begin()
+            var config = {
+                dataSource: 'sample_data/movies.json',
+
+                showControlDash: true, 
+                showStats: true,
+                nodeStats: true,
+                edgeStats: true,
+                showFilters: true,
+                edgeFilters: true,
+                nodeFilters: true,
+
+                forceLocked: false,
+                linkDistance: function(){ return 50; },
+                nodeRadius: 15,
+                rootNodeRadius: 20,
+                nodeTypes: {"node_type":["movie", "award", "person"]},
+                caption: function(node){ return node.caption; }
+            };
+            alchemy.begin(config);
         </script>
         
 </body>

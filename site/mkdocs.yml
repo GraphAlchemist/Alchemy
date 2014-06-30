@@ -5,7 +5,7 @@ pages:
 - ['index.md', 'Home']
 - ['Configuration.md']
 - ['Overriding-Defaults.md', 'Overriding Default Behavior']
-# - ['Contributing.md', 'Contribute']
+- ['Contributing.md', 'Contribute']
 #to add: examples
 
 theme: readthedocs

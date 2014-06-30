@@ -1,0 +1,86 @@
+#examples{
+	margin: 100px 5% 0 5% ;
+	padding: 5% 0 0 0;
+	.active{
+		background-color: $blue;
+		border: none;
+		&.example{
+			margin-left: 20px;
+		}
+		// &:before{
+		// 	content: "";
+		// 	border: 10px #eee solid;
+		// 	position: absolute;
+		// 	top: 0;
+		// 	left: 0;
+		// 	height: 100%;
+		// }
+		&:after{
+			content: "";
+			border: 10px $blue solid;
+			position: absolute;
+			top: 0;
+			right: -20px;
+			height: 100%;
+		}
+	}
+	a.list-group-item.h1{
+		color: black;
+		&:hover{
+			background-color: white;
+		}
+	}
+}
+#example3{
+	margin-top: 100px;
+	margin:0;
+	#graph-container{
+		padding:0;
+	}
+}
+
+#example-list{
+	padding: 0 20px;
+	.example{
+		font-size: 16px;
+		padding: 20px;
+	}
+}
+
+#full-app-btn{
+	transform: translate(100%, 250%);
+	background: $blue;
+	color: white;
+	float: right;
+	border: thin solid rgba($blue, .3);
+	border-radius: 0;
+	h3{
+		margin: 10px;
+		margin-left: 0;
+	}
+	&:active{
+		background: rgba($blue, .9);
+		border: none;
+	}
+	&:focus, &:active{
+		outline: none;
+	}
+}
+
+#example1, #example2, #example3-code{
+	background-color: white;
+	padding: 10px;
+	border: 3px $blue solid;
+	border-radius: 5px;
+	.alchemy{
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+#example-code{
+	pre{
+		overflow: scroll;
+		height: 450px;
+	}
+}
