@@ -331,15 +331,16 @@ module.exports = (grunt) ->
       styles:
         expand: true
         dot: true
-        cwd: "<%= yeoman.app %>/styles"
-        dest: ".tmp/styles/"
-        src: "{,*/}*.css"
+        cwd: "<%= yeoman.app %>/"
+        dest: ".tmp/"
+        src: "styles/**"
 
-      django:
-        files:
-          "<%= yeoman.django_path %>/js/alchemy/main.js":"dist/scripts/main.js"
-          "<%= yeoman.django_path %>/js/alchemy/vendor.js":"dist/scripts/vendor.js"
-          "<%= yeoman.django_path %>/css/alchemy/main.css":"dist/styles/main.css"
+      fonts:
+        expand: true
+        dot: true
+        cwd: ".tmp/styles"
+        dest: "dist/styles"
+        src: 'fonts/**'
 
     concurrent:
       # Run some tasks in parallel to speed up build process
@@ -375,7 +376,8 @@ module.exports = (grunt) ->
 
   #same as `build` but builds Alchemy for distribution
   grunt.registerTask 'buildAlchemy', ["clean:dist", "useminPrepare", 
-                                      "copy:coffee", "concurrent:buildAlchemy", 
+                                      "copy:coffee", "concurrent:buildAlchemy",
+                                      "copy:fonts", 
                                       "autoprefixer", "concat:buildAlchemy", 
                                       "concat:generated", "cssmin:buildAlchemy", 
                                       "uglify:buildAlchemy"]
