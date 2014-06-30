@@ -122,9 +122,7 @@ alchemy.stats =
         return nodeData
 
     insertSVG: (element, data) ->
-        console.log data
         if data is null 
-            console.log "no data!"
             d3.select("##{element}-stats-graph")
                 .html("<br><h4 class='no-data'>There are no #{element}Types listed in your conf.</h4>")
 

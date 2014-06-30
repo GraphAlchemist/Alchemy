@@ -133,7 +133,7 @@
             "caption": "Grace Andrews",
             "github": "Grace-Andrews",
             "role": "Maintainer",
-            "fun_fact": "Born left handed, now right handed."
+            "fun_fact": "was born left handed, now right handed."
         },
         {
             "id": 3,
@@ -213,8 +213,10 @@
                 linkDistance: function(){ return 50; },
                 nodeRadius: 15,
                 rootNodeRadius: 20,
-                nodeTypes: {"node_type":["Maintainer", "Contributor"]},
-                caption: function(node){ return node.caption; }
+                nodeTypes: {"role":["Maintainer", "Contributor"]},
+                caption: function(node){ 
+                    return node.caption + ' ' + node.fun_fact; 
+                }
             };
             alchemy.begin(config)
         </script>

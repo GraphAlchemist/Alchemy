@@ -53,7 +53,11 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter
         .append('circle')
-        .attr('class', (d) -> "#{d.node_type} active")
+        .attr('class', (d) -> 
+            if alchemy.conf.nodeTypes
+                nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
+                "#{nodeType} active"
+           	)
         .attr('id', (d) -> "circle-#{d.id}")
         .attr('r', (d) -> alchemy.utils.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
