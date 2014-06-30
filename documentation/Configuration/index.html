@@ -75,8 +75,6 @@
             
                 <li class="toctree-l2"><a href="#edges">Edges</a></li>
                 
-                    <li><a class="toctree-l3" href="#edgecaption">edgeCaption:</a></li>
-                
                     <li><a class="toctree-l3" href="#edgecolour">edgeColour:</a></li>
                 
                     <li><a class="toctree-l3" href="#edgetypes">edgeTypes:</a></li>
@@ -108,34 +106,32 @@
             
                 <li class="toctree-l2"><a href="#layout">Layout</a></li>
                 
-                    <li><a class="toctree-l3" href="#graphheight">graphHeight:</a></li>
+                    <li><a class="toctree-l3" href="#graphheight">graphHeight</a></li>
                 
-                    <li><a class="toctree-l3" href="#graphwidth">graphWidth:</a></li>
+                    <li><a class="toctree-l3" href="#graphwidth">graphWidth</a></li>
                 
-                    <li><a class="toctree-l3" href="#alpha">alpha:</a></li>
+                    <li><a class="toctree-l3" href="#alpha">alpha</a></li>
                 
-                    <li><a class="toctree-l3" href="#cluster">cluster:</a></li>
+                    <li><a class="toctree-l3" href="#cluster">cluster</a></li>
                 
-                    <li><a class="toctree-l3" href="#clustercolours">clusterColours:</a></li>
+                    <li><a class="toctree-l3" href="#clustercolours">clusterColours</a></li>
                 
-                    <li><a class="toctree-l3" href="#forcelocked">forceLocked:</a></li>
+                    <li><a class="toctree-l3" href="#forcelocked">forceLocked</a></li>
                 
-                    <li><a class="toctree-l3" href="#linkdistance">linkDistance:</a></li>
-                
-                    <li><a class="toctree-l3" href="#nodepositions">nodePositions:</a></li>
+                    <li><a class="toctree-l3" href="#linkdistance">linkDistance</a></li>
                 
             
-                <li class="toctree-l2"><a href="#misc">Misc</a></li>
+                <li class="toctree-l2"><a href="#other">Other</a></li>
                 
-                    <li><a class="toctree-l3" href="#initialscale">initialScale:</a></li>
+                    <li><a class="toctree-l3" href="#datasource">dataSource</a></li>
                 
-                    <li><a class="toctree-l3" href="#initialtranslate">initialTranslate:</a></li>
+                    <li><a class="toctree-l3" href="#initialscale">initialScale</a></li>
                 
-                    <li><a class="toctree-l3" href="#warningmessage">warningMessage:</a></li>
+                    <li><a class="toctree-l3" href="#initialtranslate">initialTranslate</a></li>
                 
-                    <li><a class="toctree-l3" href="#afterload">afterLoad:</a></li>
+                    <li><a class="toctree-l3" href="#warningmessage">warningMessage</a></li>
                 
-                    <li><a class="toctree-l3" href="#datasource">dataSource:</a></li>
+                    <li><a class="toctree-l3" href="#afterload">afterLoad</a></li>
                 
             
             </ul>
@@ -144,6 +140,11 @@
 
     <li class="toctree-l1 ">
         <a class="" href="../Overriding-Defaults/">Overriding Default Behavior</a>
+        
+    </li>
+
+    <li class="toctree-l1 ">
+        <a class="" href="../Contributing/">Contribute</a>
         
     </li>
 
@@ -281,14 +282,16 @@ Parameters passed correspond to keys and values in the GraphJSON that alchemy wi
 <p>The user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: <code>{type: ["award", "movie"]}</code></p>
 <hr />
 <h1 id="edges">Edges</h1>
-<h5 id="edgecaption">edgeCaption:</h5>
-<p><strong>not currently implemented</strong>
-[string] <code>'caption'</code> Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON.</p>
+<!-- #####edgeCaption:
+**not currently implemented**
+[string] `'caption'` Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON. -->
+
 <h5 id="edgecolour">edgeColour:</h5>
-<p>[css color value] <code>null</code>  A colour to be passed to all edges.  If <code>alchemy.conf.cluster</code> is <code>true</code> then colors assigned by edge gradients take priority.  Read more about the [[<code>cluster</code> configuration|Layout#cluster]].</p>
+<p>[css color value] <code>null</code>  <br />
+A colour to be passed to all edges.  If <code>alchemy.conf.cluster</code> is <code>true</code> then colors assigned by edge gradients take priority.  Read more about the [[<code>cluster</code> configuration|Layout#cluster]].</p>
 <h5 id="edgetypes">edgeTypes:</h5>
 <p>[array of strings|object] <code>null</code>  <br />
-Parameters passed correspond to keys and values in the GraphJSON that alchemy will use to, for instance, create filters. For Example, if working with the following GraphJSON:</p>
+Parameters passed correspond to keys and values in the GraphJSON that alchemy will use to create filters. For Example, if working with the following GraphJSON:</p>
 <pre class="prettyprint well"><code class="json">&quot;edges&quot;: [
  {
             &quot;source&quot;: 95421,
@@ -309,7 +312,8 @@ Parameters passed correspond to keys and values in the GraphJSON that alchemy wi
 ...}
 </code></pre>
 
-<p>The user would pass the following object to alchemy.conf.edgeTypes "parent of" and "acted in" edges: <code>{caption: ["acted in", "parent of"]}</code></p>
+<p>The user would pass : <code>{"label": ["acted in", "parent of"]}</code>.
+Alternatively, If the key is <code>edge_type</code>, you can also pass just the array of strings like <code>["acted in", "parent of"]</code></p>
 <hr />
 <h1 id="editing">Editing</h1>
 <h5 id="showeditor">showEditor:</h5>
@@ -361,51 +365,86 @@ If true, root nodes are affected by nodesToggle.</p>
 
 <hr />
 <h1 id="layout">Layout</h1>
-<h5 id="graphheight">graphHeight:</h5>
-<p>[int] <strong>not yet implemented</strong>
-Height of graph in pixels.  Unless specified, graph height defaults to the height of the current window.</p>
-<h5 id="graphwidth">graphWidth:</h5>
-<p>[int] <strong>not yet implemented</strong> 
-Width of graph in pixels.  Unless specified, graph width defaults to the width of the current window.</p>
-<h5 id="alpha">alpha:</h5>
-<p>[float] <code>.5</code>  <br />
-Is a part of the d3 force layout, <code>alpha</code> sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the layout <a href="https://github.com/mbostock/d3/wiki/Force-Layout#alpha">here</a>.</p>
-<h5 id="cluster">cluster:</h5>
-<p>[string] <code>false</code> 
-<strong>fix to correspond to a key e.g. "cluster" or "type"</strong>  <br />
-Clustering nodes will have an effect on layout and color.  To cluster nodes, simply set cluster to <code>true</code>. Alchemy.js will expect a 'cluster' object key for each node in the GraphJSON that will result in an integer when being looked up and will be used to look up an integer value off of <code>clusterColours</code>.</p>
-<h5 id="clustercolours">clusterColours:</h5>
-<p>[array of strings]   <br />
-<code>["#DD79FF", "#FFFC00","#00FF30", "#5168FF","#00C0FF", "#FF004B", "#00CDCD", 
-  "#f83f00", "#f800df", "#ff8d8f","#ffcd00", "#184fff","#ff7e00"])</code>
-Provides a list of colors that can be assigned to different clusters.  Elements are strings of hex or rgb values that can be assigned as css styles dynamically.  The above colors are the defaults that are randomly assigned to the clusters using the <a href="https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle">d3.shuffle</a> method.</p>
-<h5 id="forcelocked">forceLocked:</h5>
-<p>[bool] <code>true</code>
-force layout does not continue after initial node layout </p>
-<h5 id="linkdistance">linkDistance:</h5>
-<p>[integer|function] <code>2000</code>
-Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance.  Read more about how linkDistance is used in d3's force layout <a href="https://github.com/mbostock/d3/wiki/Force-Layout#linkDistance">here</a></p>
-<h5 id="nodepositions">nodePositions:</h5>
-<p>[array] <code>null</code> 
-<strong>not currently implemented</strong>
-Per the <a href="http://www.graphjson.org/">GraphJSON</a> specifications, users can provide GraphJSON with nodes that contain pre-calculated layout positions for nodes in pixel length.  The nodePositions parameter tells alchemy where to look up the node position.  The most obvious parameter for the user to pass would be <code>["x","y"]</code> telling alchemy to look for the <code>x</code> position for nodes with the <code>"x"</code> key on each node where available, and the <code>y</code> position with the "y" key.  A user could just as easily define a custom set of keys for their GraphJSON.  For example, ["apples","oranges"] would tell alchemy to look for the x position of nodes with the <code>"apples"</code> key and the <code>y</code> position of nodes with the <code>"oranges"</code> key.</p>
+<h5 id="graphheight">graphHeight</h5>
+<p>[function] <strong>default</strong>: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L20">See source.</a></p>
+<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen height on load.  The user can define there own custom function for graphHeight or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
+<h5 id="graphwidth">graphWidth</h5>
+<p>[function] <strong>default</strong>: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L22">See source.</a></p>
+<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen width on load.  The user can define there own custom function for <strong>graphWidth</strong> or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
+<h5 id="alpha">alpha</h5>
+<p>[float] <strong>default</strong>: <code>.5</code>  <br />
+Is a part of the d3 force layout, <code>alpha</code> sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the force layout in the <a href="https://github.com/mbostock/d3/wiki/Force-Layout#alpha">d3 docs</a>.</p>
+<h5 id="cluster">cluster</h5>
+<p>[bool] <strong>default</strong>: <code>false</code>   <br />
+Clustering nodes will have a major effect on layout and color and is one of Alchemy's most powerful off the shelf features..  To cluster nodes, simply set cluster to <code>true</code>. Alchemy.js will expect a 'cluster' key for each node in the provided GraphJSON whose value is an integer.  For example:    </p>
+<pre class="prettyprint well"><code class="json">{
+    &quot;edges&quot;:[...
+    ],    
+    &quot;nodes&quot;: [
+        {
+            &quot;cluster&quot;: 4,
+            &quot;degree&quot;: 8,
+            &quot;id&quot;: &quot;P7jQJNVTAG&quot;,
+            &quot;firstName&quot;: &quot;Kate&quot;,
+        },
+        {
+            &quot;cluster&quot;: 0,
+            &quot;degree&quot;: 19,
+            &quot;id&quot;: &quot;fPKtFfXDds&quot;,
+            &quot;firstName&quot;: &quot;Katherine&quot;,
+        },
+        {
+            &quot;cluster&quot;: 0,
+            &quot;degree&quot;: 4,
+            &quot;id&quot;: &quot;QgVAXaBQg2&quot;,
+            &quot;firstName&quot;: &quot;Duane&quot;,
+        },...
+    ]
+}
+</code></pre>
+
+<p>The value for cluster will be used to look up a color from <a href="#clusterColours"><code>alchemy.conf.clusterColours</code></a>.  All nodes of the same cluster will receive the same colour.  Edges between nodes of the same cluster will receive that cluster's colour, while edges that span between two nodes in different clusters will receive an inverse gradient of the colours of the two colours.  For example:
+<img alt="cluster" src="../img/cluster.png" />
+This makes it easy to visually identify 'boundary spanners' in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.
+<!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON--></p>
+<h5 id="clustercolours">clusterColours</h5>
+<p>[array of css colors] <strong>default</strong>:</p>
+<pre class="prettyprint well"><code class="js">d3.shuffle([&quot;#DD79FF&quot;, &quot;#FFFC00&quot;, &quot;#00FF30&quot;, &quot;#5168FF&quot;, &quot;#00C0FF&quot;, 
+            &quot;#FF004B&quot;, &quot;#00CDCD&quot;, &quot;#f83f00&quot;, &quot;#f800df&quot;, &quot;#ff8d8f&quot;,
+            &quot;#ffcd00&quot;, &quot;#184fff&quot;, &quot;#ff7e00&quot;])
+</code></pre>
+
+<p>Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the <a href="https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle">d3.shuffle</a> method.  Colours can be predictably assigned to colours by simply providing the colours in the position of the corresponding cluster.  For instance, in an array of the following colours <code>[red, green, yellow, orange]</code>, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster orange would be 3, etc.</p>
+<h5 id="forcelocked">forceLocked</h5>
+<p>[bool] <strong>default</strong>: <code>true</code>  <br />
+By default that force layout does not continue after initial layout is performed.  Setting <strong>forceLocked</strong> to <code>false</code> will allow the force layout to run on node drag, click, and other interactions.</p>
+<h5 id="linkdistance">linkDistance</h5>
+<p>[function] <strong>default</strong>: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/layout.coffee#L137">See source.</a>  <br />
+Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance in the config.  Your custom function will have the edge as well as our layout constant <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/startGraph.coffee#L79">k</a> available.  For example, <code>yourLinkDistanceFn: function(edge, k) { return edge.something * k}</code>
+Read more about how linkDistance is used in d3's force layout <a href="https://github.com/mbostock/d3/wiki/Force-Layout#linkDistance">here</a>.</p>
+<!-- #####nodePositions:
+[array] `null` 
+**not currently implemented**
+Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide GraphJSON with nodes that contain pre-calculated layout positions for nodes in pixel length.  The nodePositions parameter tells alchemy where to look up the node position.  The most obvious parameter for the user to pass would be `["x","y"]` telling alchemy to look for the `x` position for nodes with the `"x"` key on each node where available, and the `y` position with the "y" key.  A user could just as easily define a custom set of keys for their GraphJSON.  For example, ["apples","oranges"] would tell alchemy to look for the x position of nodes with the `"apples"` key and the `y` position of nodes with the `"oranges"` key. -->
+
 <hr />
-<h1 id="misc">Misc</h1>
-<h5 id="initialscale">initialScale:</h5>
-<p>[integer] <code>0</code><br />
-Specifies the initial "height" of the zoom on the svg.   </p>
-<h5 id="initialtranslate">initialTranslate:</h5>
-<p>[2 element array] <code>[0,0]</code><br />
-Specifies the initial "pan" of the svg.</p>
-<h5 id="warningmessage">warningMessage:</h5>
+<h1 id="other">Other</h1>
+<h5 id="datasource">dataSource</h5>
+<p>[string, object], <code>null</code>
+Does not receive a default value and is the single parameter that <strong>must</strong> be defined by the user in order to use Alchemy.js.  <code>dataSource</code> receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's <a href="https://github.com/mbostock/d3/wiki/Requests#d3_json"><code>d3.json</code> method</a> with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.</p>
+<h5 id="initialscale">initialScale</h5>
+<p>[integer] <strong>default</strong>: <code>1</code><br />
+Specifies the initial distance of the zoom on the svg.  A value assiged here initiates "scale" value directly in the svg's "transform" attribute.</p>
+<h5 id="initialtranslate">initialTranslate</h5>
+<p>[2 integer array] <code>[0,0]</code><br />
+Specifies the initial "pan" of the svg, corresponding directly to the "translate" value in the svg's "transform" attribute.  Because graphs layout differently every time, and because there is currently not support for setting initial node positions, there is limited utility to setting different values for the "translate" of the svg.</p>
+<h5 id="warningmessage">warningMessage</h5>
 <p>[string] <code>"There be no data!  What's going on?"</code><br />
 Specifies a custom warning message if there is no data.</p>
-<h5 id="afterload">afterLoad:</h5>
-<p>[str, function] <strong>default</strong>: 'drawingComplete'  <br />
-If <code>afterLoad</code> receives a string, that string is passed to <code>alchemy</code> as a top level key that returns <code>true</code> when the graph has loaded.  This is helpful to be used as a flag to watch for in the context of a larger application.  If <code>afterLoad</code> receives a function, that function is simply run after the graph is drawn.  This is another way to signal that the graph has been drawn.</p>
-<h5 id="datasource">dataSource:</h5>
-<p>[string, object], <code>null</code>
-Does not receive a default value and is the single parameter that must be defined by the user in order to use Alchemy.js.  <code>dataSource</code> receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's <a href="https://github.com/mbostock/d3/wiki/Requests#d3_json"><code>d3.json</code> method</a> with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.</p>
+<h5 id="afterload">afterLoad</h5>
+<p>[str, function] <strong>default</strong>: 'afterLoad'    <br />
+If <code>afterLoad</code> receives a string, that string is passed to <code>alchemy</code> as a top level key that returns <code>true</code> when the graph has loaded.  This maybe helpful for certain applications where the graph context is being watch and events can be fired when <code>alchemy.afterLoad</code> or <code>alchemy.someOtherString</code> is <code>true</code>.</p>
+<p>If <code>afterLoad</code> receives a function, that function is simply run after the graph is drawn.  E.g. <code>alchemy.someFunction()</code></p>
 <hr />
 
           </div>

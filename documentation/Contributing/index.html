@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Overriding Default Behavior - AlchemyDocs</title>
+  <title>Contribute - AlchemyDocs</title>
 
   
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
@@ -52,20 +52,23 @@
         
     </li>
 
-    <li class="toctree-l1 current">
-        <a class="current" href="./">Overriding Default Behavior</a>
-        
-            <ul>
-            
-                <li class="toctree-l2"><a href="#todo">TODO</a></li>
-                
-            
-            </ul>
+    <li class="toctree-l1 ">
+        <a class="" href="../Overriding-Defaults/">Overriding Default Behavior</a>
         
     </li>
 
-    <li class="toctree-l1 ">
-        <a class="" href="../Contributing/">Contribute</a>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Contribute</a>
+        
+            <ul>
+            
+                <li class="toctree-l2"><a href="#some-things-to-know">Some Things to Know</a></li>
+                
+            
+                <li class="toctree-l2"><a href="#including-your-code">Including Your Code</a></li>
+                
+            
+            </ul>
         
     </li>
 
@@ -92,7 +95,7 @@
           <div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href="..">Docs</a> &raquo;</li>
-    <li>Overriding Default Behavior</li>
+    <li>Contribute</li>
       <li class="wy-breadcrumbs-aside">
         
       </li>
@@ -100,18 +103,30 @@
   <hr/>
 </div>
           <div role="main">
-            <p>All defaults for the alchemy application are defined in the <strong><a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/alchemyConf.coffee">alchemyConf.coffee file</a></strong>.  The following specifies how to override defaults with user defined functions and parameters.</p>
-<h3 id="todo">TODO</h3>
+            <h3 id="some-things-to-know">Some Things to Know</h3>
+<p>Alchemy.js uses <a href="http://yeoman.io/">Yeoman.io</a> to manage workflow, and their documentation is a great resource to get up and running quickly.</p>
+<p>If you are familiar with Yeoman already, it will be helpful to know how Alchemy's grunt tasks are configured.  The main grunt task, <code>build</code>, whether being used in development or to build the dist does the following:
+<em> Copies all coffee script files into <code>.tmp</code> directory
+</em> Concats all of the coffee script files with the <code>start.coffee</code> at the beginning and the <code>end.coffee</code> file at (you guessed it) the end</p>
+<p>In development, there is an <code>alchemy.src.coffee</code> file in the <code>.tmp</code> directory, making it easy to use mapping files to debug the coffeescript directly.</p>
+<h3 id="including-your-code">Including Your Code</h3>
+<p>We'd love to include that awesome new feature you've built.  Here is the process:
+<em> Fork this repo
+</em> <code>git clone &lt;my_fork_of_this_repo&gt;</code>
+<em> <code>git checkout -b &lt;my_awesome_new_feature&gt;</code>
+</em> <code>git branch -D master</code></p>
+<p>When you feel like your contribution is battle ready, run the tests:
+<code>grunt ...</code> 
+If everything passes, feel free to submit a pull request.  We may have come conversations about pieces of it, or we may merge it right away.</p>
+<p>Ahead of us merging your code, you will will need to have signed our <a href="https://docs.google.com/a/graphalchemist.com/forms/d/1ypqMsBPrfzPpvQPXYdfw12u9xK5pNiHeMAuYImzEli4/viewform">contributor agreement</a>.  It is pretty minor, feel free to reach out if you have questions.</p>
 
           </div>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../Contributing/" class="btn btn-neutral float-right" title="Contribute"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
-      
-        <a href="../Configuration/" class="btn btn-neutral" title="Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../Overriding-Defaults/" class="btn btn-neutral" title="Overriding Default Behavior"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   

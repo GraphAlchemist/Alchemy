@@ -1,38 +1,37 @@
-<html><head><title>Embedded Graphs -- Example 2 -- AlchemyJS</title><link rel=stylesheet type=text/css href=../styles/vendor.css><link rel=stylesheet type=text/css href=../styles/alchemy.min.css><body><div class=content><h2>Embedded Graphs</h2><h4>For including in an existing page, using to illustrate text, etc...</h4><div id=graph-container><div class=alchemy></div></div><div class=example-code><pre>
-        <p class=filename>HTML and Configuration</p>
-        <code>
-          &lt;html&gt;
-            &lt;head&gt;
-              &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
-              &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
-            &lt;/head&gt;
-            &lt;body&gt;
-              &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
-          
-              &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
-              &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
-              &lt;script type=&quot;text/javascript&quot;&gt;
+<html><head><meta charset=utf-8><title>Embedded Graphs -- Example 2 -- Alchemy.js</title><meta name=description content=""><meta name=viewport content="width=device-width"><link rel="shortcut icon" href=../images/alchemyFlatfavicon.ico><!-- Place favicon.ico and apple-touch-icon.png in the root directory --><link rel=stylesheet href=styles/8f2045d4.main.css><script src=scripts/vendor/c9ea6662.modernizr.js></script><body><div class="navbar navbar-default navbar-static-top"><div class=header><div class=text-center id=sm-alchemy-logo><img src=../images/alchemyLogoFlat.png></div><ul class="nav nav-pills"><li><a href="/">Home</a></li><li><a href="documentation/">Documentation</a></li><li><a href="documentation/Contributing/">Contribute</a></li><li class=active><a href=#>Examples</a></li><li><a href=# id=tutorial data-toggle=tooltip data-placement=bottom title="Coming Soon!">Tutorial</a></li></ul><span class=h3 id=project>Alchemy.js</span></div><a id=btn-alchemy-rel type=button class="btn btn-default" href="https://github.com/GraphAlchemist/Alchemy/releases/" data-toggle=tooltip data-placement=bottom title="You'll like it. We promise."><img src=../images/alchemyLogoFlat.png><h3>Download</h3></a></div><div class=container-fluid><div class=row id=examples><div id=example-list class="list-group col-md-3"><a class="list-group-item h1" href=#>Examples</a> <a class="list-group-item example" href=example1.html>Basic Graph</a> <a class="list-group-item active example" href=example2.html>Embedded Graphs</a> <a class="list-group-item example" href=example3.html>Full Application</a> <a class="list-group-item example" href=example4.html>Custom Styling</a></div><div id=example2 class=col-md-9><div class=row><div id=graph-container class=col-md-6><h3 class=filename>Graph</h3><div class=alchemy id=alchemy></div></div><div class=col-md-6 id=example-code><h3 class=filename>HTML and Configuration</h3><pre>
+                <code>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
 
-                  var config = {
-                      dataSource: 'data/contrib.json',
-                      graphHeight: 260,
-                      graphWidth: 300,
-                      
-                      linkDistance: function(){ return 40; },
+    &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
 
-                      nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
-                      caption: function(node){ return node.caption; }
-                      };
+        var config = {
+            dataSource: 'data/contrib.json',
+            graphHeight: 350,
+            graphWidth: 350,
+            
+            linkDistance: function(){ return 40; },
 
-                  alchemy.begin(config)
-              &lt;/script&gt;
-            &lt;/body&gt;
-          &lt;/html&gt;
-        </code>
-      </pre></div></div><script src=../scripts/6c4e58df.vendor.js></script><script src=../scripts/alchemy.min.js></script><script type=text/javascript>var config = {
+            nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
+            caption: function(node){ return node.caption; }
+            };
+
+        alchemy.begin(config)
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+                    </code>
+                </pre></div></div></div></div></div><div class=footer><p>Brought to you by: <img id=footer-ga-logo src=../images/GA-logo-full-100px.png><img></p></div><script src=../bower_components/jquery/dist/jquery.js></script><script src=../bower_components/d3/d3.js></script><script src=../scripts/3c4492db.vendor.js></script><script src=../scripts/alchemy.min.js></script><script type=text/javascript>var config = {
           dataSource: 'data/contrib.json',
-          graphHeight: 260,
-          graphWidth: 300,
+          graphHeight: 350,
+          graphWidth: 350,
 
           linkDistance: function(){ return 40; },
 
@@ -40,4 +39,9 @@
           caption: function(node){ return node.caption; }
           };
 
-    alchemy.begin(config)</script>
+    alchemy.begin(config)</script><!-- Google Analytics: change UA-XXXXX-X to be your site's ID. --><script>(function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+      function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+      e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+      e.src='//www.google-analytics.com/analytics.js';
+      r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+      ga('create','UA-XXXXX-X');ga('send','pageview');</script><script src=scripts/d41d8cd9.plugins.js></script><!-- build:js({app,.tmp}) scripts/main.js --><script src=../scripts/43a03e31.main.js></script>
