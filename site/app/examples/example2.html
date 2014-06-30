@@ -4,7 +4,7 @@
     <title>Embedded Graphs -- Example 2 -- Alchemy.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="../assets/alchemyFlatfavicon.ico">
+    <link rel="shortcut icon" href="../images/alchemyFlatfavicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
@@ -22,10 +22,10 @@
     <!-- endbuild -->
 </head>
 <body>
-  <div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar navbar-default navbar-static-top">
         <div class="header">
           <div class = "text-center" id="sm-alchemy-logo">
-              <img src="../assets/alchemyLogoFlat.png"></img>
+              <img src="../images/alchemyLogoFlat.png"></img>
           </div>
           <ul class="nav nav-pills">
               <li ><a href="/">Home</a></li>
@@ -36,10 +36,10 @@
           </ul>
           <span class="h3" id="project">Alchemy.js</span>
         </div>
-        <button id="btn-alchemy-rel" type="button" class="btn btn-default" href="#" data-toggle="tooltip" data-placement="bottom" title="You'll like it. We promise.">
-            <img src="../assets/alchemyLogoFlat.png"></img>
-            <h3>Download the Latest Release</h3>
-        </button>
+        <a id="btn-alchemy-rel" type="button" class="btn btn-default" href="https://github.com/GraphAlchemist/Alchemy/releases/" data-toggle="tooltip" data-placement="bottom" title="You'll like it. We promise.">
+            <img src="../images/alchemyLogoFlat.png"></img>
+            <h3>Download</h3>
+        </a>
     </div>
   <div class="container-fluid">
       <div class="row" id ="examples">
@@ -50,7 +50,7 @@
           <a class="list-group-item example" href="example3.html">Full Application</a>
           <a class="list-group-item example" href="example4.html">Custom Styling</a>      
         </div>
-        <div id = "example1" class = "col-md-9">
+        <div id = "example2" class = "col-md-9">
           <div class = "row">
             <div id="graph-container" class="col-md-6">
               <h3 class="filename">Graph</h3>
@@ -74,8 +74,8 @@
 
         var config = {
             dataSource: 'data/contrib.json',
-            graphHeight: 450,
-            graphWidth: 450,
+            graphHeight: 350,
+            graphWidth: 350,
             
             linkDistance: function(){ return 40; },
 
@@ -96,7 +96,7 @@
       </div>
 
   <div class="footer">
-        <p>Brought to you by: <img id="footer-ga-logo" src="../assets/GA-logo-full-100px.png"><img></p>
+        <p>Brought to you by: <img id="footer-ga-logo" src="../images/GA-logo-full-100px.png"><img></p>
     </div>
 
 

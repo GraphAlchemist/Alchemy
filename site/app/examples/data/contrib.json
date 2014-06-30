@@ -12,28 +12,28 @@
             "caption": "Huston Hedinger",
             "github": "hustonhedinger",
             "role": "Maintainer",
-            "fun_fact": ""
+            "fun_fact": "hooligan"
         },
         {
             "id": 2,
             "caption": "Grace Andrews",
             "github": "Grace-Andrews",
             "role": "Maintainer",
-            "fun_fact": "Born left-handed, now right-handed."
+            "fun_fact": "Born left handed, now right handed."
         },
         {
             "id": 3,
             "caption": "Isabella Jorissen",
             "github": "ifjorissen",
             "role": "Maintainer",
-            "fun_fact": ""
+            "fun_fact": "knows a lot of digits of pi. Also loves pie."
         },
         {
             "id": 4,
             "caption": "Matt Cox",
             "github": "MDCox",
             "role": "Maintainer",
-            "fun_fact": ""
+            "fun_fact": "is not fun"
         },
         {
             "id": 5,
