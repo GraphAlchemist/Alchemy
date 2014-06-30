@@ -1,0 +1,29 @@
+circle {
+    fill: blue !important;
+    fill-opacity: .8 !important;
+    stroke-width: 2 !important;
+    stroke-opacity: .6 !important;
+    stroke: black !important;
+}
+
+circle.root {
+    fill: lightblue !important;
+}
+
+.selected circle{
+    fill-opacity: 1 !important;
+    stroke-width: 4 !important;
+    stroke: lightblue !important;
+    stroke-opacity: 1 !important;
+}
+
+.edge {
+    stroke: lightblue !important;
+    stroke-opacity: 0.3 !important;
+}
+
+.edge.selected {
+    stroke: lightblue !important;
+    stroke-opacity: 1 !important;
+}
+
