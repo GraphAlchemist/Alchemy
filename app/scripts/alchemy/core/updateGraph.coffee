@@ -42,7 +42,7 @@ alchemy.updateGraph = (start=true) ->
            .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
 
     alchemy.vis.selectAll('.node text')
-        .text((d) => @utils.nodeText(d))
+        .html((d) => @utils.nodeText(d))
 
     alchemy.node
            .exit()

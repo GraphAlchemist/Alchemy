@@ -36757,7 +36757,7 @@
             "cluster": "none",
             "id": 3,
             "firstName": "Grace",
-            "node_type": "root",
+            "node_type": "other",
             "root": true
         },
         {

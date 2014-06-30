@@ -70,4 +70,4 @@ alchemy.drawing.drawnodes = (node) ->
         .append('svg:text')
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if d.node_type is 'root' then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
-        .text((d) -> alchemy.utils.nodeText(d))
+        .html((d) -> alchemy.utils.nodeText(d))
