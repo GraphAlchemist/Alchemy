@@ -1,21 +1,15 @@
-  <div class="container-fluid">
-      <div class="row" id ="examples">
-        <div id= "example-list" class = "list-group col-md-3">
-          <a class="list-group-item h1" href="#">Examples</a>
-          <a class="list-group-item active example"href="example1.html">Basic Graph</a>
-          <a class="list-group-item example" href="example2.html">Embedded Graphs</a>
-          <a class="list-group-item example" href="example3.html">Full Application</a>
-          <a class="list-group-item example" href="example4.html">Custom Styling</a>      
-        </div>
-        <div id = "example1" class = "col-md-9">
-          <div class = "row">
-            <div id="graph-container" class="col-md-6">
-              <h3 class="filename">Graph</h3>
-              <div id-"alchemy" class="alchemy" style="height:450px"></div>
-            </div>
-            <div class="col-md-6" id="example-code">
-              <h3 class="filename">HTML and Configuration</h3>
-              <pre>
+<div class="container-fluid">
+  <div class="row" id="examples">
+    <ng-include src="'views/examples-nav.html'"></ng-include>
+        <div id="example1" class="col-md-9">
+            <div class="row">
+                <div id="graph-container" class="col-md-6">
+                    <h3 class="filename">Graph</h3>
+                    <div class="alchemy" id="alchemy" style="height:450px"></div>
+                </div>
+                <div class="col-md-6" id="example-code">
+                    <h3 class="filename">HTML and Configuration</h3>
+                <pre>
 <code>
 &lt;html&gt;
   &lt;head&gt;
@@ -23,7 +17,7 @@
     &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
     &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
@@ -39,19 +33,17 @@
 &lt;/html&gt;
 </code>
                 </pre>
-              </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-  <script src="../bower_components/jquery/dist/jquery.js"></script>
-  <script src="../bower_components/d3/d3.js"></script>
-  <script src="../scripts/vendor.js"></script>
-  <script src="../scripts/alchemy.min.js"></script>
-  <script type="text/javascript">
-    var config = {
-          dataSource: 'data/charlize.json',
-          linkDistance: function(){ return 40; }
-          };
-    alchemy.begin(config)
-  </script>
+    </div>
+</div>
+<script type="text/javascript">
+var config = {
+    dataSource: 'data/charlize.json',
+    linkDistance: function() {
+        return 40;
+    }
+};
+alchemy.begin(config)
+</script>
