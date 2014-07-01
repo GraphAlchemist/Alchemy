@@ -26,37 +26,36 @@
                 <div class="col-md-6" id="team-html">
                     <h3>Configuration and HTML</h3>
                     <pre>
-                            <p class="filename">HTML and Configuration</p>
-                            <code>
-                              &lt;html&gt;
-                                &lt;head&gt;
-                                  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
-                                  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
-                                &lt;/head&gt;
-                                &lt;body&gt;
-                                  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
-                              
-                                  &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
-                                  &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
-                                  &lt;script type=&quot;text/javascript&quot;&gt;
+                        <code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;/&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
-                                                                            var config = {
-                                          dataSource: 'data/contrib.json',
-                                          graphHeight: 260,
-                                          graphWidth: 300,
-                                          
-                                          linkDistance: function(){ return 40; },
+  &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
 
-                                          nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
-                                          caption: function(node){ return node.caption; }
-                                          };
+    var config = {
+      dataSource: 'data/contrib.json',
+      graphHeight: 260,
+      graphWidth: 300,
+      
+      linkDistance: function(){ return 40; },
 
-                                      alchemy.begin(config)
-                                  &lt;/script&gt;
-                                &lt;/body&gt;
-                              &lt;/html&gt;
-                            </code>
-                          </pre>
+      nodeTypes: {"node_type":["Maintainer", "Contributor"]},
+      caption: function(node){ return node.caption; }
+      };
+
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                        </code>
+                    </pre>
                 </div>
 
                 <div class="col-md-6" id="team-data">
