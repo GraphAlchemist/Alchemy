@@ -47,7 +47,7 @@ alchemy.begin({dataSource: some_data})
 ```
 
 * ** Be amazed: **    
-![Two Nodes](../img/twonodes.png)
+![Two Nodes](img/twonodes.png)
 
 <!-- // #What's Included
 // Release:

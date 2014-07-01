@@ -230,6 +230,17 @@ module.exports = function(grunt) {
             }
         },
 
+        ngmin: {
+            dist: {
+                files: [{
+                    expand: true,
+                    cwd: '.tmp/concat/scripts',
+                    src: '*.js',
+                    dest: '.tmp/concat/scripts'
+                    }]
+                }
+            },
+
         // Add vendor prefixed styles
         autoprefixer: {
             options: {
@@ -286,7 +297,7 @@ module.exports = function(grunt) {
             options: {
                 assetsDirs: ['<%= config.dist %>', '<%= config.dist %>/images']
             },
-            html: ['<%= config.dist %>/{,*/}*.html'],
+            html: ['<%= config.dist %>/{,*/,*/*/}*.html'],
             css: ['<%= config.dist %>/styles/{,*/}*.css']
         },
 
@@ -328,7 +339,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= config.dist %>',
-                    src: '{,*/}*.html',
+                    src: '{,*/,*/*/}*.html',
                     dest: '<%= config.dist %>'
                 }]
             }
@@ -372,7 +383,7 @@ module.exports = function(grunt) {
                         '*.{ico,png,txt}',
                         '.htaccess',
                         'images/{,*/}*.webp',
-                        '{,*/}*.html',
+                        '{,*/,*/*/}*.html',
                         'styles/fonts/{,*/}*.*'
                     ]
                 }, {
@@ -443,6 +454,7 @@ module.exports = function(grunt) {
     
     grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-gh-pages');
+    grunt.loadNpmTasks('grunt-ngmin');
 
     grunt.registerTask('serve', function(target) {
         if (target === 'dist') {
@@ -486,6 +498,7 @@ module.exports = function(grunt) {
         'copy:docs',
         'autoprefixer',
         'concat',
+        'ngmin',
         'cssmin',
         'uglify',
         'copy:dist',
