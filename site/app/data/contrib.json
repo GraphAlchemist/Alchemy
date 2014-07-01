@@ -5,7 +5,7 @@
             "id": 0,
             "caption": "AlchemyJS",
             "role": "project",
-            "node_type": "root"
+            "root": true
         },
         {
             "id": 1,
