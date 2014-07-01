@@ -36,8 +36,7 @@
   alchemy.controlDash = {
     init: function() {
       if (alchemy.conf.showControlDash === true) {
-        d3.select(".alchemy").append("div").attr("id", "control-dash-wrapper").attr("class", "col-md-4 off-canvas");
-        d3.select(".alchemy").append("div").attr("id", "control-dash-background").attr("class", "col-md-4");
+        d3.select(".alchemy").append("div").attr("id", "control-dash-wrapper").attr("class", "col-md-4 initial");
         d3.select("#control-dash-wrapper").append("i").attr("id", "dash-toggle").attr("class", "fa fa-flask col-md-offset-12");
         d3.select("#control-dash-wrapper").append("div").attr("id", "control-dash").attr("class", "col-md-12");
         d3.select('#dash-toggle').on('click', alchemy.interactions.toggleControlDash);
@@ -85,8 +84,8 @@
     if (alchemy.conf.cluster) {
       edgeStyle = function(d) {
         var gid, id, index;
-        if (d.source.node_type === "root" || d.target.node_type === "root") {
-          index = (d.source.node_type === "root" ? d.target.cluster : d.source.cluster);
+        if (d.source.root || d.target.root) {
+          index = (d.source.root ? d.target.cluster : d.source.cluster);
         } else if (d.source.cluster === d.target.cluster) {
           index = d.source.cluster;
         } else if (d.source.cluster !== d.target.cluster) {
@@ -130,9 +129,17 @@
       var nodeType;
       if (alchemy.conf.nodeTypes) {
         nodeType = d[Object.keys(alchemy.conf.nodeTypes)];
-        return "node " + nodeType + " active";
+        if ((d.root != null) && d.root) {
+          return "node root " + nodeType + " active";
+        } else {
+          return "node " + nodeType + " active";
+        }
       } else {
-        return "node";
+        if ((d.root != null) && d.root) {
+          return "node root";
+        } else {
+          return "node";
+        }
       }
     }).attr('id', function(d) {
       return "node-" + d.id;
@@ -141,13 +148,13 @@
     }).on('mouseover', alchemy.interactions.nodeMouseOver).on('mouseout', alchemy.interactions.nodeMouseOut).on('dblclick', alchemy.interactions.nodeDoubleClick).on('click', alchemy.interactions.nodeClick);
     if (!alchemy.conf.fixNodes) {
       nonRootNodes = nodeEnter.filter(function(d) {
-        return d.node_type !== "root";
+        return d.root !== true;
       });
       nonRootNodes.call(alchemy.interactions.drag);
     }
     if (!alchemy.conf.fixRootNodes) {
       rootNodes = nodeEnter.filter(function(d) {
-        return d.node_type === "root";
+        return d.root === true;
       });
       rootNodes.call(alchemy.interactions.drag);
     }
@@ -169,7 +176,21 @@
       }
     };
     nodeEnter.append('circle').attr('class', function(d) {
-      return "" + d.node_type + " active";
+      var nodeType;
+      if (alchemy.conf.nodeTypes) {
+        nodeType = d[Object.keys(alchemy.conf.nodeTypes)];
+        if ((d.root != null) && d.root) {
+          return "root " + nodeType + " active";
+        } else {
+          return "" + nodeType + " active";
+        }
+      } else {
+        if ((d.root != null) && d.root) {
+          return "root";
+        } else {
+          return "node";
+        }
+      }
     }).attr('id', function(d) {
       return "circle-" + d.id;
     }).attr('r', function(d) {
@@ -182,12 +203,12 @@
     return nodeEnter.append('svg:text').attr('id', function(d) {
       return "text-" + d.id;
     }).attr('dy', function(d) {
-      if (d.node_type === 'root') {
+      if (d.root) {
         return alchemy.conf.rootNodeRadius / 2;
       } else {
         return alchemy.conf.nodeRadius * 2 - 5;
       }
-    }).text(function(d) {
+    }).html(function(d) {
       return alchemy.utils.nodeText(d);
     });
   };
@@ -350,7 +371,7 @@
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               edge = _ref1[_j];
               edgeType = edge.caption;
-              if (__indexOf.call(alchemy.conf.edgeTypes, edgeType) >= 0) {
+              if ((alchemy.conf.edgeTypes != null) && __indexOf.call(alchemy.conf.edgeTypes, edgeType) >= 0) {
                 if (d3.select("#li-" + edgeType).classed("disabled")) {
                   alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
                     "inactive": true,
@@ -509,7 +530,7 @@
         return c.id === d.id;
       }).classed('selected', function(d) {
         return d.id === c.id || alchemy.edges.some(function(e) {
-          return ((e.source.id === c.id && e.target.id === d.id) || (e.source.id === d.id && e.target.id === c.id)) && d3.select(".edge[id*='" + d.id + "']").classed("active");
+          return ((e.source.id === c.id && e.target.id === d.id) || (e.source.id === d.id && e.target.id === c.id)) && d3.select(".edge[source-target*='" + d.id + "']").classed("active");
         });
       });
       if (typeof alchemy.conf.nodeClick === 'function') {
@@ -542,13 +563,10 @@
     },
     toggleControlDash: function() {
       var offCanvas;
-      offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas");
-      d3.select("#control-dash-wrapper").classed({
+      offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas") || d3.select("#control-dash-wrapper").classed("initial");
+      return d3.select("#control-dash-wrapper").classed({
         "off-canvas": !offCanvas,
-        "on-canvas": offCanvas
-      });
-      return d3.select("#control-dash-background").classed({
-        "off-canvas": !offCanvas,
+        "initial": false,
         "on-canvas": offCanvas
       });
     }
@@ -658,7 +676,7 @@
         alchemy.nodes[n.i].y = container.height / 2;
         alchemy.nodes[n.i].px = container.width / 2;
         alchemy.nodes[n.i].py = container.height / 2;
-        alchemy.nodes[n.i].fixed = alchemy.conf.fixRootNodes;
+        alchemy.nodes[n.i].fixed = true;
       } else {
         number = 0;
         _results = [];
@@ -679,7 +697,7 @@
     },
     linkDistancefn: function(edge, k) {
       if (alchemy.conf.cluster) {
-        if ((edge.source.node_type || edge.target.node_type) === 'root') {
+        if (edge.source.node.root || edge.target.node.root) {
           300;
         }
         if (edge.source.cluster === edge.target.cluster) {
@@ -740,10 +758,16 @@
       var searchBox;
       searchBox = d3.select("#search input");
       return searchBox.on("keyup", function() {
+        var input;
+        input = searchBox[0][0].value.toLowerCase();
         d3.selectAll(".node").classed("inactive", false);
+        d3.selectAll("text").attr("style", function() {
+          if (input !== "") {
+            return "display: inline;";
+          }
+        });
         return d3.selectAll(".node").classed("inactive", function(node) {
-          var hidden, input;
-          input = searchBox[0][0].value.toLowerCase();
+          var hidden;
           hidden = node.caption.toLowerCase().indexOf(input) < 0;
           if (hidden) {
             d3.selectAll("[source-target*='" + node.id + "']").classed("inactive", hidden);
@@ -784,7 +808,6 @@
       e.source = nodesMap.get(e.source);
       return e.target = nodesMap.get(e.target);
     });
-    alchemy.layout.positionRootNodes();
     alchemy.vis = d3.select(alchemy.conf.divSelector).attr("style", "width:" + (alchemy.conf.graphWidth()) + "px; height:" + (alchemy.conf.graphHeight()) + "px").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', alchemy.utils.deselectAll).call(alchemy.interactions.zoom).append('g').attr("transform", "translate(" + alchemy.conf.initialTranslate + ") scale(" + alchemy.conf.initialScale + ")");
     k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()));
     alchemy.force = d3.layout.force().charge(alchemy.layout.charge(k)).linkDistance(function(d) {
@@ -857,12 +880,13 @@
     },
     edgeStats: function() {
       var activeEdges, caption, e, edgeData, edgeGraph, edgeNum, edgeType, inactiveEdges, _i, _j, _len, _len1, _ref, _ref1;
-      edgeData = [];
+      edgeData = null;
       edgeNum = d3.selectAll(".edge")[0].length;
       activeEdges = d3.selectAll(".edge.active")[0].length;
       inactiveEdges = d3.selectAll(".edge.inactive")[0].length;
       edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>" + edgeNum + "</span></li> <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>" + activeEdges + "</span></li> <li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>" + inactiveEdges + "</span></li> <li id='edge-stats-graph' class='list-group-item'></li>";
       if (alchemy.conf.edgeTypes) {
+        edgeData = [];
         _ref = d3.selectAll(".edge")[0];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           e = _ref[_i];
@@ -885,11 +909,12 @@
     },
     nodeStats: function() {
       var activeNodes, inactiveNodes, nodeData, nodeGraph, nodeKey, nodeNum, nodeType, totalNodes, _i, _len, _ref;
-      nodeData = [];
+      nodeData = null;
       totalNodes = d3.selectAll(".node")[0].length;
       activeNodes = d3.selectAll(".node.active")[0].length;
       inactiveNodes = d3.selectAll(".node.inactive")[0].length;
       if (alchemy.conf.nodeTypes) {
+        nodeData = [];
         nodeKey = Object.keys(alchemy.conf.nodeTypes);
         _ref = alchemy.conf.nodeTypes[nodeKey];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -905,33 +930,37 @@
     },
     insertSVG: function(element, data) {
       var arc, arcs, color, height, pie, radius, svg, width;
-      width = alchemy.conf.graphWidth() * .25;
-      height = 250;
-      radius = width / 4;
-      color = d3.scale.category20();
-      arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius / 2);
-      pie = d3.layout.pie().sort(null).value(function(d) {
-        return d[1];
-      });
-      svg = d3.select("#" + element + "-stats-graph").append("svg").append("g").style({
-        "width": width,
-        "height": height
-      }).attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-      arcs = svg.selectAll(".arc").data(pie(data)).enter().append("g").classed("arc", true).on("mouseover", function(d, i) {
-        return d3.select("#" + data[i][0] + "-stat").classed("hidden", false);
-      }).on("mouseout", function(d, i) {
-        return d3.select("#" + data[i][0] + "-stat").classed("hidden", true);
-      });
-      arcs.append("path").attr("d", arc).attr("stroke", function(d, i) {
-        return color(i);
-      }).attr("stroke-width", 2).attr("fill-opacity", "0.3");
-      return arcs.append("text").attr("transform", function(d) {
-        return "translate(" + arc.centroid(d) + ")";
-      }).attr("id", function(d, i) {
-        return "" + data[i][0] + "-stat";
-      }).attr("dy", ".35em").classed("hidden", true).text(function(d, i) {
-        return data[i][0];
-      });
+      if (data === null) {
+        return d3.select("#" + element + "-stats-graph").html("<br><h4 class='no-data'>There are no " + element + "Types listed in your conf.</h4>");
+      } else {
+        width = alchemy.conf.graphWidth() * .25;
+        height = 250;
+        radius = width / 4;
+        color = d3.scale.category20();
+        arc = d3.svg.arc().outerRadius(radius - 10).innerRadius(radius / 2);
+        pie = d3.layout.pie().sort(null).value(function(d) {
+          return d[1];
+        });
+        svg = d3.select("#" + element + "-stats-graph").append("svg").append("g").style({
+          "width": width,
+          "height": height
+        }).attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+        arcs = svg.selectAll(".arc").data(pie(data)).enter().append("g").classed("arc", true).on("mouseover", function(d, i) {
+          return d3.select("#" + data[i][0] + "-stat").classed("hidden", false);
+        }).on("mouseout", function(d, i) {
+          return d3.select("#" + data[i][0] + "-stat").classed("hidden", true);
+        });
+        arcs.append("path").attr("d", arc).attr("stroke", function(d, i) {
+          return color(i);
+        }).attr("stroke-width", 2).attr("fill-opacity", "0.3");
+        return arcs.append("text").attr("transform", function(d) {
+          return "translate(" + arc.centroid(d) + ")";
+        }).attr("id", function(d, i) {
+          return "" + data[i][0] + "-stat";
+        }).attr("dy", ".35em").classed("hidden", true).text(function(d, i) {
+          return data[i][0];
+        });
+      }
     },
     update: function() {
       if (alchemy.conf.nodeStats === true) {
@@ -948,6 +977,7 @@
     if (start == null) {
       start = true;
     }
+    alchemy.layout.positionRootNodes();
     alchemy.edge = alchemy.vis.selectAll("line").data(alchemy.edges);
     alchemy.node = alchemy.vis.selectAll("g.node").data(alchemy.nodes, function(d) {
       return d.id;
@@ -971,7 +1001,7 @@
     alchemy.vis.selectAll('g.node').attr('transform', function(d) {
       return "translate(" + d.x + ", " + d.y + ")";
     });
-    alchemy.vis.selectAll('.node text').text((function(_this) {
+    alchemy.vis.selectAll('.node text').html((function(_this) {
       return function(d) {
         return _this.utils.nodeText(d);
       };
@@ -1057,7 +1087,7 @@
       Q = {};
       for (_i = 0, _len = edges.length; _i < _len; _i++) {
         edge = edges[_i];
-        if (edge.source.node_type === "root" || edge.target.node_type === "root") {
+        if (edge.source.root || edge.target.root) {
           continue;
         }
         if (edge.source.cluster === edge.target.cluster) {
@@ -1139,20 +1169,20 @@
       var key;
       if (alchemy.conf.nodeRadius != null) {
         if (typeof alchemy.conf.nodeRadius === 'function') {
-          if (d.node_type === 'root') {
+          if ((d.root != null) && d.root) {
             return alchemy.conf.rootNodeRadius;
           } else {
             return alchemy.conf.nodeRadius(d);
           }
         } else if (typeof alchemy.conf.nodeRadius === 'string') {
           key = alchemy.conf.nodeRadius;
-          if (d.node_type === 'root') {
+          if ((d.root != null) && d.root) {
             return alchemy.conf.rootNodeRadius;
           } else {
             return d.degree;
           }
         } else if (typeof alchemy.conf.nodeRadius === 'number') {
-          if (d.node_type === 'root') {
+          if ((d.root != null) && d.root) {
             return alchemy.conf.rootNodeRadius;
           } else {
             return alchemy.conf.nodeRadius;
