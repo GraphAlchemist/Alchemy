@@ -1,0 +1,74 @@
+<div class=container-fluid><div class=row id=examples><ng-include src="'views/examples-nav.html'"></ng-include><div id=example1 class=col-md-9><div class=row><div id=graph-container class=col-md-6 style=height:450px><h3 class=filename>Graph</h3><div class=alchemy id=alchemy></div></div><div class=col-md-6 id=example-code><h3 class=filename>HTML and Configuration</h3><pre>
+                <code>
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;vendor.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;alchemy.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;custom.css&quot;/&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+
+    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;alchemy.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+
+      var config = {
+        dataSource: 'data/charlize.json',
+        
+        linkDistance: function(){ return 40; },
+
+        nodeTypes: {"node_type":["move", 
+                                 "award", 
+                                 "person"]},
+        caption: function(node){ 
+            return node.caption; 
+        }
+      };
+
+      alchemy.begin(config)
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+                    </code>
+                </pre><h3 class=filename>custom.css</h3><pre>
+                    <code>
+circle {
+    fill: blue;
+    fill-opacity: .8;
+    stroke-width: 2;
+    stroke-opacity: .6;
+    stroke: black;
+}
+
+circle.root {
+    fill: lightblue;
+}
+
+.selected circle{
+    fill-opacity: 1;
+    stroke-width: 4;
+    stroke: lightblue;
+    stroke-opacity: 1;
+}
+
+.edge {
+    stroke: lightblue;
+    stroke-opacity: 0.3;
+}
+
+.edge.selected {
+    stroke: lightblue;
+    stroke-opacity: 1;
+}
+
+                    </code>
+                </pre></div></div></div></div></div><script type=text/javascript>var config = {
+          dataSource: 'data/charlize.json',
+
+          linkDistance: function(){ return 40; },
+          nodeTypes: {"node_type":["movie", "award", "person"]},
+          caption: "caption"
+          };
+
+    alchemy.begin(config)</script>
