@@ -4,7 +4,7 @@
     <title>Custom Styling -- Example 4 -- Alchemy.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="../assets/alchemyFlatfavicon.ico">
+    <link rel="shortcut icon" href="../images/alchemyFlatfavicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
@@ -23,10 +23,10 @@
     <link rel="stylesheet" href="../styles/custom.css">
 </head>
 <body>
-  <div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar navbar-default navbar-static-top">
         <div class="header">
           <div class = "text-center" id="sm-alchemy-logo">
-              <img src="../assets/alchemyLogoFlat.png"></img>
+              <img src="../images/alchemyLogoFlat.png"></img>
           </div>
           <ul class="nav nav-pills">
               <li ><a href="/">Home</a></li>
@@ -50,12 +50,14 @@
           <a class="list-group-item example" href="example3.html">Full Application</a>
           <a class="list-group-item active example" href="example4.html">Custom Styling</a>      
         </div>
-        <div id = "example1" class = "col-md-9">
+        <div id = "example4" class = "col-md-9">
           <div class = "row">
-            <div id="graph-container" class="col-md-6" style="height:450px">
+            <div id="graph-container" class="col-md-12" style="height:450px">
               <h3 class="filename">Graph</h3>
-              <div class="alchemy" id="alchemy" ></div>
+              <div class="alchemy" id="alchemy"></div>
             </div>
+           </div>
+           <div class="row">
             <div class="col-md-6" id="example-code">
               <h3 class="filename">HTML and Configuration</h3>
               <pre>
@@ -92,6 +94,8 @@
 &lt;/html&gt;
                     </code>
                 </pre>
+                </div>
+            <div class="col-md-6">
                 <h3 class="filename">custom.css</h3>
                 <pre>
                     <code>
@@ -126,6 +130,7 @@ circle.root {
 
                     </code>
                 </pre>
+                </div>
               </div>
             </div>
           </div>
@@ -133,7 +138,7 @@ circle.root {
       </div>
 
   <div class="footer">
-        <p>Brought to you by: <img id="footer-ga-logo" src="../assets/GA-logo-full-100px.png"><img></p>
+        <p>Brought to you by: <img id="footer-ga-logo" src="../images/GA-logo-full-100px.png"><img></p>
     </div>
 
 

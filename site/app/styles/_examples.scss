@@ -36,7 +36,11 @@
 	.example{
 		font-size: 16px;
 		padding: 20px;
+		&:last-child{
+			border-radius: 0;
+		}
 	}
+
 }
 
 #full-app-btn{
@@ -64,11 +68,14 @@
 	}
 }
 
-#example1, #example2, #example3-code{
+#example1, #example2, #example4, #example3-code{
 	background-color: white;
 	padding: 10px;
 	border: 3px $blue solid;
 	border-radius: 5px;
+	#graph-container{
+		overflow: scroll;
+	}
 	.alchemy{
 		margin-right: auto;
 		margin-left: auto;
