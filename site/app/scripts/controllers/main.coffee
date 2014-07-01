@@ -23,9 +23,9 @@ angular.module('site')
                         $("#full-app-btn>h3").html("Click to view the Full App in Action <i class='glyphicon glyphicon-arrow-right'></i>")
         )
     # quick hack
-    d3.json('views/examples/data/charlize.json', (data) ->
+    d3.json('../data/charlize.json', (data) ->
         $scope.movies = data
         )
-    d3.json('views/examples/data/contrib.json', (data) ->
+    d3.json('../data/contrib.json', (data) ->
         $scope.contrib = data
         )

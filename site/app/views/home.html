@@ -1,29 +1,31 @@
-        <div class="container-fluid">
-            <div class="row text-center" id = "alchemy-logo">
-                <img src="images/alchemy-01.svg"></img>
-            </div>
+<div class="container-fluid">
+    <div class="row text-center" id="alchemy-logo">
+        <img src="images/alchemy-01.svg"></img>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12" id="about">
+            <h1>Alchemy.js</h1>
+            <p>Description of Alchemy.js and how it's used</p>
+            <h5>You can read more about how alchemy.js is used in the <a href="/documentation">Docs</a>
+            </h5>
+        </div>
+    </div>
+
+    <div class="row" id="meet-the-team">
+        <div class="col-md-12" id="team-info">
             <div class="row">
-                 <div class="col-md-12" id ="about">
-                    <h1>Alchemy.js</h1>
-                    <p>Description of Alchemy.js and how it's used</p>
-                    <h5>You can read more about how alchemy.js is used in the <a href="/documentation">Docs</a></h5>
-                </div>
+                <h2>Meet the Team</h2>
+                <h4>Want to contribute? For information on contributing, check out the contributing section of our <a href="/documentation/Contributing">docs.</a>
+                </h4>
             </div>
-
-            <div class="row" id = "meet-the-team">
-                <div class="col-md-12" id ="team-info">
-                    <div class="row">
-                        <h2>Meet the Team</h2>
-                        <h4>Want to contribute? For information on contributing, check out the contributing section of our <a href="/documentation/Contributing">docs.</a></h4>
-                    </div>
-                    <div class = "row">
-                        <div class = "col-md-12 alchemy" id ="team-svg"></div>
-                    </div>
-                    <div class ="row">
-                        <div class = "col-md-6" id ="team-html">
-                        <h3>Configuration and HTML</h3>
-                        <pre>
+            <div class="row">
+                <div class="col-md-12 alchemy" id="team-svg"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" id="team-html">
+                    <h3>Configuration and HTML</h3>
+                    <pre>
                             <p class="filename">HTML and Configuration</p>
                             <code>
                               &lt;html&gt;
@@ -55,11 +57,11 @@
                               &lt;/html&gt;
                             </code>
                           </pre>
-                    </div>
+                </div>
 
-                    <div class="col-md-6" id="team-data">
-                        <h3>Contributor Data</h3>
-                        <pre>
+                <div class="col-md-6" id="team-data">
+                    <h3>Contributor Data</h3>
+                    <pre>
                         <code>
 {
     "comment": "AlchemyJS contributors",
@@ -136,8 +138,27 @@
 }
                             </code>
                         </pre>
-                    </div>
-                </div>  
+                </div>
             </div>
         </div>
-    </div>    
+    </div>
+</div>
+<script type="text/javascript">
+var config = {
+    divSelector: "#team-svg",
+    dataSource: '../data/contrib.json',
+    forceLocked: false,
+    linkDistance: function() {
+        return 50;
+    },
+    nodeRadius: 15,
+    rootNodeRadius: 20,
+    nodeTypes: {
+        "role": ["Maintainer", "Contributor"]
+    },
+    caption: function(node) {
+        return node.caption + ' ' + node.fun_fact;
+    }
+};
+alchemy.begin(config);
+</script>

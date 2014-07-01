@@ -8,7 +8,7 @@
         <link rel="shortcut icon" href="alchemyFlatfavicon.ico">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
         <!-- build:css styles/vendor.css -->
-        <link rel="stylesheet" type="text/css" href="styles/alchemy.min.css">
+        <link rel="stylesheet" type="text/css" href="bower_components/alchemyjs/dist/alchemy.min.css">
         <link rel="stylesheet" href="bower_components/google-code-prettify/src/prettify.css">
         <!-- bower:css -->
         <!-- endbower -->
@@ -37,27 +37,10 @@
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
-        <script src="../bower_components/jquery/dist/jquery.js"></script>
-        <script src="../bower_components/d3/d3.js"></script>
-        <script src="scripts/vendor.js"></script>
-        <script src="scripts/alchemy.js"></script>
-        <script src="scripts/else.js"></script>
-
-        <script type="text/javascript">
-            var config = {
-                divSelector: "#team-svg",
-                dataSource: 'examples/data/contrib.json',
-                forceLocked: false,
-                linkDistance: function(){ return 50; },
-                nodeRadius: 15,
-                rootNodeRadius: 20,
-                nodeTypes: {"role":["Maintainer", "Contributor"]},
-                caption: function(node){ 
-                    return node.caption + ' ' + node.fun_fact; 
-                }
-            };
-            alchemy.begin(config)
-        </script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/d3/d3.min.js"></script>
+        <script src="bower_components/lodash/dist/lodash.min.js"></script>
+        <script src="bower_components/alchemyjs/dist/alchemy.min.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
 
