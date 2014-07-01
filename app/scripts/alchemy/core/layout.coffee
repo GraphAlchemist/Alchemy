@@ -119,7 +119,8 @@ alchemy.layout =
             alchemy.nodes[n.i].y = container.height / 2
             alchemy.nodes[n.i].px = container.width / 2
             alchemy.nodes[n.i].py = container.height / 2
-            alchemy.nodes[n.i].fixed = alchemy.conf.fixRootNodes
+            # fix root nodes until force layout is complete
+            alchemy.nodes[n.i].fixed = true
             return
         # position nodes towards center of graph
         else
