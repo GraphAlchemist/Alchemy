@@ -103,7 +103,7 @@ var config = {
     &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
     &lt;script src=&quot;../scripts/vendor.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;../scripts/alchemy.min.js&quot;&gt;&lt;/script&gt;
@@ -125,7 +125,7 @@ var config = {
     </div>
     <div class="row" id="example3">
       <div id="graph-container" class="col-md-12">
-        <div id="alchemy" class="alchemy"></div>
+        <div class="alchemy" id="alchemy"></div>
       </div>
       <!-- end example3 div -->
     </div>
@@ -145,9 +145,7 @@ var config = {
     var config = {
       dataSource: 'data/charlize.json',                      
       
-      // graphHeight: 900,
-      // graphWidth: 600,
-
+      graphHeight: function() { return 900; },
       forceLocked: false,
 
       nodeTypes: {"node_type":["movie", "award", "person"]},

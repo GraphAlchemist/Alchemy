@@ -1,10 +1,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Custom Styling -- Example 4 -- Alchemy.js</title>
+    <title>Basic Graph -- Example 1 -- Alchemy.js</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
-    <link rel="shortcut icon" href="../assets/alchemyFlatfavicon.ico">
+    <link rel="shortcut icon" href="../images/alchemyFlatfavicon.ico">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
@@ -19,112 +19,67 @@
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="../bower_components/modernizer/modernizr.js"></script>
     <!-- endbuild -->
-
-    <link rel="stylesheet" href="../styles/custom.css">
 </head>
 <body>
-  <div class="navbar navbar-default navbar-fixed-top">
+  <div class="navbar navbar-default navbar-static-top">
         <div class="header">
           <div class = "text-center" id="sm-alchemy-logo">
-              <img src="../assets/alchemyLogoFlat.png"></img>
+              <img src="../images/alchemyLogoFlat.png"></img>
           </div>
           <ul class="nav nav-pills">
               <li ><a href="/">Home</a></li>
               <li><a href="documentation/">Documentation</a></li>
               <li><a href="documentation/Contributing/">Contribute</a></li>
-              <li class="active"><a href="#">Examples</a></li>
+              <li class="active"><a href="example1">Examples</a></li>
               <li><a href="#" id="tutorial" data-toggle="tooltip" data-placement="bottom" title="Coming Soon!">Tutorial</a></li>
           </ul>
           <span class="h3" id="project">Alchemy.js</span>
-        </div><a id="btn-alchemy-rel" type="button" class="btn btn-default" href="https://github.com/GraphAlchemist/Alchemy/releases/" data-toggle="tooltip" data-placement="bottom" title="You'll like it. We promise.">
-        <img src="../images/alchemyLogoFlat.png"></img>
-        <h3>Download</h3>
-    </a>
+        </div>
+        <a id="btn-alchemy-rel" type="button" class="btn btn-default" href="https://github.com/GraphAlchemist/Alchemy/releases/" data-toggle="tooltip" data-placement="bottom" title="You'll like it. We promise.">
+            <img src="../images/alchemyLogoFlat.png"></img>
+            <h3>Download</h3>
+        </a>
     </div>
   <div class="container-fluid">
       <div class="row" id ="examples">
         <div id= "example-list" class = "list-group col-md-3">
           <a class="list-group-item h1" href="#">Examples</a>
-          <a class="list-group-item example"href="example1.html">Basic Graph</a>
+          <a class="list-group-item active example"href="example1.html">Basic Graph</a>
           <a class="list-group-item example" href="example2.html">Embedded Graphs</a>
           <a class="list-group-item example" href="example3.html">Full Application</a>
-          <a class="list-group-item active example" href="example4.html">Custom Styling</a>      
+          <a class="list-group-item example" href="example4.html">Custom Styling</a>      
         </div>
         <div id = "example1" class = "col-md-9">
           <div class = "row">
-            <div id="graph-container" class="col-md-6" style="height:450px">
+            <div id="graph-container" class="col-md-6">
               <h3 class="filename">Graph</h3>
-              <div class="alchemy" id="alchemy" ></div>
+              <div class="alchemy" id="alchemy" style="height:450px"></div>
             </div>
             <div class="col-md-6" id="example-code">
               <h3 class="filename">HTML and Configuration</h3>
               <pre>
-                <code>
+<code>
 &lt;html&gt;
   &lt;head&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;vendor.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;alchemy.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;custom.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
   &lt;/head&gt;
   &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;alchemy.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
     &lt;script type=&quot;text/javascript&quot;&gt;
 
-      var config = {
-        dataSource: 'data/charlize.json',
-        
-        linkDistance: function(){ return 40; },
+        var config = {
+            dataSource: 'data/charlize.json',
+            };
 
-        nodeTypes: {"node_type":["move", 
-                                 "award", 
-                                 "person"]},
-        caption: function(node){ 
-            return node.caption; 
-        }
-      };
-
-      alchemy.begin(config)
+        alchemy.begin(config)
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-                    </code>
-                </pre>
-                <h3 class="filename">custom.css</h3>
-                <pre>
-                    <code>
-circle {
-    fill: blue;
-    fill-opacity: .8;
-    stroke-width: 2;
-    stroke-opacity: .6;
-    stroke: black;
-}
-
-circle.root {
-    fill: lightblue;
-}
-
-.selected circle{
-    fill-opacity: 1;
-    stroke-width: 4;
-    stroke: lightblue;
-    stroke-opacity: 1;
-}
-
-.edge {
-    stroke: lightblue;
-    stroke-opacity: 0.3;
-}
-
-.edge.selected {
-    stroke: lightblue;
-    stroke-opacity: 1;
-}
-
-                    </code>
+</code>
                 </pre>
               </div>
             </div>
@@ -133,7 +88,7 @@ circle.root {
       </div>
 
   <div class="footer">
-        <p>Brought to you by: <img id="footer-ga-logo" src="../assets/GA-logo-full-100px.png"><img></p>
+        <p>Brought to you by: <img id="footer-ga-logo" src="../images/GA-logo-full-100px.png"><img></p>
     </div>
 
 
@@ -144,12 +99,8 @@ circle.root {
   <script type="text/javascript">
     var config = {
           dataSource: 'data/charlize.json',
-
-          linkDistance: function(){ return 40; },
-          nodeTypes: {"node_type":["movie", "award", "person"]},
-          caption: "caption"
+          linkDistance: function(){ return 40; }
           };
-
     alchemy.begin(config)
   </script>
 
@@ -182,6 +133,7 @@ circle.root {
 
   <!-- build:js({app,.tmp}) scripts/main.js -->
   <script src="../scripts/main.js"></script>
+
 </body>
 </html>
 

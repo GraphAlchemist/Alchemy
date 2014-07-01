@@ -1,9 +1,7 @@
 (function() {
-  var Alchemy, allCaptions, allTags, container, currentNodeTypes, currentRelationshipTypes, nodeDragStarted, nodeDragended, nodeDragged, rootNodeId;
-
-  if (d3.select('.alchemy').empty()) {
-    console.warn("create an element with `alchemy` as a class");
-  }
+  "Alchemy.js is a graph drawing application for the web.\nCopyright (C) 2014  GraphAlchemist, Inc.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Affero General Public License for more details.\n\nYou should have received a copy of the GNU Affero General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.\nlets";
+  var Alchemy, allCaptions, allTags, container, currentNodeTypes, currentRelationshipTypes, nodeDragStarted, nodeDragended, nodeDragged, rootNodeId,
+    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
   Alchemy = (function() {
     function Alchemy() {
@@ -33,7 +31,7 @@
 
   rootNodeId = null;
 
-  window.alchemy = new Alchemy();
+  this.alchemy = new Alchemy();
 
   alchemy.controlDash = {
     init: function() {
@@ -179,7 +177,7 @@
     }).attr('shape-rendering', 'optimizeSpeed').attr('target-id', function(d) {
       return d.id;
     }).attr('style', function(d) {
-      return "" + (nodeColours(d)) + "; stroke-width: " + (d.node_type === 'root' ? alchemy.conf.rootNodeRadius / 3 : alchemy.conf.nodeRadius / 3);
+      return "" + (nodeColours(d)) + "; stroke-width: " + (this.r / 3);
     });
     return nodeEnter.append('svg:text').attr('id', function(d) {
       return "text-" + d.id;
@@ -352,18 +350,20 @@
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               edge = _ref1[_j];
               edgeType = edge.caption;
-              if (d3.select("#li-" + edgeType).classed("disabled")) {
-                alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
-                  "inactive": true,
-                  "active": false,
-                  "highlight": false
-                });
-              } else {
-                alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
-                  "inactive": !checked,
-                  "active": checked,
-                  "highlight": highlight
-                });
+              if (__indexOf.call(alchemy.conf.edgeTypes, edgeType) >= 0) {
+                if (d3.select("#li-" + edgeType).classed("disabled")) {
+                  alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
+                    "inactive": true,
+                    "active": false,
+                    "highlight": false
+                  });
+                } else {
+                  alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
+                    "inactive": !checked,
+                    "active": checked,
+                    "highlight": highlight
+                  });
+                }
               }
             }
           }
@@ -509,7 +509,7 @@
         return c.id === d.id;
       }).classed('selected', function(d) {
         return d.id === c.id || alchemy.edges.some(function(e) {
-          return ((e.source.id === c.id && e.target.id === d.id) || (e.source.id === d.id && e.target.id === c.id)) && d3.select(".edge[id*='" + d.id + "']").classed("active");
+          return ((e.source.id === c.id && e.target.id === d.id) || (e.source.id === d.id && e.target.id === c.id)) && d3.select(".edge[source-target*='" + d.id + "']").classed("active");
         });
       });
       if (typeof alchemy.conf.nodeClick === 'function') {
@@ -521,13 +521,12 @@
       alchemy.vis.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
     }),
     clickZoom: function(direction) {
-      var endTransform, graph, startTransform;
-      graph = d3.select(".alchemy svg g");
-      startTransform = graph.attr("transform").match(/(-*\d+\.*\d*)/g).map(function(a) {
+      var endTransform, startTransform;
+      startTransform = alchemy.vis.attr("transform").match(/(-*\d+\.*\d*)/g).map(function(a) {
         return parseFloat(a);
       });
       endTransform = startTransform;
-      graph.attr("transform", function() {
+      alchemy.vis.attr("transform", function() {
         if (direction === "in") {
           return "translate(" + endTransform.slice(0, 2) + ") scale(" + (endTransform[2] = endTransform[2] + 0.2) + ")";
         } else if (direction === "out") {
@@ -639,8 +638,8 @@
     positionRootNodes: function() {
       var i, n, number, rootNodes, _i, _j, _len, _len1, _ref, _results;
       container = {
-        width: alchemy.conf.graphWidth,
-        height: alchemy.conf.graphHeight
+        width: alchemy.conf.graphWidth(),
+        height: alchemy.conf.graphHeight()
       };
       rootNodes = Array();
       _ref = alchemy.nodes;
@@ -677,18 +676,41 @@
       var distance;
       distance = 500;
       return distance;
+    },
+    linkDistancefn: function(edge, k) {
+      if (alchemy.conf.cluster) {
+        if ((edge.source.node_type || edge.target.node_type) === 'root') {
+          300;
+        }
+        if (edge.source.cluster === edge.target.cluster) {
+          return 10;
+        } else {
+          return 600;
+        }
+      } else {
+        return 10 / (k * 5);
+      }
     }
   };
 
   alchemy.modifyElements = {
     init: function() {
-      return alchemy.modifyElements.show();
+      if (alchemy.conf.showEditor) {
+        return alchemy.modifyElements.show();
+      }
     },
     show: function() {
       var modifyElements_html;
-      modifyElements_html = "<div id = \"editor-header\" data-toggle=\"collapse\" data-target=\"#update-elements #element-options\">\n     <h3>\n        Editor\n    </h3>\n    <span class = \"fa fa-2x fa-caret-right\"></span>\n</div>\n    <div id=\"element-options\" class=\"collapse\">\n        <ul class = \"list-group\" id=\"remove\">Remove Selected</ul>\n    </div>";
+      modifyElements_html = "<div id = \"editor-header\" data-toggle=\"collapse\" data-target=\"#update-elements #element-options\">\n     <h3>\n        Editor\n    </h3>\n    <span class = \"fa fa-2x fa-caret-right\"></span>\n</div>";
       d3.select("#update-elements").html(modifyElements_html);
-      d3.selectAll('#editor-header').on('click', function() {
+      if (alchemy.conf.removeElement) {
+        return alchemy.modifyElements.showRemove();
+      }
+    },
+    showRemove: function() {
+      var removeElement_html;
+      removeElement_html = "<div id=\"element-options\" class=\"collapse\">\n    <ul class = \"list-group\" id=\"remove\">Remove Selected</ul>\n</div>";
+      d3.selectAll('#editor-header').append("div").html(removeElement_html).on('click', function() {
         if (d3.select('#element-options').classed("in")) {
           return d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-right");
         } else {
@@ -742,6 +764,9 @@
 
   alchemy.startGraph = function(data) {
     var k, no_results, nodesMap;
+    if (d3.select(alchemy.conf.divSelector).empty()) {
+      console.warn("create an element with the alchemy.conf.divSelector.\ne.g. the defaul #alchemy");
+    }
     if (!data) {
       no_results = "<div class=\"modal fade\" id=\"no-results\">\n    <div class=\"modal-dialog\">\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-hidden=\"true\">&times;</button>\n                <h4 class=\"modal-title\">Sorry!</h4>\n            </div>\n            <div class=\"modal-body\">\n                <p>" + alchemy.conf.warningMessage + "</p>\n            </div>\n            <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n            </div>\n        </div>\n    </div>\n</div>";
       $('body').append(no_results);
@@ -760,11 +785,11 @@
       return e.target = nodesMap.get(e.target);
     });
     alchemy.layout.positionRootNodes();
-    alchemy.vis = d3.select('.alchemy').attr("style", "width:" + alchemy.conf.graphWidth + "px; height:" + alchemy.conf.graphHeight + "px").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', alchemy.utils.deselectAll).call(alchemy.interactions.zoom).append('g').attr("transform", "translate(" + alchemy.conf.initialTranslate + ") scale(" + alchemy.conf.initialScale + ")");
-    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth * alchemy.conf.graphHeight));
+    alchemy.vis = d3.select(alchemy.conf.divSelector).attr("style", "width:" + (alchemy.conf.graphWidth()) + "px; height:" + (alchemy.conf.graphHeight()) + "px").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', alchemy.utils.deselectAll).call(alchemy.interactions.zoom).append('g').attr("transform", "translate(" + alchemy.conf.initialTranslate + ") scale(" + alchemy.conf.initialScale + ")");
+    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()));
     alchemy.force = d3.layout.force().charge(alchemy.layout.charge(k)).linkDistance(function(d) {
       return alchemy.conf.linkDistance(d, k);
-    }).theta(1.0).gravity(alchemy.layout.gravity(k)).linkStrength(alchemy.layout.linkStrength).friction(alchemy.layout.friction()).chargeDistance(alchemy.layout.chargeDistance()).size([alchemy.conf.graphWidth, alchemy.conf.graphHeight]).nodes(alchemy.nodes).links(alchemy.edges).on("tick", alchemy.layout.tick);
+    }).theta(1.0).gravity(alchemy.layout.gravity(k)).linkStrength(alchemy.layout.linkStrength).friction(alchemy.layout.friction()).chargeDistance(alchemy.layout.chargeDistance()).size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()]).nodes(alchemy.nodes).links(alchemy.edges).on("tick", alchemy.layout.tick);
     alchemy.updateGraph();
     alchemy.controlDash.init();
     if (!alchemy.conf.forceLocked) {
@@ -880,7 +905,7 @@
     },
     insertSVG: function(element, data) {
       var arc, arcs, color, height, pie, radius, svg, width;
-      width = alchemy.conf.graphWidth * .25;
+      width = alchemy.conf.graphWidth() * .25;
       height = 250;
       radius = width / 4;
       color = d3.scale.category20();
@@ -892,13 +917,19 @@
         "width": width,
         "height": height
       }).attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-      arcs = svg.selectAll(".arc").data(pie(data)).enter().append("g").attr("class", "arc");
+      arcs = svg.selectAll(".arc").data(pie(data)).enter().append("g").classed("arc", true).on("mouseover", function(d, i) {
+        return d3.select("#" + data[i][0] + "-stat").classed("hidden", false);
+      }).on("mouseout", function(d, i) {
+        return d3.select("#" + data[i][0] + "-stat").classed("hidden", true);
+      });
       arcs.append("path").attr("d", arc).attr("stroke", function(d, i) {
         return color(i);
-      }).attr("stroke-width", 2).attr("fill", "none");
+      }).attr("stroke-width", 2).attr("fill-opacity", "0.3");
       return arcs.append("text").attr("transform", function(d) {
         return "translate(" + arc.centroid(d) + ")";
-      }).attr("dy", ".35em").text(function(d, i) {
+      }).attr("id", function(d, i) {
+        return "" + data[i][0] + "-stat";
+      }).attr("dy", ".35em").classed("hidden", true).text(function(d, i) {
         return data[i][0];
       });
     },
@@ -913,7 +944,7 @@
   };
 
   alchemy.updateGraph = function(start) {
-    var initialComputationDone, node, _i, _len, _ref;
+    var initialComputationDone;
     if (start == null) {
       start = true;
     }
@@ -934,12 +965,6 @@
         alchemy.force.stop();
       }
     }
-    _ref = alchemy.nodes;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      node = _ref[_i];
-      alchemy.layout.collide(node);
-      alchemy.layout.tick();
-    }
     alchemy.styles.edgeGradient(alchemy.edges);
     alchemy.drawing.drawedges(alchemy.edge);
     alchemy.drawing.drawnodes(alchemy.node);
@@ -955,43 +980,31 @@
   };
 
   alchemy.defaults = {
-    afterLoad: 'drawingComplete',
-    dataSource: null,
-    graphWidth: d3.select(".alchemy").node().parentElement.clientWidth,
-    graphHeight: (function() {
-      if (d3.select(".alchemy").node().parentElement.nodeName === "BODY") {
+    graphWidth: function() {
+      return d3.select(this.divSelector).node().parentElement.clientWidth;
+    },
+    graphHeight: function() {
+      if (d3.select(this.divSelector).node().parentElement.nodeName === "BODY") {
         return window.innerHeight;
       } else {
-        return d3.select(".alchemy").node().parentElement.clientHeight;
+        return d3.select(this.divSelector).node().parentElement.clientHeight;
       }
-    })(),
+    },
     alpha: .5,
     cluster: false,
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f", "#ffcd00", "#184fff", "#ff7e00"]),
+    collisionDetection: true,
     fixNodes: false,
     fixRootNodes: false,
     forceLocked: true,
-    linkDistance: function(edge, k) {
-      if (alchemy.conf.cluster) {
-        if ((edge.source.node_type || edge.target.node_type) === 'root') {
-          300;
-        }
-        if (edge.source.cluster === edge.target.cluster) {
-          return 10;
-        } else {
-          return 600;
-        }
-      } else {
-        return 10 / (k * 5);
-      }
-    },
+    linkDistance: alchemy.layout.linkDistancefn,
     nodePositions: null,
+    showEditor: false,
     captionToggle: false,
     edgesToggle: false,
     nodesToggle: false,
     toggleRootNodes: true,
-    removeNodes: false,
-    removeEdges: false,
+    removeElement: false,
     addNodes: false,
     addEdges: false,
     showControlDash: false,
@@ -1012,6 +1025,9 @@
     edgeCaption: 'caption',
     edgeColour: null,
     edgeTypes: null,
+    afterLoad: 'afterLoad',
+    divSelector: '#alchemy',
+    dataSource: null,
     initialScale: 1,
     initialTranslate: [0, 0],
     scaleExtent: [0.01, 5],
@@ -1037,7 +1053,7 @@
     },
     edgeGradient: function(edges) {
       var Q, defs, edge, endColour, gradient, gradient_id, id, ids, startColour, _i, _len, _results;
-      defs = d3.select(".alchemy svg").append("svg:defs");
+      defs = d3.select("" + alchemy.conf.divSelector + " svg").append("svg:defs");
       Q = {};
       for (_i = 0, _len = edges.length; _i < _len; _i++) {
         edge = edges[_i];
@@ -1104,14 +1120,14 @@
     },
     nodeText: function(d) {
       var caption;
-      if (alchemy.conf.caption && typeof alchemy.conf.caption === 'string') {
-        if (d[alchemy.conf.caption] != null) {
-          return d[alchemy.conf.caption];
+      if (alchemy.conf.nodeCaption && typeof alchemy.conf.nodeCaption === 'string') {
+        if (d[alchemy.conf.nodeCaption] != null) {
+          return d[alchemy.conf.nodeCaption];
         } else {
           return '';
         }
-      } else if (alchemy.conf.caption && typeof alchemy.conf.caption === 'function') {
-        caption = alchemy.conf.caption(d);
+      } else if (alchemy.conf.nodeCaption && typeof alchemy.conf.nodeCaption === 'function') {
+        caption = alchemy.conf.nodeCaption(d);
         if (caption === void 0 || String(caption) === 'undefined') {
           alchemy.log["caption"] = "At least one caption returned undefined";
           alchemy.conf.caption = false;

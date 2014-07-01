@@ -15,14 +15,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawnodes = (node) ->
-
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
                         if alchemy.conf.nodeTypes
                             nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
-                            "node #{nodeType} active"
+                            if d.root? and d.root then "node root #{nodeType} active"
+                            else "node #{nodeType} active"
                         else
-                            "node")
+                            if d.root? and d.root then "node root"
+                            else "node"
+                        )
                     .attr('id', (d) -> "node-#{d.id}")
                     .on('mousedown', (d) -> d.fixed = true)
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
@@ -31,11 +33,11 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('click', alchemy.interactions.nodeClick)
 
     if not alchemy.conf.fixNodes
-        nonRootNodes = nodeEnter.filter((d) -> return d.node_type != "root")
+        nonRootNodes = nodeEnter.filter((d) -> return d.root != true)
         nonRootNodes.call(alchemy.interactions.drag)
 
     if not alchemy.conf.fixRootNodes
-        rootNodes = nodeEnter.filter((d) -> return d.node_type == "root")
+        rootNodes = nodeEnter.filter((d) -> return d.root == true)
         rootNodes.call(alchemy.interactions.drag)
 
     nodeColours = (d) ->
@@ -53,7 +55,15 @@ alchemy.drawing.drawnodes = (node) ->
 
     nodeEnter
         .append('circle')
-        .attr('class', (d) -> "#{d.node_type} active")
+        .attr('class', (d) -> 
+            if alchemy.conf.nodeTypes
+                nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
+                if d.root? and d.root then "root #{nodeType} active"
+                else "#{nodeType} active"
+            else 
+                if d.root? and d.root then "root"
+                else "node"
+           	)
         .attr('id', (d) -> "circle-#{d.id}")
         .attr('r', (d) -> alchemy.utils.nodeSize(d))
         .attr('shape-rendering', 'optimizeSpeed')
@@ -65,5 +75,5 @@ alchemy.drawing.drawnodes = (node) ->
     nodeEnter
         .append('svg:text')
         .attr('id', (d) -> "text-#{d.id}")
-        .attr('dy', (d) -> if d.node_type is 'root' then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
-        .text((d) -> alchemy.utils.nodeText(d))
+        .attr('dy', (d) -> if d.root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
+        .html((d) -> alchemy.utils.nodeText(d))

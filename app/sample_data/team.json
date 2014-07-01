@@ -5860,7 +5860,7 @@
             "cluster": "none",
             "id": "pMlFQGZ1Nc",
             "firstName": "Huston",
-            "node_type": "root",
+            "node_type": "other",
             "root": true
         },
         {
@@ -6275,7 +6275,7 @@
             "cluster": "none",
             "id": "K1J3V8EI9M",
             "firstName": "Grace",
-            "node_type": "root",
+            "node_type": "other",
             "root": true
         },
         {

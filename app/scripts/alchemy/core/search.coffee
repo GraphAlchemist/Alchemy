@@ -19,11 +19,15 @@ alchemy.search =
         searchBox = d3.select("#search input")
 
         searchBox.on("keyup", ()->
+            input = searchBox[0][0].value.toLowerCase()
+
             d3.selectAll(".node").classed("inactive", false)
+
+            d3.selectAll("text").attr("style", ->
+                "display: inline;" if input != "")
 
             d3.selectAll(".node")
               .classed("inactive", (node) ->
-                input = searchBox[0][0].value.toLowerCase()
                 
                 hidden = node.caption
                              .toLowerCase()
@@ -42,7 +46,7 @@ alchemy.search =
                         
                         targetHidden or sourceHidden 
                     )
-              
+
                 hidden
                 
                 )
