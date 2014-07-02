@@ -6,24 +6,13 @@ body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
 	font-weight: 300;
+	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
+		font-weight: 300;
+	}
 	background: #eee;
 }
 
 /*Override Main Content Styles*/
-div[role=main]{
-	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
-		font-weight: 300;
-	}
-//	strong{
-//		font-weight: 300;
-//		font-size: 18px;
-//	}
-}
-
-//section.wy-nav-content-wrap ul li{
-//	list-style:none !important;
-//	margin-left: 0;
-//}
 
 .header{
 	background: $blue;

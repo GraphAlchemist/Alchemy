@@ -66,44 +66,8 @@ var config = {
 &lt;/html&gt;
 </code>
         </pre>
-<!--             <button id="full-app-btn" type="button" class="btn btn-default" href="#">
-              <h3>Click to view the Full Appliction</h3>
-            </button> -->
+      <button ng-click="showViz()" id="to-full-app-btn" type="button" class="btn btn-default" href="#">
+          <h3>See it in Action <i class = "glyphicon glyphicon-arrow-right"></i></h3>
+      </button>
     </div>
 </div>
-
-<div class="row" id="example3_viz">
-    <div id="graph-container" class="col-md-12">
-    	<div class="alchemy" id="alchemy"></div>
-    </div>
-</div>
-
-  <script type="text/javascript">
-    var config = {
-      dataSource: '/sample_data/team.json',                      
-      
-      forceLocked: false,
-      cluster: true,
-
-      nodeTypes: {"node_type":["family", "coworker", "classmate", "friend", "other"]},
-      nodeCaption: "firstName",
-      rootNodeRadius: 30,
-      
-      showControlDash: true,
-
-      showStats: true,
-      nodeStats: true,
-
-      showFilters: true,
-      nodeFilters: true,
-
-      captionToggle: true,
-      edgesToggle: true,
-      nodesToggle: true,
-      toggleRootNotes: false,
-      
-      zoomControls: true
-    };
-
-	  alchemy.begin(config)
-  </script>
