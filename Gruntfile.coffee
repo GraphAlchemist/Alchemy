@@ -149,7 +149,7 @@ module.exports = (grunt) ->
       dist:
         options:
           generatedImagesDir: "<%= yeoman.dist %>/images/generated"
-
+          outputStyle: "compressed"
       server:
         options:
           debugInfo: true
