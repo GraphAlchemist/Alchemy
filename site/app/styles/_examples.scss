@@ -1,4 +1,7 @@
 #examples{
+	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
+		font-weight: 300;
+	}
 	margin: 8% 5%;
 	padding: 5% 0 0 0;
 	a.list-group-item.h1{
@@ -8,25 +11,17 @@
 		}
 	}
 }
-#example3{
-	margin:0;
-	#graph-container{
-		padding:0;
-		height: 100%;
-	}
-}
 
 #example-list{
 	padding: 0 20px;
-	&:last-child{
-		border-radius: 0;
-	}
+	border-radius: 0;
 }
 
 .example{
 	font-size: 16px;
 	padding: 20px;
-	.active{
+	&.active{
+		border-radius: 0;
 		margin-left: 20px;
 		background-color: $blue;
 		border: none;
@@ -38,18 +33,17 @@
 			right: -20px;
 			height: 100%;
 		}
+		&:hover{
+			background-color: $blue !important;
+		}
 	}
 }
 
-#full-app-btn{
-	transform: translate(0, 50%);
-	padding-left: 20px;
+@mixin full-app-btn{
 	background: $blue;
 	color: white;
 	border: 3px solid darken($blue, 10%);
 	border-radius: 0;
-	float: left;
-	margin-left: -3px;
 	h3{
 		margin: 10px;
 		margin-left: 0;
@@ -66,6 +60,18 @@
 	}
 }
 
+#to-full-app-btn{
+	margin-top: 20%;
+	width: 100%;
+	@include full-app-btn;
+}
+
+#from-full-app-btn{
+	margin-top: 0%;
+	float: right;
+	@include full-app-btn;
+}
+
 #example1, #example2, #example4, #example3{
 	background-color: white;
 	padding: 10px;
@@ -77,6 +83,19 @@
 	.alchemy{
 		margin-right: auto;
 		margin-left: auto;
+	}
+}
+#graph-container-full{
+	background-color: black;
+	padding:0;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	.alchemy{
+		max-height: 100%;
+		width: 100%;
+		margin-top: 75px;
 	}
 }
 
