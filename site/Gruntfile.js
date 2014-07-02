@@ -454,11 +454,11 @@ module.exports = function(grunt) {
                 'coffee',
                 'sass',
                 'copy:styles',
-                'copy:docs',
                 'copy:data',
                 'imagemin',
                 'svgmin',
-                'shell'
+                'shell',
+                'copy:docs'
             ]
         }
     });
