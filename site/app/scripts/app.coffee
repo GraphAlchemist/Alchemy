@@ -8,8 +8,8 @@ angular.module('site', [
       .when '/',
         templateUrl: 'views/home.html'
         controller: 'MainCtrl'
-      .when '/example',
-        templateUrl: 'views/examples/example.html'
+      .when '/examples',
+        templateUrl: 'views/examples/examples.html'
         controller: 'MainCtrl'
       .when '/example1',
         templateUrl: 'views/examples/example1.html'

@@ -409,7 +409,16 @@ module.exports = function(grunt) {
                     src: 'documentation/**',
                     dest: '<%= config.dist %>'
                 }]
-            }
+            },
+            data: {
+                 files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= config.app %>',
+                    src: 'data/**',
+                    dest: '<%= config.dist %>'
+                }]
+            },
         },
 
         // Generates a custom Modernizr build that includes only the tests you
@@ -445,6 +454,8 @@ module.exports = function(grunt) {
                 'coffee',
                 'sass',
                 'copy:styles',
+                'copy:docs',
+                'copy:data',
                 'imagemin',
                 'svgmin',
                 'shell'
@@ -495,7 +506,6 @@ module.exports = function(grunt) {
         'clean:dist',
         'useminPrepare',
         'concurrent:dist',
-        'copy:docs',
         'autoprefixer',
         'concat',
         'ngmin',
@@ -509,7 +519,7 @@ module.exports = function(grunt) {
     ]);
 
     grunt.registerTask('default', [
-        'newer:jshint',
+        // 'newer:jshint',
         'test',
         'build',
         'gh-pages'

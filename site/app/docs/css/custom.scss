@@ -9,7 +9,7 @@ body{
 }
 
 nav.stickynav {
-	
+	// background-color: black;
 	ul.current {overflow: auto;}
 
 	/* Nav Search Styles */
@@ -30,13 +30,14 @@ nav.stickynav {
 			}
 		}
 		li.toctree-l2{
-			border-bottom: solid rgba($bright-orange, .4) thin;
+			border-bottom: solid rgba($blue, .4) thin;
 			list-style: none;
 			& a{
 				color: $blue;
 			}
 			& a:hover{
-				color: $bright-orange;
+				color: #fff;
+				background-color: $blue;
 			}
 			& a:active{
 				background-color: white;
@@ -46,7 +47,8 @@ nav.stickynav {
 		a.toctree-l3{
 			padding-left: 3.5em;
 			&:hover{
-				color: $bright-orange;
+				color: $blue;
+				background-color: #fff;
 			}
 			&:active{
 				background-color: white;
