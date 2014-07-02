@@ -68,7 +68,7 @@ alchemy.startGraph = (data) ->
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
             .on('click', alchemy.utils.deselectAll)
-            .call(alchemy.interactions.zoom)
+            .call(alchemy.interactions.zoom(alchemy.conf.scaleExtent))
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 

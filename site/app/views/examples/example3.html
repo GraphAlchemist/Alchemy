@@ -13,9 +13,9 @@ var config = {
     forceLocked: false,
 
     nodeTypes: {"node_type":
-                  ["GA CEO", 
-                   "GA Employee",
-                   "Contributor"]
+                  ["award", 
+                   "person",
+                   "movie"]
                 },
     edgeTypes: ["ACTED_IN", "NOMINATED", 
                 "RECEIVED", "PARENT_OF",
@@ -39,7 +39,9 @@ var config = {
     
     zoomControls: true,
 
-    caption: function(node) {return node.caption;}
+    caption: function(node) { 
+      return node.caption; 
+      }
     };
 
   alchemy.begin(config)
@@ -52,17 +54,17 @@ var config = {
 <code>
 &lt;html&gt;
   &lt;head&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;/&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;../scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;../scripts/alchemy.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;../scripts/alchemyConfig.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/alchemyConfig.js&quot;&gt;&lt;/script&gt;
     &lt;script type=&quot;text/javascript&quot;&gt;
-        alchemy.begin(config)
+      alchemy.begin(config)
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
