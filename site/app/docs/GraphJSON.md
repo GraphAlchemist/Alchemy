@@ -25,7 +25,21 @@ Captions are the text that displays in the graph visualization.  By default, the
 Clustering can be enabled in the configuration be setting **[cluster](../Configuration/#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes that will result in an integer that will allow them to be clustered by color and layout with similar nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
 
 ### Defining Root Nodes
-Any node that contains a root key that is truthy will be considered a root node.  (see the "Charlize" node)
+Any node that contains a root key that is truthy will be considered a root node.  For example:
+```
+{
+  "nodes": [
+    {
+      "id": 1,
+      "root": true
+    },
+    ...
+  ],
+  ...
+}
+```
+See the "Charlize" node below or any of the GraphJSON in our [examples gallery](../..#/examples) for an example in context.
+
 ### nodeTypes and edgeTypes
 Node and edge types are used for an number of tasks including styling and filtering.  By default, [nodeTypes](../Configuration/#nodetypes) and [edgeTypes](../Configuration/#edgetypes) are not defined.  In the GraphJSON example below, **nodeTypes** might look as follows `{."nodeTypes": {"type": ["award", "actor", "movie"...]}` while **edgeTypes** might look like this `"edgeTypes": {"caption": ["ACTED_IN", "DIRECTED", "NOMINATED", etc.]}`.  *Note*: Attributes in the GraphJSON can serve multiple purposes.  **caption** on the edges is used for categorizing nodes as well as the text that will display on hover interactions.
 

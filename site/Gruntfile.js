@@ -208,7 +208,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '<%= config.app %>/docs/css',
                     src: ['*.scss'],
-                    dest: '.tmp/documentation/css',
+                    dest: '<%= config.app %>/docs/css',
                     ext: '.css'
                 }]
             },
@@ -224,7 +224,7 @@ module.exports = function(grunt) {
                     expand: true,
                     cwd: '<%= config.app %>/docs/css',
                     src: ['*.scss'],
-                    dest: '.tmp/documentation/css',
+                    dest: '<%= config.app %>/docs/css',
                     ext: '.css'
                 }]
             }
@@ -441,10 +441,8 @@ module.exports = function(grunt) {
         // Run some tasks in parallel to speed up build process
         concurrent: {
             server: [
-                'sass:server',
                 'coffee:dist',
                 'copy:styles',
-                'shell'
             ],
             test: [
                 'coffee',
@@ -457,8 +455,6 @@ module.exports = function(grunt) {
                 'copy:data',
                 'imagemin',
                 'svgmin',
-                'shell',
-                'copy:docs'
             ]
         }
     });
@@ -474,6 +470,8 @@ module.exports = function(grunt) {
 
         grunt.task.run([
             'clean:server',
+            'shell',
+            'sass:server',
             'concurrent:server',
             'autoprefixer',
             'connect:livereload',
@@ -505,7 +503,9 @@ module.exports = function(grunt) {
         'shell',
         'clean:dist',
         'useminPrepare',
+        'shell',
         'concurrent:dist',
+        'copy:docs',
         'autoprefixer',
         'concat',
         'ngmin',
