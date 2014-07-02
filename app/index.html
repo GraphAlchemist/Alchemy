@@ -40,50 +40,10 @@
         <script src="scripts/alchemy.js"></script>
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
-            // var config = {
-            //     dataSource: 'sample_data/movies.json',
-
-            //     showControlDash: true, 
-            //     showStats: true,
-            //     nodeStats: true,
-            //     edgeStats: true,
-            //     showFilters: true,
-            //     edgeFilters: true,
-            //     nodeFilters: true,
-
-            //     // forceLocked: false,
-            //     linkDistance: function(){ return 50; },
-            //     nodeRadius: 15,
-            //     rootNodeRadius: 20,
-            //     nodeTypes: {"node_type":["movie", "award", "person"]},
-            //     caption: function(node){ return "hi"; }
-            // };
-            // alchemy.begin(config);
-            var data = {
-                  "nodes": [
-                    {
-                      "id": 1
-                    },
-                    {
-                      "id": 2
-                    },
-                    {
-                      "id": 3
-                    }
-                  ],
-                  "edges": [
-                    {
-                      "source": 1,
-                      "target": 2
-                    },
-                    {
-                      "source": 1,
-                      "target": 3,
-                    }
-                  ]
-                };
-                alchemy.begin({dataSource:data})
-
+            var config = {
+                dataSource: 'sample_data/contrib.json',
+            };
+            alchemy.begin(config);
         </script>
         
 </body>
