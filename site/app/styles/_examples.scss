@@ -1,21 +1,6 @@
 #examples{
-	margin: 0 5%;
+	margin: 8% 5%;
 	padding: 5% 0 0 0;
-	.active{
-		background-color: $blue;
-		border: none;
-		&.example{
-			margin-left: 20px;
-		}
-		&:after{
-			content: "";
-			border: 10px $blue solid;
-			position: absolute;
-			top: 0;
-			right: -20px;
-			height: 100%;
-		}
-	}
 	a.list-group-item.h1{
 		color: black;
 		&:hover{
@@ -36,6 +21,19 @@
 	.example{
 		font-size: 16px;
 		padding: 20px;
+		&:active &:focus{
+			margin-left: 20px;
+			background-color: $blue;
+			border: none;
+			&:after{
+				content: "";
+				border: 10px $blue solid;
+				position: absolute;
+				top: 0;
+				right: -20px;
+				height: 100%;
+			}
+		}
 		&:last-child{
 			border-radius: 0;
 		}
@@ -68,7 +66,7 @@
 	}
 }
 
-#example1, #example2, #example4, #example3-code{
+#example1, #example2, #example4, #example3{
 	background-color: white;
 	padding: 10px;
 	border: 3px $blue solid;

@@ -24,16 +24,13 @@
         <!--[if lt IE 10]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-
-
         <ng-include src="'views/nav.html'"></ng-include>
 
-        <div ng-view></div>
+        <div ng-view class="page {{pageClass}}"></div>
         
         <div class="footer">
             <p>Brought to you by: <img id="footer-ga-logo" src="images/GA-logo-full-100px.png"><img></p>
         </div>
-
 
         <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
