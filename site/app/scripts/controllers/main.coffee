@@ -7,6 +7,8 @@ angular.module('site')
                 $("#btn-alchemy-rel").tooltip placement: "bottom"
                 $('pre').addClass('prettyprint')
                 prettyPrint()
+                $scope.path = $location.path()
+
                 # $("#example3_viz").addClass("hidden")
                 # $("#full-app-btn")
                 #     .on "click", () ->
@@ -31,6 +33,9 @@ angular.module('site')
         )
     .controller 'examplesCtrl', ($scope, $location) ->
         $scope.init = ->
+            # $scope.path = $location.path()
+            # $("a[ng-href='#']").parent().removeClass("active")
+            # $("a[ng-href='#/examples']").parent().addClass("active")
             $scope.examples =
              [
                 { name: 'Basic Graph', src: 'views/examples/example1.html', id:"example1"},

@@ -6,15 +6,13 @@ body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
 	font-weight: 300;
+	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
+		font-weight: 300;
+	}
 	background: #eee;
 }
 
 /*Override Main Content Styles*/
-div[role=main]{
-	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
-		font-weight: 300;
-	}
-}
 
 .header{
 	background: $blue;
@@ -55,7 +53,7 @@ div[role=main]{
 			padding-right: 10px;
 			padding-left: 10px;
 			&:active, &:hover{
-				color: $bright-orange;
+				color: $blue;
 			}
 		}
 	}
