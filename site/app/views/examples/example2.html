@@ -22,13 +22,13 @@
 
       var config = {
           dataSource: 'data/contrib.json',
-          graphHeight: 350,
-          graphWidth: 350,
+          graphHeight: 400,
+          graphWidth: 400,
           
           linkDistance: function(){ return 40; },
 
           nodeTypes: {"node_type":["Maintainer", "Contributor"]},
-          caption: function(node){ return node.caption; }
+          nodeCaption: function(node){ return node.caption + " " + node.fun_fact; }
           };
 
       alchemy.begin(config)
@@ -43,13 +43,13 @@
 <script type="text/javascript">
     var config = {
         dataSource: 'data/contrib.json',
-        graphHeight: function(){ return 450; },
-        graphWidth: function() { return 450; },
+        graphHeight: function(){ return 400; },
+        graphWidth: function() { return 400; },
 
         linkDistance: function(){ return 40; },
 
         nodeTypes: {"node_type":["Maintainer", "Contributor"]},
-        caption: function(node){ return node.caption; }
+        nodeCaption: function(node){ return node.caption + " " + node.fun_fact; }
     };
 
     alchemy.begin(config)

@@ -41,22 +41,7 @@
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
             var config = {
-                dataSource: 'sample_data/movies.json',
-
-                showControlDash: true, 
-                showStats: true,
-                nodeStats: true,
-                edgeStats: true,
-                showFilters: true,
-                edgeFilters: true,
-                nodeFilters: true,
-
-                forceLocked: false,
-                linkDistance: function(){ return 50; },
-                nodeRadius: 15,
-                rootNodeRadius: 20,
-                nodeTypes: {"node_type":["movie", "award", "person"]},
-                caption: function(node){ return "hi"; }
+                dataSource: 'sample_data/contrib.json',
             };
             alchemy.begin(config);
         </script>

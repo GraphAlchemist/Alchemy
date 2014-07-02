@@ -15,6 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
+    
+    alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")
                .data(alchemy.edges)

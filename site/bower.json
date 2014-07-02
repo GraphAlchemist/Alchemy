@@ -11,7 +11,10 @@
     "google-code-prettify": "~1.0.1",
     "angular": "~1.2.18",
     "angular-route": "~1.2.18",
-    "alchemyjs": "*"
+    "alchemyjs": "https://github.com/GraphAlchemist/Alchemy.git#f33af077c12f7000d81c7e61791c67461abdc778"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "alchemyjs": "f33af077c12f7000d81c7e61791c67461abdc778"
+  }
 }

@@ -59,10 +59,7 @@ alchemy.startGraph = (data) ->
     alchemy.edges.forEach (e) ->
         e.source = nodesMap.get(e.source)
         e.target = nodesMap.get(e.target)
-
-    #API FIXME: allow alternative root node positioning?
-    alchemy.layout.positionRootNodes()
-
+    
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
         .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
@@ -71,7 +68,7 @@ alchemy.startGraph = (data) ->
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
             .on('click', alchemy.utils.deselectAll)
-            .call(alchemy.interactions.zoom)
+            .call(alchemy.interactions.zoom(alchemy.conf.scaleExtent))
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 

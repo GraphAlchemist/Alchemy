@@ -106,11 +106,12 @@ alchemy.interactions =
                           .on("drag", nodeDragged)
                           .on("dragend", nodeDragended)
 
-    zoom: d3.behavior.zoom()
+    zoom: (extent) ->
+                d3.behavior.zoom()
                           # to do, allow UDF initial scale and zoom
                           # .translate alchemy.conf.initialTranslate
                           # .scale alchemy.conf.initialScale
-                          .scaleExtent [0.2, 2.4]
+                          .scaleExtent extent
                           .on "zoom", ->
                             alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )

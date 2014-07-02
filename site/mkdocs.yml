@@ -2,11 +2,11 @@ site_name: AlchemyDocs
 docs_dir: 'app/docs'
 site_dir: '.tmp/documentation'
 pages:
-- ['index.md', 'Home']
+- ['index.md', 'Getting Started']
 - ['Configuration.md']
-- ['Overriding-Defaults.md', 'Overriding Default Behavior']
+- ['GraphJSON.md', 'GraphJSON']
+- ['Examples.md', 'Examples']
 - ['Contributing.md', 'Contribute']
-#to add: examples
 
 theme: readthedocs
 
