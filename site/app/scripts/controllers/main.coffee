@@ -8,21 +8,6 @@ angular.module('site')
                 $('pre').addClass('prettyprint')
                 prettyPrint()
                 $scope.path = $location.path()
-
-                # $("#example3_viz").addClass("hidden")
-                # $("#full-app-btn")
-                #     .on "click", () ->
-                #         $("#examples").toggleClass("hidden")
-                #         $(".footer").toggleClass("hidden")
-                #         $(".header").toggleClass("hidden")
-                #         $("#btn-alchemy-rel").toggleClass("hidden")
-                #         $("#example3").toggleClass("hidden")
-                #         if $("#examples").hasClass("hidden")
-                #             $("#full-app-btn").css("transform", "translate(0%, 0%)")
-                #             $("#full-app-btn>h3").html("<i class='glyphicon glyphicon-arrow-left'></i> Go back to Example Code")
-                #         else 
-                #             $("#full-app-btn").css("transform", "translate(100%, 250%)")
-                #             $("#full-app-btn>h3").html("Click to view the Full App in Action <i class='glyphicon glyphicon-arrow-right'></i>")
             )
             # quick hack
         d3.json('../data/charlize.json', (data) ->
@@ -33,9 +18,6 @@ angular.module('site')
         )
     .controller 'examplesCtrl', ($scope, $location) ->
         $scope.init = ->
-            # $scope.path = $location.path()
-            # $("a[ng-href='#']").parent().removeClass("active")
-            # $("a[ng-href='#/examples']").parent().addClass("active")
             $scope.examples =
              [
                 { name: 'Basic Graph', src: 'views/examples/example1.html', id:"example1"},
@@ -46,15 +28,25 @@ angular.module('site')
 
         $scope.showExample = (e) ->
             $scope.current_example = e
-
             for example in $scope.examples
                 if $scope.current_example is example
                     $("." + example.id).addClass("active")
                 else
                     $("." + example.id).removeClass("active")
+            name = e.name.replace " ", "_"
+            $location.hash(name)
 
-            if e.id is 'example3' then console.log "full app"
-                # show the full button 
-                #toggle class
+        $scope.showViz = ->
+            $(".footer").addClass("hidden")
+            $(".navbar-fixed-top").addClass("hidden")
+            $location.path("examples/FullApp")
+
+        $scope.hideViz = ->
+            console.log "hideViz called"
+            $(".footer").removeClass("hidden")
+            $(".navbar-fixed-top").removeClass("hidden")
+            $location.path("examples/")
+
+
 
 
