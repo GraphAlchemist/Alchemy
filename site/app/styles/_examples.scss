@@ -18,27 +18,27 @@
 
 #example-list{
 	padding: 0 20px;
-	.example{
-		font-size: 16px;
-		padding: 20px;
-		&:active &:focus{
-			margin-left: 20px;
-			background-color: $blue;
-			border: none;
-			&:after{
-				content: "";
-				border: 10px $blue solid;
-				position: absolute;
-				top: 0;
-				right: -20px;
-				height: 100%;
-			}
-		}
-		&:last-child{
-			border-radius: 0;
+	&:last-child{
+		border-radius: 0;
+	}
+}
+
+.example{
+	font-size: 16px;
+	padding: 20px;
+	.active{
+		margin-left: 20px;
+		background-color: $blue;
+		border: none;
+		&:after{
+			content: "";
+			border: 10px $blue solid;
+			position: absolute;
+			top: 0;
+			right: -20px;
+			height: 100%;
 		}
 	}
-
 }
 
 #full-app-btn{

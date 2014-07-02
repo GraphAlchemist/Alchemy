@@ -11,6 +11,7 @@ angular.module('site', [
       .when '/examples',
         templateUrl: 'views/examples.html'
         controller: 'MainCtrl'
+
       # .when '/example1',
       #   templateUrl: 'views/examples/example1.html'
       #   controller: 'MainCtrl'
