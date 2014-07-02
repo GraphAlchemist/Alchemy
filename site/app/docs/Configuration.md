@@ -2,7 +2,7 @@
 ...
 # Nodes
 
-#####nodeCcaption
+#####nodeCaption
 [string|function] **default**: `"caption"`    
 The configuration for the text that will appear as the caption on a node and will appear during filtering and searching.  A string should provide a key within the GraphJSON.  By default alchemy will look for a "caption" key on each node in the graphJSON, however any key present on *some* or *all* of the nodes can be provided.  The user can also provide a function, for instance that will take the node from the graphJSON as a parameter:    
 ```javascript
