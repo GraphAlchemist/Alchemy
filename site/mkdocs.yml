@@ -5,6 +5,7 @@ pages:
 - ['index.md', 'Getting Started']
 - ['Configuration.md']
 - ['GraphJSON.md', 'GraphJSON']
+- ['GraphStyling.md', 'Graph Styling']
 - ['Examples.md', 'Examples']
 - ['Contributing.md', 'Contribute']
 
