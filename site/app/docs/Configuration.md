@@ -1,6 +1,8 @@
-#Nodes
+# Overview
+...
+# Nodes
 
-#####caption
+#####nodeCcaption
 [string|function] **default**: `"caption"`    
 The configuration for the text that will appear as the caption on a node and will appear during filtering and searching.  A string should provide a key within the GraphJSON.  By default alchemy will look for a "caption" key on each node in the graphJSON, however any key present on *some* or *all* of the nodes can be provided.  The user can also provide a function, for instance that will take the node from the graphJSON as a parameter:    
 ```javascript
@@ -222,7 +224,7 @@ Defaults to a function that selects the height of the enclosing div.  If there i
 Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen width on load.  The user can define there own custom function for **graphWidth** or a function that returns an integer to be converted to pixels.  e.g. `function() {return 500}`
 
 #####alpha 
-[float] **default**: `.5`    
+[float] **default**: `0.5`    
 Is a part of the d3 force layout, `alpha` sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the force layout in the [d3 docs](https://github.com/mbostock/d3/wiki/Force-Layout#alpha).
 
 #####cluster
@@ -287,7 +289,7 @@ ____
 
 #Other
 ##### dataSource     
-[string, object], `null`
+[string, object] **default:** `null`
 Does not receive a default value and is the single parameter that **must** be defined by the user in order to use Alchemy.js.  `dataSource` receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's [`d3.json` method](https://github.com/mbostock/d3/wiki/Requests#d3_json) with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.
 
 #####initialScale    
@@ -295,15 +297,15 @@ Does not receive a default value and is the single parameter that **must** be de
 Specifies the initial distance of the zoom on the svg.  A value assiged here initiates "scale" value directly in the svg's "transform" attribute.
 
 #####initialTranslate    
-[2 integer array] `[0,0]`  
+[2 integer array] **default:**`[0,0]`  
 Specifies the initial "pan" of the svg, corresponding directly to the "translate" value in the svg's "transform" attribute.  Because graphs layout differently every time, and because there is currently not support for setting initial node positions, there is limited utility to setting different values for the "translate" of the svg.
 
 #####warningMessage 
-[string] `"There be no data!  What's going on?"`  
+[string] **default:** `"There be no data!  What's going on?"`  
 Specifies a custom warning message if there is no data.
 
-##### afterLoad     
-[str, function] **default**: 'afterLoad'      
+#####afterLoad     
+[str, function] **default:** 'afterLoad'      
 If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This maybe helpful for certain applications where the graph context is being watch and events can be fired when `alchemy.afterLoad` or `alchemy.someOtherString` is `true`.
 
 If `afterLoad` receives a function, that function is simply run after the graph is drawn.  E.g. `alchemy.someFunction()`
