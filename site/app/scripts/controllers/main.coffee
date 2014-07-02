@@ -40,9 +40,13 @@ angular.module('site')
             ]
 
         $scope.showExample = (e) ->
-            console.log 'hi'
             $scope.current_example = e
-            e.state = "active"
+
+            for example in $scope.examples
+                if $scope.current_example is example
+                    $("." + example.id).addClass("active")
+                else
+                    $("." + example.id).removeClass("active")
 
             if e.id is 'example3' then console.log "full app"
                 # show the full button 

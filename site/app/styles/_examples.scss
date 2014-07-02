@@ -1,4 +1,7 @@
 #examples{
+	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
+		font-weight: 300;
+	}
 	margin: 8% 5%;
 	padding: 5% 0 0 0;
 	a.list-group-item.h1{
@@ -18,15 +21,14 @@
 
 #example-list{
 	padding: 0 20px;
-	&:last-child{
-		border-radius: 0;
-	}
+	border-radius: 0;
 }
 
 .example{
 	font-size: 16px;
 	padding: 20px;
-	.active{
+	&.active{
+		border-radius: 0;
 		margin-left: 20px;
 		background-color: $blue;
 		border: none;
@@ -37,6 +39,9 @@
 			top: 0;
 			right: -20px;
 			height: 100%;
+		}
+		&:hover{
+			background-color: $blue !important;
 		}
 	}
 }
