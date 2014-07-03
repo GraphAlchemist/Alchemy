@@ -87,4 +87,4 @@ alchemy.defaults =
     initialScale: 1
     initialTranslate: [0,0]
     scaleExtent: [0.5, 2.4]
-    warningMessage: "There be no data!  What's going on?" #not yet implemented
+    warningMessage: "There be no data!  What's going on?"

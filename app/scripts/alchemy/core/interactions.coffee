@@ -107,15 +107,14 @@ alchemy.interactions =
                           .on("dragend", nodeDragended)
 
     zoom: (extent) ->
-                d3.behavior.zoom()
-                          # to do, allow UDF initial scale and zoom
-                          # .translate alchemy.conf.initialTranslate
-                          # .scale alchemy.conf.initialScale
-                          .scaleExtent extent
-                          .on "zoom", ->
-                            alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
+                if not @._zoomBehavior?
+                    @._zoomBehavior = d3.behavior.zoom()
+                @._zoomBehavior.scaleExtent extent
+                                .on "zoom", ->
+                                    alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )
-                            return
+                                    
+                            
 
     clickZoom:  (direction) ->
                     startTransform = alchemy.vis
@@ -134,8 +133,10 @@ alchemy.interactions =
                             else 
                                 console.log 'error'
                             )
-                    @.zoom.scale(endTransform[2])
-                    @.zoom.translate(endTransform[0..1])
+                    if not @._zoomBehavior?
+                        @._zoomBehavior = d3.behavior.zoom()
+                    @._zoomBehavior.scale(endTransform[2])
+                                   .translate(endTransform[0..1])
 
     toggleControlDash: () ->
         #toggle off-canvas class on click
