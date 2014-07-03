@@ -2,7 +2,7 @@
         <img src="images/alchemy-01.svg"></img>
     </div>
 
-    <div class="row">
+    <section class="row">
         <div class="col-md-12" id="about">
             <div class ="row">
                 <div class = "col-md-3">
@@ -13,15 +13,41 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="row">
+    <section class="row">
+        <div class="col-md-12" id="about">
+            <div class ="row">
+                <div class = "col-md-3">
+                    <h1>Alchemy.js</h1>
+                </div>
+                <div class="col-md-9">
+                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
+        <div class="col-md-12" id="about">
+            <div class ="row">
+                <div class = "col-md-3">
+                    <h1>Alchemy.js</h1>
+                </div>
+                <div class="col-md-9">
+                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="row">
         <div class="col-md-12" id="features">
             <!-- Carousel -->
         </div>
-    </div>
+    </section>
 
-    <div class="row" id="meet-the-team">
+    <section class="row" id="meet-the-team">
         <div class="col-md-12" id="team-info">
             <div class="row">
                 <h2>Meet the Team</h2>
@@ -149,7 +175,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 <script type="text/javascript">
 var config = {
     divSelector: "#team-svg",
@@ -169,4 +195,22 @@ var config = {
     }
 };
 alchemy.begin(config);
+</script>
+<script src="bower_components/panelsnap/jquery.panelSnap.js"></script>
+<script>
+    jQuery(function($) {
+        var options = {
+            panelSelector: 'section',
+            namespace: '.panelSnap',
+            directionThreshold: 50,
+            slideSpeed: 200,
+            keyboardNavigation: {
+                enabled: true,
+                nextPanelKey: 40,
+                previousPanelKey: 38,
+                wrapAround: true
+            }
+        };
+    $('.panel_container').panelSnap(options);
+});
 </script>
