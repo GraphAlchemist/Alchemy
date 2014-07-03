@@ -12,8 +12,6 @@
     "angular": "~1.2.18",
     "angular-route": "~1.2.18",
     "alchemyjs": "https://github.com/GraphAlchemist/Alchemy.git#03dd51d581616c15f570fa56d39f317d82ab98a4",
-    "panelsnap": "~0.12.0",
-    "ui-bootstrap": "~0.11.0",
     "angular-bootstrap": "~0.11.0"
   },
   "devDependencies": {}

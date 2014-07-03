@@ -41,23 +41,7 @@
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
             var config = {
-                cluster: true,
-                showControlDash: true,
-                showEditor: true,
-                zoomControls: true,
-                showStats: true,
-                nodeStats: true,
-                edgeStats: true,
-                showFilters: true,
-                edgeFilters: true,
-                nodeFilters: true,
-
                 dataSource: 'sample_data/team.json',
-                nodeTypes: {"node_type":["movie", "person", "award"]},
-                edgeTypes: ["ACTED_IN", "NOMINATED", 
-                "RECEIVED", "PARENT_OF",
-                "PARTNER_OF", "BORN_AT",
-                "PRODUCED"],
             };
             alchemy.begin(config);
         </script>
