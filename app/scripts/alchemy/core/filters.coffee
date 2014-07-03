@@ -116,9 +116,12 @@ alchemy.filters =
           .attr({"id":"toggle-captions","class":"list-group-item active-label toggle"})
           .html("Show Captions")
           .on("click", ->
-            isNowHidden = !d3.select("#toggle-captions").classed("disabled")
-            d3.select("#toggle-captions").classed("disabled", () -> return isNowHidden )
-            d3.selectAll("g text").classed("hidden", isNowHidden)
+            isDisplayed = d3.select("g text").attr("style")
+
+            if isDisplayed == "display: block" || null
+                d3.selectAll("g text").attr("style", "display: none")
+            else
+                d3.selectAll("g text").attr("style", "display: block")
             )
 
     #create edges toggle
