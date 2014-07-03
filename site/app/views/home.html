@@ -9,45 +9,52 @@
                     <h1>Alchemy.js</h1>
                 </div>
                 <div class="col-md-9">
-                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
+                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Alchemy.js is built to work out of the box, and is easily customizable. Create full applications with built-in features like search, clustering, and filters; embed small graphs as visual elements in larger projects. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
                 </div>
             </div>
         </div>
     </section>
-
+    <div ng-controller="carouselCtrl">
+        <div style="height: 305px">
+        <carousel interval="myInterval">
+          <slide ng-repeat="slide in slides" active="slide.active">
+            <img ng-src="{{slide.image}}" style="margin:auto;">
+            <div class="carousel-caption">
+              <h4>Slide {{$index}}</h4>
+              <p>{{slide.text}}</p>
+            </div>
+          </slide>
+        </carousel>
+        </div>
+    </div>
     <section class="row">
         <div class="col-md-12" id="features">
-            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
-  <!-- Indicators -->
+            <div id="carousel" class="carousel slide" data-ride="carousel" carousel>
                 <ol class="carousel-indicators">
                     <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
                     <li data-target="#carousel-example-generic" data-slide-to="1"></li>
                     <li data-target="#carousel-example-generic" data-slide-to="2"></li>
                 </ol>
-
-  <!-- Wrapper for slides -->
               <div class="carousel-inner">
                 <div class="item active">
-                    <img src="..." alt="...">
+                    <img src="..." alt="search-feature">
                     <div class="carousel-caption">
                         <h3>Search</h3>
                     </div>
                 </div>
                 <div class="item active">
-                    <img src="..." alt="...">
+                    <img src="..." alt="filters-feature">
                     <div class="carousel-caption">
                         <h3>Filtering</h3>
                     </div>
                 </div>
                 <div class="item">
-                    <img src="..." alt="...">
+                    <img src="..." alt="cluster-feature">
                     <div class="carousel-caption">
                         <h3>Clustering</h3>
                     </div>
                 </div>
               </div>
-
-  <!-- Controls -->
                 <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left"></span>
                 </a>
