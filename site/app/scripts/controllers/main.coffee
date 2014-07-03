@@ -17,9 +17,30 @@ angular.module('site')
             $scope.contrib = data
         )
 
+angular.module('navigation', ['ngRoute','ui.bootstrap'])
+    .controller 'navCtrl', ($scope, $location, $route) ->
+        $scope.init = ->
+            # angular links
+            $scope.links =   
+            [
+                { name: 'Home', href: '/'},
+                { name: 'Examples', href: '/examples'},
+                { name: 'Tutorial', href: '#'} 
+            ]
+            $scope.active($location.path())
+        $scope.active = (navTab) ->
+            for link in $scope.links
+                if navTab is link.href
+                    $("#" + link.name).addClass("active")
+                    $location.path(link.href)
+                else 
+                    $("#" + link.name).removeClass("active")
+
+
 angular.module('alchemyExamples', [])
     .controller 'examplesCtrl', ($scope, $location) ->
         $scope.init = ->
+            console.log $location.path()
             $scope.examples =
              [
                 { name: 'Basic Graph', src: 'views/examples/example1.html', id:"example1"},
