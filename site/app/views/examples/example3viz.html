@@ -5,35 +5,35 @@
    	<div class="alchemy" id="alchemy"></div>
 </div>
 
+
 <script type="text/javascript">
-	var config = {
-	  dataSource: 'data/charlize.json',                      
-	  
-	  graphHeight: function() { return 900; },
-	  forceLocked: false,
-
-	  nodeTypes: {"node_type":["movie", "award", "person"]},
-	  edgeTypes: ["ACTED_IN", "NOMINATED", "RECEIVED", "PARENT_OF", "PARTNER_OF", "BORN_AT", "PRODUCED"],
-	  
-	  showControlDash: true,
-
-	  showStats: true,
-	  nodeStats: true,
-	  edgeStats: true,
-
-	  showFilters: true,
-	  nodeFilters: true,
-	  edgeFilters: true,
-
-	  captionToggle: true,
-	  edgesToggle: true,
-	  nodesToggle: true,
-	  toggleRootNotes: false,
-	  
-	  zoomControls: true,
-
-	  caption: function(node){ return node.caption; }
-	  };
-
-	alchemy.begin(config)
+  var config = {
+    dataSource: '/sample_data/team.json',                      
+  
+    forceLocked: false,
+    cluster: true,
+  
+    nodeTypes: {"node_type":["family", "coworker", 
+                             "classmate", "friend", 
+                             "other"]},
+    nodeCaption: "firstName",
+    rootNodeRadius: 30,
+    
+    showControlDash: true,
+  
+    showStats: true,
+    nodeStats: true,
+  
+    showFilters: true,
+    nodeFilters: true,
+  
+    captionToggle: true,
+    edgesToggle: true,
+    nodesToggle: true,
+    toggleRootNotes: false,
+    
+    zoomControls: true
+  };
+  
+  alchemy.begin(config)
 </script>
