@@ -3,42 +3,35 @@
 		<h3 class="filename">alchemyConfig.js</h3>
 		<pre>
 <code>
-var config = {
-    dataSource: 'data/charlize.json',                      
-    
+  var config = {
+    dataSource: 'data/team.json',                      
+  
     forceLocked: false,
-
-    nodeTypes: {"node_type":
-                  ["award", 
-                   "person",
-                   "movie"]
-                },
-    edgeTypes: ["ACTED_IN", "NOMINATED", 
-                "RECEIVED", "PARENT_OF",
-                "PARTNER_OF", "BORN_AT",
-                "PRODUCED"],
+    cluster: true,
+  
+    nodeTypes: {"node_type":["family", "coworker", 
+                             "classmate", "friend", 
+                             "other"]},
+    nodeCaption: "firstName",
+    rootNodeRadius: 30,
     
     showControlDash: true,
-
+  
     showStats: true,
     nodeStats: true,
-    edgeStats: true,
-
+  
     showFilters: true,
     nodeFilters: true,
-    edgeFilters: true,
-
+  
     captionToggle: true,
     edgesToggle: true,
     nodesToggle: true,
     toggleRootNotes: false,
     
-    zoomControls: true,
-
-    caption: function(node) { 
-      return node.caption; 
-      }
-    };
+    zoomControls: true
+  };
+  
+  alchemy.begin(config)
 
   alchemy.begin(config)
 </code>
