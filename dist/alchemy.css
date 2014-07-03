@@ -1,55 +1,45 @@
 @-webkit-keyframes pulse {
-  /* line 26, ../../app/styles/_varsMixinsAnimation.scss */
   0% {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 12px rgba(255, 255, 255, 0.2), 0 0 16px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 10px rgba(255,255,255,0.2),0 0 12px rgba(255,255,255,0.2),0 0 16px rgba(255,255,255,0.2);
   }
 
-  /* line 29, ../../app/styles/_varsMixinsAnimation.scss */
   25% {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 6px rgba(104, 185, 254, 0.7), 0 0 10px rgba(104, 185, 254, 0.7);
+    text-shadow: 0 0 12px rgba(255,255,255,0.2),0 0 15px rgba(255,255,255,0.2),0 0 20px rgba(255,255,255,0.2),0 0 6px rgba(104,185,254,0.7),0 0 10px rgba(104,185,254,0.7);
   }
 
-  /* line 32, ../../app/styles/_varsMixinsAnimation.scss */
   50% {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 8px rgba(104, 185, 254, 0.7), 0 0 10px rgba(104, 185, 254, 0.7), 0 0 15px rgba(104, 185, 254, 0.7);
+    text-shadow: 0 0 12px rgba(255,255,255,0.2),0 0 15px rgba(255,255,255,0.2),0 0 20px rgba(255,255,255,0.2),0 0 8px rgba(104,185,254,0.7),0 0 10px rgba(104,185,254,0.7),0 0 15px rgba(104,185,254,0.7);
   }
 
-  /* line 35, ../../app/styles/_varsMixinsAnimation.scss */
   75% {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(255, 255, 255, 0.2), 0 0 8px rgba(104, 185, 254, 0.7), 0 0 12px rgba(104, 185, 254, 0.7), 0 0 15px rgba(104, 185, 254, 0.7), 0 0 20px rgba(104, 185, 254, 0.7);
+    text-shadow: 0 0 12px rgba(255,255,255,0.2),0 0 15px rgba(255,255,255,0.2),0 0 25px rgba(255,255,255,0.2),0 0 8px rgba(104,185,254,0.7),0 0 12px rgba(104,185,254,0.7),0 0 15px rgba(104,185,254,0.7),0 0 20px rgba(104,185,254,0.7);
   }
 }
 
 @keyframes pulse {
-  /* line 41, ../../app/styles/_varsMixinsAnimation.scss */
   0% {
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.2), 0 0 12px rgba(255, 255, 255, 0.2), 0 0 16px rgba(255, 255, 255, 0.2);
+    text-shadow: 0 0 10px rgba(255,255,255,0.2),0 0 12px rgba(255,255,255,0.2),0 0 16px rgba(255,255,255,0.2);
   }
 
-  /* line 44, ../../app/styles/_varsMixinsAnimation.scss */
   25% {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 6px rgba(104, 185, 254, 0.7), 0 0 10px rgba(104, 185, 254, 0.7);
+    text-shadow: 0 0 12px rgba(255,255,255,0.2),0 0 15px rgba(255,255,255,0.2),0 0 20px rgba(255,255,255,0.2),0 0 6px rgba(104,185,254,0.7),0 0 10px rgba(104,185,254,0.7);
   }
 
-  /* line 47, ../../app/styles/_varsMixinsAnimation.scss */
   50% {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 20px rgba(255, 255, 255, 0.2), 0 0 8px rgba(104, 185, 254, 0.7), 0 0 10px rgba(104, 185, 254, 0.7), 0 0 15px rgba(104, 185, 254, 0.7);
+    text-shadow: 0 0 12px rgba(255,255,255,0.2),0 0 15px rgba(255,255,255,0.2),0 0 20px rgba(255,255,255,0.2),0 0 8px rgba(104,185,254,0.7),0 0 10px rgba(104,185,254,0.7),0 0 15px rgba(104,185,254,0.7);
   }
 
-  /* line 50, ../../app/styles/_varsMixinsAnimation.scss */
   75% {
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.2), 0 0 15px rgba(255, 255, 255, 0.2), 0 0 25px rgba(255, 255, 255, 0.2), 0 0 8px rgba(104, 185, 254, 0.7), 0 0 12px rgba(104, 185, 254, 0.7), 0 0 15px rgba(104, 185, 254, 0.7), 0 0 20px rgba(104, 185, 254, 0.7);
+    text-shadow: 0 0 12px rgba(255,255,255,0.2),0 0 15px rgba(255,255,255,0.2),0 0 25px rgba(255,255,255,0.2),0 0 8px rgba(104,185,254,0.7),0 0 12px rgba(104,185,254,0.7),0 0 15px rgba(104,185,254,0.7),0 0 20px rgba(104,185,254,0.7);
   }
 }
 
 @-webkit-keyframes slide-in {
-  /* line 56, ../../app/styles/_varsMixinsAnimation.scss */
   0% {
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
   }
 
-  /* line 59, ../../app/styles/_varsMixinsAnimation.scss */
   100% {
     -webkit-transform: translate(0%, 0);
     transform: translate(0%, 0);
@@ -57,13 +47,11 @@
 }
 
 @keyframes slide-in {
-  /* line 65, ../../app/styles/_varsMixinsAnimation.scss */
   0% {
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
   }
 
-  /* line 68, ../../app/styles/_varsMixinsAnimation.scss */
   100% {
     -webkit-transform: translate(0%, 0);
     transform: translate(0%, 0);
@@ -71,13 +59,11 @@
 }
 
 @-webkit-keyframes slide-out {
-  /* line 74, ../../app/styles/_varsMixinsAnimation.scss */
   0% {
     -webkit-transform: translate(0%, 0);
     transform: translate(0%, 0);
   }
 
-  /* line 77, ../../app/styles/_varsMixinsAnimation.scss */
   100% {
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
@@ -85,14 +71,11 @@
 }
 
 @keyframes slide-out {
-  /* line 83, ../../app/styles/_varsMixinsAnimation.scss */
   100% {
     -webkit-transform: translate(-100%, 0);
     transform: translate(-100%, 0);
   }
 }
-
-/* line 1, ../../app/styles/_svg.scss */
 
 svg {
   background: black;
@@ -101,16 +84,11 @@ svg {
   height: 100%;
   width: 100%;
   color: #333;
-  /*z-index: -1;*/
 }
-
-/* line 1, ../../app/styles/_nodes.scss */
 
 .node {
   cursor: pointer;
 }
-
-/* line 3, ../../app/styles/_nodes.scss */
 
 .node circle {
   fill: #68b9fe;
@@ -119,20 +97,14 @@ svg {
   stroke-opacity: 1;
 }
 
-/* line 8, ../../app/styles/_nodes.scss */
-
 .node circle.root {
   fill: #9000ff;
   stroke: #90c73d;
 }
 
-/* line 13, ../../app/styles/_nodes.scss */
-
 .node text.root {
   font-size: 32px;
 }
-
-/* line 16, ../../app/styles/_nodes.scss */
 
 .node text {
   display: none;
@@ -143,20 +115,14 @@ svg {
   text-shadow: 1px 1px #333, -1px 1px #333, 1px -1px #333, -1px -1px #333;
 }
 
-/* line 26, ../../app/styles/_nodes.scss */
-
 .node.active {
   opacity: 1;
   fill: white;
 }
 
-/* line 29, ../../app/styles/_nodes.scss */
-
 .node.active.highlight {
   opacity: .8 !important;
 }
-
-/* line 31, ../../app/styles/_nodes.scss */
 
 .node.active.highlight circle {
   fill-opacity: 1;
@@ -164,8 +130,6 @@ svg {
   stroke-width: 3px;
   fill: white;
 }
-
-/* line 39, ../../app/styles/_nodes.scss */
 
 .node.active.selected circle,
 .node.active:hover circle {
@@ -176,26 +140,18 @@ svg {
   fill: white;
 }
 
-/* line 46, ../../app/styles/_nodes.scss */
-
 .node.active.selected text,
 .node.active:hover text {
   display: block;
 }
 
-/* line 51, ../../app/styles/_nodes.scss */
-
 .node.inactive {
   opacity: 0;
 }
 
-/* line 53, ../../app/styles/_nodes.scss */
-
 .node.inactive.highlight {
   opacity: .8 !important;
 }
-
-/* line 55, ../../app/styles/_nodes.scss */
 
 .node.inactive.highlight circle {
   fill-opacity: 1;
@@ -204,21 +160,15 @@ svg {
   fill: white;
 }
 
-/* line 13, ../../app/styles/_edges.scss */
-
 .edge {
   stroke-width: 2;
   stroke: #ccc;
   stroke-opacity: 0.2;
 }
 
-/* line 18, ../../app/styles/_edges.scss */
-
 .edge.active {
   opacity: 1;
 }
-
-/* line 20, ../../app/styles/_edges.scss */
 
 .edge.active:hover,
 .edge.active.selected {
@@ -228,22 +178,16 @@ svg {
   stroke-width: 4;
 }
 
-/* line 26, ../../app/styles/_edges.scss */
-
 .edge.active.highlight {
   opacity: .8 !important;
   stroke-width: 2 !important;
   stroke-opacity: .7 !important;
-  stroke: white !important;
+  stroke: #fff !important;
 }
-
-/* line 35, ../../app/styles/_edges.scss */
 
 .edge.inactive {
   opacity: 0;
 }
-
-/* line 37, ../../app/styles/_edges.scss */
 
 .edge.inactive.highlight {
   opacity: .8 !important;
@@ -252,31 +196,23 @@ svg {
   stroke: #e89619 !important;
 }
 
-/* line 1, ../../app/styles/_utils.scss */
-
 #loading-spinner {
   position: absolute;
   right: 0;
 }
-
-/*Zoom Controls Styles*/
-
-/* line 2, ../../app/styles/_controls.scss */
 
 #zoom-controls {
   background-color: transparent;
   background-image: url("/images/maze-black.png");
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 5px rgba(255,255,255,0.3);
   margin-top: 10%;
   z-index: 5;
   position: relative;
   display: block;
   width: 55px;
 }
-
-/* line 9, ../../app/styles/_controls.scss */
 
 #zoom-controls #zoom-in,
 #zoom-controls #zoom-out,
@@ -286,31 +222,23 @@ svg {
   width: 100%;
 }
 
-/* line 13, ../../app/styles/_controls.scss */
-
 #zoom-controls #zoom-in i,
 #zoom-controls #zoom-out i,
 #zoom-controls #zoom-reset i {
   color: #E89619;
 }
 
-/* line 16, ../../app/styles/_controls.scss */
-
 #zoom-controls #zoom-in:hover,
 #zoom-controls #zoom-out:hover,
 #zoom-controls #zoom-reset:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255,255,255,0.2);
 }
-
-/* line 19, ../../app/styles/_controls.scss */
 
 #zoom-controls #zoom-in:active,
 #zoom-controls #zoom-out:active,
 #zoom-controls #zoom-reset:active {
   border: none;
 }
-
-/* line 25, ../../app/styles/_controls.scss */
 
 .fa-caret-right,
 .fa-caret-down,
@@ -319,8 +247,6 @@ svg {
   color: #e89619;
 }
 
-/* line 31, ../../app/styles/_controls.scss */
-
 #search {
   margin-top: 2em;
   margin-bottom: 1em;
@@ -328,13 +254,9 @@ svg {
   width: 90%;
 }
 
-/* line 37, ../../app/styles/_controls.scss */
-
 #search span {
   vertical-align: bottom;
 }
-
-/* line 40, ../../app/styles/_controls.scss */
 
 #search input {
   background-color: black;
@@ -344,8 +266,6 @@ svg {
   padding-left: 0.5em;
 }
 
-/* line 47, ../../app/styles/_controls.scss */
-
 #search .search-icon {
   height: 22px;
   background-color: #000;
@@ -353,21 +273,15 @@ svg {
   border-right-color: #111;
 }
 
-/* line 57, ../../app/styles/_controls.scss */
-
 #stats {
   padding: 0.5em 1em;
   background-color: transparent;
   border-bottom: thin dashed #e89619;
 }
 
-/* line 61, ../../app/styles/_controls.scss */
-
 #stats #stats-header {
   padding: 10px;
 }
-
-/* line 64, ../../app/styles/_controls.scss */
 
 #stats #all-stats {
   color: white;
@@ -377,28 +291,20 @@ svg {
   overflow: auto;
 }
 
-/* line 70, ../../app/styles/_controls.scss */
-
 #stats #all-stats li {
   padding: 3px;
 }
-
-/* line 74, ../../app/styles/_controls.scss */
 
 #stats #node-stats-graph,
 #stats #edge-stats-graph {
   height: 250px;
 }
 
-/* line 76, ../../app/styles/_controls.scss */
-
 #stats #node-stats-graph svg,
 #stats #edge-stats-graph svg {
   opacity: .6;
   background: transparent;
 }
-
-/* line 80, ../../app/styles/_controls.scss */
 
 #stats #node-stats-graph text,
 #stats #edge-stats-graph text {
@@ -409,23 +315,17 @@ svg {
   z-index: 1000;
 }
 
-/* line 87, ../../app/styles/_controls.scss */
-
 #stats #node-stats-graph .no-data,
 #stats #edge-stats-graph .no-data {
   margin: 30px 0;
   color: #e89619;
 }
 
-/* line 93, ../../app/styles/_controls.scss */
-
 #stats .badge {
   border-radius: 0;
   height: 100%;
-  background-color: rgba(104, 185, 254, 0.6);
+  background-color: rgba(104,185,254,0.6);
 }
-
-/* line 100, ../../app/styles/_controls.scss */
 
 #update-elements {
   padding: 0.5em 1em;
@@ -433,13 +333,9 @@ svg {
   border-bottom: thin dashed #e89619;
 }
 
-/* line 105, ../../app/styles/_controls.scss */
-
 #update-elements h3 {
   padding: 10px;
 }
-
-/* line 109, ../../app/styles/_controls.scss */
 
 #update-elements #element-options {
   cursor: pointer;
@@ -447,8 +343,6 @@ svg {
   margin-left: 2%;
   color: white;
 }
-
-/* line 117, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper {
   font-family: 'Source Sans Pro', Helvetica, sans-serif;
@@ -458,22 +352,16 @@ svg {
   padding: 0;
 }
 
-/* line 123, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper.initial {
   -webkit-transform: translate(-100%, 0);
   transform: translate(-100%, 0);
 }
-
-/* line 125, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper.initial #dash-toggle {
   color: #e89619 !important;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
-
-/* line 131, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper.off-canvas {
   -webkit-transform: translate(-100%, 0);
@@ -482,28 +370,20 @@ svg {
   animation: slide-out .75s linear;
 }
 
-/* line 135, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper.off-canvas #dash-toggle {
   color: #e89619 !important;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
 
-/* line 141, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper.on-canvas {
   -webkit-animation: slide-in .75s ease-in-out;
   animation: slide-in .75s ease-in-out;
 }
 
-/* line 142, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper.on-canvas * {
   box-shadow: none !important;
 }
-
-/* line 149, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper #control-dash {
   overflow-x: hidden;
@@ -515,14 +395,10 @@ svg {
   z-index: 5;
 }
 
-/* line 157, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper #control-dash h3 {
   display: inline;
   margin: 0;
 }
-
-/* line 162, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper #dash-toggle {
   z-index: 5;
@@ -530,16 +406,14 @@ svg {
   background-image: url("/images/maze-black.png");
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 5px rgba(255,255,255,0.3);
   position: absolute;
   top: 50%;
   font-size: 2.2em;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255,255,255,0.2);
   padding: 10px;
   margin-left: 100%;
 }
-
-/* line 173, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper button {
   border-radius: 0;
@@ -547,13 +421,9 @@ svg {
   background-color: transparent;
 }
 
-/* line 177, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper button:active {
   border: none;
 }
-
-/* line 181, ../../app/styles/_controls.scss */
 
 #control-dash-wrapper h3 {
   font-weight: 200;
@@ -563,8 +433,6 @@ svg {
   vertical-align: top;
 }
 
-/* line 188, ../../app/styles/_controls.scss */
-
 #control-dash-wrapper li {
   cursor: pointer;
   background: transparent;
@@ -572,27 +440,19 @@ svg {
   border-radius: 0;
 }
 
-/* line 1, ../../app/styles/_filters.scss */
-
 #filters {
   padding: 0.5em 1em;
   background-color: transparent;
   border-bottom: thin dashed #e89619;
 }
 
-/* line 5, ../../app/styles/_filters.scss */
-
 #filters form {
   width: 100%;
 }
 
-/* line 9, ../../app/styles/_filters.scss */
-
 #filters #filter-header {
   padding: 10px;
 }
-
-/* line 13, ../../app/styles/_filters.scss */
 
 #filters #filter-relationships,
 #filters #filter-nodes {
@@ -604,8 +464,6 @@ svg {
   text-align: center;
   vertical-align: top;
 }
-
-/* line 21, ../../app/styles/_filters.scss */
 
 #filters #filter-relationships #filter-node-header,
 #filters #filter-relationships #filter-rel-header,
@@ -619,8 +477,6 @@ svg {
   width: 100%;
 }
 
-/* line 28, ../../app/styles/_filters.scss */
-
 #filters #filter-relationships #filter-node-header h4,
 #filters #filter-relationships #filter-rel-header h4,
 #filters #filter-nodes #filter-node-header h4,
@@ -630,8 +486,6 @@ svg {
   color: white;
 }
 
-/* line 33, ../../app/styles/_filters.scss */
-
 #filters #filter-relationships #filter-node-header:active,
 #filters #filter-relationships #filter-rel-header:active,
 #filters #filter-nodes #filter-node-header:active,
@@ -639,8 +493,6 @@ svg {
   border: none;
   box-shadow: none;
 }
-
-/* line 38, ../../app/styles/_filters.scss */
 
 #filters #filter-relationships #rel-dropdown,
 #filters #filter-relationships #node-dropdown,
@@ -652,8 +504,6 @@ svg {
   background: transparent;
 }
 
-/* line 43, ../../app/styles/_filters.scss */
-
 #filters #filter-relationships #rel-dropdown li,
 #filters #filter-relationships #node-dropdown li,
 #filters #filter-nodes #rel-dropdown li,
@@ -661,46 +511,28 @@ svg {
   padding: 5px;
 }
 
-/* line 45, ../../app/styles/_filters.scss */
-
 #filters #filter-relationships #rel-dropdown li:hover,
 #filters #filter-relationships #node-dropdown li:hover,
 #filters #filter-nodes #rel-dropdown li:hover,
 #filters #filter-nodes #node-dropdown li:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255,255,255,0.2);
 }
-
-/* line 52, ../../app/styles/_filters.scss */
 
 #filters .active-label {
   color: white;
 }
 
-/* line 56, ../../app/styles/_filters.scss */
-
 #filters .disabled {
-  color: rgba(255, 255, 255, 0.5);
+  color: rgba(255,255,255,0.5);
 }
-
-/* line 58, ../../app/styles/_filters.scss */
 
 #filters .disabled:hover {
   color: #fdc670;
 }
 
-/* line 9, ../../app/styles/alchemy.scss */
-
 .alchemy {
   position: relative;
-  /* filters */
-  /* graph controls */
-  /* basic SVG styles */
-  /* root styles */
-  /* hover styles */
-  /* search/filter/selected styles */
 }
-
-/* line 12, ../../app/styles/alchemy.scss */
 
 .alchemy #search form {
   z-index: 2;
@@ -708,39 +540,27 @@ svg {
   margin-left: 100px;
 }
 
-/* line 18, ../../app/styles/alchemy.scss */
-
 .alchemy #add-tag {
   width: 300px;
   display: inline-block;
 }
 
-/* line 49, ../../app/styles/alchemy.scss */
-
 .alchemy #tags input {
   max-width: 220px;
 }
-
-/* line 53, ../../app/styles/alchemy.scss */
 
 .alchemy #tags-list {
   padding: 0;
 }
 
-/* line 57, ../../app/styles/alchemy.scss */
-
 .alchemy #tags-list .icon-remove-sign {
   cursor: pointer;
 }
-
-/* line 61, ../../app/styles/alchemy.scss */
 
 .alchemy #tags-list li {
   display: inline-block;
   margin-top: 5px;
 }
-
-/* line 66, ../../app/styles/alchemy.scss */
 
 .alchemy #tags-list span {
   background-color: #ccc;
@@ -750,21 +570,15 @@ svg {
   padding: 1px 6px;
 }
 
-/* line 74, ../../app/styles/alchemy.scss */
-
 .alchemy #filter-nodes label,
 .alchemy #filter-relationships label {
   font-weight: normal;
   margin-right: 1em;
 }
 
-/* line 79, ../../app/styles/alchemy.scss */
-
 .alchemy .clear {
   clear: both;
 }
-
-/* line 123, ../../app/styles/alchemy.scss */
 
 .alchemy text {
   font-weight: 200;
