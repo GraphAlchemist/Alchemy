@@ -119,8 +119,8 @@ hr{
 }
 #alchemy-logo{
 	min-height: 50vh;
-	padding: 100px;
-	padding-top: 150px;
+	padding: 50px;
+	padding-top: 100px;
 }
 
 #alchemy-logo, #about, #team-info, #featureCarousel{
@@ -128,29 +128,40 @@ hr{
 	border-bottom: thin $orange solid;
 }
 
+#featureCarousel{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
 #footer-ga-logo{
 	height: 30px;
 }
 
-
-#about{
+@mixin alchemy-text(){
+	h1,h2{
+		line-height: 1em;
+	}
 	h3{
 		line-height: 1.5em;
 	}
-	min-height: 350px;
-	padding: 20px 50px 50px 50px;
 	h5>a:hover{
 		text-decoration: none;
 		color: $bright-orange;
 	}
+
+}
+#about{
+	@include alchemy-text();
+	min-height: 350px;
+	padding: 20px 50px 50px 50px;
+}
+#quick-start, #meet-team{
+	@include alchemy-text();
 }
 
 #meet-the-team{
 	#team-info{
-		padding: 0 50px 50px 50px;
-		h2{
-			padding-top: 20px;
-		}
+		padding: 20px 50px 50px 50px;
 	}
 
 	#team-data, #team-html{

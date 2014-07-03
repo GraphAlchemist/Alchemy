@@ -20,8 +20,7 @@
               <slide ng-repeat="slide in slides" active="slide.active">
                 <img ng-src="{{slide.image}}" style="margin:auto;">
                 <div class="carousel-caption">
-                  <h4>Slide {{$index}}</h4>
-                  <p>{{slide.text}}</p>
+                  <h3>{{slide.text}}</h3>
                 </div>
               </slide>
             </carousel>
@@ -30,10 +29,21 @@
 
     <section class="row" id="meet-the-team">
         <div class="col-md-12" id="team-info">
-            <div class="row">
-                <h2>Meet the Team</h2>
-                <h4>Want to contribute? For information on contributing, check out the contributing section of our <a href="/documentation/Contributing">docs.</a>
-                </h4>
+            <div class="row" id="meet-team">
+                <div class="col-md-3">
+                    <h2>Meet the Team</h2>
+                </div>                
+                <div class="col-md-9" >
+                    <h3>Want to contribute? For information on contributing, check out the <a href="/documentation/Contributing">contributing section of our docs.</a></h3>
+                </div>
+            </div>
+            <div class="row" id="quick-start">
+                <div class="col-md-3">
+                    <h2>Quick Start with Meet the Team</h2>
+                </div>
+                <div class="col-md-9">
+                    <h3>For more detail about getting Alchemy.js up and running in your project, check out the <a href="/documentation/#quick-start">Quick Start docs</a>.</h3>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12 alchemy" id="team-svg"></div>
