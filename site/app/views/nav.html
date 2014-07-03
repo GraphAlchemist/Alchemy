@@ -1,14 +1,12 @@
-<div class="navbar navbar-default navbar-fixed-top" ng-app="navigation" ng-controller="navCtrl">
+<div class="navbar navbar-default navbar-fixed-top" ng-app="navigation" ng-controller="navCtrl" ng-show>
     <div class="header">
     <div class = "text-center" id="sm-alchemy-logo">
         <img src="images/alchemyLogoFlat.png"></img>
     </div>
     <ul class="nav nav-pills" ng-init="init()">
-        <li ng-click="active('/')" id="Home"><a >Home</a></li>
+        <li ng-repeat="link in links" ng-click="active(link.href)" class="{{link.state}}"><a>{{link.name}}</a></li>
         <li ><a href="documentation">Documentation</a></li>
         <li><a href="documentation/Contributing">Contribute</a></li>
-        <li ng-click="active('/examples')" id="Examples"><a>Examples</a></li>
-        <li ng-click="active('#')" id="Tutorial"><a href="#" id="tutorial" data-toggle="tooltip" data-placement="bottom" title="Coming Soon!">Tutorial</a></li>
     </ul>
     <span class="h3" id="project">Alchemy.js</span>
     </div>

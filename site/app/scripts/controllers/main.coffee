@@ -32,10 +32,10 @@ angular.module('navigation', ['ngRoute','ui.bootstrap'])
             $location.hash("")
             for link in $scope.links
                 if navTab is link.href
-                    $("#" + link.name).addClass("active")
+                    link.state="active"
                     $location.path(link.href)
                 else 
-                    $("#" + link.name).removeClass("active")
+                    link.state=" "
 
 
 angular.module('alchemyExamples', [])
