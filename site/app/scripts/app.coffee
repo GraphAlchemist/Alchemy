@@ -1,6 +1,6 @@
 # 'use strict'
 
-angular.module('site',['ngRoute', 'exampleMod'])
+angular.module('site',['ngRoute', 'alchemyExamples', 'featCarousel'])
   .config ($routeProvider) ->
     $routeProvider
       .when '/',
