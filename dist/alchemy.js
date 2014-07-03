@@ -136,9 +136,9 @@
         }
       } else {
         if ((d.root != null) && d.root) {
-          return "node root";
+          return "node root active";
         } else {
-          return "node";
+          return "node active";
         }
       }
     }).attr('id', function(d) {
@@ -538,9 +538,14 @@
       }
     },
     drag: d3.behavior.drag().origin(Object).on("dragstart", nodeDragStarted).on("drag", nodeDragged).on("dragend", nodeDragended),
-    zoom: d3.behavior.zoom().scaleExtent([0.2, 2.4]).on("zoom", function() {
-      alchemy.vis.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
-    }),
+    zoom: function(extent) {
+      if (this._zoomBehavior == null) {
+        this._zoomBehavior = d3.behavior.zoom();
+      }
+      return this._zoomBehavior.scaleExtent(extent).on("zoom", function() {
+        return alchemy.vis.attr("transform", "translate(" + d3.event.translate + ") scale(" + d3.event.scale + ")");
+      });
+    },
     clickZoom: function(direction) {
       var endTransform, startTransform;
       startTransform = alchemy.vis.attr("transform").match(/(-*\d+\.*\d*)/g).map(function(a) {
@@ -558,8 +563,10 @@
           return console.log('error');
         }
       });
-      this.zoom.scale(endTransform[2]);
-      return this.zoom.translate(endTransform.slice(0, 2));
+      if (this._zoomBehavior == null) {
+        this._zoomBehavior = d3.behavior.zoom();
+      }
+      return this._zoomBehavior.scale(endTransform[2]).translate(endTransform.slice(0, 2));
     },
     toggleControlDash: function() {
       var offCanvas;
@@ -697,7 +704,7 @@
     },
     linkDistancefn: function(edge, k) {
       if (alchemy.conf.cluster) {
-        if (edge.source.node.root || edge.target.node.root) {
+        if (edge.source.root || edge.target.root) {
           300;
         }
         if (edge.source.cluster === edge.target.cluster) {
@@ -808,7 +815,7 @@
       e.source = nodesMap.get(e.source);
       return e.target = nodesMap.get(e.target);
     });
-    alchemy.vis = d3.select(alchemy.conf.divSelector).attr("style", "width:" + (alchemy.conf.graphWidth()) + "px; height:" + (alchemy.conf.graphHeight()) + "px").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', alchemy.utils.deselectAll).call(alchemy.interactions.zoom).append('g').attr("transform", "translate(" + alchemy.conf.initialTranslate + ") scale(" + alchemy.conf.initialScale + ")");
+    alchemy.vis = d3.select(alchemy.conf.divSelector).attr("style", "width:" + (alchemy.conf.graphWidth()) + "px; height:" + (alchemy.conf.graphHeight()) + "px").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("pointer-events", "all").on("dblclick.zoom", null).on('click', alchemy.utils.deselectAll).call(alchemy.interactions.zoom(alchemy.conf.scaleExtent)).append('g').attr("transform", "translate(" + alchemy.conf.initialTranslate + ") scale(" + alchemy.conf.initialScale + ")");
     k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()));
     alchemy.force = d3.layout.force().charge(alchemy.layout.charge(k)).linkDistance(function(d) {
       return alchemy.conf.linkDistance(d, k);
@@ -1060,7 +1067,7 @@
     dataSource: null,
     initialScale: 1,
     initialTranslate: [0, 0],
-    scaleExtent: [0.01, 5],
+    scaleExtent: [0.5, 2.4],
     warningMessage: "There be no data!  What's going on?"
   };
 

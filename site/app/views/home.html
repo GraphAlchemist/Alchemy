@@ -2,31 +2,48 @@
         <img src="images/alchemy-01.svg"></img>
     </div>
 
-    <div class="row">
+    <section class="row">
         <div class="col-md-12" id="about">
             <div class ="row">
                 <div class = "col-md-3">
                     <h1>Alchemy.js</h1>
                 </div>
                 <div class="col-md-9">
-                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
+                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Alchemy.js is built to work out of the box, and is easily customizable. Create full applications with built-in features like search, clustering, and filters; embed small graphs as visual elements in larger projects. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-12" id="features">
-            <!-- Carousel -->
+    </section>
+    <section class="row">
+        <div class="col-md-12" id="featureCarousel" ng-app="featCarousel" ng-controller="carouselCtrl">
+            <carousel interval="myInterval">
+              <slide ng-repeat="slide in slides" active="slide.active">
+                <img ng-src="{{slide.image}}" style="margin:auto;">
+                <div class="carousel-caption">
+                  <h3>{{slide.text}}</h3>
+                </div>
+              </slide>
+            </carousel>
         </div>
-    </div>
+    </section>
 
-    <div class="row" id="meet-the-team">
+    <section class="row" id="meet-the-team">
         <div class="col-md-12" id="team-info">
-            <div class="row">
-                <h2>Meet the Team</h2>
-                <h4>Want to contribute? For information on contributing, check out the contributing section of our <a href="/documentation/Contributing">docs.</a>
-                </h4>
+            <div class="row" id="meet-team">
+                <div class="col-md-3">
+                    <h2>Meet the Team</h2>
+                </div>                
+                <div class="col-md-9" >
+                    <h3>Want to contribute? For information on contributing, check out the <a href="/documentation/Contributing">contributing section of our docs.</a></h3>
+                </div>
+            </div>
+            <div class="row" id="quick-start">
+                <div class="col-md-3">
+                    <h2>Quick Start with Meet the Team</h2>
+                </div>
+                <div class="col-md-9">
+                    <h3>For more detail about getting Alchemy.js up and running in your project, check out the <a href="/documentation/#quick-start">Quick Start docs</a>.</h3>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-12 alchemy" id="team-svg"></div>
@@ -149,7 +166,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 <script type="text/javascript">
 var config = {
     divSelector: "#team-svg",

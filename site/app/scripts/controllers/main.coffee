@@ -16,6 +16,8 @@ angular.module('site')
         d3.json('../data/contrib.json', (data) ->
             $scope.contrib = data
         )
+
+angular.module('alchemyExamples', [])
     .controller 'examplesCtrl', ($scope, $location) ->
         $scope.init = ->
             $scope.examples =
@@ -42,11 +44,18 @@ angular.module('site')
             $location.path("examples/FullApp")
 
         $scope.hideViz = ->
-            console.log "hideViz called"
             $(".footer").removeClass("hidden")
             $(".navbar-fixed-top").removeClass("hidden")
+            $location.hash("")
             $location.path("examples/")
 
-
-
-
+angular.module('featCarousel', ['ui.bootstrap'])
+    .controller 'carouselCtrl', ($scope) ->
+        $scope.myInterval = 5000
+        $scope.slides=[
+            {image: "images/features/cluster_team.png", text: "Cluster with team.json"},
+            {image: "images/features/clusterHighlight_team.png", text: "Cluster Highlighted Node with team.json"},
+            {image: "images/features/filters_movies.png", text: "Filters with movies.json"},
+            {image: "images/features/filters&Stats_movies.png", text: "Filters and Stats with movies.json"},
+            {image: "images/features/search_movies.png", text: "Search with movies.json"}
+        ]
