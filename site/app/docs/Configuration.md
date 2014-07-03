@@ -129,7 +129,7 @@ _____
 [css color value] **default**: `null`    
 A colour to be passed to all edges.  If `alchemy.conf.cluster` is `true` then colors assigned by edge gradients take priority.  Read more about the [[`cluster` configuration|Layout#cluster]].
 
-#####edgeTypes: 
+#####edgeTypes 
 [array of strings|object] **default**: `null`    
 Similiar to [nodeTypes](#nodeTypes), a string value will cause Alchemy.js to create an index of edgeTypes based on looking up the values for the parameter on each edge in the GraphJSON.  Below **caption** would create edgeTypes based on the captions provided.  This is a convenience function and can become very costly on larger data sets.
 
@@ -158,12 +158,12 @@ ___
 
 #Editing
 
-#####showEditor:
-[bool] `false`    
-When both `showEditor` and `showControlDash` are true, creates an Editor menu where you can directly edit elements on the graph. If `showControlDash` is false, nothing will happen.
+#####showEditor
+[bool] **default**: `false`    
+When both `showEditor` and [`showControlDash`](#showCo) are true, creates an Editor menu where you can directly edit elements on the graph. If `showControlDash` is false, then the editor menu will not be visible.  Currently, the only editor functionality is [removeElement](#removeElement).
 
-#####removeElement:
-[bool] `false`    
+#####removeElement
+[bool] **default**: `false`    
 Adds a "Remove Element" button to the editor dropdown in the control dash.  When clicked, it will remove any selected node or edge.  Keep in mind this is to completely remove the element, not hide it.
 
 <!-- #####addNodes:
@@ -178,33 +178,33 @@ ___
 
 #Filtering
 
-#####showFilters:
-[bool] `false`    
-When both `showFilters` and `showControlDash` are true, creates a Filter menu where you can apply different fitlers to the graph.  If `showControlDash` is false, nothing will happen.
+#####showFilters
+[bool] **default**: `false`    
+When both `showFilters` and `showControlDash` are true, creates a filter menu that contains different types of graph filters.  [`showControlDash`](#showControlDash) must be true in order for the filters menu to be visible.  Current elements in the filters menu are [edgeFilters](#edgeFilters), [nodeFilters](#nodeFilters), [captionToggle](#captionToggle), [edgesToggle](#edgesToggle), [nodesToggle](#nodesToggle), and [toggleRootNodes](#toggleRootNodes).
 
-#####edgeFilters:
-[bool] `false`    
-If set to true, alchemy will load a set of filters that correspond to edge types defined in the [`alchemy.conf.edgeTypes`](https://github.com/GraphAlchemist/Alchemy/wiki/Edges#edgetypes) parameter, and load an easy to use dropdown into the Filters section of the control dash.
+#####edgeFilters
+[bool] **default**: `false`    
+If set to true, alchemy will load a set of filters that correspond to edge types defined in the [`edgeTypes`](#edgetypes) parameter, into the filters section of the control dash.
 
-#####nodeFilters:
-[bool] `false`
-If set to true, alchemy will load a set of filters that correspond to node types as defined in the [`alchemy.conf.nodeTypes`](https://github.com/GraphAlchemist/Alchemy/wiki/Nodes#nodetypes) parameter and load an easy to use dropdown into the Filters section of the control dash.
+#####nodeFilters
+[bool] **default**: `false`    
+If set to true, alchemy will load a set of filters that correspond to node types as defined in the [`nodeTypes`](#nodetypes) into the filters section of the control dash.
 
-#####captionToggle: 
-[bool] `false`    
-Allow toggling of caption visibility.  When toggled, `.hidden` is assigned to all captions.  The default `hidden` class can easily be overwritten to allow different colors or opacities for node captions when hidden.
+#####captionsToggle 
+[bool] **default**: `false`    
+Allow toggling of caption visibility.  When toggled, `.hidden` is assigned to all captions.  The default `hidden` class can easily be overwritten to allow different colors or opacities for node captions when hidden.  See [graph styling](../GraphStyling) for examples of use cases.
 
-#####edgesToggle:
-[bool] `false`    
-Allow toggling of edge visibility.  When toggled, `.hidden` is assigned to all edges.  The default `hidden` class can easily be overwritten to include different levels of opacity or color upon toggle.
+#####edgesToggle
+[bool] **default**: `false`      
+Allow toggling of edge visibility.  When toggled, `.hidden` is assigned to all edges.  The default `hidden` class can easily be overwritten to include different levels of opacity or color upon toggle.  See [graph styling](../GraphStyling) for examples of use cases.
 
-#####nodesToggle:
-[bool] `false`
-Allow toggling of node visibility.  When toggled, `.hidden` is assigned to all nodes.  The default `hidden` class can easily be overwritten to include different levels of opacity or color upon toggle.
+#####nodesToggle
+[bool] **default**: `false`    
+Allow toggling of node visibility.  When toggled, `.hidden` is assigned to all nodes.  The default `hidden` class can easily be overwritten to include different levels of opacity or color upon toggle.  When used in tandem with [edgesToggle](#edgesToggle) nodes can be removed with edges still being visible.  Nodes toggle is also useful for applying a custom set of styles for the `.hidden` class that is applied to all nodes on toggle.  See [graph styling](../GraphStyling) for examples of use cases.
 
-#####toggleRootNodes:   
+<!-- #####toggleRootNodes   
 [bool] `true`    
-If true, root nodes are affected by nodesToggle.
+If true a t -->
 
 <!-- #####edgesTagsFilter:
 [array of strings|object] `false`
@@ -262,9 +262,8 @@ Clustering nodes will have a major effect on layout and color and is one of Alch
     ]
 }
 ```
-The value for cluster will be used to look up a color from [`alchemy.conf.clusterColours`](#clusterColours).  All nodes of the same cluster will receive the same colour.  Edges between nodes of the same cluster will receive that cluster's colour, while edges that span between two nodes in different clusters will receive an inverse gradient of the colours of the two colours.  For example:
-![cluster](../img/cluster.png)
-This makes it easy to visually identify 'boundary spanners' in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.
+The value for cluster will be used to look up a color from [`alchemy.conf.clusterColours`](#clusterColours).  All nodes of the same cluster will receive the same colour.  Edges between nodes of the same cluster will receive that cluster's colour, while edges that span between two nodes in different clusters will receive an inverse gradient of the colours of the two colours.  This makes it easy to visually identify 'boundary spanners' in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.  For example:
+![cluster](../img/cluster.png)    
 <!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON-->
 
 #####clusterColours
@@ -274,7 +273,7 @@ d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF",
             "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f",
             "#ffcd00", "#184fff", "#ff7e00"])
 ```
-Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the [d3.shuffle](https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle) method.  Colours can be predictably assigned to colours by simply providing the colours in the position of the corresponding cluster.  For instance, in an array of the following colours `[red, green, yellow, orange]`, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster orange would be 3, etc.
+Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the [d3.shuffle](https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle) method.  Colours can be predictably assigned to colours by simply providing the colours in the position of the corresponding cluster.  For instance, in an array of the following colours `[red, green, yellow, orange]`, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster orange would be 3, etc.  See [cluster](#cluster) for more information on how clustering works in Alchemy.js.
 
 #####forceLocked
 [bool] **default**: `true`    
@@ -295,25 +294,41 @@ ____
 
 #Other
 ##### dataSource     
-[string, object] **default:** `null`
+[string, object] **default:** `null`    
 Does not receive a default value and is the single parameter that **must** be defined by the user in order to use Alchemy.js.  `dataSource` receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's [`d3.json` method](https://github.com/mbostock/d3/wiki/Requests#d3_json) with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.
 
+##### divSelector
+[any css3 selector] **default**: '#alchemy'     
+This is the element that Alchemy.js will look for when creating the visualization.  By default alchemy looks for an element with id "alchemy."
+
+##### showControlDash
+[bool] **default**: `false`    
+The control dash is the element that houses search, filters, and editor functions.  **showControlDash** must be true in order for all other functionality to be visible to the end user.
+
 #####initialScale    
-[integer] **default**: `1`  
+[integer] **default**: `1`      
 Specifies the initial distance of the zoom on the svg.  A value assiged here initiates "scale" value directly in the svg's "transform" attribute.
 
-#####initialTranslate    
+#####initialTranslate        
 [2 integer array] **default:**`[0,0]`  
 Specifies the initial "pan" of the svg, corresponding directly to the "translate" value in the svg's "transform" attribute.  Because graphs layout differently every time, and because there is currently not support for setting initial node positions, there is limited utility to setting different values for the "translate" of the svg.
 
-#####warningMessage 
+#####warningMessage     
 [string] **default:** `"There be no data!  What's going on?"`  
 Specifies a custom warning message if there is no data.
 
-#####afterLoad     
+#####afterLoad         
 [str, function] **default:** 'afterLoad'      
 If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This maybe helpful for certain applications where the graph context is being watch and events can be fired when `alchemy.afterLoad` or `alchemy.someOtherString` is `true`.
 
 If `afterLoad` receives a function, that function is simply run after the graph is drawn.  E.g. `alchemy.someFunction()`
+
+#####scaleExtent
+[two integer array] **default**: [0.5, 2.4]    
+Defines the farthest that the user will be able to zoom in and out.  This applies minmimum and maximum values directly to the transform "scale()" attr of the svg.
+
+#####zoomControls
+[bool] **default**: false    
+When set to true, adds zoom in, zoom out, and reset buttons to the svg.
 ____
 

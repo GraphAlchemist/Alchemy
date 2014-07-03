@@ -22,8 +22,8 @@ alchemy.drawing.drawnodes = (node) ->
                             if d.root? and d.root then "node root #{nodeType} active"
                             else "node #{nodeType} active"
                         else
-                            if d.root? and d.root then "node root"
-                            else "node"
+                            if d.root? and d.root then "node root active"
+                            else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
                     .on('mousedown', (d) -> d.fixed = true)
