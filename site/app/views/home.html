@@ -15,8 +15,7 @@
         </div>
     </section>
     <section class="row">
-        <div ng-app="featCarousel" ng-controller="carouselCtrl">
-        <div style="height: 350px">
+        <div class="col-md-12" id="featureCarousel" ng-app="featCarousel" ng-controller="carouselCtrl">
             <carousel interval="myInterval">
               <slide ng-repeat="slide in slides" active="slide.active">
                 <img ng-src="{{slide.image}}" style="margin:auto;">
@@ -26,7 +25,6 @@
                 </div>
               </slide>
             </carousel>
-        </div>
         </div>
     </section>
 
