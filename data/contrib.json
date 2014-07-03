@@ -5,6 +5,7 @@
             "id": 0,
             "caption": "AlchemyJS",
             "role": "project",
+            "fun_fact": "built almost entirely in D3",
             "root": true
         },
         {

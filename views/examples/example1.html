@@ -1,15 +1,15 @@
-<div class=container-fluid><div class=row id=examples><ng-include src="'views/examples-nav.html'"></ng-include><div id=example1 class=col-md-9><div class=row><div id=graph-container class=col-md-6><h3 class=filename>Graph</h3><div class=alchemy id=alchemy style=height:450px></div></div><div class=col-md-6 id=example-code><h3 class=filename>HTML and Configuration</h3><pre>
+<div class=row><div id=graph-container class=col-md-6><h3 class=filename>Graph</h3><div class=alchemy id=alchemy style=height:450px></div></div><div class=col-md-6 id=example-code><h3 class=filename>HTML and Configuration</h3><pre>
 <code>
 &lt;html&gt;
   &lt;head&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;/&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;/&gt;
   &lt;/head&gt;
   &lt;body&gt;
     &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
     &lt;script type=&quot;text/javascript&quot;&gt;
 
         var config = {
@@ -21,7 +21,7 @@
   &lt;/body&gt;
 &lt;/html&gt;
 </code>
-                </pre></div></div></div></div></div><script type=text/javascript>var config = {
+        </pre></div></div><script type=text/javascript>var config = {
     dataSource: 'data/charlize.json',
     linkDistance: function() {
         return 40;

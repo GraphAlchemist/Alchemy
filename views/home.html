@@ -1,35 +1,34 @@
-<div class=container-fluid><div class="row text-center" id=alchemy-logo><img src=images/de4eb130.alchemy-01.svg></div><div class=row><div class=col-md-12 id=about><h1>Alchemy.js</h1><p>Description of Alchemy.js and how it's used</p><h5>You can read more about how alchemy.js is used in the <a href=/documentation>Docs</a></h5></div></div><div class=row id=meet-the-team><div class=col-md-12 id=team-info><div class=row><h2>Meet the Team</h2><h4>Want to contribute? For information on contributing, check out the contributing section of our <a href=/documentation/Contributing>docs.</a></h4></div><div class=row><div class="col-md-12 alchemy" id=team-svg></div></div><div class=row><div class=col-md-6 id=team-html><h3>Configuration and HTML</h3><pre>
-                            <p class=filename>HTML and Configuration</p>
-                            <code>
-                              &lt;html&gt;
-                                &lt;head&gt;
-                                  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/styles/vendor.css&quot;/&gt;
-                                  &lt;link rel=&quot;stylesheet&quot; href=&quot;../dist/alchemy.min.css&quot;/&gt;
-                                &lt;/head&gt;
-                                &lt;body&gt;
-                                  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
-                              
-                                  &lt;script src=&quot;../dist/scripts/vendor.js&quot;&gt;&lt;/script&gt;
-                                  &lt;script src=&quot;../dist/alchemy.min.js&quot;&gt;&lt;/script&gt;
-                                  &lt;script type=&quot;text/javascript&quot;&gt;
+<div class="row text-center" id=alchemy-logo><img src=images/de4eb130.alchemy-01.svg></div><div class=row><div class=col-md-12 id=about><div class=row><div class=col-md-3><h1>Alchemy.js</h1></div><div class=col-md-9><h3>is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Read more about the magic of alchemy.js in the <a href=/documentation>docs</a>.</h3></div></div></div></div><div class=row><div class=col-md-12 id=features><!-- Carousel --></div></div><div class=row id=meet-the-team><div class=col-md-12 id=team-info><div class=row><h2>Meet the Team</h2><h4>Want to contribute? For information on contributing, check out the contributing section of our <a href=/documentation/Contributing>docs.</a></h4></div><div class=row><div class="col-md-12 alchemy" id=team-svg></div></div><div class=row><div class=col-md-6 id=team-html><h3>Configuration and HTML</h3><pre>
+                        <code>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;/&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
-                                                                            var config = {
-                                          dataSource: 'data/contrib.json',
-                                          graphHeight: 260,
-                                          graphWidth: 300,
-                                          
-                                          linkDistance: function(){ return 40; },
+  &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
 
-                                          nodeTypes: {"node_type":["GA CEO", "GA Employee", "Contributor"]},
-                                          caption: function(node){ return node.caption; }
-                                          };
+    var config = {
+      dataSource: 'data/contrib.json',
+      graphHeight: 260,
+      graphWidth: 300,
+      
+      linkDistance: function(){ return 40; },
 
-                                      alchemy.begin(config)
-                                  &lt;/script&gt;
-                                &lt;/body&gt;
-                              &lt;/html&gt;
-                            </code>
-                          </pre></div><div class=col-md-6 id=team-data><h3>Contributor Data</h3><pre>
+      nodeTypes: {"node_type": ["Maintainer", "Contributor"]},
+      caption: function(node){ return node.caption; }
+      };
+
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                        </code>
+                    </pre></div><div class=col-md-6 id=team-data><h3>Contributor Data</h3><pre>
                         <code>
 {
     "comment": "AlchemyJS contributors",
@@ -105,7 +104,7 @@
     ]
 }
                             </code>
-                        </pre></div></div></div></div></div><script type=text/javascript>var config = {
+                        </pre></div></div></div></div><script type=text/javascript>var config = {
     divSelector: "#team-svg",
     dataSource: 'data/contrib.json',
     forceLocked: false,
@@ -117,6 +116,7 @@
     nodeTypes: {
         "role": ["Maintainer", "Contributor"]
     },
+    scaleExtent: [0.6, 2.0],
     caption: function(node) {
         return node.caption + ' ' + node.fun_fact;
     }
