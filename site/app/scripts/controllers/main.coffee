@@ -17,15 +17,15 @@ angular.module('site')
             $scope.contrib = data
         )
 
-angular.module('navigation', ['ngRoute','ui.bootstrap'])
-    .controller 'navCtrl', ($scope, $location, $route) ->
+angular.module('navigation', ['ui.bootstrap'])
+    .controller 'navCtrl', ($scope, $location) ->
         $scope.init = ->
             # angular links
             $scope.links =   
             [
                 { name: 'Home', href: '/'},
                 { name: 'Examples', href: '/examples'},
-                { name: 'Tutorial', href: '#'} 
+                { name: 'Tutorial', href: '', tooltip:"Coming Soon!"} 
             ] 
             $scope.active($location.path())
         $scope.active = (navTab) ->
