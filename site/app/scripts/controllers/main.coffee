@@ -26,9 +26,10 @@ angular.module('navigation', ['ngRoute','ui.bootstrap'])
                 { name: 'Home', href: '/'},
                 { name: 'Examples', href: '/examples'},
                 { name: 'Tutorial', href: '#'} 
-            ]
+            ] 
             $scope.active($location.path())
         $scope.active = (navTab) ->
+            $location.hash("")
             for link in $scope.links
                 if navTab is link.href
                     $("#" + link.name).addClass("active")
@@ -40,7 +41,6 @@ angular.module('navigation', ['ngRoute','ui.bootstrap'])
 angular.module('alchemyExamples', [])
     .controller 'examplesCtrl', ($scope, $location) ->
         $scope.init = ->
-            console.log $location.path()
             $scope.examples =
              [
                 { name: 'Basic Graph', src: 'views/examples/example1.html', id:"example1"},
@@ -53,9 +53,10 @@ angular.module('alchemyExamples', [])
             $scope.current_example = e
             for example in $scope.examples
                 if $scope.current_example is example
-                    $("." + example.id).addClass("active")
+                    example.state = "active"
                 else
-                    $("." + example.id).removeClass("active")
+                    example.state=""
+
             name = e.name.replace " ", "_"
             $location.hash(name)
 
