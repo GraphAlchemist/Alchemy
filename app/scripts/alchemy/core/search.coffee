@@ -25,11 +25,10 @@ alchemy.search =
 
             d3.selectAll("text").attr("style", ->
                 "display: inline;" if input != "")
-
             d3.selectAll(".node")
               .classed("inactive", (node) ->
-                
-                hidden = node.caption
+                DOMnode = d3.select(@)
+                hidden = DOMnode.text()
                              .toLowerCase()
                              .indexOf(input) < 0
 

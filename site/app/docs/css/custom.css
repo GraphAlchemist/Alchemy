@@ -3,6 +3,9 @@ body {
   font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
   color: black; }
 
+div[role="search"] {
+  display: none; }
+
 nav.stickynav {
   /* Nav Search Styles */
   /* Nav Menu Styles*/ }

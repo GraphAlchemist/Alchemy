@@ -1,3 +1,4 @@
+<link rel="stylesheet" type="text/css" href="styles/custom.css">
 <div class = "row">
     <div id="graph-container" class="col-md-12" style="height:450px">
     	<h3 class="filename">Graph</h3>
@@ -48,33 +49,62 @@
         <pre>
 <code>
 circle {
-    fill: blue;
-    fill-opacity: .8;
-    stroke-width: 2;
-    stroke-opacity: .6;
+    fill: white;
+    fill-opacity: .5;
+    stroke-width: 3;
+    stroke-opacity: 1;
     stroke: black;
 }
 
 circle.root {
+    stroke-width: 5;
     fill: lightblue;
+    fill-opacity: 1;
 }
 
+circle.award {
+    stroke: yellow;
+    stroke-width: 1;
+}
+
+circle.person {
+    stroke: lightblue;
+    stroke-width: 1;
+}
 .selected circle{
     fill-opacity: 1;
     stroke-width: 4;
     stroke: lightblue;
-    stroke-opacity: 1;
 }
 
 .edge {
+    stroke-linecap: round;
     stroke: lightblue;
-    stroke-opacity: 0.3;
+    stroke-opacity: 0.4;
+    stroke-width: 2;
+}
+
+.edge.NOMINATED {
+    stroke: lightblue;
+}
+
+.edge.RECEIVED {
+    stroke-dasharray: 10,5,2,2,2,5;
+    stroke: yellow;
+    stroke-opacity: 1;
+}
+
+.edge.ACTED_IN {
+    stroke: green;
 }
 
 .edge.selected {
     stroke: lightblue;
     stroke-opacity: 1;
+    stroke-dasharray: none;
 }
+
+
 </code>
         </pre>
     </div>
@@ -85,7 +115,8 @@ circle.root {
           dataSource: 'data/charlize.json',
 
           linkDistance: function(){ return 40; },
-          nodeTypes: {"node_type":["movie", "award", "person"]},
+          forceLocked: false,
+          nodeTypes: {"type":["movie", "award", "person"]},
           caption: "caption"
           };
 
