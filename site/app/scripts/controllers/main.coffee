@@ -69,7 +69,11 @@ angular.module('alchemyExamples', [])
             $(".navbar-fixed-top").removeClass("hidden")
             $location.hash("")
             $location.path("examples/")
-    # .directive('prettyPrint')
+
+    .directive 'prettyPrint', () ->
+        restrict: 'A',
+        link: makePretty = ($scope, $element, attrs) ->
+            $element.html(prettyPrintOne($element.html()))
 
 angular.module('featCarousel', ['ui.bootstrap'])
     .controller 'carouselCtrl', ($scope) ->
