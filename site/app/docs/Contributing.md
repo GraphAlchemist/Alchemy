@@ -8,7 +8,7 @@ If you are familiar with Yeoman already, it will be helpful to know how Alchemy'
 In development, there is an `alchemy.src.coffee` file in the `.tmp` directory, making it easy to use mapping files to debug the coffeescript directly.
 
 ### How to contribute
-First off - [get in touch](mailto:team@graphalchemist.com)!  It is helpful to hear from you - especially if you are planning to contribute some large, amazing feature.  It is always great to touch base and make sure that what you are planning is in sync with the road map.
+First off - [get in touch](mailto:robot@graphalchemist.com)!  It is helpful to hear from you - especially if you are planning to contribute some large, amazing feature.  It is always great to touch base and make sure that what you are planning is in sync with the road map.
 
 We'd love your help in making Alchemy.js better.  A good place to start is always with the existing issues.  Did you notice a bug that wasn't there or a feature that should REALLY exist?  Ticket it, and lets start a conversation.
 
