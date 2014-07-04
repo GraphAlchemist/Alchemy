@@ -2,20 +2,18 @@
 
 angular.module('site')
     .controller 'MainCtrl', ($scope, $location) ->
+        $scope.fullApp = false;
         angular.element(document).ready( ->
-                $("#tutorial").tooltip placement: "bottom"
-                $("#btn-alchemy-rel").tooltip placement: "bottom"
                 $('pre').addClass('prettyprint')
                 prettyPrint()
-                $scope.path = $location.path()
             )
             # quick hack
-        d3.json('../data/charlize.json', (data) ->
-            $scope.movies = data
-        )
-        d3.json('../data/contrib.json', (data) ->
-            $scope.contrib = data
-        )
+        # d3.json('../data/charlize.json', (data) ->
+        #     $scope.movies = data
+        # )
+        # d3.json('../data/contrib.json', (data) ->
+        #     $scope.contrib = data
+        # )
 
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location) ->
@@ -56,11 +54,12 @@ angular.module('alchemyExamples', [])
                     example.state = "active"
                 else
                     example.state=""
-
             name = e.name.replace " ", "_"
             $location.hash(name)
 
         $scope.showViz = ->
+          # somehow update parent scope!
+            # $scope.fullApp = true;
             $(".footer").addClass("hidden")
             $(".navbar-fixed-top").addClass("hidden")
             $location.path("examples/FullApp")
@@ -70,6 +69,7 @@ angular.module('alchemyExamples', [])
             $(".navbar-fixed-top").removeClass("hidden")
             $location.hash("")
             $location.path("examples/")
+    # .directive('prettyPrint')
 
 angular.module('featCarousel', ['ui.bootstrap'])
     .controller 'carouselCtrl', ($scope) ->
