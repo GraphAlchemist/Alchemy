@@ -1,21 +1,38 @@
 'use strict'
 
 angular.module('site')
+    .directive 'prettyPrint', () ->
+        restrict: 'A',
+        link: makePretty = ($scope, $element, attrs) ->
+            $element.html(prettyPrintOne($element.html()))
+
     .controller 'MainCtrl', ($scope, $location) ->
-        angular.element(document).ready( ->
-                $("#tutorial").tooltip placement: "bottom"
-                $("#btn-alchemy-rel").tooltip placement: "bottom"
-                $('pre').addClass('prettyprint')
-                prettyPrint()
-                $scope.path = $location.path()
-            )
-            # quick hack
-        d3.json('../data/charlize.json', (data) ->
-            $scope.movies = data
-        )
-        d3.json('../data/contrib.json', (data) ->
-            $scope.contrib = data
-        )
+
+angular.module('navigation', ['ui.bootstrap'])
+    .controller 'navCtrl', ($scope, $location, $route) ->
+        $scope.$on '$routeChangeSuccess', ->
+            console.log "we went somewhere new!"
+            if $location.path() is '/examples/FullApp'
+                $scope.showNav = "hidden"
+            else $scope.showNav = ""
+
+        $scope.init = ->
+            $scope.links =   
+            [
+                { name: 'Home', href: '/'},
+                { name: 'Examples', href: '/examples'},
+                { name: 'Tutorial', href: '', tooltip:"Coming Soon!"} 
+            ] 
+            $scope.active($location.path())
+        $scope.active = (navTab) ->
+            $location.hash("")
+            for link in $scope.links
+                if navTab is link.href
+                    link.state= "active"
+                    $location.path(link.href)
+                else 
+                    link.state= ""
+
 
 angular.module('alchemyExamples', [])
     .controller 'examplesCtrl', ($scope, $location) ->
@@ -32,22 +49,18 @@ angular.module('alchemyExamples', [])
             $scope.current_example = e
             for example in $scope.examples
                 if $scope.current_example is example
-                    $("." + example.id).addClass("active")
+                    example.state = "active"
                     $('pre').addClass('prettyprint')
                     prettyPrint()
                 else
-                    $("." + example.id).removeClass("active")
-            name = e.name.replace " ", "_"  
+                    example.state= ""
+            name = e.name.replace " ", "_"
             $location.hash(name)
 
         $scope.showViz = ->
-            $(".footer").addClass("hidden")
-            $(".navbar-fixed-top").addClass("hidden")
             $location.path("examples/FullApp")
 
         $scope.hideViz = ->
-            $(".footer").removeClass("hidden")
-            $(".navbar-fixed-top").removeClass("hidden")
             $location.hash("")
             $location.path("examples/")
 
