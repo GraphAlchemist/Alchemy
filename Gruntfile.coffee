@@ -17,8 +17,6 @@ module.exports = (grunt) ->
       # Configurable paths
       app: "app"
       dist: "dist"
-      django_path: "/Users/huston/Dropbox/Projects/ga-mainsite/apps/social_login/static/social_login"
-
     
     # Watches files for changes and runs tasks based on the changed files
     watch:

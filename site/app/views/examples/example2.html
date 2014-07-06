@@ -52,5 +52,7 @@
         nodeCaption: function(node){ return node.caption + " " + node.fun_fact; }
     };
 
-    alchemy.begin(config)
+    alchemy.begin(config);
+    $('pre').addClass('prettyprint');
+    prettyPrint();
 </script>

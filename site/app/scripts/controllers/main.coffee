@@ -33,9 +33,11 @@ angular.module('alchemyExamples', [])
             for example in $scope.examples
                 if $scope.current_example is example
                     $("." + example.id).addClass("active")
+                    $('pre').addClass('prettyprint')
+                    prettyPrint()
                 else
                     $("." + example.id).removeClass("active")
-            name = e.name.replace " ", "_"
+            name = e.name.replace " ", "_"  
             $location.hash(name)
 
         $scope.showViz = ->
