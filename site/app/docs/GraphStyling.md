@@ -15,7 +15,9 @@ However, css can be used to style the graph in tandem with [nodeTypes](../Config
 # Styling the graph using node and edge types
 As always, check out the [examples gallery](../../#/examples) for full examples.  Below is a short example to give you an idea of the possibilities.
 
-Let's say we have the following data source of Alchemy.js contributors:
+
+## Sample Data
+The following data source of Alchemy.js contributors would, by default, result in the graph viz that follows:
 ```json
 {
     "comment": "AlchemyJS contributors",
@@ -90,10 +92,12 @@ Let's say we have the following data source of Alchemy.js contributors:
         }
     ]
 }
-```
-Which gives you a graph like this:     
+```   
+## Default Visualization  
 ![Contrib Default Styles](../img/graphstyling1.png)    
-In your *configuration*, you'd define the node types, edge types, and might end up with something like the following:
+
+## Overriding Default Styles
+To give the graph some classes we can play with define the node types and edge types in your conf.  For our sample data, you might end up with something like the following:
 ```json
 var conf = {
     "dataSource": "sample_data/contrib.json",
@@ -104,6 +108,7 @@ var conf = {
 };
 alchemy.begin(conf)
 ```
+
 Now the nodes and edges receive classes that correspond to the data, and so you can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:
 ```css
         /* Nodes */

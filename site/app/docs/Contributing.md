@@ -1,5 +1,5 @@
 ### Some Things to Know
-Alchemy.js uses [Yeoman.io](http://yeoman.io/) to manage workflow, and their documentation is a great resource to get up and running quickly.
+Alchemy.js uses [Yeoman.io](http://yeoman.io/) to manage workflow, and [their documentation](http://yeoman.io/learning/index.html) is a great resource to get up and running quickly.
 
 If you are familiar with Yeoman already, it will be helpful to know how Alchemy's grunt tasks are configured.  The main grunt task, `buildAlchemy`, whether being used in development or to build the Alchemy.js for distribution does the following:
 * Copies all coffee script files into `.tmp` directory

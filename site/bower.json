@@ -16,6 +16,6 @@
   },
   "devDependencies": {},
   "resolutions": {
-    "alchemyjs": "~0.1.1"
+    "jquery": "~2.1.0"
   }
 }
