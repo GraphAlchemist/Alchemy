@@ -11,8 +11,11 @@
     "google-code-prettify": "~1.0.1",
     "angular": "~1.2.18",
     "angular-route": "~1.2.18",
-    "alchemyjs": "https://github.com/GraphAlchemist/Alchemy.git#d37df7be73c2e9e3fbe100ec3536be2c729ea921",
+    "alchemyjs": "~0.1.1",
     "angular-bootstrap": "~0.11.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "resolutions": {
+    "alchemyjs": "~0.1.1"
+  }
 }
