@@ -1,4 +1,9 @@
 <link rel="stylesheet" type="text/css" href="styles/custom.css">
+<div class="col-md-12">
+  <h2>Description</h2>
+    <p class="lead">{{current_example.desc}}</p>
+</div>
+
 <div class = "row">
     <div id="graph-container" class="col-md-12" style="height:450px">
     	<h3 class="filename">Graph</h3>
@@ -7,46 +12,46 @@
 </div>
 
 <div class="row">
-    <div class="col-md-6" id="example-code">
+    <div class="col-md-6 example-code">
     	<h3 class="filename">HTML and Configuration</h3>
-        <pre pretty-print>
+<pre pretty-print>
 <code>
 &lt;html&gt;
-  &lt;head&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;vendor.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;alchemy.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;custom.css&quot;/&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;vendor.css&quot;/&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;alchemy.css&quot;/&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;custom.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;alchemy.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
+  &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
 
-      var config = {
-        dataSource: 'data/charlize.json',
-        
-        linkDistance: function(){ return 40; },
+    var config = {
+      dataSource: 'data/charlize.json',
+      
+      linkDistance: function(){ return 40; },
 
-        nodeTypes: {"node_type":["move", 
-                                 "award", 
-                                 "person"]},
-        caption: function(node){ 
-            return node.caption; 
-        }
-      };
+      nodeTypes: {"node_type":["move", 
+                               "award", 
+                               "person"]},
+      caption: function(node){ 
+          return node.caption; 
+      }
+    };
 
-      alchemy.begin(config)
-    &lt;/script&gt;
-  &lt;/body&gt;
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
 &lt;/html&gt;
 </code>
-		</pre pretty-print>
+		</pre>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 example-code">
     	<h3 class="filename">custom.css</h3>
-        <pre>
+<pre class="prettyprint lang-css">
 <code>
 circle {
     fill: white;
@@ -103,22 +108,20 @@ circle.person {
     stroke-opacity: 1;
     stroke-dasharray: none;
 }
-
-
 </code>
-        </pre>
+  </pre>
     </div>
 </div>
 
   <script type="text/javascript">
     var config = {
-          dataSource: 'data/charlize.json',
+      dataSource: 'data/charlize.json',
 
-          linkDistance: function(){ return 40; },
-          forceLocked: false,
-          nodeTypes: {"type":["movie", "award", "person"]},
-          caption: "caption"
-          };
+      linkDistance: function(){ return 40; },
+      forceLocked: false,
+      nodeTypes: {"type":["movie", "award", "person"]},
+      caption: "caption"
+      };
 
     alchemy.begin(config);
     $('pre').addClass('prettyprint');

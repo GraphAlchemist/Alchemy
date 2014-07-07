@@ -11,7 +11,6 @@ angular.module('site')
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location, $route) ->
         $scope.$on '$routeChangeSuccess', ->
-            console.log "we went somewhere new!"
             if $location.path() is '/examples/FullApp'
                 $scope.showNav = "hidden"
             else $scope.showNav = ""
@@ -21,7 +20,7 @@ angular.module('navigation', ['ui.bootstrap'])
             [
                 { name: 'Home', href: '/'},
                 { name: 'Examples', href: '/examples'},
-                { name: 'Tutorial', href: '', tooltip:"Coming Soon!"} 
+                { name: 'Tutorial', tooltip:"Coming Soon!"} 
             ] 
             $scope.active($location.path())
         $scope.active = (navTab) ->
@@ -39,19 +38,35 @@ angular.module('alchemyExamples', [])
         $scope.init = ->
             $scope.examples =
              [
-                { name: 'Basic Graph', src: 'views/examples/example1.html', id:"example1"},
-                { name: 'Embedded Graph', src: 'views/examples/example2.html', id:"example2"},
-                { name: 'Full Application', src: 'views/examples/example3.html', id:"example3"},
-                { name: 'Custom Styling', src: 'views/examples/example4.html', id:"example4"} 
+                {
+                    name: 'Basic Graph',
+                    src: 'views/examples/example1.html', 
+                    id:"example1", 
+                    desc: "A basic Alchemy.js graph, with only a custom dataSource defined." },
+                {
+                    name: 'Embedded Graph', 
+                    src: "views/examples/example2.html", 
+                    id: "example2",
+                    desc: "An example with custom graphHeight, graphWidth, and linkDistance making it easy to include and embed within larger applications."},
+                {
+                    name: 'Custom Styling',
+                    src: 'views/examples/example4.html',
+                    id:"example4",
+                    desc: "An example illustrating how to apply custom styles to the graph, overriding Alchemy.css by using nodeTypes and edgeTypes."},
+                {
+                    name: 'Full Application',
+                    src: 'views/examples/example3.html',
+                    id: "example3",
+                    desc: "A full application using clustering, filters, node typing, and search."},
             ]
 
         $scope.showExample = (e) ->
             $scope.current_example = e
+            if angular.element("#removethis")?
+                angular.element("#removethis").remove()
             for example in $scope.examples
                 if $scope.current_example is example
                     example.state = "active"
-                    $('pre').addClass('prettyprint')
-                    prettyPrint()
                 else
                     example.state= ""
             name = e.name.replace " ", "_"
@@ -66,7 +81,7 @@ angular.module('alchemyExamples', [])
 
 angular.module('featCarousel', ['ui.bootstrap'])
     .controller 'carouselCtrl', ($scope) ->
-        $scope.myInterval = 5000
+        $scope.myInterval = 3000
         $scope.slides=[
             {image: "images/features/cluster_team.png", text: "Cluster with team.json"},
             {image: "images/features/clusterHighlight_team.png", text: "Cluster Highlighted Node with team.json"},

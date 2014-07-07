@@ -1,71 +1,70 @@
 <div class="row">
-	<div class = "col-md-6">
+    <div class="col-md-8">
+      <h2>Description</h2>
+        <p class="lead">{{current_example.desc}}</p>
+    </div>
+    <button ng-click="showViz()" id="to-full-app-btn" type="button" class="btn btn-default" href="#">
+        <h3>See it in Action <i class = "glyphicon glyphicon-arrow-right"></i></h3>
+    </button>
+</div>
+	<div class = "col-md-6 example-code">
 		<h3 class="filename">alchemyConfig.js</h3>
 		<pre pretty-print>
 <code>
-  var config = {
-    dataSource: 'data/team.json',                      
-  
-    forceLocked: false,
-    cluster: true,
-  
-    nodeTypes: {"node_type":["family", "coworker", 
-                             "classmate", "friend", 
-                             "other"]},
-    nodeCaption: "firstName",
-    rootNodeRadius: 30,
-    
-    showControlDash: true,
-  
-    showStats: true,
-    nodeStats: true,
-  
-    showFilters: true,
-    nodeFilters: true,
-  
-    captionToggle: true,
-    edgesToggle: true,
-    nodesToggle: true,
-    toggleRootNotes: false,
-    
-    zoomControls: true
-  };
-  
-  alchemy.begin(config)
+var config = {
+  dataSource: 'data/team.json',                      
 
-  alchemy.begin(config)
+  cluster: true,
+
+  nodeTypes: {"node_type":
+              ["family", "coworker", 
+               "classmate", "friend", 
+               "other"]},
+  nodeCaption: "firstName",
+  rootNodeRadius: 30,
+
+  showControlDash: true,
+
+  showStats: true,
+  nodeStats: true,
+
+  showFilters: true,
+  nodeFilters: true,
+
+  captionToggle: true,
+  edgesToggle: true,
+  nodesToggle: true,
+  toggleRootNotes: false,
+
+  zoomControls: true
+};
+
+alchemy.begin(config)
+
 </code>
         </pre>
 	</div>
-    <div class="col-md-6">
+  <div class="col-md-6 example-code">
     	<h3 class="filename">index.html</h3>
         <pre pretty-print>
 <code>
 &lt;html&gt;
-  &lt;head&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;/&gt;
-    &lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;/&gt;
-  &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
+&lt;head&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;scripts/alchemyConfig.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-      alchemy.begin(config)
-    &lt;/script&gt;
-  &lt;/body&gt;
+  &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;scripts/alchemyConfig.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
 &lt;/html&gt;
 </code>
         </pre>
-      <button ng-click="showViz()" id="to-full-app-btn" type="button" class="btn btn-default" href="#">
-          <h3>See it in Action <i class = "glyphicon glyphicon-arrow-right"></i></h3>
-      </button>
     </div>
-</div>
-<script type="text/javascript">
-    $('pre').addClass('prettyprint');
-    prettyPrint();
-</script>
 
