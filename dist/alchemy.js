@@ -126,16 +126,17 @@
   alchemy.drawing.drawnodes = function(node) {
     var nodeColours, nodeEnter, nonRootNodes, rootNodes;
     nodeEnter = node.enter().append("g").attr("class", function(d) {
-      var nodeType;
+      var nodeType, rootKey;
+      rootKey = alchemy.conf.rootNodes;
       if (alchemy.conf.nodeTypes) {
         nodeType = d[Object.keys(alchemy.conf.nodeTypes)];
-        if ((d.root != null) && d.root) {
+        if ((d[rootKey] != null) && d[rootKey]) {
           return "node root " + nodeType + " active";
         } else {
           return "node " + nodeType + " active";
         }
       } else {
-        if ((d.root != null) && d.root) {
+        if ((d[rootKey] != null) && d[rootKey]) {
           return "node root active";
         } else {
           return "node active";
@@ -176,16 +177,17 @@
       }
     };
     nodeEnter.append('circle').attr('class', function(d) {
-      var nodeType;
+      var nodeType, rootKey;
+      rootKey = alchemy.conf.rootNodes;
       if (alchemy.conf.nodeTypes) {
         nodeType = d[Object.keys(alchemy.conf.nodeTypes)];
-        if ((d.root != null) && d.root) {
+        if ((d[rootKey] != null) && d[rootKey]) {
           return "root " + nodeType + " active";
         } else {
           return "" + nodeType + " active";
         }
       } else {
-        if ((d.root != null) && d.root) {
+        if ((d[rootKey] != null) && d[rootKey]) {
           return "root";
         } else {
           return "node";
@@ -307,12 +309,13 @@
         "id": "toggle-captions",
         "class": "list-group-item active-label toggle"
       }).html("Show Captions").on("click", function() {
-        var isNowHidden;
-        isNowHidden = !d3.select("#toggle-captions").classed("disabled");
-        d3.select("#toggle-captions").classed("disabled", function() {
-          return isNowHidden;
-        });
-        return d3.selectAll("g text").classed("hidden", isNowHidden);
+        var isDisplayed;
+        isDisplayed = d3.select("g text").attr("style");
+        if (isDisplayed === "display: block" || null) {
+          return d3.selectAll("g text").attr("style", "display: none");
+        } else {
+          return d3.selectAll("g text").attr("style", "display: block");
+        }
       });
     },
     edgesToggle: function() {
@@ -670,7 +673,7 @@
       _ref = alchemy.nodes;
       for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
         n = _ref[i];
-        if (!n.root) {
+        if (!n[alchemy.conf.rootNodes]) {
           continue;
         } else {
           n.i = i;
@@ -774,8 +777,9 @@
           }
         });
         return d3.selectAll(".node").classed("inactive", function(node) {
-          var hidden;
-          hidden = node.caption.toLowerCase().indexOf(input) < 0;
+          var DOMnode, hidden;
+          DOMnode = d3.select(this);
+          hidden = DOMnode.text().toLowerCase().indexOf(input) < 0;
           if (hidden) {
             d3.selectAll("[source-target*='" + node.id + "']").classed("inactive", hidden);
           } else {
@@ -1058,6 +1062,7 @@
     nodeOverlap: 25,
     nodeRadius: 10,
     nodeTypes: null,
+    rootNodes: 'root',
     rootNodeRadius: 15,
     edgeCaption: 'caption',
     edgeColour: null,
@@ -1173,23 +1178,24 @@
       }
     },
     nodeSize: function(d, i) {
-      var key;
+      var key, rootKey;
       if (alchemy.conf.nodeRadius != null) {
+        rootKey = alchemy.conf.rootNodes;
         if (typeof alchemy.conf.nodeRadius === 'function') {
-          if ((d.root != null) && d.root) {
+          if ((d[rootKey] != null) && d[rootKey]) {
             return alchemy.conf.rootNodeRadius;
           } else {
             return alchemy.conf.nodeRadius(d);
           }
         } else if (typeof alchemy.conf.nodeRadius === 'string') {
           key = alchemy.conf.nodeRadius;
-          if ((d.root != null) && d.root) {
+          if ((d[rootKey] != null) && d[rootKey]) {
             return alchemy.conf.rootNodeRadius;
           } else {
             return d.degree;
           }
         } else if (typeof alchemy.conf.nodeRadius === 'number') {
-          if ((d.root != null) && d.root) {
+          if ((d[rootKey] != null) && d[rootKey]) {
             return alchemy.conf.rootNodeRadius;
           } else {
             return alchemy.conf.nodeRadius;
