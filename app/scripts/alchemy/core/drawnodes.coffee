@@ -17,12 +17,13 @@
 alchemy.drawing.drawnodes = (node) ->
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
+                        rootKey = alchemy.conf.rootNodes
                         if alchemy.conf.nodeTypes
                             nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
-                            if d.root? and d.root then "node root #{nodeType} active"
+                            if d[rootKey]? and d[rootKey] then "node root #{nodeType} active"
                             else "node #{nodeType} active"
                         else
-                            if d.root? and d.root then "node root active"
+                            if d[rootKey]? and d[rootKey] then "node root active"
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
@@ -56,12 +57,13 @@ alchemy.drawing.drawnodes = (node) ->
     nodeEnter
         .append('circle')
         .attr('class', (d) -> 
+            rootKey = alchemy.conf.rootNodes
             if alchemy.conf.nodeTypes
                 nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
-                if d.root? and d.root then "root #{nodeType} active"
+                if d[rootKey]? and d[rootKey] then "root #{nodeType} active"
                 else "#{nodeType} active"
             else 
-                if d.root? and d.root then "root"
+                if d[rootKey]? and d[rootKey] then "root"
                 else "node"
            	)
         .attr('id', (d) -> "circle-#{d.id}")
@@ -69,7 +71,8 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('target-id', (d) -> d.id)
         .attr('style', (d) ->
-           "#{nodeColours(d)}; stroke-width: #{this.r / 3}")
+           radius = d3.select(this).attr('r')
+           "fill:#{nodeColours(d)}; stroke-width: #{ radius / 3 }")
 
     #append caption to the node
     nodeEnter

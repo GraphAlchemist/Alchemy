@@ -46,10 +46,10 @@ angular.module('navigation', ['ui.bootstrap'])
             $location.hash("")
             for link in $scope.links
                 if navTab is link.href
-                    link.state="active"
+                    link.state= "active"
                     $location.path(link.href)
                 else 
-                    link.state=" "
+                    link.state= ""
 
 
 angular.module('alchemyExamples', [])
@@ -68,8 +68,10 @@ angular.module('alchemyExamples', [])
             for example in $scope.examples
                 if $scope.current_example is example
                     example.state = "active"
+                    $('pre').addClass('prettyprint')
+                    prettyPrint()
                 else
-                    example.state=""
+                    example.state= ""
             name = e.name.replace " ", "_"
             $location.hash(name)
 

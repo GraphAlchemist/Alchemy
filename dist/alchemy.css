@@ -203,7 +203,7 @@ svg {
 
 #zoom-controls {
   background-color: transparent;
-  background-image: url("/images/maze-black.png");
+  background-image: url("images/maze-black.png");
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   box-shadow: 0 0 5px rgba(255,255,255,0.3);
@@ -389,7 +389,7 @@ svg {
   overflow-x: hidden;
   overflow-y: scroll;
   background-color: transparent;
-  background-image: url("/images/maze-black.png");
+  background-image: url("images/maze-black.png");
   padding: 0;
   height: inherit;
   z-index: 5;
@@ -403,7 +403,7 @@ svg {
 #control-dash-wrapper #dash-toggle {
   z-index: 5;
   background-color: transparent;
-  background-image: url("/images/maze-black.png");
+  background-image: url("images/maze-black.png");
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   box-shadow: 0 0 5px rgba(255,255,255,0.3);
