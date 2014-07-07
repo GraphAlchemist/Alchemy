@@ -200,7 +200,9 @@
     }).attr('shape-rendering', 'optimizeSpeed').attr('target-id', function(d) {
       return d.id;
     }).attr('style', function(d) {
-      return "" + (nodeColours(d)) + "; stroke-width: " + (this.r / 3);
+      var radius;
+      radius = d3.select(this).attr('r');
+      return "fill:" + (nodeColours(d)) + "; stroke-width: " + (radius / 3);
     });
     return nodeEnter.append('svg:text').attr('id', function(d) {
       return "text-" + d.id;
