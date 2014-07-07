@@ -2,7 +2,7 @@
 $blue: #68B9FE;
 $orange: #FDC670;
 $bright-orange: #E89619;
-$ctrl-dash-background: url("/images/maze-black.png");
+$ctrl-dash-background: url("images/maze-black.png");
 
 @mixin highlight(){
     opacity: .8 !important;

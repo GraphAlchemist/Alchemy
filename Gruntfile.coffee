@@ -337,8 +337,15 @@ module.exports = (grunt) ->
         expand: true
         dot: true
         cwd: ".tmp/styles"
-        dest: "dist/styles"
+        dest: "<%= yeoman.dist %>/styles"
         src: 'fonts/**'
+
+      images:
+        expand: true
+        dot: true
+        cwd: ".tmp/styles"
+        dest: "<%= yeoman.dist %>/styles"
+        src: "images/**"
 
     concurrent:
       # Run some tasks in parallel to speed up build process
@@ -375,7 +382,7 @@ module.exports = (grunt) ->
   #same as `build` but builds Alchemy for distribution
   grunt.registerTask 'buildAlchemy', ["clean:dist", "useminPrepare", 
                                       "copy:coffee", "concurrent:buildAlchemy",
-                                      "copy:fonts", 
+                                      "copy:fonts", "copy:images",
                                       "autoprefixer", "concat:buildAlchemy", 
                                       "concat:generated", "cssmin:buildAlchemy", 
                                       "uglify:buildAlchemy"]
