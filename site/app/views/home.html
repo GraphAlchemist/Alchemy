@@ -1,9 +1,9 @@
-    <div class="row text-center" id="alchemy-logo">
-        <img src="images/alchemy-01.svg"></img>
+    <div in-view="snapElement($inview, $inviewpart, element)" class="row text-center" id="logo-wrapper">
+        <img id="alchemy-logo" src="images/alchemy-01.svg"></img>
     </div>
 
-    <section class="row">
-        <div class="col-md-12" id="about">
+    <section in-view="snapElement($inview, $inviewpart, element)" class="row" id="about-wrapper">
+        <div class="col-md-12" id="about" panel-snap>
             <div class ="row">
                 <div class = "col-md-3">
                     <h1>Alchemy.js</h1>
@@ -14,7 +14,7 @@
             </div>
         </div>
     </section>
-    <section class="row">
+    <section in-view="snapElement($inview, $inviewpart, element)" class="row" id="carousel-wrapper">
         <div class="col-md-12" id="featureCarousel" ng-app="featCarousel" ng-controller="carouselCtrl">
             <carousel interval="myInterval">
               <slide ng-repeat="slide in slides" active="slide.active">
@@ -27,7 +27,7 @@
         </div>
     </section>
 
-    <section class="row" id="meet-the-team">
+    <section in-view="snapElement($inview, $inviewpart, element)" class="row" id="team-wrapper">
         <div class="col-md-12" id="team-info">
             <div class="row" id="meet-team">
                 <div class="col-md-3">

@@ -118,7 +118,7 @@ hr{
 	}
 }
 #alchemy-logo{
-	min-height: 50vh;
+	// min-height: 50vh;
 	padding: 50px;
 	padding-top: 100px;
 }
@@ -159,7 +159,11 @@ hr{
 	@include alchemy-text();
 }
 
-#meet-the-team{
+#about-wrapper, #team-wrapper, #logo-wrapper, #carousel-wrapper{
+	min-height: 100vh;
+}
+
+#team-wrapper{
 	#team-info{
 		padding: 20px 50px 50px 50px;
 	}

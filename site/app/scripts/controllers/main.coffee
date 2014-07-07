@@ -6,12 +6,30 @@ angular.module('site')
         link: makePretty = ($scope, $element, attrs) ->
             $element.html(prettyPrintOne($element.html()))
 
+    .directive 'panelSnap', () ->
+        restrict: 'A',
+        link: snapContent = ($scope, $element, attrs) ->
+            console.log $element
+            $('#about').on "click", () ->
+                console.log "clicked"
+            angular.element($element).bind "scroll", () ->
+                console.log "element bound"
+            # $(window).scroll () ->
+            #     console.log "scrolling with window"
     .controller 'MainCtrl', ($scope, $location) ->
+        $scope.snapElement = (inview, part, el) ->
+            console.log this
+            console.log inview
+            console.log part
+            # snap content to top of page
+            if part is "both"
+                console.log "this whole element is visible"  
+
 
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location, $route) ->
+
         $scope.$on '$routeChangeSuccess', ->
-            console.log "we went somewhere new!"
             if $location.path() is '/examples/FullApp'
                 $scope.showNav = "hidden"
             else $scope.showNav = ""
@@ -44,7 +62,7 @@ angular.module('alchemyExamples', [])
                 { name: 'Full Application', src: 'views/examples/example3.html', id:"example3"},
                 { name: 'Custom Styling', src: 'views/examples/example4.html', id:"example4"} 
             ]
-
+        # should probably be moved to a directive
         $scope.showExample = (e) ->
             $scope.current_example = e
             for example in $scope.examples
