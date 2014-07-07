@@ -73,6 +73,7 @@ alchemy.defaults =
     nodeOverlap: 25
     nodeRadius: 10 # partially implemented
     nodeTypes: null
+    rootNodes: 'root'
     rootNodeRadius: 15
 
     # Edges

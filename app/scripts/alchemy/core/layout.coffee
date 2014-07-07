@@ -108,7 +108,7 @@ alchemy.layout =
             height: alchemy.conf.graphHeight()
         rootNodes = Array()
         for n, i in alchemy.nodes
-            if not n.root then continue
+            if not n[alchemy.conf.rootNodes] then continue
             else
                 n.i = i
                 rootNodes.push(n)
