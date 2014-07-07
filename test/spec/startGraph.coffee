@@ -1,35 +1,23 @@
 do ->
-    beforeEach (done) ->
-        alchemy.begin({'dataSource': 'sample_data/movies.json'})
-        done()
-        return
-    
-    afterEach(done) ->
-        d3.select("#alchemy").remove()
-        done()
-        return
-
     describe "alchemy.startGraph()", ->
-
-        it "should append svg to #alchemy div", () ->
+        alchemy.begin({'dataSource': 'sample_data/contrib.json'})
+        it "should append svg to #alchemy div", (done) ->
             expect(d3.select('#alchemy').select("svg")).to.have.length(1)
-            return
+            done()
         
         describe "alchemy.nodes", ->
-            it "should define alchemy.nodes", ->
+            it "should define alchemy.nodes", (done) ->
                 alchemy.nodes.should.not.equal undefined
-                return
-            return
+                done()
 
         describe "alchemy.edges", ->
-            it "should define alchemy.edges", ->
+            it "should define alchemy.edges", (done) ->
                 alchemy.edges.should.not.equal undefined
-                return
+                done()
             return
 
-        it "should define alchemy.force", ->
+        it "should define alchemy.force", (done) ->
             alchemy.force.should.not.equal(undefined)
-            return
-    
+            done()
         return
     return

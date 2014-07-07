@@ -1,7 +1,4 @@
 do ->
-    afterEach ->
-        d3.select("#alchemy").remove() 
-
     # Define default configuration for easy testing
     defaultConf = alchemy.defaults
 
@@ -9,57 +6,49 @@ do ->
         runWithConf = (conf) ->
             alchemy.begin(conf)
 
-        it "should use default configuration if one is not specified", ->
+        it "should use default configuration if one is not specified", (done) ->
             runWithConf()
             alchemy.conf.should.deep.equal defaultConf
+            done()
         
         #Helpers
         describe "afterLoad", ->
             "placeholder"
 
         describe "dataSource", ->
-            it "can find non-default datasets", ->
-                runWithConf({dataSource:"sample_data/ego1.json"})
+            it "can find non-default datasets", (done) ->
+                runWithConf({dataSource:"sample_data/contrib.json"})
                 # Make sure dataSource was changed from default (null)
-                alchemy.conf.dataSource.should.equal("sample_data/ego1.json") and                
-                # Make sure it can use the dataset to create elements
-                alchemy.nodes.length.should.not.equal 0
+                alchemy.conf.dataSource.should.equal("sample_data/contrib.json") and alchemy.nodes.length.should.not.equal 0
+                done()
 
         #Layout
         describe "graphWidth", ->
-            it "should reassign default configuration", ->
-                runWithConf({dataSource:"sample_data/movies.json", graphWidth:200 })
+            it "should reassign default configuration", (done) ->
+                runWithConf({dataSource:"sample_data/contrib.json", graphWidth:200 })
                 alchemy.conf.graphWidth.should.equal(200)
-
-            it "should fill parent div by default", ->
-                d3.select("#alchemy").remove()
-                parentDiv = d3.select("body")
-                              .append("div")
-                              .attr("id", "parentDiv")
-                parentDiv.append("div")
-                         .attr("id", "alchemy")
-
-                runWithConf({dataSource:"sample_data/movies.json"})
-                d3.select("#alchemy").style("width").should.equal parentDiv.style("width")
+                done()
 
         describe "graphHeight", ->
-            it "should reassign default configuration", ->
-                runWithConf({dataSource:"sample_data/movies.json", graphHeight: () -> 200 })
+            it "should reassign default configuration", (done) ->
+                runWithConf({dataSource:"sample_data/contrib.json", graphHeight: () -> 200 })
                 alchemy.conf.graphHeight().should.equal(200)
+                done()
 
         describe "alpha", ->
-            it "should reassign default configuration", ->
-                runWithConf({dataSource:"sample_data/movies.json", alpha:0.23})
+            it "should reassign default configuration", (done) ->
+                runWithConf({dataSource:"sample_data/contrib.json", alpha:0.23})
                 alchemy.conf.alpha.should.equal(0.23)
+                done()
 
         describe "cluster", ->
             "placeholder"
             
         describe "clusterColours", ->
-            "placeholder"       
+            "placeholder"
 
         describe "fixNodes", ->
-            "placeholder" 
+            "placeholder"
 
         describe "fixRootNodes", ->
             "placeholder"
@@ -72,7 +61,7 @@ do ->
 
         describe "nodePositions", ->
             # not yet implemented
-            "placeholder"    
+            "placeholder"
 
         #Editing
         describe "captionToggle", ->
@@ -176,7 +165,7 @@ do ->
             "placeholder"
 
         describe "warningMessage", ->
-            "placeholder"        
+            "placeholder"
 
         return
     return
