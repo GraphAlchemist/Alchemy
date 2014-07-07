@@ -83,9 +83,9 @@ angular.module('featCarousel', ['ui.bootstrap'])
     .controller 'carouselCtrl', ($scope) ->
         $scope.myInterval = 3000
         $scope.slides=[
-            {image: "images/features/cluster_team.png", text: "Cluster with team.json"},
-            {image: "images/features/clusterHighlight_team.png", text: "Cluster Highlighted Node with team.json"},
-            {image: "images/features/filters_movies.png", text: "Filters with movies.json"},
-            {image: "images/features/filters&Stats_movies.png", text: "Filters and Stats with movies.json"},
-            {image: "images/features/search_movies.png", text: "Search with movies.json"}
+            {image: "images/features/search_movies.png", text: "Search within the graph to quickly find insights"},
+            {image: "images/features/cluster_team.png", text: "Cluster nodes for easy identification of patterns"},
+            {image: "images/features/filters_movies.png", text: "Automatically generate filters based on the data"},
+            {image: "images/features/clusterHighlight_team.png", text: "Cluster nodes for easy identification of patterns"},
+            {image: "images/features/filters&Stats_movies.png", text: "Network statistic API endpoints to use in the rest of your app"}
         ]

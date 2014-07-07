@@ -121,6 +121,7 @@ hr{
 	min-height: 50vh;
 	padding: 50px;
 	padding-top: 100px;
+	// h1 {text-align: right;}
 }
 
 #alchemy-logo, #about, #team-info, #featureCarousel{
@@ -131,6 +132,15 @@ hr{
 #featureCarousel{
 	padding-top: 20px;
 	padding-bottom: 20px;
+	.carousel-caption {
+		// top: 20px;
+		left: 15%;
+		right: 15%;
+		text-shadow: 2px 2px #333;
+		// &.odd {
+		// 	top: 20px;
+		// }
+	}
 }
 
 #footer-ga-logo{
@@ -152,8 +162,13 @@ hr{
 }
 #about{
 	@include alchemy-text();
-	min-height: 350px;
-	padding: 20px 50px 50px 50px;
+	text-align: center;
+	padding: 50px;
+	#squash {
+		max-width: 700px;
+		margin: auto;
+	}
+
 }
 #quick-start, #meet-team{
 	@include alchemy-text();
