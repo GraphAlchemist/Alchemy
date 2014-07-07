@@ -70,20 +70,23 @@ alchemy.utils =
     nodeSize: (d, i) ->
         # refactor for speed
         if alchemy.conf.nodeRadius?
+            rootKey = alchemy.conf.rootNodes
+
             if typeof alchemy.conf.nodeRadius is 'function'
-                if d.root? and d.root
+                if d[rootKey]? and d[rootKey]
                     alchemy.conf.rootNodeRadius
                 else                
                     alchemy.conf.nodeRadius(d)
             else if typeof alchemy.conf.nodeRadius is 'string'
                 # this does not work
                 key = alchemy.conf.nodeRadius
-                if d.root? and d.root
+
+                if d[rootKey]? and d[rootKey]
                     alchemy.conf.rootNodeRadius
                 else                  
                     d.degree
             else if typeof alchemy.conf.nodeRadius is 'number'
-                if d.root? and d.root
+                if d[rootKey]? and d[rootKey]
                     alchemy.conf.rootNodeRadius
                 else
                     alchemy.conf.nodeRadius
