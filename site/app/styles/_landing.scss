@@ -2,6 +2,21 @@ $blue: #1e75bb;
 $orange: #FDC670;
 $bright-orange: #E89619;
 
+@mixin alchemy-text(){
+	text-align: left;
+	h1,h2{
+		line-height: 1em;
+	}
+	h3{
+		line-height: 1.5em;
+	}
+	h5>a:hover{
+		text-decoration: none;
+		color: $bright-orange;
+	}
+
+}
+
 body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
@@ -9,11 +24,9 @@ body{
 	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
 		font-weight: 300;
 	}
-	background: #eee;
 }
 
 /*Override Main Content Styles*/
-
 .header{
 	background: $blue;
 	border-bottom: thin solid darken($blue, 10%);
@@ -24,6 +37,99 @@ body{
 		line-height: 70px;
 		color: $bright-orange;
 		text-shadow: 0px 0px 1px $blue, 0px 0px 20px white;
+	}
+}
+.footer{
+	background: darken(#eee, 5%);
+}
+
+#footer-ga-logo{
+	height: 30px;
+}
+
+#team-wrapper, #alchemy-info-wrapper, #carousel-wrapper{
+	min-height: 100vh;
+}
+#carousel-wrapper{
+	background: darken(#eee, 5%);
+}
+
+/* Panel Wrapper Styels*/
+#alchemy-info-wrapper{
+	background-color: white;
+	margin-top: 70px;
+	text-align: center;
+	#about{
+		@include alchemy-text();
+		padding: 5%;
+		min-height: 40vh;
+	}
+	#alchemy-logo{
+		padding: 5%;
+	}
+}
+
+/* Content styles */
+#meet-team{
+	padding: 50px;
+	@include alchemy-text();
+}
+
+#featureCarousel{
+	padding: 5%;
+}
+
+#team-wrapper{
+	background: rgba($blue, .3);
+	#team-data, #team-html{
+		padding-top: 5%;
+		padding-bottom: 10%;
+		pre{
+			background: darken(#eee, 5%);
+			height: 450px;
+			overflow: scroll;
+		}
+	}
+	#team-svg{
+		padding: 0;
+		height: 450px;
+		#alchemy{
+			color:white;
+			height: 400px;
+			border-radius: 5px;
+			background-color: black;
+		}
+	}
+}
+
+/* Button Styles */
+#sm-alchemy-logo{
+	padding: 20px 0;
+	img{
+		height: 90px;
+	}
+}
+
+#btn-alchemy-rel{
+	background: rgba($blue, .3);
+	color: $blue;
+	margin-right: 10%;
+	float: right;
+	border: thin solid rgba($blue, .3);
+	box-shadow: 2px 2px 10px rgba(white, .7), 2px 2px 15px $blue;
+	img{
+		height: 45px;
+	}
+	h3{
+		margin-top: 10px;
+		margin-bottom: 0;
+	}
+	&:active{
+		background: rgba($blue, .9);
+		border: none;
+	}
+	&:focus, &:active{
+		outline: none;
 	}
 }
 
@@ -87,103 +193,3 @@ hr{
 	border-top: solid 1px $bright-orange;
 	margin: 0;
 } 
-
-#btn-alchemy-rel{
-	background: rgba($blue, .3);
-	color: $blue;
-	margin-right: 10%;
-	float: right;
-	border: thin solid rgba($blue, .3);
-	box-shadow: 2px 2px 10px rgba(white, .7), 2px 2px 15px $blue;
-	img{
-		height: 45px;
-	}
-	h3{
-		margin-top: 10px;
-		margin-bottom: 0;
-	}
-	&:active{
-		background: rgba($blue, .9);
-		border: none;
-	}
-	&:focus, &:active{
-		outline: none;
-	}
-}
-
-#sm-alchemy-logo{
-	padding: 20px 0;
-	img{
-		height: 90px;
-	}
-}
-#alchemy-logo{
-	// min-height: 50vh;
-	padding: 50px;
-	padding-top: 100px;
-}
-
-#alchemy-logo, #about, #team-info, #featureCarousel{
-	background: white;
-	border-bottom: thin $orange solid;
-}
-
-#featureCarousel{
-	padding-top: 20px;
-	padding-bottom: 20px;
-}
-
-#footer-ga-logo{
-	height: 30px;
-}
-
-@mixin alchemy-text(){
-	h1,h2{
-		line-height: 1em;
-	}
-	h3{
-		line-height: 1.5em;
-	}
-	h5>a:hover{
-		text-decoration: none;
-		color: $bright-orange;
-	}
-
-}
-#about{
-	@include alchemy-text();
-	min-height: 350px;
-	padding: 20px 50px 50px 50px;
-}
-#quick-start, #meet-team{
-	@include alchemy-text();
-}
-
-#about-wrapper, #team-wrapper, #logo-wrapper, #carousel-wrapper{
-	min-height: 100vh;
-}
-
-#team-wrapper{
-	#team-info{
-		padding: 20px 50px 50px 50px;
-	}
-
-	#team-data, #team-html{
-		pre{
-			height: 350px;
-			overflow: scroll;
-		}
-	}
-
-	#team-svg{
-		padding: 0;
-		height: 500px;
-		.alchemy{
-			color:white;
-			height: 450px;
-			border: thin $orange dashed;
-			border-radius: 5px;
-			background-color: black;
-		}
-	}
-}

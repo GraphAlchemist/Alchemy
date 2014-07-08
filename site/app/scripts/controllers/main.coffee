@@ -6,24 +6,27 @@ angular.module('site')
         link: makePretty = ($scope, $element, attrs) ->
             $element.html(prettyPrintOne($element.html()))
 
-    .directive 'panelSnap', () ->
-        restrict: 'A',
-        link: snapContent = ($scope, $element, attrs) ->
-            console.log $element
-            $('#about').on "click", () ->
-                console.log "clicked"
-            angular.element($element).bind "scroll", () ->
-                console.log "element bound"
-            # $(window).scroll () ->
-            #     console.log "scrolling with window"
     .controller 'MainCtrl', ($scope, $location) ->
+        # should probably be a directive
         $scope.snapElement = (inview, part, el) ->
-            console.log this
-            console.log inview
-            console.log part
-            # snap content to top of page
-            if part is "both"
-                console.log "this whole element is visible"  
+            body = angular.element(document).find('body')
+            position = body.scrollTop()
+            section = angular.element(el)
+            offset = section.offset().top
+            if part is "top"
+                body.animate({scrollTop: offset - 20}, 200)
+                body.animate({scrollTop: offset - 70}, 500)
+            # to do: scrolling if scrolling from bottom
+            # if part is "bottom"
+            #     position = body.scrollTop()
+            #     sectionHeight = angular.element(el).height()
+            #     section = angular.element(el)
+            #     offset = section.offset().top
+            #     console.log section
+            #     console.log "part is bottom"
+            #     console.log sectionHeight
+            #     console.log position
+            #     console.log offset
 
 
 angular.module('navigation', ['ui.bootstrap'])
