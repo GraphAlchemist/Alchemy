@@ -40,19 +40,7 @@
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
           var config = {
-            dataSource: 'sample_data/movies.json',
-            showControlDash: true,
-            showFilters: true,
-            nodeFilters: true,
-            edgeFilters: true,
-            linkDistance: function(){ return 40; },
-
-            nodeTypes: {"node_type":["movie", 
-                                     "award", 
-                                     "person"]},
-            edgeTypes: ["PRODUCED", "ACTED_IN"],
-            caption: function(node){ 
-                return node.caption; 
+            dataSource: 'sample_data/contrib.json',
             }
           };
 
