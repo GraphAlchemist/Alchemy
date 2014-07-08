@@ -13,10 +13,6 @@ a {cursor: pointer;}
     padding: 0;
     margin: 0;
 }
-.row{
-    margin: 0;
-}
-
 pre.prettyprint {
     padding-left: 15px;
 }
@@ -36,9 +32,9 @@ pre.prettyprint {
     #sm-alchemy-logo{
         display: none;
     }
-    .container-fluid>.row{
-        margin: 0 10%;
-    }
+    // .container-fluid>.row{
+    //     margin: 0 10%;
+    // }
 }
 @media only screen and (max-width: 767px) and (min-width: 481px){
     #sm-alchemy-logo{

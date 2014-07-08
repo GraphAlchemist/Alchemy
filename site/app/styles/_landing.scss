@@ -2,6 +2,20 @@ $blue: #1e75bb;
 $orange: #FDC670;
 $bright-orange: #E89619;
 
+@mixin alchemy-text(){
+	text-align: left;
+	h1,h2{
+		line-height: 1.1em;
+	}
+	h3{
+		line-height: 1.5em;
+	}
+	h5>a:hover{
+		text-decoration: none;
+		color: $bright-orange;
+	}
+}
+
 body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
@@ -9,11 +23,9 @@ body{
 	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
 		font-weight: 300;
 	}
-	background: #eee;
 }
 
 /*Override Main Content Styles*/
-
 .header{
 	background: $blue;
 	border-bottom: thin solid darken($blue, 10%);
@@ -24,6 +36,97 @@ body{
 		line-height: 70px;
 		color: $bright-orange;
 		text-shadow: 0px 0px 1px $blue, 0px 0px 20px white;
+	}
+}
+.footer{
+	background: #eee;
+}
+
+/* Panel Wrapper Styles*/
+#footer-ga-logo{
+	height: 30px;
+}
+
+#team-wrapper, #alchemy-info-wrapper, #carousel-wrapper{
+	min-height: 100vh;
+}
+#alchemy-info-wrapper{
+	background-color: white;
+	text-align: center;
+	#about{
+		@include alchemy-text();
+		background: #eee;
+		border-top: thin solid $bright-orange;
+		border-bottom: thin solid $bright-orange;
+		text-align: center;
+		#squash {
+			padding-bottom: 50px;
+			padding-top: 20px;
+			max-width: 700px;
+			margin: auto;
+		}
+	}
+	#alchemy-logo{
+		padding: 5%;
+		min-height: 50vh;
+		padding-top: 100px;
+	}
+}
+
+#carousel-wrapper{
+	h2{
+		padding: 20px 50px;
+	}
+	#featureCarousel{
+	 	padding: 0 10%;
+	 	.carousel{
+	 		max-height: 700px;
+	 	}
+		.carousel-caption {
+			// top: 20px;
+			left: 15%;
+			right: 15%;
+			text-shadow: 2px 2px #333;
+			// &.odd {
+			// 	top: 20px;
+			// }
+		}
+	}
+}
+
+/* Content styles */
+#team-wrapper{
+	background: #eee;
+	#meet-team{
+		border-top: thin solid $bright-orange;
+		padding: 50px;
+		@include alchemy-text();
+	}
+	#team-data, #team-html{
+		padding: 5% inherit;
+		pre{
+			background: #eee;
+			height: 500px;
+			overflow: scroll;
+		}
+	}
+	#team-svg{
+		padding: 0;
+		height: 450px;
+		#alchemy{
+			color:white;
+			height: 400px;
+			border-radius: 5px;
+			background-color: black;
+		}
+	}
+}
+
+/* Button Styles */
+#sm-alchemy-logo{
+	padding: 20px 0;
+	img{
+		height: 90px;
 	}
 }
 
@@ -111,90 +214,3 @@ hr{
 	}
 }
 
-#sm-alchemy-logo{
-	padding: 20px 0;
-	img{
-		height: 90px;
-	}
-}
-#alchemy-logo{
-	min-height: 50vh;
-	padding: 50px;
-	padding-top: 100px;
-	// h1 {text-align: right;}
-}
-
-#alchemy-logo, #about, #team-info, #featureCarousel{
-	background: white;
-	border-bottom: thin $orange solid;
-}
-
-#featureCarousel{
-	padding-top: 20px;
-	padding-bottom: 20px;
-	.carousel-caption {
-		// top: 20px;
-		left: 15%;
-		right: 15%;
-		text-shadow: 2px 2px #333;
-		// &.odd {
-		// 	top: 20px;
-		// }
-	}
-}
-
-#footer-ga-logo{
-	height: 30px;
-}
-
-@mixin alchemy-text(){
-	h1,h2{
-		line-height: 1em;
-	}
-	h3{
-		line-height: 1.5em;
-	}
-	h5>a:hover{
-		text-decoration: none;
-		color: $bright-orange;
-	}
-
-}
-#about{
-	@include alchemy-text();
-	text-align: center;
-	padding: 50px;
-	#squash {
-		max-width: 700px;
-		margin: auto;
-	}
-
-}
-#quick-start, #meet-team{
-	@include alchemy-text();
-}
-
-#meet-the-team{
-	#team-info{
-		padding: 20px 50px 50px 50px;
-	}
-
-	#team-data, #team-html{
-		pre{
-			height: 350px;
-			overflow: scroll;
-		}
-	}
-
-	#team-svg{
-		padding: 0;
-		height: 500px;
-		.alchemy{
-			color:white;
-			height: 450px;
-			border: thin $orange dashed;
-			border-radius: 5px;
-			background-color: black;
-		}
-	}
-}

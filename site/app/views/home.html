@@ -1,51 +1,58 @@
-    <div class="row text-center" id="alchemy-logo">
-        <img src="images/alchemy-01.svg"></img>
-        <h1>A graph drawing application built in d3.</h1>
-    </div>
-
-    <section class="row">
-        <div class="col-md-12" id="about">
-            <div id="squash">
-                <h2>Alchemy.js works out of the box, and is easily customizable through configuration.<br>Create full applications with built-in features like search, clustering, and filters, or embed small graphs as visual elements in larger projects.</h2>
+    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="alchemy-info-wrapper">
+        <div class="row text-center" id="alchemy-logo">
+            <div class="col-md-12">
+                <img src="images/alchemy-01.svg"></img>
+                <h1>A graph drawing application built in d3.</h1>
+            </div>
+        </div>
+        <div class ="row">
+            <div class="col-md-12" id="about">
+                <div id="squash">
+                    <h2>Alchemy.js works out of the box, and is easily customizable through configuration.<br>Create full applications with built-in features like search, clustering, and filters, or embed small graphs as visual elements in larger projects.</h2>
+                </div>
             </div>
         </div>
     </section>
-    <section class="row">
-        <div class="col-md-12" id="featureCarousel" ng-app="featCarousel" ng-controller="carouselCtrl">
-            <carousel interval="myInterval">
-              <slide ng-repeat="slide in slides" active="slide.active">
-                <div class="carousel-caption">
-                  <h1>{{slide.text}}</h1>
+    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="carousel-wrapper">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <h2>Core Features</h2>
                 </div>
-                <img ng-src="{{slide.image}}" style="margin:auto;">
-              </slide>
-            </carousel>
+            </div>
+            <div class = "row">
+                <div class="col-md-10 col-md-offset-1" id="featureCarousel" ng-app="featCarousel" ng-controller="carouselCtrl">
+                    <carousel interval="myInterval">
+                      <slide ng-repeat="slide in slides" active="slide.active">
+                        <div class="carousel-caption">
+                          <h1>{{slide.text}}</h1>
+                        </div>
+                        <img ng-src="{{slide.image}}" style="margin:auto;">
+                      </slide>
+                    </carousel>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section class="row" id="meet-the-team">
+    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="team-wrapper">
         <div class="col-md-12" id="team-info">
             <div class="row" id="meet-team">
-                <div class="col-md-3">
+                <div class="col-md-2 col-md-offset-1">
                     <h2>Meet the Team</h2>
                 </div>                
-                <div class="col-md-9" >
+                <div class="col-md-8" >
+                    <h3>Want to include Alchemy.js in your project? To learn how to get Alchemy.js up and running in your project, check out the <a href="/documentation/#quick-start">Quick Start docs</a>.</h3>
                     <h3>Want to contribute? For information on contributing, check out the <a href="/documentation/Contributing">contributing section of our docs.</a></h3>
                 </div>
             </div>
-            <div class="row" id="quick-start">
-                <div class="col-md-3">
-                    <h2>Quick Start with Meet the Team</h2>
-                </div>
-                <div class="col-md-9">
-                    <h3>For more detail about getting Alchemy.js up and running in your project, check out the <a href="/documentation/#quick-start">Quick Start docs</a>.</h3>
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1" id="team-svg">
+                    <div id="alchemy"></div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-12 alchemy" id="team-svg"></div>
-            </div>
-            <div class="row">
-                <div class="col-md-6" id="team-html">
+                <div class="col-md-5 col-md-offset-1" id="team-html">
                     <h3>Configuration and HTML</h3>
                     <pre pretty-print>
                         <code>
@@ -80,7 +87,7 @@
                     </pre>
                 </div>
 
-                <div class="col-md-6" id="team-data">
+                <div class="col-md-5" id="team-data">
                     <h3>Contributor Data</h3>
                     <pre pretty-print>
                         <code>
@@ -165,7 +172,7 @@
     </section>
 <script type="text/javascript">
 var config = {
-    divSelector: "#team-svg",
+    divSelector: "#alchemy",
     dataSource: 'data/contrib.json',
     forceLocked: false,
     linkDistance: function() {
@@ -183,3 +190,4 @@ var config = {
 };
 alchemy.begin(config);
 </script>
+
