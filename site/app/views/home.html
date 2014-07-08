@@ -1,13 +1,12 @@
-    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="alchemy-info-wrapper">
-        <img id="alchemy-logo" src="images/alchemy-01.svg"></img>
-        <div class="col-md-10 col-md-offset-1" id="about">
-            <div class ="row">
-                <div class = "col-md-3">
-                    <h1>Alchemy.js</h1>
-                </div>
-                <div class="col-md-9">
-                    <h3> is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Alchemy.js is built to work out of the box, and is easily customizable. Create full applications with built-in features like search, clustering, and filters; embed small graphs as visual elements in larger projects. Read more about the magic of alchemy.js in the <a href="/documentation">docs</a>.</h3>
-                </div>
+    <div class="row text-center" id="alchemy-logo">
+        <img src="images/alchemy-01.svg"></img>
+        <h1>A graph drawing application built in d3.</h1>
+    </div>
+
+    <section class="row">
+        <div class="col-md-12" id="about">
+            <div id="squash">
+                <h2>Alchemy.js works out of the box, and is easily customizable through configuration.<br>Create full applications with built-in features like search, clustering, and filters, or embed small graphs as visual elements in larger projects.</h2>
             </div>
         </div>
     </section>
@@ -15,10 +14,10 @@
         <div class="col-md-10 col-md-offset-1" id="featureCarousel" ng-app="featCarousel" ng-controller="carouselCtrl">
             <carousel interval="myInterval">
               <slide ng-repeat="slide in slides" active="slide.active">
-                <img ng-src="{{slide.image}}" style="margin:auto;">
                 <div class="carousel-caption">
-                  <h3>{{slide.text}}</h3>
+                  <h1>{{slide.text}}</h1>
                 </div>
+                <img ng-src="{{slide.image}}" style="margin:auto;">
               </slide>
             </carousel>
         </div>

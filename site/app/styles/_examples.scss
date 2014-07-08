@@ -4,12 +4,12 @@
 	}
 	margin: 8% 5%;
 	padding: 5% 0 0 0;
-	a.list-group-item.h1{
-		color: black;
-		&:hover{
-			background-color: white;
-		}
-	}
+	// a.list-group-item.h1{
+	// 	color: black;
+	// 	&:hover{
+	// 		background-color: white;
+	// 	}
+	// }
 }
 
 #example-list{
@@ -20,10 +20,15 @@
 .example{
 	font-size: 16px;
 	padding: 20px;
-	&.active{
+	&:hover {
+		// border-radius: 0;
+		// background-color: $blue !important;
+		// color: #fff !important;
+	}
+	&.active {
 		border-radius: 0;
 		margin-left: 20px;
-		background-color: $blue;
+		background-color: $blue !important;
 		border: none;
 		&:after{
 			content: "";
@@ -32,9 +37,6 @@
 			top: 0;
 			right: -20px;
 			height: 100%;
-		}
-		&:hover{
-			background-color: $blue !important;
 		}
 	}
 }
@@ -61,8 +63,8 @@
 }
 
 #to-full-app-btn{
-	margin-top: 20%;
-	width: 100%;
+	float: right;
+	margin: 10px 0 0 0;
 	@include full-app-btn;
 }
 
@@ -99,7 +101,7 @@
 	}
 }
 
-#example-code{
+.example-code{
 	pre{
 		overflow: scroll;
 		height: 450px;
