@@ -17,7 +17,22 @@
 	border-radius: 0;
 }
 
-.example{
+.example {
+	padding: 20px;
+	background-color: white;
+	border: 3px $blue solid;
+	border-radius: 5px;
+	#graph-container{
+		overflow: scroll;
+	}
+	.alchemy{
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+
+.example-bar {
 	font-size: 16px;
 	padding: 20px;
 	&:hover {
@@ -74,19 +89,6 @@
 	@include full-app-btn;
 }
 
-#example1, #example2, #example4, #example3{
-	background-color: white;
-	padding: 10px;
-	border: 3px $blue solid;
-	border-radius: 5px;
-	#graph-container{
-		overflow: scroll;
-	}
-	.alchemy{
-		margin-right: auto;
-		margin-left: auto;
-	}
-}
 #graph-container-full{
 	background-color: black;
 	padding:0;

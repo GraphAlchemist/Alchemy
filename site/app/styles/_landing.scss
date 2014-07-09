@@ -2,6 +2,13 @@ $blue: #1e75bb;
 $orange: #FDC670;
 $bright-orange: #E89619;
 
+$header-height: 70px;
+$alchemy-btn-height: 95px;
+
+// svg, img {
+// 	border: 2px $blue solid;
+// }
+
 @mixin alchemy-text(){
 	text-align: left;
 	h1,h2{
@@ -18,7 +25,7 @@ $bright-orange: #E89619;
 
 body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
-	color: black;
+	color: #333;
 	font-weight: 300;
 	h1, h2, h3, h4, h5, .h1, .h2, .h3, .h4, .h5{
 		font-weight: 300;
@@ -47,10 +54,28 @@ body{
 	height: 30px;
 }
 
-#team-wrapper, #alchemy-info-wrapper, #carousel-wrapper{
+#team-wrapper, #info-wrapper, #carousel-wrapper, #config-wrapper {
 	min-height: 100vh;
+	border-bottom: 3px solid $blue;
+	padding: $header-height + $alchemy-btn-height 20px 20px 20px;
+	position: relative;
+	@mixin arrows() {
+		font-size: 48px;
+		color: $blue;
+		position: absolute;
+		right: 30px;
+		text-shadow: 0px 0px 1px #fff, 0px 0px 20px #FFF;
+	}
+	.fa-arrow-down {
+		@include arrows();
+		bottom: 40px;
+	}
+	.fa-arrow-up {
+		@include arrows();
+		top: $header-height + 20px;
+	}
 }
-#alchemy-info-wrapper{
+#info-wrapper{
 	background-color: white;
 	text-align: center;
 	#about{
@@ -66,10 +91,21 @@ body{
 			margin: auto;
 		}
 	}
-	#alchemy-logo{
-		padding: 5%;
-		min-height: 50vh;
-		padding-top: 100px;
+	// #alchemy-logo{
+	// 	padding: 5%;
+	// 	min-height: 50vh;
+	// 	padding-top: 100px;
+	// }
+}
+
+#config-wrapper {
+	#code {
+		margin-top: 30px;
+		text-align: center;
+		code {
+			color: $blue;
+			font-size: 28px;
+		}
 	}
 }
 
@@ -78,10 +114,8 @@ body{
 		padding: 20px 50px;
 	}
 	#featureCarousel{
-	 	padding: 0 10%;
-	 	.carousel{
-	 		max-height: 700px;
-	 	}
+	 	max-width: 70vw;
+	 	padding: 20px 10%;
 		.carousel-caption {
 			// top: 20px;
 			left: 15%;
@@ -96,14 +130,13 @@ body{
 
 /* Content styles */
 #team-wrapper{
-	background: #eee;
-	#meet-team{
-		border-top: thin solid $bright-orange;
+	// background: #eee;
+	.contributing {
 		padding: 50px;
 		@include alchemy-text();
 	}
 	#team-data, #team-html{
-		padding: 5% inherit;
+		padding: 5% 15px;
 		pre{
 			background: #eee;
 			height: 500px;

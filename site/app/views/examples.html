@@ -1,11 +1,11 @@
 <div id ="examples" class ="row" ng-app="alchemyExamples" ng-controller="examplesCtrl" ng-init="init()">
 	<div id="example-list" class="list-group col-md-3">
 		<a class="list-group-item h1">Examples</a>
-		<a ng-repeat="e in examples" class="list-group-item example {{e.state}} {{e.id}}" ng-click="showExample(e)">
+		<a ng-repeat="e in examples" class="list-group-item example-bar {{e.state}} {{e.id}}" ng-click="showExample(e)">
 			{{e.name}}
 		</a>
 	</div>
     <h1 id="removethis">Dive in with one of the examples!</h1>
-	<div class="col-md-9" id="{{current_example.id}}" ng-model="example" ng-include="current_example.src"></div>
+	<div class="col-md-9 example" id="{{current_example.id}}" ng-model="example" ng-include="current_example.src"></div>
 	<div class='col-md-9' pretty-print></div>
 </div>
