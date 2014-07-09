@@ -1,7 +1,9 @@
-$icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/";
+$icon-font-path: "fonts/";
+$fa-font-path: "fonts/";
 
 // bower:scss
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss';
+@import '../bower_components/components-font-awesome/scss/font-awesome.scss';
 // endbower
 @import 'nav';
 @import 'landing';
