@@ -2,6 +2,7 @@
   "name": "alchemyjs",
   "version": "0.1.1",
   "main": ["dist/alchemy.min.css", "dist/alchemy.min.js"],
+  "ignore": ["site","app", "test"],
   "dependencies": {
     "jquery": "~2.1.0",
     "d3": "~3.4.1",
