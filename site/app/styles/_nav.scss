@@ -1,0 +1,13 @@
+.navbar {
+    font-size: 18px;
+    .nav-pills {
+        li {
+            a:hover {
+                background-color: #fff;
+            }
+            &.active a:hover {
+                background-color: #428BCA;
+            }
+        }
+    } 
+}

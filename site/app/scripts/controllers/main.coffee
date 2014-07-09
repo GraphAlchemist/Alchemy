@@ -7,45 +7,23 @@ angular.module('site')
             $element.html(prettyPrintOne($element.html()))
 
     .controller 'MainCtrl', ($scope, $location) ->
-        # very hacky scrollSnap, should probably be a directive
-        $scope.snapElement = (inview, part, el) ->
-            body = angular.element(document).find('body')
-            position = body.scrollTop()
-            section = angular.element(el)
-            # section.state = " "
+        $scope.sectionSnap = (currentSection) ->
+            body = angular.element('body')
+            section = angular.element(currentSection)
             offset = section.offset().top
+            # headerOffset = angular.element('.navbar').height()
+            body.animate({scrollTop: offset}, 500)
+            return
+
+        # very hacky scrollSnap, should probably be a directive
+        $scope.snapElement = (inview, part, element) ->
+            # body = angular.element(document).find('body')
+            # section = angular.element(element)
+            # offset = section.offset().top
+            # headerOffset = angular.element('.navbar').height()
             if part is "top"
-                body.animate({scrollTop: offset - 20}, 200)
-                body.animate({scrollTop: offset - 70}, 300)
-
-    # trying to break this out into a directive
-    # .controller 'panelCtrl', ($scope) ->
-    #     $scope.inview = "hey"
-    #     $scope.part = "ho"
-    #     $scope.element = "ha"
-    #     $scope.viewInfo = (inview, part, element) ->
-    #         $scope.inview = inview
-    #         $scope.part = part
-    #         $scope.element = element
-
-    # .directive 'panelSnap', () ->
-    #     restrict: 'A',
-    #     link: ($scope) ->
-    #         console.log "panelSnap"
-    #         $scope.$watch($scope.inview, (val) ->
-    #             if $scope.inview
-    #                 console.log "inview!"
-    #                 body = angular.element(document).find('body')
-    #                 position = body.scrollTop()
-    #                 section = angular.element($scope.element)
-    #                 offset = section.offset().top
-    #                 if part is "top"
-    #                     console.log "also top!"
-    #                     body.animate({scrollTop: offset - 20}, 200)
-    #                     body.animate({scrollTop: offset - 70}, 500)
-    #                 if part is "both"
-    #                     console.log "both are visible"
-    #             )
+                @sectionSnap(element)
+                return
 
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location, $route) ->
