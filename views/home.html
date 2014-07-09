@@ -1,4 +1,4 @@
-<div class="row text-center" id=alchemy-logo><img src=images/de4eb130.alchemy-01.svg></div><div class=row><div class=col-md-12 id=about><div class=row><div class=col-md-3><h1>Alchemy.js</h1></div><div class=col-md-9><h3>is a graph application built almost entirely in D3. Feed Alchemy.js a JSON file and it will generate a visual application with minimal configuration. Read more about the magic of alchemy.js in the <a href=/documentation>docs</a>.</h3></div></div></div></div><div class=row><div class=col-md-12 id=features><!-- Carousel --></div></div><div class=row id=meet-the-team><div class=col-md-12 id=team-info><div class=row><h2>Meet the Team</h2><h4>Want to contribute? For information on contributing, check out the contributing section of our <a href=/documentation/Contributing>docs.</a></h4></div><div class=row><div class="col-md-12 alchemy" id=team-svg></div></div><div class=row><div class=col-md-6 id=team-html><h3>Configuration and HTML</h3><pre>
+<section in-view="snapElement($inview, $inviewpart, $element)" class=row id=info-wrapper><div class="row text-center" id=alchemy-logo><div class=col-xs-12><img src=images/de4eb130.alchemy-01.svg><h1>A graph visualization application built in d3.</h1></div></div><i class="fa fa-arrow-down float-right" ng-click="sectionSnap('#config-wrapper')"></i></section><section in-view="snapElement($inview, $inviewpart, $element)" class=row id=config-wrapper><i class="fa fa-arrow-up float-right" ng-click="sectionSnap('#info-wrapper')"></i><div class=row><div class="col-md-10 col-md-offset-1"><h1>Alchemy.js works out of the box, and is easily customizable.</h1></div></div><div class=row id=code><code>alchemy.begin(yourConfig);</code></div><i class="fa fa-arrow-down float-right" ng-click="sectionSnap('#carousel-wrapper')"></i></section><section in-view="snapElement($inview, $inviewpart, $element)" class=row id=carousel-wrapper><i class="fa fa-arrow-up float-right" ng-click="sectionSnap('#config-wrapper')"></i><div class=row><div class="col-md-10 col-md-offset-1"><h1>Create full applications with built-in features like search, clustering, and filters, or embed small graphs as visual elements in larger projects.</h1></div></div><div class=row><div class="col-md-10 col-md-offset-2" id=featureCarousel ng-app=featCarousel ng-controller=carouselCtrl><carousel interval=myInterval><slide ng-repeat="slide in slides" active=slide.active><div class=carousel-caption><h1>{{slide.text}}</h1></div><img ng-src={{slide.image}} style=margin:auto></slide></carousel></div></div><i class="fa fa-arrow-down" ng-click="sectionSnap('#team-wrapper')"></i></section><section in-view="snapElement($inview, $inviewpart, $element)" class=row id=team-wrapper><i class="fa fa-arrow-up" ng-click="sectionSnap('#carousel-wrapper')"></i><div class=col-md-12 id=team-info><div class="row contributing"><div class="col-md-10 col-md-offset-1"><h1>Contribute!</h1><h2>Want to include Alchemy.js in your project? To learn how to get Alchemy.js up and running in your project, check out the <a href=/documentation/#quick-start>Quick Start docs</a>.</h2><h2>Want to contribute? For information on contributing, check out the <a href=/documentation/Contributing>contributing section of our docs.</a></h2></div></div><div class=row><div class="col-md-10 col-md-offset-1" id=team-svg><div id=alchemy></div></div></div><div class=row><div class="col-md-5 col-md-offset-1" id=team-html><h3>Configuration and HTML</h3><pre pretty-print="">
                         <code>
 &lt;html&gt;
 &lt;head&gt;
@@ -28,7 +28,7 @@
 &lt;/body&gt;
 &lt;/html&gt;
                         </code>
-                    </pre></div><div class=col-md-6 id=team-data><h3>Contributor Data</h3><pre>
+                    </pre></div><div class=col-md-5 id=team-data><h3>Contributor Data</h3><pre pretty-print="">
                         <code>
 {
     "comment": "AlchemyJS contributors",
@@ -104,8 +104,8 @@
     ]
 }
                             </code>
-                        </pre></div></div></div></div><script type=text/javascript>var config = {
-    divSelector: "#team-svg",
+                        </pre></div></div></div><script type=text/javascript>var config = {
+    divSelector: "#alchemy",
     dataSource: 'data/contrib.json',
     forceLocked: false,
     linkDistance: function() {
@@ -121,4 +121,4 @@
         return node.caption + ' ' + node.fun_fact;
     }
 };
-alchemy.begin(config);</script>
+alchemy.begin(config);</script></section>

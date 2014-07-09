@@ -7,7 +7,7 @@ body{
 	font-family: 'Source Sans Pro', 'Lato', 'Helvetica', 'sans-serif';
 	color: black;
 }
-
+div[role="search"] {display: none;}
 nav.stickynav {
 	// background-color: black;
 	ul.current {overflow: auto;}
