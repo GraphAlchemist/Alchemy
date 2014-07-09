@@ -1,7 +1,6 @@
 (function() {
   "Alchemy.js is a graph drawing application for the web.\nCopyright (C) 2014  GraphAlchemist, Inc.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Affero General Public License for more details.\n\nYou should have received a copy of the GNU Affero General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.\nlets";
-  var Alchemy, allCaptions, allTags, container, currentNodeTypes, currentRelationshipTypes, nodeDragStarted, nodeDragended, nodeDragged, rootNodeId,
-    __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
+  var Alchemy, allCaptions, allTags, container, currentNodeTypes, currentRelationshipTypes, nodeDragStarted, nodeDragended, nodeDragged, rootNodeId;
 
   Alchemy = (function() {
     function Alchemy() {
@@ -376,20 +375,18 @@
             for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
               edge = _ref1[_j];
               edgeType = edge.caption;
-              if ((alchemy.conf.edgeTypes != null) && __indexOf.call(alchemy.conf.edgeTypes, edgeType) >= 0) {
-                if (d3.select("#li-" + edgeType).classed("disabled")) {
-                  alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
-                    "inactive": true,
-                    "active": false,
-                    "highlight": false
-                  });
-                } else {
-                  alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
-                    "inactive": !checked,
-                    "active": checked,
-                    "highlight": highlight
-                  });
-                }
+              if (!d3.select("#li-" + edgeType).empty() && d3.select("#li-" + edgeType).classed("disabled")) {
+                alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
+                  "inactive": true,
+                  "active": false,
+                  "highlight": false
+                });
+              } else {
+                alchemy.edge.filter("[source-target*='" + nodeId + "']").classed({
+                  "inactive": !checked,
+                  "active": checked,
+                  "highlight": highlight
+                });
               }
             }
           }
