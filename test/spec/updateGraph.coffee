@@ -1,19 +1,15 @@
 do ->
-    afterEach ->
-        d3.select("#alchemy").remove() 
-
     describe "alchemy.updateGraph()", ->
-
+        alchemy.begin({'dataSource': 'sample_data/movies.json'})
+        
         describe "alchemy.edge", ->
-            alchemy.begin({'dataSource': 'sample_data/movies.json'})
-            
-            it "should be defined", ->
+            it "should be defined", (done) ->
                 alchemy.edge.should.not.equal undefined
+                done()
 
         describe "alchemy.node", ->
-            alchemy.begin({'dataSource': 'sample_data/movies.json'})
-
-            it "should be defined", ->
+            it "should be defined", (done) ->
                 alchemy.node.should.not.equal undefined
+                done()
         return
     return

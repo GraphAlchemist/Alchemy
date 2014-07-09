@@ -4,12 +4,12 @@
 	}
 	margin: 8% 5%;
 	padding: 5% 0 0 0;
-	a.list-group-item.h1{
-		color: black;
-		&:hover{
-			background-color: white;
-		}
-	}
+	// a.list-group-item.h1{
+	// 	color: black;
+	// 	&:hover{
+	// 		background-color: white;
+	// 	}
+	// }
 }
 
 #example-list{
@@ -17,14 +17,29 @@
 	border-radius: 0;
 }
 
-.example{
+.example {
+	padding: 20px;
+	background-color: white;
+	border: 3px $blue solid;
+	border-radius: 5px;
+	#graph-container{
+		overflow: scroll;
+	}
+	.alchemy{
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+
+.example-bar {
 	font-size: 16px;
 	padding: 20px;
 	cursor: pointer;
 	&.active{
 		border-radius: 0;
 		margin-left: 20px;
-		background-color: $blue;
+		background-color: $blue !important;
 		border: none;
 		&:after{
 			content: "";
@@ -33,9 +48,6 @@
 			top: 0;
 			right: -20px;
 			height: 100%;
-		}
-		&:hover{
-			background-color: $blue !important;
 		}
 	}
 }
@@ -62,8 +74,8 @@
 }
 
 #to-full-app-btn{
-	margin-top: 20%;
-	width: 100%;
+	float: right;
+	margin: 10px 0 0 0;
 	@include full-app-btn;
 }
 
@@ -73,19 +85,6 @@
 	@include full-app-btn;
 }
 
-#example1, #example2, #example4, #example3{
-	background-color: white;
-	padding: 10px;
-	border: 3px $blue solid;
-	border-radius: 5px;
-	#graph-container{
-		overflow: scroll;
-	}
-	.alchemy{
-		margin-right: auto;
-		margin-left: auto;
-	}
-}
 #graph-container-full{
 	background-color: black;
 	padding:0;
@@ -100,7 +99,7 @@
 	}
 }
 
-#example-code{
+.example-code{
 	pre{
 		overflow: scroll;
 		height: 450px;
