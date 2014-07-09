@@ -64,7 +64,7 @@ body{
 		color: $blue;
 		position: absolute;
 		right: 30px;
-		text-shadow: 0px 0px 1px #fff, 0px 0px 20px #FFF;
+		text-shadow: 0px 0px 1px #fff, 0px 0px 20px rgba(30, 117, 187, 0.8);
 	}
 	.fa-arrow-down {
 		@include arrows();
@@ -105,7 +105,11 @@ body{
 		code {
 			color: $blue;
 			font-size: 28px;
+			@media screen and (min-width: 768px) {
+				font-size: 40px;
+			}
 		}
+
 	}
 }
 
