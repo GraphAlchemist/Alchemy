@@ -1,6 +1,7 @@
 site_name: AlchemyDocs
 docs_dir: 'app/docs'
 site_dir: '.tmp/documentation'
+repo_url: https://github.com/GraphAlchemist/Alchemy/
 pages:
 - ['index.md', 'Getting Started']
 - ['Configuration.md']
