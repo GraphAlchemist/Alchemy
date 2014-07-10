@@ -31,7 +31,8 @@ angular.module('navigation', ['ui.bootstrap'])
         $scope.$on '$routeChangeSuccess', ->
             if $location.path() is '/examples/FullApp'
                 $scope.showNav = "hidden"
-            else $scope.showNav = ""
+            else
+                $scope.showNav = ""
 
         $scope.init = ->
             $scope.links =   
