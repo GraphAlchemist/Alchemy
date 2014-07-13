@@ -47,6 +47,7 @@ alchemy.defaults =
     nodesToggle: false
     toggleRootNodes: true
     removeElement: false
+    editorInteractions: true
     addNodes: false # not currently implemented
     addEdges: false # not currently implemented
 

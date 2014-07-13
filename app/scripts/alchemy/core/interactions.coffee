@@ -51,6 +51,50 @@ alchemy.interactions =
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
+    nodeMouseDown: (n) ->
+        if alchemy.conf.editorInteractions is true
+            console.log "node mousedown, true"
+            drag_line = alchemy.vis.append("line")
+            alchemy.edges.push(drag_line)
+            alchemy.interactions.nodeMouseOver(n, drag_line)
+        else
+            console.log "mousedown, no"
+            n.fixed = true
+
+    nodeMouseMove: (n, drag_line) ->
+        if alchemy.conf.editorInteractions is true
+            drag_line.source = n
+            drag_line.target = d3.svg.mouse(this)
+            alchemy.drawing.drawedges(drag_line)
+            # drag_line
+            #     .attr("x1", mousedown_node.x)
+            #     .attr("y1", mousedown_node.y)
+            #     .attr("x2", d3.svg.mouse(this)[0])
+            #     .attr("y2", d3.svg.mouse(this)[1])
+            #     .attr "style", (d) -> edgeStyle(d)
+            console.log "node mousemove, true"
+        else
+            console.log "mousemove, no."
+            n.fixed = true
+
+    nodeMouseUp: (n) ->
+        if alchemy.conf.editorInteractions is true
+            point = d3.mouse(this)
+            length = alchemy.nodes.length
+            node = {x: point[0], y: point[1], id: length}
+            n = alchemy.nodes.push(node)
+            alchemy.updateGraph()
+
+            selected_node = node
+            selected_link = null
+
+            # alchemy.edges.push({source: mousedown_node, target: node})
+            alchemy.drawing.drawnodes(node)
+            console.log "node mouseup, true"
+        else
+            console.log "mousedown, no."
+            n.fixed = true
+
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
             if typeof alchemy.conf.nodeMouseOver == 'function'
@@ -84,21 +128,24 @@ alchemy.interactions =
             edges[e].distance *= 2
 
     nodeClick: (c) ->
-        d3.event.stopPropagation()
-        alchemy.vis.selectAll('line')
-            .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
-        alchemy.vis.selectAll('.node')
-            .classed('selected', (d) -> return c.id is d.id)
-            # also select 1st degree connections
-            .classed('selected', (d) ->
-                return d.id is c.id or alchemy.edges.some (e) ->
-                    return ((e.source.id is c.id and e.target.id is d.id) or 
-                            (e.source.id is d.id and e.target.id is c.id)) and 
-                            d3.select(".edge[source-target*='#{d.id}']").classed("active"))
+        if alchemy.editorInteractions is false
+            d3.event.stopPropagation()
+            alchemy.vis.selectAll('line')
+                .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
+            alchemy.vis.selectAll('.node')
+                .classed('selected', (d) -> return c.id is d.id)
+                # also select 1st degree connections
+                .classed('selected', (d) ->
+                    return d.id is c.id or alchemy.edges.some (e) ->
+                        return ((e.source.id is c.id and e.target.id is d.id) or 
+                                (e.source.id is d.id and e.target.id is c.id)) and 
+                                d3.select(".edge[source-target*='#{d.id}']").classed("active"))
 
-        if typeof alchemy.conf.nodeClick == 'function'
-            alchemy.conf.nodeClick(c)
-            return
+            if typeof alchemy.conf.nodeClick == 'function'
+                alchemy.conf.nodeClick(c)
+                return
+        else 
+            console.log "node click, editorInteractions is true"
 
     drag: d3.behavior.drag()
                           .origin(Object)

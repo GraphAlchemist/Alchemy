@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawnodes = (node) ->
+    console.log node
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
                         rootKey = alchemy.conf.rootNodes
@@ -27,7 +28,9 @@ alchemy.drawing.drawnodes = (node) ->
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
-                    .on('mousedown', (d) -> d.fixed = true)
+                    .on('mousedown', alchemy.interactions.nodeMouseDown)
+                    # .on('mousemove', alchemy.interactions.nodeMouseMove)
+                    .on('mouseup', alchemy.interactions.nodeMouseUp)
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
@@ -35,11 +38,11 @@ alchemy.drawing.drawnodes = (node) ->
 
     if not alchemy.conf.fixNodes
         nonRootNodes = nodeEnter.filter((d) -> return d.root != true)
-        nonRootNodes.call(alchemy.interactions.drag)
+        # nonRootNodes.call(alchemy.interactions.drag)
 
     if not alchemy.conf.fixRootNodes
         rootNodes = nodeEnter.filter((d) -> return d.root == true)
-        rootNodes.call(alchemy.interactions.drag)
+        # rootNodes.call(alchemy.interactions.drag)
 
     nodeColours = (d) ->
         if alchemy.conf.cluster
