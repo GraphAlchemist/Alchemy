@@ -29,7 +29,7 @@
 
         <div ng-view class="container-fluid"></div>
         
-        <div class="footer">
+        <div class="footer {{showNav}}" ng-controller="navCtrl">
             <p>Brought to you by: <img id="footer-ga-logo" src="images/GA-logo-full-100px.png"><img></p>
         </div>
 
@@ -59,7 +59,7 @@
         
         <!-- build:js scripts/modules.js -->
         <script src="bower_components/angular/angular.min.js"></script>
-        <script src="/bower_components/angular-inview/angular-inview.js"></script>
+        <script src="bower_components/angular-inview/angular-inview.js"></script>
         <script src="bower_components/angular-route/angular-route.min.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
         <!-- endbuild -->
