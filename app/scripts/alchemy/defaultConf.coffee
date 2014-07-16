@@ -33,7 +33,7 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
-    collisionDetection: true
+    collisionDetection: false
     fixNodes: false
     fixRootNodes: false
     forceLocked: true

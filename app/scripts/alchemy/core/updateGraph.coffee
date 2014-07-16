@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
+    console.log "update called"
     
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
@@ -37,6 +38,13 @@ alchemy.updateGraph = (start=true) ->
     alchemy.styles.edgeGradient(alchemy.edges)
 
     #draw node and edge objects with all of their interactions
+    # editor dragline
+    dragLine = alchemy.vis.append("line")
+        .attr "id", "dragline"
+        .attr "x1", 0
+        .attr "y1", 0
+        .attr "x2", 0
+        .attr "y2", 0
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
 

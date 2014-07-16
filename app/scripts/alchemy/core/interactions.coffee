@@ -16,28 +16,73 @@
 
 nodeDragStarted = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
-    d3.select(this).classed("dragging", true)
+    if alchemy.conf.editorInteractions is true
+    else
+        d3.select(this).classed("dragging", true)
+
     return
 
 nodeDragged = (d, i) ->
-    d.x += d3.event.dx
-    d.y += d3.event.dy
-    d.px += d3.event.dx
-    d.py += d3.event.dy
-    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
-        alchemy.force.start() #restarts force on drag
+    if alchemy.conf.editorInteractions is true
+        x2coord = d3.event.x
+        y2coord = d3.event.y
+        d3.select('#dragline')
+            .attr "x1", d.x
+            .attr "y1", d.y
+            .attr "x2", x2coord
+            .attr "y2", y2coord
+            .attr "style", "stroke: #FFF"
 
-    alchemy.edge.attr("x1", (d) -> d.source.x )
-        .attr("y1", (d) -> d.source.y )
-        .attr("x2", (d) -> d.target.x )
-        .attr("y2", (d) -> d.target.y )
-        .attr "cx", d.x = d3.event.x
-        .attr "cy", d.y = d3.event.y
+    else
+        d.x += d3.event.dx
+        d.y += d3.event.dy
+        d.px += d3.event.dx
+        d.py += d3.event.dy
+        d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+        if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
+            alchemy.force.start() #restarts force on drag
+
+        alchemy.edge.attr("x1", (d) -> d.source.x )
+            .attr("y1", (d) -> d.source.y )
+            .attr("x2", (d) -> d.target.x )
+            .attr("y2", (d) -> d.target.y )
+            .attr "cx", d.x = d3.event.x
+            .attr "cy", d.y = d3.event.x
     return
 
 nodeDragended = (d, i) ->
-    d3.select(this).classed "dragging", false
+    if alchemy.conf.editorInteractions is true
+        # coordinates relative to source node
+        point = d3.mouse(this)
+        console.log point   
+        # set coordinates relative to source node?
+        nodeX = point[0] 
+        nodeY = point[1] 
+        console.log nodeX
+        console.log nodeY
+
+        console.log this
+        console.log point   
+        targetNode = {x: nodeX, y: nodeY, id: alchemy.nodes.length}        
+        newLink = {source: d, target: targetNode}
+
+        # add to alchemy data
+        alchemy.edges.push(newLink)
+        alchemy.nodes.push(targetNode)
+
+        alchemy.edge = alchemy.vis.selectAll("line")
+            .data(alchemy.edges)
+
+        alchemy.node = alchemy.vis.selectAll("g.node")
+            .data(alchemy.nodes, (d) -> d.id)
+
+        alchemy.drawing.drawedges(alchemy.edge)
+        alchemy.drawing.drawnodes(alchemy.node)
+        # alchemy.layout.tick()
+
+        # alchemy.updateGraph()
+    else
+        d3.select(d).classed "dragging", false
     return
 
 alchemy.interactions =
@@ -50,50 +95,6 @@ alchemy.interactions =
         d3.event.stopPropagation
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
-
-    nodeMouseDown: (n) ->
-        if alchemy.conf.editorInteractions is true
-            console.log "node mousedown, true"
-            drag_line = alchemy.vis.append("line")
-            alchemy.edges.push(drag_line)
-            alchemy.interactions.nodeMouseOver(n, drag_line)
-        else
-            console.log "mousedown, no"
-            n.fixed = true
-
-    nodeMouseMove: (n, drag_line) ->
-        if alchemy.conf.editorInteractions is true
-            drag_line.source = n
-            drag_line.target = d3.svg.mouse(this)
-            alchemy.drawing.drawedges(drag_line)
-            # drag_line
-            #     .attr("x1", mousedown_node.x)
-            #     .attr("y1", mousedown_node.y)
-            #     .attr("x2", d3.svg.mouse(this)[0])
-            #     .attr("y2", d3.svg.mouse(this)[1])
-            #     .attr "style", (d) -> edgeStyle(d)
-            console.log "node mousemove, true"
-        else
-            console.log "mousemove, no."
-            n.fixed = true
-
-    nodeMouseUp: (n) ->
-        if alchemy.conf.editorInteractions is true
-            point = d3.mouse(this)
-            length = alchemy.nodes.length
-            node = {x: point[0], y: point[1], id: length}
-            n = alchemy.nodes.push(node)
-            alchemy.updateGraph()
-
-            selected_node = node
-            selected_link = null
-
-            # alchemy.edges.push({source: mousedown_node, target: node})
-            alchemy.drawing.drawnodes(node)
-            console.log "node mouseup, true"
-        else
-            console.log "mousedown, no."
-            n.fixed = true
 
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
