@@ -45,6 +45,8 @@ alchemy.updateGraph = (start=true) ->
         .attr "y1", 0
         .attr "x2", 0
         .attr "y2", 0
+
+    # draw nodes and edges
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
 
