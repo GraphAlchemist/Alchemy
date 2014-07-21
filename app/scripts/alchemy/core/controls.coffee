@@ -44,16 +44,17 @@ alchemy.controlDash =
             alchemy.controlDash.modifyElements()
 
     search: () ->
-        d3.select("#control-dash")
-                .append("div")
-                .attr("id", "search")
-                .html("""
-                    <div class='input-group'>
-                        <input class='form-control' placeholder='Search'>
-                        <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
-                    </div> 
-                      """)
-        alchemy.search.init()
+        if alchemy.conf.search
+            d3.select("#control-dash")
+                    .append("div")
+                    .attr("id", "search")
+                    .html("""
+                        <div class='input-group'>
+                            <input class='form-control' placeholder='Search'>
+                            <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
+                        </div> 
+                          """)
+            alchemy.search.init()
     
     zoomCtrl: () ->
         if alchemy.conf.zoomControls 
