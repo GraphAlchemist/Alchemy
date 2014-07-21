@@ -108,9 +108,9 @@ alchemy.startGraph = (data) ->
             alchemy[alchemy.conf.afterLoad] = true
 
     if alchemy.conf.initialScale isnt alchemy.defaults.initialScale
-        alchemy.interactions.zoom.scale(alchemy.conf.initialScale)
+        alchemy.interactions.zoom().scale(alchemy.conf.initialScale)
         return
 
     if alchemy.conf.initialTranslate isnt alchemy.defaults.initialTranslate
-        alchemy.interactions.zoom.translate(alchemy.conf.initialTranslate)
+        alchemy.interactions.zoom().translate(alchemy.conf.initialTranslate)
         return
