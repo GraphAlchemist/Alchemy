@@ -70,6 +70,7 @@ alchemy.interactions =
 
     #not currently implemented
     nodeDoubleClick: (c) ->
+        d3.event.stopPropagation()
         if not alchemy.conf.extraDataSource or
             c.expanded or
             alchemy.conf.unexpandable.indexOf c.type is not -1 then return
