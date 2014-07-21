@@ -82,6 +82,10 @@ alchemy.defaults =
     edgeColour: null
     edgeTypes: null
 
+    # Search
+    search: true
+    searchMethod: "contains"
+
     # Misc
     afterLoad: 'afterLoad'
     divSelector: '#alchemy'

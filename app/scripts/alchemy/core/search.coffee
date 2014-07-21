@@ -28,9 +28,15 @@ alchemy.search =
             d3.selectAll(".node")
               .classed("inactive", (node) ->
                 DOMnode = d3.select(@)
-                hidden = DOMnode.text()
-                             .toLowerCase()
-                             .indexOf(input) < 0
+
+                if alchemy.conf.searchMethod is "contains"
+                    hidden = DOMnode.text()
+                                 .toLowerCase()
+                                 .indexOf(input) < 0
+                if alchemy.conf.searchMethod is "begins"
+                    hidden = DOMnode.text()
+                                    .toLowerCase()
+                                    .indexOf(input) != 0
 
                 if hidden
                     d3.selectAll("[source-target*='#{node.id}']")

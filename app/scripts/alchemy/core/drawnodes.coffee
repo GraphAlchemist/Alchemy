@@ -74,7 +74,7 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('target-id', (d) -> d.id)
         .attr('style', (d) ->
            radius = d3.select(this).attr('r')
-           "fill:#{nodeColours(d)}; stroke-width: #{ radius / 3 }")
+           "#{nodeColours(d)}; stroke-width: #{ radius / 3 }")
 
     #append caption to the node
     nodeEnter

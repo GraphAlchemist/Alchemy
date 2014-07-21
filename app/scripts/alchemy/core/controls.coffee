@@ -44,16 +44,17 @@ alchemy.controlDash =
             alchemy.controlDash.modifyElements()
 
     search: () ->
-        d3.select("#control-dash")
-                .append("div")
-                .attr("id", "search")
-                .html("""
-                    <div class='input-group'>
-                        <input class='form-control' placeholder='Search'>
-                        <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
-                    </div> 
-                      """)
-        alchemy.search.init()
+        if alchemy.conf.search
+            d3.select("#control-dash")
+                    .append("div")
+                    .attr("id", "search")
+                    .html("""
+                        <div class='input-group'>
+                            <input class='form-control' placeholder='Search'>
+                            <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
+                        </div> 
+                          """)
+            alchemy.search.init()
     
     zoomCtrl: () ->
         if alchemy.conf.zoomControls 
@@ -70,20 +71,53 @@ alchemy.controlDash =
             d3.select('#zoom-reset').on("click", () -> alchemy.interactions.clickZoom 'reset')
 
     filters: () ->
-        #show the appropriate filters:
-        d3.select("#control-dash")
-            .append("div")
-            .attr("id", "filters")
-        alchemy.filters.init()
+        if alchemy.conf.showFilters
+            d3.select("#control-dash")
+                .append("div")
+                .attr("id", "filters")
+            alchemy.filters.init()
 
     stats: () ->
-        d3.select("#control-dash")
-            .append("div")
-            .attr("id", "stats")
-        alchemy.stats.init()
+        if alchemy.conf.showStats
+            stats_html = """
+                    <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
+                    <h3>
+                        Statistics
+                    </h3>
+                    <span class = "fa fa-caret-right fa-2x"></span>
+                    </div>
+                    <div id="all-stats" class="collapse">
+                        <ul class = "list-group" id="node-stats"></ul>
+                        <ul class = "list-group" id="rel-stats"></ul>  
+                """
+
+            d3.select("#control-dash")
+                .append("div")
+                .attr("id", "stats")
+                .html(stats_html)
+                .select('#stats-header')
+                .on('click', () ->
+                    if d3.select('#all-stats').classed("in")
+                        d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-right")
+                    else d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-down")
+                )
+
+            alchemy.stats.init()
 
     modifyElements: () ->
-        d3.select("#control-dash")
-            .append("div")
-            .attr("id", "update-elements")
-        alchemy.modifyElements.init()
+        if alchemy.conf.showEditor
+            modifyElements_html = """
+                    <div id = "editor-header" data-toggle="collapse" data-target="#update-elements #element-options">
+                         <h3>
+                            Editor
+                        </h3>
+                        <span class = "fa fa-2x fa-caret-right"></span>
+                    </div>
+                    """
+            d3.select("#update-elements")
+              .html(modifyElements_html)
+              .select("#control-dash")
+                .append("div")
+                .attr("id", "update-elements")
+            
+            alchemy.modifyElements.init()
