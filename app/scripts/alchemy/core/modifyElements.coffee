@@ -1,17 +1,5 @@
 alchemy.modifyElements = 
     init: () ->
-        if alchemy.conf.showEditor then alchemy.modifyElements.show()
-
-    show: () ->
-        modifyElements_html = """
-                            <div id = "editor-header" data-toggle="collapse" data-target="#update-elements #element-options">
-                                 <h3>
-                                    Editor
-                                </h3>
-                                <span class = "fa fa-2x fa-caret-right"></span>
-                            </div>
-                            """
-        d3.select("#update-elements").html(modifyElements_html)
         if alchemy.conf.removeElement then alchemy.modifyElements.showRemove()
     
     showRemove: () ->
