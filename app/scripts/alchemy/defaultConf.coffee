@@ -83,6 +83,7 @@ alchemy.defaults =
 
     # Search
     search: true
+    searchMethod: "contains"
 
     # Misc
     afterLoad: 'afterLoad'
