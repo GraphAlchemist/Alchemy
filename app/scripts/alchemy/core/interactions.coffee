@@ -34,11 +34,9 @@ nodeDragged = (d, i) ->
         .attr("y2", (d) -> d.target.y )
         .attr "cx", d.x = d3.event.x
         .attr "cy", d.y = d3.event.y
-    return
 
 nodeDragended = (d, i) ->
     d3.select(this).classed "dragging", false
-    return
 
 alchemy.interactions =
     edgeClick: (d) ->

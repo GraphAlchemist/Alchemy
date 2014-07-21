@@ -3,7 +3,7 @@
 //     stroke: #ccc;
 //     stroke-opacity: 0.2;
 //     &:hover, &.selected {
-//         stroke: white !important;
+//         stroke: white;
 //         cursor: pointer;
 //         stroke-opacity: 1;
 //         stroke-width: 5;
@@ -18,27 +18,28 @@
     &.active{
     	@include active();
     	&:hover, &.selected {
-	        stroke: white !important;
+	        stroke: white;
 	        cursor: pointer;
 	        stroke-opacity: 1;
 	        stroke-width: 4;
 	    }
     	&.highlight{
     		@include highlight();
-    		stroke-width: 2 !important;
-	        stroke-opacity: .7 !important;
-	        stroke: lighten($blue, 30%) !important;
+    		stroke-width: 2;
+	        stroke-opacity: .7;
+	        stroke: lighten($blue, 30%);
 
     	}
     }
 
     &.inactive{
+        display: none;
     	@include inactive();
     	&.highlight{
     		@include highlight();
-	        stroke-width: 2 !important;
-	        stroke-opacity: .5 !important;
-	        stroke: $bright-orange !important;
+	        stroke-width: 2;
+	        stroke-opacity: .5;
+	        stroke: $bright-orange;
     	}
 	}
 }
