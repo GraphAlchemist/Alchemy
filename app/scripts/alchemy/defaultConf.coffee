@@ -78,7 +78,8 @@ alchemy.defaults =
 
     # Edges
     edgeCaption: 'caption' # not implemented
-    edgeColour: null
+    edgeStyle: (d)->
+        null
     edgeTypes: null
 
     # Misc
