@@ -37,15 +37,6 @@ alchemy.updateGraph = (start=true) ->
 
     alchemy.styles.edgeGradient(alchemy.edges)
 
-    #draw node and edge objects with all of their interactions
-    # editor dragline
-    dragLine = alchemy.vis.append("line")
-        .attr "id", "dragline"
-        .attr "x1", 0
-        .attr "y1", 0
-        .attr "x2", 0
-        .attr "y2", 0
-
     # draw nodes and edges
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)

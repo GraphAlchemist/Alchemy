@@ -17,9 +17,16 @@
 nodeDragStarted = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
     if alchemy.conf.editorInteractions is true
+        dragLine = alchemy.vis
+            .append("line")
+            .attr "id", "dragline"
+            .attr "x1", 0
+            .attr "y1", 0
+            .attr "x2", 0
+            .attr "y2", 0
+        d3.select("#dragline").classed("hidden":false)
     else
         d3.select(this).classed("dragging", true)
-
     return
 
 nodeDragged = (d, i) ->
@@ -42,45 +49,82 @@ nodeDragged = (d, i) ->
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
 
-        alchemy.edge.attr("x1", (d) -> d.source.x )
+        alchemy.edge
+            .attr("x1", (d) -> d.source.x )
             .attr("y1", (d) -> d.source.y )
             .attr("x2", (d) -> d.target.x )
             .attr("y2", (d) -> d.target.y )
             .attr "cx", d.x = d3.event.x
-            .attr "cy", d.y = d3.event.x
+            .attr "cy", d.y = d3.event.y
     return
 
 nodeDragended = (d, i) ->
     if alchemy.conf.editorInteractions is true
-        # coordinates relative to source node
-        point = d3.mouse(this)
-        console.log point   
-        # set coordinates relative to source node?
-        nodeX = point[0] 
-        nodeY = point[1] 
-        console.log nodeX
-        console.log nodeY
+        # hide dragline
+        d3.select("#dragline").remove()
 
-        console.log this
-        console.log point   
-        targetNode = {x: nodeX, y: nodeY, id: alchemy.nodes.length}        
-        newLink = {source: d, target: targetNode}
+        # coordinates relative to source node
+        sourceNode = d
+        nodeX = d3.event.sourceEvent.x
+        nodeY = d3.event.sourceEvent.y
+
+        targetNode = {id: alchemy.nodes.length, x: nodeX, y: nodeY}    
+        newLink = {source: sourceNode, target: targetNode, caption: "edited"}
 
         # add to alchemy data
-        alchemy.edges.push(newLink)
         alchemy.nodes.push(targetNode)
+        alchemy.edges.push(newLink)
 
-        alchemy.edge = alchemy.vis.selectAll("line")
-            .data(alchemy.edges)
-
-        alchemy.node = alchemy.vis.selectAll("g.node")
-            .data(alchemy.nodes, (d) -> d.id)
+        alchemy.node = alchemy.node.data(alchemy.nodes)
+        alchemy.edge = alchemy.edge.data(alchemy.edges)
+        # link = alchemy.vis.select('[source-target="#{sourceNode.id}-#{targetNode.id}"]')
+        #     .data(newLink)
+        #     .enter()
+        #     .append("line")
+        #     .attr('class', 'edge edited')
+        #     .attr('[source-target="#{sourceNode.id}-#{targetNode.id}"]')
+        #     .attr('x1', newLink.source.x)
+        #     .attr('y1', newLink.source.y)
+        #     .attr('x2', newLink.target.x)
+        #     .attr('y2', newLink.target.y)
 
         alchemy.drawing.drawedges(alchemy.edge)
-        alchemy.drawing.drawnodes(alchemy.node)
+
+        # alchemy.edge.enter()
+        #     .insert("line", 'g.node')
+        #     .attr("class", "edge edited active")
+        #     .attr('source-target', (e) -> e.source.id + '-' + e.target.id)
+        #     .on('click', alchemy.interactions.edgeClick)
+        # alchemy.edge.exit().remove()
+
+        # alchemy.edge
+        #     .attr('x1', (e) -> e.source.x)
+        #     .attr('y1', (e) -> e.source.y)
+        #     .attr('x2', (e) -> e.target.x)
+        #     .attr('y2', (e) -> e.target.y)
+        #     .attr('shape-rendering', 'optimizeSpeed')
+        #     .style("stroke: orange; stroke-width: 2px;")
+
+        alchemy.node.enter().append("g")
+            .attr("class", "node edited active")
+            .attr('id', (d) -> "node-#{d.id}")
+            .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+            .on('mouseover', alchemy.interactions.nodeMouseOver)
+            .on('mouseout', alchemy.interactions.nodeMouseOut)
+            .on('dblclick', alchemy.interactions.nodeDoubleClick)
+            .append('circle')
+            .attr('class', "edited active")
+            .attr('id', (d) -> "circle-#{d.id}")
+            .attr('r', (d) -> alchemy.utils.nodeSize(d))
+            .attr('shape-rendering', 'optimizeSpeed')
+            .attr('target-id', targetNode.id)
+            .attr('style', (d) ->
+               radius = d3.select(this).attr('r')
+               "fill: orange; stroke-width: #{ radius / 3 }")
+
+        alchemy.node.exit().remove();
         # alchemy.layout.tick()
 
-        # alchemy.updateGraph()
     else
         d3.select(d).classed "dragging", false
     return

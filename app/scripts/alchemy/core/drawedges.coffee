@@ -40,7 +40,6 @@ alchemy.drawing.drawedges = (edge) ->
             "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
         .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
         .on('click', alchemy.interactions.edgeClick)
-    console.log "inserted?"
     edge.exit().remove()
 
     edge.attr('x1', (d) -> d.source.x)
