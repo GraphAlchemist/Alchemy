@@ -125,9 +125,9 @@ _____
 **not currently implemented**
 [string] `'caption'` Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON. -->
 
-#####edgeColour
-[css color value] **default**: `null`    
-A colour to be passed to all edges.  If `alchemy.conf.cluster` is `true` then colors assigned by edge gradients take priority.  Read more about the [[`cluster` configuration|Layout#cluster]].
+#####edgeStyle
+[css style value] **default**: `null`
+A function that assigns custom edge styling.  Should return a string that is a valid value to the "style" svg attribute in css.  If `alchemy.conf.cluster` is `true` then styling is assigned by edge gradients take priority.  Read more about the [[`cluster` configuration|Layout#cluster]].
 
 #####edgeTypes 
 [array of strings|object] **default**: `null`    
