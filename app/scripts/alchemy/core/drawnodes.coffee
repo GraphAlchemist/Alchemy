@@ -30,6 +30,7 @@ alchemy.drawing.drawnodes = (node) ->
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
+                    # .on('click', alchemy.interactions.nodeClick)
 
     if alchemy.conf.editorInteractions is false
         nodeEnter.on('click', alchemy.interactions.nodeClick)

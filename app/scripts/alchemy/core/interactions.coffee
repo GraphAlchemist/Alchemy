@@ -63,7 +63,7 @@ nodeDragged = (d, i) ->
 
 nodeDragended = (d, i) ->
     if alchemy.conf.editorInteractions is true
-        if !d3.select("#dragline").empty()
+        if (alchemy.interactions.nodeMouseUp() is false) and (!d3.select("#dragline").empty())
             dragline = d3.select("#dragline")
             targetX = dragline.attr("x2")
             targetY = dragline.attr("y2")
@@ -149,11 +149,12 @@ alchemy.interactions =
                     alchemy.edges.push(newLink)
                     alchemy.edge = alchemy.edge.data(alchemy.edges)
                     alchemy.drawing.drawedges(alchemy.edge)
-
-                    dragline.datum()
-                    dragline.remove()
+                dragline.datum()
+                dragline.remove()
                 return true
             else return false
+
+        else return false
 
     nodeMouseOut: (n) ->
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut == 'function'
@@ -185,8 +186,9 @@ alchemy.interactions =
     nodeClick: (c) ->
         d3.event.stopPropagation()
         # select the correct nodes
-        selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-        alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+        if !alchemy.vis.select("#node-#{c.id}").empty()
+            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
+            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
 
         # alchemy.vis.selectAll(".node").classed('selected', (d) ->
         #     if d.id is c.id
