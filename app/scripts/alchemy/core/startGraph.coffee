@@ -57,9 +57,7 @@ alchemy.startGraph = (data) ->
     alchemy.nodes.forEach (n) ->
         nodesMap.set(n.id, n)
     alchemy.edges.forEach (e) ->
-        console.log e.source
         e.source = nodesMap.get(e.source)
-        console.log e.source
         e.target = nodesMap.get(e.target)
     
     #create SVG

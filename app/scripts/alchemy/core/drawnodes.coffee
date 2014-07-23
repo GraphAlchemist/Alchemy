@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawnodes = (node) ->
-    console.log node
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
                         rootKey = alchemy.conf.rootNodes
@@ -28,6 +27,7 @@ alchemy.drawing.drawnodes = (node) ->
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
+                    .on('mouseup', alchemy.interactions.nodeMouseUp)
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
