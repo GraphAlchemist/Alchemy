@@ -27,13 +27,15 @@ alchemy.drawing.drawnodes = (node) ->
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
-                    .on('mouseup', alchemy.interactions.nodeMouseUp)
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)
 
     if alchemy.conf.editorInteractions is false
         nodeEnter.on('click', alchemy.interactions.nodeClick)
+
+    if alchemy.conf.editorInteractions is true
+        nodeEnter.on('mouseup', alchemy.interactions.nodeMouseUp)
 
     if not alchemy.conf.fixNodes
         nonRootNodes = nodeEnter.filter((d) -> return d.root != true)
