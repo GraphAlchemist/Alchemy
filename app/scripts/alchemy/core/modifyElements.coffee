@@ -1,23 +1,31 @@
 alchemy.modifyElements = 
     init: () ->
-        if alchemy.conf.removeElement then alchemy.modifyElements.showRemove()
+        if alchemy.conf.showEditor then alchemy.modifyElements.showOptions()
     
-    showRemove: () ->
+    showOptions: () ->
         removeElement_html = """
-                            <div id="element-options" class="collapse">
-                                <ul class = "list-group" id="remove">Remove Selected</ul>
-                            </div>
+                                <li class="list-group-item" id="remove">Remove Selected</li>
                              """
-        d3.selectAll('#editor-header')
+
+        editorHTML = """
+                            <li class="list-group-item" id="editor-interactions">Enable Editor Interactions</li>
+                    """
+
+        optionsHTML = """<ul class="list-group"> 
+                        <li class="list-group-item" id="remove">Remove Selected</li>
+                        <li class="list-group-item" id="editor-interactions">Enable Editor Interactions</li> 
+                        </ul>"""
+        
+        d3.select('#editor')
             .append("div")
-            .html(removeElement_html)
-            .on('click', () ->
-                if d3.select('#element-options').classed("in")
-                    d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-right")
-                else d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-down")
-            )           
+            .attr("id","element-options")
+            .attr("class", "collapse")
+            .html(optionsHTML)
+
         d3.select("#remove")
             .on("click", ()-> alchemy.modifyElements.remove())
+        d3.select("#editor-interactions")
+            .on "click", () -> alchemy.interactions.enableEditor()
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node").data()
@@ -33,3 +41,4 @@ alchemy.modifyElements =
         alchemy.force.friction(0.9)         
         
         d3.selectAll(".selected").classed("selected", false)
+

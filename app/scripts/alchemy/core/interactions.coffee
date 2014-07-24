@@ -83,38 +83,25 @@ nodeDragended = (d, i) ->
             alchemy.edge = alchemy.edge.data(alchemy.edges)
             
             alchemy.drawing.drawedges(alchemy.edge)
-            console.log "false, brah"
-            console.log dragline
+            alchemy.drawing.drawnodes(alchemy.node)
+            alchemy.layout.tick()
 
-            alchemy.node.enter().append("g")
-                .attr("class", "node edited active")
-                .attr('id', (d) -> "node-#{d.id}")
-                .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
-                .on('mouseover', alchemy.interactions.nodeMouseOver)
-                .on('mouseout', alchemy.interactions.nodeMouseOut)
-                .on('dblclick', alchemy.interactions.nodeDoubleClick)
-                .append('circle')
-                .attr('class', "edited active")
-                .attr('id', (d) -> "circle-#{d.id}")
-                .attr('r', (d) -> alchemy.utils.nodeSize(d))
-                .attr('shape-rendering', 'optimizeSpeed')
-                .attr('target-id', targetNode.id)
-                .attr('style', (d) ->
-                   radius = d3.select(this).attr('r')
-                   "fill: orange; stroke-width: #{ radius / 3 }")
             dragline.remove()
     else
         d3.select(this).classed "dragging", false
     return
 
 alchemy.interactions =
+    enableEditor: () ->
+        alchemy.nodes
+
     edgeClick: (d) ->
         vis = alchemy.vis
         vis.selectAll('line')
             .classed('highlight', false)
         d3.select(this)
             .classed('highlight', true)
-        d3.event.stopPropagation
+        d3.event.stopPropagation()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
