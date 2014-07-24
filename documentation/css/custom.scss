@@ -82,9 +82,12 @@ img {
 	}
 }
 
+div[role="main"] {
+	ol {
+		list-style: decimal !important;
+		li {
+			list-style: decimal !important;
+		}
+	}
+}
 
-// ol {
-// 	li {
-// 		list-style: decimal;
-// 	}
-// }
