@@ -10,7 +10,7 @@
     "google-code-prettify": "~1.0.1",
     "angular": "~1.2.18",
     "angular-route": "~1.2.18",
-    "alchemyjs": "~0.1.1",
+    "alchemyjs": "git://github.com/GraphAlchemist/Alchemy/#32f82fe60acbea8cc4c6b73760b1819e2452a419",
     "angular-bootstrap": "~0.11.0",
     "angular-inview": "~1.3.2"
   },
