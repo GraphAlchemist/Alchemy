@@ -47,3 +47,8 @@ section.wy-nav-content-wrap {
 img[alt="Two Nodes"] {
   align: center;
   max-height: 300px; }
+
+div[role="main"] ol {
+  list-style: decimal !important; }
+  div[role="main"] ol li {
+    list-style: decimal !important; }
