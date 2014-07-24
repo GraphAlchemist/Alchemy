@@ -199,6 +199,11 @@ body{
 	}
 }
 
+#tweet{
+    padding-top: 20px;
+    text-align: right;
+}
+
 .tooltip-inner{
 	padding: 5px 10px;
 	background: darken($blue, 10%);
@@ -232,6 +237,7 @@ hr{
 	background: rgba($blue, .3);
 	color: $blue;
 	margin-right: 10%;
+	margin-top: -55px; //height of tweet
 	float: right;
 	border: thin solid rgba($blue, .3);
 	box-shadow: 2px 2px 10px rgba(white, .7), 2px 2px 15px $blue;
