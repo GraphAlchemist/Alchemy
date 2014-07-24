@@ -23,10 +23,10 @@ nodeDragStarted = (d, i) ->
             .datum(data)
             .append("line")
             .attr "id", "dragline"
-            .attr "x1", 0
-            .attr "y1", 0
-            .attr "x2", 0
-            .attr "y2", 0
+            # .attr "x1", 0
+            # .attr "y1", 0
+            # .attr "x2", 0
+            # .attr "y2", 0
         d3.select("#dragline").classed("hidden":false)
     else
         d3.select(this).classed("dragging", true)
@@ -93,7 +93,10 @@ nodeDragended = (d, i) ->
 
 alchemy.interactions =
     enableEditor: () ->
-        alchemy.nodes
+        dragLine = alchemy.vis
+            .datum(data)
+            .append("line")
+            .attr "id", "dragline"
 
     edgeClick: (d) ->
         vis = alchemy.vis
