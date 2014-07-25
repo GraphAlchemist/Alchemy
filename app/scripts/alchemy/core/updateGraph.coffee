@@ -18,7 +18,7 @@ alchemy.updateGraph = (start=true) ->
     
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
-    alchemy.edge = alchemy.vis.selectAll("line")
+    alchemy.edge = alchemy.vis.selectAll("g.edge")
                .data(alchemy.edges)
     alchemy.node = alchemy.vis.selectAll("g.node")
               .data(alchemy.nodes, (d) -> d.id)

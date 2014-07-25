@@ -34,15 +34,25 @@ alchemy.drawing.drawedges = (edge) ->
         edgeStyle = (d) -> 
             ""
     
-    edge.enter()
-        .insert("line", 'g.node')
+    line = edge.enter().append('g')
+        .attr('class', 'edge')
+        .append('line')
+        # .insert("line", 'g.node')
         .attr("class", (d) -> 
             "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
         .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
         .on('click', alchemy.interactions.edgeClick)
+
+    utils = alchemy.drawing.drawingUtils.edgeUtils()
+    
+    edge.append('text')
+        .attr('dx', (d) -> utils.middle(d).x)
+        .attr('dy', (d) -> utils.middle(d).y)
+        .text('YAYYYYY!')
+
     edge.exit().remove()
 
-    edge.attr('x1', (d) -> d.source.x)
+    line.attr('x1', (d) -> d.source.x)
         .attr('y1', (d) -> d.source.y)
         .attr('x2', (d) -> d.target.x)
         .attr('y2', (d) -> d.target.y)
