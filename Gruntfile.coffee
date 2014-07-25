@@ -235,7 +235,6 @@ module.exports = (grunt) ->
           dest: "<%= yeoman.dist %>"
         ]
 
-    
     # By default, your `index.html`'s <!-- Usemin block --> will take care of
     # minification. These next options are pre-configured if you do not wish
     # to use the Usemin blocks.
@@ -352,6 +351,8 @@ module.exports = (grunt) ->
       buildAlchemy: ["coffee:dist", "coffee:test", "compass", "copy:styles"]
 
   grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-release', ['--no-write']);
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
@@ -383,5 +384,6 @@ module.exports = (grunt) ->
                                       "autoprefixer", "concat:buildAlchemy", 
                                       "concat:generated", "cssmin:buildAlchemy", 
                                       "uglify:buildAlchemy"]
-
-  grunt.registerTask "default", ["newer:jshint", "test", "buildAlchemy"]
+ 
+  # releaseType = grunt.option('releaseType')                             
+  grunt.registerTask "default", ["newer:jshint", "test", "buildAlchemy", "release"]
