@@ -131,8 +131,19 @@ svg {
   fill: white;
 }
 
-.node.active.selected circle,
-.node.active:hover circle {
+.node.active.selected circle {
+  stroke-width: 5px;
+  fill-opacity: .8;
+  stroke-opacity: 1;
+  stroke: white;
+  fill: #68b9fe;
+}
+
+.node.active.selected text {
+  display: block;
+}
+
+.node.active.selected:hover circle {
   stroke-width: 5px;
   fill-opacity: .8;
   stroke-opacity: 1;
@@ -140,7 +151,14 @@ svg {
   fill: white;
 }
 
-.node.active.selected text,
+.node.active:hover circle {
+  stroke-width: 3px;
+  fill-opacity: .8;
+  stroke-opacity: 1;
+  stroke: #015399;
+  fill: #9bd0fe;
+}
+
 .node.active:hover text {
   display: block;
 }
@@ -172,7 +190,7 @@ svg {
 
 .edge.active:hover,
 .edge.active.selected {
-  stroke: white !important;
+  stroke: white;
   cursor: pointer;
   stroke-opacity: 1;
   stroke-width: 4;
@@ -180,20 +198,21 @@ svg {
 
 .edge.active.highlight {
   opacity: .8 !important;
-  stroke-width: 2 !important;
-  stroke-opacity: .7 !important;
-  stroke: #fff !important;
+  stroke-width: 2;
+  stroke-opacity: .7;
+  stroke: #fff;
 }
 
 .edge.inactive {
+  display: none;
   opacity: 0;
 }
 
 .edge.inactive.highlight {
   opacity: .8 !important;
-  stroke-width: 2 !important;
-  stroke-opacity: .5 !important;
-  stroke: #e89619 !important;
+  stroke-width: 2;
+  stroke-opacity: .5;
+  stroke: #e89619;
 }
 
 #loading-spinner {
@@ -531,6 +550,7 @@ svg {
 }
 
 .alchemy {
+  background: black;
   position: relative;
 }
 
