@@ -125,9 +125,9 @@ _____
 **not currently implemented**
 [string] `'caption'` Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON. -->
 
-#####edgeColour
-[css color value] **default**: `null`    
-A colour to be passed to all edges.  If `alchemy.conf.cluster` is `true` then colors assigned by edge gradients take priority.  Read more about the [[`cluster` configuration|Layout#cluster]].
+#####edgeStyle
+[css style value] **default**: `null`
+A function that assigns custom edge styling.  Should return a string that is a valid value to the "style" svg attribute in css.  If `alchemy.conf.cluster` is `true` then styling is assigned by edge gradients take priority.  Read more about the [[`cluster` configuration|Layout#cluster]].
 
 #####edgeTypes 
 [array of strings|object] **default**: `null`    
@@ -289,6 +289,17 @@ Read more about how linkDistance is used in d3's force layout [here](https://git
 **not currently implemented**
 Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide GraphJSON with nodes that contain pre-calculated layout positions for nodes in pixel length.  The nodePositions parameter tells alchemy where to look up the node position.  The most obvious parameter for the user to pass would be `["x","y"]` telling alchemy to look for the `x` position for nodes with the `"x"` key on each node where available, and the `y` position with the "y" key.  A user could just as easily define a custom set of keys for their GraphJSON.  For example, ["apples","oranges"] would tell alchemy to look for the x position of nodes with the `"apples"` key and the `y` position of nodes with the `"oranges"` key. -->
 
+____
+
+
+#Search
+##### search
+[bool] **default** `true`
+Adds a search box to the control dash that searches through node captions.  Will not do anything if showControlDash is set to `false`.
+
+##### searchMethod
+[string] **default** `"contains"`
+Defines the criteria search uses to find nodes.  If string is set to "contains", it will select all nodes that contain the search string.  If string is set to "begins", it will select all nodes that begin with the search string.
 ____
 
 

@@ -15,7 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 alchemy.filters = 
     init: () -> 
-        if alchemy.conf.showFilters then alchemy.filters.show()
+        alchemy.filters.show()
+        
         if alchemy.conf.edgeFilters then alchemy.filters.showEdgeFilters()
         if alchemy.conf.nodeFilters then alchemy.filters.showNodeFilters()
         #generate filter forms

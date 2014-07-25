@@ -34,11 +34,9 @@ nodeDragged = (d, i) ->
         .attr("y2", (d) -> d.target.y )
         .attr "cx", d.x = d3.event.x
         .attr "cy", d.y = d3.event.y
-    return
 
 nodeDragended = (d, i) ->
     d3.select(this).classed "dragging", false
-    return
 
 alchemy.interactions =
     edgeClick: (d) ->
@@ -70,6 +68,7 @@ alchemy.interactions =
 
     #not currently implemented
     nodeDoubleClick: (c) ->
+        d3.event.stopPropagation()
         if not alchemy.conf.extraDataSource or
             c.expanded or
             alchemy.conf.unexpandable.indexOf c.type is not -1 then return
@@ -85,16 +84,23 @@ alchemy.interactions =
 
     nodeClick: (c) ->
         d3.event.stopPropagation()
-        alchemy.vis.selectAll('line')
-            .classed('selected', (d) -> return c.id is d.source.id or c.id is d.target.id)
-        alchemy.vis.selectAll('.node')
-            .classed('selected', (d) -> return c.id is d.id)
-            # also select 1st degree connections
-            .classed('selected', (d) ->
-                return d.id is c.id or alchemy.edges.some (e) ->
-                    return ((e.source.id is c.id and e.target.id is d.id) or 
-                            (e.source.id is d.id and e.target.id is c.id)) and 
-                            d3.select(".edge[source-target*='#{d.id}']").classed("active"))
+        # select the correct nodes
+        selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
+        alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+
+        # alchemy.vis.selectAll(".node").classed('selected', (d) ->
+        #     if d.id is c.id
+        #         return !selected
+        #     else 
+        #         connections = alchemy.edges.some (e) -> 
+        #             ((e.source.id is c.id and e.target.id is d.id) or 
+        #             (e.source.id is d.id and e.target.id is c.id))
+        #             # and d3.select(".edge[source-target*='#{d.id}']").classed("active")
+        #         return connections
+        #     )
+
+        # selectedEdges = alchemy.vis.selectAll(".edge[source-target*='#{c.id}']")
+        # selectedEdges.classed("selected", !selected)
 
         if typeof alchemy.conf.nodeClick == 'function'
             alchemy.conf.nodeClick(c)

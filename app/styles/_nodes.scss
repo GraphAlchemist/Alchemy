@@ -35,18 +35,39 @@
 	            fill: white;
 	        }
 		}
-	    &.selected, &:hover {        
+	    &.selected{        
 	        circle {
 	            stroke-width: 5px;
 	            fill-opacity: .8;
 	            stroke-opacity: 1;
 	            stroke: white;
-	            fill: white;
+	            fill: $blue;
 	        }
 	        text {
 	            display: block;
 	        }
 	    }
+        &.selected:hover{
+            circle {
+                stroke-width: 5px;
+                fill-opacity: .8;
+                stroke-opacity: 1;
+                stroke: white;
+                fill: white;
+            }
+        }
+        &:hover{
+            circle {
+                stroke-width: 3px;
+                fill-opacity: .8;
+                stroke-opacity: 1;
+                stroke: darken($blue, 40%);
+                fill: lighten($blue, 10%);
+            }
+            text {
+                display: block;
+            }
+        }
     }
     &.inactive{
     	@include inactive();

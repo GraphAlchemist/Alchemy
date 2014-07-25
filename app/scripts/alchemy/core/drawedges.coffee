@@ -14,7 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.drawing.drawedges = (edge) ->  
+alchemy.drawing.drawedges = (edge) ->
+    console.log edge  
     if alchemy.conf.cluster
         edgeStyle = (d) ->
             if d.source.root or d.target.root
@@ -27,11 +28,11 @@ alchemy.drawing.drawedges = (edge) ->
                 gid = "cluster-gradient-#{id}"
                 return "stroke: url(##{gid})"
             "stroke: #{alchemy.styles.getClusterColour(index)}"
-    else if alchemy.conf.edgeColour and not alchemy.conf.cluster
+    else if alchemy.conf.edgeStyle and not alchemy.conf.cluster
         edgeStyle = (d) ->
-            "stroke: #{alchemy.conf.edgeColour}"
+            "#{alchemy.conf.edgeStyle(d)}"
     else
-        edgeStyle = (d) -> 
+        edgeStyle = (d) ->
             ""
     
     edge.enter()
