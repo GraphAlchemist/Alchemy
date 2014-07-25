@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawedges = (edge) ->
-    console.log edge  
     if alchemy.conf.cluster
         edgeStyle = (d) ->
             if d.source.root or d.target.root

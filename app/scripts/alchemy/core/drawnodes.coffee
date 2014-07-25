@@ -27,6 +27,7 @@ alchemy.drawing.drawnodes = (node) ->
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
+                    # click should be broken into mousedown and mouseup
                     .on('mouseover', alchemy.interactions.nodeMouseOver)
                     .on('mouseout', alchemy.interactions.nodeMouseOut)
                     .on('dblclick', alchemy.interactions.nodeDoubleClick)

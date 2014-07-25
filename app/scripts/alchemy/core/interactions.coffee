@@ -18,15 +18,8 @@ nodeDragStarted = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
     if alchemy.conf.editorInteractions is true
         sourceNode = d
-        data = {source: sourceNode}
-        dragLine = alchemy.vis
-            .datum(data)
-            .append("line")
-            .attr "id", "dragline"
-            # .attr "x1", 0
-            # .attr "y1", 0
-            # .attr "x2", 0
-            # .attr "y2", 0
+        d3.select('#dragline')
+            .datum({source: sourceNode})
         d3.select("#dragline").classed("hidden":false)
     else
         d3.select(this).classed("dragging", true)
@@ -63,10 +56,11 @@ nodeDragged = (d, i) ->
 
 nodeDragended = (d, i) ->
     if alchemy.conf.editorInteractions is true
-        if (alchemy.interactions.nodeMouseUp() is false) and (!d3.select("#dragline").empty())
+        if (alchemy.interactions.nodeMouseUp() is false) and d3.select("#dragline").datum()?
             dragline = d3.select("#dragline")
             targetX = dragline.attr("x2")
             targetY = dragline.attr("y2")
+            console.log dragline
 
             # coordinates relative to source node
             sourceNode = d
@@ -86,18 +80,12 @@ nodeDragended = (d, i) ->
             alchemy.drawing.drawnodes(alchemy.node)
             alchemy.layout.tick()
 
-            dragline.remove()
+            dragline.datum(null)
     else
         d3.select(this).classed "dragging", false
     return
 
 alchemy.interactions =
-    enableEditor: () ->
-        dragLine = alchemy.vis
-            .datum(data)
-            .append("line")
-            .attr "id", "dragline"
-
     edgeClick: (d) ->
         vis = alchemy.vis
         vis.selectAll('line')
@@ -129,18 +117,24 @@ alchemy.interactions =
         # to do: insert lines uniquely
         if alchemy.conf.editorInteractions is true
             if !d3.select(n).empty() and !d3.select("#dragline").empty()
+                console.log "whaddup"
+                console.log d3.select("#dragline")
                 dragline = d3.select("#dragline")
                 sourceNode = dragline.data()[0].source
                 targetNode = n
                 if sourceNode != targetNode
                     console.log "different"
                     newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-
                     alchemy.edges.push(newLink)
                     alchemy.edge = alchemy.edge.data(alchemy.edges)
                     alchemy.drawing.drawedges(alchemy.edge)
-                dragline.datum()
-                dragline.remove()
+                else 
+                    console.log "same"
+                    console.log alchemy.vis.select(sourceNode)
+                    selected = alchemy.vis.select("#node-#{n.id}").classed('selected')
+                    alchemy.vis.select("#node-#{n.id}").classed('selected', !selected)
+                dragline.datum(null)
+                # dragline.remove()
                 return true
             else return false
 
