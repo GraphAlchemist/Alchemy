@@ -114,9 +114,6 @@ module.exports = (grunt) ->
         options:
             bare: false
             sourceMap: true
-        files:
-            # all of the files used in testing and development - configuration, etc.
-            ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
 
       test:
         files: [

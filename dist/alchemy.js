@@ -47,8 +47,10 @@
       }
     },
     search: function() {
-      d3.select("#control-dash").append("div").attr("id", "search").html("<div class='input-group'>\n    <input class='form-control' placeholder='Search'>\n    <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>\n</div> ");
-      return alchemy.search.init();
+      if (alchemy.conf.search) {
+        d3.select("#control-dash").append("div").attr("id", "search").html("<div class='input-group'>\n    <input class='form-control' placeholder='Search'>\n    <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>\n</div> ");
+        return alchemy.search.init();
+      }
     },
     zoomCtrl: function() {
       if (alchemy.conf.zoomControls) {
@@ -65,21 +67,38 @@
       }
     },
     filters: function() {
-      d3.select("#control-dash").append("div").attr("id", "filters");
-      return alchemy.filters.init();
+      if (alchemy.conf.showFilters) {
+        d3.select("#control-dash").append("div").attr("id", "filters");
+        return alchemy.filters.init();
+      }
     },
     stats: function() {
-      d3.select("#control-dash").append("div").attr("id", "stats");
-      return alchemy.stats.init();
+      var stats_html;
+      if (alchemy.conf.showStats) {
+        stats_html = "<div id = \"stats-header\" data-toggle=\"collapse\" data-target=\"#stats #all-stats\">\n<h3>\n    Statistics\n</h3>\n<span class = \"fa fa-caret-right fa-2x\"></span>\n</div>\n<div id=\"all-stats\" class=\"collapse\">\n    <ul class = \"list-group\" id=\"node-stats\"></ul>\n    <ul class = \"list-group\" id=\"rel-stats\"></ul>  ";
+        d3.select("#control-dash").append("div").attr("id", "stats").html(stats_html).select('#stats-header').on('click', function() {
+          if (d3.select('#all-stats').classed("in")) {
+            return d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-right");
+          } else {
+            return d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-down");
+          }
+        });
+        return alchemy.stats.init();
+      }
     },
     modifyElements: function() {
-      d3.select("#control-dash").append("div").attr("id", "update-elements");
-      return alchemy.modifyElements.init();
+      var modifyElements_html;
+      if (alchemy.conf.showEditor) {
+        modifyElements_html = "<div id = \"editor-header\" data-toggle=\"collapse\" data-target=\"#update-elements #element-options\">\n     <h3>\n        Editor\n    </h3>\n    <span class = \"fa fa-2x fa-caret-right\"></span>\n</div>";
+        d3.select("#update-elements").html(modifyElements_html).select("#control-dash").append("div").attr("id", "update-elements");
+        return alchemy.modifyElements.init();
+      }
     }
   };
 
   alchemy.drawing.drawedges = function(edge) {
     var edgeStyle;
+    console.log(edge);
     if (alchemy.conf.cluster) {
       edgeStyle = function(d) {
         var gid, id, index;
@@ -94,9 +113,9 @@
         }
         return "stroke: " + (alchemy.styles.getClusterColour(index));
       };
-    } else if (alchemy.conf.edgeColour && !alchemy.conf.cluster) {
+    } else if (alchemy.conf.edgeStyle && !alchemy.conf.cluster) {
       edgeStyle = function(d) {
-        return "stroke: " + alchemy.conf.edgeColour;
+        return "" + (alchemy.conf.edgeStyle(d));
       };
     } else {
       edgeStyle = function(d) {
@@ -201,7 +220,7 @@
     }).attr('style', function(d) {
       var radius;
       radius = d3.select(this).attr('r');
-      return "fill:" + (nodeColours(d)) + "; stroke-width: " + (radius / 3);
+      return "" + (nodeColours(d)) + "; stroke-width: " + (radius / 3);
     });
     return nodeEnter.append('svg:text').attr('id', function(d) {
       return "text-" + d.id;
@@ -219,9 +238,7 @@
   alchemy.filters = {
     init: function() {
       var caption, e, edgeType, edgeTypes, nodeKey, nodeType, nodeTypes, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
-      if (alchemy.conf.showFilters) {
-        alchemy.filters.show();
-      }
+      alchemy.filters.show();
       if (alchemy.conf.edgeFilters) {
         alchemy.filters.showEdgeFilters();
       }
@@ -463,7 +480,7 @@
     if (!alchemy.conf.forceLocked) {
       alchemy.force.start();
     }
-    alchemy.edge.attr("x1", function(d) {
+    return alchemy.edge.attr("x1", function(d) {
       return d.source.x;
     }).attr("y1", function(d) {
       return d.source.y;
@@ -475,7 +492,7 @@
   };
 
   nodeDragended = function(d, i) {
-    d3.select(this).classed("dragging", false);
+    return d3.select(this).classed("dragging", false);
   };
 
   alchemy.interactions = {
@@ -509,6 +526,7 @@
     },
     nodeDoubleClick: function(c) {
       var e, links, _results;
+      d3.event.stopPropagation();
       if (!alchemy.conf.extraDataSource || c.expanded || alchemy.conf.unexpandable.indexOf(c.type === !-1)) {
         return;
       }
@@ -524,17 +542,10 @@
       return _results;
     },
     nodeClick: function(c) {
+      var selected;
       d3.event.stopPropagation();
-      alchemy.vis.selectAll('line').classed('selected', function(d) {
-        return c.id === d.source.id || c.id === d.target.id;
-      });
-      alchemy.vis.selectAll('.node').classed('selected', function(d) {
-        return c.id === d.id;
-      }).classed('selected', function(d) {
-        return d.id === c.id || alchemy.edges.some(function(e) {
-          return ((e.source.id === c.id && e.target.id === d.id) || (e.source.id === d.id && e.target.id === c.id)) && d3.select(".edge[source-target*='" + d.id + "']").classed("active");
-        });
-      });
+      selected = alchemy.vis.select("#node-" + c.id).classed('selected');
+      alchemy.vis.select("#node-" + c.id).classed('selected', !selected);
       if (typeof alchemy.conf.nodeClick === 'function') {
         alchemy.conf.nodeClick(c);
       }
@@ -722,14 +733,6 @@
 
   alchemy.modifyElements = {
     init: function() {
-      if (alchemy.conf.showEditor) {
-        return alchemy.modifyElements.show();
-      }
-    },
-    show: function() {
-      var modifyElements_html;
-      modifyElements_html = "<div id = \"editor-header\" data-toggle=\"collapse\" data-target=\"#update-elements #element-options\">\n     <h3>\n        Editor\n    </h3>\n    <span class = \"fa fa-2x fa-caret-right\"></span>\n</div>";
-      d3.select("#update-elements").html(modifyElements_html);
       if (alchemy.conf.removeElement) {
         return alchemy.modifyElements.showRemove();
       }
@@ -778,7 +781,12 @@
         return d3.selectAll(".node").classed("inactive", function(node) {
           var DOMnode, hidden;
           DOMnode = d3.select(this);
-          hidden = DOMnode.text().toLowerCase().indexOf(input) < 0;
+          if (alchemy.conf.searchMethod === "contains") {
+            hidden = DOMnode.text().toLowerCase().indexOf(input) < 0;
+          }
+          if (alchemy.conf.searchMethod === "begins") {
+            hidden = DOMnode.text().toLowerCase().indexOf(input) !== 0;
+          }
           if (hidden) {
             d3.selectAll("[source-target*='" + node.id + "']").classed("inactive", hidden);
           } else {
@@ -836,32 +844,17 @@
       }
     }
     if (alchemy.conf.initialScale !== alchemy.defaults.initialScale) {
-      alchemy.interactions.zoom.scale(alchemy.conf.initialScale);
+      alchemy.interactions.zoom().scale(alchemy.conf.initialScale);
       return;
     }
     if (alchemy.conf.initialTranslate !== alchemy.defaults.initialTranslate) {
-      alchemy.interactions.zoom.translate(alchemy.conf.initialTranslate);
+      alchemy.interactions.zoom().translate(alchemy.conf.initialTranslate);
     }
   };
 
   alchemy.stats = {
     init: function() {
-      if (alchemy.conf.showStats === true) {
-        alchemy.stats.show();
-        return alchemy.stats.update();
-      }
-    },
-    show: function() {
-      var stats_html;
-      stats_html = "<div id = \"stats-header\" data-toggle=\"collapse\" data-target=\"#stats #all-stats\">\n<h3>\n    Statistics\n</h3>\n<span class = \"fa fa-caret-right fa-2x\"></span>\n</div>\n<div id=\"all-stats\" class=\"collapse\">\n    <ul class = \"list-group\" id=\"node-stats\"></ul>\n    <ul class = \"list-group\" id=\"rel-stats\"></ul>  ";
-      d3.select('#stats').html(stats_html);
-      return d3.selectAll('#stats-header').on('click', function() {
-        if (d3.select('#all-stats').classed("in")) {
-          return d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-right");
-        } else {
-          return d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-down");
-        }
-      });
+      return alchemy.stats.update();
     },
     nodeStats: function() {
       var activeNodes, caption, inactiveNodes, nodeGraph, nodeKey, nodeNum, nodeStats, nodeType, nodeTypes, _i, _len, _ref;
@@ -1064,8 +1057,12 @@
     rootNodes: 'root',
     rootNodeRadius: 15,
     edgeCaption: 'caption',
-    edgeColour: null,
+    edgeStyle: function(d) {
+      return null;
+    },
     edgeTypes: null,
+    search: true,
+    searchMethod: "contains",
     afterLoad: 'afterLoad',
     divSelector: '#alchemy',
     dataSource: null,
