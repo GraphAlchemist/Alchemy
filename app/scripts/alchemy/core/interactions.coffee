@@ -35,6 +35,9 @@ nodeDragged = (d, i) ->
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
     if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
         alchemy.force.start() #restarts force on drag
+    
+    # alchemy.drawing.drawEdge(alchemy.edge)
+    ### start here ###
     alchemy.edge.selectAll('line')
         .attr("x1", (d) -> d.source.x )
         .attr("y1", (d) -> d.source.y )

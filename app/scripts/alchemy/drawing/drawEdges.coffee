@@ -15,47 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawedges = (edge) ->  
-    if alchemy.conf.cluster
-        edgeStyle = (d) ->
-            if d.source.root or d.target.root
-                index = (if d.source.root then d.target.cluster else d.source.cluster)
-            else if d.source.cluster is d.target.cluster
-                index = d.source.cluster
-            else if d.source.cluster isnt d.target.cluster
-                # use gradient between the two clusters' colours
-                id = "#{d.source.cluster}-#{d.target.cluster}"
-                gid = "cluster-gradient-#{id}"
-                return "stroke: url(##{gid})"
-            "stroke: #{alchemy.styles.getClusterColour(index)}"
-    else if alchemy.conf.edgeColour and not alchemy.conf.cluster
-        edgeStyle = (d) ->
-            "stroke: #{alchemy.conf.edgeColour}"
-    else
-        edgeStyle = (d) -> 
-            ""
-    
-    line = edge.enter().append('g')
-        .attr('class', 'edge')
-        .append('line')
-        # .insert("line", 'g.node')
-        .attr("class", (d) -> 
-            "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
-        .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
-        .on('click', alchemy.interactions.edgeClick)
 
-    utils = alchemy.drawing.drawingUtils.edgeUtils()
-    
-    edge.append('text')
-        .attr('dx', (d) -> utils.middle(d).x)
-        .attr('dy', (d) -> utils.middle(d).y)
-        .text('YAYYYYY!')
+    alchemy.drawing.drawEdge(edge)
 
     edge.exit().remove()
-
-    line.attr('x1', (d) -> d.source.x)
-        .attr('y1', (d) -> d.source.y)
-        .attr('x2', (d) -> d.target.x)
-        .attr('y2', (d) -> d.target.y)
-        .attr('shape-rendering', 'optimizeSpeed')
-        .attr "style", (d) -> edgeStyle(d)
 

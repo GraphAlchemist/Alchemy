@@ -16,6 +16,26 @@
 
 alchemy.drawing.drawingUtils = 
     edgeUtils: () ->
+        # edge styles based on clustering
+        if alchemy.conf.cluster
+            edgeStyle = (d) ->
+                if d.source.root or d.target.root
+                    index = (if d.source.root then d.target.cluster else d.source.cluster)
+                else if d.source.cluster is d.target.cluster
+                    index = d.source.cluster
+                else if d.source.cluster isnt d.target.cluster
+                    # use gradient between the two clusters' colours
+                    id = "#{d.source.cluster}-#{d.target.cluster}"
+                    gid = "cluster-gradient-#{id}"
+                    return "stroke: url(##{gid})"
+                "stroke: #{alchemy.styles.getClusterColour(index)}"
+        else if alchemy.conf.edgeColour and not alchemy.conf.cluster
+            edgeStyle = (d) ->
+                "stroke: #{alchemy.conf.edgeColour}"
+        else
+            edgeStyle = (d) -> 
+                ""
+
         square = (n) -> n * n
         edgeWalk = (edge, point) ->
             # build a right triangle
@@ -28,6 +48,17 @@ alchemy.drawing.drawingUtils =
                 x: edge.source.x + width * distance / hyp
                 y: edge.source.y + height * distance / hyp
             }
- 
-        @middle = (edge) -> edgeWalk(edge, 'middle')
-        @
+        edgeAngle = (edge) ->
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
+            Math.atan2(height, width) / Math.PI * 180
+
+        middle: (edge) -> edgeWalk(edge, 'middle')
+        angle: (edge) -> 
+            angle = edgeAngle(edge)
+            if angle < -90 or angle > 90
+                angle += 180
+            else
+                angle
+        edgeStyle: (d) -> edgeStyle(d)
+        
