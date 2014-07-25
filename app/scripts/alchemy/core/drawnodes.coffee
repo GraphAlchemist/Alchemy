@@ -13,6 +13,55 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+alchemy.drawing.setNodeInteractions = (node) ->
+    resetDrag = () ->
+        drag = d3.behavior.drag()
+            .origin(Object)
+            .on("dragstart", null)
+            .on("drag", null)
+            .on("dragend", null)
+        node.call(drag)
+
+    editor = alchemy.conf.editorInteractions is true
+    resetDrag()
+
+    if editor
+    # set interactions
+        node
+            .on('mouseup', alchemy.editor.interactions.nodeMouseUp)
+            .on('mouseover', alchemy.editor.interactions.nodeMouseOver)
+            .on('mouseout', alchemy.editor.interactions.nodeMouseOut)
+            .on('dblclick', alchemy.interactions.nodeDoubleClick)
+            .on('click', alchemy.editor.interactions.nodeClick)
+
+        drag = d3.behavior.drag()
+            .origin(Object)
+            .on("dragstart", addNodeStart)
+            .on("drag", addNodeDragging)
+            .on("dragend", addNodeDragended)
+        node.call(drag)
+
+    else 
+        node
+            .on('mouseup', null)
+            .on('mouseover', alchemy.interactions.nodeMouseOver)
+            .on('mouseout', alchemy.interactions.nodeMouseOut)
+            .on('dblclick', alchemy.interactions.nodeDoubleClick)
+            .on('click', alchemy.interactions.nodeClick)
+
+        drag = d3.behavior.drag()
+                .origin(Object)
+                .on("dragstart", nodeDragStarted)
+                .on("drag", nodeDragged)
+                .on("dragend", nodeDragended)
+
+        if not alchemy.conf.fixNodes
+            nonRootNodes = node.filter((d) -> return d.root != true)
+            nonRootNodes.call(drag)
+
+        if not alchemy.conf.fixRootNodes
+            rootNodes = node.filter((d) -> return d.root == true)
+            rootNodes.call(drag)
 
 alchemy.drawing.drawnodes = (node) ->
     nodeEnter = node.enter().append("g")
@@ -27,25 +76,8 @@ alchemy.drawing.drawnodes = (node) ->
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
-                    # click should be broken into mousedown and mouseup
-                    .on('mouseover', alchemy.interactions.nodeMouseOver)
-                    .on('mouseout', alchemy.interactions.nodeMouseOut)
-                    .on('dblclick', alchemy.interactions.nodeDoubleClick)
-                    # .on('click', alchemy.interactions.nodeClick)
 
-    if alchemy.conf.editorInteractions is false
-        nodeEnter.on('click', alchemy.interactions.nodeClick)
-
-    if alchemy.conf.editorInteractions is true
-        nodeEnter.on('mouseup', alchemy.interactions.nodeMouseUp)
-
-    if not alchemy.conf.fixNodes
-        nonRootNodes = nodeEnter.filter((d) -> return d.root != true)
-        nonRootNodes.call(alchemy.interactions.drag)
-
-    if not alchemy.conf.fixRootNodes
-        rootNodes = nodeEnter.filter((d) -> return d.root == true)
-        rootNodes.call(alchemy.interactions.drag)
+    alchemy.drawing.setNodeInteractions(node)
 
     nodeColours = (d) ->
         if alchemy.conf.cluster
@@ -79,6 +111,10 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('style', (d) ->
            radius = d3.select(this).attr('r')
            "#{nodeColours(d)}; stroke-width: #{ radius / 3 }")
+        .style('stroke', () -> 
+            if alchemy.conf.editorInteractions is true
+                return "#E82C0C"
+            )
 
     #append caption to the node
     nodeEnter

@@ -1,19 +1,12 @@
 alchemy.modifyElements = 
     init: () ->
-        if alchemy.conf.showEditor then alchemy.modifyElements.showOptions()
+        if alchemy.conf.showEditor is true
+            alchemy.modifyElements.showOptions()
+
     
     showOptions: () ->
-        removeElement_html = """
-                                <li class="list-group-item" id="remove">Remove Selected</li>
-                             """
-
-        editorHTML = """
-                            <li class="list-group-item" id="editor-interactions">Enable Editor Interactions</li>
-                    """
-
         optionsHTML = """<ul class="list-group"> 
-                        <li class="list-group-item" id="remove">Remove Selected</li>
-                        <li class="list-group-item" id="editor-interactions">Enable Editor Interactions</li> 
+                        <li class="list-group-item" id="remove">Remove Selected</li> 
                         </ul>"""
         
         d3.select('#editor')
@@ -22,32 +15,75 @@ alchemy.modifyElements =
             .attr("class", "collapse")
             .html(optionsHTML)
 
+        d3.select('#element-options ul')
+            .append("li")
+            .attr("class", ()->
+                if alchemy.conf.editorInteractions is true
+                    return "active list-group-item"
+                else
+                    return "inactive list-group-item"
+                )
+            .attr("id","editor-interactions")
+            .html(()->
+                if alchemy.conf.editorInteractions is true
+                    return """Disable Editor Interactions"""
+                else 
+                    return """Enable Editor Interactions"""
+                )
+
+        nodeEditorHTML = """
+                        NodeEditor
+                        """
+        d3.select("#element-options")
+            .append("div")
+            .attr("id", "node-editor")
+            .html(nodeEditorHTML)
+
         d3.select("#remove")
             .on "click", ()-> alchemy.editor.remove()
         d3.select("#editor-interactions")
-            .on "click", () -> alchemy.editor.enableEditor()
+            .on "click", () -> 
+                if !d3.select("#editor-interactions").classed("active")
+                    alchemy.editor.enableEditor()
+                    d3.select("#editor-interactions")
+                        .classed({"active": true, "inactive": false})
+                        .html("""Editor mode enabled, click to disable editor interactions""")
+                else 
+                    alchemy.editor.disableEditor()
+                    d3.select("#editor-interactions")
+                        .classed({"active": false, "inactive": true})
+                        .html("""Editor mode disabled, click to enable editor interactions""")
+
+
+    nodeEditor: (n) ->
+        console.log n
+        console.log d3.select(n)
+        d3.select("#node-editor")
+            .append("p")
+            .attr("class", "node-edit")
+            .text("nodeeeee!")
+            console.log "a thing"
+
+        nodeProperties = Object.keys(n)
+        console.log nodeProperties
+        for property in nodeProperties
+            console.log property
+            console.log n[property]
+
 
 
 addNodeStart = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
     sourceNode = d
-    data = {source: sourceNode}
-    dragLine = alchemy.vis
-        .datum(data)
-        .append("line")
-        .attr "id", "dragline"
-        .attr "x1", 0
-        .attr "y1", 0
-        .attr "x2", 0
-        .attr "y2", 0
-    d3.select("#dragline").classed("hidden":false)
+    d3.select('#dragline')
+        .datum({source: sourceNode})
+        .classed("hidden":false)
 
 addNodeDragging = (d, i) ->
     x2coord = d3.event.x
     y2coord = d3.event.y
     sourceNode = d
     d3.select('#dragline')
-        .datum({source: sourceNode})
         .attr "x1", sourceNode.x
         .attr "y1", sourceNode.y
         .attr "x2", x2coord
@@ -56,7 +92,7 @@ addNodeDragging = (d, i) ->
 
 
 addNodeDragended = (d, i) ->
-    if (alchemy.interactions.nodeMouseUp() is false) and (!d3.select("#dragline").empty())
+    if (alchemy.editor.interactions.nodeMouseUp() is false) and d3.select("#dragline").datum()?
         dragline = d3.select("#dragline")
         targetX = dragline.attr("x2")
         targetY = dragline.attr("y2")
@@ -79,22 +115,30 @@ addNodeDragended = (d, i) ->
         alchemy.drawing.drawnodes(alchemy.node)
         alchemy.layout.tick()
 
-        dragline.remove()
+        dragline.datum(null)
+
+
+    # reset dragline
+    d3.select("#dragline")
+        .classed "hidden":true
+        .attr "x1", 0            
+        .attr "y1", 0
+        .attr "x2", 0
+        .attr "y2", 0    
 
 
 alchemy.editor = 
     enableEditor: () ->
-        editor = true
         dragLine = alchemy.vis
             .append("line")
             .attr "id", "dragline"
-            # alchemy.drawing.drawnodes(alchemy.node).update(editor)
+        alchemy.conf.editorInteractions = true
+        alchemy.drawing.setNodeInteractions(alchemy.node)
 
     disableEditor: () ->
-        editor = false
-        alchemy.vis.select("#dragline")
-            .exit().remove()
-        # alchemy.drawing.drawnodes(alchemy.node).update(editor)
+        alchemy.vis.select("#dragline").remove()
+        alchemy.conf.editorInteractions = false
+        alchemy.drawing.setNodeInteractions(alchemy.node)
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node").data()
@@ -118,33 +162,35 @@ alchemy.editor.interactions =
                 radius = d3.select(@).select("circle").attr("r")
                 d3.select(@).select("circle")
                     .attr("r", radius*3)
-        else console.log "editor not enabled"
 
     nodeMouseUp: (n) ->
         # we are dragging
         # to do: insert lines uniquely
-        if alchemy.conf.editorInteractions is true
-            if !d3.select(n).empty() and !d3.select("#dragline").empty()
-                dragline = d3.select("#dragline")
-                sourceNode = dragline.data()[0].source
-                targetNode = n
-                if sourceNode != targetNode
-                    console.log "different"
-                    newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-
-                    alchemy.edges.push(newLink)
-                    alchemy.edge = alchemy.edge.data(alchemy.edges)
-                    alchemy.drawing.drawedges(alchemy.edge)
-                dragline.datum()
-                # dragline.remove()
-                return true
-            else return false
-
+        if !d3.select(n).empty() and !d3.select("#dragline").empty()
+            dragline = d3.select("#dragline")
+            sourceNode = dragline.data()[0].source
+            targetNode = n
+            if sourceNode != targetNode
+                newLink = {source: sourceNode, target: targetNode, caption: "edited"}
+                alchemy.edges.push(newLink)
+                alchemy.edge = alchemy.edge.data(alchemy.edges)
+                alchemy.drawing.drawedges(alchemy.edge)
+            dragline.datum(null)
+            return true
         else return false
 
-    drag: d3.behavior.drag()
-                      .origin(Object)
-                      .on("dragstart", addNodeStart)
-                      .on("drag", addNodeDragging)
-                      .on("dragend", addNodeDragended)
+    nodeMouseOut: (n) ->
+        if !d3.select(@).select("circle").empty()
+            radius = d3.select(@).select("circle").attr("r")
+            d3.select(@).select("circle")
+                .attr("r", radius/3)
+
+    nodeClick: (c) ->
+        d3.event.stopPropagation()
+        # select the correct nodes
+        alchemy.modifyElements.nodeEditor(c)
+        if !alchemy.vis.select("#node-#{c.id}").empty()
+            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
+            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+
 

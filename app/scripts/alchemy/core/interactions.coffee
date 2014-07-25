@@ -16,73 +16,29 @@
 
 nodeDragStarted = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
-    if alchemy.conf.editorInteractions is true
-        sourceNode = d
-        d3.select('#dragline')
-            .datum({source: sourceNode})
-        d3.select("#dragline").classed("hidden":false)
-    else
-        d3.select(this).classed("dragging", true)
+    d3.select(this).classed("dragging", true)
     return
 
 nodeDragged = (d, i) ->
-    if alchemy.conf.editorInteractions is true
-        x2coord = d3.event.x
-        y2coord = d3.event.y
-        sourceNode = d
-        d3.select('#dragline')
-            .attr "x1", sourceNode.x
-            .attr "y1", sourceNode.y
-            .attr "x2", x2coord
-            .attr "y2", y2coord
-            .attr "style", "stroke: #FFF"
-    else
-        d.x += d3.event.dx
-        d.y += d3.event.dy
-        d.px += d3.event.dx
-        d.py += d3.event.dy
-        d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-        if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
-            alchemy.force.start() #restarts force on drag
+    d.x += d3.event.dx
+    d.y += d3.event.dy
+    d.px += d3.event.dx
+    d.py += d3.event.dy
+    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
+        alchemy.force.start() #restarts force on drag
 
-        alchemy.edge
-            .attr("x1", (d) -> d.source.x )
-            .attr("y1", (d) -> d.source.y )
-            .attr("x2", (d) -> d.target.x )
-            .attr("y2", (d) -> d.target.y )
-            .attr "cx", d.x = d3.event.x
-            .attr "cy", d.y = d3.event.y
+    alchemy.edge
+        .attr("x1", (d) -> d.source.x )
+        .attr("y1", (d) -> d.source.y )
+        .attr("x2", (d) -> d.target.x )
+        .attr("y2", (d) -> d.target.y )
+        .attr "cx", d.x = d3.event.x
+        .attr "cy", d.y = d3.event.y
     return
 
 nodeDragended = (d, i) ->
-    if alchemy.conf.editorInteractions is true
-        if (alchemy.interactions.nodeMouseUp() is false) and d3.select("#dragline").datum()?
-            dragline = d3.select("#dragline")
-            targetX = dragline.attr("x2")
-            targetY = dragline.attr("y2")
-            console.log dragline
-
-            # coordinates relative to source node
-            sourceNode = d
-
-            targetNode = {id: alchemy.nodes.length, x: targetX, y: targetY, caption: "editedNode"}    
-            newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-
-            # add to alchemy data
-            alchemy.nodes.push(targetNode)
-            alchemy.edges.push(newLink)
-
-
-            alchemy.node = alchemy.node.data(alchemy.nodes)
-            alchemy.edge = alchemy.edge.data(alchemy.edges)
-            
-            alchemy.drawing.drawedges(alchemy.edge)
-            alchemy.drawing.drawnodes(alchemy.node)
-            alchemy.layout.tick()
-
-            dragline.datum(null)
-    else
-        d3.select(this).classed "dragging", false
+    d3.select(this).classed "dragging":false
     return
 
 alchemy.interactions =
@@ -104,52 +60,17 @@ alchemy.interactions =
                 # the user provided an integer or string to be used
                 # as a data lookup key on the node in the graph json
                 return n[alchemy.conf.nodeMouseOver]
-        if alchemy.conf.editorInteractions is true
-            if !d3.select(@).select("circle").empty()
-                radius = d3.select(@).select("circle").attr("r")
-                d3.select(@).select("circle")
-                    .attr("r", radius*3)
         else
             null
-
-    nodeMouseUp: (n) ->
-        # we are dragging
-        # to do: insert lines uniquely
-        if alchemy.conf.editorInteractions is true
-            if !d3.select(n).empty() and !d3.select("#dragline").empty()
-                console.log "whaddup"
-                console.log d3.select("#dragline")
-                dragline = d3.select("#dragline")
-                sourceNode = dragline.data()[0].source
-                targetNode = n
-                if sourceNode != targetNode
-                    console.log "different"
-                    newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-                    alchemy.edges.push(newLink)
-                    alchemy.edge = alchemy.edge.data(alchemy.edges)
-                    alchemy.drawing.drawedges(alchemy.edge)
-                else 
-                    console.log "same"
-                    console.log alchemy.vis.select(sourceNode)
-                    selected = alchemy.vis.select("#node-#{n.id}").classed('selected')
-                    alchemy.vis.select("#node-#{n.id}").classed('selected', !selected)
-                dragline.datum(null)
-                # dragline.remove()
-                return true
-            else return false
-
-        else return false
 
     nodeMouseOut: (n) ->
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut == 'function'
             alchemy.conf.nodeMouseOut(n)
-        if alchemy.conf.editorInteractions is true
-            if !d3.select(@).select("circle").empty()
-                radius = d3.select(@).select("circle").attr("r")
-                d3.select(@).select("circle")
-                    .attr("r", radius/3)
         else
             null
+
+    nodeMouseUp: (n) ->
+        # console.log "mouseupppp from interactions"
 
     #not currently implemented
     nodeDoubleClick: (c) ->
@@ -174,6 +95,7 @@ alchemy.interactions =
             selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
 
+        # alternate click event highlights neighboring nodes and outgoing edges
         # alchemy.vis.selectAll(".node").classed('selected', (d) ->
         #     if d.id is c.id
         #         return !selected
@@ -192,12 +114,6 @@ alchemy.interactions =
             alchemy.conf.nodeClick(c)
             return
 
-    drag: d3.behavior.drag()
-                          .origin(Object)
-                          .on("dragstart", nodeDragStarted)
-                          .on("drag", nodeDragged)
-                          .on("dragend", nodeDragended)
-
     zoom: (extent) ->
                 if not @._zoomBehavior?
                     @._zoomBehavior = d3.behavior.zoom()
@@ -206,8 +122,6 @@ alchemy.interactions =
                                     alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )
                                     
-                            
-
     clickZoom:  (direction) ->
                     startTransform = alchemy.vis
                                             .attr("transform")

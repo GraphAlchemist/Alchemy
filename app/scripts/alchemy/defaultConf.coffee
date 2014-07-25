@@ -34,25 +34,25 @@ alchemy.defaults =
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
     collisionDetection: false
-    fixNodes: false
-    fixRootNodes: false
+    fixNodes: true
+    fixRootNodes: true
     forceLocked: true
     linkDistance: alchemy.layout.linkDistancefn
     nodePositions: null # not currently implemented
 
     # Editing
-    showEditor: false
-    captionToggle: false
-    edgesToggle: false
-    nodesToggle: false
+    showEditor: true
+    captionToggle: true
+    edgesToggle: true
+    nodesToggle: true
     toggleRootNodes: true
-    removeElement: false
+    removeElement: true
     editorInteractions: true
-    addNodes: false # not currently implemented
-    addEdges: false # not currently implemented
+    addNodes: true # not currently implemented
+    addEdges: true # not currently implemented
 
     #Control Dash
-    showControlDash: false 
+    showControlDash: true 
 
     #Stats
     showStats: false

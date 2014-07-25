@@ -98,6 +98,9 @@ alchemy.startGraph = (data) ->
                 .on("tick", alchemy.layout.tick)
                 .start()
 
+    if alchemy.conf.editorInteractions is true
+        alchemy.editor.enableEditor()
+
 
     # call user-specified functions after load function if specified
     # deprecate?

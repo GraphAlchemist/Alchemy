@@ -112,6 +112,14 @@
         margin-left: 2%;
         color: white;
     }
+    #editor-interactions{
+        &.active{
+            color: $bright-orange;
+        }
+        &.inactive{
+            color: white;
+        }
+    }
 }
 
 #control-dash-wrapper{
