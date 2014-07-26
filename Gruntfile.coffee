@@ -413,7 +413,7 @@ module.exports = (grunt) ->
                                 "concat:generated", "cssmin:buildAlchemy", 
                                 "uglify:buildAlchemy"]
   
-  releaseFlag = grunt.option('release', false)
+  releaseFlag = grunt.option('release')
                            
   grunt.registerTask "default",
     if releaseFlag
