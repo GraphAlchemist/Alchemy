@@ -4,7 +4,7 @@
 
   Alchemy = (function() {
     function Alchemy() {
-      this.version = "#VERSION#";
+      this.version = "0.1.2";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
