@@ -1,17 +1,13 @@
 <div class=row><div class=col-md-10><h2>Description</h2><p class=lead>{{current_example.desc}}</p></div><div id=graph-container class=col-md-6><h3 class=filename>Graph</h3><div class=alchemy id=alchemy style=height:450px></div></div><div class="col-md-6 example-code"><h3 class=filename>HTML and Configuration</h3><pre pretty-print="">
-<code>
 &lt;html&gt;
 &lt;head&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
 &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
         var config = {
             dataSource: 'data/charlize.json',
             };
@@ -20,12 +16,8 @@
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-</code>
         </pre></div></div><script type=text/javascript>var config = {
-    dataSource: 'data/charlize.json',
-    linkDistance: function() {
-        return 40;
-    },
-    graphHeight: function() { return 450;}
-};
-alchemy.begin(config)</script>
+        dataSource: 'data/charlize.json',
+        linkDistance: function() { return 40; }
+    };
+    alchemy.begin(config)</script>
