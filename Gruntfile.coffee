@@ -383,10 +383,16 @@ module.exports = (grunt) ->
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
       buildAlchemy: ["coffee:dist", "coffee:test", "compass", "copy:styles"]
 
+<<<<<<< HEAD
   grunt.loadNpmTasks('grunt-mocha')
   grunt.loadNpmTasks('grunt-shell')
   grunt.loadNpmTasks('grunt-release')
   grunt.loadNpmTasks('grunt-string-replace')
+=======
+  grunt.loadNpmTasks('grunt-mocha');
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-release', ['--no-write']);
+>>>>>>> dc9afe57fea87f35b13396a8ea151c2565c584ca
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
