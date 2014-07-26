@@ -77,6 +77,11 @@ angular.module('alchemyExamples', [])
                     src: 'views/examples/example3.html',
                     id: "example3",
                     desc: "A full application using clustering, filters, node typing, and search."},
+                {
+                    name: 'Advanced Styling',
+                    src: 'views/examples/example5.html',
+                    id: "example5",
+                    desc: "Styling based on node and edge properties."}
             ]
         # should probably be moved to a directive
         $scope.showExample = (e) ->
