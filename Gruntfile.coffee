@@ -21,6 +21,7 @@ module.exports = (grunt) ->
     'string-replace':
       version:
         files:
+          './bower.json': './bower.json'
           '<%= yeoman.dist %>/alchemy.js':'<%= yeoman.dist %>/alchemy.js'
           '<%= yeoman.dist %>/alchemy.min.js':'<%= yeoman.dist %>/alchemy.min.js'
         options:
@@ -33,13 +34,12 @@ module.exports = (grunt) ->
       options:
         file: 'package.json'
         bump: false
+        commit: false
 
     # shell tasks
     shell:
-      bumpBower:
-        command: "bower version #{pkg.version}"
       commitBuild:
-        command: "git commit dist -m 'commit dist files'"
+        command: "git commit -am 'commit dist files for #{pkg.version}'"
       docs:
         command: 'grunt --gruntfile site/Gruntfile.js'
 
@@ -386,6 +386,11 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-release')
   grunt.loadNpmTasks('grunt-string-replace')
 
+  grunt.registerTask 'bumpBower', ->
+      bower = grunt.file.readJSON('./bower.json')
+      bower['version'] = pkg.version
+      grunt.file.write('./bower.json', JSON.stringify(bower, null, 2))
+
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:server", "autoprefixer", "connect:livereload", "watch"]
@@ -408,8 +413,8 @@ module.exports = (grunt) ->
                                 "concat:generated", "cssmin:buildAlchemy", 
                                 "uglify:buildAlchemy"]
   
-  releaseFlag = grunt.option('release')
-  # releaseType = grunt.option('releaseType')                             
+  releaseFlag = grunt.option('release', false)
+                           
   grunt.registerTask "default",
     if releaseFlag
       ["newer:jshint", 
@@ -417,13 +422,13 @@ module.exports = (grunt) ->
        "test",
        # build alchemy
        "build",
+       "string-replace",
+        # publish docs
+       "shell:docs",
        "shell:commitBuild",
-       "shell:bumpBower",
-       "string-replace",  
+       "bumpBower",
        # create tag and version
-       "release", 
-       # publish docs
-       "shell:docs"]
+       "release"]
     else
       ["newer:jshint", 
         # run tests
