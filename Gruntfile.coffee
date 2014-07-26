@@ -8,7 +8,7 @@
 module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
-
+  pkg = grunt.file.readJSON('./package.json')
   grunt.initConfig
     
     # Project settings
@@ -17,7 +17,32 @@ module.exports = (grunt) ->
       # Configurable paths
       app: "app"
       dist: "dist"
-    
+
+    'string-replace':
+      version:
+        files:
+          './bower.json': './bower.json'
+          '<%= yeoman.dist %>/alchemy.js':'<%= yeoman.dist %>/alchemy.js'
+          '<%= yeoman.dist %>/alchemy.min.js':'<%= yeoman.dist %>/alchemy.min.js'
+        options:
+          replacements: [
+            pattern: "#VERSION#"
+            replacement: pkg.version
+          ]
+
+    release:
+      options:
+        file: 'package.json'
+        bump: false
+        commit: false
+
+    # shell tasks
+    shell:
+      commitBuild:
+        command: "git commit -am 'commit dist files for #{pkg.version}'"
+      docs:
+        command: 'grunt --gruntfile site/Gruntfile.js'
+
     # Watches files for changes and runs tasks based on the changed files
     watch:
       coffee:
@@ -29,7 +54,7 @@ module.exports = (grunt) ->
         tasks: ["coffee:test", "test:watch"]
 
       gruntfile:
-        files: ["Gruntfile.js"]
+        files: ["Gruntfile.coffee"]
 
       compass:
         files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
@@ -104,7 +129,7 @@ module.exports = (grunt) ->
       dist:
         options:
             bare: false
-            sourceMap: true
+            sourceMap: false
         files:
             # all of the core, alchemy.js files
             ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
@@ -114,6 +139,14 @@ module.exports = (grunt) ->
         options:
             bare: false
             sourceMap: true
+
+        files:
+          # all of the files used in testing and development - configuration, etc.
+          ".tmp/scripts/else.js": [".tmp/scripts/*.coffee", "!.tmp/scripts/alchemy.src.coffee"]
+          # all of the core, alchemy.js files
+          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
+                                      ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
+                                      ".tmp/scripts/alchemy/end.coffee"]
 
       test:
         files: [
@@ -343,6 +376,13 @@ module.exports = (grunt) ->
         dest: "<%= yeoman.dist %>/styles"
         src: "images/**"
 
+      archive:
+        expand: true
+        dot: true
+        dest: "archive/#{pkg.version}"
+        cwd: "<%= yeoman.dist %>"
+        src: "**"
+
     concurrent:
       # Run some tasks in parallel to speed up build process
       server: ["compass:server", "coffee",  "copy:styles"]
@@ -350,9 +390,20 @@ module.exports = (grunt) ->
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
       buildAlchemy: ["coffee:dist", "coffee:test", "compass", "copy:styles"]
 
-  grunt.loadNpmTasks('grunt-mocha');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-release', ['--no-write']);
+  grunt.loadNpmTasks('grunt-mocha')
+  grunt.loadNpmTasks('grunt-shell')
+  grunt.loadNpmTasks('grunt-release')
+  grunt.loadNpmTasks('grunt-string-replace')
+
+  grunt.registerTask 'bumpBower', ->
+      bower = grunt.file.readJSON('./bower.json')
+      bower['version'] = pkg.version
+      grunt.file.write('./bower.json', JSON.stringify(bower, null, 2) + '\n')
+
+  grunt.registerTask 'archiveDist', ->
+      path = "./archive/#{pkg.version}"
+      grunt.file.mkdir(path)
+      grunt.task.run 'copy:archive'
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
@@ -369,21 +420,32 @@ module.exports = (grunt) ->
     else
       grunt.task.run ["connect:test", "mocha"]
 
-  grunt.registerTask "build", ["clean:dist", "useminPrepare", 
-                               "copy:coffee", "concurrent:dist", 
-                               "autoprefixer", "concat:dist", 
-                               "concat:generated", "cssmin", 
-                               "uglify:dist", "copy:dist", 
-                               "rev", "usemin", 
-                               "htmlmin"]
-
-  #same as `build` but builds Alchemy for distribution
-  grunt.registerTask 'buildAlchemy', ["clean:dist", "useminPrepare", 
-                                      "copy:coffee", "concurrent:buildAlchemy",
-                                      "copy:fonts", "copy:images",
-                                      "autoprefixer", "concat:buildAlchemy", 
-                                      "concat:generated", "cssmin:buildAlchemy", 
-                                      "uglify:buildAlchemy"]
- 
-  # releaseType = grunt.option('releaseType')                             
-  grunt.registerTask "default", ["newer:jshint", "test", "buildAlchemy", "release"]
+  grunt.registerTask 'build', ["clean:dist", "useminPrepare", 
+                                "copy:coffee", "concurrent:buildAlchemy",
+                                "copy:fonts", "copy:images",
+                                "autoprefixer", "concat:buildAlchemy", 
+                                "concat:generated", "cssmin:buildAlchemy", 
+                                "uglify:buildAlchemy"]
+  
+  releaseFlag = grunt.option('release')
+                           
+  grunt.registerTask "default",
+    if releaseFlag
+      ["newer:jshint", 
+       # run tests
+       "test",
+       # build alchemy
+       "build",
+       "string-replace",
+        # publish docs
+       "shell:docs",
+       "shell:commitBuild",
+       "bumpBower",
+       # create tag and version
+       "release"]
+    else
+      ["newer:jshint", 
+        # run tests
+       "test",
+       # build alchemy
+       "build"]

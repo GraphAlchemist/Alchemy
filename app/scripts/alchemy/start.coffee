@@ -19,7 +19,7 @@ lets
 
 class Alchemy
     constructor: () ->   
-        @version = "0.1.0"
+        @version = "#VERSION#"
         @layout = {}
         @interactions = {}
         @utils = {}
@@ -35,4 +35,8 @@ currentRelationshipTypes = {}
 container = null
 rootNodeId = null
 
-@alchemy = new Alchemy()
+if typeof module isnt 'undefined' and module.exports
+  module.exports = new Alchemy()
+else
+  @alchemy = new Alchemy()
+
