@@ -389,7 +389,7 @@ module.exports = (grunt) ->
   grunt.registerTask 'bumpBower', ->
       bower = grunt.file.readJSON('./bower.json')
       bower['version'] = pkg.version
-      grunt.file.write('./bower.json', JSON.stringify(bower, null, 2))
+      grunt.file.write('./bower.json', JSON.stringify(bower, null, 2) + '\n')
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
@@ -413,7 +413,7 @@ module.exports = (grunt) ->
                                 "concat:generated", "cssmin:buildAlchemy", 
                                 "uglify:buildAlchemy"]
   
-  releaseFlag = grunt.option('release', false)
+  releaseFlag = grunt.option('release')
                            
   grunt.registerTask "default",
     if releaseFlag
