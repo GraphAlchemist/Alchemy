@@ -376,6 +376,13 @@ module.exports = (grunt) ->
         dest: "<%= yeoman.dist %>/styles"
         src: "images/**"
 
+      archive:
+        expand: true
+        dot: true
+        dest: "archive/#{pkg.version}"
+        cwd: "<%= yeoman.dist %>"
+        src: "**"
+
     concurrent:
       # Run some tasks in parallel to speed up build process
       server: ["compass:server", "coffee",  "copy:styles"]
@@ -392,6 +399,11 @@ module.exports = (grunt) ->
       bower = grunt.file.readJSON('./bower.json')
       bower['version'] = pkg.version
       grunt.file.write('./bower.json', JSON.stringify(bower, null, 2) + '\n')
+
+  grunt.registerTask 'archiveDist', ->
+      path = "./archive/#{pkg.version}"
+      grunt.file.mkdir(path)
+      grunt.task.run 'copy:archive'
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
