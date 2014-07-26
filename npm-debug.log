@@ -1,0 +1,527 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/Cellar/node/0.10.22/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'publish' ]
+2 info using npm@1.3.14
+3 info using node@v0.10.22
+4 verbose publish [ '.' ]
+5 verbose cache add [ '.', null ]
+6 verbose cache add name=undefined spec="." args=[".",null]
+7 verbose parsed url { protocol: null,
+7 verbose parsed url   slashes: null,
+7 verbose parsed url   auth: null,
+7 verbose parsed url   host: null,
+7 verbose parsed url   port: null,
+7 verbose parsed url   hostname: null,
+7 verbose parsed url   hash: null,
+7 verbose parsed url   search: null,
+7 verbose parsed url   query: null,
+7 verbose parsed url   pathname: '.',
+7 verbose parsed url   path: '.',
+7 verbose parsed url   href: '.' }
+8 silly lockFile 3a52ce78- .
+9 verbose lock . /Users/huston/.npm/3a52ce78-.lock
+10 verbose tar pack [ '/var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz',
+10 verbose tar pack   '.' ]
+11 verbose tarball /var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+12 verbose folder .
+13 info prepublish alchemyjs@0.1.2
+14 silly lockFile 1f1177db-tar tar://.
+15 verbose lock tar://. /Users/huston/.npm/1f1177db-tar.lock
+16 silly lockFile 51120dca-70404-0-5411303280852735-tmp-tgz tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+17 verbose lock tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz /Users/huston/.npm/51120dca-70404-0-5411303280852735-tmp-tgz.lock
+18 silly lockFile 1f1177db-tar tar://.
+19 silly lockFile 1f1177db-tar tar://.
+20 silly lockFile 51120dca-70404-0-5411303280852735-tmp-tgz tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+21 silly lockFile 51120dca-70404-0-5411303280852735-tmp-tgz tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+22 verbose tar unpack /var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+23 silly lockFile e39b3f68-70404-0-5411303280852735-package tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+24 verbose lock tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package /Users/huston/.npm/e39b3f68-70404-0-5411303280852735-package.lock
+25 silly lockFile 51120dca-70404-0-5411303280852735-tmp-tgz tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+26 verbose lock tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz /Users/huston/.npm/51120dca-70404-0-5411303280852735-tmp-tgz.lock
+27 silly gunzTarPerm modes [ '755', '644' ]
+28 silly gunzTarPerm extractEntry package.json
+29 silly gunzTarPerm extractEntry .npmignore
+30 silly gunzTarPerm extractEntry README.md
+31 silly gunzTarPerm extractEntry LICENSE
+32 silly gunzTarPerm extractEntry .jshintrc
+33 silly gunzTarPerm extractEntry .travis.yml
+34 silly gunzTarPerm extractEntry Gruntfile.coffee
+35 silly gunzTarPerm extractEntry .gitattributes
+36 silly gunzTarPerm extractEntry .editorconfig
+37 silly gunzTarPerm extractEntry app/404.html
+38 silly gunzTarPerm extractEntry app/favicon.ico
+39 silly gunzTarPerm extractEntry app/robots.txt
+40 silly gunzTarPerm extractEntry app/sample_data/contrib.json
+41 silly gunzTarPerm extractEntry app/sample_data/ego1.json
+42 silly gunzTarPerm extractEntry app/sample_data/ego2.json
+43 silly gunzTarPerm extractEntry app/sample_data/movies.json
+44 silly gunzTarPerm extractEntry app/sample_data/soccer.json
+45 silly gunzTarPerm extractEntry app/sample_data/team.json
+46 silly gunzTarPerm extractEntry app/scripts/alchemy/core/layout.coffee
+47 silly gunzTarPerm extractEntry app/scripts/alchemy/core/controls.coffee
+48 silly gunzTarPerm extractEntry app/scripts/alchemy/core/drawnodes.coffee
+49 silly gunzTarPerm extractEntry app/scripts/alchemy/core/filters.coffee
+50 silly gunzTarPerm extractEntry app/scripts/alchemy/core/interactions.coffee
+51 silly gunzTarPerm extractEntry app/scripts/alchemy/core/drawedges.coffee
+52 silly gunzTarPerm extractEntry app/scripts/alchemy/core/modifyElements.coffee
+53 silly gunzTarPerm extractEntry app/scripts/alchemy/core/search.coffee
+54 silly gunzTarPerm extractEntry app/scripts/alchemy/core/startGraph.coffee
+55 silly gunzTarPerm extractEntry app/scripts/alchemy/core/stats.coffee
+56 silly gunzTarPerm extractEntry app/scripts/alchemy/core/updateGraph.coffee
+57 silly gunzTarPerm extractEntry app/scripts/alchemy/defaultConf.coffee
+58 silly gunzTarPerm extractEntry app/scripts/alchemy/end.coffee
+59 silly gunzTarPerm extractEntry app/scripts/alchemy/start.coffee
+60 silly gunzTarPerm extractEntry app/scripts/alchemy/styles/styles.coffee
+61 silly gunzTarPerm extractEntry app/scripts/alchemy/utils/utils.coffee
+62 silly gunzTarPerm extractEntry app/scripts/alchemy/welcomeConf.coffee
+63 silly gunzTarPerm extractEntry app/soccer.html
+64 silly gunzTarPerm extractEntry app/styles/_utils.scss
+65 silly gunzTarPerm extractEntry app/styles/_controls.scss
+66 silly gunzTarPerm extractEntry app/styles/_filters.scss
+67 silly gunzTarPerm extractEntry app/styles/_nodes.scss
+68 silly gunzTarPerm extractEntry app/styles/_svg.scss
+69 silly gunzTarPerm extractEntry app/styles/_edges.scss
+70 silly gunzTarPerm extractEntry app/styles/_varsMixinsAnimation.scss
+71 silly gunzTarPerm extractEntry app/styles/alchemy.scss
+72 silly gunzTarPerm extractEntry app/styles/font-awesome.scss
+73 silly gunzTarPerm extractEntry app/styles/fonts/FontAwesome.otf
+74 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.eot
+75 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.svg
+76 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.ttf
+77 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.woff
+78 silly gunzTarPerm extractEntry app/styles/images/maze-black.png
+79 silly gunzTarPerm extractEntry bower.json
+80 silly gunzTarPerm extractEntry dist/alchemy.js
+81 silly gunzTarPerm extractEntry dist/alchemy.min.js
+82 silly gunzTarPerm extractEntry dist/alchemy.css
+83 silly gunzTarPerm extractEntry dist/alchemy.min.css
+84 silly gunzTarPerm extractEntry dist/scripts/vendor.js
+85 silly gunzTarPerm extractEntry dist/styles/fonts/FontAwesome.otf
+86 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.eot
+87 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.svg
+88 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.ttf
+89 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.woff
+90 silly gunzTarPerm extractEntry dist/styles/images/maze-black.png
+91 silly gunzTarPerm extractEntry dist/styles/vendor.css
+92 silly gunzTarPerm extractEntry site/package.json
+93 silly gunzTarPerm extractEntry site/README.md
+94 silly gunzTarPerm extractEntry site/LICENSE
+95 silly gunzTarPerm extractEntry site/Gruntfile.js
+96 silly gunzTarPerm extractEntry site/app/images/GA-logo-full-100px.png
+97 silly gunzTarPerm extractEntry site/app/images/alchemy-01.svg
+98 silly gunzTarPerm extractEntry site/app/images/alchemyFullFinal.png
+99 silly gunzTarPerm extractEntry site/app/images/alchemyLogoFlat.png
+100 silly gunzTarPerm extractEntry site/app/images/alchemyLogoGradient.png
+101 silly gunzTarPerm extractEntry site/app/images/features/clusterHighlight_team.png
+102 silly gunzTarPerm extractEntry site/app/images/features/cluster_team.png
+103 silly gunzTarPerm extractEntry site/app/images/features/filters&Stats_movies.png
+104 silly gunzTarPerm extractEntry site/app/images/features/filters_movies.png
+105 silly gunzTarPerm extractEntry site/app/images/features/search_movies.png
+106 silly gunzTarPerm extractEntry site/app/images/ga-logo-100px.png
+107 silly gunzTarPerm extractEntry site/app/images/ga-logo-300px.png
+108 silly gunzTarPerm extractEntry site/app/.htaccess
+109 silly gunzTarPerm extractEntry site/app/alchemyFlatfavicon.ico
+110 silly gunzTarPerm extractEntry site/app/data/charlize.json
+111 silly gunzTarPerm extractEntry site/app/data/contrib.json
+112 silly gunzTarPerm extractEntry site/app/data/team.json
+113 silly gunzTarPerm extractEntry site/app/docs/configuration/Controls.md
+114 silly gunzTarPerm extractEntry site/app/docs/configuration/Edges.md
+115 silly gunzTarPerm extractEntry site/app/docs/configuration/Editing.md
+116 silly gunzTarPerm extractEntry site/app/docs/configuration/Filtering.md
+117 silly gunzTarPerm extractEntry site/app/docs/configuration/Helpers.md
+118 silly gunzTarPerm extractEntry site/app/docs/configuration/Init.md
+119 silly gunzTarPerm extractEntry site/app/docs/configuration/Layout.md
+120 silly gunzTarPerm extractEntry site/app/docs/configuration/Nodes.md
+121 silly gunzTarPerm extractEntry site/app/docs/Configuration.md
+122 silly gunzTarPerm extractEntry site/app/docs/Examples.md
+123 silly gunzTarPerm extractEntry site/app/docs/GraphJSON.md
+124 silly gunzTarPerm extractEntry site/app/docs/GraphStyling.md
+125 silly gunzTarPerm extractEntry site/app/docs/Overriding-Defaults.md
+126 silly gunzTarPerm extractEntry site/app/docs/Contributing.md
+127 silly gunzTarPerm extractEntry site/app/docs/css/custom.css
+128 silly gunzTarPerm extractEntry site/app/docs/css/custom.scss
+129 silly gunzTarPerm extractEntry site/app/docs/img/cluster.png
+130 silly gunzTarPerm extractEntry site/app/docs/img/graphstyling1.png
+131 silly gunzTarPerm extractEntry site/app/docs/img/graphstyling2.png
+132 silly gunzTarPerm extractEntry site/app/docs/img/threenodes.png
+133 silly gunzTarPerm extractEntry site/app/docs/index.md
+134 silly gunzTarPerm extractEntry site/app/docs/js/custom.js
+135 silly gunzTarPerm extractEntry site/app/docs/misc/Documentation.md
+136 silly gunzTarPerm extractEntry site/app/docs/misc/GraphJSON.md
+137 silly gunzTarPerm extractEntry site/app/docs/misc/Styles-Documentation.md
+138 silly gunzTarPerm extractEntry site/app/docs/misc/What's-Included.md
+139 silly gunzTarPerm extractEntry site/app/404.html
+140 silly gunzTarPerm extractEntry site/app/index.html
+141 silly gunzTarPerm extractEntry site/app/robots.txt
+142 silly gunzTarPerm extractEntry site/app/scripts/plugins.js
+143 silly gunzTarPerm extractEntry site/app/scripts/app.coffee
+144 silly gunzTarPerm extractEntry site/app/scripts/controllers/main.coffee
+145 silly gunzTarPerm extractEntry site/app/styles/_examples.scss
+146 silly gunzTarPerm extractEntry site/app/styles/_landing.scss
+147 silly gunzTarPerm extractEntry site/app/styles/_nav.scss
+148 silly gunzTarPerm extractEntry site/app/styles/_svg.scss
+149 silly gunzTarPerm extractEntry site/app/styles/example4Graph.scss
+150 silly gunzTarPerm extractEntry site/app/styles/fonts/FontAwesome.otf
+151 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.eot
+152 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.svg
+153 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.ttf
+154 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.woff
+155 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.eot
+156 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.svg
+157 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.ttf
+158 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.woff
+159 silly gunzTarPerm extractEntry site/app/styles/main.scss
+160 silly gunzTarPerm extractEntry site/app/views/examples/example1.html
+161 silly gunzTarPerm extractEntry site/app/views/examples/example2.html
+162 silly gunzTarPerm extractEntry site/app/views/examples/example3.html
+163 silly gunzTarPerm extractEntry site/app/views/examples/example3viz.html
+164 silly gunzTarPerm extractEntry site/app/views/examples/example4.html
+165 silly gunzTarPerm extractEntry site/app/views/examples.html
+166 silly gunzTarPerm extractEntry site/app/views/home.html
+167 silly gunzTarPerm extractEntry site/app/views/nav.html
+168 silly gunzTarPerm extractEntry site/.jshintrc
+169 silly gunzTarPerm extractEntry site/bower.json
+170 silly gunzTarPerm extractEntry site/mkdocs.yml
+171 silly gunzTarPerm extractEntry site/.editorconfig
+172 silly gunzTarPerm extractEntry site/test/.bowerrc
+173 silly gunzTarPerm extractEntry site/test/bower.json
+174 silly gunzTarPerm extractEntry site/test/index.html
+175 silly gunzTarPerm extractEntry site/test/spec/test.js
+176 silly gunzTarPerm extractEntry .bowerrc
+177 silly gunzTarPerm extractEntry test/.bowerrc
+178 silly gunzTarPerm extractEntry test/bower.json
+179 silly gunzTarPerm extractEntry test/index.html
+180 silly gunzTarPerm extractEntry test/spec/configurationTests.coffee
+181 silly gunzTarPerm extractEntry test/spec/startGraph.coffee
+182 silly gunzTarPerm extractEntry test/spec/updateGraph.coffee
+183 silly lockFile e39b3f68-70404-0-5411303280852735-package tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+184 silly lockFile e39b3f68-70404-0-5411303280852735-package tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+185 silly lockFile 51120dca-70404-0-5411303280852735-tmp-tgz tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+186 silly lockFile 51120dca-70404-0-5411303280852735-tmp-tgz tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/tmp.tgz
+187 verbose tar pack [ '/Users/huston/.npm/alchemyjs/0.1.2/package.tgz',
+187 verbose tar pack   '/var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package' ]
+188 verbose tarball /Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+189 verbose folder /var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+190 silly lockFile e39b3f68-70404-0-5411303280852735-package tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+191 verbose lock tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package /Users/huston/.npm/e39b3f68-70404-0-5411303280852735-package.lock
+192 silly lockFile e790f9ab--npm-alchemyjs-0-1-2-package-tgz tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+193 verbose lock tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz /Users/huston/.npm/e790f9ab--npm-alchemyjs-0-1-2-package-tgz.lock
+194 silly lockFile e39b3f68-70404-0-5411303280852735-package tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+195 silly lockFile e39b3f68-70404-0-5411303280852735-package tar:///var/folders/c8/nhxy1k9d3875k16bwcz0_0500000gn/T/npm-49280-ZLYpJK-s/1406399670404-0.5411303280852735/package
+196 silly lockFile e790f9ab--npm-alchemyjs-0-1-2-package-tgz tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+197 silly lockFile e790f9ab--npm-alchemyjs-0-1-2-package-tgz tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+198 silly lockFile 11a6313a-ston-npm-alchemyjs-0-1-2-package /Users/huston/.npm/alchemyjs/0.1.2/package
+199 verbose lock /Users/huston/.npm/alchemyjs/0.1.2/package /Users/huston/.npm/11a6313a-ston-npm-alchemyjs-0-1-2-package.lock
+200 silly lockFile 11a6313a-ston-npm-alchemyjs-0-1-2-package /Users/huston/.npm/alchemyjs/0.1.2/package
+201 silly lockFile 11a6313a-ston-npm-alchemyjs-0-1-2-package /Users/huston/.npm/alchemyjs/0.1.2/package
+202 verbose tar unpack /Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+203 silly lockFile 1f50e034-ston-npm-alchemyjs-0-1-2-package tar:///Users/huston/.npm/alchemyjs/0.1.2/package
+204 verbose lock tar:///Users/huston/.npm/alchemyjs/0.1.2/package /Users/huston/.npm/1f50e034-ston-npm-alchemyjs-0-1-2-package.lock
+205 silly lockFile e790f9ab--npm-alchemyjs-0-1-2-package-tgz tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+206 verbose lock tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz /Users/huston/.npm/e790f9ab--npm-alchemyjs-0-1-2-package-tgz.lock
+207 silly gunzTarPerm modes [ '755', '644' ]
+208 silly gunzTarPerm extractEntry package.json
+209 silly gunzTarPerm extractEntry .npmignore
+210 silly gunzTarPerm extractEntry README.md
+211 silly gunzTarPerm extractEntry LICENSE
+212 silly gunzTarPerm extractEntry .bowerrc
+213 silly gunzTarPerm extractEntry .travis.yml
+214 silly gunzTarPerm extractEntry Gruntfile.coffee
+215 silly gunzTarPerm extractEntry .editorconfig
+216 silly gunzTarPerm extractEntry .gitattributes
+217 silly gunzTarPerm extractEntry app/404.html
+218 silly gunzTarPerm extractEntry app/favicon.ico
+219 silly gunzTarPerm extractEntry app/robots.txt
+220 silly gunzTarPerm extractEntry app/sample_data/contrib.json
+221 silly gunzTarPerm extractEntry app/sample_data/ego1.json
+222 silly gunzTarPerm extractEntry app/sample_data/ego2.json
+223 silly gunzTarPerm extractEntry app/sample_data/movies.json
+224 silly gunzTarPerm extractEntry app/sample_data/soccer.json
+225 silly gunzTarPerm extractEntry app/sample_data/team.json
+226 silly gunzTarPerm extractEntry app/scripts/alchemy/core/layout.coffee
+227 silly gunzTarPerm extractEntry app/scripts/alchemy/core/controls.coffee
+228 silly gunzTarPerm extractEntry app/scripts/alchemy/core/drawnodes.coffee
+229 silly gunzTarPerm extractEntry app/scripts/alchemy/core/filters.coffee
+230 silly gunzTarPerm extractEntry app/scripts/alchemy/core/interactions.coffee
+231 silly gunzTarPerm extractEntry app/scripts/alchemy/core/drawedges.coffee
+232 silly gunzTarPerm extractEntry app/scripts/alchemy/core/modifyElements.coffee
+233 silly gunzTarPerm extractEntry app/scripts/alchemy/core/search.coffee
+234 silly gunzTarPerm extractEntry app/scripts/alchemy/core/startGraph.coffee
+235 silly gunzTarPerm extractEntry app/scripts/alchemy/core/stats.coffee
+236 silly gunzTarPerm extractEntry app/scripts/alchemy/core/updateGraph.coffee
+237 silly gunzTarPerm extractEntry app/scripts/alchemy/defaultConf.coffee
+238 silly gunzTarPerm extractEntry app/scripts/alchemy/end.coffee
+239 silly gunzTarPerm extractEntry app/scripts/alchemy/start.coffee
+240 silly gunzTarPerm extractEntry app/scripts/alchemy/styles/styles.coffee
+241 silly gunzTarPerm extractEntry app/scripts/alchemy/utils/utils.coffee
+242 silly gunzTarPerm extractEntry app/scripts/alchemy/welcomeConf.coffee
+243 silly gunzTarPerm extractEntry app/soccer.html
+244 silly gunzTarPerm extractEntry app/styles/_utils.scss
+245 silly gunzTarPerm extractEntry app/styles/_controls.scss
+246 silly gunzTarPerm extractEntry app/styles/_filters.scss
+247 silly gunzTarPerm extractEntry app/styles/_nodes.scss
+248 silly gunzTarPerm extractEntry app/styles/_svg.scss
+249 silly gunzTarPerm extractEntry app/styles/_edges.scss
+250 silly gunzTarPerm extractEntry app/styles/_varsMixinsAnimation.scss
+251 silly gunzTarPerm extractEntry app/styles/alchemy.scss
+252 silly gunzTarPerm extractEntry app/styles/font-awesome.scss
+253 silly gunzTarPerm extractEntry app/styles/fonts/FontAwesome.otf
+254 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.eot
+255 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.svg
+256 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.ttf
+257 silly gunzTarPerm extractEntry app/styles/fonts/fontawesome-webfont.woff
+258 silly gunzTarPerm extractEntry app/styles/images/maze-black.png
+259 silly gunzTarPerm extractEntry bower.json
+260 silly gunzTarPerm extractEntry dist/alchemy.js
+261 silly gunzTarPerm extractEntry dist/alchemy.min.js
+262 silly gunzTarPerm extractEntry dist/alchemy.css
+263 silly gunzTarPerm extractEntry dist/alchemy.min.css
+264 silly gunzTarPerm extractEntry dist/scripts/vendor.js
+265 silly gunzTarPerm extractEntry dist/styles/fonts/FontAwesome.otf
+266 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.eot
+267 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.svg
+268 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.ttf
+269 silly gunzTarPerm extractEntry dist/styles/fonts/fontawesome-webfont.woff
+270 silly gunzTarPerm extractEntry dist/styles/images/maze-black.png
+271 silly gunzTarPerm extractEntry dist/styles/vendor.css
+272 silly gunzTarPerm extractEntry .jshintrc
+273 silly gunzTarPerm extractEntry site/package.json
+274 silly gunzTarPerm extractEntry site/README.md
+275 silly gunzTarPerm extractEntry site/LICENSE
+276 silly gunzTarPerm extractEntry site/Gruntfile.js
+277 silly gunzTarPerm extractEntry site/.editorconfig
+278 silly gunzTarPerm extractEntry site/.jshintrc
+279 silly gunzTarPerm extractEntry site/app/images/GA-logo-full-100px.png
+280 silly gunzTarPerm extractEntry site/app/images/alchemy-01.svg
+281 silly gunzTarPerm extractEntry site/app/images/alchemyFullFinal.png
+282 silly gunzTarPerm extractEntry site/app/images/alchemyLogoFlat.png
+283 silly gunzTarPerm extractEntry site/app/images/alchemyLogoGradient.png
+284 silly gunzTarPerm extractEntry site/app/images/features/clusterHighlight_team.png
+285 silly gunzTarPerm extractEntry site/app/images/features/cluster_team.png
+286 silly gunzTarPerm extractEntry site/app/images/features/filters&Stats_movies.png
+287 silly gunzTarPerm extractEntry site/app/images/features/filters_movies.png
+288 silly gunzTarPerm extractEntry site/app/images/features/search_movies.png
+289 silly gunzTarPerm extractEntry site/app/images/ga-logo-100px.png
+290 silly gunzTarPerm extractEntry site/app/images/ga-logo-300px.png
+291 silly gunzTarPerm extractEntry site/app/.htaccess
+292 silly gunzTarPerm extractEntry site/app/alchemyFlatfavicon.ico
+293 silly gunzTarPerm extractEntry site/app/data/charlize.json
+294 silly gunzTarPerm extractEntry site/app/data/contrib.json
+295 silly gunzTarPerm extractEntry site/app/data/team.json
+296 silly gunzTarPerm extractEntry site/app/docs/configuration/Controls.md
+297 silly gunzTarPerm extractEntry site/app/docs/configuration/Edges.md
+298 silly gunzTarPerm extractEntry site/app/docs/configuration/Editing.md
+299 silly gunzTarPerm extractEntry site/app/docs/configuration/Filtering.md
+300 silly gunzTarPerm extractEntry site/app/docs/configuration/Helpers.md
+301 silly gunzTarPerm extractEntry site/app/docs/configuration/Init.md
+302 silly gunzTarPerm extractEntry site/app/docs/configuration/Layout.md
+303 silly gunzTarPerm extractEntry site/app/docs/configuration/Nodes.md
+304 silly gunzTarPerm extractEntry site/app/docs/Configuration.md
+305 silly gunzTarPerm extractEntry site/app/docs/Examples.md
+306 silly gunzTarPerm extractEntry site/app/docs/GraphJSON.md
+307 silly gunzTarPerm extractEntry site/app/docs/GraphStyling.md
+308 silly gunzTarPerm extractEntry site/app/docs/Overriding-Defaults.md
+309 silly gunzTarPerm extractEntry site/app/docs/Contributing.md
+310 silly gunzTarPerm extractEntry site/app/docs/css/custom.css
+311 silly gunzTarPerm extractEntry site/app/docs/css/custom.scss
+312 silly gunzTarPerm extractEntry site/app/docs/img/cluster.png
+313 silly gunzTarPerm extractEntry site/app/docs/img/graphstyling1.png
+314 silly gunzTarPerm extractEntry site/app/docs/img/graphstyling2.png
+315 silly gunzTarPerm extractEntry site/app/docs/img/threenodes.png
+316 silly gunzTarPerm extractEntry site/app/docs/index.md
+317 silly gunzTarPerm extractEntry site/app/docs/js/custom.js
+318 silly gunzTarPerm extractEntry site/app/docs/misc/Documentation.md
+319 silly gunzTarPerm extractEntry site/app/docs/misc/GraphJSON.md
+320 silly gunzTarPerm extractEntry site/app/docs/misc/Styles-Documentation.md
+321 silly gunzTarPerm extractEntry site/app/docs/misc/What's-Included.md
+322 silly gunzTarPerm extractEntry site/app/404.html
+323 silly gunzTarPerm extractEntry site/app/index.html
+324 silly gunzTarPerm extractEntry site/app/robots.txt
+325 silly gunzTarPerm extractEntry site/app/scripts/plugins.js
+326 silly gunzTarPerm extractEntry site/app/scripts/app.coffee
+327 silly gunzTarPerm extractEntry site/app/scripts/controllers/main.coffee
+328 silly gunzTarPerm extractEntry site/app/styles/_examples.scss
+329 silly gunzTarPerm extractEntry site/app/styles/_landing.scss
+330 silly gunzTarPerm extractEntry site/app/styles/_nav.scss
+331 silly gunzTarPerm extractEntry site/app/styles/_svg.scss
+332 silly gunzTarPerm extractEntry site/app/styles/example4Graph.scss
+333 silly gunzTarPerm extractEntry site/app/styles/fonts/FontAwesome.otf
+334 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.eot
+335 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.svg
+336 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.ttf
+337 silly gunzTarPerm extractEntry site/app/styles/fonts/fontawesome-webfont.woff
+338 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.eot
+339 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.svg
+340 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.ttf
+341 silly gunzTarPerm extractEntry site/app/styles/fonts/glyphicons-halflings-regular.woff
+342 silly gunzTarPerm extractEntry site/app/styles/main.scss
+343 silly gunzTarPerm extractEntry site/app/views/examples/example1.html
+344 silly gunzTarPerm extractEntry site/app/views/examples/example2.html
+345 silly gunzTarPerm extractEntry site/app/views/examples/example3.html
+346 silly gunzTarPerm extractEntry site/app/views/examples/example3viz.html
+347 silly gunzTarPerm extractEntry site/app/views/examples/example4.html
+348 silly gunzTarPerm extractEntry site/app/views/examples.html
+349 silly gunzTarPerm extractEntry site/app/views/home.html
+350 silly gunzTarPerm extractEntry site/app/views/nav.html
+351 silly gunzTarPerm extractEntry site/bower.json
+352 silly gunzTarPerm extractEntry site/mkdocs.yml
+353 silly gunzTarPerm extractEntry site/test/.bowerrc
+354 silly gunzTarPerm extractEntry site/test/bower.json
+355 silly gunzTarPerm extractEntry site/test/index.html
+356 silly gunzTarPerm extractEntry site/test/spec/test.js
+357 silly gunzTarPerm extractEntry test/.bowerrc
+358 silly gunzTarPerm extractEntry test/bower.json
+359 silly gunzTarPerm extractEntry test/index.html
+360 silly gunzTarPerm extractEntry test/spec/configurationTests.coffee
+361 silly gunzTarPerm extractEntry test/spec/startGraph.coffee
+362 silly gunzTarPerm extractEntry test/spec/updateGraph.coffee
+363 silly lockFile 1f50e034-ston-npm-alchemyjs-0-1-2-package tar:///Users/huston/.npm/alchemyjs/0.1.2/package
+364 silly lockFile 1f50e034-ston-npm-alchemyjs-0-1-2-package tar:///Users/huston/.npm/alchemyjs/0.1.2/package
+365 silly lockFile e790f9ab--npm-alchemyjs-0-1-2-package-tgz tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+366 silly lockFile e790f9ab--npm-alchemyjs-0-1-2-package-tgz tar:///Users/huston/.npm/alchemyjs/0.1.2/package.tgz
+367 verbose chmod /Users/huston/.npm/alchemyjs/0.1.2/package.tgz 644
+368 verbose chown /Users/huston/.npm/alchemyjs/0.1.2/package.tgz [ 501, 20 ]
+369 silly lockFile 3a52ce78- .
+370 silly lockFile 3a52ce78- .
+371 silly publish { name: 'alchemyjs',
+371 silly publish   version: '0.1.2',
+371 silly publish   repository:
+371 silly publish    { type: 'git',
+371 silly publish      url: 'http://github.com/graphalchemist/alchemy.git' },
+371 silly publish   homepage: 'http://graphalchemist.github.io/Alchemy/',
+371 silly publish   dependencies: {},
+371 silly publish   devDependencies:
+371 silly publish    { yo: '~1.1.2',
+371 silly publish      grunt: '~0.4.1',
+371 silly publish      'grunt-autoprefixer': '~0.5.0',
+371 silly publish      'grunt-bower-install': '~0.7.0',
+371 silly publish      'grunt-concurrent': '~0.4.0',
+371 silly publish      'grunt-contrib-clean': '~0.5.0',
+371 silly publish      'grunt-contrib-coffee': '~0.10.0',
+371 silly publish      'grunt-contrib-compass': '~0.7.0',
+371 silly publish      'grunt-contrib-concat': '~0.3.0',
+371 silly publish      'grunt-contrib-connect': '~0.5.0',
+371 silly publish      'grunt-contrib-copy': '~0.4.1',
+371 silly publish      'grunt-contrib-cssmin': '~0.7.0',
+371 silly publish      'grunt-contrib-htmlmin': '~0.1.3',
+371 silly publish      'grunt-contrib-imagemin': '~0.2.0',
+371 silly publish      'grunt-contrib-jshint': '~0.7.0',
+371 silly publish      'grunt-contrib-uglify': '~0.2.0',
+371 silly publish      'grunt-contrib-watch': '~0.5.2',
+371 silly publish      'grunt-mocha': '^0.4.11',
+371 silly publish      'grunt-newer': '~0.6.0',
+371 silly publish      'grunt-rev': '~0.1.0',
+371 silly publish      'grunt-svgmin': '~0.2.0',
+371 silly publish      'grunt-usemin': '~2.0.0',
+371 silly publish      'jshint-stylish': '~0.1.3',
+371 silly publish      'load-grunt-tasks': '~0.2.0',
+371 silly publish      'time-grunt': '~0.2.0',
+371 silly publish      'grunt-shell': '~0.7.0',
+371 silly publish      'grunt-release': '~0.7.0',
+371 silly publish      'grunt-string-replace': '~0.2.7' },
+371 silly publish   engines: { node: '>=0.8.0' },
+371 silly publish   readme: 'Alchemy\n=======\n \n[![Build Status](https://travis-ci.org/GraphAlchemist/Alchemy.svg?branch=master)](https://travis-ci.org/GraphAlchemist/Alchemy)\n\nAlchemy.js is a graph drawing application built in [d3](http://d3js.org/).\n\nAlchemy.js was built so that developers could easily get up and running with Graph visualization applications, and not much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.\n\nAdditionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.\n\n##Quick Start and Documentation\nLearn how to get up and running with Alchemy.js in the [docs](http://graphalchemist.github.io/Alchemy/documentation/) and check our examples in our [examples gallery](http://graphalchemist.github.io/Alchemy/#/examples).\n##Contributing \nRead about how to contribute in the [docs](http://graphalchemist.github.io/Alchemy/documentation/Contributing/).\n\n##Licensing\nThe source is licensed under the AGPLv3 license for open source and open data projects.  For commercial licensing, get in touch with the [GraphAlchemist](mailto:team@graphalchemist.com) team. \n\n    \n',
+371 silly publish   readmeFilename: 'README.md',
+371 silly publish   description: 'Alchemy =======',
+371 silly publish   bugs: { url: 'https://github.com/graphalchemist/alchemy/issues' },
+371 silly publish   _id: 'alchemyjs@0.1.2',
+371 silly publish   dist: { shasum: 'cdcac82444425762a12d2725bf526700978520d5' },
+371 silly publish   _from: '.' }
+372 verbose url raw alchemyjs
+373 verbose url resolving [ 'https://registry.npmjs.org/', './alchemyjs' ]
+374 verbose url resolved https://registry.npmjs.org/alchemyjs
+375 info trying registry request attempt 1 at 11:34:33
+376 http PUT https://registry.npmjs.org/alchemyjs
+377 http 201 https://registry.npmjs.org/alchemyjs
+378 verbose url raw alchemyjs
+379 verbose url resolving [ 'https://registry.npmjs.org/', './alchemyjs' ]
+380 verbose url resolved https://registry.npmjs.org/alchemyjs
+381 info trying registry request attempt 1 at 11:34:34
+382 http GET https://registry.npmjs.org/alchemyjs
+383 http 200 https://registry.npmjs.org/alchemyjs
+384 verbose uploading [ 'alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf',
+384 verbose uploading   '/Users/huston/.npm/alchemyjs/0.1.2/package.tgz' ]
+385 verbose url raw alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+386 verbose url resolving [ 'https://registry.npmjs.org/',
+386 verbose url resolving   './alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf' ]
+387 verbose url resolved https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+388 info trying registry request attempt 1 at 11:34:34
+389 http PUT https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+390 http 502 https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+391 verbose bad json <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+391 verbose bad json <html><head>
+391 verbose bad json <title>502 Bad Gateway</title>
+391 verbose bad json </head><body>
+391 verbose bad json <h1>Bad Gateway</h1>
+391 verbose bad json <p>The proxy server received an invalid
+391 verbose bad json response from an upstream server.<br />
+391 verbose bad json </p>
+391 verbose bad json </body></html>
+392 error registry error parsing json
+393 info retry will retry, error on last attempt: SyntaxError: Unexpected token <
+393 info retry <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+393 info retry <html><head>
+393 info retry <title>502 Bad Gateway</title>
+393 info retry </head><body>
+393 info retry <h1>Bad Gateway</h1>
+393 info retry <p>The proxy server received an invalid
+393 info retry response from an upstream server.<br />
+393 info retry </p>
+393 info retry </body></html>
+394 info trying registry request attempt 2 at 11:34:48
+395 http PUT https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+396 http 400 https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+397 verbose bad json <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+397 verbose bad json <html><head>
+397 verbose bad json <title>400 Bad Request</title>
+397 verbose bad json </head><body>
+397 verbose bad json <h1>Bad Request</h1>
+397 verbose bad json <p>Your browser sent a request that this server could not understand.<br />
+397 verbose bad json </p>
+397 verbose bad json </body></html>
+398 error registry error parsing json
+399 info trying registry request attempt 1 at 11:35:50
+400 http PUT https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+401 http 400 https://registry.npmjs.org/alchemyjs/-/alchemyjs-0.1.2.tgz/-rev/10-725c0e1474bc124888391b23a3878bdf
+402 verbose bad json <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+402 verbose bad json <html><head>
+402 verbose bad json <title>400 Bad Request</title>
+402 verbose bad json </head><body>
+402 verbose bad json <h1>Bad Request</h1>
+402 verbose bad json <p>Your browser sent a request that this server could not understand.<br />
+402 verbose bad json </p>
+402 verbose bad json </body></html>
+403 error registry error parsing json
+404 error publish Error uploading package
+405 error SyntaxError: Unexpected token <
+405 error <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+405 error <html><head>
+405 error <title>400 Bad Request</title>
+405 error </head><body>
+405 error <h1>Bad Request</h1>
+405 error <p>Your browser sent a request that this server could not understand.<br />
+405 error </p>
+405 error </body></html>
+405 error
+405 error     at Object.parse (native)
+405 error     at RegClient.<anonymous> (/usr/local/Cellar/node/0.10.22/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:238:23)
+405 error     at Request.self.callback (/usr/local/Cellar/node/0.10.22/lib/node_modules/npm/node_modules/request/request.js:129:22)
+405 error     at Request.EventEmitter.emit (events.js:98:17)
+405 error     at Request.<anonymous> (/usr/local/Cellar/node/0.10.22/lib/node_modules/npm/node_modules/request/request.js:873:14)
+405 error     at Request.EventEmitter.emit (events.js:117:20)
+405 error     at IncomingMessage.<anonymous> (/usr/local/Cellar/node/0.10.22/lib/node_modules/npm/node_modules/request/request.js:824:12)
+405 error     at IncomingMessage.EventEmitter.emit (events.js:117:20)
+405 error     at _stream_readable.js:920:16
+405 error     at process._tickCallback (node.js:415:13)
+406 error If you need help, you may report this log at:
+406 error     <http://github.com/isaacs/npm/issues>
+406 error or email it to:
+406 error     <npm-@googlegroups.com>
+407 error System Darwin 13.3.0
+408 error command "/usr/local/Cellar/node/0.10.22/bin/node" "/usr/local/bin/npm" "publish"
+409 error cwd /Users/huston/Dropbox/Projects/alchemy
+410 error node -v v0.10.22
+411 error npm -v 1.3.14
+412 error type unexpected_token
+413 verbose exit [ 1, true ]
