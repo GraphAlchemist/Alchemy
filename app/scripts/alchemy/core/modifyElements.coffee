@@ -2,6 +2,7 @@ alchemy.modifyElements =
     init: () ->
         if alchemy.conf.showEditor is true
             alchemy.modifyElements.showOptions()
+            alchemy.modifyElements.nodeEditorInit()
 
     
     showOptions: () ->
@@ -31,14 +32,6 @@ alchemy.modifyElements =
                     return """Enable Editor Interactions"""
                 )
 
-        nodeEditorHTML = """
-                        NodeEditor
-                        """
-        d3.select("#element-options")
-            .append("div")
-            .attr("id", "node-editor")
-            .html(nodeEditorHTML)
-
         d3.select("#remove")
             .on "click", ()-> alchemy.editor.remove()
         d3.select("#editor-interactions")
@@ -54,23 +47,57 @@ alchemy.modifyElements =
                         .classed({"active": false, "inactive": true})
                         .html("""Editor mode disabled, click to enable editor interactions""")
 
+    nodeEditorInit: () ->
+        d3.select("#element-options")
+            .append("div")
+            .attr("id", "node-editor")
+            .html("""<h4>Node Editor</h4>""")
 
-    nodeEditor: (n) ->
-        console.log n
-        console.log d3.select(n)
         d3.select("#node-editor")
-            .append("p")
-            .attr("class", "node-edit")
-            .text("nodeeeee!")
-            console.log "a thing"
-
+            .append("div")
+            .attr("id", "node-add-property")
+            .attr("class", "node-property input-group")
+            .append("span")
+            .attr("class", "input-group-addon")
+            .text("+")
+        d3.select("#node-add-property")
+            .append("input")
+            .attr("class", "form-control")
+            .attr("placeholder", ()->
+                if d3.selectAll(".node.selected").empty()
+                    return "select a node to edit properties"
+                else
+                    return "add a property to this node"
+                )
+                            
+    nodeEditor: (n) ->
+        d3.select("#node-editor")
+            .append("div")
+            .attr("id", "node-properties-list")
         nodeProperties = Object.keys(n)
-        console.log nodeProperties
+
         for property in nodeProperties
-            console.log property
-            console.log n[property]
+            d3.select("#node-properties-list")
+                .append("div")
+                .attr("id", "node-#{property}")
+                .attr("class", "node-property input-group")
+                .append("span")
+                .attr("class","input-group-addon")
+                .html("#{property}")
+            d3.select("#node-#{property}")
+                .append("input")
+                .attr("class", "form-control")
+                .attr("placeholder", "#{n[property]}")
 
-
+    nodeEditorClear: () ->
+        d3.select("#node-properties-list").remove()
+        d3.select("#node-add-property input")
+            .attr("placeholder", ()->
+                if d3.selectAll(".node.selected").empty()
+                    return "select a node to edit properties"
+                else
+                    return "add a property to this node"
+                )
 
 addNodeStart = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
@@ -114,9 +141,9 @@ addNodeDragended = (d, i) ->
         alchemy.drawing.drawedges(alchemy.edge)
         alchemy.drawing.drawnodes(alchemy.node)
         alchemy.layout.tick()
-
+        # will not select after drag ends due to code in utils.coffee
+        # d3.select("#node-#{targetNode.id}").classed('selected':true)
         dragline.datum(null)
-
 
     # reset dragline
     d3.select("#dragline")
@@ -188,9 +215,10 @@ alchemy.editor.interactions =
     nodeClick: (c) ->
         d3.event.stopPropagation()
         # select the correct nodes
-        alchemy.modifyElements.nodeEditor(c)
         if !alchemy.vis.select("#node-#{c.id}").empty()
             selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+        alchemy.modifyElements.nodeEditorClear()
+        alchemy.modifyElements.nodeEditor(c)
 
 

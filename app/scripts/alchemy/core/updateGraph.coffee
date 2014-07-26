@@ -15,8 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
-    console.log "update called"
-    
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("line")

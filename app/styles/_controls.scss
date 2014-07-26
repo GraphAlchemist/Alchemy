@@ -111,6 +111,9 @@
         margin-top: 10px;
         margin-left: 2%;
         color: white;
+        .node-property{
+            margin: 4px 0;
+        }
     }
     #editor-interactions{
         &.active{
