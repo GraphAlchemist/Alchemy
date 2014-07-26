@@ -8,7 +8,7 @@
 module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
-  fs = require('fs');
+  pkg = grunt.file.readJSON('./package.json')
   grunt.initConfig
     
     # Project settings
@@ -17,7 +17,7 @@ module.exports = (grunt) ->
       # Configurable paths
       app: "app"
       dist: "dist"
-    
+
     'string-replace':
       version:
         files:
@@ -26,9 +26,7 @@ module.exports = (grunt) ->
         options:
           replacements: [
             pattern: "#VERSION#"
-            replacement: () ->
-              pkg = grunt.file.readJSON('./package.json')
-              pkg.version
+            replacement: pkg.version
           ]
 
     release:
@@ -39,9 +37,9 @@ module.exports = (grunt) ->
     # shell tasks
     shell:
       bumpBower:
-        command: () ->
-          pkg = grunt.file.readJSON('./package.json')
-          "bower version #{pkg.version}"
+        command: "bower version #{pkg.version}"
+      commitBuild:
+        command: "git commit dist -m 'commit dist files'"
       docs:
         command: 'grunt --gruntfile site/Gruntfile.js'
 
@@ -383,16 +381,10 @@ module.exports = (grunt) ->
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
       buildAlchemy: ["coffee:dist", "coffee:test", "compass", "copy:styles"]
 
-<<<<<<< HEAD
   grunt.loadNpmTasks('grunt-mocha')
   grunt.loadNpmTasks('grunt-shell')
   grunt.loadNpmTasks('grunt-release')
   grunt.loadNpmTasks('grunt-string-replace')
-=======
-  grunt.loadNpmTasks('grunt-mocha');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-release', ['--no-write']);
->>>>>>> dc9afe57fea87f35b13396a8ea151c2565c584ca
 
   grunt.registerTask "serve", (target) ->
     return grunt.task.run(["build", "connect:dist:keepalive"])  if target is "dist"
@@ -416,15 +408,16 @@ module.exports = (grunt) ->
                                 "concat:generated", "cssmin:buildAlchemy", 
                                 "uglify:buildAlchemy"]
   
-  releaseType = grunt.option('release', false)
+  releaseFlag = grunt.option('release')
   # releaseType = grunt.option('releaseType')                             
-  grunt.registerTask "default", () ->
-    if release
+  grunt.registerTask "default",
+    if releaseFlag
       ["newer:jshint", 
        # run tests
        "test",
        # build alchemy
        "build",
+       "shell:commitBuild",
        "shell:bumpBower",
        "string-replace",  
        # create tag and version
