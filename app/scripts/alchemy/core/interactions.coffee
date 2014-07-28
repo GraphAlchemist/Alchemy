@@ -36,20 +36,26 @@ nodeDragged = (d, i) ->
     if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
         alchemy.force.start() #restarts force on drag
     
+    edges = alchemy.utils.edgeNeib(d)
+    drawEdge = alchemy.drawing.drawEdge()
+    drawEdge.styleText(edges)
+    drawEdge.styleLine(edges)
+
+    
     # alchemy.drawing.drawEdge(alchemy.edge)
     ### start here ###
-    alchemy.edge.selectAll('line')
-        .attr("x1", (d) -> d.source.x )
-        .attr("y1", (d) -> d.source.y )
-        .attr("x2", (d) -> d.target.x )
-        .attr("y2", (d) -> d.target.y )
-        .attr "cx", d.x = d3.event.x
-        .attr "cy", d.y = d3.event.y
+    # alchemy.edge.selectAll('line')
+    #     .attr("x1", (d) -> d.source.x )
+    #     .attr("y1", (d) -> d.source.y )
+    #     .attr("x2", (d) -> d.target.x )
+    #     .attr("y2", (d) -> d.target.y )
+    #     .attr "cx", d.x = d3.event.x
+    #     .attr "cy", d.y = d3.event.y
     
-    utils = alchemy.drawing.drawingUtils.edgeUtils()
-    alchemy.edge.selectAll('text')
-        .attr("dx", (d) -> utils.middle(d).x)
-        .attr('dy', (d) -> utils.middle(d).y)
+    # utils = alchemy.drawing.drawingUtils.edgeUtils()
+    # alchemy.edge.selectAll('text')
+    #     .attr("dx", (d) -> utils.middle(d).x)
+    #     .attr('dy', (d) -> utils.middle(d).y)
 
 nodeDragended = (d, i) ->
     d3.select(this).classed "dragging", false

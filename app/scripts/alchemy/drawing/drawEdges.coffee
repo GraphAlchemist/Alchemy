@@ -15,8 +15,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawedges = (edge) ->  
+    
+    edge.enter().append('g').attr('class', 'edge')
+    
+    edge.append('line')
+    edge.append('text')
 
-    alchemy.drawing.drawEdge(edge)
+    drawEdge = @drawEdge()
+    
+    drawEdge.styleLine(edge)
+    drawEdge.styleText(edge)
 
+    # alchemy.drawing.drawEdge(edge)
     edge.exit().remove()
-
