@@ -89,6 +89,7 @@ alchemy.controlDash =
                     <div id="all-stats" class="collapse">
                         <ul class = "list-group" id="node-stats"></ul>
                         <ul class = "list-group" id="rel-stats"></ul>  
+                    </div>
                 """
 
             d3.select("#control-dash")
@@ -107,17 +108,22 @@ alchemy.controlDash =
     modifyElements: () ->
         if alchemy.conf.showEditor
             modifyElements_html = """
-                    <div id = "editor-header" data-toggle="collapse" data-target="#update-elements #element-options">
+                    <div id = "editor-header" data-toggle="collapse" data-target="#editor #element-options">
                          <h3>
                             Editor
                         </h3>
                         <span class = "fa fa-2x fa-caret-right"></span>
                     </div>
                     """
-            d3.select("#update-elements")
-              .html(modifyElements_html)
-              .select("#control-dash")
+            d3.select("#control-dash")
                 .append("div")
-                .attr("id", "update-elements")
+                .attr("id", "editor")
+                .html(modifyElements_html)
+                .select('#editor-header')
+                .on('click', () ->
+                    if d3.select('#element-options').classed("in")
+                        d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-right")
+                    else d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-down")
+                )      
             
             alchemy.modifyElements.init()

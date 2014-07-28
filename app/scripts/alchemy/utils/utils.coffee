@@ -25,6 +25,9 @@ alchemy.utils =
         
         d3.select('.alchemy svg').classed({'highlight-active':false})
 
+        if alchemy.conf.showEditor is true
+            alchemy.modifyElements.nodeEditorClear()
+            
         alchemy.vis.selectAll('line.edge')
             .classed('highlighted connected unconnected', false)
         alchemy.vis.selectAll('g.node,circle,text')

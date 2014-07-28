@@ -16,18 +16,14 @@
     <div class="col-md-6 example-code">
     	<h3 class="filename">HTML and Configuration</h3>
 <pre pretty-print>
-<code>
 &lt;html&gt;
 &lt;head&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;vendor.css&quot;/&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;alchemy.css&quot;/&gt;
-  &lt;link rel=&quot;stylesheet&quot; href=&quot;custom.css&quot;/&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
 
-  &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
-  &lt;script src=&quot;alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
   &lt;script type=&quot;text/javascript&quot;&gt;
 
     var config = {
@@ -35,9 +31,9 @@
       
       linkDistance: function(){ return 40; },
 
-      nodeTypes: {"node_type":["movie", 
-                               "award", 
-                               "person"]},
+      nodeTypes: {"type":["movie", 
+                          "award", 
+                          "person"]},
       caption: function(node){ 
           return node.caption; 
       }
@@ -47,7 +43,6 @@
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-</code>
 		</pre>
     </div>
     <div class="col-md-6 example-code">
