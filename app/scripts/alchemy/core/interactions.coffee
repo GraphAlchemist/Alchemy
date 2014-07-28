@@ -28,15 +28,18 @@ nodeDragged = (d, i) ->
     if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
         alchemy.force.start() #restarts force on drag
 
-    alchemy.edge.attr("x1", (d) -> d.source.x )
+    alchemy.edge
+        .attr("x1", (d) -> d.source.x )
         .attr("y1", (d) -> d.source.y )
         .attr("x2", (d) -> d.target.x )
         .attr("y2", (d) -> d.target.y )
         .attr "cx", d.x = d3.event.x
         .attr "cy", d.y = d3.event.y
+    return
 
 nodeDragended = (d, i) ->
-    d3.select(this).classed "dragging", false
+    d3.select(this).classed "dragging":false
+    return
 
 alchemy.interactions =
     edgeClick: (d) ->
@@ -45,7 +48,7 @@ alchemy.interactions =
             .classed('highlight', false)
         d3.select(this)
             .classed('highlight', true)
-        d3.event.stopPropagation
+        d3.event.stopPropagation()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
@@ -66,6 +69,9 @@ alchemy.interactions =
         else
             null
 
+    nodeMouseUp: (n) ->
+        # console.log "mouseupppp from interactions"
+
     #not currently implemented
     nodeDoubleClick: (c) ->
         d3.event.stopPropagation()
@@ -85,9 +91,11 @@ alchemy.interactions =
     nodeClick: (c) ->
         d3.event.stopPropagation()
         # select the correct nodes
-        selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-        alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+        if !alchemy.vis.select("#node-#{c.id}").empty()
+            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
+            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
 
+        # alternate click event highlights neighboring nodes and outgoing edges
         # alchemy.vis.selectAll(".node").classed('selected', (d) ->
         #     if d.id is c.id
         #         return !selected
@@ -101,16 +109,10 @@ alchemy.interactions =
 
         # selectedEdges = alchemy.vis.selectAll(".edge[source-target*='#{c.id}']")
         # selectedEdges.classed("selected", !selected)
-
+        # if alchemy.conf.nodeClick?
         if typeof alchemy.conf.nodeClick == 'function'
             alchemy.conf.nodeClick(c)
             return
-
-    drag: d3.behavior.drag()
-                          .origin(Object)
-                          .on("dragstart", nodeDragStarted)
-                          .on("drag", nodeDragged)
-                          .on("dragend", nodeDragended)
 
     zoom: (extent) ->
                 if not @._zoomBehavior?
@@ -120,8 +122,6 @@ alchemy.interactions =
                                     alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )
                                     
-                            
-
     clickZoom:  (direction) ->
                     startTransform = alchemy.vis
                                             .attr("transform")
