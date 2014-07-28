@@ -123,27 +123,13 @@ addNodeDragended = (d, i) ->
         dragline = d3.select("#dragline")
         targetX = dragline.attr("x2")
         targetY = dragline.attr("y2")
-
-        # coordinates relative to source node
         sourceNode = d
 
         targetNode = {id: alchemy.nodes.length, x: targetX, y: targetY, caption: "editedNode"}    
         newLink = {source: sourceNode, target: targetNode, caption: "edited"}
 
-        # add to alchemy data
-        alchemy.nodes.push(targetNode)
-        alchemy.edges.push(newLink)
-
-
-        alchemy.node = alchemy.node.data(alchemy.nodes)
-        alchemy.edge = alchemy.edge.data(alchemy.edges)
-        
-        alchemy.drawing.drawedges(alchemy.edge)
-        alchemy.drawing.drawnodes(alchemy.node)
-        alchemy.layout.tick()
-        # will not select after drag ends due to code in utils.coffee
-        # d3.select("#node-#{targetNode.id}").classed('selected':true)
-        dragline.datum(null)
+        # add to alchemy data and draw nodes / links
+        alchemy.editor.update(targetNode, newLink)
 
     # reset dragline
     d3.select("#dragline")
@@ -182,6 +168,24 @@ alchemy.editor =
         
         d3.selectAll(".selected").classed("selected", false)
 
+    addNode: (node) ->
+        alchemy.nodes.push(node)
+        alchemy.node = alchemy.node.data(alchemy.nodes)
+
+    addEdge: (edge) ->
+        alchemy.edges.push(edge)
+        alchemy.edge = alchemy.edge.data(alchemy.edges)
+
+    update: (node, edge) ->
+        if node?
+            alchemy.editor.addNode(node)
+        alchemy.editor.addEdge(edge)
+
+        alchemy.drawing.drawedges(alchemy.edge)
+        alchemy.drawing.drawnodes(alchemy.node)
+        alchemy.layout.tick()
+        d3.select("#dragline").datum(null)
+
 alchemy.editor.interactions =
     nodeMouseOver: (n) ->
         if alchemy.conf.editorInteractions is true
@@ -191,7 +195,6 @@ alchemy.editor.interactions =
                     .attr("r", radius*3)
 
     nodeMouseUp: (n) ->
-        # we are dragging
         # to do: insert lines uniquely
         if !d3.select(n).empty() and !d3.select("#dragline").empty()
             dragline = d3.select("#dragline")
@@ -199,9 +202,8 @@ alchemy.editor.interactions =
             targetNode = n
             if sourceNode != targetNode
                 newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-                alchemy.edges.push(newLink)
-                alchemy.edge = alchemy.edge.data(alchemy.edges)
-                alchemy.drawing.drawedges(alchemy.edge)
+                alchemy.editor.update(null, newLink)
+            # do nothing (we've registered a click; just reset dragline data)
             dragline.datum(null)
             return true
         else return false
