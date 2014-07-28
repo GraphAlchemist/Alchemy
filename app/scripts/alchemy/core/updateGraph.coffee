@@ -15,10 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
-    
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
-    alchemy.edge = alchemy.vis.selectAll("line")
+    alchemy.edge = alchemy.vis.selectAll("g.edge")
                .data(alchemy.edges)
     alchemy.node = alchemy.vis.selectAll("g.node")
               .data(alchemy.nodes, (d) -> d.id)
@@ -36,7 +35,7 @@ alchemy.updateGraph = (start=true) ->
 
     alchemy.styles.edgeGradient(alchemy.edges)
 
-    #draw node and edge objects with all of their interactions
+    # draw nodes and edges
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
 

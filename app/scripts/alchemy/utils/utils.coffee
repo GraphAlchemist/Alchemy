@@ -25,6 +25,9 @@ alchemy.utils =
         
         d3.select('.alchemy svg').classed({'highlight-active':false})
 
+        if alchemy.conf.showEditor is true
+            alchemy.modifyElements.nodeEditorClear()
+            
         alchemy.vis.selectAll('line.edge')
             .classed('highlighted connected unconnected', false)
         alchemy.vis.selectAll('g.node,circle,text')
@@ -92,3 +95,12 @@ alchemy.utils =
                     alchemy.conf.nodeRadius
         else
             20
+
+    neighbors: (node) ->
+        # return all nodes connected to an edge
+
+    edgeNeib: (node) ->
+        # return all edges connected to node
+        connections = alchemy.edge.filter (e) -> 
+            e if e.source.id is node.id or e.target.id is node.id
+        connections

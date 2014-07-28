@@ -43,12 +43,8 @@ alchemy.defaults =
     # Editing
     showEditor: false
     captionToggle: false
-    edgesToggle: false
-    nodesToggle: false
-    toggleRootNodes: true
+    toggleRootNodes: false
     removeElement: false
-    addNodes: false # not currently implemented
-    addEdges: false # not currently implemented
 
     #Control Dash
     showControlDash: false 
@@ -62,6 +58,8 @@ alchemy.defaults =
     showFilters: false
     edgeFilters: false
     nodeFilters: false
+    edgesToggle: false
+    nodesToggle: false
 
     # Controls
     zoomControls: false
@@ -77,7 +75,7 @@ alchemy.defaults =
     rootNodeRadius: 15
 
     # Edges
-    edgeCaption: 'caption' # not implemented
+    edgeCaption: 'caption' # in progress
     edgeStyle: (d)->
         null
     edgeTypes: null
