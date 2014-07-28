@@ -94,12 +94,15 @@ alchemy.layout =
             q = d3.geom.quadtree(alchemy.nodes)
             for node in alchemy.nodes
                 q.visit(alchemy.layout.collide(node))
-        alchemy.edge.attr("x1", (d) -> d.source.x )
-              .attr("y1", (d) -> d.source.y )
-              .attr("x2", (d) -> d.target.x )
-              .attr("y2", (d) -> d.target.y )
+                
         alchemy.node
                .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+
+        alchemy.edge.select('line')
+                    .attr("x1", (d) -> d.source.x )
+                    .attr("y1", (d) -> d.source.y )
+                    .attr("x2", (d) -> d.target.x )
+                    .attr("y2", (d) -> d.target.y )
 
 
     positionRootNodes: () ->

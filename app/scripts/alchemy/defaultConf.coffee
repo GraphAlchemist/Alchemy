@@ -33,10 +33,10 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
-    collisionDetection: false
+    collisionDetection: true
     fixNodes: false
     fixRootNodes: false
-    forceLocked: false
+    forceLocked: true
     linkDistance: alchemy.layout.linkDistancefn
     nodePositions: null # not currently implemented
 
@@ -75,7 +75,7 @@ alchemy.defaults =
     rootNodeRadius: 15
 
     # Edges
-    edgeCaption: 'caption' # not implemented
+    edgeCaption: 'caption' # in progress
     edgeStyle: (d)->
         null
     edgeTypes: null
