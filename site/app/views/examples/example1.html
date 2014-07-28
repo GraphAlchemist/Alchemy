@@ -9,20 +9,16 @@
         </div>  
         <div class="col-md-6 example-code">
             <h3 class="filename">HTML and Configuration</h3>
-<pre pretty-print>
-<code>
+            <pre pretty-print>
 &lt;html&gt;
 &lt;head&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/vendor.css&quot;&gt;
-&lt;link rel=&quot;stylesheet&quot; href=&quot;styles/alchemy.css&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
 &lt;/head&gt;
-  &lt;body&gt;
-    &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
 
-    &lt;script src=&quot;scripts/vendor.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;scripts/alchemy.js&quot;&gt;&lt;/script&gt;
-    &lt;script type=&quot;text/javascript&quot;&gt;
-
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
         var config = {
             dataSource: 'data/charlize.json',
             };
@@ -31,19 +27,15 @@
     &lt;/script&gt;
   &lt;/body&gt;
 &lt;/html&gt;
-</code>
         </pre>
         </div>
     </div>
 </div>
 
 <script type="text/javascript">
-var config = {
-    dataSource: 'data/charlize.json',
-    linkDistance: function() {
-        return 40;
-    },
-    graphHeight: function() { return 450;}
-};
-alchemy.begin(config)
+    var config = {
+        dataSource: 'data/charlize.json',
+        linkDistance: function() { return 40; }
+    };
+    alchemy.begin(config)
 </script>
