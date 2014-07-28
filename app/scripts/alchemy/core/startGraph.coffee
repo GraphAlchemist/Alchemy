@@ -48,17 +48,20 @@ alchemy.startGraph = (data) ->
         $('#no-results').modal('show')
         $('#loading-spinner').hide()
         return
+
+    # Master Data
+    alchemy._data = {"nodes": {}, "edges": {}}
+
     # save nodes & edges
     alchemy.nodes = data.nodes
     alchemy.edges = data.edges
 
     # create nodes map and update links
-    nodesMap = d3.map()
-    alchemy.nodes.forEach (n) ->
-        nodesMap.set(n.id, n)
-    alchemy.edges.forEach (e) ->
-        e.source = nodesMap.get(e.source)
-        e.target = nodesMap.get(e.target)
+
+    data.nodes.forEach (n) ->
+        alchemy._data["nodes"][n.id] = n
+    data.edges.forEach (e) ->
+        alchemy._data["edges"]["#{e.source}-#{e.target}"] = e
     
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
