@@ -1,10 +1,10 @@
 (function() {
   "Alchemy.js is a graph drawing application for the web.\nCopyright (C) 2014  GraphAlchemist, Inc.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Affero General Public License for more details.\n\nYou should have received a copy of the GNU Affero General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.\nlets";
-  var Alchemy, allCaptions, allTags, container, currentNodeTypes, currentRelationshipTypes, nodeDragStarted, nodeDragended, nodeDragged, rootNodeId;
+  var Alchemy, allCaptions, allTags, container, currentNodeTypes, currentRelationshipTypes, rootNodeId;
 
   Alchemy = (function() {
     function Alchemy() {
-      this.version = "0.1.0";
+      this.version = "#VERSION#";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
@@ -30,8 +30,15 @@
 
   rootNodeId = null;
 
-  this.alchemy = new Alchemy();
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = new Alchemy();
+  } else {
+    this.alchemy = new Alchemy();
+  }
 
+}).call(this);
+
+(function() {
   alchemy.controlDash = {
     init: function() {
       if (alchemy.conf.showControlDash === true) {
@@ -96,6 +103,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.drawing.drawedges = function(edge) {
     var edgeStyle;
     console.log(edge);
@@ -141,6 +151,9 @@
     });
   };
 
+}).call(this);
+
+(function() {
   alchemy.drawing.drawnodes = function(node) {
     var nodeColours, nodeEnter, nonRootNodes, rootNodes;
     nodeEnter = node.enter().append("g").attr("class", function(d) {
@@ -235,6 +248,9 @@
     });
   };
 
+}).call(this);
+
+(function() {
   alchemy.filters = {
     init: function() {
       var caption, e, edgeType, edgeTypes, nodeKey, nodeType, nodeTypes, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
@@ -466,6 +482,11 @@
     }
   };
 
+}).call(this);
+
+(function() {
+  var nodeDragStarted, nodeDragended, nodeDragged;
+
   nodeDragStarted = function(d, i) {
     d3.event.sourceEvent.stopPropagation();
     d3.select(this).classed("dragging", true);
@@ -592,6 +613,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.layout = {
     gravity: function(k) {
       return 8 * k;
@@ -674,7 +698,7 @@
       });
     },
     positionRootNodes: function() {
-      var i, n, number, rootNodes, _i, _j, _len, _len1, _ref, _results;
+      var container, i, n, number, rootNodes, _i, _j, _len, _len1, _ref, _results;
       container = {
         width: alchemy.conf.graphWidth(),
         height: alchemy.conf.graphHeight()
@@ -731,6 +755,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.modifyElements = {
     init: function() {
       if (alchemy.conf.removeElement) {
@@ -765,6 +792,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.search = {
     init: function() {
       var searchBox;
@@ -804,6 +834,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.startGraph = function(data) {
     var k, no_results, nodesMap;
     if (d3.select(alchemy.conf.divSelector).empty()) {
@@ -852,6 +885,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.stats = {
     init: function() {
       return alchemy.stats.update();
@@ -975,6 +1011,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.updateGraph = function(start) {
     var initialComputationDone;
     if (start == null) {
@@ -1012,6 +1051,9 @@
     return alchemy.node.exit().remove();
   };
 
+}).call(this);
+
+(function() {
   alchemy.defaults = {
     graphWidth: function() {
       return d3.select(this.divSelector).node().parentElement.clientWidth;
@@ -1072,6 +1114,9 @@
     warningMessage: "There be no data!  What's going on?"
   };
 
+}).call(this);
+
+(function() {
   alchemy.begin = function(userConf) {
     alchemy.conf = _.assign({}, alchemy.defaults, userConf);
     if (typeof alchemy.conf.dataSource === 'string') {
@@ -1081,6 +1126,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.styles = {
     getClusterColour: function(index) {
       if (alchemy.conf.clusterColours[index] != null) {
@@ -1126,6 +1174,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.utils = {
     deselectAll: function() {
       var _ref;
@@ -1203,6 +1254,9 @@
     }
   };
 
+}).call(this);
+
+(function() {
   alchemy.welcomeConf = {
     forceLocked: false,
     captionToggle: true,
@@ -1221,5 +1275,3 @@
   };
 
 }).call(this);
-
-//# sourceMappingURL=alchemy.js.map
