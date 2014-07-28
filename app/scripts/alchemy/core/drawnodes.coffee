@@ -122,3 +122,4 @@ alchemy.drawing.drawnodes = (node) ->
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if d.root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
         .html((d) -> alchemy.utils.nodeText(d))
+

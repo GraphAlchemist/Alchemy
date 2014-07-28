@@ -147,11 +147,15 @@ alchemy.editor =
             .attr "id", "dragline"
         alchemy.conf.editorInteractions = true
         alchemy.drawing.setNodeInteractions(alchemy.node)
+        d3.selectAll(".node circle")
+            .style("stroke", "#E82C0C")
 
     disableEditor: () ->
         alchemy.vis.select("#dragline").remove()
         alchemy.conf.editorInteractions = false
         alchemy.drawing.setNodeInteractions(alchemy.node)
+        d3.selectAll(".node circle")
+            .style("stroke", "white")
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node").data()
@@ -177,12 +181,12 @@ alchemy.editor =
         alchemy.edge = alchemy.edge.data(alchemy.edges)
 
     update: (node, edge) ->
+        alchemy.editor.addEdge(edge)
+        alchemy.drawing.drawedges(alchemy.edge)
+
         if node?
             alchemy.editor.addNode(node)
-        alchemy.editor.addEdge(edge)
-
-        alchemy.drawing.drawedges(alchemy.edge)
-        alchemy.drawing.drawnodes(alchemy.node)
+            alchemy.drawing.drawnodes(alchemy.node)
         alchemy.layout.tick()
         d3.select("#dragline").datum(null)
 
