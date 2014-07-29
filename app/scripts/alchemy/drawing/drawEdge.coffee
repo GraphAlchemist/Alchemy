@@ -40,7 +40,7 @@ alchemy.drawing.drawEdge = () ->
             .attr('dx', (d) -> utils.middle(d).x)
             .attr('dy', (d) -> utils.middle(d).y)
             .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middle(d).x} #{utils.middle(d).y})")
-            .text('YAYYYYY!')
+            .text((d) -> utils.edgeCaption(d))
             return
 
     @
