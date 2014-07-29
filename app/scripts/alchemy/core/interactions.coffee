@@ -27,10 +27,6 @@ nodeDragged = (d, i) ->
     
     # this block needs to be grouped into a "drawing function"
     # so that we are not repeating ourselves and fucktoring things up
-    
-    # alchemy.drawing.drawNode(@)
-    # select all of this's edges
-    # draw all of this's edges
 
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
     if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
@@ -41,24 +37,8 @@ nodeDragged = (d, i) ->
     drawEdge.styleText(edges)
     drawEdge.styleLine(edges)
 
-    
-    # alchemy.drawing.drawEdge(alchemy.edge)
-    ### start here ###
-    # alchemy.edge.selectAll('line')
-    #     .attr("x1", (d) -> d.source.x )
-    #     .attr("y1", (d) -> d.source.y )
-    #     .attr("x2", (d) -> d.target.x )
-    #     .attr("y2", (d) -> d.target.y )
-    #     .attr "cx", d.x = d3.event.x
-    #     .attr "cy", d.y = d3.event.y
-    
-    # utils = alchemy.drawing.drawingUtils.edgeUtils()
-    # alchemy.edge.selectAll('text')
-    #     .attr("dx", (d) -> utils.middle(d).x)
-    #     .attr('dy', (d) -> utils.middle(d).y)
-
 nodeDragended = (d, i) ->
-    d3.select(this).classed "dragging":false
+    d3.select(this).classed "dragging": false
     return
 
 alchemy.interactions =

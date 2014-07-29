@@ -52,6 +52,12 @@ alchemy.drawing.drawingUtils =
             width  = edge.target.x - edge.source.x
             height = edge.target.y - edge.source.y
             Math.atan2(height, width) / Math.PI * 180
+        
+        caption = alchemy.conf.edgeCaption
+        if typeof caption is ('string' or 'number')
+            edgeCaption = (d) -> d[caption]
+        else if typeof caption is 'function'
+            edgeCaption = (d) -> caption(d)
 
         middle: (edge) -> edgeWalk(edge, 'middle')
         angle: (edge) -> 
@@ -61,4 +67,5 @@ alchemy.drawing.drawingUtils =
             else
                 angle
         edgeStyle: (d) -> edgeStyle(d)
+        edgeCaption: (d) -> edgeCaption(d) 
         
