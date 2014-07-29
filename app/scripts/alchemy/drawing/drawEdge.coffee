@@ -20,27 +20,56 @@ alchemy.drawing.drawEdge = () ->
     # edge is a selection of a single edge or multiple edges
     utils = alchemy.drawing.drawingUtils.edgeUtils()
 
+    if not alchemy.conf.curvedEdges
+        @styleLink = (edge) -> 
+            edge.select('line')
+                .attr("class", (d) -> 
+                    "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
+                .on('click', alchemy.interactions.edgeClick)
+                .attr('x1', (d) -> d.source.x)
+                .attr('y1', (d) -> d.source.y)
+                .attr('x2', (d) -> d.target.x)
+                .attr('y2', (d) -> d.target.y)
+                .attr('shape-rendering', 'optimizeSpeed')
+                .attr "style", (d) -> utils.edgeStyle(d)
+                return
+    else
+        @styleLink= (edge) ->
+            edge.datum((d) ->
+                def = d3.select("#{alchemy.conf.divSelector} svg defs path[source-target='#{d.source.id}-#{d.target.id}'")
+                        .select('path')
+                        .attr('d', () -> 
+                                # high school  trigonometry
+                                dx = d.target.x - d.source.x
+                                dy = d.target.y - d.source.y
+                                hyp = Math.sqrt( dx * dx + dy * dy)
+                                "M#{d.source.x},#{d.source.y}A#{hyp},#{hyp} 0 0,1 #{d.target.x},#{d.target.y}")
+                )
 
-    @styleLine = (edge) -> 
-        edge.select('line')
-            .attr("class", (d) -> 
-                "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
-            .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
-            .on('click', alchemy.interactions.edgeClick)
-            .attr('x1', (d) -> d.source.x)
-            .attr('y1', (d) -> d.source.y)
-            .attr('x2', (d) -> d.target.x)
-            .attr('y2', (d) -> d.target.y)
-            .attr('shape-rendering', 'optimizeSpeed')
-            .attr "style", (d) -> utils.edgeStyle(d)
-            return
-
-    @styleText = (edge) -> 
-        edge.select('text')
-            .attr('dx', (d) -> utils.middle(d).x)
-            .attr('dy', (d) -> utils.middle(d).y)
-            .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middle(d).x} #{utils.middle(d).y})")
-            .text((d) -> utils.edgeCaption(d))
-            return
+    if not alchemy.conf.curvedEdges
+        @styleText = (edge) -> 
+            edge.select('text')
+                .attr('dx', (d) -> utils.middleLine(d).x)
+                .attr('dy', (d) -> utils.middleLine(d).y)
+                .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
+                .text((d) -> utils.edgeCaption(d))
+                return
+    else
+        @styleText = (edge) -> 
+            debugger
+            edge.select('text')
+                .data((d)->
+                    debugger)
+                .append('textPath')
+                .attr("xlink:href", (d) -> 
+                    debugger
+                    "[source-target='#{d.source.id}-#{d.target.id}']")
+                # .attr('dx', (d) -> 
+                #     debugger
+                #     utils.middlePath(d).x)
+                # .attr('dy', (d) -> utils.middlePath(d).y)
+                .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middle(d).x} #{utils.middle(d).y})")
+                .text((d) -> utils.edgeCaption(d))
+                return
 
     @
