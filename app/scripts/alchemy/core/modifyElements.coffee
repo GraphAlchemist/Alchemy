@@ -1,3 +1,7 @@
+# to do: unique insertion of edges
+# to do: turn this into a generator so you can have variables such as 
+# mousedown_node, mouseup_node, etc
+
 alchemy.modifyElements = 
     init: () ->
         if alchemy.conf.showEditor is true
