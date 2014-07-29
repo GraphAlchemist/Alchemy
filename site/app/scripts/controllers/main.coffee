@@ -6,6 +6,24 @@ angular.module('site')
         link: makePretty = ($scope, $element, attrs) ->
             $element.html(prettyPrintOne($element.html()))
 
+    .directive 'popupTweet', () ->
+        restrict: 'A',
+        link: 
+            popup = ($element) ->
+                angular.element('#custom-tweet-button a')
+                    .on 'click', () ->  
+                        width  = 575
+                        height = 400
+                        left   = ($(window).width()  - width)  / 2
+                        top    = $(window).height() - height / 2
+                        url    = this.href
+                        opts   = 'status=1' +
+                                 ',width='  + width  +
+                                 ',height=' + height +
+                                 ',top='    + top    +
+                                 ',left='   + left   
+                        window.open(url, 'twitter', opts)
+                    return false         
     .controller 'MainCtrl', ($scope, $location) ->
         $scope.sectionSnap = (currentSection) ->
             body = angular.element('body')

@@ -34,10 +34,11 @@ body{
 
 /*Override Main Content Styles*/
 .header{
+	max-height: 70px;
 	background: $blue;
 	border-bottom: thin solid darken($blue, 10%);
 	margin-bottom: 0px;
-	.h3{
+	#project.h3{
 		padding: 0 20px;
 		margin: 0;
 		line-height: 70px;
@@ -199,10 +200,6 @@ body{
 	}
 }
 
-#tweet{
-    padding-top: 20px;
-    text-align: right;
-}
 
 .tooltip-inner{
 	padding: 5px 10px;
@@ -233,11 +230,15 @@ hr{
 	margin: 0;
 } 
 
+#nav-tabs{
+	height: 95px;
+	display: block;
+}
 #btn-alchemy-rel{
+	display: inline-block;
 	background: rgba($blue, .3);
 	color: $blue;
 	margin-right: 10%;
-	margin-top: -55px; //height of tweet
 	float: right;
 	border: thin solid rgba($blue, .3);
 	box-shadow: 2px 2px 10px rgba(white, .7), 2px 2px 15px $blue;
@@ -256,4 +257,21 @@ hr{
 		outline: none;
 	}
 }
+  #custom-tweet-button{
+  	border-radius: 8px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+  	background: rgba($blue, .3);
+  	padding: 15px;
+  	padding-bottom: 20px;
+  	display: inline-block;
+    border: thin solid rgba($blue, .3);
+	box-shadow: 2px 2px 10px rgba(white, .7), 2px 2px 15px $blue;
+    a{
+    	line-height: 32px;
+    	vertical-align: middle;
+    	text-decoration: none;
+    	color: $blue;
+    }
+  }
 
