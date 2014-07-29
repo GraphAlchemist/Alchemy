@@ -35,41 +35,21 @@ alchemy.drawing.drawEdge = () ->
                 return
     else
         @styleLink= (edge) ->
-            edge.datum((d) ->
-                def = d3.select("#{alchemy.conf.divSelector} svg defs path[source-target='#{d.source.id}-#{d.target.id}'")
-                        .select('path')
-                        .attr('d', () -> 
-                                # high school  trigonometry
-                                dx = d.target.x - d.source.x
-                                dy = d.target.y - d.source.y
-                                hyp = Math.sqrt( dx * dx + dy * dy)
-                                "M#{d.source.x},#{d.source.y}A#{hyp},#{hyp} 0 0,1 #{d.target.x},#{d.target.y}")
-                )
+            edge.select('path')
+                 .attr('d', (d) ->
+                    # high school  trigonometry
+                    dx = d.target.x - d.source.x
+                    dy = d.target.y - d.source.y
+                    hyp = Math.sqrt( dx * dx + dy * dy)
+                    "M#{d.source.x},#{d.source.y}A#{hyp},#{hyp} 0 0,1 #{d.target.x},#{d.target.y}")
 
-    if not alchemy.conf.curvedEdges
-        @styleText = (edge) -> 
-            edge.select('text')
-                .attr('dx', (d) -> utils.middleLine(d).x)
-                .attr('dy', (d) -> utils.middleLine(d).y)
-                .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
-                .text((d) -> utils.edgeCaption(d))
-                return
-    else
-        @styleText = (edge) -> 
-            debugger
-            edge.select('text')
-                .data((d)->
-                    debugger)
-                .append('textPath')
-                .attr("xlink:href", (d) -> 
-                    debugger
-                    "[source-target='#{d.source.id}-#{d.target.id}']")
-                # .attr('dx', (d) -> 
-                #     debugger
-                #     utils.middlePath(d).x)
-                # .attr('dy', (d) -> utils.middlePath(d).y)
-                .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middle(d).x} #{utils.middle(d).y})")
-                .text((d) -> utils.edgeCaption(d))
-                return
+
+    @styleText = (edge) -> 
+        edge.select('text')
+            .attr('dx', (d) -> utils.middleLine(d).x)
+            .attr('dy', (d) -> utils.middleLine(d).y)
+            .attr('transform', (d) -> "rotate(#{utils.angle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
+            .text((d) -> utils.edgeCaption(d))
+            return
 
     @

@@ -44,6 +44,7 @@ alchemy.drawing.drawingUtils =
             # as in hypotenuse 
             hyp = Math.sqrt(square(height) + square(width))
             distance = (hyp / 2) if point is "middle"
+            debugger
             return {
                 x: edge.source.x + width * distance / hyp
                 y: edge.source.y + height * distance / hyp
@@ -59,7 +60,14 @@ alchemy.drawing.drawingUtils =
         else if typeof caption is 'function'
             edgeCaption = (d) -> caption(d)
 
-        middle: (edge) -> edgeWalk(edge, 'middle')
+        middleLine: (edge) -> edgeWalk(edge, 'middle')
+        middlePath: (edge) -> 
+            # edgeWalk places text as if the line were straight
+            # offset the text to lie on the mid point of the path
+
+                
+                # x: 
+
         angle: (edge) -> 
             angle = edgeAngle(edge)
             if angle < -90 or angle > 90

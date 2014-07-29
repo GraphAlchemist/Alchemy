@@ -14,16 +14,31 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.drawing.drawedges = (edge) ->  
+alchemy.drawing.drawEdges = (edge) ->  
     
-    edge.enter().append('g').attr('class', 'edge')
+    edge.enter().append('g')
+                .attr('class', 'edge')
+                .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
     
-    edge.append('line')
+    if not alchemy.conf.curvedEdges
+        edge.append('line')
+    else
+        edge.append('path')
+    
+    # notes on proper appending of caption to curved edges
+    # edge.append('use')
+    #     .attr('xlink:href', (d) ->
+    #         d3.select("#{alchemy.conf.divSelector} svg defs")
+    #             .append('path')
+    #             .attr('source-target', "#{d.source.id}-#{d.target.id}")
+    #         "#{d.source.id}-#{d.target.id}")
+
+
     edge.append('text')
 
     drawEdge = @drawEdge()
     
-    drawEdge.styleLine(edge)
+    drawEdge.styleLink(edge)
     drawEdge.styleText(edge)
 
     # alchemy.drawing.drawEdge(edge)
