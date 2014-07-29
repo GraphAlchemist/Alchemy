@@ -36,7 +36,7 @@ alchemy.defaults =
     collisionDetection: true
     fixNodes: false
     fixRootNodes: false
-    forceLocked: true
+    forceLocked: false
     linkDistance: alchemy.layout.linkDistancefn
     nodePositions: null # not currently implemented
 
