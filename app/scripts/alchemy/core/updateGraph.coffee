@@ -18,10 +18,12 @@ alchemy.updateGraph = (start=true) ->
     
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
+    nodeIDs = Object.keys(alchemy._data.nodes)
+    # edges = Object.keys(alchemy._data.edges).map((id, e)-> return e )
     alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy.edges)
+               .data(alchemy._data.edges)
     alchemy.node = alchemy.vis.selectAll("g.node")
-              .data(alchemy.nodes, (d) -> d.id)
+              .data(nodeIDs)
               
     if start then @force.start()
     if not initialComputationDone
@@ -34,14 +36,14 @@ alchemy.updateGraph = (start=true) ->
     # for node in alchemy.nodes
     #     alchemy.layout.tick()
 
-    alchemy.styles.edgeGradient(alchemy.edges)
+    alchemy.styles.edgeGradient(alchemy._data.edges)
 
     #draw node and edge objects with all of their interactions
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
-           .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
+           .attr('transform', (id, i) -> "translate(#{alchemy._data.nodes[id].x}, #{alchemy._data.nodes[id].y})")
 
     alchemy.vis.selectAll('.node text')
         .html((d) => @utils.nodeText(d))

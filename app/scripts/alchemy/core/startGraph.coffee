@@ -50,19 +50,19 @@ alchemy.startGraph = (data) ->
         return
 
     # Master Data
-    alchemy._data = {"nodes": {}, "edges": {}}
+    alchemy._data = {"nodes": {}, "edges": []}
 
     # save nodes & edges
-    alchemy.nodes = data.nodes
-    alchemy.edges = data.edges
+    # alchemy.nodes = data.nodes
+    # alchemy.edges = data.edges
 
     # create nodes map and update links
 
     data.nodes.forEach (n) ->
         alchemy._data["nodes"][n.id] = n
     data.edges.forEach (e) ->
-        alchemy._data["edges"]["#{e.source}-#{e.target}"] = e
-    
+        # alchemy._data["edges"]["#{e.source}-#{e.target}"] = e
+        alchemy._data["edges"].push(e)
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
         .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
@@ -76,7 +76,7 @@ alchemy.startGraph = (data) ->
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
     # force layout constant
-    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
+    k = Math.sqrt(data.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
 
     # create layout
     alchemy.force = d3.layout.force()
@@ -88,8 +88,8 @@ alchemy.startGraph = (data) ->
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
-        .nodes(alchemy.nodes)
-        .links(alchemy.edges)
+        .nodes(alchemy._data.nodes)
+        .links(alchemy._data.edges)
         .on("tick", alchemy.layout.tick)
 
     alchemy.updateGraph()
