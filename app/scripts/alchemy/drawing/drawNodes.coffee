@@ -64,7 +64,7 @@ alchemy.drawing.setNodeInteractions = (node) ->
             rootNodes = node.filter((d) -> return d.root == true)
             rootNodes.call(drag)
 
-alchemy.drawing.drawnodes = (node) ->
+alchemy.drawing.drawNodes = (node) ->
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
                         rootKey = alchemy.conf.rootNodes

@@ -79,6 +79,7 @@ alchemy.defaults =
     edgeStyle: (d)->
         null
     edgeTypes: null
+    curvedEdges: false
 
     # Search
     search: true

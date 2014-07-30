@@ -17,6 +17,7 @@
 nodeDragStarted = (d, i) ->
     d3.event.sourceEvent.stopPropagation()
     d3.select(this).classed("dragging", true)
+    d.fixed = true
     return
 
 nodeDragged = (d, i) ->
@@ -29,16 +30,16 @@ nodeDragged = (d, i) ->
     # so that we are not repeating ourselves and fucktoring things up
 
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
-        alchemy.force.start() #restarts force on drag
 
     edges = alchemy.utils.edgeNeib(d)
     drawEdge = alchemy.drawing.drawEdge()
     drawEdge.styleText(edges)
-    drawEdge.styleLine(edges)
+    drawEdge.styleLink(edges)
 
 nodeDragended = (d, i) ->
     d3.select(this).classed "dragging": false
+    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
+        alchemy.force.start() #restarts force on drag
     return
 
 alchemy.interactions =

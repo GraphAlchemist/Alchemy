@@ -36,8 +36,8 @@ alchemy.updateGraph = (start=true) ->
     alchemy.styles.edgeGradient(alchemy.edges)
 
     # draw nodes and edges
-    alchemy.drawing.drawedges(alchemy.edge)
-    alchemy.drawing.drawnodes(alchemy.node)
+    alchemy.drawing.drawEdges(alchemy.edge)
+    alchemy.drawing.drawNodes(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
            .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
