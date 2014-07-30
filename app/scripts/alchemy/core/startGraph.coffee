@@ -86,7 +86,7 @@ alchemy.startGraph = (data) ->
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
-        .nodes(alchemy._nodes)
+        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
         .links(alchemy._edges)
         .on("tick", alchemy.layout.tick)
 
