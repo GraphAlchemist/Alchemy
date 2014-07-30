@@ -68,6 +68,7 @@ alchemy.defaults =
 
     # Nodes
     nodeCaption: 'caption'
+    nodeStyle: {}
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
     nodeOverlap: 25
