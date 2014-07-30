@@ -25,6 +25,7 @@ class Alchemy
         @utils = {}
         @visControls = {}
         @styles = {}
+        @models = {}
         @drawing = {}
         @log = {}
 

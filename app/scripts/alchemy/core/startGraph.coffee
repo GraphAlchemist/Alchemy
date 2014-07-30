@@ -48,18 +48,19 @@ alchemy.startGraph = (data) ->
         $('#no-results').modal('show')
         $('#loading-spinner').hide()
         return
-    # save nodes & edges
-    alchemy.nodes = data.nodes
-    alchemy.edges = data.edges
+
+    # Master Data
+    alchemy._nodes = {}
+    alchemy._edges = {}
 
     # create nodes map and update links
-    nodesMap = d3.map()
-    alchemy.nodes.forEach (n) ->
-        nodesMap.set(n.id, n)
-    alchemy.edges.forEach (e) ->
-        e.source = nodesMap.get(e.source)
-        e.target = nodesMap.get(e.target)
-    
+
+    data.nodes.forEach (n) ->
+        alchemy._nodes[n.id] = new alchemy.models.Node(n)
+    data.edges.forEach (e) ->
+        id = if e.id? then e.id else "#{e.source}-#{e.target}"
+        alchemy._edges[id] = new alchemy.models.Edge(e)
+
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
         .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
@@ -73,7 +74,7 @@ alchemy.startGraph = (data) ->
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
     # force layout constant
-    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
+    k = Math.sqrt(data.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
 
     # create layout
     alchemy.force = d3.layout.force()
@@ -85,8 +86,8 @@ alchemy.startGraph = (data) ->
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
-        .nodes(alchemy.nodes)
-        .links(alchemy.edges)
+        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
+        .links(alchemy._edges)
         .on("tick", alchemy.layout.tick)
 
     alchemy.updateGraph()
