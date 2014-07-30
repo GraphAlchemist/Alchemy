@@ -22,23 +22,24 @@ alchemy.drawing.setNodeInteractions = (node) ->
             .on("dragend", null)
         node.call(drag)
 
-    editor = alchemy.conf.editorInteractions is true
+    editorEnabled = alchemy.conf.editorInteractions is true
+    editor = alchemy.editor.interactions()
     resetDrag()
 
-    if editor
+    if editorEnabled
     # set interactions
         node
-            .on('mouseup', alchemy.editor.interactions.nodeMouseUp)
-            .on('mouseover', alchemy.editor.interactions.nodeMouseOver)
-            .on('mouseout', alchemy.editor.interactions.nodeMouseOut)
+            .on('mouseup', editor.nodeMouseUp)
+            .on('mouseover', editor.nodeMouseOver)
+            .on('mouseout', editor.nodeMouseOut)
             .on('dblclick', alchemy.interactions.nodeDoubleClick)
-            .on('click', alchemy.editor.interactions.nodeClick)
+            .on('click', editor.nodeClick)
 
         drag = d3.behavior.drag()
             .origin(Object)
-            .on("dragstart", addNodeStart)
-            .on("drag", addNodeDragging)
-            .on("dragend", addNodeDragended)
+            .on("dragstart", editor.addNodeStart)
+            .on("drag", editor.addNodeDragging)
+            .on("dragend", editor.addNodeDragended)
         node.call(drag)
 
     else 

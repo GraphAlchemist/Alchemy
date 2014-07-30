@@ -113,50 +113,9 @@ alchemy.modifyElements =
                     return "select a node to edit properties"
                 else
                     return "add a property to this node"
-                )
+                )   
 
-addNodeStart = (d, i) ->
-    d3.event.sourceEvent.stopPropagation()
-    sourceNode = d
-    d3.select('#dragline')
-        .datum({source: sourceNode})
-        .classed("hidden":false)
-
-addNodeDragging = (d, i) ->
-    x2coord = d3.event.x
-    y2coord = d3.event.y
-    sourceNode = d
-    d3.select('#dragline')
-        .attr "x1", sourceNode.x
-        .attr "y1", sourceNode.y
-        .attr "x2", x2coord
-        .attr "y2", y2coord
-        .attr "style", "stroke: #FFF"
-
-
-addNodeDragended = (d, i) ->
-    if (alchemy.editor.interactions.nodeMouseUp() is false) and d3.select("#dragline").datum()?
-        dragline = d3.select("#dragline")
-        targetX = dragline.attr("x2")
-        targetY = dragline.attr("y2")
-        sourceNode = d
-
-        targetNode = {id: alchemy.nodes.length, x: targetX, y: targetY, caption: "editedNode"}    
-        newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-
-        # add to alchemy data and draw nodes / links
-        alchemy.editor.update(targetNode, newLink)
-
-    # reset dragline
-    d3.select("#dragline")
-        .classed "hidden":true
-        .attr "x1", 0            
-        .attr "y1", 0
-        .attr "x2", 0
-        .attr "y2", 0    
-
-
-alchemy.editor = 
+alchemy.editor =
     enableEditor: () ->
         dragLine = alchemy.vis
             .append("line")
@@ -199,42 +158,46 @@ alchemy.editor =
     update: (node, edge) ->
         alchemy.editor.addEdge(edge)
         alchemy.drawing.drawedges(alchemy.edge)
-
-        if node?
+        #only push the node if it didn't previously exist
+        if !@mouseUpNode
             alchemy.editor.addNode(node)
             alchemy.drawing.drawnodes(alchemy.node)
+
         alchemy.layout.tick()
         d3.select("#dragline").datum(null)
 
-alchemy.editor.interactions =
-    nodeMouseOver: (n) ->
-        if alchemy.conf.editorInteractions is true
-            if !d3.select(@).select("circle").empty()
-                radius = d3.select(@).select("circle").attr("r")
-                d3.select(@).select("circle")
-                    .attr("r", radius*3)
 
-    nodeMouseUp: (n) ->
-        # to do: insert lines uniquely
-        if !d3.select(n).empty() and !d3.select("#dragline").empty()
-            dragline = d3.select("#dragline")
-            sourceNode = dragline.data()[0].source
-            targetNode = n
-            if sourceNode != targetNode
-                newLink = {source: sourceNode, target: targetNode, caption: "edited"}
-                alchemy.editor.update(null, newLink)
-            # do nothing (we've registered a click; just reset dragline data)
-            dragline.datum(null)
-            return true
-        else return false
+alchemy.editor.interactions = ->
+    @mouseUpNode = null
+    @sourceNode = null
+    @targetNode = null
+    @newEdge = null
+    @click = null
 
-    nodeMouseOut: (n) ->
+    @nodeMouseOver = (n) ->
+        if !d3.select(@).select("circle").empty()
+            radius = d3.select(@).select("circle").attr("r")
+            d3.select(@).select("circle")
+                .attr("r", radius*3)
+        @
+
+    @nodeMouseUp = (n) =>
+        if @sourceNode != n
+            @mouseUpNode = true
+            @targetNode = n
+            @click = false
+        else 
+            @click = true
+        @
+
+    @nodeMouseOut = (n) ->
         if !d3.select(@).select("circle").empty()
             radius = d3.select(@).select("circle").attr("r")
             d3.select(@).select("circle")
                 .attr("r", radius/3)
+        @
 
-    nodeClick: (c) ->
+    @nodeClick = (c) =>
         d3.event.stopPropagation()
         # select the correct nodes
         if !alchemy.vis.select("#node-#{c.id}").empty()
@@ -242,5 +205,60 @@ alchemy.editor.interactions =
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
         alchemy.modifyElements.nodeEditorClear()
         alchemy.modifyElements.nodeEditor(c)
+        @
+
+    @addNodeStart = (d, i) =>
+        d3.event.sourceEvent.stopPropagation()
+        @sourceNode = d
+        d3.select('#dragline')
+            .classed("hidden":false)
+        @
+
+    @addNodeDragging = (d, i) =>
+        x2coord = d3.event.x
+        y2coord = d3.event.y
+        d3.select('#dragline')
+            .attr "x1", @sourceNode.x
+            .attr "y1", @sourceNode.y
+            .attr "x2", x2coord
+            .attr "y2", y2coord
+            .attr "style", "stroke: #FFF"
+        @
+
+
+    @addNodeDragended = (d, i) =>
+        #we moused up on an existing (different) node
+        if !@click 
+            if !@mouseUpNode
+                dragline = d3.select("#dragline")
+                targetX = dragline.attr("x2")
+                targetY = dragline.attr("y2")
+
+                @targetNode = {id: alchemy.nodes.length, x: targetX, y: targetY, caption: "editedNode"}
+
+            @newEdge = {source: @sourceNode, target: @targetNode, caption: "edited"}   
+            alchemy.editor.update(@targetNode, @newEdge)
+
+        alchemy.editor.interactions().reset()
+        @
+
+    @reset = =>
+        # reset interaciton variables
+        @mouseUpNode = null
+        @sourceNode = null
+        @targetNode = null
+        @newEdge = null
+        @click = null
+
+        #reset dragline
+        d3.select("#dragline")
+            .classed "hidden":true
+            .attr "x1", 0            
+            .attr "y1", 0
+            .attr "x2", 0
+            .attr "y2", 0 
+        @
+
+    @
 
 
