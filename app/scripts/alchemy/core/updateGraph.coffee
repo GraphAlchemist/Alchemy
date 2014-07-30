@@ -23,7 +23,15 @@ alchemy.updateGraph = (start=true) ->
     alchemy.edge = alchemy.vis.selectAll("line")
                .data(alchemy._edges)
     alchemy.node = alchemy.vis.selectAll("g.node")
-              .data(nodeIDs)
+                .data(_.map(nodeIDs, (n) -> 
+                    alchemy._nodes[n]._d3.id = "#{n}"
+                    alchemy._nodes[n]._d3))
+
+    # alchemy.node = alchemy.vis.selectAll("g.node")
+    #                     .data(nodeIDs, (d) ->
+    #                         console.log alchemy._nodes[d]
+    #                         console.log alchemy._nodes[d].d3_internal 
+    #                         alchemy._nodes[d].d3_internal)
               
     if start then @force.start()
     if not initialComputationDone
@@ -33,8 +41,8 @@ alchemy.updateGraph = (start=true) ->
         console.log(Date() + ' completed initial computation')
         if(alchemy.conf.locked) then alchemy.force.stop()
 
-    # for node in alchemy.nodes
-    #     alchemy.layout.tick()
+
+    alchemy.layout.tick()
 
     alchemy.styles.edgeGradient(alchemy._edges)
 
@@ -43,7 +51,7 @@ alchemy.updateGraph = (start=true) ->
     alchemy.drawing.drawnodes(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
-           .attr('transform', (id, i) -> console.log(id, i); "translate(#{alchemy._nodes[id].x}, #{alchemy._nodes[id].y})")
+           .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
 
     alchemy.vis.selectAll('.node text')
         .html((d) => @utils.nodeText(d))
