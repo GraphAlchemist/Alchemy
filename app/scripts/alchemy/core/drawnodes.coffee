@@ -15,6 +15,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawnodes = (node) ->
+    console.log "HERE BE NODES #{node}"
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
                         rootKey = alchemy.conf.rootNodes

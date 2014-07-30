@@ -18,10 +18,10 @@ alchemy.updateGraph = (start=true) ->
     
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
-    nodeIDs = Object.keys(alchemy._data.nodes)
-    # edges = Object.keys(alchemy._data.edges).map((id, e)-> return e )
+    nodeIDs = Object.keys(alchemy._nodes)
+
     alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy._data.edges)
+               .data(alchemy._edges)
     alchemy.node = alchemy.vis.selectAll("g.node")
               .data(nodeIDs)
               
@@ -36,14 +36,14 @@ alchemy.updateGraph = (start=true) ->
     # for node in alchemy.nodes
     #     alchemy.layout.tick()
 
-    alchemy.styles.edgeGradient(alchemy._data.edges)
+    alchemy.styles.edgeGradient(alchemy._edges)
 
     #draw node and edge objects with all of their interactions
     alchemy.drawing.drawedges(alchemy.edge)
     alchemy.drawing.drawnodes(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
-           .attr('transform', (id, i) -> "translate(#{alchemy._data.nodes[id].x}, #{alchemy._data.nodes[id].y})")
+           .attr('transform', (id, i) -> console.log(id, i); "translate(#{alchemy._nodes[id].x}, #{alchemy._nodes[id].y})")
 
     alchemy.vis.selectAll('.node text')
         .html((d) => @utils.nodeText(d))

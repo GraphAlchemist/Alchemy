@@ -91,8 +91,8 @@ alchemy.layout =
 
     tick: () ->
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(alchemy._data.nodes)
-            for id, node in alchemy._data.nodes
+            q = d3.geom.quadtree(alchemy._nodes)
+            for id, node in alchemy._nodes
                 q.visit(alchemy.layout.collide(node))
         alchemy.edge.attr("x1", (d) -> d.source.x )
               .attr("y1", (d) -> d.source.y )
@@ -107,7 +107,7 @@ alchemy.layout =
             width: alchemy.conf.graphWidth()
             height: alchemy.conf.graphHeight()
         rootNodes = Array()
-        for id, d in alchemy._data.nodes
+        for id, d in alchemy._nodes
             console.log id, d
             if not d[alchemy.conf.rootNodes] then continue
             else
@@ -116,21 +116,21 @@ alchemy.layout =
         # if there is one root node, position it in the center
         if rootNodes.length == 1
             n = rootNodes[0]
-            alchemy._data.nodes[n.id].x = container.width / 2
-            alchemy._data.nodes[n.id].y = container.height / 2
-            alchemy._data.nodes[n.id].px = container.width / 2
-            alchemy._data.nodes[n.id].py = container.height / 2
+            alchemy._nodes[n.id].x = container.width / 2
+            alchemy._nodes[n.id].y = container.height / 2
+            alchemy._nodes[n.id].px = container.width / 2
+            alchemy._nodes[n.id].py = container.height / 2
             # fix root nodes until force layout is complete
-            alchemy._data.nodes[n.id].fixed = true
+            alchemy._nodes[n.id].fixed = true
             return
         # position nodes towards center of graph
         else
             number = 0
             for n in rootNodes
                 number++
-                alchemy._data.nodes[n.id].x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
-                alchemy._data.nodes[n.id].y = container.height / 2 #container.height / (rootNodes.length / number)
-                alchemy._data.nodes[n.id].fixed = true
+                alchemy._nodes[n.id].x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
+                alchemy._nodes[n.id].y = container.height / 2 #container.height / (rootNodes.length / number)
+                alchemy._nodes[n.id].fixed = true
 
     chargeDistance: () ->
          distance = 500

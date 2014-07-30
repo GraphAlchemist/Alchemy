@@ -38,7 +38,7 @@ alchemy.drawing.drawedges = (edge) ->
         .insert("line", 'g.node')
         .attr("class", (d) -> 
             "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
-        .attr('source-target', (d) -> alchemy._data.nodes[d.source] + '-' + alchemy._data.nodes[d.target])
+        .attr('source-target', (d) -> alchemy._nodes[d.source] + '-' + alchemy._nodes[d.target])
         .on('click', alchemy.interactions.edgeClick)
     edge.exit().remove()
 
