@@ -66,13 +66,14 @@ alchemy.drawing.setNodeInteractions = (node) ->
 alchemy.drawing.drawnodes = (node) ->
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
+                        node_data = alchemy._nodes[d.id]
                         rootKey = alchemy.conf.rootNodes
                         if alchemy.conf.nodeTypes
-                            nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
-                            if d[rootKey]? and d[rootKey] then "node root #{nodeType} active"
+                            nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
+                            if node_data[rootKey]? and node_data[rootKey] then "node root #{nodeType} active"
                             else "node #{nodeType} active"
                         else
-                            if d[rootKey]? and d[rootKey] then "node root active"
+                            if node_data[rootKey]? and node_data[rootKey] then "node root active"
                             else "node active"
                         )
                     .attr('id', (d) -> "node-#{d.id}")
@@ -80,11 +81,12 @@ alchemy.drawing.drawnodes = (node) ->
     alchemy.drawing.setNodeInteractions(node)
 
     nodeColours = (d) ->
+        node_data = alchemy._nodes[d.id]
         if alchemy.conf.cluster
-            if (isNaN parseInt d.cluster) or (d.cluster > alchemy.conf.clusterColours.length)
+            if (isNaN parseInt node_data.cluster) or (node_data.cluster > alchemy.conf.clusterColours.length)
                 colour = alchemy.conf.clusterColours[alchemy.conf.clusterColours.length - 1]
             else
-                colour = alchemy.conf.clusterColours[d.cluster]
+                colour = alchemy.conf.clusterColours[node_data.cluster]
             "fill: #{colour}; stroke: #{colour};"
         else
             if alchemy.conf.nodeColour
@@ -95,17 +97,21 @@ alchemy.drawing.drawnodes = (node) ->
     nodeEnter
         .append('circle')
         .attr('class', (d) -> 
+            node_data = alchemy._nodes[d.id]
             rootKey = alchemy.conf.rootNodes
             if alchemy.conf.nodeTypes
-                nodeType = d[Object.keys(alchemy.conf.nodeTypes)]
-                if d[rootKey]? and d[rootKey] then "root #{nodeType} active"
+                nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
+                if node_data[rootKey]? and node_data[rootKey] then "root #{nodeType} active"
                 else "#{nodeType} active"
             else 
-                if d[rootKey]? and d[rootKey] then "root"
+                if node_data[rootKey]? and node_data[rootKey] then "root"
                 else "node"
            	)
         .attr('id', (d) -> "circle-#{d.id}")
-        .attr('r', (d) -> alchemy.utils.nodeSize(d))
+        .attr('r', (d) -> 
+            node_data = alchemy._nodes[d.id]
+            alchemy.utils.nodeSize(node_data)
+            )
         .attr('shape-rendering', 'optimizeSpeed')
         .attr('target-id', (d) -> d.id)
         .attr('style', (d) ->
@@ -120,5 +126,8 @@ alchemy.drawing.drawnodes = (node) ->
     nodeEnter
         .append('svg:text')
         .attr('id', (d) -> "text-#{d.id}")
-        .attr('dy', (d) -> if d.root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
-        .html((d) -> alchemy.utils.nodeText(d))
+        .attr('dy', (d) -> if alchemy._nodes[d.id].root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
+        .html((d) -> 
+            node_data = alchemy._nodes[d.id]
+            alchemy.utils.nodeText(node_data)
+            )
