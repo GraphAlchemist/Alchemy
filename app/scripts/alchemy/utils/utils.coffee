@@ -100,7 +100,7 @@ alchemy.utils =
         # return all nodes connected to an edge
 
     edgeNeib: (node) ->
-        # return all edges connected to node
+        # return a d3 selection of all edges connected to node
         connections = alchemy.edge.filter (e) -> 
             e if e.source.id is node.id or e.target.id is node.id
         connections

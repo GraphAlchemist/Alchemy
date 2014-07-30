@@ -1,15 +1,3 @@
-// line {
-//     stroke-width: 3;
-//     stroke: #ccc;
-//     stroke-opacity: 0.2;
-//     &:hover, &.selected {
-//         stroke: white;
-//         cursor: pointer;
-//         stroke-opacity: 1;
-//         stroke-width: 5;
-//     }
-// }
-
 .edge{
     stroke-width: 2;
     stroke: #ccc;
@@ -17,18 +5,29 @@
 
     &.active{
     	@include active();
+        text {
+            display: none;
+            fill: white;
+            font-weight: 200;
+            text-anchor: middle;
+            z-index: 1000;
+            //simulate text outline
+            text-shadow: 1px 1px #333, -1px 1px #333, 1px -1px #333, -1px -1px #333;
+        }
     	&:hover, &.selected {
 	        stroke: white;
 	        cursor: pointer;
 	        stroke-opacity: 1;
 	        stroke-width: 4;
+            text {
+                display: block;
+            }
 	    }
     	&.highlight{
     		@include highlight();
     		stroke-width: 2;
 	        stroke-opacity: .7;
 	        stroke: lighten($blue, 30%);
-
     	}
     }
 
