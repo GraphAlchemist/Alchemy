@@ -15,7 +15,6 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawedges = (edge) ->
-    console.log edge  
     if alchemy.conf.cluster
         edgeStyle = (d) ->
             if d.source.root or d.target.root
@@ -39,7 +38,7 @@ alchemy.drawing.drawedges = (edge) ->
         .insert("line", 'g.node')
         .attr("class", (d) -> 
             "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
-        .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
+        .attr('source-target', (d) -> alchemy._nodes[d.source] + '-' + alchemy._nodes[d.target])
         .on('click', alchemy.interactions.edgeClick)
     edge.exit().remove()
 

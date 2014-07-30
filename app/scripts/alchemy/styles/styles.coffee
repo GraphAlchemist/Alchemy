@@ -22,6 +22,7 @@ alchemy.styles =
             '#EBECE4'
 
     edgeGradient: (edges) ->
+        console.log edges
         defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
         Q = {}
         for edge in edges
