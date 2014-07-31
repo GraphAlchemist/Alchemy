@@ -18,20 +18,12 @@ alchemy.updateGraph = (start=true) ->
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
 
-    nodeIDs = Object.keys(alchemy._nodes)
+    nodeIDs = Object.keys(alchemy._nodes) # is this needed?
 
-    alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy._edges)
+    alchemy.edge = alchemy.vis.selectAll("g.edge")
+                .data(_.map(alchemy._edges, (e) -> e._d3)) # check if this works
     alchemy.node = alchemy.vis.selectAll("g.node")
-                .data(_.map(nodeIDs, (n) -> 
-                    alchemy._nodes[n]._d3.id = "#{n}"
-                    alchemy._nodes[n]._d3))
-
-    # alchemy.node = alchemy.vis.selectAll("g.node")
-    #                     .data(nodeIDs, (d) ->
-    #                         console.log alchemy._nodes[d]
-    #                         console.log alchemy._nodes[d].d3_internal 
-    #                         alchemy._nodes[d].d3_internal)
+                .data(_.map(alchemy._nodes, (n) -> n._d3))
               
     if start then @force.start()
     if not initialComputationDone

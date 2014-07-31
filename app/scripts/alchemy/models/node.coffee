@@ -3,8 +3,10 @@ class alchemy.models.Node
         _.merge(@, node)
 
         @properties = node
-        @_d3 = {}
-
+        @_d3 = {
+            'id': node.id
+        }
+        
         # Merge undefined nodeStyle keys from conf.
         # Works with undefined @nodeStyle
         conf = alchemy.conf
