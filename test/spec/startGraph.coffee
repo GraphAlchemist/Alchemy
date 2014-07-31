@@ -7,12 +7,12 @@ do ->
         
         describe "alchemy.nodes", ->
             it "should define alchemy.nodes", (done) ->
-                alchemy.nodes.should.not.equal undefined
+                alchemy._nodes.should.not.equal undefined
                 done()
 
         describe "alchemy.edges", ->
             it "should define alchemy.edges", (done) ->
-                alchemy.edges.should.not.equal undefined
+                alchemy._edges.should.not.equal undefined
                 done()
             return
 

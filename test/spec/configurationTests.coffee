@@ -6,11 +6,6 @@ do ->
         runWithConf = (conf) ->
             alchemy.begin(conf)
 
-        it "should use default configuration if one is not specified", (done) ->
-            runWithConf()
-            alchemy.conf.should.deep.equal defaultConf
-            done()
-        
         #Helpers
         describe "afterLoad", ->
             "placeholder"
@@ -19,7 +14,7 @@ do ->
             it "can find non-default datasets", (done) ->
                 runWithConf({dataSource:"sample_data/contrib.json"})
                 # Make sure dataSource was changed from default (null)
-                alchemy.conf.dataSource.should.equal("sample_data/contrib.json") and alchemy.nodes.length.should.not.equal 0
+                alchemy.conf.dataSource.should.equal("sample_data/contrib.json") and Object.keys(alchemy._nodes).length.should.equal 6
                 done()
 
         #Layout
