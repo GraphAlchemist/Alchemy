@@ -31,10 +31,11 @@ nodeDragged = (d, i) ->
 
     d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
 
-    edges = alchemy._nodes[d.id].edges
-    drawEdge = alchemy.drawing.drawEdge()
-    drawEdge.styleText(edges)
-    drawEdge.styleLink(edges)
+    # edges = alchemy._nodes[d.id].edges
+    # alchemy.drawing.drawEdges(edges)
+    # drawEdge = new alchemy.drawing.DrawEdge
+    # drawEdge.styleText(edges)
+    # drawEdge.styleLink(edges)
 
 nodeDragended = (d, i) ->
     d3.select(this).classed "dragging": false

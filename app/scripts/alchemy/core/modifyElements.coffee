@@ -67,24 +67,36 @@ alchemy.modifyElements =
         d3.select("#element-options")
             .append("div")
             .attr("id", "node-editor")
+            .attr("class", () ->
+                if d3.select("#editor-interactions").classed("active")
+                    return "enabled"
+                else return "hidden"
+            )
             .html("""<h4>Node Editor</h4>""")
 
         d3.select("#node-editor")
-            .append("div")
+            .append("form")
             .attr("id", "node-add-property")
-            .attr("class", "node-property input-group")
-            .append("span")
-            .attr("class", "input-group-addon")
-            .text("+")
+            .attr("class", "node-property form-inline")
+            .append("input")
+            .attr("type", "submit")
+            .attr("value", " + ")
+            .attr("class", "form-control property-name")
         d3.select("#node-add-property")
             .append("input")
-            .attr("class", "form-control")
+            .attr("class", "form-control property-value")
             .attr("placeholder", ()->
                 if d3.selectAll(".node.selected").empty()
                     return "select a node to edit properties"
                 else
                     return "add a property to this node"
                 )
+        d3.select("#node-add-property")
+            .on "submit" , ->
+                event.preventDefault()
+                d3.select("#node-add-property .property-value")
+                    .attr("placeholder", "select a node first")
+                @.reset()
                             
     nodeEditor: (n) ->
         d3.select("#node-editor")
@@ -94,16 +106,28 @@ alchemy.modifyElements =
 
         for property, val of nodeProperties
             d3.select("#node-properties-list")
-                .append("div")
+                .append("form")
                 .attr("id", "node-#{property}")
-                .attr("class", "node-property input-group")
-                .append("span")
-                .attr("class","input-group-addon")
-                .html("#{property}")
+                .attr("class", "node-property form-inline")
+                .append("input")
+                .attr("type", "submit")
+                .attr("class","form-control property-name")
+                .attr("value","#{property}")
             d3.select("#node-#{property}")
                 .append("input")
-                .attr("class", "form-control")
+                .attr("class", "form-control property-value")
                 .attr("placeholder", "#{val}")
+
+        d3.selectAll(".node-property")
+            .on "submit" , ->
+                event.preventDefault()
+                nodeID = d3.select("#node-editor #node-id .property-value").attr("placeholder")
+                propertyName = d3.select(@).select(".property-name").attr("value")
+                propertyVal = d3.select(@).select(".property-value")
+                newVal = propertyVal[0][0].value
+                alchemy._nodes[nodeID].setProperty(propertyName, newVal)
+                propertyVal.attr("placeholder", "property updated")
+                @.reset()
 
     nodeEditorClear: () ->
         d3.select("#node-properties-list").remove()
@@ -120,17 +144,34 @@ alchemy.editor =
         alchemy.setState("interactions", "editor")
         dragLine = alchemy.vis
             .append("line")
-            .attr "id", "dragline"
-        alchemy.drawing.setNodeInteractions(alchemy.node)
+            .attr("id", "dragline")
+
+        d3.select("#node-editor")
+            .attr("class", "enabled")
+            .style("opacity", 1)
+
         d3.selectAll(".node circle")
             .style("stroke", "#E82C0C")
+
+        alchemy.drawing.setNodeInteractions(alchemy.node)
 
     disableEditor: () ->
         alchemy.setState("interactions", "default")
         alchemy.vis.select("#dragline").remove()
-        alchemy.drawing.setNodeInteractions(alchemy.node)
+
+        d3.select("#node-editor")
+            .transition()
+            .duration(300)
+            .style("opacity", 0)
+        d3.select("#node-editor")
+            .transition()
+            .delay(300)
+            .attr("class", "hidden")
+
         d3.selectAll(".node circle")
             .style("stroke", "white")
+
+        alchemy.drawing.setNodeInteractions(alchemy.node)
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node")
