@@ -90,9 +90,9 @@ alchemy.modifyElements =
         d3.select("#node-editor")
             .append("div")
             .attr("id", "node-properties-list")
-        nodeProperties = Object.keys(n)
+        nodeProperties = alchemy._nodes[n.id].getProperties()
 
-        for property in nodeProperties
+        for property, val of nodeProperties
             d3.select("#node-properties-list")
                 .append("div")
                 .attr("id", "node-#{property}")
@@ -103,7 +103,7 @@ alchemy.modifyElements =
             d3.select("#node-#{property}")
                 .append("input")
                 .attr("class", "form-control")
-                .attr("placeholder", "#{n[property]}")
+                .attr("placeholder", "#{val}")
 
     nodeEditorClear: () ->
         d3.select("#node-properties-list").remove()
@@ -117,6 +117,7 @@ alchemy.modifyElements =
 
 alchemy.editor =
     enableEditor: () ->
+        alchemy.setState("interactions", "editor")
         dragLine = alchemy.vis
             .append("line")
             .attr "id", "dragline"
@@ -126,6 +127,7 @@ alchemy.editor =
             .style("stroke", "#E82C0C")
 
     disableEditor: () ->
+        alchemy.setState("interactions", "default")
         alchemy.vis.select("#dragline").remove()
         alchemy.conf.editorInteractions = false
         alchemy.drawing.setNodeInteractions(alchemy.node)
@@ -148,12 +150,12 @@ alchemy.editor =
         d3.selectAll(".selected").classed("selected", false)
 
     addNode: (node) ->
-        alchemy.nodes.push(node)
-        alchemy.node = alchemy.node.data(alchemy.nodes)
+        alchemy._nodes["node.id"] = node
+        alchemy.node = alchemy.node.data(alchemy._nodes)
 
     addEdge: (edge) ->
         alchemy.edges.push(edge)
-        alchemy.edge = alchemy.edge.data(alchemy.edges)
+        alchemy.edge = alchemy.edge.data(alchemy._edges)
 
     update: (node, edge) ->
         alchemy.editor.addEdge(edge)

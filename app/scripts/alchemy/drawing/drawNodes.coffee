@@ -22,7 +22,7 @@ alchemy.drawing.setNodeInteractions = (node) ->
             .on("dragend", null)
         node.call(drag)
 
-    editorEnabled = alchemy.conf.editorInteractions is true
+    editorEnabled = alchemy.getState("interactions") is "editor"
     editor = alchemy.editor.interactions()
     resetDrag()
 

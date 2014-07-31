@@ -28,6 +28,17 @@ class Alchemy
         @models = {}
         @drawing = {}
         @log = {}
+        @state = {
+            "interactions":"default"
+            "layout":"default"
+        }
+
+    getState: (key) ->
+        if @state.key?
+            @state.key
+
+    setState: (key, value) ->
+        @state.key = value
 
 allTags = {}
 allCaptions = {}
