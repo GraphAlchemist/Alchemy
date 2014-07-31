@@ -29,13 +29,6 @@ class Alchemy
         @drawing = {}
         @log = {}
 
-allTags = {}
-allCaptions = {}
-currentNodeTypes = {}
-currentRelationshipTypes = {}
-container = null
-rootNodeId = null
-
 if typeof module isnt 'undefined' and module.exports
   module.exports = new Alchemy()
 else
