@@ -91,7 +91,7 @@ alchemy.layout =
 
     tick: () ->
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(Object.keys(alchemy._nodes))
+            q = d3.geom.quadtree(_.keys(alchemy._nodes))
             for node in _.values(alchemy._nodes)
                 q.visit(alchemy.layout.collide(node))
 
@@ -131,8 +131,6 @@ alchemy.layout =
         if rootNodes.length == 1
             n = rootNodes[0]
             node_data = alchemy._nodes[n.id]
-            console.log "root node:"
-            console.log n
             node_data._d3.x = container.width / 2
             node_data._d3.y = container.height / 2
             node_data._d3.px = container.width / 2
