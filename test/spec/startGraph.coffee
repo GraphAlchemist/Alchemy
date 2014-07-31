@@ -5,13 +5,20 @@ do ->
             expect(d3.select('#alchemy').select("svg")).to.have.length(1)
             done()
         
-        describe "alchemy.nodes", ->
-            it "should define alchemy.nodes", (done) ->
+        describe "alchemy._nodes", ->
+            it "should define alchemy._nodes", (done) ->
                 alchemy._nodes.should.not.equal undefined
                 done()
+            it "should have ids as keys", (done) ->
+                keys = _.keys(alchemy._nodes)
+                
+                keysThatAreNotIDs = 0
+                for key in keys
+                    keysThatAreNotIDs += 1 if !alchemy._nodes[key]?
+                done()
 
-        describe "alchemy.edges", ->
-            it "should define alchemy.edges", (done) ->
+        describe "alchemy._edges", ->
+            it "should define alchemy._edges", (done) ->
                 alchemy._edges.should.not.equal undefined
                 done()
             return
