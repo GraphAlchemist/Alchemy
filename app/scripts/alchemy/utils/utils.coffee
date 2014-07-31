@@ -96,9 +96,6 @@ alchemy.utils =
         else
             20
 
-    neighbors: (node) ->
-        # return all nodes connected to an edge
-
     edgeNeib: (node) ->
         # return a d3 selection of all edges connected to node
         connections = alchemy.edge.filter (e) -> 
