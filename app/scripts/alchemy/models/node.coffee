@@ -8,6 +8,9 @@ class alchemy.models.Node
         conf = alchemy.conf
         @nodeStyle = _.merge(conf.nodeStyle, @nodeStyle)
 
+        # Add to node collection
+        Node::all.push(@.id)
+
     # Stores edge.id for easy edge lookup
     edges: []
     addEdge: (edge)-> @edges.push(edge)
@@ -16,4 +19,7 @@ class alchemy.models.Node
     # Find neighbors
     neighbors: ()->
         regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
-        _.map @edges, (edgeID)->  edgeID.replace(regex, "") 
+        _.map @edges, (edgeID)->  edgeID.replace(regex, "")
+
+    # Class properties
+    all: []

@@ -35,11 +35,6 @@ alchemy.utils =
         # call user-specified deselect function if specified
         if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
             alchemy.conf.deselectAll()
-
-    # resize: ->
-    #     d3.select('.alchemy svg')
-    #         .attr("width", alchemy.container.width)
-    #         .attr("height", alchemy.container.height)
     
     # not currently used, but can be implemented
     centreView: (id) ->
@@ -95,9 +90,3 @@ alchemy.utils =
                     alchemy.conf.nodeRadius
         else
             20
-
-    edgeNeib: (node) ->
-        # return a d3 selection of all edges connected to node
-        connections = alchemy.edge.filter (e) -> 
-            e if e.source.id is node.id or e.target.id is node.id
-        connections
