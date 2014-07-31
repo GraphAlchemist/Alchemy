@@ -6,8 +6,12 @@ class alchemy.models.Edge
         conf = alchemy.conf
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
         @_rawEdge = edge
+        @_d3 = {
+            'source': @source,
+            'target': @target
+            }
+
 
     toPublic: =>
         keys = _.keys(@_rawEdge)
         _.pick(@, keys)
-    

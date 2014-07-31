@@ -95,18 +95,12 @@ alchemy.layout =
             for node in _.values(alchemy._nodes)
                 q.visit(alchemy.layout.collide(node))
 
-        alchemy.edge
-            .attr("x1", (d) -> alchemy._nodes[d.source]._d3.x )
-            .attr("y1", (d) -> alchemy._nodes[d.source]._d3.y )
-            .attr("x2", (d) -> alchemy._nodes[d.target]._d3.x )
-            .attr("y2", (d) -> alchemy._nodes[d.target]._d3.y )
-
         alchemy.node
             .attr("transform", (d) -> 
-                node_data = alchemy._nodes[d.id]._d3
-                return "translate(#{node_data.x},#{node_data.y})")
+                # node_data = alchemy._nodes[d.id]._d3
+                "translate(#{d.x},#{d.y})")
 
-        drawEdge = alchemy.drawing.drawEdge()
+        drawEdge = new alchemy.drawing.DrawEdge
         drawEdge.styleText(alchemy.edge)
         drawEdge.styleLink(alchemy.edge)
 
