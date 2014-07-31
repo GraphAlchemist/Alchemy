@@ -121,7 +121,6 @@ alchemy.editor =
         dragLine = alchemy.vis
             .append("line")
             .attr "id", "dragline"
-        alchemy.conf.editorInteractions = true
         alchemy.drawing.setNodeInteractions(alchemy.node)
         d3.selectAll(".node circle")
             .style("stroke", "#E82C0C")
@@ -129,17 +128,21 @@ alchemy.editor =
     disableEditor: () ->
         alchemy.setState("interactions", "default")
         alchemy.vis.select("#dragline").remove()
-        alchemy.conf.editorInteractions = false
         alchemy.drawing.setNodeInteractions(alchemy.node)
         d3.selectAll(".node circle")
             .style("stroke", "white")
 
     remove: () ->
-        selectedNodes = d3.selectAll(".selected.node").data()
-        selectedEdges = d3.selectAll(".selected.edge").data()         
-        
-        alchemy.edges = _.difference(alchemy.edges, selectedEdges)
-        alchemy.nodes = _.difference(alchemy.nodes, selectedNodes)
+        selectedNodes = d3.selectAll(".selected.node")
+        selectedEdges = d3.selectAll(".selected.edge")
+
+        for node in selectedNodes[0]
+            if alchemy._nodes[node.id]?
+                _.omit(alchemy._nodes, node.id)
+
+        for edge in selectedEdges[0]
+            if alchemy._edges[edge.id]?
+                _.omit(alchemy._edges, edge.id)       
         
         alchemy.force.friction(1)
         alchemy.updateGraph(false)
@@ -150,23 +153,28 @@ alchemy.editor =
         d3.selectAll(".selected").classed("selected", false)
 
     addNode: (node) ->
-        alchemy._nodes["node.id"] = node
-        alchemy.node = alchemy.node.data(alchemy._nodes)
+        newNode = alchemy._nodes[node.id] = new alchemy.models.Node({})
+        newNode.setProperty("caption", node.caption)
+        newNode.setD3Property("x", node.x)
+        newNode.setD3Property("y", node.y)
+        alchemy.node = alchemy.node.data(_.map(_.keys(alchemy._nodes), (n) -> 
+                    alchemy._nodes[n]._d3.id = "#{n}"
+                    alchemy._nodes[n]._d3))
 
     addEdge: (edge) ->
-        alchemy.edges.push(edge)
+        alchemy._edges[edge.id] = new alchemy.models.Edge(edge)
         alchemy.edge = alchemy.edge.data(alchemy._edges)
 
     update: (node, edge) ->
         alchemy.editor.addEdge(edge)
-        alchemy.drawing.drawedges(alchemy.edge)
+        alchemy.drawing.drawEdges(alchemy.edge)
         #only push the node if it didn't previously exist
         if !@mouseUpNode
             alchemy.editor.addNode(node)
-            alchemy.drawing.drawnodes(alchemy.node)
+            alchemy.drawing.drawNodes(alchemy.node)
 
         alchemy.layout.tick()
-        d3.select("#dragline").datum(null)
+        # d3.select("#dragline").datum(null)
 
 
 alchemy.editor.interactions = ->
@@ -236,7 +244,7 @@ alchemy.editor.interactions = ->
                 targetX = dragline.attr("x2")
                 targetY = dragline.attr("y2")
 
-                @targetNode = {id: alchemy.nodes.length, x: targetX, y: targetY, caption: "editedNode"}
+                @targetNode = {id: "addedNode", "x": targetX, "y": targetY, caption: "node added"}
 
             @newEdge = {source: @sourceNode, target: @targetNode, caption: "edited"}   
             alchemy.editor.update(@targetNode, @newEdge)

@@ -91,7 +91,7 @@ alchemy.layout =
 
     tick: () ->
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(Object.keys(alchemy._nodes))
+            q = d3.geom.quadtree(_.keys(alchemy._nodes))
             for node in _.values(alchemy._nodes)
                 q.visit(alchemy.layout.collide(node))
 
