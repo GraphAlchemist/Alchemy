@@ -1,6 +1,8 @@
 class alchemy.models.Node
     constructor: (node) ->
         _.merge(@, node)
+
+        @properties = node
         @_d3 = {}
 
         # Merge undefined nodeStyle keys from conf.
@@ -16,10 +18,24 @@ class alchemy.models.Node
     addEdge: (edge)-> @edges.push(edge)
     outDegree: ()-> @edges.length
 
-    # Find neighbors
+    # Find connected nodes
     neighbors: ()->
         regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
         _.map @edges, (edgeID)->  edgeID.replace(regex, "")
+
+    # Edit Node
+    getProperties: =>
+    	@properties
+    setProperty: (property, value) =>
+    	@[property] = value
+    	@properties[property] = value
+    setD3Property: (property, value) =>
+    	@_d3[property] = value
+    removeProperty: (property) =>
+    	if @property?
+    		_.omit(@, property)
+    	if @properties.property?
+    		_.omit(@properties, property)
 
     # Class properties
     all: []

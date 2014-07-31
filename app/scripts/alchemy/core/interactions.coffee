@@ -71,7 +71,7 @@ alchemy.interactions =
             null
 
     nodeMouseUp: (n) ->
-        # console.log "mouseupppp from interactions"
+        # console.log "mouseup from interactions"
 
     #not currently implemented
     nodeDoubleClick: (c) ->

@@ -22,7 +22,7 @@ alchemy.drawing.setNodeInteractions = (node) ->
             .on("dragend", null)
         node.call(drag)
 
-    editorEnabled = alchemy.conf.editorInteractions is true
+    editorEnabled = alchemy.getState("interactions") is "editor"
     editor = alchemy.editor.interactions()
     resetDrag()
 
@@ -119,7 +119,7 @@ alchemy.drawing.drawNodes = (node) ->
            radius = d3.select(this).attr('r')
            "#{nodeColours(d)}; stroke-width: #{ radius / 3 }")
         .style('stroke', () -> 
-            if alchemy.conf.editorInteractions is true
+            if alchemy.getState("interactions") is "editor"
                 return "#E82C0C"
             )
 
@@ -128,7 +128,4 @@ alchemy.drawing.drawNodes = (node) ->
         .append('svg:text')
         .attr('id', (d) -> "text-#{d.id}")
         .attr('dy', (d) -> if alchemy._nodes[d.id].root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
-        .html((d) -> 
-            node_data = alchemy._nodes[d.id]
-            alchemy.utils.nodeText(node_data)
-            )
+        .html((d) -> alchemy.utils.nodeText(d))
