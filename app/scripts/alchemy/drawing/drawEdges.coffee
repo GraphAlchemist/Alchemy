@@ -15,16 +15,21 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawEdges = (edge) ->  
-    
     edge.enter().append('g')
                 .attr('class', 'edge')
-                .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
+                .attr('source-target', (d) -> "#{d.source}-{d.target}")
+        
+    drawEdge = new @DrawEdge
+    drawEdge.createLink(edge)
+    edge.append('text')
+
     
-    if not alchemy.conf.curvedEdges
-        edge.append('line')
-    else
-        edge.append('path')
-    
+    drawEdge.styleLink(edge)
+    drawEdge.styleText(edge)
+
+    # alchemy.drawing.drawEdge(edge)
+    edge.exit().remove()
+
     # notes on proper appending of caption to curved edges
     # edge.append('use')
     #     .attr('xlink:href', (d) ->
@@ -32,14 +37,3 @@ alchemy.drawing.drawEdges = (edge) ->
     #             .append('path')
     #             .attr('source-target', "#{d.source.id}-#{d.target.id}")
     #         "#{d.source.id}-#{d.target.id}")
-
-
-    edge.append('text')
-
-    drawEdge = @drawEdge()
-    
-    drawEdge.styleLink(edge)
-    drawEdge.styleText(edge)
-
-    # alchemy.drawing.drawEdge(edge)
-    edge.exit().remove()
