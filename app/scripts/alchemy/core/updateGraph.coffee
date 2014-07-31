@@ -23,10 +23,10 @@ alchemy.updateGraph = (start=true) ->
     alchemy.edge = alchemy.vis.selectAll("line")
                .data(alchemy._edges)
     alchemy.node = alchemy.vis.selectAll("g.node")
-                .data(_.map(nodeIDs, (n) -> 
-                    alchemy._nodes[n]._d3.id = "#{n}"
-                    alchemy._nodes[n]._d3))
-
+                .data(_.map(alchemy._nodes, (n) -> alchemy._nodes[n.id]._d3))
+    # _.map(alchemy._nodes, function(node) {
+    #   return node.d3_internals;
+    # });
     # alchemy.node = alchemy.vis.selectAll("g.node")
     #                     .data(nodeIDs, (d) ->
     #                         console.log alchemy._nodes[d]
