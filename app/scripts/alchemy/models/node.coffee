@@ -2,6 +2,7 @@ class alchemy.models.Node
     constructor: (node) ->
         _.merge(@, node)
         @_d3 = {}
+
         # Merge undefined nodeStyle keys from conf.
         # Works with undefined @nodeStyle
         conf = alchemy.conf
@@ -10,8 +11,9 @@ class alchemy.models.Node
     # Stores edge.id for easy edge lookup
     edges: []
     addEdge: (edge)-> @edges.push(edge)
+    outDegree: ()-> @edges.length
 
-    # Neighbors
+    # Find neighbors
     neighbors: ()->
         regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
-        _.map @edges, (edgeID)->  edgeID.replace(regex, "")
+        _.map @edges, (edgeID)->  edgeID.replace(regex, "") 
