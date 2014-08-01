@@ -23,6 +23,7 @@ class alchemy.drawing.DrawEdge
             @_styleLink = (edge) -> 
                 edge.select('line')
                     .attr("class", (d) -> 
+                        # edge_data = alchemy._edges[d.id]
                         "edge #{d.caption} active #{if d.shortest then 'highlighted' else ''}")
                     .on('click', alchemy.interactions.edgeClick)
                     .attr('x1', (d) -> alchemy._nodes[d.source]._d3.x)

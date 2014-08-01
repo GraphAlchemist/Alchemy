@@ -30,8 +30,8 @@ alchemy.startGraph = (data) ->
     data.nodes.forEach (n) ->
         alchemy._nodes[n.id] = new alchemy.models.Node(n)
     data.edges.forEach (e) ->
-        id = if e.id? then e.id else "#{e.source}-#{e.target}"
-        alchemy._edges[id] = new alchemy.models.Edge(e)
+        if !e.id? then e.id = "#{e.source}-#{e.target}"
+        alchemy._edges[e.id] = new alchemy.models.Edge(e)
 
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
