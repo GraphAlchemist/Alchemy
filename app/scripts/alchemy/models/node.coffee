@@ -1,6 +1,7 @@
 class alchemy.models.Node
     constructor: (node) ->
         _.merge(@, node)
+        # @_id = _.uniqueID("node_")
 
         @properties = node
         @_d3 = {
