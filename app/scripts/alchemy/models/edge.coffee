@@ -8,8 +8,9 @@ class alchemy.models.Edge
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
         @_rawEdge = edge
         @_d3 = {
+            'id': edge.id
             'source': @source,
-            'target': @target
+            'target': @target,
             }
 
 

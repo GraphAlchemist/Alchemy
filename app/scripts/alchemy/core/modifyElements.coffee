@@ -186,40 +186,29 @@ alchemy.editor =
     remove: () ->
         console.log "remove called"
         selectedNodes = d3.selectAll(".selected.node")
-        selectedEdges = d3.selectAll(".selected.edge")
 
         console.log selectedNodes
-        console.log selectedEdges
 
         for node in selectedNodes[0]
             nodeID = d3.select(node).data()[0].id
+            selectedEdges = d3.selectAll(".edge[source-target*='#{nodeID}']")
+            selectedEdges.selectAll("line, path")
+                .classed("highlight", true)
+                .style("stroke", "red")
+
             node_data = alchemy._nodes[nodeID]
             if node_data?   
-                console.log node_data.edges
+                for edge in selectedEdges[0]
+                    edgeID = d3.select(edge).data()[0].id
+                    alchemy._edges = _.omit(alchemy._edges, "#{edgeID}")
+                    alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
+                    d3.select(edge).remove()
                 alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
-                alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3))
-                for edge in node_data.edges
-                    d3.select(edge)
+                alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
                 d3.select(node).remove()
 
-
-        for edge in selectedEdges[0]
-            edgeID = d3.select(edge).data()[0].id
-            if alchemy._edges[edgeID]?
-                console.log alchemy._edges[edgeID]
-                alchemy.edges = _.omit(alchemy._edges, "#{edgeID}")  
-                alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3))
-                d3.select(edge).remove()
         alchemy.drawing.drawNodes(alchemy.node)
-        # alchemy.drawing.drawEdges(alchemy.edge)     
-        
-        alchemy.force.friction(1)
-        alchemy.updateGraph(false)
-        
-        alchemy.force.resume()
-        alchemy.force.friction(0.9)         
-        
-        d3.selectAll(".selected").classed("selected", false)
+        alchemy.drawing.drawEdges(alchemy.edge)
 
     addNode: (node) ->
         newNode = alchemy._nodes[node.id] = new alchemy.models.Node({})
