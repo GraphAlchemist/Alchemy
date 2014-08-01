@@ -17,9 +17,9 @@
 alchemy.interactions =
     edgeClick: (d) ->
         vis = alchemy.vis
-        vis.selectAll('line')
+        vis.selectAll('.edge')
             .classed('highlight', false)
-        d3.select(this)
+        d3.select(@)
             .classed('highlight', true)
         d3.event.stopPropagation()
         if typeof alchemy.conf.edgeClick? is 'function'

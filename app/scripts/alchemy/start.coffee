@@ -29,8 +29,8 @@ class Alchemy
         @drawing = {}
         @log = {}
         @state = {
-            "interactions":"default"
-            "layout":"default"
+            "interactions": "default"
+            "layout": "default"
         }
 
     getState: (key) ->
