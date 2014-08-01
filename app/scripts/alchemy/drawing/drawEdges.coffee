@@ -27,7 +27,7 @@ alchemy.drawing.drawEdges = (edge) ->
     
     drawEdge.styleLink(edge)
     drawEdge.styleText(edge)
-
+    drawEdge.setInteractions(edge)
     # alchemy.drawing.drawEdge(edge)
     edge.exit().remove()
 

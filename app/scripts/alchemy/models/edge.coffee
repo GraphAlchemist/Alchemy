@@ -26,3 +26,4 @@ class alchemy.models.Edge
 
     setD3Property: (property, value) =>
         @_d3[property] = value
+        
