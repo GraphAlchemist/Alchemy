@@ -80,3 +80,28 @@ alchemy.drawing.drawingUtils =
             else
                 angle
         edgeCaption: (d) -> edgeCaption(d)
+
+    nodeUtils: () ->
+        nodes = alchemy._nodes
+        conf = alchemy.conf
+        nodeColours: (d) ->
+            node_data = nodes[d.id].getProperties()
+            if conf.cluster
+                if (isNaN parseInt node_data.cluster) or (node_data.cluster > conf.clusterColours.length)
+                    colour = conf.clusterColours[conf.clusterColours.length - 1]
+                else
+                    colour = conf.clusterColours[node_data.cluster]
+                "fill: #{colour}; stroke: #{colour};"
+            else
+                if conf.nodeColour
+                    colour = conf.nodeColour
+                else
+                    ''
+
+        resetDrag: () ->
+            drag = d3.behavior.drag()
+                .origin(Object)
+                .on("dragstart", null)
+                .on("drag", null)
+                .on("dragend", null)
+            drag

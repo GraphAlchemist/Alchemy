@@ -130,7 +130,8 @@ alchemy.modifyElements =
 
                 alchemy._nodes[nodeID].setProperty(propertyName, newVal)
                 d3.select(@).select(".property-name").attr("value", propertyName)
-                propertyVal.attr("placeholder", "#{newVal}")
+                propertyVal.attr("placeholder", "property updated to: #{newVal}")
+                # alchemy.drawing.updateNode(node)
                 @.reset()
 
     nodeEditorClear: () ->
@@ -180,24 +181,20 @@ alchemy.editor =
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node")
-        if !selectedNodes.empty()
-            for node in selectedNodes[0]
-                nodeID = d3.select(node).data()[0].id
+        for node in selectedNodes[0]
+            nodeID = d3.select(node).data()[0].id
 
-                node_data = alchemy._nodes[nodeID]
-                if node_data?  
-                    for edge in node_data.edges
-                        alchemy._edges = _.omit(alchemy._edges, "#{edge}")
-                        alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
-                        d3.select("#edge-#{edge}").remove()
-                    alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
-                    alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
-                    d3.select(node).remove()
-                    if alchemy.getState("interactions") is "editor"
-                        alchemy.modifyElements.nodeEditorClear()
-
-            alchemy.drawing.drawNodes(alchemy.node)
-            alchemy.drawing.drawEdges(alchemy.edge)
+            node_data = alchemy._nodes[nodeID]
+            if node_data?  
+                for edge in node_data.edges
+                    alchemy._edges = _.omit(alchemy._edges, "#{edge}")
+                    alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
+                    d3.select("#edge-#{edge}").remove()
+                alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
+                alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
+                d3.select(node).remove()
+                if alchemy.getState("interactions") is "editor"
+                    alchemy.modifyElements.nodeEditorClear()
 
     addNode: (node) ->
         newNode = alchemy._nodes[node.id] = new alchemy.models.Node(node)
@@ -208,15 +205,24 @@ alchemy.editor =
     addEdge: (edge) ->
         newEdge = alchemy._edges[edge.id] = new alchemy.models.Edge(edge)
         alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
+        # drawEdge = new alchemy.drawing.DrawEdge
+        # drawEdge.createLink(edge)
+        # drawEdge.styleLink(edge)
+        # drawEdge.styleText(edge)
+        # drawEdge.setInteractions(edge)
 
     update: (node, edge) ->
         #only push the node if it didn't previously exist
         if !@mouseUpNode
             alchemy.editor.addNode(node)
+            alchemy.editor.addEdge(edge)
+            alchemy.drawing.drawEdges(alchemy.edge)
             alchemy.drawing.drawNodes(alchemy.node)
 
-        alchemy.editor.addEdge(edge)
-        alchemy.drawing.drawEdges(alchemy.edge)
+        else
+            alchemy.editor.addEdge(edge)
+            alchemy.drawing.drawEdges(alchemy.edge)
+
         alchemy.layout.tick()
 
 
