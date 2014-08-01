@@ -185,16 +185,14 @@ alchemy.filters =
             #filter if tag is a nodeType
             if element.classed("nodeType")
                 for node in alchemy.node.filter(".#{name}.#{state}").data()
-                    nodeId = node.id
-
-                    for edge in alchemy.edge.filter("[source-target*='#{nodeId}']").data()
+                    for edge in alchemy.edge.filter("[source-target*='#{node.id}']").data()
                         edgeType = edge.caption
                         #the edge should not show if target of source node is inactive
                         if !d3.select("#li-#{edgeType}").empty() and d3.select("#li-#{edgeType}").classed("disabled")
-                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                            alchemy.edge.filter("[source-target*='#{node.id}']")
                                 .classed({"inactive": true, "active": false, "highlight": false})
                         else
-                            alchemy.edge.filter("[source-target*='#{nodeId}']")
+                            alchemy.edge.filter("[source-target*='#{node.id}']")
                                 .classed({"inactive": !checked, "active": checked, "highlight": highlight})
 
             else if element.classed("edgeType")

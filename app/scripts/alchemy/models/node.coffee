@@ -1,7 +1,8 @@
 class alchemy.models.Node
     constructor: (node) ->
         _.merge(@, node)
-        # @_id = _.uniqueID("node_")
+        # Stores edge.id for easy edge lookup
+        @edges = []
 
         @properties = node
         @_d3 = {
@@ -16,8 +17,6 @@ class alchemy.models.Node
         # Add to node collection
         Node::all.push(@.id)
 
-    # Stores edge.id for easy edge lookup
-    edges: []
     addEdge: (edge)->
         @edges.push(edge)
         @edges = _.uniq @edges
