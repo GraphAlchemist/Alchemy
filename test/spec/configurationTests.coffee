@@ -5,7 +5,7 @@ do ->
     # Test configuration to test assignment, not specific circumstance
     genericTestConf = {
         dataSource: "sample_data/contrib.json",
-        graphWidth: 200,
+        graphWidth: ()-> 200,
         graphHeight: ()-> 200,
         alpha: 0.23
     }
@@ -15,8 +15,9 @@ do ->
         alchemy.begin(conf)
     
     describe "Configuration testing", ->
-        before ()->
+        before (done)->
             runWithConf(genericTestConf)
+            setTimeout(done, 1000)
 
         #Helpers
         describe "afterLoad", ->
@@ -31,7 +32,7 @@ do ->
         #Layout
         describe "graphWidth", ->
             it "should reassign default configuration", (done) ->
-                alchemy.conf.graphWidth.should.equal(200)
+                alchemy.conf.graphWidth().should.equal(200)
                 done()
 
         describe "graphHeight", ->

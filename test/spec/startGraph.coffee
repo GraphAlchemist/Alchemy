@@ -1,6 +1,9 @@
 do ->
     describe "alchemy.startGraph()", ->
-        alchemy.begin({'dataSource': 'sample_data/contrib.json'})
+        before (done) ->
+            alchemy.begin({'dataSource': 'sample_data/contrib.json'})
+            setTimeout(done, 1000)
+
         it "should append svg to #alchemy div", (done) ->
             expect(d3.select('#alchemy').select("svg")).to.have.length(1)
             done()
