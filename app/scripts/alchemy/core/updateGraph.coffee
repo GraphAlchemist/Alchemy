@@ -15,26 +15,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
-    alchemy.layout.positionRootNodes()
+
+
     #enter/exit nodes/edges
 
-    nodeIDs = Object.keys(alchemy._nodes) # is this needed?
-
     alchemy.edge = alchemy.vis.selectAll("g.edge")
-                .data(_.map(alchemy._edges, (e) -> e._d3)) # check if this works
+                .data(_.map(alchemy._edges, (e) -> e._d3))
     alchemy.node = alchemy.vis.selectAll("g.node")
                 .data(_.map(alchemy._nodes, (n) -> n._d3))
-              
-    if start then @force.start()
-    if not initialComputationDone
+
+    if start
+        alchemy.layout.positionRootNodes()
+        @force.start()
+
         while @force.alpha() > 0.005
             alchemy.force.tick()
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
-        if(alchemy.conf.locked) then alchemy.force.stop()
-
-
-    alchemy.layout.tick()
 
     alchemy.styles.edgeGradient(alchemy._edges)
 

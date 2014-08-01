@@ -184,10 +184,7 @@ alchemy.editor =
         alchemy.drawing.setNodeInteractions(alchemy.node)
 
     remove: () ->
-        console.log "remove called"
         selectedNodes = d3.selectAll(".selected.node")
-
-        console.log selectedNodes
 
         for node in selectedNodes[0]
             nodeID = d3.select(node).data()[0].id

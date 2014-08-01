@@ -126,30 +126,17 @@ alchemy.interactions =
         d3.event.sourceEvent.stopPropagation()
         d3.select(this).classed("dragging", true)
         d.fixed = true
-        return
 
     nodeDragged: (d, i) ->
         d.x += d3.event.dx
         d.y += d3.event.dy
         d.px += d3.event.dx
         d.py += d3.event.dy
-        
-        # this block needs to be grouped into a "drawing function"
-        # so that we are not repeating ourselves and fucktoring things up
 
+        alchemy.updateGraph false
         d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-
-        # edges = alchemy._nodes[d.id].edges
-        # alchemy.drawing.drawEdges(edges)
-        # drawEdge = new alchemy.drawing.DrawEdge
-        # drawEdge.styleText(edges)
-        # drawEdge.styleLink(edges)
 
     nodeDragended: (d, i) ->
         d3.select(this).classed "dragging": false
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
-        return       
-
-
-
