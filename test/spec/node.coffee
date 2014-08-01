@@ -35,18 +35,16 @@ do ->
 
                 edgesType.should.equal arrayType
 
-            # Not currently supported by edge constructor
             it "should contain ids of all connected edges", ->
-                # testNode = alchemy._nodes[0]
-                # edges = testNode.edges
-                # edgeIDsFromData = ["1-0", "2-0", "3-0", "4-0", "5-0"]
+                testNode = alchemy._nodes[0]
+                edges = testNode.edges
+                edgeIDsFromData = ["1-0", "2-0", "3-0", "4-0", "5-0"]
 
-                # edges.should.equal edgeIDsFromData
+                edges.should.eql edgeIDsFromData
 
         describe "outDegree()", ->
-            # Not currently supported by edge constructor
             it "should return number of connections to node", ->
-                # testNode = alchemy._nodes[0]
-                # testNode.outDegree().should.equal 5
+                testNode = alchemy._nodes[0]
+                testNode.outDegree().should.equal 5
 
     return

@@ -24,7 +24,6 @@ class alchemy.models.Edge
 
     setProperty: (property, value) =>
         @[property] = value
-        # @_rawEdge[property] = value
 
     setD3Property: (property, value) =>
         @_d3[property] = value
