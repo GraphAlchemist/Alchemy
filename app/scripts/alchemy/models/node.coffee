@@ -18,7 +18,9 @@ class alchemy.models.Node
 
     # Stores edge.id for easy edge lookup
     edges: []
-    addEdge: (edge)-> @edges.push(edge)
+    addEdge: (edge)->
+        @edges.push(edge)
+        @edges = _.uniq @edges
     outDegree: ()-> @edges.length
 
     # Find connected nodes
