@@ -14,35 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-nodeDragStarted = (d, i) ->
-    d3.event.sourceEvent.stopPropagation()
-    d3.select(this).classed("dragging", true)
-    d.fixed = true
-    return
-
-nodeDragged = (d, i) ->
-    d.x += d3.event.dx
-    d.y += d3.event.dy
-    d.px += d3.event.dx
-    d.py += d3.event.dy
-    
-    # this block needs to be grouped into a "drawing function"
-    # so that we are not repeating ourselves and fucktoring things up
-
-    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-
-    # edges = alchemy._nodes[d.id].edges
-    # alchemy.drawing.drawEdges(edges)
-    # drawEdge = new alchemy.drawing.DrawEdge
-    # drawEdge.styleText(edges)
-    # drawEdge.styleLink(edges)
-
-nodeDragended = (d, i) ->
-    d3.select(this).classed "dragging": false
-    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
-        alchemy.force.start() #restarts force on drag
-    return
-
 alchemy.interactions =
     edgeClick: (d) ->
         vis = alchemy.vis
@@ -151,7 +122,34 @@ alchemy.interactions =
         offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas") or d3.select("#control-dash-wrapper").classed("initial")
         d3.select("#control-dash-wrapper").classed("off-canvas": !offCanvas, "initial": false, "on-canvas": offCanvas)
 
+    nodeDragStarted: (d, i) ->
+        d3.event.sourceEvent.stopPropagation()
+        d3.select(this).classed("dragging", true)
+        d.fixed = true
+        return
 
+    nodeDragged: (d, i) ->
+        d.x += d3.event.dx
+        d.y += d3.event.dy
+        d.px += d3.event.dx
+        d.py += d3.event.dy
+        
+        # this block needs to be grouped into a "drawing function"
+        # so that we are not repeating ourselves and fucktoring things up
+
+        d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+
+        # edges = alchemy._nodes[d.id].edges
+        # alchemy.drawing.drawEdges(edges)
+        # drawEdge = new alchemy.drawing.DrawEdge
+        # drawEdge.styleText(edges)
+        # drawEdge.styleLink(edges)
+
+    nodeDragended: (d, i) ->
+        d3.select(this).classed "dragging": false
+        if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
+            alchemy.force.start() #restarts force on drag
+        return       
 
 
 
