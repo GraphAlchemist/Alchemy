@@ -103,6 +103,7 @@ alchemy.modifyElements =
             .append("div")
             .attr("id", "node-properties-list")
         nodeProperties = alchemy._nodes[n.id].getProperties()
+        d3.select("#node-#{n.id}").classed("editing":true)
 
         for property, val of nodeProperties
             d3.select("#node-properties-list")
@@ -122,24 +123,18 @@ alchemy.modifyElements =
             .on "submit" , ->
                 event.preventDefault()
                 # grab original ID name and select node
-                nodeEdited = d3.select("#node-editor #node-id .property-value").attr("placeholder")
+                nodeID = n.id
                 propertyName = d3.select(@).select(".property-name").attr("value")
                 propertyVal = d3.select(@).select(".property-value")
                 newVal = propertyVal[0][0].value 
-                # two routes from here: create a clone node and replace the old node
-                # with the new one
-                # use a unique id for d3 and alchemy._nodes so key value pairs don't get messed up
-                if propertyName is "id"
-                    alchemy._nodes[nodeEdited].setD3Property(propertyName, newVal)
-                    d3.select("#node-#{nodeEdited}")
-                        .attr("id", "#node-#{newVal}")
-                alchemy._nodes[nodeEdited].setProperty(propertyName, newVal)
 
+                alchemy._nodes[nodeID].setProperty(propertyName, newVal)
                 d3.select(@).select(".property-name").attr("value", propertyName)
                 propertyVal.attr("placeholder", "#{newVal}")
                 @.reset()
 
     nodeEditorClear: () ->
+        d3.selectAll(".node").classed("editing":false)
         d3.select("#node-properties-list").remove()
         d3.select("#node-add-property input")
             .attr("placeholder", ()->
@@ -184,44 +179,35 @@ alchemy.editor =
         alchemy.drawing.setNodeInteractions(alchemy.node)
 
     remove: () ->
-        console.log "remove called"
         selectedNodes = d3.selectAll(".selected.node")
+        if !selectedNodes.empty()
+            for node in selectedNodes[0]
+                nodeID = d3.select(node).data()[0].id
 
-        console.log selectedNodes
+                node_data = alchemy._nodes[nodeID]
+                if node_data?  
+                    for edge in node_data.edges
+                        alchemy._edges = _.omit(alchemy._edges, "#{edge}")
+                        alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
+                        d3.select("#edge-#{edge}").remove()
+                    alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
+                    alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
+                    d3.select(node).remove()
+                    if alchemy.getState("interactions") is "editor"
+                        alchemy.modifyElements.nodeEditorClear()
 
-        for node in selectedNodes[0]
-            nodeID = d3.select(node).data()[0].id
-            selectedEdges = d3.selectAll(".edge[source-target*='#{nodeID}']")
-            selectedEdges.selectAll("line, path")
-                .classed("highlight", true)
-                .style("stroke", "red")
-
-            node_data = alchemy._nodes[nodeID]
-            if node_data?   
-                for edge in selectedEdges[0]
-                    edgeID = d3.select(edge).data()[0].id
-                    alchemy._edges = _.omit(alchemy._edges, "#{edgeID}")
-                    alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
-                    d3.select(edge).remove()
-                alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
-                alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
-                d3.select(node).remove()
-
-        alchemy.drawing.drawNodes(alchemy.node)
-        alchemy.drawing.drawEdges(alchemy.edge)
+            alchemy.drawing.drawNodes(alchemy.node)
+            alchemy.drawing.drawEdges(alchemy.edge)
 
     addNode: (node) ->
-        newNode = alchemy._nodes[node.id] = new alchemy.models.Node({})
-        newNode.setProperty("id", node.id)
-        newNode.setProperty("caption", node.caption)
-        newNode.setD3Property("id", node.id)
+        newNode = alchemy._nodes[node.id] = new alchemy.models.Node(node)
         newNode.setD3Property("x", node.x)
         newNode.setD3Property("y", node.y)
-        alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3))
+        alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
 
     addEdge: (edge) ->
         newEdge = alchemy._edges[edge.id] = new alchemy.models.Edge(edge)
-        alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3))
+        alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
 
     update: (node, edge) ->
         #only push the node if it didn't previously exist
@@ -266,8 +252,10 @@ alchemy.editor.interactions = ->
 
     @nodeClick = (c) =>
         d3.event.stopPropagation()
+        console.log c
         # select the correct nodes
         if !alchemy.vis.select("#node-#{c.id}").empty()
+            console.log "click"
             selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
         alchemy.modifyElements.nodeEditorClear()
@@ -301,7 +289,7 @@ alchemy.editor.interactions = ->
                 targetX = dragline.attr("x2")
                 targetY = dragline.attr("y2")
 
-                @targetNode = {id: "#{_.uniqueId('addedNode_')}", "x": targetX, "y": targetY, caption: "node added"}
+                @targetNode = {id: "#{_.uniqueId('addedNode_')}", x: parseFloat(targetX), y: parseFloat(targetY), caption: "node added"}
 
             @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode.id, target: @targetNode.id, caption: "edited"}   
             alchemy.editor.update(@targetNode, @newEdge)

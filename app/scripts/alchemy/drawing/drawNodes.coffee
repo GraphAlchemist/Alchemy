@@ -67,7 +67,7 @@ alchemy.drawing.setNodeInteractions = (node) ->
 alchemy.drawing.drawNodes = (node) ->
     nodeEnter = node.enter().append("g")
                     .attr("class", (d) ->
-                        node_data = alchemy._nodes[d.id]
+                        node_data = alchemy._nodes[d.id].getProperties()
                         rootKey = alchemy.conf.rootNodes
                         if alchemy.conf.nodeTypes
                             nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
@@ -82,7 +82,7 @@ alchemy.drawing.drawNodes = (node) ->
     alchemy.drawing.setNodeInteractions(node)
 
     nodeColours = (d) ->
-        node_data = alchemy._nodes[d.id]
+        node_data = alchemy._nodes[d.id].getProperties()
         if alchemy.conf.cluster
             if (isNaN parseInt node_data.cluster) or (node_data.cluster > alchemy.conf.clusterColours.length)
                 colour = alchemy.conf.clusterColours[alchemy.conf.clusterColours.length - 1]
@@ -98,7 +98,7 @@ alchemy.drawing.drawNodes = (node) ->
     nodeEnter
         .append('circle')
         .attr('class', (d) -> 
-            node_data = alchemy._nodes[d.id]
+            node_data = alchemy._nodes[d.id].getProperties()
             rootKey = alchemy.conf.rootNodes
             if alchemy.conf.nodeTypes
                 nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
@@ -110,7 +110,7 @@ alchemy.drawing.drawNodes = (node) ->
            	)
         .attr('id', (d) -> "circle-#{d.id}")
         .attr('r', (d) -> 
-            node_data = alchemy._nodes[d.id]
+            node_data = alchemy._nodes[d.id].getProperties()
             alchemy.utils.nodeSize(node_data)
             )
         .attr('shape-rendering', 'optimizeSpeed')
@@ -127,5 +127,5 @@ alchemy.drawing.drawNodes = (node) ->
     nodeEnter
         .append('svg:text')
         .attr('id', (d) -> "text-#{d.id}")
-        .attr('dy', (d) -> if alchemy._nodes[d.id].root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
+        .attr('dy', (d) -> if alchemy._nodes[d.id].properties.root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
         .html((d) -> alchemy.utils.nodeText(d))

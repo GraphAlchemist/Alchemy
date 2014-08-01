@@ -27,12 +27,13 @@ alchemy.interactions =
 
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
+            node = alchemy._nodes[n.id]
             if typeof alchemy.conf.nodeMouseOver == 'function'
-                alchemy.conf.nodeMouseOver(n)
+                alchemy.conf.nodeMouseOver(node)
             else if typeof alchemy.conf.nodeMouseOver == ('number' or 'string')
                 # the user provided an integer or string to be used
                 # as a data lookup key on the node in the graph json
-                return n[alchemy.conf.nodeMouseOver]
+                return node.properties[alchemy.conf.nodeMouseOver]
         else
             null
 

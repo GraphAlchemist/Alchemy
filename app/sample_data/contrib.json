@@ -2,41 +2,41 @@
     "comment": "AlchemyJS contributors",
     "nodes": [
         {
-            "id": 0,
+            "id": "alch",
             "caption": "AlchemyJS",
             "role": "project",
             "root": true
         },
         {
-            "id": 1,
+            "id": "hh",
             "caption": "Huston Hedinger",
             "github": "hustonhedinger",
             "role": "Maintainer",
             "fun_fact": "hooligan"
         },
         {
-            "id": 2,
+            "id": "ga",
             "caption": "Grace Andrews",
             "github": "Grace-Andrews",
             "role": "Maintainer",
             "fun_fact": "was born left handed, now right handed."
         },
         {
-            "id": 3,
+            "id": "ij",
             "caption": "Isabella Jorissen",
             "github": "ifjorissen",
             "role": "Maintainer",
             "fun_fact": "knows a lot of digits of pi. Also loves pie."
         },
         {
-            "id": 4,
+            "id": "mc",
             "caption": "Matt Cox",
             "github": "MDCox",
             "role": "Maintainer",
             "fun_fact": "is not fun"
         },
         {
-            "id": 5,
+            "id": "dt",
             "caption": "Dave Torbeck",
             "github": "DaveTorbeck",
             "role": "Contributor",
@@ -45,28 +45,28 @@
     ],
     "edges": [
         {
-            "source": 1,
-            "target": 0,
+            "source": "hh",
+            "target": "alch",
             "caption": "Maintains"
         },
         {
-            "source": 2,
-            "target": 0,
+            "source": "ga",
+            "target": "alch",
             "caption": "Maintains"
         },
         {
-            "source": 3,
-            "target": 0,
+            "source": "ij",
+            "target": "alch",
             "caption": "Maintains"
         },
         {
-            "source": 4,
-            "target": 0,
+            "source": "mc",
+            "target": "alch",
             "caption": "Often Breaks"
         },
         {
-            "source": 5,
-            "target": 0,
+            "source": "dt",
+            "target": "alch",
             "caption": "contributes"
         }
     ]
