@@ -9,7 +9,10 @@ do ->
             describe '@_d3', ->
                 it "should initialize as an object", ->
                     testNode = alchemy._nodes[0]
-                    typeof testNode._d3.should.equal typeof Object()
+                    _d3Type = typeof testNode._d3
+                    objType = typeof {}
+
+                    typeof _d3Type.should.equal objType
                 
                 it "should contain properties from d3 calculations", ->
                     testNode = alchemy._nodes[0]
@@ -27,7 +30,10 @@ do ->
         describe "@edges", ->
             it "should be an array", ->
                 testNode = alchemy._nodes[0]
-                typeof testNode.edges.should.equal typeof Array()
+                edgesType = typeof testNode.edges
+                arrayType = typeof []
+
+                edgesType.should.equal arrayType
 
             # Not currently supported by edge constructor
             it "should contain ids of all connected edges", ->
