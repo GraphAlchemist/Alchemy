@@ -16,6 +16,7 @@ do ->
     
     describe "Configuration testing", ->
         before (done)->
+            d3.select("alchemy").html("")
             runWithConf(genericTestConf)
             setTimeout(done, 1000)
 
