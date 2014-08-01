@@ -156,7 +156,6 @@ do ->
             "placeholder"
 
         describe "scaleExtent", ->
-            # not yet implemented
             "placeholder"
 
         describe "warningMessage", ->

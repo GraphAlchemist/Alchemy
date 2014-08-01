@@ -34,4 +34,7 @@ do ->
                 edges.should.equal edgeIDsFromData
 
         describe "outDegree()", ->
-            testNode.outDegree.should.equal 5
+            it "should return number of connections to node", ->
+                testNode.outDegree.should.equal 5
+
+    return
