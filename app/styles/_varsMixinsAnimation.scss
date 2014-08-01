@@ -21,6 +21,35 @@ $ctrl-dash-background: url("images/maze-black.png");
     border-bottom-right-radius: 3px;
     box-shadow: 0 0 5px rgba(white, .3);
 }
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: .3;
+    }
+    50% {       
+        opacity: .66;
+    }
+    75% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: .3;
+    }
+    50% {       
+        opacity: .66;
+    }
+    75% {
+        opacity: 1;
+    }
+}
 
 @-webkit-keyframes pulse {
     0% {

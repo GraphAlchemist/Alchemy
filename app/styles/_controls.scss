@@ -14,7 +14,7 @@
         color: #E89619;
         }
         &:hover{
-            background-color: rgba(white, .2)
+            background-color: rgba(white, .2);
         }
         &:active{
             border: none;
@@ -112,7 +112,40 @@
         margin-left: 2%;
         color: white;
         .node-property{
+            display: inline-flex;
+            background: black;
             margin: 4px 0;
+            width: 100%;
+            .property-value{
+                border: thin rgba(white, .2) solid;
+                border-left:none;
+                background-color: black;
+                color: white;
+                width: 100%;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+            .property-name{
+                text-align: center;
+                cursor: default;
+                background: rgba(white, .2);
+                border: thin transparent solid;
+                color: $bright-orange;
+                border-right: none;
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+        .property-value{
+            width: 100%;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+        .property-name{
+            cursor: default;
+            border-right: thin #d4d4d4 solid;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
         }
     }
     #editor-interactions{
@@ -122,6 +155,10 @@
         &.inactive{
             color: white;
         }
+    }
+    #node-editor.enabled{
+        -webkit-animation: fadeIn 1s linear;
+        animation: fadeIn 1s linear;
     }
 }
 
