@@ -28,8 +28,7 @@ alchemy.drawing.setNodeInteractions = (node) ->
 
     if editorEnabled
     # set interactions
-        node
-            .on('mouseup', editor.nodeMouseUp)
+        node.on('mouseup', editor.nodeMouseUp)
             .on('mouseover', editor.nodeMouseOver)
             .on('mouseout', editor.nodeMouseOut)
             .on('dblclick', alchemy.interactions.nodeDoubleClick)
