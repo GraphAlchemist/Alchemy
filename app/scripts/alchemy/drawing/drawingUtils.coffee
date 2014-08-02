@@ -39,6 +39,12 @@ alchemy.drawing.drawingUtils =
                 ""
 
         square = (n) -> n * n
+        hyp = (edge) ->
+            # build a right triangle
+            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
+            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            # as in hypotenuse
+            Math.sqrt(height * height + width * width)
         edgeWalk = (edge, point) ->
             # build a right triangle
             width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
@@ -55,6 +61,13 @@ alchemy.drawing.drawingUtils =
             height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
             Math.atan2(height, width) / Math.PI * 180
         
+        _middlePath = (edge) ->
+            pathNode = d3.select("#path-#{edge.id}").node()
+            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
+                
+            x: midPoint.x
+            y: midPoint.y
+
         caption = alchemy.conf.edgeCaption
         if typeof caption is ('string' or 'number')
             edgeCaption = (d) -> edges[d.id][caption]
@@ -81,3 +94,5 @@ alchemy.drawing.drawingUtils =
             else
                 angle
         edgeCaption: (d) -> edgeCaption(d)
+        hyp: (edge) -> hyp(edge)
+        middlePath: (edge) -> _middlePath(edge)

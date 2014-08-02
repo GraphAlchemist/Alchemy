@@ -51,7 +51,7 @@ class alchemy.drawing.DrawEdge
                         dx = targetX - sourceX
                         dy = targetY - sourceY
                         hyp = Math.sqrt( dx * dx + dy * dy)
-                        "M#{sourceX},#{sourceY}A#{hyp},#{hyp} 0 0,1 #{targetX},#{targetY}")
+                        "M #{sourceX},#{sourceY} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{targetX}, #{targetY}")
         if not conf.curvedEdges
             @_createLink = (edge) ->
                 edge.append('rect')
@@ -65,9 +65,10 @@ class alchemy.drawing.DrawEdge
                     .style('stroke-width', "#{conf.edgeOverlayWidth}")
                 edge.append('path')
                     .attr('class', 'edge-line')
-                    .attr('id', (d) ->"path-#{d.id}")
+                    .attr('id', (d) -> "path-#{d.id}")
                 edge.append('text')
                     .append('textPath')
+                    .attr('class', 'textpath') # this is a workaround for a bug in webkit
         if not conf.curvedEdges
             @_styleText = (edge) ->
                 edge.select('text')
@@ -78,15 +79,11 @@ class alchemy.drawing.DrawEdge
         else
             @_styleText = (edge) ->
                 edge.select('text')
-                    .attr('x', 10)
-                    .attr('dy', 10)
-                    .select('textPath')
-                    .attr("xlink:href", (d) -> "#path-#{d.id}")
-                    .text((d) -> 
-                        debugger
-                        utils.edgeCaption(d))
+                    .attr('dx', (d) -> utils.middlePath(d).x)
+                    .attr('dy', (d) -> utils.middlePath(d).y + 20)
+                    .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})")
+                    .text((d) -> utils.edgeCaption(d))
         @_setInteractions = (edge) ->
-            debugger
             edge.select('.edge-handler')
                 .on('click', (d) -> interactions.edgeClick(d))
         @_classLink = (edge) ->
