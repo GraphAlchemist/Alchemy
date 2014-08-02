@@ -15,19 +15,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.drawing.drawEdges = (edge) ->  
+    ###
+    edge drawing should be refactored to use
+    edge.data( (d) ->
+        ...
+        )
+    to do all operations in one iteration through edge selection...
+    ###
     edge.enter().append('g')
                 .attr('class', 'edge')
-                .attr('source-target', (d) -> "#{d.source}-#{d.target}")
-        
+                .attr('source-target', (d) -> "#{d.source}-#{d.target}")    
     drawEdge = new @DrawEdge
     drawEdge.createLink(edge)
-    edge.append('text')
-
-    
+    drawEdge.classLink(edge)
     drawEdge.styleLink(edge)
     drawEdge.styleText(edge)
     drawEdge.setInteractions(edge)
-    # alchemy.drawing.drawEdge(edge)
     edge.exit().remove()
 
     # notes on proper appending of caption to curved edges

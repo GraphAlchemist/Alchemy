@@ -17,6 +17,7 @@
 alchemy.drawing.drawingUtils = 
     edgeUtils: () ->
         nodes = alchemy._nodes
+        edges = alchemy._edges
         # edge styles based on clustering
         if alchemy.conf.cluster
             edgeStyle = (d) ->
@@ -46,8 +47,8 @@ alchemy.drawing.drawingUtils =
             hyp = Math.sqrt(height * height + width * width)
             distance = (hyp / 2) if point is "middle"
             return {
-                x: edge.source.x + width * distance / hyp
-                y: edge.source.y + height * distance / hyp
+                x: nodes[edge.source]._d3.x + width * distance / hyp
+                y: nodes[edge.source]._d3.y + height * distance / hyp
             }
         edgeAngle = (edge) ->
             width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
@@ -56,9 +57,9 @@ alchemy.drawing.drawingUtils =
         
         caption = alchemy.conf.edgeCaption
         if typeof caption is ('string' or 'number')
-            edgeCaption = (d) -> d[caption]
+            edgeCaption = (d) -> edges[d.id][caption]
         else if typeof caption is 'function'
-            edgeCaption = (d) -> caption(d)
+            edgeCaption = (d) -> caption(edges[d.id])
 
 
         middleLine: (edge) -> edgeWalk(edge, 'middle')

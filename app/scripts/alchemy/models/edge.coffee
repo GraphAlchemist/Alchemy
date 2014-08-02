@@ -6,13 +6,13 @@ class alchemy.models.Edge
         # Works with undefined @edgeStyle
         conf = alchemy.conf
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
+        @classes = {'active': true} #assign active class to edges by default
         @_rawEdge = edge
         @_d3 = {
             'id': edge.id
             'source': @source,
             'target': @target,
             }
-
 
     toPublic: =>
         keys = _.keys(@_rawEdge)
