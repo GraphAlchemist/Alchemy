@@ -133,8 +133,8 @@ alchemy.modifyElements =
                 propertyVal.attr("placeholder", "property updated to: #{newVal}")
                 
                 # update node
-                drawNode = new alchemy.drawing.DrawNode
-                drawNode.update(d3.select("#node-#{nodeID}"))
+                drawNodes = new alchemy.drawing.DrawNodes
+                drawNodes.updateNode(d3.select("#node-#{nodeID}"))
                 @.reset()
 
     nodeEditorClear: () ->
@@ -159,10 +159,7 @@ alchemy.editor =
             .attr("class", "enabled")
             .style("opacity", 1)
 
-        d3.selectAll(".node circle")
-            .style("stroke", "#E82C0C")
-
-        @drawNode.update(alchemy.node)
+        @drawNodes.updateNode(alchemy.node)
 
     disableEditor: () ->
         alchemy.setState("interactions", "default")
@@ -177,10 +174,7 @@ alchemy.editor =
             .delay(300)
             .attr("class", "hidden")
 
-        d3.selectAll(".node circle")
-            .style("stroke", "white")
-
-        @drawNode.update(alchemy.node)
+        @drawNodes.updateNode(alchemy.node)
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node")
@@ -189,7 +183,7 @@ alchemy.editor =
 
             node_data = alchemy._nodes[nodeID]
             if node_data?  
-                for edge in node_data.edges
+                for edge in node_data.adjacentEdges
                     alchemy._edges = _.omit(alchemy._edges, "#{edge}")
                     alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
                     d3.select("#edge-#{edge}").remove()
@@ -209,23 +203,18 @@ alchemy.editor =
     addEdge: (edge) ->
         newEdge = alchemy._edges[edge.id] = new alchemy.models.Edge(edge)
         alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
-        # drawEdge = new alchemy.drawing.DrawEdge
-        # drawEdge.createLink(edge)
-        # drawEdge.styleLink(edge)
-        # drawEdge.styleText(edge)
-        # drawEdge.setInteractions(edge)
 
     update: (node, edge) ->
         #only push the node if it didn't previously exist
         if !@mouseUpNode
             alchemy.editor.addNode(node)
             alchemy.editor.addEdge(edge)
-            alchemy.drawing.drawEdges(alchemy.edge)
-            alchemy.drawing.drawNodes(alchemy.node)
+            @drawEdges.createEdge(alchemy.edge)
+            @drawNodes.createNode(alchemy.node)
 
         else
             alchemy.editor.addEdge(edge)
-            alchemy.drawing.drawEdges(alchemy.edge)
+            @drawEdges.createEdge(alchemy.edge)
 
         alchemy.layout.tick()
 
@@ -236,7 +225,8 @@ alchemy.editor.interactions = ->
     @targetNode = null
     @newEdge = null
     @click = null
-    @drawNode = new alchemy.drawing.DrawNode
+    @drawNodes = new alchemy.drawing.DrawNodes
+    @drawEdges = new alchemy.drawing.DrawEdges
 
     @nodeMouseOver = (n) ->
         if !d3.select(@).select("circle").empty()
@@ -307,6 +297,15 @@ alchemy.editor.interactions = ->
 
         alchemy.editor.interactions().reset()
         @
+
+    @deleteSelected = (d) =>
+        d3.event.preventDefault()
+        switch d3.event.keyCode
+            when 8, 46
+                console.log d3.select(d3.event.target).node().tagName
+                if d3.select(d3.event.target).node().tagName is ("INPUT" or "TEXTAREA")
+                    console.log "backspace or delete"
+                else alchemy.editor.remove()
 
     @reset = =>
         # reset interaciton variables

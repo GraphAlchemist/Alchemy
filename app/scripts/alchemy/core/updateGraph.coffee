@@ -41,7 +41,8 @@ alchemy.updateGraph = (start=true) ->
 
     drawEdges = new alchemy.drawing.DrawEdges
     drawEdges.createEdge(alchemy.edge)
-    alchemy.drawing.drawNodes(alchemy.node)
+    drawNodes = new alchemy.drawing.DrawNodes
+    drawNodes.createNode(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
            .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")

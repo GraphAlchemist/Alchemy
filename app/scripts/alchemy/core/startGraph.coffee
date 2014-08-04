@@ -30,8 +30,8 @@ alchemy.startGraph = (data) ->
     data.nodes.forEach (n) ->
         alchemy._nodes[n.id] = new alchemy.models.Node(n)
     data.edges.forEach (e) ->
-        if !e.id? then e.id = "#{e.source}-#{e.target}"
-        alchemy._edges[e.id] = new alchemy.models.Edge(e)
+        edge  = new alchemy.models.Edge(e)
+        alchemy._edges[edge.id] = edge
 
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
@@ -44,6 +44,10 @@ alchemy.startGraph = (data) ->
             .call(alchemy.interactions.zoom(alchemy.conf.scaleExtent))
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
+                
+    #remove nodes with backspace or delete key
+    d3.select("body")
+        .on('keydown', alchemy.editor.interactions().deleteSelected)
 
     # force layout constant
     k = Math.sqrt(data.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
