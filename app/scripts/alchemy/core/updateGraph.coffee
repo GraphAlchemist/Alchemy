@@ -36,7 +36,8 @@ alchemy.updateGraph = (start=true) ->
 
     alchemy.layout.tick()
 
-    alchemy.styles.edgeGradient(alchemy._edges)
+    clustering = new alchemy.clustering
+    clustering.edgeGradient(alchemy._edges)
 
     drawEdges = new alchemy.drawing.DrawEdges
     drawEdges.createEdge(alchemy.edge)
