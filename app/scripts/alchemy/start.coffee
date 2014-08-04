@@ -33,11 +33,11 @@ class Alchemy
             layout: "default"
         }
 
-    getState: (key) =>
+    getState: (key) ->
         if @state.key?
             @state.key
 
-    setState: (key, value) =>
+    setState: (key, value) ->
         @state.key = value
 
 if typeof module isnt 'undefined' and module.exports

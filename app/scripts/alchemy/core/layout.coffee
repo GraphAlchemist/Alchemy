@@ -13,6 +13,14 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# class alchemy.layout.force
+#     constructor: 
+#         @gravity
+#         @charge
+#         @linkStrength
+#         @linkDistancefn
+#         @friction
+#         @collide
 
 alchemy.layout =
     gravity: (k) ->
@@ -25,10 +33,12 @@ alchemy.layout =
             -10 / k
 
     linkStrength: (edge) ->
+        sourceNode = alchemy._nodes[edge.source.id]
+        targetNode = alchemy._nodes[edge.target.id]
         if alchemy.conf.cluster
-            if edge.source.cluster is edge.target.cluster then 1 else 0.1
+            if sourceNode.properties.cluster is targetNode.properties.cluster then 1 else 0.1
         else
-            if edge.source.root or edge.target.root
+            if sourceNode.properties.root or targetNode.properties.root
                 0.9
             else
                 1
