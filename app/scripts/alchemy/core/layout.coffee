@@ -13,6 +13,14 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# class alchemy.layout.force
+#     constructor: 
+#         @gravity
+#         @charge
+#         @linkStrength
+#         @linkDistancefn
+#         @friction
+#         @collide
 
 class alchemy.Layout
     constructor: ->
@@ -40,7 +48,7 @@ class alchemy.Layout
             return
         else
             nodes = alchemy._nodes
-            if nodes[edge.source.id].root or nodes[edge.target.id].root
+            if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
                 0.9
             else
                 1

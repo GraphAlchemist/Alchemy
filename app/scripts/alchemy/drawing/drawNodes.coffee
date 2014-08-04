@@ -13,25 +13,34 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-alchemy.drawing.drawNodes = (node) ->
-    nodeEnter = node.enter().append("g")
-                    .attr("class", (d) ->
-                        node_data = alchemy._nodes[d.id].getProperties()
-                        rootKey = alchemy.conf.rootNodes
-                        if alchemy.conf.nodeTypes
-                            nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
-                            if node_data[rootKey]? and node_data[rootKey] then "node root #{nodeType} active"
-                            else "node #{nodeType} active"
-                        else
-                            if node_data[rootKey]? and node_data[rootKey] then "node root active"
-                            else "node active"
-                        )
-                    .attr('id', (d) -> "node-#{d.id}")
-                    
-    drawNode = new @DrawNode
-    drawNode.createNode(node)
-    drawNode.styleNode(node)
-    drawNode.styleText(node)
-    drawNode.setInteractions(node)
-    node.exit().remove()
+
+class alchemy.drawing.DrawNodes
+    constructor: ->
+        @drawNode = new alchemy.drawing.DrawNode
+
+    createNode: (node) ->
+        node.enter().append("g")
+                .attr("class", (d) ->
+                    node_data = alchemy._nodes[d.id].getProperties()
+                    rootKey = alchemy.conf.rootNodes
+                    if alchemy.conf.nodeTypes
+                        nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
+                        if node_data[rootKey]? and node_data[rootKey] then "node root #{nodeType} active"
+                        else "node #{nodeType} active"
+                    else
+                        if node_data[rootKey]? and node_data[rootKey] then "node root active"
+                        else "node active"
+                    )
+                .attr('id', (d) -> "node-#{d.id}")
+
+        @drawNode.createNode(node)
+        @drawNode.styleNode(node)
+        @drawNode.styleText(node)
+        @drawNode.setInteractions(node)
+        node.exit().remove()
+
+    updateNode: (node) ->
+        @drawNode.styleNode(node)
+        @drawNode.styleText(node)
+        @drawNode.setInteractions(node)
 

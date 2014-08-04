@@ -20,15 +20,14 @@ class alchemy.drawing.DrawEdge
         # edge is a selection of a single edge or multiple edges
         utils = alchemy.drawing.drawingUtils.edgeUtils()
         conf = alchemy.conf
-        nodes = alchemy._nodes
         interactions = alchemy.interactions
         if not conf.curvedEdges
             @_styleLink = (edge) -> 
                 edge.select('line')
-                    .attr('x1', (d) -> nodes[d.source]._d3.x)
-                    .attr('y1', (d) -> nodes[d.source]._d3.y)
-                    .attr('x2', (d) -> nodes[d.target]._d3.x)
-                    .attr('y2', (d) -> nodes[d.target]._d3.y)
+                    .attr('x1', (d) -> d.source.x)
+                    .attr('y1', (d) -> d.source.y)
+                    .attr('x2', (d) -> d.target.x)
+                    .attr('y2', (d) -> d.target.y)
                     .attr('shape-rendering', 'optimizeSpeed')
                     .attr("style", (d) -> utils.edgeStyle(d))
                     .attr("style", {'stroke-width': conf.edgeWidth})
@@ -38,16 +37,16 @@ class alchemy.drawing.DrawEdge
                     .attr('height', conf.edgeOverlayWidth)
                     .attr('width', (d) -> utils.edgeLength(d)) 
                     .on('click', alchemy.interactions.edgeClick)
-                    .attr('transform', (d) -> "translate(#{nodes[d.source]._d3.x}, #{nodes[d.source]._d3.y}) rotate(#{utils.edgeAngle(d)})")
+                    .attr('transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})")
         else
             @_styleLink = (edge) -> 
                 edge.selectAll('path')
                      .attr('d', (d) ->
                         # high school  trigonometry
-                        sourceX = alchemy._nodes[d.source]._d3.x
-                        sourceY = alchemy._nodes[d.source]._d3.y
-                        targetX = alchemy._nodes[d.target]._d3.x
-                        targetY = alchemy._nodes[d.target]._d3.y
+                        sourceX = d.source.x
+                        sourceY = d.source.y
+                        targetX = d.target.x
+                        targetY = d.target.y
                         dx = targetX - sourceX
                         dy = targetY - sourceY
                         hyp = Math.sqrt( dx * dx + dy * dy)
