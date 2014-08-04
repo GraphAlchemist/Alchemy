@@ -134,16 +134,13 @@ alchemy.interactions =
         d.px += d3.event.dx
         d.py += d3.event.dy
         
-        # this block needs to be grouped into a "drawing function"
-        # so that we are not repeating ourselves and fucktoring things up
-
-        d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-
-        # edges = alchemy._nodes[d.id].edges
-        # alchemy.drawing.drawEdges(edges)
-        # drawEdge = new alchemy.drawing.DrawEdge
-        # drawEdge.styleText(edges)
-        # drawEdge.styleLink(edges)
+        node = d3.select(this)
+        node.attr("transform", "translate(#{d.x}, #{d.y})")
+        edgeIDs = alchemy._nodes[node.datum().id].adjacentEdges
+        drawEdges = new alchemy.drawing.DrawEdges
+        for id in edgeIDs
+            selection = d3.select("g.edge[source-target='#{id}']")
+            drawEdges.updateEdge(selection)
 
     nodeDragended: (d, i) ->
         d3.select(this).classed "dragging": false

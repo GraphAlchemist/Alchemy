@@ -104,13 +104,6 @@ alchemy.layout =
         drawEdge.styleText(alchemy.edge)
         drawEdge.styleLink(alchemy.edge)
 
-        # alchemy.edge.select('line')
-        #             .attr("x1", (d) -> d.source.x )
-        #             .attr("y1", (d) -> d.source.y )
-        #             .attr("x2", (d) -> d.target.x )
-        #             .attr("y2", (d) -> d.target.y )
-
-
     positionRootNodes: () ->
         container = 
             width: alchemy.conf.graphWidth()

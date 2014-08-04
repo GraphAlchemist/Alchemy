@@ -14,29 +14,26 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.drawing.drawEdges = (edge) ->  
-    ###
-    edge drawing should be refactored to use
-    edge.data( (d) ->
-        ...
-        )
-    to do all operations in one iteration through edge selection...
-    ###
-    edge.enter().append('g')
-                .attr('class', 'edge')
-                .attr('source-target', (d) -> "#{d.source}-#{d.target}")    
-    drawEdge = new @DrawEdge
-    drawEdge.createLink(edge)
-    drawEdge.classLink(edge)
-    drawEdge.styleLink(edge)
-    drawEdge.styleText(edge)
-    drawEdge.setInteractions(edge)
-    edge.exit().remove()
+class alchemy.drawing.DrawEdges
+    constructor: ->
+        @drawEdge = new alchemy.drawing.DrawEdge
+    
+    createEdge: (edge) ->
+        # used to create edges
+        # 'edge' is one or more edges in a d3 selection
+        edge.enter().append('g')
+                    .attr('class', 'edge')
+                    .attr('source-target', (d) -> "#{d.source}-#{d.target}")    
+        @drawEdge.createLink(edge)
+        @drawEdge.classLink(edge)
+        @drawEdge.styleLink(edge)
+        @drawEdge.styleText(edge)
+        @drawEdge.setInteractions(edge)
+        edge.exit().remove()
 
-    # notes on proper appending of caption to curved edges
-    # edge.append('use')
-    #     .attr('xlink:href', (d) ->
-    #         d3.select("#{alchemy.conf.divSelector} svg defs")
-    #             .append('path')
-    #             .attr('source-target', "#{d.source.id}-#{d.target.id}")
-    #         "#{d.source.id}-#{d.target.id}")
+    updateEdge: (edge) ->
+        # 'edge' is one or more edges in a d3 selection
+        @drawEdge.classLink(edge)
+        @drawEdge.styleLink(edge)
+        @drawEdge.styleText(edge)
+        @drawEdge.setInteractions(edge)
