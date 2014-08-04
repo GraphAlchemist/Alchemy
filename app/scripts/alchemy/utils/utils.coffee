@@ -35,11 +35,6 @@ alchemy.utils =
         # call user-specified deselect function if specified
         if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
             alchemy.conf.deselectAll()
-
-    # resize: ->
-    #     d3.select('.alchemy svg')
-    #         .attr("width", alchemy.container.width)
-    #         .attr("height", alchemy.container.height)
     
     # not currently used, but can be implemented
     centreView: (id) ->
@@ -58,13 +53,14 @@ alchemy.utils =
         zoom.translate([x, y]).scale(level)
 
     nodeText: (d) -> 
+        node = alchemy._nodes[d.id]
         if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'string'
-            if d[alchemy.conf.nodeCaption]?
-                d[alchemy.conf.nodeCaption]
+            if node[alchemy.conf.nodeCaption]?
+                node[alchemy.conf.nodeCaption]
             else
                 ''
         else if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'function'
-            caption = alchemy.conf.nodeCaption(d)
+            caption = alchemy.conf.nodeCaption(node)
             if caption == undefined or String(caption) == 'undefined'
                 alchemy.log["caption"] = "At least one caption returned undefined"
                 alchemy.conf.caption = false
@@ -95,12 +91,3 @@ alchemy.utils =
                     alchemy.conf.nodeRadius
         else
             20
-
-    neighbors: (node) ->
-        # return all nodes connected to an edge
-
-    edgeNeib: (node) ->
-        # return a d3 selection of all edges connected to node
-        connections = alchemy.edge.filter (e) -> 
-            e if e.source.id is node.id or e.target.id is node.id
-        connections

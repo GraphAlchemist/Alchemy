@@ -14,32 +14,26 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.drawing.drawEdges = (edge) ->  
+class alchemy.drawing.DrawEdges
+    constructor: ->
+        @drawEdge = new alchemy.drawing.DrawEdge
     
-    edge.enter().append('g')
-                .attr('class', 'edge')
-                .attr('source-target', (d) -> d.source.id + '-' + d.target.id)
-    
-    if not alchemy.conf.curvedEdges
-        edge.append('line')
-    else
-        edge.append('path')
-    
-    # notes on proper appending of caption to curved edges
-    # edge.append('use')
-    #     .attr('xlink:href', (d) ->
-    #         d3.select("#{alchemy.conf.divSelector} svg defs")
-    #             .append('path')
-    #             .attr('source-target', "#{d.source.id}-#{d.target.id}")
-    #         "#{d.source.id}-#{d.target.id}")
+    createEdge: (edge) ->
+        # used to create edges
+        # 'edge' is one or more edges in a d3 selection
+        edge.enter().append('g')
+                    .attr('class', 'edge')
+                    .attr('source-target', (d) -> "#{d.source}-#{d.target}")    
+        @drawEdge.createLink(edge)
+        @drawEdge.classLink(edge)
+        @drawEdge.styleLink(edge)
+        @drawEdge.styleText(edge)
+        @drawEdge.setInteractions(edge)
+        edge.exit().remove()
 
-
-    edge.append('text')
-
-    drawEdge = @drawEdge()
-    
-    drawEdge.styleLink(edge)
-    drawEdge.styleText(edge)
-
-    # alchemy.drawing.drawEdge(edge)
-    edge.exit().remove()
+    updateEdge: (edge) ->
+        # 'edge' is one or more edges in a d3 selection
+        @drawEdge.classLink(edge)
+        @drawEdge.styleLink(edge)
+        @drawEdge.styleText(edge)
+        @drawEdge.setInteractions(edge)

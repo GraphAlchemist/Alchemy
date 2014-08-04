@@ -15,51 +15,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.startGraph = (data) ->
-    
     if d3.select(alchemy.conf.divSelector).empty()
-        console.warn("""
-                     create an element with the alchemy.conf.divSelector.
-                     e.g. the defaul #alchemy
-                     """)
-
+        console.warn(alchemy.utils.warnings.divWarning())
+    
     # see if data is ok
     if not data
-        # allow for user specified error
-        # clean up search modal
-        no_results = """
-                    <div class="modal fade" id="no-results">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Sorry!</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>#{alchemy.conf.warningMessage}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   """
-        $('body').append(no_results)
-        $('#no-results').modal('show')
-        $('#loading-spinner').hide()
-        return
+        alchemy.utils.warnings.dataWarning()
 
     # Master Data
     alchemy._nodes = {}
     alchemy._edges = {}
 
     # create nodes map and update links
-
     data.nodes.forEach (n) ->
         alchemy._nodes[n.id] = new alchemy.models.Node(n)
     data.edges.forEach (e) ->
-        id = if e.id? then e.id else "#{e.source}-#{e.target}"
-        alchemy._edges[id] = new alchemy.models.Edge(e)
+        if !e.id? then e.id = "#{e.source}-#{e.target}"
+        alchemy._edges[e.id] = new alchemy.models.Edge(e)
 
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)

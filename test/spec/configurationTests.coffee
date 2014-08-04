@@ -2,42 +2,47 @@ do ->
     # Define default configuration for easy testing
     defaultConf = alchemy.defaults
 
-    describe "Configuration testing", ->
-        runWithConf = (conf) ->
-            alchemy.begin(conf)
+    # Test configuration to test assignment, not specific circumstance
+    genericTestConf = {
+        dataSource: "sample_data/contrib.json",
+        graphWidth: ()-> 200,
+        graphHeight: ()-> 200,
+        alpha: 0.23
+    }
 
-        it "should use default configuration if one is not specified", (done) ->
-            runWithConf()
-            alchemy.conf.should.deep.equal defaultConf
-            done()
-        
+    # For easy loading of data
+    runWithConf = (conf) ->
+        alchemy.begin(conf)
+    
+    describe "Configuration testing", ->
+        before (done)->
+            d3.select("alchemy").html("")
+            runWithConf(genericTestConf)
+            setTimeout(done, 1000)
+
         #Helpers
         describe "afterLoad", ->
             "placeholder"
 
         describe "dataSource", ->
             it "can find non-default datasets", (done) ->
-                runWithConf({dataSource:"sample_data/contrib.json"})
                 # Make sure dataSource was changed from default (null)
-                alchemy.conf.dataSource.should.equal("sample_data/contrib.json") and alchemy.nodes.length.should.not.equal 0
+                alchemy.conf.dataSource.should.equal("sample_data/contrib.json") and Object.keys(alchemy._nodes).length.should.equal 6
                 done()
 
         #Layout
         describe "graphWidth", ->
             it "should reassign default configuration", (done) ->
-                runWithConf({dataSource:"sample_data/contrib.json", graphWidth:200 })
-                alchemy.conf.graphWidth.should.equal(200)
+                alchemy.conf.graphWidth().should.equal(200)
                 done()
 
         describe "graphHeight", ->
             it "should reassign default configuration", (done) ->
-                runWithConf({dataSource:"sample_data/contrib.json", graphHeight: () -> 200 })
                 alchemy.conf.graphHeight().should.equal(200)
                 done()
 
         describe "alpha", ->
             it "should reassign default configuration", (done) ->
-                runWithConf({dataSource:"sample_data/contrib.json", alpha:0.23})
                 alchemy.conf.alpha.should.equal(0.23)
                 done()
 
@@ -161,7 +166,6 @@ do ->
             "placeholder"
 
         describe "scaleExtent", ->
-            # not yet implemented
             "placeholder"
 
         describe "warningMessage", ->

@@ -36,7 +36,7 @@ alchemy.defaults =
     collisionDetection: true
     fixNodes: false
     fixRootNodes: false
-    forceLocked: false
+    forceLocked: true
     linkDistance: alchemy.layout.linkDistancefn
     nodePositions: null # not currently implemented
 
@@ -77,10 +77,13 @@ alchemy.defaults =
 
     # Edges
     edgeCaption: 'caption' # in progress
-    edgeStyle: (d)->
+    edgeClick: 'default' # user can provide function, needs documentation
+    edgeStyle: (d) -> # why is this a function?
         null
     edgeTypes: null
     curvedEdges: false
+    edgeWidth: 4
+    edgeOverlayWidth: 20
 
     # Search
     search: true
@@ -93,4 +96,5 @@ alchemy.defaults =
     initialScale: 1
     initialTranslate: [0,0]
     scaleExtent: [0.5, 2.4]
+    dataWarning: "default"
     warningMessage: "There be no data!  What's going on?"

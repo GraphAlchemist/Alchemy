@@ -91,31 +91,18 @@ alchemy.layout =
 
     tick: () ->
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(Object.keys(alchemy._nodes))
+            q = d3.geom.quadtree(_.keys(alchemy._nodes))
             for node in _.values(alchemy._nodes)
                 q.visit(alchemy.layout.collide(node))
 
-        alchemy.edge
-            .attr("x1", (d) -> alchemy._nodes[d.source]._d3.x )
-            .attr("y1", (d) -> alchemy._nodes[d.source]._d3.y )
-            .attr("x2", (d) -> alchemy._nodes[d.target]._d3.x )
-            .attr("y2", (d) -> alchemy._nodes[d.target]._d3.y )
-
         alchemy.node
             .attr("transform", (d) -> 
-                node_data = alchemy._nodes[d.id]._d3
-                return "translate(#{node_data.x},#{node_data.y})")
+                # node_data = alchemy._nodes[d.id]._d3
+                "translate(#{d.x},#{d.y})")
 
-        drawEdge = alchemy.drawing.drawEdge()
+        drawEdge = new alchemy.drawing.DrawEdge
         drawEdge.styleText(alchemy.edge)
         drawEdge.styleLink(alchemy.edge)
-
-        # alchemy.edge.select('line')
-        #             .attr("x1", (d) -> d.source.x )
-        #             .attr("y1", (d) -> d.source.y )
-        #             .attr("x2", (d) -> d.target.x )
-        #             .attr("y2", (d) -> d.target.y )
-
 
     positionRootNodes: () ->
         container = 
@@ -131,8 +118,6 @@ alchemy.layout =
         if rootNodes.length == 1
             n = rootNodes[0]
             node_data = alchemy._nodes[n.id]
-            console.log "root node:"
-            console.log n
             node_data._d3.x = container.width / 2
             node_data._d3.y = container.height / 2
             node_data._d3.px = container.width / 2
@@ -159,3 +144,4 @@ alchemy.layout =
             if edge.source.cluster is edge.target.cluster then 10 else 600
         else
             10 / (k * 5)
+            

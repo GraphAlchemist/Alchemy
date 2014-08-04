@@ -28,13 +28,17 @@ class Alchemy
         @models = {}
         @drawing = {}
         @log = {}
+        @state = {
+            "interactions": "default"
+            "layout": "default"
+        }
 
-allTags = {}
-allCaptions = {}
-currentNodeTypes = {}
-currentRelationshipTypes = {}
-container = null
-rootNodeId = null
+    getState: (key) ->
+        if @state.key?
+            @state.key
+
+    setState: (key, value) ->
+        @state.key = value
 
 if typeof module isnt 'undefined' and module.exports
   module.exports = new Alchemy()

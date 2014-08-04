@@ -16,6 +16,8 @@
 
 alchemy.drawing.drawingUtils = 
     edgeUtils: () ->
+        nodes = alchemy._nodes
+        edges = alchemy._edges
         # edge styles based on clustering
         if alchemy.conf.cluster
             edgeStyle = (d) ->
@@ -37,43 +39,60 @@ alchemy.drawing.drawingUtils =
                 ""
 
         square = (n) -> n * n
+        hyp = (edge) ->
+            # build a right triangle
+            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
+            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            # as in hypotenuse
+            Math.sqrt(height * height + width * width)
         edgeWalk = (edge, point) ->
             # build a right triangle
-            width  = edge.target.x - edge.source.x
-            height = edge.target.y - edge.source.y
+            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
+            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
             # as in hypotenuse 
-            hyp = Math.sqrt(square(height) + square(width))
+            hyp = Math.sqrt(height * height + width * width)
             distance = (hyp / 2) if point is "middle"
-            debugger
             return {
-                x: edge.source.x + width * distance / hyp
-                y: edge.source.y + height * distance / hyp
+                x: nodes[edge.source]._d3.x + width * distance / hyp
+                y: nodes[edge.source]._d3.y + height * distance / hyp
             }
         edgeAngle = (edge) ->
-            width  = edge.target.x - edge.source.x
-            height = edge.target.y - edge.source.y
+            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
+            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
             Math.atan2(height, width) / Math.PI * 180
         
+        _middlePath = (edge) ->
+            pathNode = d3.select("#path-#{edge.id}").node()
+            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
+                
+            x: midPoint.x
+            y: midPoint.y
+
         caption = alchemy.conf.edgeCaption
         if typeof caption is ('string' or 'number')
-            edgeCaption = (d) -> d[caption]
+            edgeCaption = (d) -> edges[d.id][caption]
         else if typeof caption is 'function'
-            edgeCaption = (d) -> caption(d)
+            edgeCaption = (d) -> caption(edges[d.id])
+
 
         middleLine: (edge) -> edgeWalk(edge, 'middle')
         middlePath: (edge) -> 
             # edgeWalk places text as if the line were straight
-            # offset the text to lie on the mid point of the path
-
-                
-                # x: 
-
-        angle: (edge) -> 
+            # offset the text to lie on the mid point of the path 
+        edgeLength: (edge) ->
+            # build a right triangle
+            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
+            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            # as in hypotenuse 
+            hyp = Math.sqrt(height * height + width * width)
+        edgeAngle: (edge) -> edgeAngle(edge)
+        edgeStyle: (d) -> edgeStyle(d)
+        captionAngle: (edge) -> 
             angle = edgeAngle(edge)
             if angle < -90 or angle > 90
                 angle += 180
             else
                 angle
-        edgeStyle: (d) -> edgeStyle(d)
-        edgeCaption: (d) -> edgeCaption(d) 
-        
+        edgeCaption: (d) -> edgeCaption(d)
+        hyp: (edge) -> hyp(edge)
+        middlePath: (edge) -> _middlePath(edge)
