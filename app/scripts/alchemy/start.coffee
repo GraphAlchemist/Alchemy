@@ -31,6 +31,10 @@ class Alchemy
         @state = {
             "interactions": "default"
             "layout": "default"
+            "filters": {
+                "edges": {},
+                "nodes": {}
+            }
         }
 
     getState: (key) ->
