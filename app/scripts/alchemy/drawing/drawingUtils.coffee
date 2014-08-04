@@ -18,6 +18,7 @@ alchemy.drawing.drawingUtils =
     edgeUtils: () ->
         nodes = alchemy._nodes
         edges = alchemy._edges
+        clustering = new alchemy.clustering
         # edge styles based on clustering
         if alchemy.conf.cluster
             edgeStyle = (d) ->
@@ -30,7 +31,7 @@ alchemy.drawing.drawingUtils =
                     id = "#{d.source.cluster}-#{d.target.cluster}"
                     gid = "cluster-gradient-#{id}"
                     return "stroke: url(##{gid})"
-                "stroke: #{alchemy.styles.getClusterColour(index)}"
+                "stroke: #{clustering.getClusterColour(index)}"
         else if alchemy.conf.edgeStyle and not alchemy.conf.cluster
             edgeStyle = (d) ->
                 "#{alchemy.conf.edgeStyle(d)}"

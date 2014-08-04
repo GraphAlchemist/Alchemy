@@ -14,57 +14,43 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.layout =
-    gravity: (k) ->
-        8 * k
+class alchemy.Layout
+    constructor: ->
+        @k = Math.sqrt(_.size(alchemy._nodes) / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
+        @clustering = new alchemy.clustering
+        @charge = () ->
+            if alchemy.conf.cluster
+                @clustering.layout.charge
+            else
+                -10 / @k
 
-    charge: (k) ->
         if alchemy.conf.cluster
-            -500
-        else
-            -10 / k
+            @_linkDistancefn = @clustering.linkDistancefn(edge)
+        else if alchemy.conf.linkDistancefn is ('default' or 'number' or 'string')
+            @_linkDistancefn = 10 / @k * 5
+        else if typeof alchemy.conf.linkDistancefn is 'function'
+            alchemy.conf.linkDistancefn(edge)
 
-    linkStrength: (edge) ->
+    gravity: () =>
+        8 * @k
+
+    linkStrength: (edge) =>
         if alchemy.conf.cluster
-            if edge.source.cluster is edge.target.cluster then 1 else 0.1
+            @clustering.layout.linkStrength(edge)
+            return
         else
-            if edge.source.root or edge.target.root
+            nodes = alchemy._nodes
+            if nodes[edge.source.id].root or nodes[edge.target.id].root
                 0.9
             else
                 1
+        return
 
     friction: () ->
         if alchemy.conf.cluster
             0.7
         else
             0.9
-
-    # cluster: (alpha) ->
-    #     centroids = {}
-    #     alchemy.nodes.forEach (d) ->
-    #         if d.cluster == ''
-    #             return
-    #         if d.cluster not in centroids
-    #             centroids[d.cluster] = {'x':0, 'y':0, 'c':0}
-    #         centroids[d.cluster].x += d.x
-    #         centroids[d.cluster].y += d.y
-    #         centroids[d.cluster].c++
-
-    #     for c in centroids
-    #         c.x = c.x / c.c
-    #         c.y = c.y / c.c
-
-    #     (d) ->
-    #         if d.cluster is '' then return
-    #         c = centroids[d.cluster]
-    #         x = d.x - c.x
-    #         y = d.y - c.y
-    #         l = Math.sqrt( x * x * y * y)
-    #         if l > nodeRadius * 2 + 5
-    #             l = (l - nodeRadius) / l * alpha
-    #             d.x -= x * l
-    #             d.y -= y * l
-
 
     collide: (node) ->
         r = 2.2 * alchemy.utils.nodeSize(node) + alchemy.conf.nodeOverlap
@@ -135,13 +121,12 @@ alchemy.layout =
                 alchemy._nodes[n.id]._d3.fixed = true
 
     chargeDistance: () ->
-         distance = 500
-         distance
+        500
 
-    linkDistancefn: (edge, k) ->
-        if alchemy.conf.cluster
-            if edge.source.root or edge.target.root then 300
-            if edge.source.cluster is edge.target.cluster then 10 else 600
+    linkDistancefn: (edge) =>
+        if alchemy.conf.linkDistancefn is ('default' or 'number' or 'string')
+            @_linkDistancefn
         else
-            10 / (k * 5)
+            (edge) ->
+                @_linkDistancefn(edge)
             

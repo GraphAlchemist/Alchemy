@@ -1,5 +1,27 @@
 class alchemy.clustering
     constructor: ->
+        nodes = alchemy._nodes
+        _charge = -500
+        _linkStrength = (edge) ->
+            if nodes[edge.source.id].cluster is nodes[edge.target.id].cluster then 1 else 0.1
+        _friction = () ->
+            0.7
+        _linkDistancefn = (edge) ->
+            nodes = alchemy._nodes
+            if nodes[edge.source.id].root or nodes[edge.target.id].root
+                300
+            else if node[edge.source.id].cluster is nodes[edge.target.id].cluster
+                10
+            else 
+                600
+
+        @layout = 
+            charge: _charge
+            linkStrength: (edge) -> _linkStrength(edge)
+            friction: () -> _friction()
+            linkDistancefn: (edge) -> _linkDistancefn(edge)
+
+
 
     getClusterColour: (index) ->
         if alchemy.conf.clusterColours[index]?
