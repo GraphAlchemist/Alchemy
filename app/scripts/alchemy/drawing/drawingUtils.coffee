@@ -97,11 +97,3 @@ alchemy.drawing.drawingUtils =
                     colour = conf.nodeColour
                 else
                     ''
-
-        setDrag: (interactions) ->
-            drag = d3.behavior.drag()
-                .origin(Object)
-                .on("dragstart", null)
-                .on("drag", null)
-                .on("dragend", null)
-            drag

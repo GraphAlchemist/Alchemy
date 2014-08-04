@@ -120,3 +120,9 @@ class alchemy.drawing.DrawNode
 
     styleNode: (node) =>
         @_styleNode(node)
+
+    update: (node) =>
+        @_setInteractions(node)
+        @_styleNode(node)
+        @_styleText(node)
+

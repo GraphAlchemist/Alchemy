@@ -127,11 +127,14 @@ alchemy.modifyElements =
                 propertyName = d3.select(@).select(".property-name").attr("value")
                 propertyVal = d3.select(@).select(".property-value")
                 newVal = propertyVal[0][0].value 
-
+                
                 alchemy._nodes[nodeID].setProperty(propertyName, newVal)
                 d3.select(@).select(".property-name").attr("value", propertyName)
                 propertyVal.attr("placeholder", "property updated to: #{newVal}")
-                # alchemy.drawing.updateNode(node)
+                
+                # update node
+                drawNode = new alchemy.drawing.DrawNode
+                drawNode.update(d3.select("#node-#{nodeID}"))
                 @.reset()
 
     nodeEditorClear: () ->
@@ -159,7 +162,7 @@ alchemy.editor =
         d3.selectAll(".node circle")
             .style("stroke", "#E82C0C")
 
-        @drawNode.setInteractions(alchemy.node)
+        @drawNode.update(alchemy.node)
 
     disableEditor: () ->
         alchemy.setState("interactions", "default")
@@ -177,7 +180,7 @@ alchemy.editor =
         d3.selectAll(".node circle")
             .style("stroke", "white")
 
-        @drawNode.setInteractions(alchemy.node)
+        @drawNode.update(alchemy.node)
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node")
@@ -197,7 +200,8 @@ alchemy.editor =
                     alchemy.modifyElements.nodeEditorClear()
 
     addNode: (node) ->
-        newNode = alchemy._nodes[node.id] = new alchemy.models.Node(node)
+        newNode = alchemy._nodes[node.id] = new alchemy.models.Node({id:"#{node.id}"})
+        newNode.setProperty("caption", node.caption)
         newNode.setD3Property("x", node.x)
         newNode.setD3Property("y", node.y)
         alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
