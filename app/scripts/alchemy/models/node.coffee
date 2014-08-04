@@ -1,5 +1,6 @@
 class alchemy.models.Node
     constructor: (node) ->
+        conf = alchemy.conf
         _.merge(@, node)
         # @_id = _.uniqueID("node_")
 
@@ -10,18 +11,16 @@ class alchemy.models.Node
         
         # Merge undefined nodeStyle keys from conf.
         # Works with undefined @nodeStyle
-        conf = alchemy.conf
         @nodeStyle = _.merge(conf.nodeStyle, @nodeStyle)
-
+        @adjacentEdges = []
         # Add to node collection
         Node::all.push(@.id)
 
     # Stores edge.id for easy edge lookup
-    edges: []
-    addEdge: (edge)->
-        @edges.push(edge)
-        @edges = _.uniq @edges
-    outDegree: ()-> @edges.length
+    addEdge: (edge) ->
+        @adjacentEdges.push(edge)
+        @adjacentEdges = _.uniq @adjacentEdges
+    outDegree: () -> @adjacentEdges.length
 
     # Find connected nodes
     neighbors: ()->
