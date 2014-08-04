@@ -261,44 +261,7 @@ alchemy.filters =
 
         reFilter = (tag, highlight) ->
             #get tag info
-            checked = !element.classed("disabled")
-            name = element.attr("name")
-            state = if checked then "active" else "inactive"
-            if highlight then state += " highlight"
-            name = name.replace(/\s+/g, '_');
-
-            ["node", "edge"].forEach (t) ->
-                graphElements[t].filter(".#{name}")
-                    .attr("class", "#{t} #{name} #{state}")
-
-            state = state.replace(/\s+/g, '.');
-
-            #filter if tag is a nodeType
-            if element.classed("nodeType")
-                for node in alchemy.node.filter(".#{name}.#{state}").data()
-                    for edge in alchemy.edge.filter("[source-target*='#{node.id}']").data()
-                        edgeType = edge.caption
-                        #the edge should not show if target of source node is inactive
-                        if !d3.select("#li-#{edgeType}").empty() and d3.select("#li-#{edgeType}").classed("disabled")
-                            alchemy.edge.filter("[source-target*='#{node.id}']")
-                                .classed({"inactive": true, "active": false, "highlight": false})
-                        else
-                            alchemy.edge.filter("[source-target*='#{node.id}']")
-                                .classed({"inactive": !checked, "active": checked, "highlight": highlight})
-
-            else if element.classed("edgeType")
-                for edge in alchemy.edge.filter(".#{name}.#{state}").data()
-                    sourceNode = edge.source
-                    targetNode = edge.target
-                    if d3.select("#node-#{targetNode.id}").classed("inactive") or d3.select("#node-#{sourceNode.id}").classed("inactive")
-                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
-                            .classed({"inactive": true, "active": false, "highlight": false})
-                    else 
-                        alchemy.edge.filter("[source-target='#{sourceNode.id}-#{targetNode.id}']")
-
-            else console.log "ERROR tag was neither edgeType nor nodeType"
-
-
+             
             #update stats
             alchemy.stats.update()
 
@@ -325,12 +288,10 @@ alchemy.filters =
 
             .on "click", () ->
                 element = d3.select(this)
-                #get the checked property
-                #toggle it and update active / disabled classes
-                checked = !element.classed("disabled")
-                checked = !checked
-                element.classed({'active-label': checked,'disabled': !checked})
+
+                #toggle disabled class
+                checked = element.classed("disabled")
+                element.classed({'disabled': !checked})
                 highlight = false
                 reFilter(element, highlight)
-                                
 

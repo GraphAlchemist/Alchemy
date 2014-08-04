@@ -2,6 +2,8 @@
     padding: 0.5em 1em;
     background-color: transparent;
     border-bottom: thin dashed $bright-orange;
+    color: white;
+    
     form{
         width: 100%;
     }
@@ -47,10 +49,6 @@
                 }
             }
         }
-    }
-
-    .active-label {
-        color: white;
     }
 
     .disabled {
