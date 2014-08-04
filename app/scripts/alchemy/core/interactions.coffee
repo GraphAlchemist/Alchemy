@@ -134,8 +134,13 @@ alchemy.interactions =
         d.px += d3.event.dx
         d.py += d3.event.dy
 
-        alchemy.updateGraph false
-        d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
+        node = d3.select(this)
+        node.attr("transform", "translate(#{d.x}, #{d.y})")
+        edgeIDs = alchemy._nodes[node.datum().id].adjacentEdges
+        drawEdges = new alchemy.drawing.DrawEdges
+        for id in edgeIDs
+            selection = d3.select("g.edge[source-target='#{id}']")
+            drawEdges.updateEdge(selection)
 
     nodeDragended: (d, i) ->
         d3.select(this).classed "dragging": false

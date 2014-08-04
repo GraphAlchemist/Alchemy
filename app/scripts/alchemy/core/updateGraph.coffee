@@ -33,10 +33,11 @@ alchemy.updateGraph = (start=true) ->
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
 
-    alchemy.styles.edgeGradient(alchemy._edges)
+    clustering = new alchemy.clustering
+    clustering.edgeGradient(alchemy._edges)
 
-    # draw nodes and edges
-    alchemy.drawing.drawEdges(alchemy.edge)
+    drawEdges = new alchemy.drawing.DrawEdges
+    drawEdges.createEdge(alchemy.edge)
     alchemy.drawing.drawNodes(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
