@@ -16,14 +16,15 @@
 
 class alchemy.drawing.DrawNode
     constructor: ->
-        utils = alchemy.drawing.drawingUtils.nodeUtils
+        utils = alchemy.drawing.drawingUtils.nodeUtils()
+        interactions = alchemy.interactions
         conf = alchemy.conf
         nodes = alchemy._nodes
         interactions = alchemy.interactions
 
         @_styleText = (node) ->
-            node.select("svg:text")
-                .attr('dy', (d) -> if alchemy._nodes[d.id].properties.root then alchemy.conf.rootNodeRadius / 2 else alchemy.conf.nodeRadius * 2 - 5)
+            node.selectAll("text")
+                .attr('dy', (d) -> if nodes[d.id].properties.root then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
                 .html((d) -> alchemy.utils.nodeText(d))
 
         @_createNode = (node) ->
@@ -35,10 +36,10 @@ class alchemy.drawing.DrawNode
         @_styleNode = (node) ->
             node.select('circle')
                 .attr('class', (d) -> 
-                    node_data = alchemy._nodes[d.id].getProperties()
-                    rootKey = alchemy.conf.rootNodes
-                    if alchemy.conf.nodeTypes
-                        nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
+                    node_data = nodes[d.id].getProperties()
+                    rootKey = conf.rootNodes
+                    if conf.nodeTypes
+                        nodeType = node_data[Object.keys(conf.nodeTypes)]
                         if node_data[rootKey]? and node_data[rootKey] then "root #{nodeType} active"
                         else "#{nodeType} active"
                     else 
@@ -46,7 +47,7 @@ class alchemy.drawing.DrawNode
                         else "node"
                     )
                 .attr('r', (d) -> 
-                    node_data = alchemy._nodes[d.id].getProperties()
+                    node_data = nodes[d.id].getProperties()
                     alchemy.utils.nodeSize(node_data)
                     )
                 .attr('shape-rendering', 'optimizeSpeed')
@@ -60,17 +61,23 @@ class alchemy.drawing.DrawNode
                     )
 
         @_setInteractions = (node) ->
-            console.log alchemy.getState("interactions")
             editorEnabled = alchemy.getState("interactions") is "editor"
             editor = alchemy.editor.interactions()
-            drag = utils.resetDrag()
+            interactions = alchemy.interactions
+
+            # reset drag
+            drag = d3.behavior.drag()
+                .origin(Object)
+                .on("dragstart", null)
+                .on("drag", null)
+                .on("dragend", null)
 
             if editorEnabled
             # set interactions
                 node.on('mouseup', editor.nodeMouseUp)
                     .on('mouseover', editor.nodeMouseOver)
                     .on('mouseout', editor.nodeMouseOut)
-                    .on('dblclick', alchemy.interactions.nodeDoubleClick)
+                    .on('dblclick', interactions.nodeDoubleClick)
                     .on('click', editor.nodeClick)
 
                 drag = d3.behavior.drag()
@@ -83,27 +90,27 @@ class alchemy.drawing.DrawNode
             else 
                 node
                     .on('mouseup', null)
-                    .on('mouseover', alchemy.interactions.nodeMouseOver)
-                    .on('mouseout', alchemy.interactions.nodeMouseOut)
-                    .on('dblclick', alchemy.interactions.nodeDoubleClick)
-                    .on('click', alchemy.interactions.nodeClick)
+                    .on('mouseover', interactions.nodeMouseOver)
+                    .on('mouseout', interactions.nodeMouseOut)
+                    .on('dblclick', interactions.nodeDoubleClick)
+                    .on('click', interactions.nodeClick)
 
                 drag = d3.behavior.drag()
                         .origin(Object)
-                        .on("dragstart", alchemy.interactions.nodeDragStarted)
-                        .on("drag", alchemy.interactions.nodeDragged)
-                        .on("dragend", alchemy.interactions.nodeDragended)
+                        .on("dragstart", interactions.nodeDragStarted)
+                        .on("drag", interactions.nodeDragged)
+                        .on("dragend", interactions.nodeDragended)
 
-                if not alchemy.conf.fixNodes
+                if not conf.fixNodes
                     nonRootNodes = node.filter((d) -> return d.root != true)
                     nonRootNodes.call(drag)
 
-                if not alchemy.conf.fixRootNodes
+                if not conf.fixRootNodes
                     rootNodes = node.filter((d) -> return d.root == true)
                     rootNodes.call(drag)
 
     styleText: (node) =>
-        @_nodeText(node)
+        @_styleText(node)
 
     createNode: (node) =>
         @_createNode(node)

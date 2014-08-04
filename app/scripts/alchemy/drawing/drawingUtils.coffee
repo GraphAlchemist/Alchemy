@@ -98,7 +98,7 @@ alchemy.drawing.drawingUtils =
                 else
                     ''
 
-        resetDrag: () ->
+        setDrag: (interactions) ->
             drag = d3.behavior.drag()
                 .origin(Object)
                 .on("dragstart", null)

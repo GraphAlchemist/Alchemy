@@ -159,7 +159,7 @@ alchemy.editor =
         d3.selectAll(".node circle")
             .style("stroke", "#E82C0C")
 
-        alchemy.drawing.setNodeInteractions(alchemy.node)
+        @drawNode.setInteractions(alchemy.node)
 
     disableEditor: () ->
         alchemy.setState("interactions", "default")
@@ -177,7 +177,7 @@ alchemy.editor =
         d3.selectAll(".node circle")
             .style("stroke", "white")
 
-        alchemy.drawing.setNodeInteractions(alchemy.node)
+        @drawNode.setInteractions(alchemy.node)
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node")
@@ -232,6 +232,7 @@ alchemy.editor.interactions = ->
     @targetNode = null
     @newEdge = null
     @click = null
+    @drawNode = new alchemy.drawing.DrawNode
 
     @nodeMouseOver = (n) ->
         if !d3.select(@).select("circle").empty()

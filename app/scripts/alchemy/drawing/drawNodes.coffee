@@ -83,7 +83,7 @@ alchemy.drawing.drawNodes = (node) ->
     drawNode = new @DrawNode
     drawNode.createNode(node)
     drawNode.styleNode(node)
-    drawNode.nodeText(node)
+    drawNode.styleText(node)
     drawNode.setInteractions(node)
     node.exit().remove()
 
