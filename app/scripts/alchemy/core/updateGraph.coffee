@@ -21,9 +21,9 @@ alchemy.updateGraph = (start=true) ->
     nodeIDs = Object.keys(alchemy._nodes) # is this needed?
 
     alchemy.edge = alchemy.vis.selectAll("g.edge")
-                .data(_.map(alchemy._edges, (e) -> e._d3)) # check if this works
+                .data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id) # check if this works
     alchemy.node = alchemy.vis.selectAll("g.node")
-                .data(_.map(alchemy._nodes, (n) -> n._d3))
+                .data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
               
     if start then @force.start()
     if not initialComputationDone

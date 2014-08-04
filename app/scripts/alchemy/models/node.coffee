@@ -1,9 +1,8 @@
 class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
-        _.merge(@, node)
-        # @_id = _.uniqueID("node_")
-
+        @id = node.id
+        @edges = []
         @properties = node
         @_d3 = {
             'id': node.id
@@ -15,6 +14,7 @@ class alchemy.models.Node
         @adjacentEdges = []
         # Add to node collection
         Node::all.push(@.id)
+        # Stores edge.id for easy edge lookup
 
     # Stores edge.id for easy edge lookup
     addEdge: (edge) ->
@@ -31,13 +31,10 @@ class alchemy.models.Node
     getProperties: =>
     	@properties
     setProperty: (property, value) =>
-    	@[property] = value
     	@properties[property] = value
     setD3Property: (property, value) =>
     	@_d3[property] = value
     removeProperty: (property) =>
-    	if @property?
-    		_.omit(@, property)
     	if @properties.property?
     		_.omit(@properties, property)
 
