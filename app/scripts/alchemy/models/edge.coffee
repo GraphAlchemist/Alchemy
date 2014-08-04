@@ -30,3 +30,9 @@ class alchemy.models.Edge
     setD3Property: (property, value) =>
         @_d3[property] = value
         
+    # Find if both endpoints are active
+    allNodesActive: () =>
+        source = d3.select("#node-#{@_rawEdge.source}")
+        target = d3.select("#node-#{@_rawEdge.target}")
+
+        !source.classed("inactive") && !target.classed("inactive")
