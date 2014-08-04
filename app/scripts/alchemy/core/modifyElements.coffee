@@ -216,7 +216,8 @@ alchemy.editor =
             alchemy.editor.addEdge(edge)
             @drawEdges.createEdge(alchemy.edge)
 
-        alchemy.layout.tick()
+        # force = new alchemy.layout.force
+        # alchemy.layout.tick()
 
 
 alchemy.editor.interactions = ->
@@ -292,7 +293,7 @@ alchemy.editor.interactions = ->
 
                 @targetNode = {id: "#{_.uniqueId('addedNode_')}", x: parseFloat(targetX), y: parseFloat(targetY), caption: "node added"}
 
-            @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode.id, target: @targetNode.id, caption: "edited"}   
+            @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode, target: @targetNode, caption: "edited"}   
             alchemy.editor.update(@targetNode, @newEdge)
 
         alchemy.editor.interactions().reset()
