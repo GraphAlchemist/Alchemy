@@ -8,6 +8,7 @@ class alchemy.models.Node
         @_d3 = {
             'id': node.id
         }
+        @state = { "active": true }
         
         # Merge undefined nodeStyle keys from conf.
         # Works with undefined @nodeStyle
