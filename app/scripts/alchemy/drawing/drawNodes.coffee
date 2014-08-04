@@ -51,9 +51,9 @@ alchemy.drawing.setNodeInteractions = (node) ->
 
         drag = d3.behavior.drag()
                 .origin(Object)
-                .on("dragstart", nodeDragStarted)
-                .on("drag", nodeDragged)
-                .on("dragend", nodeDragended)
+                .on("dragstart", alchemy.interactions.nodeDragStarted)
+                .on("drag", alchemy.interactions.nodeDragged)
+                .on("dragend", alchemy.interactions.nodeDragended)
 
         if not alchemy.conf.fixNodes
             nonRootNodes = node.filter((d) -> return d.root != true)
