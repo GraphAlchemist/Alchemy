@@ -19,7 +19,7 @@ alchemy.interactions =
         vis = alchemy.vis
         vis.selectAll('.edge')
             .classed('highlight', false)
-        d3.select(@)
+        d3.select("[source-target='#{d.id}']")
             .classed('highlight', true)
         d3.event.stopPropagation()
         if typeof alchemy.conf.edgeClick? is 'function'
