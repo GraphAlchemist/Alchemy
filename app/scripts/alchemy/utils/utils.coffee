@@ -55,8 +55,8 @@ alchemy.utils =
     nodeText: (d) -> 
         node = alchemy._nodes[d.id]
         if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'string'
-            if node[alchemy.conf.nodeCaption]?
-                node[alchemy.conf.nodeCaption]
+            if node.properties[alchemy.conf.nodeCaption]?
+                node.properties[alchemy.conf.nodeCaption]
             else
                 ''
         else if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'function'
