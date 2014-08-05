@@ -30,8 +30,8 @@ alchemy.startGraph = (data) ->
     data.nodes.forEach (n) ->
         alchemy._nodes[n.id] = new alchemy.models.Node(n)
     data.edges.forEach (e) ->
-        if !e.id? then e.id = "#{e.source}-#{e.target}"
-        alchemy._edges[e.id] = new alchemy.models.Edge(e)
+        edge  = new alchemy.models.Edge(e)
+        alchemy._edges[edge.id] = edge
 
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
@@ -45,21 +45,26 @@ alchemy.startGraph = (data) ->
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
+    #remove nodes with backspace or delete key
+    d3.select("body")
+        .on('keydown', alchemy.editor.interactions().deleteSelected)
+
     # force layout constant
     k = Math.sqrt(data.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
 
     # create layout
     alchemy.force = d3.layout.force()
+        .linkStrength((d)-> 
+            alchemy.layout.linkStrength(d))
         .charge(alchemy.layout.charge(k))
         .linkDistance((d) -> alchemy.conf.linkDistance(d,k))
         .theta(1.0)
         .gravity(alchemy.layout.gravity(k))
-        .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
         .nodes(_.map(alchemy._nodes, (node) -> node._d3))
-        .links(alchemy._edges)
+        .links(_.map(alchemy._edges, (e)->e._d3))
         .on("tick", alchemy.layout.tick)
 
     alchemy.updateGraph()

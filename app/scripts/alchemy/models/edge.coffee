@@ -3,7 +3,7 @@ class alchemy.models.Edge
         # Merge undefined edgeStyle keys from conf.
         # Works with undefined @edgeStyle
         conf = alchemy.conf
-        @id = edge.id
+        @id = if edge.id? then edge.id else "#{edge.source}-#{edge.target}"
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
         
         # Contains state of edge, used by renderers
@@ -17,8 +17,8 @@ class alchemy.models.Edge
             }
 
         # Add id to source/target's edgelist
-        alchemy._nodes["#{edge.source}"].addEdge edge.id
-        alchemy._nodes["#{edge.target}"].addEdge edge.id
+        alchemy._nodes["#{edge.source}"].addEdge @id
+        alchemy._nodes["#{edge.target}"].addEdge @id
 
     toPublic: =>
         keys = _.keys(@_rawEdge)

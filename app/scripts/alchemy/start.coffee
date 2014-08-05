@@ -38,11 +38,11 @@ class Alchemy
             }
         }
 
-    getState: (key) =>
+    getState: (key) ->
         if @state.key?
             @state.key
 
-    setState: (key, value) =>
+    setState: (key, value) ->
         @state.key = value
 
 

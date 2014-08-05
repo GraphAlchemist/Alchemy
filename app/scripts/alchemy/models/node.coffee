@@ -2,7 +2,6 @@ class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
         @id = node.id
-        @edges = []
         @properties = node
         @_d3 = {
             'id': node.id
@@ -26,7 +25,7 @@ class alchemy.models.Node
     # Find connected nodes
     neighbors: ()->
         regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
-        _.map @edges, (edgeID)->  edgeID.replace(regex, "")
+        _.map @adjacentEdges, (edgeID)->  edgeID.replace(regex, "")
 
     # Edit Node
     getProperties: =>

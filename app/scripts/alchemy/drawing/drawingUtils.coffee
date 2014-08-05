@@ -41,24 +41,24 @@ alchemy.drawing.drawingUtils =
         square = (n) -> n * n
         hyp = (edge) ->
             # build a right triangle
-            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
-            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
             # as in hypotenuse
             Math.sqrt(height * height + width * width)
         edgeWalk = (edge, point) ->
             # build a right triangle
-            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
-            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
             # as in hypotenuse 
             hyp = Math.sqrt(height * height + width * width)
             distance = (hyp / 2) if point is "middle"
             return {
-                x: nodes[edge.source]._d3.x + width * distance / hyp
-                y: nodes[edge.source]._d3.y + height * distance / hyp
+                x: edge.source.x + width * distance / hyp
+                y: edge.source.y + height * distance / hyp
             }
         edgeAngle = (edge) ->
-            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
-            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
             Math.atan2(height, width) / Math.PI * 180
         
         _middlePath = (edge) ->
@@ -81,8 +81,8 @@ alchemy.drawing.drawingUtils =
             # offset the text to lie on the mid point of the path 
         edgeLength: (edge) ->
             # build a right triangle
-            width  = nodes[edge.target]._d3.x - nodes[edge.source]._d3.x
-            height = nodes[edge.target]._d3.y - nodes[edge.source]._d3.y
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
             # as in hypotenuse 
             hyp = Math.sqrt(height * height + width * width)
         edgeAngle: (edge) -> edgeAngle(edge)
