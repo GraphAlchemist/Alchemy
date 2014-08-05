@@ -32,8 +32,8 @@ do ->
                 source = alchemy._nodes[testEdge._d3.source]
                 target = alchemy._nodes[testEdge._d3.target]
 
-                sourceKnowsEdge = _.contains source.edges, testEdge.id
-                targetKnowsEdge = _.contains target.edges, testEdge.id
+                sourceKnowsEdge = _.contains source.adjacentEdges, testEdge.id
+                targetKnowsEdge = _.contains target.adjacentEdges, testEdge.id
 
                 sourceKnowsEdge.should.equal true
                 targetKnowsEdge.should.equal true
@@ -43,10 +43,10 @@ do ->
                 it "should change specificed property", ->
                     testEdge = alchemy._edges["1-0"]
                     # Initial caption is "Maintains"
-                    initialCaption = testEdge.caption
+                    initialCaption = testEdge._rawEdge.caption
 
                     testEdge.setProperty "caption", "newCaption"
-                    newCaption = testEdge.caption
+                    newCaption = testEdge._rawEdge.caption
 
                     initialCaption.should.not.equal newCaption &&
                     newCaption.should.not.equal "Maintains"

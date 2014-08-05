@@ -25,7 +25,7 @@ class alchemy.models.Edge
         _.pick(@, keys)
 
     setProperty: (property, value) =>
-        @[property] = value
+        @_rawEdge[property] = value
 
     setD3Property: (property, value) =>
         @_d3[property] = value
