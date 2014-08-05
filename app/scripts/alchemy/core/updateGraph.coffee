@@ -15,13 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
-    
     alchemy.layout.positionRootNodes()
     #enter/exit nodes/edges
-    alchemy.edge = alchemy.vis.selectAll("line")
-               .data(alchemy.edges)
+
+    nodeIDs = Object.keys(alchemy._nodes) # is this needed?
+
+    alchemy.edge = alchemy.vis.selectAll("g.edge")
+                .data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id) # check if this works
     alchemy.node = alchemy.vis.selectAll("g.node")
-              .data(alchemy.nodes, (d) -> d.id)
+                .data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
               
     if start then @force.start()
     if not initialComputationDone
@@ -31,17 +33,19 @@ alchemy.updateGraph = (start=true) ->
         console.log(Date() + ' completed initial computation')
         if(alchemy.conf.locked) then alchemy.force.stop()
 
-    # for node in alchemy.nodes
-    #     alchemy.layout.tick()
 
-    alchemy.styles.edgeGradient(alchemy.edges)
+    alchemy.layout.tick()
 
-    #draw node and edge objects with all of their interactions
-    alchemy.drawing.drawedges(alchemy.edge)
-    alchemy.drawing.drawnodes(alchemy.node)
+    clustering = new alchemy.clustering
+    clustering.edgeGradient(alchemy._edges)
+
+    drawEdges = new alchemy.drawing.DrawEdges
+    drawEdges.createEdge(alchemy.edge)
+    drawNodes = new alchemy.drawing.DrawNodes
+    drawNodes.createNode(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
-           .attr('transform', (d) -> "translate(#{d.x}, #{d.y})")
+           .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
 
     alchemy.vis.selectAll('.node text')
         .html((d) => @utils.nodeText(d))

@@ -15,51 +15,24 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.startGraph = (data) ->
-    
     if d3.select(alchemy.conf.divSelector).empty()
-        console.warn("""
-                     create an element with the alchemy.conf.divSelector.
-                     e.g. the defaul #alchemy
-                     """)
-
+        console.warn(alchemy.utils.warnings.divWarning())
+    
     # see if data is ok
     if not data
-        # allow for user specified error
-        # clean up search modal
-        no_results = """
-                    <div class="modal fade" id="no-results">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Sorry!</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>#{alchemy.conf.warningMessage}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   """
-        $('body').append(no_results)
-        $('#no-results').modal('show')
-        $('#loading-spinner').hide()
-        return
-    # save nodes & edges
-    alchemy.nodes = data.nodes
-    alchemy.edges = data.edges
+        alchemy.utils.warnings.dataWarning()
+
+    # Master Data
+    alchemy._nodes = {}
+    alchemy._edges = {}
 
     # create nodes map and update links
-    nodesMap = d3.map()
-    alchemy.nodes.forEach (n) ->
-        nodesMap.set(n.id, n)
-    alchemy.edges.forEach (e) ->
-        e.source = nodesMap.get(e.source)
-        e.target = nodesMap.get(e.target)
-    
+    data.nodes.forEach (n) ->
+        alchemy._nodes[n.id] = new alchemy.models.Node(n)
+    data.edges.forEach (e) ->
+        edge  = new alchemy.models.Edge(e)
+        alchemy._edges[edge.id] = edge
+
     #create SVG
     alchemy.vis = d3.select(alchemy.conf.divSelector)
         .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
@@ -72,21 +45,25 @@ alchemy.startGraph = (data) ->
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
+    #remove nodes with backspace or delete key
+    d3.select("body")
+        .on('keydown', alchemy.editor.interactions().deleteSelected)
+
     # force layout constant
-    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
+    k = Math.sqrt(data.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
 
     # create layout
     alchemy.force = d3.layout.force()
+        .linkStrength((d)-> alchemy.layout.linkStrength(d))
         .charge(alchemy.layout.charge(k))
         .linkDistance((d) -> alchemy.conf.linkDistance(d,k))
         .theta(1.0)
         .gravity(alchemy.layout.gravity(k))
-        .linkStrength(alchemy.layout.linkStrength)
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
-        .nodes(alchemy.nodes)
-        .links(alchemy.edges)
+        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
+        .links(_.map(alchemy._edges, (edge)->edge._d3))
         .on("tick", alchemy.layout.tick)
 
     alchemy.updateGraph()

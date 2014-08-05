@@ -25,6 +25,9 @@ alchemy.utils =
         
         d3.select('.alchemy svg').classed({'highlight-active':false})
 
+        if alchemy.conf.showEditor is true
+            alchemy.modifyElements.nodeEditorClear()
+            
         alchemy.vis.selectAll('line.edge')
             .classed('highlighted connected unconnected', false)
         alchemy.vis.selectAll('g.node,circle,text')
@@ -32,11 +35,6 @@ alchemy.utils =
         # call user-specified deselect function if specified
         if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
             alchemy.conf.deselectAll()
-
-    # resize: ->
-    #     d3.select('.alchemy svg')
-    #         .attr("width", alchemy.container.width)
-    #         .attr("height", alchemy.container.height)
     
     # not currently used, but can be implemented
     centreView: (id) ->
@@ -55,13 +53,14 @@ alchemy.utils =
         zoom.translate([x, y]).scale(level)
 
     nodeText: (d) -> 
+        node = alchemy._nodes[d.id]
         if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'string'
-            if d[alchemy.conf.nodeCaption]?
-                d[alchemy.conf.nodeCaption]
+            if node.properties[alchemy.conf.nodeCaption]?
+                node.properties[alchemy.conf.nodeCaption]
             else
                 ''
         else if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'function'
-            caption = alchemy.conf.nodeCaption(d)
+            caption = alchemy.conf.nodeCaption(node)
             if caption == undefined or String(caption) == 'undefined'
                 alchemy.log["caption"] = "At least one caption returned undefined"
                 alchemy.conf.caption = false

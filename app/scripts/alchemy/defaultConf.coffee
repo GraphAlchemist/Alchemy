@@ -43,12 +43,8 @@ alchemy.defaults =
     # Editing
     showEditor: false
     captionToggle: false
-    edgesToggle: false
-    nodesToggle: false
-    toggleRootNodes: true
+    toggleRootNodes: false
     removeElement: false
-    addNodes: false # not currently implemented
-    addEdges: false # not currently implemented
 
     #Control Dash
     showControlDash: false 
@@ -62,12 +58,15 @@ alchemy.defaults =
     showFilters: false
     edgeFilters: false
     nodeFilters: false
+    edgesToggle: false
+    nodesToggle: false
 
     # Controls
     zoomControls: false
 
     # Nodes
     nodeCaption: 'caption'
+    nodeStyle: {}
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
     nodeOverlap: 25
@@ -77,10 +76,14 @@ alchemy.defaults =
     rootNodeRadius: 15
 
     # Edges
-    edgeCaption: 'caption' # not implemented
-    edgeStyle: (d)->
+    edgeCaption: 'caption' # in progress
+    edgeClick: 'default' # user can provide function, needs documentation
+    edgeStyle: (d) -> # why is this a function?
         null
     edgeTypes: null
+    curvedEdges: false
+    edgeWidth: 4
+    edgeOverlayWidth: 20
 
     # Search
     search: true
@@ -93,4 +96,5 @@ alchemy.defaults =
     initialScale: 1
     initialTranslate: [0,0]
     scaleExtent: [0.5, 2.4]
+    dataWarning: "default"
     warningMessage: "There be no data!  What's going on?"

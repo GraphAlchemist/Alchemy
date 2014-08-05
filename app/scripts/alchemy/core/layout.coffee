@@ -13,6 +13,14 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# class alchemy.layout.force
+#     constructor: 
+#         @gravity
+#         @charge
+#         @linkStrength
+#         @linkDistancefn
+#         @friction
+#         @collide
 
 alchemy.layout =
     gravity: (k) ->
@@ -25,10 +33,12 @@ alchemy.layout =
             -10 / k
 
     linkStrength: (edge) ->
+        sourceNode = alchemy._nodes[edge.source.id]
+        targetNode = alchemy._nodes[edge.target.id]
         if alchemy.conf.cluster
-            if edge.source.cluster is edge.target.cluster then 1 else 0.1
+            if sourceNode.properties.cluster is targetNode.properties.cluster then 1 else 0.1
         else
-            if edge.source.root or edge.target.root
+            if sourceNode.properties.root or targetNode.properties.root
                 0.9
             else
                 1
@@ -91,45 +101,46 @@ alchemy.layout =
 
     tick: () ->
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(alchemy.nodes)
-            for node in alchemy.nodes
+            q = d3.geom.quadtree(_.keys(alchemy._nodes))
+            for node in _.values(alchemy._nodes)
                 q.visit(alchemy.layout.collide(node))
-        alchemy.edge.attr("x1", (d) -> d.source.x )
-              .attr("y1", (d) -> d.source.y )
-              .attr("x2", (d) -> d.target.x )
-              .attr("y2", (d) -> d.target.y )
-        alchemy.node
-               .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
 
+        alchemy.node
+            .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+
+        drawEdge = new alchemy.drawing.DrawEdge
+        drawEdge.styleText(alchemy.edge)
+        drawEdge.styleLink(alchemy.edge)
 
     positionRootNodes: () ->
         container = 
             width: alchemy.conf.graphWidth()
             height: alchemy.conf.graphHeight()
         rootNodes = Array()
-        for n, i in alchemy.nodes
-            if not n[alchemy.conf.rootNodes] then continue
+        for id, d in alchemy._nodes
+            if not d[alchemy.conf.rootNodes] then continue
             else
-                n.i = i
+                # n.i = i
                 rootNodes.push(n)
         # if there is one root node, position it in the center
         if rootNodes.length == 1
             n = rootNodes[0]
-            alchemy.nodes[n.i].x = container.width / 2
-            alchemy.nodes[n.i].y = container.height / 2
-            alchemy.nodes[n.i].px = container.width / 2
-            alchemy.nodes[n.i].py = container.height / 2
+            node_data = alchemy._nodes[n.id]
+            node_data._d3.x = container.width / 2
+            node_data._d3.y = container.height / 2
+            node_data._d3.px = container.width / 2
+            node_data._d3.py = container.height / 2
             # fix root nodes until force layout is complete
-            alchemy.nodes[n.i].fixed = true
+            node_data._d3.fixed = true
             return
         # position nodes towards center of graph
         else
             number = 0
             for n in rootNodes
                 number++
-                alchemy.nodes[n.i].x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
-                alchemy.nodes[n.i].y = container.height / 2 #container.height / (rootNodes.length / number)
-                alchemy.nodes[n.i].fixed = true
+                alchemy._nodes[n.id]._d3.x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
+                alchemy._nodes[n.id]._d3.y = container.height / 2 #container.height / (rootNodes.length / number)
+                alchemy._nodes[n.id]._d3.fixed = true
 
     chargeDistance: () ->
          distance = 500
@@ -141,3 +152,4 @@ alchemy.layout =
             if edge.source.cluster is edge.target.cluster then 10 else 600
         else
             10 / (k * 5)
+            
