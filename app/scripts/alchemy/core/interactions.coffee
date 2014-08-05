@@ -127,14 +127,13 @@ alchemy.interactions =
         d3.event.sourceEvent.stopPropagation()
         d3.select(this).classed("dragging", true)
         d.fixed = true
-        return
 
     nodeDragged: (d, i) ->
         d.x += d3.event.dx
         d.y += d3.event.dy
         d.px += d3.event.dx
         d.py += d3.event.dy
-        
+
         node = d3.select(this)
         node.attr("transform", "translate(#{d.x}, #{d.y})")
         edgeIDs = alchemy._nodes[node.datum().id].adjacentEdges
@@ -147,7 +146,3 @@ alchemy.interactions =
         d3.select(this).classed "dragging": false
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
-        return       
-
-
-
