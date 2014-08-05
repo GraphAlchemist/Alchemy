@@ -106,9 +106,8 @@ alchemy.layout =
                 q.visit(alchemy.layout.collide(node))
 
         alchemy.node
-            .attr("transform", (d) -> 
-                # node_data = alchemy._nodes[d.id]._d3
-                "translate(#{d.x},#{d.y})")
+            .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+
         drawEdge = new alchemy.drawing.DrawEdge
         drawEdge.styleText(alchemy.edge)
         drawEdge.styleLink(alchemy.edge)

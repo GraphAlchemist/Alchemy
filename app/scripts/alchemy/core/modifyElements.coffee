@@ -217,7 +217,7 @@ alchemy.editor =
             @drawEdges.createEdge(alchemy.edge)
 
         # force = new alchemy.layout.force
-        # alchemy.layout.tick()
+        alchemy.layout.tick()
 
 
 alchemy.editor.interactions = ->
@@ -254,10 +254,8 @@ alchemy.editor.interactions = ->
 
     @nodeClick = (c) =>
         d3.event.stopPropagation()
-        console.log c
         # select the correct nodes
         if !alchemy.vis.select("#node-#{c.id}").empty()
-            console.log "click"
             selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
         alchemy.modifyElements.nodeEditorClear()
@@ -293,20 +291,18 @@ alchemy.editor.interactions = ->
 
                 @targetNode = {id: "#{_.uniqueId('addedNode_')}", x: parseFloat(targetX), y: parseFloat(targetY), caption: "node added"}
 
-            @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode, target: @targetNode, caption: "edited"}   
+            @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode.id, target: @targetNode.id, caption: "edited"}   
             alchemy.editor.update(@targetNode, @newEdge)
 
         alchemy.editor.interactions().reset()
         @
 
     @deleteSelected = (d) =>
-        d3.event.preventDefault()
         switch d3.event.keyCode
             when 8, 46
-                console.log d3.select(d3.event.target).node().tagName
-                if d3.select(d3.event.target).node().tagName is ("INPUT" or "TEXTAREA")
-                    console.log "backspace or delete"
-                else alchemy.editor.remove()
+                if !(d3.select(d3.event.target).node().tagName is ("INPUT" or "TEXTAREA"))
+                    d3.event.preventDefault()
+                    alchemy.editor.remove()
 
     @reset = =>
         # reset interaciton variables

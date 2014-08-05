@@ -12,8 +12,8 @@ class alchemy.models.Edge
         @_rawEdge = edge
         @_d3 = {
             'id': @id
-            'source': @_rawEdge.source,
-            'target': @_rawEdge.target
+            'source': alchemy._nodes[@_rawEdge.source]._d3,
+            'target': alchemy._nodes[@_rawEdge.target]._d3
             }
 
         # Add id to source/target's edgelist
