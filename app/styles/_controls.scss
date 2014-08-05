@@ -32,7 +32,7 @@
     margin-top: 2em;
     margin-bottom: 1em;
     padding: .5em 1em;
-    width: 90%;
+    width: 100%;
 
     span{
         vertical-align: bottom;
@@ -199,7 +199,7 @@
     &.initial{
         transform: translate(-100%, 0);
         #dash-toggle{
-            color: $bright-orange !important;
+            color: $bright-orange;
             -webkit-animation: 4s pulse linear;
             animation: 4s pulse linear;
         }
@@ -209,7 +209,7 @@
         -webkit-animation: slide-out .75s linear;
         animation: slide-out .75s linear;
         #dash-toggle{
-            color: $bright-orange !important;
+            color: $bright-orange;
             -webkit-animation: 4s pulse linear;
             animation: 4s pulse linear;
         }
@@ -220,6 +220,14 @@
         }
         -webkit-animation: slide-in .75s ease-in-out;
         animation: slide-in .75s ease-in-out;
+        #dash-toggle{
+            color: rgba($bright-orange, .6);
+            &:hover{
+                color: $bright-orange;
+                -webkit-animation: 4s pulse linear;
+                animation: 4s pulse linear;
+            }
+        }
     }
 
     #control-dash{
@@ -239,11 +247,11 @@
         z-index: 5;
         @include tabs();
         position: absolute;
+        left: 0;
         top: 50%;
         font-size: 2.2em;
         color: rgba(white, .2);
         padding: 10px;
-        margin-left: 100%;
     }
 
     button{
