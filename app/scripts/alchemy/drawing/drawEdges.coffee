@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 class alchemy.drawing.DrawEdges
     constructor: ->
         @drawEdge = new alchemy.drawing.DrawEdge
@@ -24,7 +23,9 @@ class alchemy.drawing.DrawEdges
         # 'edge' is one or more edges in a d3 selection
         edge.enter().append('g')
                     .attr("id", (d) -> "edge-#{d.id}")
-                    .attr('class', 'edge')
+                    .attr('class', (d)-> 
+                        edgeType = alchemy._edges[d.id]._rawEdge.caption 
+                        "edge #{edgeType}")
                     .attr('source-target', (d) -> "#{d.source.id}-#{d.target.id}")    
         @drawEdge.createLink(edge)
         @drawEdge.classLink(edge)
