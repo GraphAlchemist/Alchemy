@@ -54,8 +54,7 @@ alchemy.startGraph = (data) ->
 
     # create layout
     alchemy.force = d3.layout.force()
-        .linkStrength((d)-> 
-            alchemy.layout.linkStrength(d))
+        .linkStrength((d)-> alchemy.layout.linkStrength(d))
         .charge(alchemy.layout.charge(k))
         .linkDistance((d) -> alchemy.conf.linkDistance(d,k))
         .theta(1.0)
@@ -64,7 +63,7 @@ alchemy.startGraph = (data) ->
         .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
         .nodes(_.map(alchemy._nodes, (node) -> node._d3))
-        .links(_.map(alchemy._edges, (e)->e._d3))
+        .links(_.map(alchemy._edges, (edge)->edge._d3))
         .on("tick", alchemy.layout.tick)
 
     alchemy.updateGraph()
