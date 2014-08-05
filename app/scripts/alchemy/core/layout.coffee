@@ -13,46 +13,40 @@
 
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-# class alchemy.layout.force
-#     constructor: 
-#         @gravity
-#         @charge
-#         @linkStrength
-#         @linkDistancefn
-#         @friction
-#         @collide
 
 class alchemy.Layout
     constructor: ->
-        @k = Math.sqrt(_.size(alchemy._nodes) / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
-        @clustering = new alchemy.clustering
-        @charge = () ->
-            if alchemy.conf.cluster
-                @clustering.layout.charge
-            else
-                -10 / @k
+        conf = alchemy.conf
+        @k = Math.sqrt(_.size(alchemy._nodes) / (conf.graphWidth() * conf.graphHeight()))
+        @_clustering = new alchemy.clustering
+        
+        if conf.cluster
+            @_charge = () -> @_clustering.layout.charge
+        else
+            @_charge = () -> -10 / @k
+
+        if conf.cluster
+            @_linkDistancefn = (edge) -> @_clustering.linkDistancefn(edge)
+        else if typeof conf.linkDistancefn is ('number' or 'string')
+            @_linkDistancefn = (edge) -> conf.linkDistancefn
+        else if typeof conf.linkDistancefn is 'function'
+            conf.linkDistancefn(edge)
 
         if alchemy.conf.cluster
-            @_linkDistancefn = @clustering.linkDistancefn(edge)
-        else if alchemy.conf.linkDistancefn is ('default' or 'number' or 'string')
-            @_linkDistancefn = 10 / @k * 5
-        else if typeof alchemy.conf.linkDistancefn is 'function'
-            alchemy.conf.linkDistancefn(edge)
+            @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
+        else
+            @_linkStrength = (edge) ->
+                nodes = alchemy._nodes
+                if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
+                    0.5
+                else
+                    0.8
 
     gravity: () =>
-        8 * @k
+        100 * @k
 
     linkStrength: (edge) =>
-        if alchemy.conf.cluster
-            @clustering.layout.linkStrength(edge)
-            return
-        else
-            nodes = alchemy._nodes
-            if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
-                0.9
-            else
-                1
-        return
+        @_linkStrength(edge)
 
     friction: () ->
         if alchemy.conf.cluster
@@ -60,7 +54,8 @@ class alchemy.Layout
         else
             0.9
 
-    collide: (node) ->
+    collide: (node) =>
+        node = node._d3
         r = 2.2 * alchemy.utils.nodeSize(node) + alchemy.conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
@@ -83,12 +78,13 @@ class alchemy.Layout
             y1 > ny2 or
             y2 < ny1
 
-    tick: () ->
+    tick: () =>
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(_.keys(alchemy._nodes))
+            q = d3.geom.quadtree(_.map(alchemy._nodes, (node) -> node._d3))
             for node in _.values(alchemy._nodes)
-                q.visit(alchemy.layout.collide(node))
+                q.visit(@collide(node))
 
+        # Isabella, use node generator?
         alchemy.node
             .attr("transform", (d) -> 
                 # node_data = alchemy._nodes[d.id]._d3
@@ -99,15 +95,13 @@ class alchemy.Layout
         drawEdge.styleLink(alchemy.edge)
 
     positionRootNodes: () ->
+        conf = alchemy.conf
         container = 
-            width: alchemy.conf.graphWidth()
-            height: alchemy.conf.graphHeight()
-        rootNodes = Array()
-        for id, d in alchemy._nodes
-            if not d[alchemy.conf.rootNodes] then continue
-            else
-                # n.i = i
-                rootNodes.push(n)
+            width: conf.graphWidth()
+            height: conf.graphHeight()
+        
+        rootNodes = _.compact(_.map(alchemy._nodes, (node) -> if node.properties.root then node))
+        
         # if there is one root node, position it in the center
         if rootNodes.length == 1
             n = rootNodes[0]
@@ -124,17 +118,16 @@ class alchemy.Layout
             number = 0
             for n in rootNodes
                 number++
-                alchemy._nodes[n.id]._d3.x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
-                alchemy._nodes[n.id]._d3.y = container.height / 2 #container.height / (rootNodes.length / number)
+                alchemy._nodes[n.id]._d3.x = container.width / Math.sqrt((rootNodes.length * number))
+                alchemy._nodes[n.id]._d3.y = container.height / 2
                 alchemy._nodes[n.id]._d3.fixed = true
 
     chargeDistance: () ->
         500
 
     linkDistancefn: (edge) =>
-        if alchemy.conf.linkDistancefn is ('default' or 'number' or 'string')
-            @_linkDistancefn
-        else
-            (edge) ->
-                @_linkDistancefn(edge)
+        @_linkDistancefn(edge)
+
+    charge: () ->
+        @_charge()
             

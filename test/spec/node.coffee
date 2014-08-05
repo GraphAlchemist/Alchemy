@@ -27,10 +27,10 @@ do ->
                     testNode = alchemy._nodes[0]
                     testNode._d3.id.should.equal testNode.id
 
-        describe "@edges", ->
+        describe "@adjacentEdges", ->
             it "should be an array", ->
                 testNode = alchemy._nodes[0]
-                edgesType = typeof testNode.edges
+                edgesType = typeof testNode.adjacentEdges
                 arrayType = typeof []
 
                 edgesType.should.equal arrayType
