@@ -40,8 +40,8 @@ class alchemy.drawing.DrawNode
                     rootKey = conf.rootNodes
                     if conf.nodeTypes
                         nodeType = node_data[Object.keys(conf.nodeTypes)]
-                        if node_data[rootKey]? and node_data[rootKey] then "root #{nodeType} active"
-                        else "#{nodeType} active"
+                        if node_data[rootKey]? and node_data[rootKey] then "root #{nodeType}"
+                        else "#{nodeType}"
                     else 
                         if node_data[rootKey]? and node_data[rootKey] then "root"
                         else "node"

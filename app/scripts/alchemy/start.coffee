@@ -27,6 +27,7 @@ class Alchemy
         @styles = {}
         @models = {}
         @drawing = {}
+
         @log = {}
         @state = {
             "interactions": "default"
@@ -44,8 +45,10 @@ class Alchemy
     setState: (key, value) =>
         @state.key = value
 
+
+currentRelationshipTypes = {}
+
 if typeof module isnt 'undefined' and module.exports
   module.exports = new Alchemy()
 else
   @alchemy = new Alchemy()
-

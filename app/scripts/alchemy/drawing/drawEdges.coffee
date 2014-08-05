@@ -22,7 +22,9 @@ class alchemy.drawing.DrawEdges
         # used to create edges
         # 'edge' is one or more edges in a d3 selection
         edge.enter().append('g')
-                    .attr('class', 'edge')
+                    .attr('class', (d)-> 
+                        edgeType = alchemy._edges[d.id]._rawEdge.caption 
+                        "edge #{edgeType}")
                     .attr('source-target', (d) -> "#{d.source}-#{d.target}")    
         @drawEdge.createLink(edge)
         @drawEdge.classLink(edge)
