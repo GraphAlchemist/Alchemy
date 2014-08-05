@@ -29,8 +29,8 @@ do ->
 
             it "should inform source and target nodes that it is connected", ->
                 testEdge = alchemy._edges["1-0"]
-                source = alchemy._nodes[testEdge._d3.source]
-                target = alchemy._nodes[testEdge._d3.target]
+                source = alchemy._nodes[testEdge._d3.source.id]
+                target = alchemy._nodes[testEdge._d3.target.id]
 
                 sourceKnowsEdge = _.contains source.adjacentEdges, testEdge.id
                 targetKnowsEdge = _.contains target.adjacentEdges, testEdge.id
