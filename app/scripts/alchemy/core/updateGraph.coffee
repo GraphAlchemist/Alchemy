@@ -18,7 +18,6 @@ alchemy.updateGraph = (start=true) ->
 
 
     #enter/exit nodes/edges
-
     alchemy.edge = alchemy.vis.selectAll("g.edge")
                  .data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id) 
     alchemy.node = alchemy.vis.selectAll("g.node")
@@ -27,14 +26,14 @@ alchemy.updateGraph = (start=true) ->
     if start
         alchemy.layout.positionRootNodes()
         @force.start()
-
         while @force.alpha() > 0.005
             alchemy.force.tick()
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
 
-    clustering = new alchemy.clustering
-    clustering.edgeGradient(alchemy._edges)
+    if alchemy.conf.cluster
+        clustering = new alchemy.clustering
+        clustering.edgeGradient(alchemy._edges)
 
     drawEdges = new alchemy.drawing.DrawEdges
     drawEdges.createEdge(alchemy.edge)

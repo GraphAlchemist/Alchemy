@@ -34,10 +34,11 @@ alchemy.defaults =
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
     collisionDetection: true
+    nodeOverlap: 25
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
-    linkDistance: alchemy.layout.linkDistancefn
+    linkDistancefn: 20
     nodePositions: null # not currently implemented
 
     # Editing
@@ -69,7 +70,6 @@ alchemy.defaults =
     nodeStyle: {}
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
-    nodeOverlap: 25
     nodeRadius: 10 # partially implemented
     nodeTypes: null
     rootNodes: 'root'

@@ -18,19 +18,22 @@ alchemy.drawing.drawingUtils =
     edgeUtils: () ->
         nodes = alchemy._nodes
         edges = alchemy._edges
+        clustering = new alchemy.clustering
         # edge styles based on clustering
         if alchemy.conf.cluster
             edgeStyle = (d) ->
-                if d.source.root or d.target.root
-                    index = (if d.source.root then d.target.cluster else d.source.cluster)
-                else if d.source.cluster is d.target.cluster
-                    index = d.source.cluster
-                else if d.source.cluster isnt d.target.cluster
+                if nodes[d.source.id].properties.root or nodes[d.target.id].properties.root
+                    index = (if nodes[d.source.id].properties.root then nodes[d.target.id].properties.cluster else nodes[d.source.id].properties.cluster)
+                    "#{clustering.getClusterColour(index)}"
+                else if nodes[d.source.id].properties.cluster is nodes[d.target.id].properties.cluster
+                    index = nodes[d.source.id].properties.cluster
+                    "#{clustering.getClusterColour(index)}"
+                else if nodes[d.source.id].properties.cluster isnt nodes[d.target.id].properties.cluster
                     # use gradient between the two clusters' colours
-                    id = "#{d.source.cluster}-#{d.target.cluster}"
+                    id = "#{nodes[d.source.id].properties.cluster}-#{nodes[d.target.id].properties.cluster}"
                     gid = "cluster-gradient-#{id}"
-                    return "stroke: url(##{gid})"
-                "stroke: #{alchemy.styles.getClusterColour(index)}"
+                    "url(##{gid})"
+
         else if alchemy.conf.edgeStyle and not alchemy.conf.cluster
             edgeStyle = (d) ->
                 "#{alchemy.conf.edgeStyle(d)}"
@@ -107,9 +110,13 @@ alchemy.drawing.drawingUtils =
                     colour = conf.clusterColours[conf.clusterColours.length - 1]
                 else
                     colour = conf.clusterColours[node_data.cluster]
-                "fill: #{colour}; stroke: #{colour};"
+                "#{colour}"
             else
                 if conf.nodeColour
                     colour = conf.nodeColour
                 else
                     ''
+        nodeStyle: (d, radius) ->
+            color = @nodeColours(d)
+            stroke = if alchemy.getState("interactions") is "editor" then "#E82C0C" else color
+            "fill: #{color}; stroke: #{color}; stroke-width: #{ radius / 3 };"

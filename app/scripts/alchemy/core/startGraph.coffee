@@ -45,25 +45,24 @@ alchemy.startGraph = (data) ->
             .append('g')
                 .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
 
-    #remove nodes with backspace or delete key
     d3.select("body")
         .on('keydown', alchemy.editor.interactions().deleteSelected)
 
-    # force layout constant
-    k = Math.sqrt(data.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
-
+    alchemy.layout = new alchemy.Layout  # refactor (obviously)
     # create layout
     alchemy.force = d3.layout.force()
-        .linkStrength((d)-> alchemy.layout.linkStrength(d))
-        .charge(alchemy.layout.charge(k))
-        .linkDistance((d) -> alchemy.conf.linkDistance(d,k))
-        .theta(1.0)
-        .gravity(alchemy.layout.gravity(k))
-        .friction(alchemy.layout.friction())
-        .chargeDistance(alchemy.layout.chargeDistance())
         .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
         .nodes(_.map(alchemy._nodes, (node) -> node._d3))
-        .links(_.map(alchemy._edges, (edge)->edge._d3))
+        .links(_.map(alchemy._edges, (edge) -> edge._d3))        
+
+    alchemy.force
+        .charge(alchemy.layout.charge())
+        .linkDistance((link) -> alchemy.layout.linkDistancefn(link))
+        .theta(1.0)
+        .gravity(alchemy.layout.gravity())
+        .linkStrength((link) -> alchemy.layout.linkStrength(link))
+        .friction(alchemy.layout.friction())
+        .chargeDistance(alchemy.layout.chargeDistance())
         .on("tick", alchemy.layout.tick)
 
     alchemy.updateGraph()

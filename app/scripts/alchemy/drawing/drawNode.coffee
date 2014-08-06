@@ -52,13 +52,9 @@ class alchemy.drawing.DrawNode
                     )
                 .attr('shape-rendering', 'optimizeSpeed')
                 .attr('target-id', (d) -> d.id)
-                .attr('style', (d) ->
-                   radius = d3.select(this).attr('r')
-                   "#{utils.nodeColours(d)}; stroke-width: #{ radius / 3 }")
-                .style('stroke', () -> 
-                    if alchemy.getState("interactions") is "editor"
-                        return "#E82C0C"
-                    )
+                .attr('style', (d) -> 
+                    radius = d3.select(this).attr('r')
+                    utils.nodeStyle(d, radius))
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"
