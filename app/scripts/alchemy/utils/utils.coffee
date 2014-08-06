@@ -20,7 +20,7 @@ alchemy.utils =
     deselectAll: () ->
         # this function is also fired at the end of a drag, do nothing if this 
         if d3.event?.defaultPrevented then return
-        alchemy.vis.selectAll('.node, line')
+        alchemy.vis.selectAll('.node, .edge')
             .classed('selected highlight', false)
         
         d3.select('.alchemy svg').classed({'highlight-active':false})
