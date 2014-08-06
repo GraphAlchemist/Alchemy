@@ -52,7 +52,8 @@ class alchemy.drawing.DrawEdge
                         dy = targetY - sourceY
                         hyp = Math.sqrt( dx * dx + dy * dy)
                         "M #{sourceX},#{sourceY} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{targetX}, #{targetY}")
-                     .style('stroke', (d) -> utils.edgeStyle(d))
+                edge.select('path.edge-line')
+                    .style('stroke', (d) -> utils.edgeStyle(d))
         if not conf.curvedEdges
             @_createLink = (edge) ->
                 edge.append('rect')
