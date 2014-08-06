@@ -116,31 +116,25 @@ alchemy.layout =
         container = 
             width: alchemy.conf.graphWidth()
             height: alchemy.conf.graphHeight()
-        rootNodes = Array()
-        for id, d in alchemy._nodes
-            if not d[alchemy.conf.rootNodes] then continue
-            else
-                # n.i = i
-                rootNodes.push(n)
+
+        rootNodes = _.filter alchemy._nodes, (d)-> d.properties.root
+
         # if there is one root node, position it in the center
         if rootNodes.length == 1
             n = rootNodes[0]
-            node_data = alchemy._nodes[n.id]
-            node_data._d3.x = container.width / 2
-            node_data._d3.y = container.height / 2
-            node_data._d3.px = container.width / 2
-            node_data._d3.py = container.height / 2
+            [n._d3.x, n._d3.px] = [container.width / 2, container.width / 2]
+            [n._d3.y, n._d3.py] = [container.height/ 2, container.height/ 2]
             # fix root nodes until force layout is complete
-            node_data._d3.fixed = true
+            n._d3.fixed = true
             return
         # position nodes towards center of graph
         else
             number = 0
             for n in rootNodes
                 number++
-                alchemy._nodes[n.id]._d3.x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
-                alchemy._nodes[n.id]._d3.y = container.height / 2 #container.height / (rootNodes.length / number)
-                alchemy._nodes[n.id]._d3.fixed = true
+                n._d3.x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
+                n._d3.y = container.height / 2 #container.height / (rootNodes.length / number)
+                n._d3.fixed = true
 
     chargeDistance: () ->
          distance = 500

@@ -14,7 +14,6 @@ class alchemy.models.Node
         @adjacentEdges = []
         # Add to node collection
         Node::all.push(@.id)
-        # Stores edge.id for easy edge lookup
 
     # Stores edge.id for easy edge lookup
     addEdge: (edge) ->
