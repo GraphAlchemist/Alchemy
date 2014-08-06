@@ -29,8 +29,8 @@ class alchemy.drawing.DrawEdge
                     .attr('x2', (d) -> d.target.x)
                     .attr('y2', (d) -> d.target.y)
                     .attr('shape-rendering', 'optimizeSpeed')
-                    .attr("style", (d) -> utils.edgeStyle(d))
-                    .attr("style", {'stroke-width': conf.edgeWidth})
+                    .style('stroke', (d) -> utils.edgeStyle(d))
+                    .style('stroke-width', conf.edgeWidth)
                 edge.select('rect')
                     .attr('x', 0)
                     .attr('y', -conf.edgeOverlayWidth/2)
@@ -38,6 +38,7 @@ class alchemy.drawing.DrawEdge
                     .attr('width', (d) -> utils.edgeLength(d)) 
                     .on('click', alchemy.interactions.edgeClick)
                     .attr('transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})")
+                return
         else
             @_styleLink = (edge) -> 
                 edge.selectAll('path')
@@ -51,6 +52,7 @@ class alchemy.drawing.DrawEdge
                         dy = targetY - sourceY
                         hyp = Math.sqrt( dx * dx + dy * dy)
                         "M #{sourceX},#{sourceY} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{targetX}, #{targetY}")
+                     .style('stroke', (d) -> utils.edgeStyle(d))
         if not conf.curvedEdges
             @_createLink = (edge) ->
                 edge.append('rect')

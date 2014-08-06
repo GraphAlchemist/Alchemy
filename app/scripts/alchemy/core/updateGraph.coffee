@@ -35,13 +35,15 @@ alchemy.updateGraph = (start=true) ->
 
     alchemy.layout.tick()
 
-    clustering = new alchemy.clustering
-    clustering.edgeGradient(alchemy._edges)
+    if alchemy.conf.cluster
+        clustering = new alchemy.clustering
+        clustering.edgeGradient(alchemy._edges)
 
     drawEdges = new alchemy.drawing.DrawEdges
     drawEdges.createEdge(alchemy.edge)
     drawNodes = new alchemy.drawing.DrawNodes
     drawNodes.createNode(alchemy.node)
+
     alchemy.vis.selectAll('g.node')
            .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
 

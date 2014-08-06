@@ -26,7 +26,7 @@ class alchemy.Layout
             @_charge = () -> -10 / @k
 
         if conf.cluster
-            @_linkDistancefn = (edge) -> @_clustering.linkDistancefn(edge)
+            @_linkDistancefn = (edge) -> @_clustering.layout.linkDistancefn(edge)
         else if typeof conf.linkDistancefn is ('number' or 'string')
             @_linkDistancefn = (edge) -> conf.linkDistancefn
         else if typeof conf.linkDistancefn is 'function'
@@ -43,7 +43,10 @@ class alchemy.Layout
                     0.8
 
     gravity: () =>
-        100 * @k
+        if alchemy.conf.cluster
+            @_clustering.layout.gravity(@k)
+        else
+            100 * @k
 
     linkStrength: (edge) =>
         @_linkStrength(edge)
