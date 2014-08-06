@@ -31,7 +31,6 @@ class alchemy.drawing.DrawEdges
         @drawEdge.classLink(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)
-        @drawEdge.setInteractions(edge)
         edge.exit().remove()
 
     updateEdge: (edge) ->
@@ -39,4 +38,3 @@ class alchemy.drawing.DrawEdges
         @drawEdge.classLink(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)
-        @drawEdge.setInteractions(edge)
