@@ -37,7 +37,7 @@ do ->
 
             it "should contain ids of all connected edges", ->
                 testNode = alchemy._nodes[0]
-                edges = testNode.edges
+                edges = testNode.adjacentEdges
                 edgeIDsFromData = ["1-0", "2-0", "3-0", "4-0", "5-0"]
 
                 edges.should.eql edgeIDsFromData

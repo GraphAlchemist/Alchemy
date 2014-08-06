@@ -97,26 +97,28 @@ alchemy.interactions =
                                                                 scale(#{ d3.event.scale })" )
                                     
     clickZoom:  (direction) ->
-                    startTransform = alchemy.vis
-                                            .attr("transform")
-                                            .match(/(-*\d+\.*\d*)/g)
-                                            .map( (a) -> return parseFloat(a) )
-                    endTransform = startTransform
+                    [x, y, scale] = alchemy.vis
+                                           .attr("transform")
+                                           .match(/(-*\d+\.*\d*)/g)
+                                           .map( (a) -> return parseFloat(a) )
+
                     alchemy.vis
                         .attr("transform", ->
                             if direction == "in"
-                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]+0.2 })" 
-                            else if direction == "out" 
-                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]-0.2 })" 
+                                scale += 0.2 if scale < alchemy.conf.scaleExtent[1]
+                                return "translate(#{x},#{y}) scale(#{ scale })"
+                            else if direction == "out"
+                                scale -= 0.2 if scale > alchemy.conf.scaleExtent[0]
+                                return "translate(#{x},#{y}) scale(#{ scale })"
                             else if direction == "reset"
                                 return "translate(0,0) scale(1)"
-                            else 
+                            else
                                 console.log 'error'
                             )
                     if not @._zoomBehavior?
                         @._zoomBehavior = d3.behavior.zoom()
-                    @._zoomBehavior.scale(endTransform[2])
-                                   .translate(endTransform[0..1])
+                    @._zoomBehavior.scale(scale)
+                                   .translate([x,y])
 
     toggleControlDash: () ->
         #toggle off-canvas class on click
@@ -127,14 +129,13 @@ alchemy.interactions =
         d3.event.sourceEvent.stopPropagation()
         d3.select(this).classed("dragging", true)
         d.fixed = true
-        return
 
     nodeDragged: (d, i) ->
         d.x += d3.event.dx
         d.y += d3.event.dy
         d.px += d3.event.dx
         d.py += d3.event.dy
-        
+
         node = d3.select(this)
         node.attr("transform", "translate(#{d.x}, #{d.y})")
         edgeIDs = alchemy._nodes[node.datum().id].adjacentEdges
@@ -147,7 +148,3 @@ alchemy.interactions =
         d3.select(this).classed "dragging": false
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
-        return       
-
-
-

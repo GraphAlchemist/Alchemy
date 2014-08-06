@@ -6,6 +6,7 @@ class alchemy.models.Node
         @_d3 = {
             'id': node.id
         }
+        @state = { "active": true }
         
         # Merge undefined nodeStyle keys from conf.
         # Works with undefined @nodeStyle
@@ -13,7 +14,6 @@ class alchemy.models.Node
         @adjacentEdges = []
         # Add to node collection
         Node::all.push(@.id)
-        # Stores edge.id for easy edge lookup
 
     # Stores edge.id for easy edge lookup
     addEdge: (edge) ->
