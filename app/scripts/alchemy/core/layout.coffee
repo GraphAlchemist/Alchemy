@@ -17,36 +17,38 @@
 class alchemy.Layout
     constructor: ->
         conf = alchemy.conf
-        @k = Math.sqrt(_.size(alchemy._nodes) / (conf.graphWidth() * conf.graphHeight()))
+        nodes = alchemy._nodes
+        @k = Math.sqrt(Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight() ) )
         @_clustering = new alchemy.clustering
         
         if conf.cluster
             @_charge = () -> @_clustering.layout.charge
+            @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
+
         else
             @_charge = () -> -10 / @k
+            @_linkStrength = (edge) ->
+                if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
+                    1
+                else
+                    0.9
 
         if conf.cluster
             @_linkDistancefn = (edge) -> @_clustering.layout.linkDistancefn(edge)
-        else if typeof conf.linkDistancefn is ('number' or 'string')
+        else if conf.linkDistancefn is 'default'
+            @_linkDistancefn = (edge) -> 
+                1 / (@k * 50)
+        else if typeof conf.linkDistancefn is 'number'
             @_linkDistancefn = (edge) -> conf.linkDistancefn
         else if typeof conf.linkDistancefn is 'function'
-            conf.linkDistancefn(edge)
+            @_linkDistancefn = (edge) -> conf.linkDistancefn(edge)
 
-        if alchemy.conf.cluster
-            @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
-        else
-            @_linkStrength = (edge) ->
-                nodes = alchemy._nodes
-                if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
-                    0.5
-                else
-                    0.8
 
     gravity: () =>
         if alchemy.conf.cluster
             @_clustering.layout.gravity(@k)
         else
-            100 * @k
+            50 * @k
 
     linkStrength: (edge) =>
         @_linkStrength(edge)
