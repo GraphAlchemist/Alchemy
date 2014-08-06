@@ -56,7 +56,9 @@ class alchemy.drawing.DrawEdge
                 edge.append('rect')
                     .attr('class', 'edge-handler')
                 edge.append('line')
-                edge.append('text')
+
+                edge.filter((d,i) -> alchemy._edges[d.id]._rawEdge.caption?)
+                    .append('text')
         else
             @_createLink = (edge) ->
                 edge.append('path')
@@ -65,7 +67,8 @@ class alchemy.drawing.DrawEdge
                 edge.append('path')
                     .attr('class', 'edge-line')
                     .attr('id', (d) -> "path-#{d.id}")
-                edge.append('text')
+                edge.filter((d,i) -> alchemy._edges[d.id]._rawEdge.caption?)
+                    .append('text')
                     .append('textPath')
                     .attr('class', 'textpath') # this is a workaround for a bug in webkit
         if not conf.curvedEdges
