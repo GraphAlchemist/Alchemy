@@ -29,7 +29,7 @@ class alchemy.drawing.DrawEdge
                     .attr('x2', (d) -> d.target.x)
                     .attr('y2', (d) -> d.target.y)
                     .attr('shape-rendering', 'optimizeSpeed')
-                    .style('stroke', (d) -> utils.edgeStyle(d))
+                    .attr('style', (d) -> utils.edgeStyle(d))
                     .style('stroke-width', conf.edgeWidth)
                 edge.select('rect')
                     .attr('x', 0)
@@ -56,20 +56,21 @@ class alchemy.drawing.DrawEdge
                     .style('stroke', (d) -> utils.edgeStyle(d))
         if not conf.curvedEdges
             @_createLink = (edge) ->
+                edge.append('line')
+                    .attr('class', 'edge-line')
                 edge.append('rect')
                     .attr('class', 'edge-handler')
-                edge.append('line')
 
                 edge.filter((d,i) -> alchemy._edges[d.id]._rawEdge.caption?)
                     .append('text')
         else
             @_createLink = (edge) ->
                 edge.append('path')
-                    .attr('class', 'edge-handler')
-                    .style('stroke-width', "#{conf.edgeOverlayWidth}")
-                edge.append('path')
                     .attr('class', 'edge-line')
                     .attr('id', (d) -> "path-#{d.id}")
+                edge.append('path')
+                    .attr('class', 'edge-handler')
+                    .style('stroke-width', "#{conf.edgeOverlayWidth}")
                 edge.filter((d,i) -> alchemy._edges[d.id]._rawEdge.caption?)
                     .append('text')
                     .append('textPath')
@@ -91,7 +92,7 @@ class alchemy.drawing.DrawEdge
         @_setInteractions = (edge) ->
             edge.select('.edge-handler')
                 .on('click', (d) -> interactions.edgeClick(d))
-        @_classLink = (edge) ->
+        @_classEdge = (edge) ->
             edge.classed('active', true)
 
     createLink: (edge) =>
@@ -100,8 +101,8 @@ class alchemy.drawing.DrawEdge
     styleLink: (edge) =>
         @_styleLink(edge)
 
-    classLink: (edge) =>
-        @_classLink(edge)
+    classEdge: (edge) =>
+        @_classEdge(edge)
 
     styleText: (edge) =>
         @_styleText(edge)

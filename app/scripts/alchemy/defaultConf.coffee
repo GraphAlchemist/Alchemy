@@ -38,7 +38,7 @@ alchemy.defaults =
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
-    linkDistancefn: 20
+    linkDistancefn: 'default'
     nodePositions: null # not currently implemented
 
     # Editing

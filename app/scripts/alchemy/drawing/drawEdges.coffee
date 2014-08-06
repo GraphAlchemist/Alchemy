@@ -28,7 +28,7 @@ class alchemy.drawing.DrawEdges
                         "edge #{edgeType}")
                     .attr('source-target', (d) -> "#{d.source.id}-#{d.target.id}")    
         @drawEdge.createLink(edge)
-        @drawEdge.classLink(edge)
+        @drawEdge.classEdge(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)
         @drawEdge.setInteractions(edge)
@@ -36,7 +36,7 @@ class alchemy.drawing.DrawEdges
 
     updateEdge: (edge) ->
         # 'edge' is one or more edges in a d3 selection
-        @drawEdge.classLink(edge)
+        @drawEdge.classEdge(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)
         @drawEdge.setInteractions(edge)
