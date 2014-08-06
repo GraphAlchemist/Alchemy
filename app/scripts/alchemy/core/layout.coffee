@@ -91,9 +91,9 @@ class alchemy.Layout
         alchemy.node
             .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
 
-        drawEdge = new alchemy.drawing.DrawEdge
-        drawEdge.styleText(alchemy.edge)
-        drawEdge.styleLink(alchemy.edge)
+        @drawEdge ?= new alchemy.drawing.DrawEdge
+        @drawEdge.styleText(alchemy.edge)
+        @drawEdge.styleLink(alchemy.edge)
 
     positionRootNodes: () ->
         conf = alchemy.conf

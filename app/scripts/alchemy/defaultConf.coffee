@@ -24,7 +24,7 @@ alchemy.defaults =
             return window.innerHeight
         else 
             return d3.select(@divSelector).node().parentElement.clientHeight
-    alpha: .5
+    alpha: 0.5
     cluster: false
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
                                 "#00FF30", "#5168FF",
