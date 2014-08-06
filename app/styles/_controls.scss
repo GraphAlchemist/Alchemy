@@ -115,7 +115,6 @@
         color: white;
         .node-property{
             display: inline-flex;
-            background: black;
             margin: 4px 0;
             width: 100%;
         }
@@ -132,7 +131,7 @@
             text-align: center;
             font-weight: 200;
             cursor: default;
-            background: rgba(white, .2);
+            background: #2E2E2E;
             border: thin transparent solid;
             color: $bright-orange;
             border-right: none;
@@ -163,17 +162,28 @@
                 }
             }
         }
-        #node-add-prop-submit, #update-properties{
+        input[type="submit"]{
             &:active, &:focus{
                 outline: none;
+            }
+            &:hover{
+                color: white;
+                border: thin solid white;
             }
             color: $bright-orange;
             border-top-right-radius: 4px;
             border-bottom-right-radius: 4px;
             width: auto;
-            background: transparent;
+            background: rgba(white, .1);
             border: thin solid $bright-orange;
             text-align: center;
+        }
+        #update-properties{
+            @extend input[type="submit"];
+            border-radius: 4px;
+            padding: 10px;
+            width: 100%;
+            margin-bottom: 20px;
         }
     }
     #editor-interactions{

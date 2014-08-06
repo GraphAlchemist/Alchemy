@@ -134,24 +134,6 @@ alchemy.modifyElements =
             .attr("type", "submit")
             .attr("value", "Update Properties")
 
-        # d3.selectAll(".node-property")
-        #     .on "submit" , ->
-        #         event.preventDefault()
-        #         # grab original ID name and select node
-        #         nodeID = n.id
-        #         propertyName = d3.select(@).select(".property-name").attr("value")
-        #         propertyVal = d3.select(@).select(".property-value")
-        #         newVal = propertyVal[0][0].value 
-                
-        #         alchemy._nodes[nodeID].setProperty(propertyName, newVal)
-        #         d3.select(@).select(".property-name").attr("value", propertyName)
-        #         propertyVal.attr("placeholder", "property updated to: #{newVal}")
-                
-        #         # update node
-        #         drawNodes = new alchemy.drawing.DrawNodes
-        #         drawNodes.updateNode(d3.select("#node-#{nodeID}"))
-        #         @.reset()
-
         d3.selectAll("#node-add-prop-key, #node-add-prop-value, .node-property")
             .on "keydown", ->
                 if d3.event.keyCode is 13
@@ -161,49 +143,47 @@ alchemy.modifyElements =
         d3.select("#node-add-property")
             .on "submit", ->
                 event.preventDefault()
-                console.log 'adding new property'
-                nodeID = n.id
-                propertyName = d3.select("#node-add-prop-key")
-                propertyVal = d3.select("#node-add-prop-value")
-                if propertyVal[0][0].value? and propertyName[0][0].value?
-                    key = propertyName[0][0].value
-                    val = propertyVal[0][0].value
-                    alchemy._nodes[nodeID].setProperty("#{key}", "#{val}")
-                    propertyName.attr("placeholder", "property added/updated to key: #{key}")
-                    propertyVal.attr("placeholder", "property at #{key} updated to: #{val}")
-                    drawNodes = new alchemy.drawing.DrawNodes
-                    drawNodes.updateNode(d3.select("#node-#{nodeID}"))
-                else 
-                    propertyName.attr("placeholder", "null or invalid input")
-                    propertyVal.attr("placeholder", "null or invlid input")
+
+                key = d3.select("#node-add-prop-key")[0][0].value
+                key = key.replace(/\s/g, "_")
+                value = d3.select("#node-add-prop-value")[0][0].value
+                updateProperty(key, value, true)
+
+                d3.selectAll("#add-property .edited-property").classed("edited-property":false)
                 @.reset()
 
         d3.select("#node-properties-list")
             .on "submit", -> 
                 event.preventDefault()
-                console.log 'updating properties'
-                nodeID = n.id
+
                 properties = d3.selectAll(".edited-property")
-                for editedProperty in properties[0]
-                    console.log editedProperty
-                    updateProperty(editedProperty)
-                    # propertyName = d3.select("#node-add-prop-key")
-                    # propertyVal = d3.select("#node-add-prop-value")
-                    # if propertyVal[0][0].value? and propertyName[0][0].value?
-                    #     key = propertyName[0][0].value
-                    #     val = propertyVal[0][0].value
-                    #     alchemy._nodes[nodeID].setProperty("#{key}", "#{val}")
-                    #     propertyName.attr("placeholder", "property added/updated to key: #{key}")
-                    #     propertyVal.attr("placeholder", "property at #{key} updated to: #{val}")
-                    #     drawNodes = new alchemy.drawing.DrawNodes
-                    #     drawNodes.updateNode(d3.select("#node-#{nodeID}"))
-                    # else 
-                    #     propertyName.attr("placeholder", "null or invalid input")
-                    #     propertyVal.attr("placeholder", "null or invlid input")
+                for property in properties[0]
+                    console.log property
+                    key = d3.select(property).select("label").text()
+                    value = d3.select(property).select("input")[0][0].value
+                    updateProperty(key, value, false)
+
+                d3.selectAll("#node-properties-list .edited-property").classed("edited-property":false)
                 @.reset()
-        updateProperty: (property) ->
+
+        updateProperty = (key, value, newProperty) ->
             nodeID = n.id
-            property.select("input")
+            if ((key!="") and (value != ""))
+                alchemy._nodes[nodeID].setProperty("#{key}", "#{value}")
+                drawNodes = new alchemy.drawing.DrawNodes
+                drawNodes.updateNode(d3.select("#node-#{nodeID}"))
+                if newProperty is true 
+                    d3.select("#node-add-prop-key").attr("placeholder", "property added/updated to key: #{key}")
+                    d3.select("#node-add-prop-value").attr("placeholder", "property at #{key} updated to: #{value}")
+                else
+                    d3.select("#node-#{key}-input").attr("placeholder", "property at #{key} updated to: #{value}")
+
+            else
+                if newProperty is true 
+                    d3.select("#node-add-prop-key").attr("placeholder", "null or invalid input")
+                    d3.select("#node-add-prop-value").attr("placeholder", "null or invlid input")
+                else
+                    d3.select("#node-#{key}-input").attr("placeholder", "null or invalid input")
             
 
 
@@ -230,6 +210,7 @@ alchemy.editor =
             .style("opacity", 1)
 
         @drawNodes.updateNode(alchemy.node)
+        d3.selectAll(".node").classed("selected":false)
 
     disableEditor: () ->
         alchemy.setState("interactions", "default")
@@ -245,6 +226,7 @@ alchemy.editor =
             .attr("class", "hidden")
 
         @drawNodes.updateNode(alchemy.node)
+        d3.selectAll(".node").classed("selected":false)
 
     remove: () ->
         selectedNodes = d3.selectAll(".selected.node")
