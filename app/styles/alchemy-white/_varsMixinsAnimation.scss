@@ -1,8 +1,8 @@
 // Alchemy colors
 $primary: #68B9FE;
-$secondary: #FDC670;
-$bright-secondary: #E89619;
-$ctrl-dash-background: url("images/maze-black.png");
+$secondary: #68B9FE;
+$bright-secondary: #68B9FE;
+$ctrl-dash-background: rgba(0, 0, 0, 0.3);
 
 @mixin highlight(){
     opacity: .8 !important;
@@ -15,8 +15,7 @@ $ctrl-dash-background: url("images/maze-black.png");
 }
 
 @mixin tabs(){
-    background-color: transparent;
-    background-image: $ctrl-dash-background;
+    background-color: $ctrl-dash-background;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
     box-shadow: 0 0 5px rgba(white, .3);
