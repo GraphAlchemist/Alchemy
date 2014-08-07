@@ -9,12 +9,11 @@ class alchemy.models.Edge
         # Contains state of edge, used by renderers
         @state = {'active': true} 
 
-        @_rawEdge = edge
-        @_d3 = {
+        @properties = edge
+        @_d3 =
             'id': @id
-            'source': alchemy._nodes[@_rawEdge.source]._d3,
-            'target': alchemy._nodes[@_rawEdge.target]._d3
-            }
+            'source': alchemy._nodes[@properties.source]._d3,
+            'target': alchemy._nodes[@properties.target]._d3
 
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id

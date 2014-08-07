@@ -22,3 +22,5 @@ class alchemy.models.NodeAttributes
                     alchemy.conf.rootNodeRadius
                 else
                     alchemy.conf.nodeRadius
+    
+    strokeWidth: (radius) -> radius / 3

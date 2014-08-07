@@ -35,26 +35,9 @@ class alchemy.drawing.DrawNode
 
         @_styleNode = (node) ->
             node.select('circle')
-                .attr('class', (d) -> 
-                    node_data = nodes[d.id].getProperties()
-                    rootKey = conf.rootNodes
-                    if conf.nodeTypes
-                        nodeType = node_data[Object.keys(conf.nodeTypes)]
-                        if node_data[rootKey]? and node_data[rootKey] then "root #{nodeType}"
-                        else "#{nodeType}"
-                    else 
-                        if node_data[rootKey]? and node_data[rootKey] then "root"
-                        else "node"
-                    )
-                .attr('r', (d) -> 
-                    node_data = nodes[d.id].getProperties()
-                    alchemy.utils.nodeSize(node_data)
-                    )
+                .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')
-                .attr('target-id', (d) -> d.id)
-                .attr('style', (d) -> 
-                    radius = d3.select(this).attr('r')
-                    utils.nodeStyle(d, radius))
+                .attr('style', (d) -> utils.nodeStyle(d))
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"
