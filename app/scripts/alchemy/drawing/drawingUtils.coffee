@@ -18,7 +18,7 @@ alchemy.drawing.drawingUtils =
     edgeUtils: () ->
         nodes = alchemy._nodes
         edges = alchemy._edges
-        clustering = new alchemy.clustering
+        clustering = alchemy.layout._clustering
         # edge styles based on clustering
         if alchemy.conf.cluster
             edgeStyle = (d) ->

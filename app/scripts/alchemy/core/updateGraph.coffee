@@ -31,10 +31,6 @@ alchemy.updateGraph = (start=true) ->
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
 
-    if alchemy.conf.cluster
-        clustering = new alchemy.clustering
-        clustering.edgeGradient(alchemy._edges)
-
     drawEdges = new alchemy.drawing.DrawEdges
     drawEdges.createEdge(alchemy.edge)
     drawNodes = new alchemy.drawing.DrawNodes
