@@ -1,10 +1,13 @@
 class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
+        nodeAttr = new alchemy.models.NodeAttributes
         @id = node.id
         @properties = node
         @_d3 = {
-            'id': node.id
+            'id': node.id,
+            'r' : nodeAttr.nodeSize(@properties)
+            'root': @properties[conf.rootNodes]
         }
         @state = { "active": true }
         
