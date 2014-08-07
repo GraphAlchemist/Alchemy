@@ -82,7 +82,7 @@ class alchemy.drawing.DrawEdge
                 .attr('width', (d) -> utils.edgeLength(d))
                 .attr('transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})")
 
-    classLink: (edge) =>
+    classEdge: (edge) =>
         edge.classed('active', true)
 
     styleText: (edge) =>

@@ -1,10 +1,13 @@
-@import 'varsMixinsAnimation';
-@import 'svg';
+@import 'alchemy-white/varsMixinsAnimation';
+
+@import 'alchemy-white/svg';
+@import 'alchemy-white/edges';
+@import 'alchemy-white/controls';
+
 @import 'nodes';
-@import 'edges';
 @import 'utils';
-@import 'controls';
 @import 'filters';
+
 
 .alchemy {
 
