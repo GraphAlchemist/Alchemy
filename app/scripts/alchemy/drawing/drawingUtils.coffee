@@ -22,15 +22,16 @@ alchemy.drawing.drawingUtils =
         # edge styles based on clustering
         if alchemy.conf.cluster
             edgeStyle = (d) ->
+                clusterKey = alchemy.conf.clusterKey
                 if nodes[d.source.id].properties.root or nodes[d.target.id].properties.root
-                    index = (if nodes[d.source.id].properties.root then nodes[d.target.id].properties.cluster else nodes[d.source.id].properties.cluster)
+                    index = (if nodes[d.source.id].properties.root then nodes[d.target.id].properties[clusterKey] else nodes[d.source.id].properties[clusterKey])
                     "#{clustering.getClusterColour(index)}"
-                else if nodes[d.source.id].properties.cluster is nodes[d.target.id].properties.cluster
-                    index = nodes[d.source.id].properties.cluster
+                else if nodes[d.source.id].properties[clusterKey] is nodes[d.target.id].properties[clusterKey]
+                    index = nodes[d.source.id].properties[clusterKey]
                     "#{clustering.getClusterColour(index)}"
-                else if nodes[d.source.id].properties.cluster isnt nodes[d.target.id].properties.cluster
+                else if nodes[d.source.id].properties[clusterKey] isnt nodes[d.target.id].properties[clusterKey]
                     # use gradient between the two clusters' colours
-                    id = "#{nodes[d.source.id].properties.cluster}-#{nodes[d.target.id].properties.cluster}"
+                    id = "#{nodes[d.source.id].properties[clusterKey]}-#{nodes[d.target.id].properties[clusterKey]}"
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
 
