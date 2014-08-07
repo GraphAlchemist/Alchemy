@@ -16,7 +16,7 @@
 
 class alchemy.drawing.DrawNode
     constructor: ->
-        utils = alchemy.drawing.drawingUtils.nodeUtils()
+        utils = new alchemy.drawing.NodeUtils
         interactions = alchemy.interactions
         conf = alchemy.conf
         nodes = alchemy._nodes

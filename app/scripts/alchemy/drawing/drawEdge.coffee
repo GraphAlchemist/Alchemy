@@ -21,7 +21,7 @@ class alchemy.drawing.DrawEdge
         @curved = alchemy.conf.curvedEdges
 
     createLink: (edge) =>
-        utils = alchemy.drawing.drawingUtils.edgeUtils()
+        utils = new alchemy.drawing.EdgeUtils
         conf = alchemy.conf
         interactions = alchemy.interactions
 
@@ -51,7 +51,7 @@ class alchemy.drawing.DrawEdge
                 .append('text')
 
     styleLink: (edge) =>
-        utils = alchemy.drawing.drawingUtils.edgeUtils()
+        utils = new alchemy.drawing.EdgeUtils
         conf = alchemy.conf
 
         if @curved
@@ -86,7 +86,7 @@ class alchemy.drawing.DrawEdge
         edge.classed('active', true)
 
     styleText: (edge) =>
-        utils = alchemy.drawing.drawingUtils.edgeUtils()
+        utils = new alchemy.drawing.EdgeUtils
 
         if @curved
             edge.select('text')
