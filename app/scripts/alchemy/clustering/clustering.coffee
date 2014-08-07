@@ -1,7 +1,10 @@
 class alchemy.clustering
     constructor: ->
-        @clusterKey = alchemy.conf.clusterKey
         nodes = alchemy._nodes
+
+        @clusterKey = alchemy.conf.clusterKey
+        @identifyClusters()
+    
         _charge = -500
         _linkStrength = (edge) ->
             if nodes[edge.source.id].properties[@clusterKey] is nodes[edge.target.id].properties[@clusterKey] then 1 else 1
@@ -24,10 +27,13 @@ class alchemy.clustering
             linkDistancefn: (edge) -> _linkDistancefn(edge)
             gravity: (k) -> _gravity(k)
 
-
-
-    getClusterColour: (index) ->
-        console.log index
+    identifyClusters: ->
+        nodes = alchemy._nodes
+        clusters = _.uniq _.map(_.values(nodes), (node)-> node.properties["#{alchemy.conf.clusterKey}"])
+        @clusterMap = _.zipObject clusters, [0..clusters.length]
+    
+    getClusterColour: (clusterValue) ->
+        index = @clusterMap[clusterValue]
         if alchemy.conf.clusterColours[index]?
             alchemy.conf.clusterColours[index]
         else
