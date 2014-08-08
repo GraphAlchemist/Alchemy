@@ -107,10 +107,11 @@ alchemy.drawing.drawingUtils =
         nodeColours: (d) ->
             node_data = nodes[d.id].getProperties()
             if conf.cluster
-                if (isNaN parseInt node_data.cluster) or (node_data.cluster > conf.clusterColours.length)
-                    colour = conf.clusterColours[conf.clusterColours.length - 1]
-                else
-                    colour = conf.clusterColours[node_data.cluster]
+                clusterMap = alchemy.layout._clustering.clusterMap
+                clusterKey = alchemy.conf.clusterKey
+
+                colour = conf.clusterColours[clusterMap[node_data[clusterKey]]]
+                console.log colour
                 "#{colour}"
             else
                 if conf.nodeColour
