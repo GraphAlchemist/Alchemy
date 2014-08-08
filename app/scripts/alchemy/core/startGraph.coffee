@@ -101,7 +101,7 @@ alchemy.startGraph = (data) ->
         defs.append("svg:marker")
             .attr("id", "arrow")
             .attr("viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}")
-            .attr("refX", 1)
+            .attr('markerUnits', 'userSpaceOnUse')
             .attr("markerWidth", arrowSize)
             .attr("markerHeight", arrowSize)
             .attr("orient", "auto")
