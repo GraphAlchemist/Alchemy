@@ -18,7 +18,8 @@ class alchemy.drawing.NodeUtils
                     else
                         ''
         
-        nodeStyle: (d, radius) ->
+        nodeStyle: (d) ->
             color = @nodeColours(d)
             stroke = if alchemy.getState("interactions") is "editor" then "#E82C0C" else color
-            "fill: #{color}; stroke: #{color}; stroke-width: #{ radius / 3 };"
+            debugger
+            "fill: #{color}; stroke: #{color}; stroke-width: #{d['stroke-width']};"

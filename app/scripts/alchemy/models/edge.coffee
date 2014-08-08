@@ -20,18 +20,18 @@ class alchemy.models.Edge
         alchemy._nodes["#{edge.target}"].addEdge @id
 
     toPublic: =>
-        keys = _.keys(@_rawEdge)
+        keys = _.keys(@properties)
         _.pick(@, keys)
 
     setProperty: (property, value) =>
-        @_rawEdge[property] = value
+        @properties[property] = value
 
     setD3Property: (property, value) =>
         @_d3[property] = value
         
     # Find if both endpoints are active
     allNodesActive: () =>
-        source = d3.select("#node-#{@_rawEdge.source}")
-        target = d3.select("#node-#{@_rawEdge.target}")
+        source = d3.select("#node-#{@properties.source}")
+        target = d3.select("#node-#{@properties.target}")
 
         !source.classed("inactive") && !target.classed("inactive")

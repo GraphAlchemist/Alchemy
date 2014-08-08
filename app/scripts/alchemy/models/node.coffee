@@ -11,7 +11,7 @@ class alchemy.models.Node
         @_d3 = {
             'id': node.id,
             'r' : radius
-            'stroke-width': nodeAttr.strokeWidth(radius)
+            'stroke-width': nodeAttr.strokeWidth(radius) # should nest 'style' related properties and attributes
             'root': @properties[conf.rootNodes]
         }
         

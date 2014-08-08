@@ -84,6 +84,8 @@ alchemy.defaults =
     curvedEdges: false
     edgeWidth: 4
     edgeOverlayWidth: 20
+    directedEdges: false
+    edgeArrowSize: 5 # pixel length of arrow
 
     # Search
     search: true

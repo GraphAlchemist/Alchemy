@@ -15,7 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class alchemy.drawing.EdgeUtils
-    constructor: ->    
+    constructor: ->
+        conf = alchemy.conf
         nodes = alchemy._nodes
         edges = alchemy._edges
         clustering = new alchemy.clustering
@@ -34,7 +35,7 @@ class alchemy.drawing.EdgeUtils
                     id = "#{nodes[d.source.id].properties.cluster}-#{nodes[d.target.id].properties.cluster}"
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
-        else if alchemy.conf.edgeStyle and not alchemy.conf.cluster
+        else if alchemy.conf.edgeStyle? and not alchemy.conf.cluster
             @edgeStyle = (d) ->
                 "#{alchemy.conf.edgeStyle(d)}"
         else
@@ -48,36 +49,42 @@ class alchemy.drawing.EdgeUtils
             height = edge.target.y - edge.source.y
             # as in hypotenuse
             Math.sqrt(height * height + width * width)
-        edgeWalk = (edge, point) ->
+        @_edgeWalk = (edge, point) ->
             # build a right triangle
             width  = edge.target.x - edge.source.x
             height = edge.target.y - edge.source.y
             # as in hypotenuse 
             hyp = Math.sqrt(height * height + width * width)
-            distance = (hyp / 2) if point is "middle"
-            return {
+            if point is 'middle'
+                distance = (hyp / 2)
                 x: edge.source.x + width * distance / hyp
                 y: edge.source.y + height * distance / hyp
-            }
-        
-        _middlePath = (edge) ->
-            pathNode = d3.select("#path-#{edge.id}").node()
-            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
-                
-            x: midPoint.x
-            y: midPoint.y
+            
+            else if point is 'linkStart'
+                # the link should start at the edge of the circle
+                # not in the middle
+                distance = edge.source.r + edge.source['stroke-width']
+                x: edge.source.x + width * distance / hyp
+                y: edge.source.y + height * distance / hyp
 
+            else if point is 'linkEnd'
+                distance = hyp - (edge.target.r + edge.target['stroke-width'])
+                debugger
+                if conf.directedEdges
+                    distance = distance - conf.edgeArrowSize
+                x: edge.source.x + width * distance / hyp
+                y: edge.source.y + height * distance / hyp
+        
         caption = alchemy.conf.edgeCaption
         if typeof caption is ('string' or 'number')
-            edgeCaption = (d) -> edges[d.id][caption]
+            @edgeCaption = (d) -> edges[d.id].properties[caption]
         else if typeof caption is 'function'
-            edgeCaption = (d) -> caption(edges[d.id])
+            @edgeCaption = (d) -> caption(edges[d.id])
 
 
-    middleLine: (edge) -> edgeWalk(edge, 'middle')
-    middlePath: (edge) -> 
-        # edgeWalk places text as if the line were straight
-        # offset the text to lie on the mid point of the path 
+    middleLine: (edge) -> @_edgeWalk(edge, 'middle')
+    startLine: (edge) ->  @_edgeWalk(edge, 'linkStart')
+    endLine: (edge) -> @_edgeWalk(edge, 'linkEnd')
     edgeLength: (edge) ->
         # build a right triangle
         width  = edge.target.x - edge.source.x
@@ -89,12 +96,16 @@ class alchemy.drawing.EdgeUtils
         height = edge.target.y - edge.source.y
         Math.atan2(height, width) / Math.PI * 180
     
-    captionAngle: (edge) -> 
-        angle = edgeAngle(edge)
+    captionAngle: (edge) => 
+        angle = @edgeAngle(edge)
         if angle < -90 or angle > 90
             angle += 180
         else
             angle
-    edgeCaption: (d) -> edgeCaption(d)
     hyp: (edge) -> hyp(edge)
-    middlePath: (edge) -> _middlePath(edge)
+    middlePath: (edge) ->
+            pathNode = d3.select("#path-#{edge.id}").node()
+            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
+                
+            x: midPoint.x
+            y: midPoint.y
