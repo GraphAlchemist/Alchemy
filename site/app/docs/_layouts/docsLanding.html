@@ -1,0 +1,92 @@
+<!-- <!doctype html> -->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Alchemy.js</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="shortcut icon" href="alchemyFlatfavicon.ico">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css styles/vendor.css -->
+<!--         <link rel="stylesheet" type="text/css" href="bower_components/alchemyjs/dist/alchemy.min.css"> -->
+        <link rel="stylesheet" href="../bower_components/google-code-prettify/src/prettify.css">
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+        <!-- build:css(.tmp) styles/main.css -->
+        <link rel="stylesheet" href="styles/main.css">
+        <!-- endbuild -->
+        <!-- build:js scripts/vendor/modernizr.js -->
+        <script src="../bower_components/modernizer/modernizr.js"></script>
+        <!-- endbuild -->
+    </head> 
+    <body>
+        <div class="navbar navbar-default navbar-static-top"> 
+            <div class="header">
+                <ul class="nav nav-pills">
+                    <li><a href="https://github.com/GraphAlchemist/Alchemy/">Github</a></li>
+                    <li><a class="active" href="#">Documentation</a></li>
+                    <li><a href="/" style="text-decoration: none;">Home</a></li>
+                    <li><a href="/examples">Examples</a></li>
+                </ul>
+                <a href="/" style="text-decoration: none;"><span class="h3" id="project">Alchemy.js</span></a>
+            </div>
+        <div id="tweet">
+        <a href="https://twitter.com/share" class="twitter-share-button" data-text="Alchemy.js" data-via="GraphAlchemist" data-size="large">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+        </div>
+        <a id="btn-alchemy-rel" type="button" class="btn btn-default" href="https://github.com/GraphAlchemist/Alchemy/releases/" tooltip-placement="bottom" tooltip="You'll like it, we promise.">
+        <img src="images/alchemyLogoFlat.png"></img>
+        <h3>Download</h3>
+        </a>
+        </div>
+
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="container-fluid">
+            <div class ="row">
+                <div class="col-md-12">
+                    {{content}}
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Brought to you by: <a href="http://www.graphalchemist.com"><img id="footer-ga-logo" src="../images/GA-logo-full-100px.png"><img></a></p>
+        </div>
+
+        <!-- build:js scripts/vendor.js -->
+        <!-- bower:js -->
+<!--         // <script src="bower_components/alchemyjs/dist/scripts/vendor.js"></script>
+        // <script src="bower_components/alchemyjs/dist/alchemy.min.js"></script> -->
+<!--         // <script src="../bower_components/google-code-prettify/src/prettify.js"></script>
+        // <script src="../bower_components/google-code-prettify/src/lang-css.js"></script> -->
+        <script src="../bower_components/jquery/dist/jquery.js"></script>
+        <script src="../bower_components/bootstrap/dist/js/bootstrap.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-40694647-5', 'auto');
+          ga('send', 'pageview');
+
+        </script>
+        <script type="text/javascript" src="scripts/docs.js"></script>
+
+        <!-- build:js scripts/plugins.js -->
+        <!-- endbuild -->
+
+        <!-- endbuild -->
+
+        <!-- build:js({app,.tmp}) scripts/main.js -->
+
+        <!-- endbuild -->
+</body>
+</html>
