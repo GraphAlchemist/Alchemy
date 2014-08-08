@@ -33,11 +33,9 @@ class alchemy.clustering
         @clusterMap = _.zipObject clusters, [0..clusters.length]
     
     getClusterColour: (clusterValue) ->
-        index = @clusterMap[clusterValue]
-        if alchemy.conf.clusterColours[index]?
-            alchemy.conf.clusterColours[index]
-        else
-            '#EBECE4'
+        # Modulo reuses colors if not enough are supplied
+        index = @clusterMap[clusterValue] % alchemy.conf.clusterColours.length
+        alchemy.conf.clusterColours[index]
 
     edgeGradient: (edges) ->
         defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")

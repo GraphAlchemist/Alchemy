@@ -109,9 +109,10 @@ alchemy.drawing.drawingUtils =
             if conf.cluster
                 clusterMap = alchemy.layout._clustering.clusterMap
                 clusterKey = alchemy.conf.clusterKey
+                # Modulo makes sure to reuse colors if it runs out
+                colourIndex = clusterMap[node_data[clusterKey]] % conf.clusterColours.length
 
-                colour = conf.clusterColours[clusterMap[node_data[clusterKey]]]
-                console.log colour
+                colour = conf.clusterColours[colourIndex]
                 "#{colour}"
             else
                 if conf.nodeColour
