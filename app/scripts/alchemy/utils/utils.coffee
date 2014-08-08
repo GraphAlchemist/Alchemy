@@ -66,28 +66,28 @@ alchemy.utils =
                 alchemy.conf.caption = false
             return caption
 
-    nodeSize: (d, i) ->
-        # refactor for speed
-        if alchemy.conf.nodeRadius?
-            rootKey = alchemy.conf.rootNodes
+    # nodeSize: (d, i) ->
+    #     # refactor for speed
+    #     if alchemy.conf.nodeRadius?
+    #         rootKey = alchemy.conf.rootNodes
 
-            if typeof alchemy.conf.nodeRadius is 'function'
-                if d[rootKey]? and d[rootKey]
-                    alchemy.conf.rootNodeRadius
-                else                
-                    alchemy.conf.nodeRadius(d)
-            else if typeof alchemy.conf.nodeRadius is 'string'
-                # this does not work
-                key = alchemy.conf.nodeRadius
+    #         if typeof alchemy.conf.nodeRadius is 'function'
+    #             if d[rootKey]? and d[rootKey]
+    #                 alchemy.conf.rootNodeRadius
+    #             else                
+    #                 alchemy.conf.nodeRadius(d)
+    #         else if typeof alchemy.conf.nodeRadius is 'string'
+    #             # this does not work
+    #             key = alchemy.conf.nodeRadius
 
-                if d[rootKey]? and d[rootKey]
-                    alchemy.conf.rootNodeRadius
-                else                  
-                    d.degree
-            else if typeof alchemy.conf.nodeRadius is 'number'
-                if d[rootKey]? and d[rootKey]
-                    alchemy.conf.rootNodeRadius
-                else
-                    alchemy.conf.nodeRadius
-        else
-            20
+    #             if d[rootKey]? and d[rootKey]
+    #                 alchemy.conf.rootNodeRadius
+    #             else                  
+    #                 d.degree
+    #         else if typeof alchemy.conf.nodeRadius is 'number'
+    #             if d[rootKey]? and d[rootKey]
+    #                 alchemy.conf.rootNodeRadius
+    #             else
+    #                 alchemy.conf.nodeRadius
+    #     else
+    #         20

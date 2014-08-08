@@ -24,7 +24,7 @@ class alchemy.drawing.DrawEdges
         edge.enter().append('g')
                     .attr("id", (d) -> "edge-#{d.id}")
                     .attr('class', (d)-> 
-                        edgeType = alchemy._edges[d.id]._rawEdge.caption 
+                        edgeType = alchemy._edges[d.id].properties.caption 
                         "edge #{edgeType}")
                     .attr('source-target', (d) -> "#{d.source.id}-#{d.target.id}")    
         @drawEdge.createLink(edge)

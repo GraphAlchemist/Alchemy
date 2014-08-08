@@ -32,7 +32,7 @@ class alchemy.clustering
             '#EBECE4'
 
     edgeGradient: (edges) ->
-        defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
+        defs = d3.select("#{alchemy.conf.divSelector} svg")
         Q = {}
         nodes = alchemy._nodes
         for edge in _.map(edges, (edge) -> edge._d3)
