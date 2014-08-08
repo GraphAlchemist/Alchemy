@@ -38,13 +38,19 @@ class Alchemy
             }
         }
 
-    getState: (key) ->
+    getState: (key) =>
         if @state.key?
             @state.key
 
-    setState: (key, value) ->
+    setState: (key, value) =>
         @state.key = value
 
+    begin: (userConf) =>
+        @conf = _.assign({}, alchemy.defaults, userConf)
+        if typeof alchemy.conf.dataSource == 'string'
+            d3.json(alchemy.conf.dataSource, alchemy.startGraph)
+        else if typeof alchemy.conf.dataSource == 'object'
+            alchemy.startGraph(alchemy.conf.dataSource)
 
 currentRelationshipTypes = {}
 
