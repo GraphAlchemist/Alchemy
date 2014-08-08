@@ -26,7 +26,7 @@ alchemy.defaults =
             return d3.select(@divSelector).node().parentElement.clientHeight
     alpha: 0.5
     cluster: false
-    clusterKey: "caption"
+    clusterKey: "cluster"
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
                                 "#00FF30", "#5168FF",
                                 "#00C0FF", "#FF004B",
