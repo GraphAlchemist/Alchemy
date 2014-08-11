@@ -10,12 +10,15 @@ defs {
 }
 
 .edge{
+    
     stroke-width: 2;
     stroke: #ccc;
     stroke-opacity: 0.2;
-    fill: #ccc;
     .edge-handler {
-        stroke: transparent;
+        fill: none;
+        stroke: none;
+    }
+    .edge-line {
         fill: none;
     }
 
