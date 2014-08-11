@@ -20,6 +20,7 @@ class alchemy.drawing.DrawNode
         conf = alchemy.conf
         nodes = alchemy._nodes
         interactions = alchemy.interactions
+        @utils = utils
 
         @_styleText = (node) ->
             node.selectAll("text")
@@ -33,6 +34,7 @@ class alchemy.drawing.DrawNode
                 .attr('id', (d) -> "text-#{d.id}")
 
         @_styleNode = (node) ->
+            utils = @utils
             node.select('circle')
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')

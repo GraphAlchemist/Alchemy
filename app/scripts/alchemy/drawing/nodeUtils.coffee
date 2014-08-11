@@ -5,7 +5,7 @@ class alchemy.drawing.NodeUtils
             
             if conf.cluster
                 @nodeColours = (d) ->
-                    node_data = alchemy._nodes[d.id]
+                    node_data = alchemy._nodes[d.id].properties
                     clusterMap = alchemy.layout._clustering.clusterMap
                     clusterKey = alchemy.conf.clusterKey
                     # Modulo makes sure to reuse colors if it runs out
