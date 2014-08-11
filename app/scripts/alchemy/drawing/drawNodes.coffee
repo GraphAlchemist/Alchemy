@@ -22,7 +22,7 @@ class alchemy.drawing.DrawNodes
         node.enter().append("g")
                 .attr("class", (d) ->
                     node_data = alchemy._nodes[d.id].getProperties()
-                    if d.nodeType? then "node #{nodeType} active" else "node active"
+                    if d.nodeType? then "node #{d.nodeType} active" else "node active"
                     )
                 .attr('id', (d) -> "node-#{d.id}")
                 .classed('root', (d) -> d.root)
