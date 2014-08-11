@@ -43,10 +43,10 @@ do ->
                 it "should change specificed property", ->
                     testEdge = alchemy._edges["1-0"]
                     # Initial caption is "Maintains"
-                    initialCaption = testEdge._rawEdge.caption
+                    initialCaption = testEdge.properties.caption
 
                     testEdge.setProperty "caption", "newCaption"
-                    newCaption = testEdge._rawEdge.caption
+                    newCaption = testEdge.properties.caption
 
                     initialCaption.should.not.equal newCaption &&
                     newCaption.should.not.equal "Maintains"
