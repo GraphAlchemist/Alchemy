@@ -60,3 +60,19 @@ class alchemy.clustering
             gradient.append("svg:stop").attr("offset", "0%").attr "stop-color", Q[ids]['startColour']
             gradient.append("svg:stop").attr("offset", "100%").attr "stop-color", Q[ids]['endColour']
     
+alchemy.clusterControls =
+    init: ()->
+        changeClusterHTML = """
+                            <h4>Cluster By:</h4>
+                            <input class='form-control' id='cluster-key' placeholder="Cluster Key"></input>
+                            """
+        d3.select("#cluster_control_header")
+            .append("div")
+            .attr("id", "cluster-key-container")
+            .html(changeClusterHTML)
+            
+        d3.select("#cluster-key")
+            .on "keydown", -> 
+                if d3.event.keyIdentifier == "Enter"
+                    alchemy.conf.clusterKey = this.value
+                    alchemy.generateLayout()

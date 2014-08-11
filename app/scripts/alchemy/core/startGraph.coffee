@@ -50,24 +50,7 @@ alchemy.startGraph = (data) ->
     d3.select("body")
         .on('keydown', alchemy.editor.interactions().deleteSelected)
 
-    alchemy.layout = new alchemy.Layout  # refactor (obviously)
-    # create layout
-    alchemy.force = d3.layout.force()
-        .size([conf.graphWidth(), conf.graphHeight()])
-        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
-        .links(_.map(alchemy._edges, (edge) -> edge._d3))        
-
-    alchemy.force
-        .charge(alchemy.layout.charge())
-        .linkDistance((link) -> alchemy.layout.linkDistancefn(link))
-        .theta(1.0)
-        .gravity(alchemy.layout.gravity())
-        .linkStrength((link) -> alchemy.layout.linkStrength(link))
-        .friction(alchemy.layout.friction())
-        .chargeDistance(alchemy.layout.chargeDistance())
-        .on("tick", alchemy.layout.tick)
-
-    alchemy.updateGraph()
+    alchemy.generateLayout()
     alchemy.controlDash.init()
     
     # configuration for forceLocked
@@ -75,7 +58,6 @@ alchemy.startGraph = (data) ->
         alchemy.force
                 .on("tick", alchemy.layout.tick)
                 .start()
-
 
     # call user-specified functions after load function if specified
     # deprecate?
