@@ -66,11 +66,20 @@ alchemy.clusterControls =
                             <h4>Cluster By:</h4>
                             <input class='form-control' id='cluster-key' placeholder="Cluster Key"></input>
                             """
-        d3.select("#cluster_control_header")
+        d3.select("#clustering-container")
             .append("div")
             .attr("id", "cluster-key-container")
             .html(changeClusterHTML)
+            .style("display", "none")
             
+        d3.select("#cluster_control_header")
+          .on("click", ()->
+            element = d3.select("#cluster-key-container")
+            display = element.style("display")
+
+            element.style("display", (e)-> 
+                if display == "block" then "none" else "block"))
+        
         d3.select("#cluster-key")
             .on "keydown", -> 
                 if d3.event.keyIdentifier == "Enter"

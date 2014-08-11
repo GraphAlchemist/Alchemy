@@ -20,7 +20,6 @@ class alchemy.Layout
         nodes = alchemy._nodes
         @k = Math.sqrt(Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight() ) )
         @_clustering = new alchemy.clustering
-        # @d3NodeInternals = _.map(alchemy._nodes, (node) -> node._d3)
         @d3NodeInternals = _.keys(alchemy._nodes)
         if conf.cluster
             @_charge = () -> @_clustering.layout.charge
