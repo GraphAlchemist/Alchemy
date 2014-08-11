@@ -28,13 +28,14 @@ alchemy.updateGraph = (start=true) ->
         @force.start()
         while @force.alpha() > 0.005
             alchemy.force.tick()
+
+        drawEdges = new alchemy.drawing.DrawEdges
+        drawEdges.createEdge(alchemy.edge)
+        drawNodes = new alchemy.drawing.DrawNodes
+        drawNodes.createNode(alchemy.node)
+
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
-
-    drawEdges = new alchemy.drawing.DrawEdges
-    drawEdges.createEdge(alchemy.edge)
-    drawNodes = new alchemy.drawing.DrawNodes
-    drawNodes.createNode(alchemy.node)
 
     alchemy.vis.selectAll('g.node')
            .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")

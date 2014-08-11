@@ -22,16 +22,10 @@ class alchemy.drawing.DrawNodes
         node.enter().append("g")
                 .attr("class", (d) ->
                     node_data = alchemy._nodes[d.id].getProperties()
-                    rootKey = alchemy.conf.rootNodes
-                    if alchemy.conf.nodeTypes
-                        nodeType = node_data[Object.keys(alchemy.conf.nodeTypes)]
-                        if node_data[rootKey]? and node_data[rootKey] then "node root #{nodeType} active"
-                        else "node #{nodeType} active"
-                    else
-                        if node_data[rootKey]? and node_data[rootKey] then "node root active"
-                        else "node active"
+                    if d.nodeType? then "node #{nodeType} active" else "node active"
                     )
                 .attr('id', (d) -> "node-#{d.id}")
+                .classed('root', (d) -> d.root)
 
         @drawNode.createNode(node)
         @drawNode.styleNode(node)

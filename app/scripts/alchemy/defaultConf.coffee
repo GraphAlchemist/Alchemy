@@ -39,7 +39,7 @@ alchemy.defaults =
     fixNodes: false
     fixRootNodes: false
     forceLocked: true
-    linkDistancefn: 20
+    linkDistancefn: 'default'
     nodePositions: null # not currently implemented
 
     # Editing
@@ -85,6 +85,8 @@ alchemy.defaults =
     curvedEdges: false
     edgeWidth: 4
     edgeOverlayWidth: 20
+    directedEdges: false
+    edgeArrowSize: 5 # pixel length of arrow
 
     # Search
     search: true

@@ -1,7 +1,7 @@
 .node {
     cursor: pointer;
     circle  {
-        fill: $blue;
+        fill: $primary;
         fill-opacity: 0.8;
         stroke: #127dc1;
         stroke-opacity: 1;
@@ -30,7 +30,7 @@
 			@include highlight();
 	        circle{
 	            fill-opacity: 1;
-	            stroke: darken($blue, 40%);
+	            stroke: darken($primary, 40%);
 	            stroke-width: 3px;
 	            fill: white;
 	        }
@@ -41,7 +41,7 @@
 	            fill-opacity: .8;
 	            stroke-opacity: 1;
 	            stroke: white;
-	            fill: $blue;
+	            fill: $primary;
 	        }
 	        text {
 	            display: block;
@@ -61,8 +61,8 @@
                 stroke-width: 3px;
                 fill-opacity: .8;
                 stroke-opacity: 1;
-                stroke: darken($blue, 40%);
-                fill: lighten($blue, 10%);
+                stroke: darken($primary, 40%);
+                fill: lighten($primary, 10%);
             }
             text {
                 display: block;
@@ -75,7 +75,7 @@
     		@include highlight();
 	        circle{
 	            fill-opacity: 1;
-	            stroke: $bright-orange;
+	            stroke: $bright-secondary;
 	            stroke-width: 2px;
 	            fill: white;
 	        }

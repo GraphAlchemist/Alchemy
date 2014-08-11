@@ -1,12 +1,19 @@
 class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
+        nodeAttr = new alchemy.models.NodeAttributes
+        radius = nodeAttr.nodeSize(node)
+        
         @id = node.id
         @properties = node
-        @_d3 = {
-            'id': node.id
-        }
         @state = { "active": true }
+
+        @_d3 = {
+            'id': node.id,
+            'r' : radius
+            'stroke-width': nodeAttr.strokeWidth(radius) # should nest 'style' related properties and attributes
+            'root': @properties[conf.rootNodes]
+        }
         
         # Merge undefined nodeStyle keys from conf.
         # Works with undefined @nodeStyle
@@ -14,6 +21,10 @@ class alchemy.models.Node
         @adjacentEdges = []
         # Add to node collection
         Node::all.push(@.id)
+
+        if conf.nodeTypes
+            @nodeType = @properties[Object.keys(alchemy.conf.nodeTypes)]
+            if @nodeType then @_d3['nodeType'] = @nodeType
 
     # Stores edge.id for easy edge lookup
     addEdge: (edge) ->

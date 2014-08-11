@@ -1,22 +1,24 @@
+defs {
+    #arrow {
+        path {
+            stroke: #CCC;
+            stroke-opacity: 0.2;
+            fill: #CCC;
+            opacity: 1;
+        }
+    }
+}
+
 .edge{
     stroke-width: 2;
     stroke: #ccc;
     stroke-opacity: 0.2;
-
-    path {fill: none;}
+    fill: #ccc;
     .edge-handler {
         stroke: transparent;
         fill: none;
     }
-    text {
-        display: none;
-        fill: white;
-        font-weight: 200;
-        text-anchor: middle;
-        z-index: 1000;
-        //simulate text outline
-        text-shadow: 1px 1px #333, -1px 1px #333, 1px -1px #333, -1px -1px #333;
-    }
+
     &.active{
     	@include active();
         text {
@@ -37,11 +39,11 @@
             }
             text { display: block;}
 	    }
-    	&.highlight{
+    	&.highlight {
     		@include highlight();
     		stroke-width: 2;
 	        stroke-opacity: .7;
-	        stroke: lighten($blue, 30%);
+	        stroke: lighten($primary, 30%);
     	}
     }
 
@@ -52,7 +54,7 @@
     		@include highlight();
 	        stroke-width: 2;
 	        stroke-opacity: .5;
-	        stroke: $bright-orange;
+	        stroke: $bright-secondary;
     	}
 	}
 }

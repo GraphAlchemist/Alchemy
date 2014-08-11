@@ -16,11 +16,11 @@ class alchemy.clustering
                 300
             else if nodes[edge.source.id].properties[@clusterKey] is nodes[edge.target.id].properties[@clusterKey]
                 10
-            else 
+            else
                 600
         _gravity = (k) -> 8 * k
 
-        @layout = 
+        @layout =
             charge: _charge
             linkStrength: (edge) -> _linkStrength(edge)
             friction: () -> _friction()
@@ -38,7 +38,7 @@ class alchemy.clustering
         alchemy.conf.clusterColours[index]
 
     edgeGradient: (edges) ->
-        defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
+        defs = d3.select("#{alchemy.conf.divSelector} svg")
         Q = {}
         nodes = alchemy._nodes
         for edge in _.map(edges, (edge) -> edge._d3)

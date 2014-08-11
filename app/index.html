@@ -41,7 +41,10 @@
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
           var config = {
-            dataSource: 'sample_data/contrib.json'
+            dataSource: 'sample_data/soccer.json',
+            cluster: true,
+            forceLocked: false,
+            curved: true
           };
 
           alchemy.begin(config)

@@ -15,7 +15,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.startGraph = (data) ->
-    if d3.select(alchemy.conf.divSelector).empty()
+    conf = alchemy.conf
+
+    if d3.select(conf.divSelector).empty()
         console.warn(alchemy.utils.warnings.divWarning())
     
     # see if data is ok
@@ -34,16 +36,16 @@ alchemy.startGraph = (data) ->
         alchemy._edges[edge.id] = edge
 
     #create SVG
-    alchemy.vis = d3.select(alchemy.conf.divSelector)
-        .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
+    alchemy.vis = d3.select(conf.divSelector)
+        .attr("style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
             .on('click', alchemy.utils.deselectAll)
-            .call(alchemy.interactions.zoom(alchemy.conf.scaleExtent))
+            .call(alchemy.interactions.zoom(conf.scaleExtent))
             .append('g')
-                .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
+                .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
     d3.select("body")
         .on('keydown', alchemy.editor.interactions().deleteSelected)
@@ -51,7 +53,7 @@ alchemy.startGraph = (data) ->
     alchemy.layout = new alchemy.Layout  # refactor (obviously)
     # create layout
     alchemy.force = d3.layout.force()
-        .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
+        .size([conf.graphWidth(), conf.graphHeight()])
         .nodes(_.map(alchemy._nodes, (node) -> node._d3))
         .links(_.map(alchemy._edges, (edge) -> edge._d3))        
 
@@ -68,8 +70,8 @@ alchemy.startGraph = (data) ->
     alchemy.updateGraph()
     alchemy.controlDash.init()
     
-    # alchemy.configuration for forceLocked
-    if !alchemy.conf.forceLocked 
+    # configuration for forceLocked
+    if !conf.forceLocked 
         alchemy.force
                 .on("tick", alchemy.layout.tick)
                 .start()
@@ -77,16 +79,31 @@ alchemy.startGraph = (data) ->
 
     # call user-specified functions after load function if specified
     # deprecate?
-    if alchemy.conf.afterLoad?
-        if typeof alchemy.conf.afterLoad is 'function'
-            alchemy.conf.afterLoad()
-        else if typeof alchemy.conf.afterLoad is 'string'
-            alchemy[alchemy.conf.afterLoad] = true
+    if conf.afterLoad?
+        if typeof conf.afterLoad is 'function'
+            conf.afterLoad()
+        else if typeof conf.afterLoad is 'string'
+            alchemy[conf.afterLoad] = true
 
-    if alchemy.conf.initialScale isnt alchemy.defaults.initialScale
-        alchemy.interactions.zoom().scale(alchemy.conf.initialScale)
+    if conf.initialScale isnt alchemy.defaults.initialScale
+        alchemy.interactions.zoom().scale(conf.initialScale)
         return
 
-    if alchemy.conf.initialTranslate isnt alchemy.defaults.initialTranslate
-        alchemy.interactions.zoom().translate(alchemy.conf.initialTranslate)
+    if conf.initialTranslate isnt alchemy.defaults.initialTranslate
+        alchemy.interactions.zoom().translate(conf.initialTranslate)
         return
+
+    if conf.cluster or conf.directedEdges
+        defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
+
+    if conf.directedEdges
+        arrowSize = conf.edgeArrowSize
+        defs.append("svg:marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}")
+            .attr('markerUnits', 'userSpaceOnUse')
+            .attr("markerWidth", arrowSize)
+            .attr("markerHeight", arrowSize)
+            .attr("orient", "auto")
+            .append("svg:path")
+            .attr("d", "M #{arrowSize},0 L 0,#{arrowSize * 0.4} L 0,-#{arrowSize * 0.4}")
