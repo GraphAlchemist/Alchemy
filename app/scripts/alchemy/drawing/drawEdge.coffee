@@ -21,9 +21,10 @@ class alchemy.drawing.DrawEdge
         conf = alchemy.conf
         @curved = conf.curvedEdges
         @directed = conf.directedEdges
+        @utils = new alchemy.drawing.EdgeUtils
 
     createLink: (edge) =>
-        utils = new alchemy.drawing.EdgeUtils
+        utils = @utils
         conf = alchemy.conf
         interactions = alchemy.interactions
 
@@ -31,28 +32,26 @@ class alchemy.drawing.DrawEdge
             edge.append('path')
                 .attr('class', 'edge-line')
                 .attr('id', (d) -> "path-#{d.id}")
+            edge.filter((d) -> d.caption?)
+                .append('text')
             edge.append('path')
                 .attr('class', 'edge-handler')
                 .style('stroke-width', "#{conf.edgeOverlayWidth}")
                 .on('click', alchemy.interactions.edgeClick)
-
-            edge.filter((d,i) -> alchemy._edges[d.id].properties.caption?)
-                .append('text')
         else
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
                 .style('stroke', (d) -> utils.edgeStyle(d))
                 .style('stroke-width', conf.edgeWidth)
+            edge.filter((d) -> d.caption?)
+                .append('text')
             edge.append('rect')
                 .attr('class', 'edge-handler')
                 .on('click', alchemy.interactions.edgeClick)
 
-            edge.filter((d,i) -> alchemy._edges[d.id].properties.caption?)
-                .append('text')
-
     styleLink: (edge) =>
-        utils = new alchemy.drawing.EdgeUtils
+        utils = @utils
         conf = alchemy.conf
 
         if @curved
@@ -105,17 +104,17 @@ class alchemy.drawing.DrawEdge
         edge.classed('active', true)
 
     styleText: (edge) =>
-        utils = new alchemy.drawing.EdgeUtils
+        utils = @utils
 
         if @curved
             edge.select('text')
                 .attr('dx', (d) -> utils.middlePath(d).x)
                 .attr('dy', (d) -> utils.middlePath(d).y + 20)
                 .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})")
-                .text((d) -> utils.edgeCaption(d))
+                .text((d) -> d.caption)
         else
             edge.select('text')
                 .attr('dx', (d) -> utils.middleLine(d).x)
                 .attr('dy', (d) -> utils.middleLine(d).y - 5)
                 .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
-                .text((d) -> utils.edgeCaption(d))
+                .text((d) -> d.caption)

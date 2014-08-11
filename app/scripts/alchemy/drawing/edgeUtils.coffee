@@ -81,13 +81,6 @@ class alchemy.drawing.EdgeUtils
                     distance = distance - conf.edgeArrowSize
                 x: edge.source.x + width * distance / hyp
                 y: edge.source.y + height * distance / hyp
-        
-        caption = alchemy.conf.edgeCaption
-        if typeof caption is ('string' or 'number')
-            @edgeCaption = (d) -> edges[d.id].properties[caption]
-        else if typeof caption is 'function'
-            @edgeCaption = (d) -> caption(edges[d.id])
-
 
     middleLine: (edge) -> @_edgeWalk(edge, 'middle')
     startLine: (edge) ->  @_edgeWalk(edge, 'linkStart')
