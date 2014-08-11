@@ -37,7 +37,7 @@ class alchemy.drawing.DrawEdge
                 .style('stroke-width', "#{conf.edgeOverlayWidth}")
                 .on('click', alchemy.interactions.edgeClick)
 
-            edge.filter((d,i) -> alchemy._edges[d.id].properties.caption?)
+            edge.filter((d) -> d.caption?)
                 .append('text')
         else
             edge.append('line')
@@ -49,7 +49,7 @@ class alchemy.drawing.DrawEdge
                 .attr('class', 'edge-handler')
                 .on('click', alchemy.interactions.edgeClick)
 
-            edge.filter((d,i) -> alchemy._edges[d.id].properties.caption?)
+            edge.filter((d) -> d.caption?)
                 .append('text')
 
     styleLink: (edge) =>

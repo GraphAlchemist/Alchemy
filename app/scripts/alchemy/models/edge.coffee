@@ -9,12 +9,17 @@ class alchemy.models.Edge
         # Contains state of edge, used by renderers
         @state = {'active': true} 
         @properties = edge
+
         @_edgeAttributes = new alchemy.models.EdgeAttributes
+        caption = @_edgeAttributes.edgeCaption(@properties)
+       
+        @properties.caption = caption
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@properties.source]._d3
             'target': alchemy._nodes[@properties.target]._d3
-            'caption': @_edgeAttributes.edgeCaption(@properties)
+            'caption': caption
+       
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id
         alchemy._nodes["#{edge.target}"].addEdge @id

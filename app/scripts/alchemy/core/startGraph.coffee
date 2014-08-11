@@ -98,13 +98,17 @@ alchemy.startGraph = (data) ->
 
     if conf.directedEdges
         arrowSize = conf.edgeArrowSize
-        defs.append("svg:marker")
+        marker = defs.append("svg:marker")
             .attr("id", "arrow")
             .attr("viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}")
-            .attr("refX", 1)
             .attr('markerUnits', 'userSpaceOnUse')
             .attr("markerWidth", arrowSize)
             .attr("markerHeight", arrowSize)
             .attr("orient", "auto")
-            .append("svg:path")
+        marker.append("svg:path")
             .attr("d", "M #{arrowSize},0 L 0,#{arrowSize * 0.4} L 0,-#{arrowSize * 0.4}")
+        if conf.curvedEdges
+            marker.attr("refX", arrowSize + 1)
+        else
+            marker.attr('refX', 1)
+
