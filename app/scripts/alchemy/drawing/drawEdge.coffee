@@ -21,9 +21,10 @@ class alchemy.drawing.DrawEdge
         conf = alchemy.conf
         @curved = conf.curvedEdges
         @directed = conf.directedEdges
+        @utils = new alchemy.drawing.EdgeUtils
 
     createLink: (edge) =>
-        utils = new alchemy.drawing.EdgeUtils
+        utils = @utils
         conf = alchemy.conf
         interactions = alchemy.interactions
 
@@ -52,7 +53,7 @@ class alchemy.drawing.DrawEdge
                 .append('text')
 
     styleLink: (edge) =>
-        utils = new alchemy.drawing.EdgeUtils
+        utils = @utils
         conf = alchemy.conf
 
         if @curved
@@ -98,17 +99,17 @@ class alchemy.drawing.DrawEdge
         edge.classed('active', true)
 
     styleText: (edge) =>
-        utils = new alchemy.drawing.EdgeUtils
+        utils = @utils
 
         if @curved
             edge.select('text')
                 .attr('dx', (d) -> utils.middlePath(d).x)
                 .attr('dy', (d) -> utils.middlePath(d).y + 20)
                 .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})")
-                .text((d) -> utils.edgeCaption(d))
+                .text((d) -> d.caption)
         else
             edge.select('text')
                 .attr('dx', (d) -> utils.middleLine(d).x)
                 .attr('dy', (d) -> utils.middleLine(d).y - 5)
                 .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
-                .text((d) -> utils.edgeCaption(d))
+                .text((d) -> d.caption)
