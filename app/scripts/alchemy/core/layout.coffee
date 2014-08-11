@@ -61,7 +61,8 @@ class alchemy.Layout
 
     collide: (node) =>
         node = node._d3
-        r = 2.2 * alchemy.utils.nodeSize(node) + alchemy.conf.nodeOverlap
+        conf = alchemy.conf
+        r = 2 * (node.r + node['stroke-width']) + conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
         ny1 = node.y - r
