@@ -59,13 +59,20 @@ class alchemy.drawing.DrawEdge
             edge.selectAll('path')
                  .attr('d', (d) ->
                     # high school trigonometry
-                    sourceX = d.source.x
-                    sourceY = d.source.y
-                    targetX = d.target.x
-                    targetY = d.target.y
+                    # sourceX = d.source.x
+                    # sourceY = d.source.y
+                    # targetX = d.target.x
+                    # targetY = d.target.y
+                    startLine = utils.startLine(d)
+                    endLine = utils.endLine(d)
+                    sourceX = startLine.x
+                    sourceY = startLine.y
+                    targetX = endLine.x
+                    targetY = endLine.y
                     dx = targetX - sourceX
                     dy = targetY - sourceY
                     hyp = Math.sqrt( dx * dx + dy * dy)
+                    # "M #{startLine.x},#{startLine.y} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{endLine.x}, #{endLine.y}")
                     "M #{sourceX},#{sourceY} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{targetX}, #{targetY}")
             edge.select('path.edge-line')
                 .style('stroke', (d) -> utils.edgeStyle(d))
