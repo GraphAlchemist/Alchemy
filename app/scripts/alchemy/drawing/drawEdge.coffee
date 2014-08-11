@@ -16,11 +16,12 @@
 
 
 class alchemy.drawing.DrawEdge
-    constructor: ->
+    constructor: (utils)->
         # edge is a selection of a single edge or multiple edges
         conf = alchemy.conf
         @curved = conf.curvedEdges
         @directed = conf.directedEdges
+        # @utils = utils
         @utils = new alchemy.drawing.EdgeUtils
 
     createLink: (edge) =>

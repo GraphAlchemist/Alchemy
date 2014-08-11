@@ -20,7 +20,8 @@ class alchemy.Layout
         nodes = alchemy._nodes
         @k = Math.sqrt(Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight() ) )
         @_clustering = new alchemy.clustering
-        
+        # @d3NodeInternals = _.map(alchemy._nodes, (node) -> node._d3)
+        @d3NodeInternals = _.keys(alchemy._nodes)
         if conf.cluster
             @_charge = () -> @_clustering.layout.charge
             @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
@@ -61,7 +62,6 @@ class alchemy.Layout
 
     collide: (node) =>
         node = node._d3
-        # r = 2.2 * alchemy.utils.nodeSize(node) + alchemy.conf.nodeOverlap
         r = 2.2 * node.radius + alchemy.conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
@@ -86,7 +86,7 @@ class alchemy.Layout
 
     tick: () =>
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(_.map(alchemy._nodes, (node) -> node._d3))
+            q = d3.geom.quadtree(@d3NodeInternals)
             for node in _.values(alchemy._nodes)
                 q.visit(@collide(node))
 
