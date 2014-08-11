@@ -32,25 +32,23 @@ class alchemy.drawing.DrawEdge
             edge.append('path')
                 .attr('class', 'edge-line')
                 .attr('id', (d) -> "path-#{d.id}")
+            edge.filter((d) -> d.caption?)
+                .append('text')
             edge.append('path')
                 .attr('class', 'edge-handler')
                 .style('stroke-width', "#{conf.edgeOverlayWidth}")
                 .on('click', alchemy.interactions.edgeClick)
-
-            edge.filter((d) -> d.caption?)
-                .append('text')
         else
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
                 .style('stroke', (d) -> utils.edgeStyle(d))
                 .style('stroke-width', conf.edgeWidth)
+            edge.filter((d) -> d.caption?)
+                .append('text')
             edge.append('rect')
                 .attr('class', 'edge-handler')
                 .on('click', alchemy.interactions.edgeClick)
-
-            edge.filter((d) -> d.caption?)
-                .append('text')
 
     styleLink: (edge) =>
         utils = @utils
