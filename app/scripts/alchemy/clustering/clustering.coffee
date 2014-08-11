@@ -74,5 +74,6 @@ alchemy.clusterControls =
         d3.select("#cluster-key")
             .on "keydown", -> 
                 if d3.event.keyIdentifier == "Enter"
+                    alchemy.conf.cluster = true
                     alchemy.conf.clusterKey = this.value
                     alchemy.generateLayout()
