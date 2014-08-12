@@ -7,6 +7,7 @@ markdown: kramdown
 # pygments: true
 # highlighter: pygments
 kramdown:
+    hard_breaks: true
     toc_levels: 1..6
     use_coderay: true
     coderay:

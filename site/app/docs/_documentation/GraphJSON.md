@@ -7,7 +7,7 @@ title: GraphJSON
 
 Alchemy.js takes a simple data format called GraphJSON.  GraphJSON is similiar to GeoJSON, in many ways, and is a standardized way to represent connected data in applications.  In the future, Alchemy.js will use GraphJSON for the transfer and storage of attributes that will allow for more robust visual representations of the underlying graph data.  For now, GraphJSON serves as a lightweight and flexible representation of graph data, easily consumed locally or over the web.
 
-# The Format
+## The Format
 GraphJSON is a JSON object that contains two objects, **nodes** and **edges**:
 
 ~~~json
@@ -20,10 +20,10 @@ GraphJSON is a JSON object that contains two objects, **nodes** and **edges**:
 
 The **nodes** and **edges** objects are arrays of the individual nodes and edges that will be represented in the Graph visualization.   
 
-# Nodes and Edges
+## Nodes and Edges
 The only requirement for node objects is that they receive an **id** key that is a unique integer in the scope of the GraphJSON.  The only requirement for edge objects is that they receive a **source** and **target** key that correspond to the source and target nodes.
 
-# Features
+## Features
 Alchemy.js has a number of features that rely on the underlying data.  Most of the below features are supported by the example GraphJSON that follows.
 
 ### Captions  
@@ -63,7 +63,7 @@ while **edgeTypes** might look like this
 
 *Note*: Attributes in the GraphJSON can serve multiple purposes.  **caption** on the edges is used for categorizing nodes as well as the text that will display on hover interactions.
 
-# Sample GraphJSON
+## Sample GraphJSON
 Below is sample GraphJSON which contains all of the movies, awards, and other people that Charlize Theron is connected to.
 
 ~~~json

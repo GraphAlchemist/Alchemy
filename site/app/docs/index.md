@@ -7,9 +7,10 @@ title: Alchemy.js Docs Home
     {% assign sorted_docs = (site.documentation | sort: 'position') %}
     <!--     <div id="sidebar-list"> -->
     {% for item in sorted_docs %}
+        {% assign href = ({{item.title}} | replace: ' ', '-') %}
 
         <div class = "section-bar list-group-item">
-            <a class="level-1" where-to="{{item.title}}" href="#{{item.title}}"> {{item.title}} </a>
+            <a class="level-1" href="#{{href}}"> {{item.title}} </a>
         </div>
 
     {% endfor %}
@@ -19,9 +20,12 @@ title: Alchemy.js Docs Home
 
 <div id="doc-content" class="auto-generated">
 {% for item in sorted_docs %}
-<section class="doc" id="{{item.title}}">
-    {{item.output}}
-</section>
+    {% assign href = ({{item.title}} | replace: ' ', '-') %}
+
+    <section class="doc" id="{{href}}">
+        {{item.output}}
+    </section>
+
 {% endfor %}
 
 </div>
