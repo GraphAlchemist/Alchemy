@@ -112,7 +112,7 @@ alchemy.modifyElements =
             .attr("value", null)
         nodeProperties = alchemy._nodes[n.id].getProperties()
         d3.select("#node-#{n.id}").classed("editing":true)
-
+        
         for property, val of nodeProperties
             d3.select("#node-properties-list")
                 .append("div")
@@ -122,11 +122,13 @@ alchemy.modifyElements =
                 .attr("for", "node-#{property}-input")
                 .attr("class","form-control property-name")
                 .text("#{property}")
+            debugger
             d3.select("#node-#{property}")
                 .append("input")
                 .attr("id", "node-#{property}-input")
                 .attr("class", "form-control property-value")
-                .attr("placeholder", "#{val}")
+                # .attr("placeholder", "cheeeseeee")
+                .attr("value", "#{val}")
 
         d3.select("#node-properties-list")
             .append("input")

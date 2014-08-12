@@ -42,7 +42,7 @@ alchemy.defaults =
     nodePositions: null # not currently implemented
 
     # Editing
-    showEditor: false
+    showEditor: false # should change to nodeEditor and edgeEditor
     captionToggle: false
     toggleRootNodes: false
     removeElement: false

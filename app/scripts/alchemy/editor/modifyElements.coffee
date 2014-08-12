@@ -126,7 +126,7 @@ alchemy.modifyElements =
                 .append("input")
                 .attr("id", "node-#{property}-input")
                 .attr("class", "form-control property-value")
-                .attr("placeholder", "#{val}")
+                .attr("value", "#{val}")
 
         d3.select("#node-properties-list")
             .append("input")
