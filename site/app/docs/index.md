@@ -18,7 +18,7 @@ title: Alchemy.js Docs Home
     </div>
 </div>
 
-<div id="doc-content" class="auto-generated">
+<div id="doc-content">
 {% for item in sorted_docs %}
     {% assign href = ({{item.title}} | replace: ' ', '-') %}
 

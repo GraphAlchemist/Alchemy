@@ -30,7 +30,7 @@
 		}
 		a{
 			padding: 10px 100px;
-			padding-left: 30px;
+			padding-left: 20px;
 			min-width: 150px;
 			max-width: 300px;
 			text-decoration:none;
@@ -53,21 +53,33 @@
 				border: thin solid $blue;
 			}
 			.level-2 {
-				font-size: 15px;
+				font-size: 16px;
 				.active{
 					margin-left: 10px;
 					color: $bright-orange;
 					font-size: 18px;
-					// &:after{
-					// 	content: "";
-					// 	border: 5px rgba($blue, .4) solid;
-					// 	position: absolute;
-					// 	top: 0;
-					// 	right: -10px;
-					// 	height: 100%;
-					// }
 				}
-		}
+			}
+
+			#lvl-2-Configuration{
+				a.level-2{
+					font-size: 16px;
+				}
+				a.level-3{
+					padding-left: 40px;
+				}
+				div.level-3{
+					margin-bottom: 0;
+				}
+				.level-3{
+					font-size: 14px;
+					.active{
+						margin-left: 10px;
+						color: $bright-orange;
+						font-size: 18px;
+					}
+				}
+			}
 		}
 	}
 
@@ -80,7 +92,7 @@
 		flex-flow: column nowrap;
 		flex-shrink: 50;
 
-		section{
+		.doc{
 			font-size: 16px;
 			padding: 75px;
 			padding-top: 0;
