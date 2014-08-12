@@ -1,7 +1,15 @@
+---
+position: 7
+title: Contributing
+---
+
+# Contributing: Overview
+
 ### Some Things to Know
 Alchemy.js uses [Yeoman.io](http://yeoman.io/) to manage workflow, and [their documentation](http://yeoman.io/learning/index.html) is a great resource to get up and running quickly.
 
 If you are familiar with Yeoman already, it will be helpful to know how Alchemy's grunt tasks are configured.  The main grunt task, `buildAlchemy`, whether being used in development or to build the Alchemy.js for distribution does the following:
+
 * Copies all coffee script files into `.tmp` directory
 * Concats all of the coffee script files with the `start.coffee` at the beginning and the `end.coffee` file at (you guessed it) the end
 
@@ -13,7 +21,9 @@ First off - [get in touch](mailto:robot@graphalchemist.com)!  It is helpful to h
 We'd love your help in making Alchemy.js better.  A good place to start is always with the existing issues.  Did you notice a bug that wasn't there or a feature that should REALLY exist?  Ticket it, and lets start a conversation.
 
 If you'd like to contribute code for a bug fix or even a feature, here is the process:
-```
+
+
+~~~ bash
 # Fork Alchemy.js repo
 git clone <my_fork_of_this_repo>
 git checkout -b <my_awesome_new_feature>
@@ -23,7 +33,7 @@ git branch -D master
 #node and bower dependencies
 npm install
 bower install
-```
+~~~
 
 When you feel like your contribution is battle ready, run the tests locally
 `grunt test.`  If everything passes, feel free to submit a pull request.  We may have come conversations about pieces of it, or we may merge it right away.
