@@ -9,7 +9,7 @@ title: Edges
 
 ##### edgeCaption
 
-  [`string`] default:`'caption'` 
+[`string`] default:`'caption'` 
 
 Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON.
 
