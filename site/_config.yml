@@ -1,7 +1,7 @@
 title: Alchemy.js documentation site
 source: app/docs/
 destination: .tmp/docs/
-exclude: [configuration/, misc/, styles/scss, js/coffee]
+exclude: [misc/, styles/scss, js/coffee]
 
 markdown: kramdown
 # pygments: true
@@ -27,3 +27,4 @@ kramdown:
 
 collections:
 - documentation
+- configDocs
