@@ -33,7 +33,10 @@ class alchemy.models.Edge
 
     setD3Property: (property, value) =>
         @_d3[property] = value
-        
+    
+    getProperties: () =>
+        @properties
+
     # Find if both endpoints are active
     allNodesActive: () =>
         source = d3.select("#node-#{@properties.source}")

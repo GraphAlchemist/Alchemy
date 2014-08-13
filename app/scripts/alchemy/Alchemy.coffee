@@ -27,6 +27,7 @@ class Alchemy
         @styles = {}
         @models = {}
         @drawing = {}
+        @editor = {}
 
         @log = {}
         @state = {
