@@ -252,4 +252,95 @@ class alchemy.editor.Editor
                 )   
 
     edgeEditor: (e) ->
+        divSelector = alchemy.conf.divSelector        
+        editor = d3.select("#{divSelector} #control-dash-wrapper #control-dash #editor")
+        options = editor.select('#element-options')
+        html = @elementEditorHTML("edge")
+        elementEditor = options.append('div')
+                                .attr('id', 'edge-editor')
+                                .html(html)
+
+        elementEditor.attr("class", () ->
+                    if d3.select("#editor-interactions").classed("active")
+                        "enabled"
+                    else 
+                        "hidden")
+        
+        add_property = editor.select("#edge-editor form #add-property")
+        add_property.select("#add-prop-key")
+                    .attr("placeholder", "New Property Name")
+                    .attr("value", null)
+        add_property.select("#add-prop-value")
+                    .attr("placeholder", "New Property Value")
+                    .attr("value", null)
+        
+        edgeProperties = alchemy._edges[e.id].getProperties()
+        d3.select("#edge-#{e.id}").classed("editing":true)
+
+        property_list = editor.select("#edge-editor #properties-list")
+
+        for property, val of edgeProperties
+            edge_property = property_list.append("div")
+                                            .attr("id", "edge-#{property}")
+                                            .attr("class", "property form-inline form-group")
+            
+            edge_property.append("label")
+                            .attr("for", "edge-#{property}-input")
+                            .attr("class","form-control property-name")
+                            .text("#{property}")
+            
+            edge_property.append("input")
+                            .attr("id", "edge-#{property}-input")
+                            .attr("class", "form-control property-value")
+                            .attr("value", "#{val}")
+
+        d3.selectAll("#add-prop-key, #add-prop-value, .property")
+            .on "keydown", ->
+                if d3.event.keyCode is 13
+                    event.preventDefault()
+                d3.select(@).classed({"edited-property":true})
+
+        d3.select("#add-property")
+            .on "submit", ->
+                event.preventDefault()
+
+                key = d3.select("#add-prop-key")[0][0].value
+                key = key.replace(/\s/g, "_")
+                value = d3.select("#add-prop-value")[0][0].value
+                updateProperty(key, value, true)
+
+                d3.selectAll("#add-property .edited-property").classed("edited-property":false)
+                @.reset()
+
+        d3.select("#properties-list")
+            .on "submit", -> 
+                event.preventDefault()
+                properties = d3.selectAll(".edited-property")
+                for property in properties[0]
+                    selection = d3.select(property)
+                    key = selection.select("label").text()
+                    value = selection.select("input").attr('value')
+                    updateProperty(key, value, false)
+
+                d3.selectAll("#node-properties-list .edited-property").classed("edited-property":false)
+                @.reset()
+
+        updateProperty = (key, value, newProperty) ->
+            edgeID = n.id
+            if ((key!="") and (value != ""))
+                alchemy._edges[edgeID].setProperty("#{key}", "#{value}")
+                drawEdges = new alchemy.drawing.DrawEdges
+                drawEdges.updateEdge(d3.select("#edge-#{edgeID}"))
+                if newProperty is true 
+                    d3.select("#add-prop-key").attr("value", "property added/updated to key: #{key}")
+                    d3.select("#add-prop-value").attr("value", "property at #{key} updated to: #{value}")
+                else
+                    d3.select("#edge-#{key}-input").attr("value", "property at #{key} updated to: #{value}")
+
+            else
+                if newProperty is true 
+                    d3.select("#add-prop-key").attr("value", "null or invalid input")
+                    d3.select("#add-prop-value").attr("value", "null or invlid input")
+                else
+                    d3.select("#edge-#{key}-input").attr("value", "null or invalid input")
         

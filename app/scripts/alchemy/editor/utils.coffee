@@ -1,6 +1,7 @@
 class alchemy.editor.Utils
     constructor: () ->
         @drawNodes = new alchemy.drawing.DrawNodes
+        @drawEdges = new alchemy.drawing.DrawEdges
 
     enableEditor: () =>
         alchemy.setState("interactions", "editor")
@@ -9,6 +10,7 @@ class alchemy.editor.Utils
             .attr("id", "dragline")
 
         @drawNodes.updateNode(alchemy.node)
+        @drawEdges.updateEdge(alchemy.edge)
         selectedElements = d3.selectAll(".selected")
         editor = new alchemy.editor.Editor
         if (not selectedElements.empty()) and (selectedElements.length is 1)

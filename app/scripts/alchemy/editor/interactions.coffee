@@ -5,8 +5,6 @@ class alchemy.editor.Interactions
     # @newEdge = null
     # @click = null
     constructor: ->
-        @drawNodes = new alchemy.drawing.DrawNodes
-        @drawEdges = new alchemy.drawing.DrawEdges
         @editor = new alchemy.editor.Editor
 
     nodeMouseOver: (n) ->
@@ -40,8 +38,13 @@ class alchemy.editor.Interactions
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
         @editor.editorClear()
         @editor.nodeEditor(c)
-        
 
+    edgeClick: (e) =>
+        d3.event.stopPropagation()
+        debugger
+        @editor.editorClear()
+        @editor.edgeEditor(e)
+        
     addNodeStart: (d, i) =>
         d3.event.sourceEvent.stopPropagation()
         @sourceNode = d

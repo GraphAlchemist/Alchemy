@@ -41,7 +41,6 @@ class alchemy.drawing.DrawNode
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"
-            editorInteractions = new alchemy.editor.Interactions
             # editor = alchemy.editor.interactions()
             coreInteractions = alchemy.interactions
 
@@ -53,6 +52,7 @@ class alchemy.drawing.DrawNode
                 .on("dragend", null)
 
             if editorEnabled
+                editorInteractions = new alchemy.editor.Interactions
             # set interactions
                 node.on('mouseup', editorInteractions.nodeMouseUp)
                     .on('mouseover', editorInteractions.nodeMouseOver)
