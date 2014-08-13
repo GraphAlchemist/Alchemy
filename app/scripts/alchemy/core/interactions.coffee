@@ -148,3 +148,22 @@ alchemy.interactions =
         d3.select(this).classed "dragging": false
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
+
+    deselectAll: () ->
+        # this function is also fired at the end of a drag, do nothing if this
+        if d3.event?.defaultPrevented then return
+        alchemy.vis.selectAll('.node, .edge')
+            .classed('selected highlight', false)
+
+        d3.select('.alchemy svg').classed({'highlight-active':false})
+
+        if alchemy.conf.showEditor is true
+            alchemy.modifyElements.nodeEditorClear()
+
+        alchemy.vis.selectAll('line.edge')
+            .classed('highlighted connected unconnected', false)
+        alchemy.vis.selectAll('g.node,circle,text')
+            .classed('selected unselected neighbor unconnected connecting', false)
+        # call user-specified deselect function if specified
+        if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
+            alchemy.conf.deselectAll()

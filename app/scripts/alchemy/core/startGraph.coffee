@@ -42,7 +42,7 @@ alchemy.startGraph = (data) ->
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
-            .on('click', alchemy.utils.deselectAll)
+            .on('click', alchemy.interactions.deselectAll)
             .call(alchemy.interactions.zoom(conf.scaleExtent))
             .append('g')
                 .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
