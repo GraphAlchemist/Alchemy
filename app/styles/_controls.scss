@@ -138,11 +138,11 @@
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
-        input[type="submit"]{
+        input[type="submit"] {
             &:active, &:focus{
                 outline: none;
             }
-            &:hover{
+            &:hover {
                 color: white;
                 border: thin solid white;
             }
@@ -154,14 +154,14 @@
             border: thin solid $bright-secondary;
             text-align: center;
         }
-        #update-properties{
+        #update-properties {
             @extend input[type="submit"];
             border-radius: 4px;
             padding: 10px;
             width: 100%;
             margin-bottom: 20px;
         }
-        .add-property{
+        #add-property-form {
             @extend .property;
             #add-property{
                 display: flex;

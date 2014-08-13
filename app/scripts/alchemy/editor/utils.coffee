@@ -13,17 +13,18 @@ class alchemy.editor.Utils
         @drawEdges.updateEdge(alchemy.edge)
         selectedElements = d3.selectAll(".selected")
         editor = new alchemy.editor.Editor
+        debugger
         if (not selectedElements.empty()) and (selectedElements.length is 1)
             if selectedElements.classed('node')
+                editor.nodeEditor(selectedElements.datum())
                 d3.select("#node-editor")
                     .attr("class", "enabled")
                     .style("opacity", 1)
-                editor.nodeEditor(selectedElements.datum())
             else if selectedElements.classed('edge')
+                editor.edgeEditor(selectedElements.datum())
                 d3.select("#edge-editor")
                     .attr("class", "enabled")
                     .style("opacity", 1)
-                editor.edgeEditor(selectedElements.datum())
         else
             selectedElements.classed("selected":false)
 

@@ -40,7 +40,7 @@ class alchemy.editor.Editor
     elementEditorHTML: (type) -> 
             """
                 <h4>#{type} Editor</h4>
-                <form class="add-property">
+                <form id="add-property-form">
                     <div id="add-property">
                         <input class="form-control" id="add-prop-key" placeholder="New Property Name">
                         <input class="form-control" id="add-prop-value" placeholder="New Property Value">
@@ -143,7 +143,7 @@ class alchemy.editor.Editor
         editor = d3.select("#{divSelector} #control-dash-wrapper #control-dash #editor")
         options = editor.select('#element-options')
         # options.html(html)
-        html = @elementEditorHTML("node")
+        html = @elementEditorHTML("Node")
         elementEditor = options.append('div')
                                 .attr('id', 'node-editor')
                                 .html(html)
@@ -152,8 +152,6 @@ class alchemy.editor.Editor
                     if d3.select("#editor-interactions").classed("active")
                         return "enabled"
                     else return "hidden")
-                # .append("form")
-                # .attr("id", "nodproperties-list")
         
         add_property = editor.select("#node-editor form #add-property")
         add_property.select("#node-add-prop-key")
@@ -162,7 +160,17 @@ class alchemy.editor.Editor
         add_property.select("#node-add-prop-value")
                     .attr("placeholder", "New Property Value")
                     .attr("value", null)
-        
+
+        d3.select("#add-property-form")
+            .on "submit", ->
+                event.preventDefault()
+                key = d3.select('#add-prop-key').property('value')
+                key = key.replace(/\s/g, "_")
+                value = d3.select('#add-prop-value').property('value')
+                updateProperty(key, value, true)
+                d3.selectAll("#add-property .edited-property").classed("edited-property":false)
+                @reset()
+
         nodeProperties = alchemy._nodes[n.id].getProperties()
         d3.select("#node-#{n.id}").classed("editing":true)
 
@@ -183,29 +191,6 @@ class alchemy.editor.Editor
                             .attr("class", "form-control property-value")
                             .attr("value", "#{val}")
 
-        # property_list.append("input")
-        #                 .attr("id", "update-properties")
-        #                 .attr("type", "submit")
-        #                 .attr("value", "Update Properties")
-
-        d3.selectAll("#add-prop-key, #add-prop-value, .property")
-            .on "keydown", ->
-                if d3.event.keyCode is 13
-                    event.preventDefault()
-                d3.select(@).classed({"edited-property":true})
-
-        d3.select("#add-property")
-            .on "submit", ->
-                event.preventDefault()
-
-                key = d3.select("#node-add-prop-key")[0][0].value
-                key = key.replace(/\s/g, "_")
-                value = d3.select("#node-add-prop-value")[0][0].value
-                updateProperty(key, value, true)
-
-                d3.selectAll("#add-property .edited-property").classed("edited-property":false)
-                @.reset()
-
         d3.select("#properties-list")
             .on "submit", -> 
                 event.preventDefault()
@@ -218,6 +203,12 @@ class alchemy.editor.Editor
 
                 d3.selectAll("#node-properties-list .edited-property").classed("edited-property":false)
                 @.reset()
+
+        d3.selectAll("#add-prop-key, #add-prop-value, .property")
+            .on "keydown", ->
+                if d3.event.keyCode is 13
+                    event.preventDefault()
+                d3.select(@).classed({"edited-property":true})
 
         updateProperty = (key, value, newProperty) ->
             nodeID = n.id
@@ -255,7 +246,7 @@ class alchemy.editor.Editor
         divSelector = alchemy.conf.divSelector        
         editor = d3.select("#{divSelector} #control-dash-wrapper #control-dash #editor")
         options = editor.select('#element-options')
-        html = @elementEditorHTML("edge")
+        html = @elementEditorHTML("Edge")
         elementEditor = options.append('div')
                                 .attr('id', 'edge-editor')
                                 .html(html)

@@ -53,6 +53,7 @@ class alchemy.editor.Interactions
         @
 
     addNodeDragging: (d, i) =>
+        # rework
         x2coord = d3.event.x
         y2coord = d3.event.y
         d3.select('#dragline')
