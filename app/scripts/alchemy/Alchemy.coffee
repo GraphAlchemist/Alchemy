@@ -53,6 +53,28 @@ class Alchemy
         else if typeof alchemy.conf.dataSource == 'object'
             alchemy.startGraph(alchemy.conf.dataSource)
 
+    getNodes: (id) =>
+        @_nodes[id].properties
+
+    getEdges: (id=null, target=null) =>
+        # returns one or more edges as an array
+        if id? and target?
+            edge_id = "#{id}-#{target}"
+            edge = @_edges[edge_id]
+            [edge.properties]
+        else if id? and not target?
+            results = _.map(@_edges, (edge) -> 
+                        if (edge.properties.source is id) or (edge.properties.target is id)
+                            edge.properties)
+            _.compact(results) # best way to do this?
+
+    allNodes: =>
+        _.map(@_nodes, (n) -> n.properties)
+
+    allEdges: =>
+        _.map(@_edges, (e) -> e.properties)
+
+
 currentRelationshipTypes = {}
 
 if typeof module isnt 'undefined' and module.exports

@@ -8,12 +8,14 @@ class alchemy.models.Edge
         
         # Contains state of edge, used by renderers
         @state = {'active': true} 
+        
+        # Edge properties, as provided by the user
         @properties = edge
-
         @_edgeAttributes = new alchemy.models.EdgeAttributes
         caption = @_edgeAttributes.edgeCaption(@properties)
-       
-        @properties.caption = caption
+        if caption       
+            @properties.caption = caption
+        
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@properties.source]._d3
