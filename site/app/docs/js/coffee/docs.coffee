@@ -44,7 +44,7 @@ $ ->
             padding = 50 - 15 
             offset = $("#sidebar").offset().top - padding
 
-            # $("#sidebar").find('.active').removeClass("active")
+            $("#sidebar").find('.active').removeClass("active")
             # $(tocEl).parents(".section-bar").find(".level-2").removeClass("hidden")
 
             if $(tocEl).hasClass("level-1")
@@ -54,16 +54,12 @@ $ ->
                         if $(tocEl).hasClass(".active")
                             false
                         else
-                            $(tocEl).siblings()
                             true
                     )
                 $(tocEl).parent().find("div.level-3").addClass("hidden")
-                # $(tocEl).parent().toggleClass("active")
 
 
             else if $(tocEl).hasClass("level-2")
-                $(tocEl).parents(".section-bar, div").removeClass("hidden")
-                $(tocEl).siblings().removeClass("active")
                 if $(tocEl).next().hasClass("level-3")
                     $(tocEl).toggleClass("active")
                     $(tocEl).next().toggleClass("hidden", ()->
@@ -78,17 +74,29 @@ $ ->
                 $("#sidebar").find(".level-3").removeClass("active")
                 $("#sidebar").find(".level-2").removeClass("active")
                 $(tocEl).addClass("active")
+                $(tocEl).parent().prev().addClass("active")
+
 
             else 
                 alert("error")
 
-            $(tocEl).parents(".level-3, .level-2, .level-1, .section-bar").addClass(()->
-                if $(tocEl).hasClass("active")
-                    $(tocEl).parents(".level-3, .level-2, .level-1, .section-bar").removeClass("hidden")
-                    return "active"
-                else
-                    return ""
-                )
+            if $(tocEl).hasClass("active")
+                console.log "active"
+                $(tocEl)
+                    .parents(".level-3, .level-2, .level-1, .section-bar")
+                        .removeClass("hidden")
+                        .addClass("active")
+                $(tocEl)
+                    .siblings("a.level-1, a.level-2, a.level-3")
+                        .removeClass("active")
+
+            else if !$(tocEl).hasClass("active")
+                $(tocEl)
+                    .parents(".level-3,  .level-2, .level-1, .section-bar")
+                        .removeClass("active")
+                $(tocEl)
+                    .siblings("a.level-1, a.level-2, a.level-3")
+                        .removeClass("active")
 
             pos =  $(tocEl).offset().top - offset 
             $("#sidebar-wrapper").scrollTop(pos)
