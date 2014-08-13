@@ -5,6 +5,8 @@ title: Layout
 
 # Layout
 
+<p></p>
+
 ##### graphHeight 
 
 [function] **default**: [See source.](https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L20)

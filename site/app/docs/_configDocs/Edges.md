@@ -3,10 +3,9 @@ position: 2
 title: Edges
 ---
 
-# Edges
+### Edges
 
-<!-- ##### edgeCaption
-**not currently implemented** [string] `'caption'` Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON. -->
+<p></p>
 
 ##### edgeStyle
 
@@ -42,5 +41,8 @@ The correct way to define edgeTypes is by passing an object.  The object passed 
         },...]
 ...}
 ~~~
-___
 
+##### edgeCaption
+[string] `'caption'` Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display 'on hover' and by default alchemy looks for 'caption' in the corresponding edge object from the GraphJSON.
+
+___

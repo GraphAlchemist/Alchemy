@@ -5,6 +5,8 @@ title: Editing
 
 # Editing
 
+<p></p>
+
 ##### showEditor
 
 [bool] **default**: `false` 

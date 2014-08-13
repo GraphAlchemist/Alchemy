@@ -6,6 +6,8 @@ title: Filtering
 
 # Filtering
 
+<p></p>
+
 ##### showFilters 
 
 [bool] **default**: `false`

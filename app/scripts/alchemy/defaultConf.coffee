@@ -77,8 +77,8 @@ alchemy.defaults =
 
     # Edges
     edgeCaption: 'caption' # in progress
-    edgeClick: 'default' # user can provide function, needs documentation
-    edgeStyle: (d) -> # why is this a function?
+    edgeClick: 'default'
+    edgeStyle: (d) ->
         null
     edgeTypes: null
     curvedEdges: false
