@@ -1,378 +1,201 @@
-# Alchemy.js is a graph drawing application for the web.
-# Copyright (C) 2014  GraphAlchemist, Inc.
+# # Alchemy.js is a graph drawing application for the web.
+# # Copyright (C) 2014  GraphAlchemist, Inc.
 
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Affero General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
+# # This program is free software: you can redistribute it and/or modify
+# # it under the terms of the GNU Affero General Public License as published by
+# # the Free Software Foundation, either version 3 of the License, or
+# # (at your option) any later version.
 
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Affero General Public License for more details.
+# # This program is distributed in the hope that it will be useful,
+# # but WITHOUT ANY WARRANTY; without even the implied warranty of
+# # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# # GNU Affero General Public License for more details.
 
-# You should have received a copy of the GNU Affero General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# # You should have received a copy of the GNU Affero General Public License
+# # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.modifyElements = 
-    init: () ->
-        if alchemy.conf.showEditor is true
-            alchemy.modifyElements.showOptions()
-            alchemy.modifyElements.nodeEditorInit()
+# alchemy.modifyElements = 
+#     init: () ->
+#         if alchemy.conf.showEditor is true
+#             alchemy.modifyElements.showOptions()
+#             alchemy.modifyElements.nodeEditorInit()
 
     
-    showOptions: () ->
-        optionsHTML = """<ul class="list-group"> 
-                        <li class="list-group-item" id="remove">Remove Selected</li> 
-                        </ul>"""
+#     showOptions: () ->
+#         optionsHTML = """<ul class="list-group"> 
+#                         <li class="list-group-item" id="remove">Remove Selected</li> 
+#                         </ul>"""
         
-        d3.select('#editor')
-            .append("div")
-            .attr("id","element-options")
-            .attr("class", "collapse")
-            .html(optionsHTML)
+#         d3.select('#editor')
+#             .append("div")
+#             .attr("id","element-options")
+#             .attr("class", "collapse")
+#             .html(optionsHTML)
 
-        d3.select('#element-options ul')
-            .append("li")
-            .attr("class", ()->
-                if alchemy.conf.editorInteractions is true
-                    return "active list-group-item"
-                else
-                    return "inactive list-group-item"
-                )
-            .attr("id","editor-interactions")
-            .html(()->
-                if alchemy.conf.editorInteractions is true
-                    return """Disable Editor Interactions"""
-                else 
-                    return """Enable Editor Interactions"""
-                )
+#         d3.select('#element-options ul')
+#             .append("li")
+#             .attr("class", ()->
+#                 if alchemy.conf.editorInteractions is true
+#                     return "active list-group-item"
+#                 else
+#                     return "inactive list-group-item"
+#                 )
+#             .attr("id","editor-interactions")
+#             .html(()->
+#                 if alchemy.conf.editorInteractions is true
+#                     return """Disable Editor Interactions"""
+#                 else 
+#                     return """Enable Editor Interactions"""
+#                 )
 
-        d3.select("#remove")
-            .on "click", ()-> alchemy.editor.remove()
-        d3.select("#editor-interactions")
-            .on "click", () -> 
-                if !d3.select("#editor-interactions").classed("active")
-                    alchemy.editor.enableEditor()
-                    d3.select("#editor-interactions")
-                        .classed({"active": true, "inactive": false})
-                        .html("""Editor mode enabled, click to disable editor interactions""")
-                else 
-                    alchemy.editor.disableEditor()
-                    d3.select("#editor-interactions")
-                        .classed({"active": false, "inactive": true})
-                        .html("""Editor mode disabled, click to enable editor interactions""")
+#         d3.select("#remove")
+#             .on "click", ()-> alchemy.editor.remove()
+#         d3.select("#editor-interactions")
+#             .on "click", () -> 
+#                 if !d3.select("#editor-interactions").classed("active")
+#                     alchemy.editor.enableEditor()
+#                     d3.select("#editor-interactions")
+#                         .classed({"active": true, "inactive": false})
+#                         .html("""Editor mode enabled, click to disable editor interactions""")
+#                 else 
+#                     alchemy.editor.disableEditor()
+#                     d3.select("#editor-interactions")
+#                         .classed({"active": false, "inactive": true})
+#                         .html("""Editor mode disabled, click to enable editor interactions""")
 
-    nodeEditorInit: () ->
-        addPropHTML = """
-                        <div id="add-property">
-                            <input class='form-control' id='node-add-prop-key' placeholder="Property Name"></input>
-                            <input class='form-control' id='node-add-prop-value' placeholder="Property Value"></input>
-                        </div>
-                    """
-        d3.select("#element-options")
-            .append("div")
-            .attr("id", "node-editor")
-            .attr("class", () ->
-                if d3.select("#editor-interactions").classed("active")
-                    return "enabled"
-                else return "hidden"
-            )
-            .html("""<h4>Node Editor</h4>""")
+#     nodeEditorInit: () ->
+#         addPropHTML = """
+#                         <div id="add-property">
+#                             <input class='form-control' id='node-add-prop-key' placeholder="Property Name"></input>
+#                             <input class='form-control' id='node-add-prop-value' placeholder="Property Value"></input>
+#                         </div>
+#                     """
+#         d3.select("#element-options")
+#             .append("div")
+#             .attr("id", "node-editor")
+#             .attr("class", () ->
+#                 if d3.select("#editor-interactions").classed("active")
+#                     return "enabled"
+#                 else return "hidden"
+#             )
+#             .html("""<h4>Node Editor</h4>""")
 
-        # node editor form and add property form
-        d3.select("#node-editor")
-            .append("form")
-            .attr("id", "node-add-property")
-            .html(addPropHTML)
+#         # node editor form and add property form
+#         d3.select("#node-editor")
+#             .append("form")
+#             .attr("id", "node-add-property")
+#             .html(addPropHTML)
 
-        d3.select("#node-add-property")
-            .append("input")
-            .attr("id", "node-add-prop-submit")
-            .attr("type", "submit")
-            .attr("value", "Add Property")
+#         d3.select("#node-add-property")
+#             .append("input")
+#             .attr("id", "node-add-prop-submit")
+#             .attr("type", "submit")
+#             .attr("value", "Add Property")
 
-        # submission handler
-        d3.select("#node-add-property")
-            .on "submit" , ->
-                event.preventDefault()
-                if d3.select(".node.selected").empty()
-                    d3.selectAll("#node-add-prop-value, #node-add-prop-key")
-                        .attr("placeholder", "select a node first")
+#         # submission handler
+#         d3.select("#node-add-property")
+#             .on "submit" , ->
+#                 event.preventDefault()
+#                 if d3.select(".node.selected").empty()
+#                     d3.selectAll("#node-add-prop-value, #node-add-prop-key")
+#                         .attr("placeholder", "select a node first")
                             
-    nodeEditor: (n) ->
-        d3.select("#node-editor")
-            .append("form")
-            .attr("id", "node-properties-list")
-        d3.selectAll("#node-add-prop-key")
-            .attr("placeholder", "New Property Name")
-            .attr("value", null)
-        d3.selectAll("#node-add-prop-value")
-            .attr("placeholder", "New Property Value")
-            .attr("value", null)
-        nodeProperties = alchemy._nodes[n.id].getProperties()
-        d3.select("#node-#{n.id}").classed("editing":true)
+#     nodeEditor: (n) ->
+#         d3.select("#node-editor")
+#             .append("form")
+#             .attr("id", "node-properties-list")
+#         d3.selectAll("#node-add-prop-key")
+#             .attr("placeholder", "New Property Name")
+#             .attr("value", null)
+#         d3.selectAll("#node-add-prop-value")
+#             .attr("placeholder", "New Property Value")
+#             .attr("value", null)
+#         nodeProperties = alchemy._nodes[n.id].getProperties()
+#         d3.select("#node-#{n.id}").classed("editing":true)
+        
+#         for property, val of nodeProperties
+#             d3.select("#node-properties-list")
+#                 .append("div")
+#                 .attr("id", "node-#{property}")
+#                 .attr("class", "node-property form-inline form-group")
+#                 .append("label")
+#                 .attr("for", "node-#{property}-input")
+#                 .attr("class","form-control property-name")
+#                 .text("#{property}")
+#             debugger
+#             d3.select("#node-#{property}")
+#                 .append("input")
+#                 .attr("id", "node-#{property}-input")
+#                 .attr("class", "form-control property-value")
+#                 # .attr("placeholder", "cheeeseeee")
+#                 .attr("value", "#{val}")
 
-        for property, val of nodeProperties
-            d3.select("#node-properties-list")
-                .append("div")
-                .attr("id", "node-#{property}")
-                .attr("class", "node-property form-inline form-group")
-                .append("label")
-                .attr("for", "node-#{property}-input")
-                .attr("class","form-control property-name")
-                .text("#{property}")
-            d3.select("#node-#{property}")
-                .append("input")
-                .attr("id", "node-#{property}-input")
-                .attr("class", "form-control property-value")
-                .attr("placeholder", "#{val}")
+#         d3.select("#node-properties-list")
+#             .append("input")
+#             .attr("id", "update-properties")
+#             .attr("type", "submit")
+#             .attr("value", "Update Properties")
 
-        d3.select("#node-properties-list")
-            .append("input")
-            .attr("id", "update-properties")
-            .attr("type", "submit")
-            .attr("value", "Update Properties")
+#         d3.selectAll("#node-add-prop-key, #node-add-prop-value, .node-property")
+#             .on "keydown", ->
+#                 if d3.event.keyCode is 13
+#                     event.preventDefault()
+#                 d3.select(@).classed({"edited-property":true})
 
-        d3.selectAll("#node-add-prop-key, #node-add-prop-value, .node-property")
-            .on "keydown", ->
-                if d3.event.keyCode is 13
-                    event.preventDefault()
-                d3.select(@).classed("edited-property":true)
+#         d3.select("#node-add-property")
+#             .on "submit", ->
+#                 event.preventDefault()
 
-        d3.select("#node-add-property")
-            .on "submit", ->
-                event.preventDefault()
+#                 key = d3.select("#node-add-prop-key")[0][0].value
+#                 key = key.replace(/\s/g, "_")
+#                 value = d3.select("#node-add-prop-value")[0][0].value
+#                 updateProperty(key, value, true)
 
-                key = d3.select("#node-add-prop-key")[0][0].value
-                key = key.replace(/\s/g, "_")
-                value = d3.select("#node-add-prop-value")[0][0].value
-                updateProperty(key, value, true)
+#                 d3.selectAll("#add-property .edited-property").classed("edited-property":false)
+#                 @.reset()
 
-                d3.selectAll("#add-property .edited-property").classed("edited-property":false)
-                @.reset()
+#         d3.select("#node-properties-list")
+#             .on "submit", -> 
+#                 event.preventDefault()
 
-        d3.select("#node-properties-list")
-            .on "submit", -> 
-                event.preventDefault()
+#                 properties = d3.selectAll(".edited-property")
+#                 for property in properties[0]
+#                     console.log property
+#                     key = d3.select(property).select("label").text()
+#                     value = d3.select(property).select("input")[0][0].value
+#                     updateProperty(key, value, false)
 
-                properties = d3.selectAll(".edited-property")
-                for property in properties[0]
-                    console.log property
-                    key = d3.select(property).select("label").text()
-                    value = d3.select(property).select("input")[0][0].value
-                    updateProperty(key, value, false)
+#                 d3.selectAll("#node-properties-list .edited-property").classed("edited-property":false)
+#                 @.reset()
 
-                d3.selectAll("#node-properties-list .edited-property").classed("edited-property":false)
-                @.reset()
+#         updateProperty = (key, value, newProperty) ->
+#             nodeID = n.id
+#             if ((key!="") and (value != ""))
+#                 alchemy._nodes[nodeID].setProperty("#{key}", "#{value}")
+#                 drawNodes = new alchemy.drawing.DrawNodes
+#                 drawNodes.updateNode(d3.select("#node-#{nodeID}"))
+#                 if newProperty is true 
+#                     d3.select("#node-add-prop-key").attr("placeholder", "property added/updated to key: #{key}")
+#                     d3.select("#node-add-prop-value").attr("placeholder", "property at #{key} updated to: #{value}")
+#                 else
+#                     d3.select("#node-#{key}-input").attr("placeholder", "property at #{key} updated to: #{value}")
 
-        updateProperty = (key, value, newProperty) ->
-            nodeID = n.id
-            if ((key!="") and (value != ""))
-                alchemy._nodes[nodeID].setProperty("#{key}", "#{value}")
-                drawNodes = new alchemy.drawing.DrawNodes
-                drawNodes.updateNode(d3.select("#node-#{nodeID}"))
-                if newProperty is true 
-                    d3.select("#node-add-prop-key").attr("placeholder", "property added/updated to key: #{key}")
-                    d3.select("#node-add-prop-value").attr("placeholder", "property at #{key} updated to: #{value}")
-                else
-                    d3.select("#node-#{key}-input").attr("placeholder", "property at #{key} updated to: #{value}")
-
-            else
-                if newProperty is true 
-                    d3.select("#node-add-prop-key").attr("placeholder", "null or invalid input")
-                    d3.select("#node-add-prop-value").attr("placeholder", "null or invlid input")
-                else
-                    d3.select("#node-#{key}-input").attr("placeholder", "null or invalid input")
+#             else
+#                 if newProperty is true 
+#                     d3.select("#node-add-prop-key").attr("placeholder", "null or invalid input")
+#                     d3.select("#node-add-prop-value").attr("placeholder", "null or invlid input")
+#                 else
+#                     d3.select("#node-#{key}-input").attr("placeholder", "null or invalid input")
             
 
 
-    nodeEditorClear: () ->
-        d3.selectAll(".node").classed("editing":false)
-        d3.select("#node-properties-list").remove()
-        d3.select("#node-add-prop-submit")
-            .attr("placeholder", ()->
-                if d3.selectAll(".node.selected").empty()
-                    return "select a node to edit properties"
-                else
-                    return "add a property to this node"
-                )   
-
-alchemy.editor =
-    enableEditor: () ->
-        alchemy.setState("interactions", "editor")
-        dragLine = alchemy.vis
-            .append("line")
-            .attr("id", "dragline")
-
-        d3.select("#node-editor")
-            .attr("class", "enabled")
-            .style("opacity", 1)
-
-        @drawNodes.updateNode(alchemy.node)
-        d3.selectAll(".node").classed("selected":false)
-
-    disableEditor: () ->
-        alchemy.setState("interactions", "default")
-        alchemy.vis.select("#dragline").remove()
-
-        d3.select("#node-editor")
-            .transition()
-            .duration(300)
-            .style("opacity", 0)
-        d3.select("#node-editor")
-            .transition()
-            .delay(300)
-            .attr("class", "hidden")
-
-        @drawNodes.updateNode(alchemy.node)
-        d3.selectAll(".node").classed("selected":false)
-
-    remove: () ->
-        selectedNodes = d3.selectAll(".selected.node")
-        for node in selectedNodes[0]
-            nodeID = d3.select(node).data()[0].id
-
-            node_data = alchemy._nodes[nodeID]
-            if node_data?  
-                for edge in node_data.adjacentEdges
-                    alchemy._edges = _.omit(alchemy._edges, "#{edge}")
-                    alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
-                    d3.select("#edge-#{edge}").remove()
-                alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
-                alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
-                d3.select(node).remove()
-                if alchemy.getState("interactions") is "editor"
-                    alchemy.modifyElements.nodeEditorClear()
-
-    addNode: (node) ->
-        newNode = alchemy._nodes[node.id] = new alchemy.models.Node({id:"#{node.id}"})
-        newNode.setProperty("caption", node.caption)
-        newNode.setD3Property("x", node.x)
-        newNode.setD3Property("y", node.y)
-        alchemy.node = alchemy.node.data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
-
-    addEdge: (edge) ->
-        newEdge = alchemy._edges[edge.id] = new alchemy.models.Edge(edge)
-        alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id)
-
-    update: (node, edge) ->
-        #only push the node if it didn't previously exist
-        if !@mouseUpNode
-            alchemy.editor.addNode(node)
-            alchemy.editor.addEdge(edge)
-            @drawEdges.createEdge(alchemy.edge)
-            @drawNodes.createNode(alchemy.node)
-
-        else
-            alchemy.editor.addEdge(edge)
-            @drawEdges.createEdge(alchemy.edge)
-
-        # force = new alchemy.layout.force
-        alchemy.layout.tick()
-
-
-alchemy.editor.interactions = ->
-    @mouseUpNode = null
-    @sourceNode = null
-    @targetNode = null
-    @newEdge = null
-    @click = null
-    @drawNodes = new alchemy.drawing.DrawNodes
-    @drawEdges = new alchemy.drawing.DrawEdges
-
-    @nodeMouseOver = (n) ->
-        if !d3.select(@).select("circle").empty()
-            radius = d3.select(@).select("circle").attr("r")
-            d3.select(@).select("circle")
-                .attr("r", radius*3)
-        @
-
-    @nodeMouseUp = (n) =>
-        if @sourceNode != n
-            @mouseUpNode = true
-            @targetNode = n
-            @click = false
-        else 
-            @click = true
-        @
-
-    @nodeMouseOut = (n) ->
-        if !d3.select(@).select("circle").empty()
-            radius = d3.select(@).select("circle").attr("r")
-            d3.select(@).select("circle")
-                .attr("r", radius/3)
-        @
-
-    @nodeClick = (c) =>
-        d3.event.stopPropagation()
-        # select the correct nodes
-        if !alchemy.vis.select("#node-#{c.id}").empty()
-            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
-        alchemy.modifyElements.nodeEditorClear()
-        alchemy.modifyElements.nodeEditor(c)
-        @
-
-    @addNodeStart = (d, i) =>
-        d3.event.sourceEvent.stopPropagation()
-        @sourceNode = d
-        d3.select('#dragline')
-            .classed("hidden":false)
-        @
-
-    @addNodeDragging = (d, i) =>
-        x2coord = d3.event.x
-        y2coord = d3.event.y
-        d3.select('#dragline')
-            .attr "x1", @sourceNode.x
-            .attr "y1", @sourceNode.y
-            .attr "x2", x2coord
-            .attr "y2", y2coord
-            .attr "style", "stroke: #FFF"
-        @
-
-
-    @addNodeDragended = (d, i) =>
-        #we moused up on an existing (different) node
-        if !@click 
-            if !@mouseUpNode
-                dragline = d3.select("#dragline")
-                targetX = dragline.attr("x2")
-                targetY = dragline.attr("y2")
-
-                @targetNode = {id: "#{_.uniqueId('addedNode_')}", x: parseFloat(targetX), y: parseFloat(targetY), caption: "node added"}
-
-            @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode.id, target: @targetNode.id, caption: "edited"}   
-            alchemy.editor.update(@targetNode, @newEdge)
-
-        alchemy.editor.interactions().reset()
-        @
-
-    @deleteSelected = (d) =>
-        switch d3.event.keyCode
-            when 8, 46
-                if !(d3.select(d3.event.target).node().tagName is ("INPUT" or "TEXTAREA"))
-                    d3.event.preventDefault()
-                    alchemy.editor.remove()
-
-    @reset = =>
-        # reset interaciton variables
-        @mouseUpNode = null
-        @sourceNode = null
-        @targetNode = null
-        @newEdge = null
-        @click = null
-
-        #reset dragline
-        d3.select("#dragline")
-            .classed "hidden":true
-            .attr "x1", 0            
-            .attr "y1", 0
-            .attr "x2", 0
-            .attr "y2", 0 
-        @
-
-    @
-
-
+#     nodeEditorClear: () ->
+#         d3.selectAll(".node").classed("editing":false)
+#         d3.select("#node-properties-list").remove()
+#         d3.select("#node-add-prop-submit")
+#             .attr("placeholder", ()->
+#                 if d3.selectAll(".node.selected").empty()
+#                     return "select a node to edit properties"
+#                 else
+#                     return "add a property to this node"
+#                 )   

@@ -17,8 +17,9 @@
 alchemy.controlDash = 
     init: () ->
         if alchemy.conf.showControlDash is true 
+            divSelector = alchemy.conf.divSelector
             # add dashboard wrapper
-            d3.select(".alchemy")
+            d3.select("#{divSelector}")
                 .append("div")
                 .attr("id", "control-dash-wrapper")
                 .attr("class", "col-md-4 initial")
@@ -41,7 +42,6 @@ alchemy.controlDash =
             alchemy.controlDash.search()
             alchemy.controlDash.filters()
             alchemy.controlDash.stats()
-            alchemy.controlDash.modifyElements()
             alchemy.controlDash.clustering()
 
     search: () ->
@@ -105,29 +105,6 @@ alchemy.controlDash =
                 )
 
             alchemy.stats.init()
-
-    modifyElements: () ->
-        if alchemy.conf.showEditor
-            modifyElements_html = """
-                    <div id = "editor-header" data-toggle="collapse" data-target="#editor #element-options">
-                         <h3>
-                            Editor
-                        </h3>
-                        <span class = "fa fa-2x fa-caret-right"></span>
-                    </div>
-                    """
-            d3.select("#control-dash")
-                .append("div")
-                .attr("id", "editor")
-                .html(modifyElements_html)
-                .select('#editor-header')
-                .on('click', () ->
-                    if d3.select('#element-options').classed("in")
-                        d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-right")
-                    else d3.select("#editor-header>span").attr("class", "fa fa-2x fa-caret-down")
-                )      
-            
-            alchemy.modifyElements.init()
 
     clustering: () ->
         if alchemy.conf.clusterControl

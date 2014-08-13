@@ -47,11 +47,13 @@ alchemy.startGraph = (data) ->
             .append('g')
                 .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
+    editorInteractions = new alchemy.editor.Interactions
     d3.select("body")
-        .on('keydown', alchemy.editor.interactions().deleteSelected)
+        .on('keydown', editorInteractions.deleteSelected)
 
     alchemy.generateLayout()
     alchemy.controlDash.init()
+
     
     # configuration for forceLocked
     if !conf.forceLocked 
@@ -94,3 +96,8 @@ alchemy.startGraph = (data) ->
         else
             marker.attr('refX', 1)
 
+    if conf.showEditor
+        editor = new alchemy.editor.Editor
+        editor.startEditor()
+        # editor.nodeEditorInit()
+        # editor.edgeEditorInit()
