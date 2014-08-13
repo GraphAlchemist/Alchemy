@@ -16,7 +16,8 @@
 
 class alchemy.drawing.DrawEdges
     constructor: ->
-        @drawEdge = new alchemy.drawing.DrawEdge
+        @utils = new alchemy.drawing.EdgeUtils
+        @drawEdge = new alchemy.drawing.DrawEdge(@utils)
     
     createEdge: (edge) ->
         # used to create edges

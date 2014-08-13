@@ -42,6 +42,7 @@ alchemy.controlDash =
             alchemy.controlDash.filters()
             alchemy.controlDash.stats()
             alchemy.controlDash.modifyElements()
+            alchemy.controlDash.clustering()
 
     search: () ->
         if alchemy.conf.search
@@ -127,3 +128,23 @@ alchemy.controlDash =
                 )      
             
             alchemy.modifyElements.init()
+
+    clustering: () ->
+        if alchemy.conf.clusterControl
+            clusterControl_html = """
+                    <div id = "clustering-container">
+                        <div id = "cluster_control_header" data-toggle="collapse" data-target="#clustering #cluster-options">
+                             <h3>
+                                Clustering
+                            </h3>
+                            <span class = "fa fa-2x fa-caret-right"></span>
+                        </div>
+                    </div>
+                    """
+            d3.select("#control-dash")
+                .append("div")
+                .attr("id", "clustering")
+                .html(clusterControl_html)
+                .select('#cluster_control_header')
+
+            alchemy.clusterControls.init()

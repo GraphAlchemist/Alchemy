@@ -15,12 +15,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class alchemy.drawing.DrawNode
-    constructor: ->
-        utils = new alchemy.drawing.NodeUtils
+    constructor: (utils) ->
         interactions = alchemy.interactions
         conf = alchemy.conf
         nodes = alchemy._nodes
         interactions = alchemy.interactions
+        @utils = utils
 
         @_styleText = (node) ->
             node.selectAll("text")
@@ -34,6 +34,7 @@ class alchemy.drawing.DrawNode
                 .attr('id', (d) -> "text-#{d.id}")
 
         @_styleNode = (node) ->
+            utils = @utils
             node.select('circle')
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')

@@ -16,7 +16,7 @@
 
 
 class alchemy.drawing.DrawEdge
-    constructor: ->
+    constructor: (utils)->
         # edge is a selection of a single edge or multiple edges
         conf = alchemy.conf
         @curved = conf.curvedEdges
@@ -24,9 +24,9 @@ class alchemy.drawing.DrawEdge
         @utils = new alchemy.drawing.EdgeUtils
 
     createLink: (edge) =>
-        utils = @utils
         conf = alchemy.conf
         interactions = alchemy.interactions
+        utils = @utils
 
         if @curved
             edge.append('path')
@@ -42,7 +42,8 @@ class alchemy.drawing.DrawEdge
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
-                .style('stroke', (d) -> utils.edgeStyle(d))
+                .style('stroke', (d) ->
+                    utils.edgeStyle(d))
                 .style('stroke-width', conf.edgeWidth)
             edge.filter((d) -> d.caption?)
                 .append('text')
@@ -51,8 +52,8 @@ class alchemy.drawing.DrawEdge
                 .on('click', alchemy.interactions.edgeClick)
 
     styleLink: (edge) =>
-        utils = @utils
         conf = alchemy.conf
+        utils = @utils
 
         if @curved
             edge.selectAll('path')
