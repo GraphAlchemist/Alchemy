@@ -41,7 +41,6 @@ class alchemy.editor.Interactions
 
     edgeClick: (e) =>
         d3.event.stopPropagation()
-        debugger
         @editor.editorClear()
         @editor.edgeEditor(e)
         

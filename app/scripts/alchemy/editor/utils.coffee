@@ -13,7 +13,6 @@ class alchemy.editor.Utils
         @drawEdges.updateEdge(alchemy.edge)
         selectedElements = d3.selectAll(".selected")
         editor = new alchemy.editor.Editor
-        debugger
         if (not selectedElements.empty()) and (selectedElements.length is 1)
             if selectedElements.classed('node')
                 editor.nodeEditor(selectedElements.datum())

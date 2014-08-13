@@ -291,17 +291,16 @@ class alchemy.editor.Editor
                     event.preventDefault()
                 d3.select(@).classed({"edited-property":true})
 
-        d3.select("#add-property")
+        d3.select("#add-property-form")
             .on "submit", ->
                 event.preventDefault()
-
-                key = d3.select("#add-prop-key")[0][0].value
+                key = d3.select("#add-prop-key").property('value')
                 key = key.replace(/\s/g, "_")
-                value = d3.select("#add-prop-value")[0][0].value
+                value = d3.select("#add-prop-value").property('value')
                 updateProperty(key, value, true)
 
                 d3.selectAll("#add-property .edited-property").classed("edited-property":false)
-                @.reset()
+                @reset()
 
         d3.select("#properties-list")
             .on "submit", -> 
@@ -310,16 +309,19 @@ class alchemy.editor.Editor
                 for property in properties[0]
                     selection = d3.select(property)
                     key = selection.select("label").text()
-                    value = selection.select("input").attr('value')
+                    value = selection.select("input").property('value')
                     updateProperty(key, value, false)
 
-                d3.selectAll("#node-properties-list .edited-property").classed("edited-property":false)
-                @.reset()
+                d3.selectAll("#properties-list .edited-property").classed("edited-property":false)
+                @reset()
 
         updateProperty = (key, value, newProperty) ->
-            edgeID = n.id
+            edgeID = e.id
             if ((key!="") and (value != ""))
                 alchemy._edges[edgeID].setProperty("#{key}", "#{value}")
+                edgeSelection = d3.select("#edge-#{edgeID}")
+                # edgeSelection.data((d) -> d)
+                # debugger
                 drawEdges = new alchemy.drawing.DrawEdges
                 drawEdges.updateEdge(d3.select("#edge-#{edgeID}"))
                 if newProperty is true 
