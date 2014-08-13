@@ -53,8 +53,18 @@ class Alchemy
         else if typeof alchemy.conf.dataSource == 'object'
             alchemy.startGraph(alchemy.conf.dataSource)
 
-    getNodes: (id) =>
-        @_nodes[id].properties
+    #API methods
+    getNodes: (id, ids...) =>
+        # returns one or more nodes as an array
+        if ids
+            ids.push(id)
+            params = _.union(ids)
+            results = []
+            for p in params
+                results.push(alchemy._nodes[p].properties)
+            results
+        else
+            [@_nodes[id].properties]
 
     getEdges: (id=null, target=null) =>
         # returns one or more edges as an array
