@@ -57,7 +57,7 @@ angular.module('navigation', ['ui.bootstrap'])
             [
                 { name: 'Home', href: '/'},
                 { name: 'Examples', href: '/examples'},
-                { name: 'Tutorial', tooltip:"Coming Soon!"} 
+                # { name: 'Tutorial', tooltip:"Coming Soon!"} 
             ] 
             $scope.active($location.path())
         $scope.active = (navTab) ->
