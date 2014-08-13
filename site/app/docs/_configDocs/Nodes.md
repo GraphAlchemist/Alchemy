@@ -40,7 +40,7 @@ nodeStyle takes an object where the key is the css key, and the value is the css
 
 For example:
 
-~~~ json
+~~~ js
 {
     "fill-opacity": function(node) {
         return node.properties.importance;
@@ -83,7 +83,7 @@ This defines the text that will be displayed when a user mouses over a node elem
 
 For instance:
 
-~~~ json
+~~~ js
 { 
     "nodeMouseOver": function(node) {
         return node.someData + node.someOtherData
