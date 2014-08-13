@@ -37,7 +37,6 @@ class alchemy.drawing.DrawEdge
             edge.append('path')
                 .attr('class', 'edge-handler')
                 .style('stroke-width', "#{conf.edgeOverlayWidth}")
-                .on('click', alchemy.interactions.edgeClick)
         else
             edge.append('line')
                 .attr('class', 'edge-line')
@@ -49,7 +48,6 @@ class alchemy.drawing.DrawEdge
                 .append('text')
             edge.append('rect')
                 .attr('class', 'edge-handler')
-                .on('click', alchemy.interactions.edgeClick)
 
     styleLink: (edge) =>
         conf = alchemy.conf
@@ -119,3 +117,14 @@ class alchemy.drawing.DrawEdge
                 .attr('dy', (d) -> utils.middleLine(d).y - 5)
                 .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
                 .text((d) -> d.caption)
+
+    setInteractions: (edge) =>
+        editorEnabled = alchemy.getState("interactions") is "editor"
+        if editorEnabled
+            editorInteractions = new alchemy.editor.Interactions
+            edge.select('.edge-handler')
+                .on('click', editorInteractions.edgeClick)
+        else
+            edge.select('.edge-handler')
+                .on('click', alchemy.interactions.edgeClick)
+

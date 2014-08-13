@@ -42,8 +42,8 @@ class alchemy.drawing.DrawNode
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"
-            editor = alchemy.editor.interactions()
-            interactions = alchemy.interactions
+            # editor = alchemy.editor.interactions()
+            coreInteractions = alchemy.interactions
 
             # reset drag
             drag = d3.behavior.drag()
@@ -52,34 +52,35 @@ class alchemy.drawing.DrawNode
                 .on("drag", null)
                 .on("dragend", null)
 
-            if editorEnabled
-            # set interactions
-                node.on('mouseup', editor.nodeMouseUp)
-                    .on('mouseover', editor.nodeMouseOver)
-                    .on('mouseout', editor.nodeMouseOut)
-                    .on('dblclick', interactions.nodeDoubleClick)
-                    .on('click', editor.nodeClick)
 
-                drag = d3.behavior.drag()
-                    .origin(Object)
-                    .on("dragstart", editor.addNodeStart)
-                    .on("drag", editor.addNodeDragging)
-                    .on("dragend", editor.addNodeDragended)
-                node.call(drag)
+            if editorEnabled
+                editorInteractions = new alchemy.editor.Interactions
+                node.on('mouseup', editorInteractions.nodeMouseUp)
+                    .on('mouseover', editorInteractions.nodeMouseOver)
+                    .on('mouseout', editorInteractions.nodeMouseOut)
+                    .on('dblclick', coreInteractions.nodeDoubleClick)
+                    .on('click', editorInteractions.nodeClick)
+
+                # drag = d3.behavior.drag()
+                #     .origin(Object)
+                #     .on("dragstart", editorInteractions.addNodeStart)
+                #     .on("drag", editorInteractions.addNodeDragging)
+                #     .on("dragend", editorInteractions.addNodeDragended)
+                # node.call(drag)
 
             else 
                 node
                     .on('mouseup', null)
-                    .on('mouseover', interactions.nodeMouseOver)
-                    .on('mouseout', interactions.nodeMouseOut)
-                    .on('dblclick', interactions.nodeDoubleClick)
-                    .on('click', interactions.nodeClick)
+                    .on('mouseover', coreInteractions.nodeMouseOver)
+                    .on('mouseout', coreInteractions.nodeMouseOut)
+                    .on('dblclick', coreInteractions.nodeDoubleClick)
+                    .on('click', coreInteractions.nodeClick)
 
                 drag = d3.behavior.drag()
                         .origin(Object)
-                        .on("dragstart", interactions.nodeDragStarted)
-                        .on("drag", interactions.nodeDragged)
-                        .on("dragend", interactions.nodeDragended)
+                        .on("dragstart", coreInteractions.nodeDragStarted)
+                        .on("drag", coreInteractions.nodeDragged)
+                        .on("dragend", coreInteractions.nodeDragended)
 
                 if not conf.fixNodes
                     nonRootNodes = node.filter((d) -> return d.root != true)
