@@ -46,6 +46,21 @@ module.exports = (grunt) ->
         bump: false
         commit: false
 
+    # Upload to CDN.
+    s3:
+      options:
+        #Accesses environment variables
+        key: process.env.AWS_ACCESS_KEY_ID
+        secret: process.env.AWS_SECRET_ACCESS_KEY
+        access: 'public-read'
+      production:
+        bucket: "cdn.graphalchemist.com"
+        upload:[
+          src: "dist/#{pkg.version}/**/*.*"
+          dest: "/"
+          rel: "dist"
+        ]
+
     # shell tasks
     shell:
       commitBuild:
@@ -408,6 +423,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-shell')
   grunt.loadNpmTasks('grunt-release')
   grunt.loadNpmTasks('grunt-string-replace')
+  # grunt.loadNpmTasks('grunt-s3')
 
   grunt.registerTask 'bumpBower', ->
       bower = grunt.file.readJSON('./bower.json')
@@ -456,7 +472,9 @@ module.exports = (grunt) ->
        "shell:commitBuild",
        "bumpBower",
        # create tag and version
-       "release"]
+       "release",
+       # push to s3
+       "s3:production"]
     else
       ["newer:jshint", 
         # run tests

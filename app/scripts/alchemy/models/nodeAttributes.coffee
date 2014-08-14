@@ -5,7 +5,7 @@ class alchemy.models.NodeAttributes
             @nodeSize = (node) ->
                 if node[rootKey]? and d[rootKey]
                     alchemy.conf.rootNodeRadius(node)
-                else                
+                else
                     alchemy.conf.nodeRadius(node)
         else if typeof alchemy.conf.nodeRadius is 'string'
             @nodeSize = (node) ->

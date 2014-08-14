@@ -16,7 +16,7 @@
 
 
 class alchemy.drawing.DrawEdge
-    constructor: ->
+    constructor: (utils)->
         # edge is a selection of a single edge or multiple edges
         conf = alchemy.conf
         @curved = conf.curvedEdges
@@ -24,9 +24,9 @@ class alchemy.drawing.DrawEdge
         @utils = new alchemy.drawing.EdgeUtils
 
     createLink: (edge) =>
-        utils = @utils
         conf = alchemy.conf
         interactions = alchemy.interactions
+        utils = @utils
 
         if @curved
             edge.append('path')
@@ -37,22 +37,21 @@ class alchemy.drawing.DrawEdge
             edge.append('path')
                 .attr('class', 'edge-handler')
                 .style('stroke-width', "#{conf.edgeOverlayWidth}")
-                .on('click', alchemy.interactions.edgeClick)
         else
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
-                .style('stroke', (d) -> utils.edgeStyle(d))
+                .style('stroke', (d) ->
+                    utils.edgeStyle(d))
                 .style('stroke-width', conf.edgeWidth)
             edge.filter((d) -> d.caption?)
                 .append('text')
             edge.append('rect')
                 .attr('class', 'edge-handler')
-                .on('click', alchemy.interactions.edgeClick)
 
     styleLink: (edge) =>
-        utils = @utils
         conf = alchemy.conf
+        utils = @utils
 
         if @curved
             edge.selectAll('path')
@@ -118,3 +117,14 @@ class alchemy.drawing.DrawEdge
                 .attr('dy', (d) -> utils.middleLine(d).y - 5)
                 .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
                 .text((d) -> d.caption)
+
+    setInteractions: (edge) =>
+        editorEnabled = alchemy.getState("interactions") is "editor"
+        if editorEnabled
+            editorInteractions = new alchemy.editor.Interactions
+            edge.select('.edge-handler')
+                .on('click', editorInteractions.edgeClick)
+        else
+            edge.select('.edge-handler')
+                .on('click', alchemy.interactions.edgeClick)
+

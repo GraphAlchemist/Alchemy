@@ -8,12 +8,14 @@ class alchemy.models.Edge
         
         # Contains state of edge, used by renderers
         @state = {'active': true} 
+        
+        # Edge properties, as provided by the user
         @properties = edge
-
         @_edgeAttributes = new alchemy.models.EdgeAttributes
         caption = @_edgeAttributes.edgeCaption(@properties)
-       
-        @properties.caption = caption
+        if caption       
+            @properties.caption = caption
+        
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@properties.source]._d3
@@ -30,10 +32,18 @@ class alchemy.models.Edge
 
     setProperty: (property, value) =>
         @properties[property] = value
+        if (property is 'source') or (property is 'target')
+            # add properties to d3 internals
+            @setD3Property(property, alchemy._nodes[value]._d3)
+            # update node internals
+            #node.addEdge(@id)
 
     setD3Property: (property, value) =>
         @_d3[property] = value
-        
+    
+    getProperties: () =>
+        @properties
+
     # Find if both endpoints are active
     allNodesActive: () =>
         source = d3.select("#node-#{@properties.source}")

@@ -25,14 +25,6 @@ alchemy.defaults =
         else 
             return d3.select(@divSelector).node().parentElement.clientHeight
     alpha: 0.5
-    cluster: false
-    clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
-                                "#00FF30", "#5168FF",
-                                "#00C0FF", "#FF004B",
-                                "#00CDCD", "#f83f00",
-                                "#f800df", "#ff8d8f",
-                                "#ffcd00", "#184fff",
-                                "#ff7e00"])
     collisionDetection: true
     nodeOverlap: 25
     fixNodes: false
@@ -42,13 +34,25 @@ alchemy.defaults =
     nodePositions: null # not currently implemented
 
     # Editing
-    showEditor: false
+    showEditor: false # should change to nodeEditor and edgeEditor
     captionToggle: false
     toggleRootNodes: false
     removeElement: false
 
     #Control Dash
     showControlDash: false 
+
+    #Clustering
+    cluster: false
+    clusterKey: "cluster"
+    clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
+                                "#00FF30", "#5168FF",
+                                "#00C0FF", "#FF004B",
+                                "#00CDCD", "#f83f00",
+                                "#f800df", "#ff8d8f",
+                                "#ffcd00", "#184fff",
+                                "#ff7e00"])
+    clusterControl: true
 
     #Stats
     showStats: false

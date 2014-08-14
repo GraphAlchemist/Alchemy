@@ -28,23 +28,17 @@ alchemy.updateGraph = (start=true) ->
         @force.start()
         while @force.alpha() > 0.005
             alchemy.force.tick()
+
+        drawEdges = new alchemy.drawing.DrawEdges
+        drawEdges.createEdge(alchemy.edge)
+        drawNodes = new alchemy.drawing.DrawNodes
+        drawNodes.createNode(alchemy.node)
+
         initialComputationDone = true
         console.log(Date() + ' completed initial computation')
 
-    if alchemy.conf.cluster
-        clustering = new alchemy.clustering
-        clustering.edgeGradient(alchemy._edges)
-
-    drawEdges = new alchemy.drawing.DrawEdges
-    drawEdges.createEdge(alchemy.edge)
-    drawNodes = new alchemy.drawing.DrawNodes
-    drawNodes.createNode(alchemy.node)
-
     alchemy.vis.selectAll('g.node')
            .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
-
-    alchemy.vis.selectAll('.node text')
-        .html((d) => @utils.nodeText(d))
 
     alchemy.node
            .exit()

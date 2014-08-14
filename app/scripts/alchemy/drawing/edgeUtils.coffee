@@ -19,27 +19,28 @@ class alchemy.drawing.EdgeUtils
         conf = alchemy.conf
         nodes = alchemy._nodes
         edges = alchemy._edges
-        clustering = new alchemy.clustering
-        
+
         # edge styles based on clustering
         if alchemy.conf.cluster
+            clustering = alchemy.layout._clustering
             @edgeStyle = (d) ->
+                clusterKey = alchemy.conf.clusterKey
                 if nodes[d.source.id].properties.root or nodes[d.target.id].properties.root
-                    index = (if nodes[d.source.id].properties.root then nodes[d.target.id].properties.cluster else nodes[d.source.id].properties.cluster)
+                    index = (if nodes[d.source.id].properties.root then nodes[d.target.id].properties[clusterKey] else nodes[d.source.id].properties[clusterKey])
                     "#{clustering.getClusterColour(index)}"
-                else if nodes[d.source.id].properties.cluster is nodes[d.target.id].properties.cluster
-                    index = nodes[d.source.id].properties.cluster
+                else if nodes[d.source.id].properties[clusterKey] is nodes[d.target.id].properties[clusterKey]
+                    index = nodes[d.source.id].properties[clusterKey]
                     "#{clustering.getClusterColour(index)}"
-                else if nodes[d.source.id].properties.cluster isnt nodes[d.target.id].properties.cluster
+                else if nodes[d.source.id].properties[clusterKey] isnt nodes[d.target.id].properties[clusterKey]
                     # use gradient between the two clusters' colours
-                    id = "#{nodes[d.source.id].properties.cluster}-#{nodes[d.target.id].properties.cluster}"
+                    id = "#{nodes[d.source.id].properties[clusterKey]}-#{nodes[d.target.id].properties[clusterKey]}"
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
         else if alchemy.conf.edgeStyle? and not alchemy.conf.cluster
             @edgeStyle = (d) ->
                 "#{alchemy.conf.edgeStyle(d)}"
         else
-            @edgeStyle = (d) -> 
+            @edgeStyle = (d) ->
                 ""
 
         square = (n) -> n * n
@@ -81,6 +82,12 @@ class alchemy.drawing.EdgeUtils
                     distance = distance - conf.edgeArrowSize
                 x: edge.source.x + width * distance / hyp
                 y: edge.source.y + height * distance / hyp
+        
+        caption = alchemy.conf.edgeCaption
+        if typeof caption is ('string' or 'number')
+            @edgeCaption = (d) -> edges[d.id].properties[caption]
+        else if typeof caption is 'function'
+            @edgeCaption = (d) -> caption(edges[d.id])
 
     middleLine: (edge) -> @_edgeWalk(edge, 'middle')
     startLine: (edge) ->  @_edgeWalk(edge, 'linkStart')
@@ -96,7 +103,7 @@ class alchemy.drawing.EdgeUtils
         height = edge.target.y - edge.source.y
         Math.atan2(height, width) / Math.PI * 180
     
-    captionAngle: (edge) => 
+    captionAngle: (edge) =>
         angle = @edgeAngle(edge)
         if angle < -90 or angle > 90
             angle += 180
@@ -106,6 +113,6 @@ class alchemy.drawing.EdgeUtils
     middlePath: (edge) ->
             pathNode = d3.select("#path-#{edge.id}").node()
             midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
-                
+ 
             x: midPoint.x
             y: midPoint.y

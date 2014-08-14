@@ -26,8 +26,9 @@ class alchemy.models.Node
             @nodeType = @properties[Object.keys(alchemy.conf.nodeTypes)]
             if @nodeType then @_d3['nodeType'] = @nodeType
 
-    # Stores edge.id for easy edge lookup
+   
     addEdge: (edge) ->
+         # Stores edge.id for easy edge lookup
         @adjacentEdges.push(edge)
         @adjacentEdges = _.uniq @adjacentEdges
     outDegree: () -> @adjacentEdges.length

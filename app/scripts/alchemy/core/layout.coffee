@@ -20,7 +20,7 @@ class alchemy.Layout
         nodes = alchemy._nodes
         @k = Math.sqrt(Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight() ) )
         @_clustering = new alchemy.clustering
-        
+        @d3NodeInternals = _.keys(alchemy._nodes)
         if conf.cluster
             @_charge = () -> @_clustering.layout.charge
             @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
@@ -36,7 +36,7 @@ class alchemy.Layout
         if conf.cluster
             @_linkDistancefn = (edge) -> @_clustering.layout.linkDistancefn(edge)
         else if conf.linkDistancefn is 'default'
-            @_linkDistancefn = (edge) -> 
+            @_linkDistancefn = (edge) ->
                 1 / (@k * 50)
         else if typeof conf.linkDistancefn is 'number'
             @_linkDistancefn = (edge) -> conf.linkDistancefn
@@ -86,7 +86,7 @@ class alchemy.Layout
 
     tick: () =>
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(_.map(alchemy._nodes, (node) -> node._d3))
+            q = d3.geom.quadtree(@d3NodeInternals)
             for node in _.values(alchemy._nodes)
                 q.visit(@collide(node))
 
@@ -100,7 +100,7 @@ class alchemy.Layout
 
     positionRootNodes: () ->
         conf = alchemy.conf
-        container = 
+        container =
 
             width: conf.graphWidth()
             height: conf.graphHeight()
@@ -131,4 +131,23 @@ class alchemy.Layout
 
     charge: () ->
         @_charge()
-            
+
+alchemy.generateLayout = (start=false)->
+    conf = alchemy.conf
+
+    alchemy.layout = new alchemy.Layout
+    alchemy.force = d3.layout.force()
+        .size([conf.graphWidth(), conf.graphHeight()])
+        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
+        .links(_.map(alchemy._edges, (edge) -> edge._d3))        
+
+    alchemy.force
+        .charge(alchemy.layout.charge())
+        .linkDistance((link) -> alchemy.layout.linkDistancefn(link))
+        .theta(1.0)
+        .gravity(alchemy.layout.gravity())
+        .linkStrength((link) -> alchemy.layout.linkStrength(link))
+        .friction(alchemy.layout.friction())
+        .chargeDistance(alchemy.layout.chargeDistance())
+
+    alchemy.updateGraph()

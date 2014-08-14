@@ -42,40 +42,24 @@ alchemy.startGraph = (data) ->
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
-            .on('click', alchemy.utils.deselectAll)
+            .on('click', alchemy.interactions.deselectAll)
             .call(alchemy.interactions.zoom(conf.scaleExtent))
             .append('g')
                 .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
+    editorInteractions = new alchemy.editor.Interactions
     d3.select("body")
-        .on('keydown', alchemy.editor.interactions().deleteSelected)
+        .on('keydown', editorInteractions.deleteSelected)
 
-    alchemy.layout = new alchemy.Layout  # refactor (obviously)
-    # create layout
-    alchemy.force = d3.layout.force()
-        .size([conf.graphWidth(), conf.graphHeight()])
-        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
-        .links(_.map(alchemy._edges, (edge) -> edge._d3))        
-
-    alchemy.force
-        .charge(alchemy.layout.charge())
-        .linkDistance((link) -> alchemy.layout.linkDistancefn(link))
-        .theta(1.0)
-        .gravity(alchemy.layout.gravity())
-        .linkStrength((link) -> alchemy.layout.linkStrength(link))
-        .friction(alchemy.layout.friction())
-        .chargeDistance(alchemy.layout.chargeDistance())
-        .on("tick", alchemy.layout.tick)
-
-    alchemy.updateGraph()
+    alchemy.generateLayout()
     alchemy.controlDash.init()
+
     
     # configuration for forceLocked
     if !conf.forceLocked 
         alchemy.force
                 .on("tick", alchemy.layout.tick)
                 .start()
-
 
     # call user-specified functions after load function if specified
     # deprecate?
@@ -112,3 +96,8 @@ alchemy.startGraph = (data) ->
         else
             marker.attr('refX', 1)
 
+    if conf.showEditor
+        editor = new alchemy.editor.Editor
+        editor.startEditor()
+        # editor.nodeEditorInit()
+        # editor.edgeEditorInit()

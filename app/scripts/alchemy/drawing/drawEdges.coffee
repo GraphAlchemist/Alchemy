@@ -16,7 +16,8 @@
 
 class alchemy.drawing.DrawEdges
     constructor: ->
-        @drawEdge = new alchemy.drawing.DrawEdge
+        @utils = new alchemy.drawing.EdgeUtils
+        @drawEdge = new alchemy.drawing.DrawEdge(@utils)
     
     createEdge: (edge) ->
         # used to create edges
@@ -31,6 +32,7 @@ class alchemy.drawing.DrawEdges
         @drawEdge.classEdge(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)
+        @drawEdge.setInteractions(edge)
         edge.exit().remove()
 
     updateEdge: (edge) ->
@@ -38,3 +40,4 @@ class alchemy.drawing.DrawEdges
         @drawEdge.classEdge(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)
+        @drawEdge.setInteractions(edge)
