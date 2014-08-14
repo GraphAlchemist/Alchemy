@@ -16,8 +16,7 @@
 
 class alchemy.drawing.DrawNodes
     constructor: ->
-        utils = new alchemy.drawing.NodeUtils
-        @drawNode = new alchemy.drawing.DrawNode(utils)
+        @drawNode = new alchemy.drawing.DrawNode
 
     createNode: (node) ->
         node.enter().append("g")

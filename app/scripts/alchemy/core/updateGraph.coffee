@@ -40,9 +40,6 @@ alchemy.updateGraph = (start=true) ->
     alchemy.vis.selectAll('g.node')
            .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
 
-    alchemy.vis.selectAll('.node text')
-        .html((d) => @utils.nodeText(d))
-
     alchemy.node
            .exit()
            .remove()
