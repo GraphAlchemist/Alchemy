@@ -20,10 +20,20 @@ module.exports = (grunt) ->
 
     'string-replace':
       version:
-        files:
-          './bower.json': './bower.json'
-          '<%= yeoman.dist %>/alchemy.js':'<%= yeoman.dist %>/alchemy.js'
-          '<%= yeoman.dist %>/alchemy.min.js':'<%= yeoman.dist %>/alchemy.min.js'
+        files:[
+          {
+            src: './bower.json'
+            dest: './bower.json'
+          }
+          {
+            src: "<%= yeoman.dist %>/alchemy.js"
+            dest: "<%= yeoman.dist %>/alchemy.js"
+          }
+          {
+            src: "<%= yeoman.dist %>/alchemy.min.js"
+            dest: "<%= yeoman.dist %>/alchemy.min.js"
+          }
+        ]
         options:
           replacements: [
             pattern: "#VERSION#"
@@ -35,6 +45,21 @@ module.exports = (grunt) ->
         file: 'package.json'
         bump: false
         commit: false
+
+    # Upload to CDN.
+    s3:
+      options:
+        #Accesses environment variables
+        key: process.env.AWS_ACCESS_KEY_ID
+        secret: process.env.AWS_SECRET_ACCESS_KEY
+        access: 'public-read'
+      production:
+        bucket: "cdn.graphalchemist.com"
+        upload:[
+          src: "dist/#{pkg.version}/**/*.*"
+          dest: "/"
+          rel: "dist"
+        ]
 
     # shell tasks
     shell:
@@ -101,7 +126,7 @@ module.exports = (grunt) ->
       dist:
         files: [
           dot: true
-          src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
+          src: [".tmp", "<%= yeoman.dist %>/#{pkg.version}/*", "!<%= yeoman.dist %>/.git*"]
         ]
 
       server: ".tmp"
@@ -174,7 +199,7 @@ module.exports = (grunt) ->
 
       dist:
         options:
-          generatedImagesDir: "<%= yeoman.dist %>/images/generated"
+          generatedImagesDir: "<%= yeoman.dist %>/#{pkg.version}/images/generated"
           outputStyle: "compressed"
       server:
         options:
@@ -235,7 +260,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: "<%= yeoman.app %>/images"
           src: "{,*/}*.{gif,jpeg,jpg,png}"
-          dest: "<%= yeoman.dist %>/images"
+          dest: "<%= yeoman.dist %>/#{pkg.version}/images"
         ]
 
     svgmin:
@@ -244,7 +269,7 @@ module.exports = (grunt) ->
           expand: true
           cwd: "<%= yeoman.app %>/images"
           src: "{,*/}*.svg"
-          dest: "<%= yeoman.dist %>/images"
+          dest: "<%= yeoman.dist %>/#{pkg.version}/images"
         ]
 
     htmlmin:
@@ -272,30 +297,36 @@ module.exports = (grunt) ->
     cssmin:
       buildAlchemy:
         files: [
-          '<%= yeoman.dist %>/alchemy.min.css': '.tmp/concat/styles/alchemy.min.css'
-          '<%= yeoman.dist %>/styles/vendor.css': '.tmp/concat/styles/vendor.css'
-              ]
+          {
+            dest: "<%= yeoman.dist %>/#{pkg.version}/alchemy.min.css"
+            src: ".tmp/concat/styles/alchemy.min.css"
+          }
+          {
+            dest: "<%= yeoman.dist %>/#{pkg.version}/styles/vendor.css"
+            src: ".tmp/concat/styles/vendor.css"
+          }
+        ]
       
     uglify:
       dist:
         files: [
           {
-            dest: '<%= yeoman.dist %>/scripts/alchemy.min.js'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/scripts/alchemy.min.js"
             src: '.tmp/concat/scripts/alchemy.js'
           }
           {
-            dest: '<%= yeoman.dist %>/scripts/vendor.js'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/scripts/vendor.js"
             src: '.tmp/concat/scripts/vendor.js'
           }
         ]
       buildAlchemy: 
         files: [
           {
-            dest: '<%= yeoman.dist %>/alchemy.min.js'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/alchemy.min.js"
             src: '.tmp/concat/scripts/alchemy.js'
           }
           {
-            dest: '<%= yeoman.dist %>/scripts/vendor.js'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/scripts/vendor.js"
             src: '.tmp/concat/scripts/vendor.js'
           }
         ]
@@ -308,11 +339,11 @@ module.exports = (grunt) ->
             src: "{app,.tmp}/scripts/alchemy.js"
           }
           {
-            dest: '<%= yeoman.dist %>/scripts/alchemy.js'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/scripts/alchemy.js"
             src: "{app,.tmp}/scripts/alchemy.js"
           }
           {
-            dest: '<%= yeoman.dist %>/styles/alchemy.css'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/styles/alchemy.css"
             src: '.tmp/styles/alchemy.css'
           }
         ]
@@ -324,11 +355,11 @@ module.exports = (grunt) ->
             src: "{app,.tmp}/scripts/alchemy.js"
           }
           {
-            dest: '<%= yeoman.dist %>/alchemy.js'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/alchemy.js"
             src: "{app,.tmp}/scripts/alchemy.js"
           }
           {
-            dest: '<%= yeoman.dist %>/alchemy.css'
+            dest: "<%= yeoman.dist %>/#{pkg.version}/alchemy.css"
             src: '.tmp/styles/alchemy.css'
           }
         ]
@@ -349,7 +380,7 @@ module.exports = (grunt) ->
           expand: true
           dot: true
           cwd: "<%= yeoman.app %>"
-          dest: "<%= yeoman.dist %>"
+          dest: "<%= yeoman.dist %>/#{pkg.version}"
           src: ["*.{ico,png,txt}", "images/{,*/}*.webp", "{,*/}*.html", "styles/fonts/{,*/}*.*", "sample_data/{,*/}*.json"]
         ]
 
@@ -364,14 +395,14 @@ module.exports = (grunt) ->
         expand: true
         dot: true
         cwd: ".tmp/styles"
-        dest: "<%= yeoman.dist %>/styles"
+        dest: "<%= yeoman.dist %>/#{pkg.version}/styles"
         src: 'fonts/**'
 
       images:
         expand: true
         dot: true
         cwd: ".tmp/styles"
-        dest: "<%= yeoman.dist %>/styles"
+        dest: "<%= yeoman.dist %>/#{pkg.version}/styles"
         src: "images/**"
 
       archive:
@@ -392,6 +423,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-shell')
   grunt.loadNpmTasks('grunt-release')
   grunt.loadNpmTasks('grunt-string-replace')
+  # grunt.loadNpmTasks('grunt-s3')
 
   grunt.registerTask 'bumpBower', ->
       bower = grunt.file.readJSON('./bower.json')
@@ -440,7 +472,10 @@ module.exports = (grunt) ->
        "shell:commitBuild",
        "bumpBower",
        # create tag and version
-       "release"]
+       "release",
+       # push to s3
+       "s3:production"
+     ]
     else
       ["newer:jshint", 
         # run tests

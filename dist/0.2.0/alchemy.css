@@ -1,3 +1,39 @@
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: .3;
+  }
+
+  50% {
+    opacity: .66;
+  }
+
+  75% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  25% {
+    opacity: .3;
+  }
+
+  50% {
+    opacity: .66;
+  }
+
+  75% {
+    opacity: 1;
+  }
+}
+
 @-webkit-keyframes pulse {
   0% {
     text-shadow: 0 0 10px rgba(255,255,255,0.2),0 0 12px rgba(255,255,255,0.2),0 0 16px rgba(255,255,255,0.2);
@@ -80,6 +116,7 @@
 svg {
   background: black;
   position: absolute;
+  left: 0;
   cursor: -webkit-grab;
   height: 100%;
   width: 100%;
@@ -178,29 +215,66 @@ svg {
   fill: white;
 }
 
+defs #arrow path {
+  stroke: #CCC;
+  stroke-opacity: 0.2;
+  fill: #CCC;
+  opacity: 1;
+}
+
 .edge {
   stroke-width: 2;
   stroke: #ccc;
   stroke-opacity: 0.2;
 }
 
+.edge .edge-handler {
+  fill: none;
+  stroke: none;
+}
+
+.edge .edge-line {
+  fill: none;
+}
+
 .edge.active {
   opacity: 1;
 }
 
+.edge.active text {
+  display: none;
+  fill: white;
+  font-weight: 200;
+  text-anchor: middle;
+  z-index: 1000;
+}
+
 .edge.active:hover,
 .edge.active.selected {
-  stroke: white;
   cursor: pointer;
+}
+
+.edge.active:hover .edge-line,
+.edge.active.selected .edge-line {
+  stroke: white !important;
   stroke-opacity: 1;
   stroke-width: 4;
+}
+
+.edge.active:hover text,
+.edge.active.selected text {
+  display: block;
 }
 
 .edge.active.highlight {
   opacity: .8 !important;
   stroke-width: 2;
-  stroke-opacity: .7;
-  stroke: #fff;
+  stroke: white !important;
+  stroke-opacity: 1;
+}
+
+.edge.active.highlight text {
+  display: block;
 }
 
 .edge.inactive {
@@ -270,7 +344,7 @@ svg {
   margin-top: 2em;
   margin-bottom: 1em;
   padding: .5em 1em;
-  width: 90%;
+  width: 100%;
 }
 
 #search span {
@@ -346,21 +420,126 @@ svg {
   background-color: rgba(104,185,254,0.6);
 }
 
-#update-elements {
+#editor {
   padding: 0.5em 1em;
   background-color: transparent;
   border-bottom: thin dashed #e89619;
 }
 
-#update-elements h3 {
+#editor h3 {
   padding: 10px;
 }
 
-#update-elements #element-options {
+#editor #element-options {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
   cursor: pointer;
   margin-top: 10px;
   margin-left: 2%;
   color: white;
+}
+
+#editor #element-options .node-property,
+#editor #element-options #node-add-property {
+  display: -webkit-inline-flex;
+  display: inline-flex;
+  margin: 4px 0;
+  width: 100%;
+}
+
+#editor #element-options .property-value,
+#editor #element-options #node-add-property #add-property #node-add-prop-value {
+  border: thin rgba(255,255,255,0.2) solid;
+  border-left: none;
+  background-color: black;
+  color: white;
+  width: 100%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+#editor #element-options .property-name,
+#editor #element-options #node-add-property #add-property #node-add-prop-key {
+  text-align: center;
+  font-weight: 200;
+  cursor: default;
+  background: #2E2E2E;
+  border: thin transparent solid;
+  color: #e89619;
+  border-right: none;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#editor #element-options #node-add-property #add-property {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-grow: 2;
+  flex-grow: 2;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+#editor #element-options #node-add-property #add-property #node-add-prop-value {
+  text-align: center;
+  width: 100%;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 4px;
+  border: thin rgba(255,255,255,0.2) solid;
+}
+
+#editor #element-options #node-add-property #add-property #node-add-prop-key {
+  cursor: text;
+  width: 100%;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 0;
+}
+
+#editor #element-options input[type="submit"],
+#editor #element-options #update-properties {
+  color: #e89619;
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+  width: auto;
+  background: rgba(255,255,255,0.1);
+  border: thin solid #e89619;
+  text-align: center;
+}
+
+#editor #element-options input[type="submit"]:active,
+#editor #element-options #update-properties:active,
+#editor #element-options input[type="submit"]:focus,
+#editor #element-options #update-properties:focus {
+  outline: none;
+}
+
+#editor #element-options input[type="submit"]:hover,
+#editor #element-options #update-properties:hover {
+  color: white;
+  border: thin solid white;
+}
+
+#editor #element-options #update-properties {
+  border-radius: 4px;
+  padding: 10px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+#editor #editor-interactions.active {
+  color: #e89619;
+}
+
+#editor #editor-interactions.inactive {
+  color: white;
+}
+
+#editor #node-editor.enabled {
+  -webkit-animation: fadeIn 1s linear;
+  animation: fadeIn 1s linear;
 }
 
 #control-dash-wrapper {
@@ -377,7 +556,7 @@ svg {
 }
 
 #control-dash-wrapper.initial #dash-toggle {
-  color: #e89619 !important;
+  color: #e89619;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -390,7 +569,7 @@ svg {
 }
 
 #control-dash-wrapper.off-canvas #dash-toggle {
-  color: #e89619 !important;
+  color: #e89619;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -402,6 +581,16 @@ svg {
 
 #control-dash-wrapper.on-canvas * {
   box-shadow: none !important;
+}
+
+#control-dash-wrapper.on-canvas #dash-toggle {
+  color: rgba(232,150,25,0.6);
+}
+
+#control-dash-wrapper.on-canvas #dash-toggle:hover {
+  color: #e89619;
+  -webkit-animation: 4s pulse linear;
+  animation: 4s pulse linear;
 }
 
 #control-dash-wrapper #control-dash {
@@ -427,11 +616,11 @@ svg {
   border-bottom-right-radius: 3px;
   box-shadow: 0 0 5px rgba(255,255,255,0.3);
   position: absolute;
+  left: 0;
   top: 50%;
   font-size: 2.2em;
   color: rgba(255,255,255,0.2);
   padding: 10px;
-  margin-left: 100%;
 }
 
 #control-dash-wrapper button {
@@ -463,6 +652,7 @@ svg {
   padding: 0.5em 1em;
   background-color: transparent;
   border-bottom: thin dashed #e89619;
+  color: white;
 }
 
 #filters form {
@@ -537,10 +727,6 @@ svg {
   background-color: rgba(255,255,255,0.2);
 }
 
-#filters .active-label {
-  color: white;
-}
-
 #filters .disabled {
   color: rgba(255,255,255,0.5);
 }
@@ -550,7 +736,6 @@ svg {
 }
 
 .alchemy {
-  background: black;
   position: relative;
 }
 
