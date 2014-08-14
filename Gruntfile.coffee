@@ -474,8 +474,7 @@ module.exports = (grunt) ->
        # create tag and version
        "release",
        # push to s3
-       "s3:production"
-     ]
+       "s3:production"]
     else
       ["newer:jshint", 
         # run tests
