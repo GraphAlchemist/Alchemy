@@ -16,8 +16,8 @@ npm install
 # install bower depedencies
 bower install
 
-#install jekyll
-gem install jekyll
+#install jekyll, kramdown and code-ray (syntax-highlighting)
+gem install jekyll code-ray kramdown
 
 # fire up the develoment server
 grunt serve
