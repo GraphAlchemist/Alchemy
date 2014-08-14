@@ -15,17 +15,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 class alchemy.drawing.DrawNode
-    constructor: (utils) ->
+    constructor: ->
         interactions = alchemy.interactions
         conf = alchemy.conf
         nodes = alchemy._nodes
         interactions = alchemy.interactions
-        @utils = utils
+        @utils = new alchemy.drawing.NodeUtils
+        utils = @utils
 
         @_styleText = (node) ->
             node.selectAll("text")
                 .attr('dy', (d) -> if nodes[d.id].properties.root then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
-                .html((d) -> alchemy.utils.nodeText(d))
+                .html((d) -> utils.nodeText(d))
 
         @_createNode = (node) ->
             node.append('circle')
@@ -34,7 +35,6 @@ class alchemy.drawing.DrawNode
                 .attr('id', (d) -> "text-#{d.id}")
 
         @_styleNode = (node) ->
-            utils = @utils
             node.select('circle')
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')
