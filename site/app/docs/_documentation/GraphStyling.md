@@ -11,15 +11,14 @@ Alchemy.js uses a combination of the GraphJSON exposed to the app and the config
 
 Some of the different ways the graph is *styled* in [alchemy.conf](#Configuration): 
 
-  * [nodeColour](#nodeColour)
-  * [nodeRadius](#nodeRadius)
-  * [rootNodeRadius](#rootNodeRadius)
-  * [edgeColour](#edgeColour)
-  * [graphHeight](#graphHeight)
-  * [graphWidth](#graphWidth)
-  * [clusterColours](#clusterColours)
+  * [nodeColour](#nodecolour)
+  * [nodeRadius](#noderadius)
+  * [rootNodeRadius](#rootnoderadius)
+  * [graphHeight](#graphheight)
+  * [graphWidth](#graphwidth)
+  * [clusterColours](#clustercolours)
 
-However, css can be used to style the graph in tandem with [nodeTypes](#nodeTypes) and [edgeTypes](#edgeTypes).
+However, css can be used to style the graph in tandem with [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes).
 
 ## Styling the graph using node and edge types
 

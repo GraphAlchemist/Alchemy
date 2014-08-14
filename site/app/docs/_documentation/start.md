@@ -93,6 +93,6 @@ bower install alchemyjs --save
 ~~~
 
 ## Next Steps
-Alchemy.js relies on a flexible and open data format called **[GraphJSON](graphjson)** and can do a lot more than draw small graphs.  Alchemy.js includes a large and growing set of default configurations that can be easily overridden.  Check out the **[configuration](configuration)** documentation to learn about all of the ways Alchemy.js can be configured out of the box.
+Alchemy.js relies on a flexible and open data format called **[GraphJSON](graphjson)** and can do a lot more than draw small graphs.  Alchemy.js includes a large and growing set of default configurations that can be easily overridden.  Check out the **[configuration](#configuration)** documentation to learn about all of the ways Alchemy.js can be configured out of the box.
 
 ____
