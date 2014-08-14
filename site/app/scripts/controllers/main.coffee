@@ -10,7 +10,7 @@ angular.module('site')
         restrict: 'A',
         link: 
             popup = ($element) ->
-                angular.element('#custom-tweet-button a')
+                angular.element('#custom-tweet-button')
                     .on 'click', () ->  
                         width  = 575
                         height = 400
@@ -23,7 +23,8 @@ angular.module('site')
                                  ',top='    + top    +
                                  ',left='   + left   
                         window.open(url, 'twitter', opts)
-                    return false         
+                    return false      
+
     .controller 'MainCtrl', ($scope, $location) ->
         $scope.sectionSnap = (currentSection) ->
             body = angular.element('body')
@@ -44,8 +45,7 @@ angular.module('site')
                 return
 
 angular.module('navigation', ['ui.bootstrap'])
-    .controller 'navCtrl', ($scope, $location, $route) ->
-
+    .controller 'navCtrl', ($scope, $location, $route, $http) ->
         $scope.$on '$routeChangeSuccess', ->
             if $location.path() is '/examples/FullApp'
                 $scope.showNav = "hidden"
@@ -53,13 +53,15 @@ angular.module('navigation', ['ui.bootstrap'])
                 $scope.showNav = ""
 
         $scope.init = ->
+            # $scope.getGHData()
             $scope.links =   
             [
                 { name: 'Home', href: '/'},
                 { name: 'Examples', href: '/examples'},
-                { name: 'Tutorial', tooltip:"Coming Soon!"} 
+                # { name: 'Tutorial', tooltip:"Coming Soon!"} 
             ] 
             $scope.active($location.path())
+
         $scope.active = (navTab) ->
             $location.hash("")
             for link in $scope.links
@@ -69,6 +71,26 @@ angular.module('navigation', ['ui.bootstrap'])
                 else 
                     link.state= ""
 
+    # .directive 'githubStat', ($http) ->
+    #     restrict: 'A',
+    #     link: 
+    #         ghData = ($scope) ->
+    #             $http.get("https://api.github.com/repos/graphalchemist/alchemy?callback=JSON_CALLBACK", headers: {'If-Modified-Since': 'Wed, 13 Aug 2014 21:40:14 GMT'})
+    #                 .success((response, status) ->
+    #                     console.log response
+    #                         console.log status
+    #                         $scope.stargazers_count = response.data.stargazers_count
+    #                         $scope.forks_count = response.data.forks_count
+    #                         console.log $scope.stargazers_count
+    #                     #     )
+    #                     .error((response, status) ->
+    #                         console.log status
+    #                     )
+    #                 )
+    #                 .error((response, status) ->
+    #                     console.log response
+    #                     console.log status
+    #                 )
 
 angular.module('alchemyExamples', [])
     .controller 'examplesCtrl', ($scope, $location) ->

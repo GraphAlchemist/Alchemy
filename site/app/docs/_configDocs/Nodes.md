@@ -5,11 +5,13 @@ title: Nodes
 
 # Nodes
 
+<p></p>
+
 Various configuration properties for nodes are available in the Alchemy.conf, including:
 
 ##### nodeCaption 
 
-[string **OR** function] **default**: `"caption"` 
+[`string|function`] default:`"caption"` 
 
 The configuration for the text that will appear as the caption on a node used during filtering and searching.  The string parameter defined should provide a key within the GraphJSON.  By default alchemy will look for a "caption" key on each node in the graphJSON, however any key present on *some* or *all* of the nodes can be provided.  The user can also provide a function.  The function can take **node** as a parameter and that will use the node objects in the GraphJSON to build the caption.  For example, where the GraphJSON node objects contain "firstName" and "lastName":  
 
@@ -30,33 +32,58 @@ caption: function(node) {
             ...]
 ~~~
 
+##### nodeStyle
+
+[`object`] default:`{}`
+
+nodeStyle takes an object where the key is the css key, and the value is the css value.  The values can be a set string, or a callback function that returns a string.  Each key/value in the object will be applied to svg element of the nodes, and therefore override any other css.  Usually this will be used for dynamic properties, such as changing the `fill-opacity` based on a property.
+
+For example:
+
+~~~ js
+{
+    "fill-opacity": function(node) {
+        return node.properties.importance;
+     },
+    "stroke-width": function(node) {
+        if (node.properties.currentCase) {
+          return "10px";
+        } else {
+          return "0px";
+        }
+    }
+}
+~~~
+
+This example assigns the style attribute `fill-opacity` based on the `importance` key in the GraphJSON, and checks the boolean `currentCase` property of the node to determine if the node should get a border or not.
+
+##### nodeColour 
+
+[`css color value`] default:`null`  
+
+This is a convenience parameter to quickly assign a default color to all nodes.  This method will overwrite any styles assigned by the css.  For more on how to assign colors to specific nodes read about [nodeTypes](#nodetypes) and our [guide to graph styling](../GraphStyling).
+
 ##### fixNodes 
 
-[bool] **default**: `false`  
+[`bool`] default:`false`  
 
 All nodes are draggable by default.  Setting to `true` means that nodes will not be draggable after their initial layout.
 
 ##### fixRootNodes 
 
-[bool] **default** `false`
+[`bool`] default:`false`
 
 Root nodes are draggable by default. Setting to `true` means that root nodes cannot be dragged after their initial layout.  You can find more information on how to define root nodes in the GraphJSON [here](../GraphJSON/#defining-root-nodes).
 
-##### nodeColour 
-
-[css color value] **default**: `null`  
-
-This is a convenience parameter to quickly assign a default color to all nodes.  This method will overwrite any styles assigned by the css.  For more on how to assign colors to specific nodes read about [nodeTypes](#nodetypes) and our [guide to graph styling](../GraphStyling).
-
 ##### nodeMouseOver 
 
-[string **OR** function] **default**: "caption"  
+[`string|function`] default:`"caption"`  
 
 This defines the text that will be displayed when a user mouses over a node element.  Similiar to the [alchemy.conf.nodeCaption](#nodeCaption) parameter, alchemy.conf.nodeMouseOver can receive a *string* or a *function*.  If it receives a string as in the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the **node** as an optional parameter.
 
 For instance:
 
-~~~ json
+~~~ js
 { 
     "nodeMouseOver": function(node) {
         return node.someData + node.someOtherData
@@ -65,14 +92,14 @@ For instance:
 
 ##### nodeOverlap
 
-[integer] **default**: `24`  
+[`int`] default:`24`  
 
 Used in the collision detection function, should be a number slightly more than double the size of the [nodeRadius](#nodeRadius) and will cause the center of all nodes to be no closer than the specified distance.     
 ***Note***: Keep in mind that the stroke-width of the svg element is in addition to the radius of the circle svg element and therefore nodes will overlap with a value of only 2 x the nodeRadius.  For this reason, pick a number slightly greater.
 
 ##### nodeRadius
 
-[integer **OR** string **OR** function] **default**: `10`  
+[`int|string|function`] default:`10`  
 
 If the default or a user specified integer, the value will be the pixel size of a node that indicates node size.  If the user specifies a string, that string will be the key, used to look up the nodeRadius on individual nodes in the GraphJSON.  For example, GraphJSON where nodes have the following values:
 
@@ -96,13 +123,13 @@ alchemy.conf.nodeRadius: function(n) {
 
 ##### rootNodeRadius
 
-[integer] **default**: `15`   
+[`int`] default:`15`   
 
 The default size of root node(s).  Read more about how to define root nodes in your GraphJSON [here](../GraphJSON/#defining-root-nodes).
 
 ##### nodeTypes
 
-[object **OR** string] **default**:  `null`   
+[`object|string`] default:`null`   
 
 Passing a string will cause Alchemy.js to build and assign node types based on all possible filters from the GraphJSON.  For instance, if you assign "_type", "category", "foobar", etc. Alchemy.js will look for that key on every node in the GraphJSON.  This is a convenience feature and can be costly with larger data sets.
 
@@ -144,5 +171,17 @@ The better way to build node Parameters is to pass an object for the **nodeTypes
         },...],
 ...}
 ~~~
+
+##### rootNodes
+
+[`string`] default:`"root"`
+
+This is the name of key supplied in the GraphJSON that will be used to determine if a node is a root node or not.  The GraphJSON value of the supplied key is a boolean value.
+
+##### rootNodeRadius
+
+[`int`] default:`15`
+
+The default radius of root nodes.  Only applied if the key specified in rootNodes returns a boolean.
 
 _____

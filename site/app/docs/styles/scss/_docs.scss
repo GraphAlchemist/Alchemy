@@ -84,6 +84,7 @@
 	#doc-content{
 		border-left: thin $blue solid;
 		padding-top: 50px;
+		padding-bottom: 200px;
 		max-height: 100vh;
 		overflow-y: scroll;
 		overflow-x: hidden;
@@ -115,6 +116,13 @@
 			img{
 				padding: 50px;
 				max-width: 100%;
+			}
+			pre span{
+				// override coderay and bootstrap styles
+				background-color: transparent !important;
+			}
+			code{
+				background: transparent;
 			}
 		}
 		>:nth-child(2n){
