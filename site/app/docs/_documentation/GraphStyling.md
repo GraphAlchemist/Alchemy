@@ -175,3 +175,5 @@ Now the nodes and edges receive classes that correspond to the data, and so you 
 ~~~
 
 ![Wild Graph Styles](img/graphstyling2.png)
+
+____

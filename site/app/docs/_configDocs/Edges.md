@@ -97,4 +97,4 @@ The arrow will point toward the `target` node and away from the `source` node.
 
 Size, in pixels, of the arrow applied to directed edges.  Only relevant if `directedEdges` is `true`. 
 
-___
+_______
