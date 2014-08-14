@@ -39,3 +39,5 @@ When you feel like your contribution is battle ready, run the tests locally
 `grunt test.`  If everything passes, feel free to submit a pull request.  We may have come conversations about pieces of it, or we may merge it right away.
 
 Ahead of us merging your code, you will will need to have signed our [contributor agreement](https://docs.google.com/a/graphalchemist.com/forms/d/1ypqMsBPrfzPpvQPXYdfw12u9xK5pNiHeMAuYImzEli4/viewform).  It is pretty minor, feel free to reach out if you have questions.
+
+______

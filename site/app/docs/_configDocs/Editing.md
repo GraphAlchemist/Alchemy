@@ -30,4 +30,4 @@ Adds a "Toggle Root Nodes" button to the editor dropdown in the control dash.  W
 
 Adds a "Toggle Captions" button to the editor dropdown in the control dash.  When clicked, it will hide all captions.
 
-___
+______

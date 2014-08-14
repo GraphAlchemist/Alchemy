@@ -21,12 +21,10 @@ $ ->
                         text =  $(item)[0].innerText
                         configHeader.append("<a class='level-3 list-group-item' href='##{ssID}'>#{text}</a>")
                     $(configHeader).find("div.level-3").addClass("hidden")
-            $("#sidebar").find("div.level-2").addClass("hidden")
 
-    # $(window).on 'hashchange', () ->
-    #     activeItem = window.location.hash
-    #     targetItem = "a[href='#{activeItem}']"
-    #     activate(targetItem)
+                $("#sidebar").find("div.level-2").addClass("hidden")
+
+
 
     $(window).on 'load', () ->
         activeItem = window.location.hash
@@ -81,7 +79,7 @@ $ ->
                 alert("error")
 
             if $(tocEl).hasClass("active")
-                console.log "active"
+                $("#pointer").removeClass("hidden")
                 $(tocEl)
                     .parents(".level-3, .level-2, .level-1, .section-bar")
                         .removeClass("hidden")
@@ -91,6 +89,7 @@ $ ->
                         .removeClass("active")
 
             else if !$(tocEl).hasClass("active")
+                $("#pointer").addClass("hidden")
                 $(tocEl)
                     .parents(".level-3,  .level-2, .level-1, .section-bar")
                         .removeClass("active")

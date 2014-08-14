@@ -7,3 +7,5 @@ title: Examples
 
 Head over to the [examples gallery](../..#/examples)
 The Alchemy.js team has put together examples to show off some of the Alchemy.js features.  You can check them out [here](http://graphalchemist.github.io/Alchemy/#/examples).
+
+_____

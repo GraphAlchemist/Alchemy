@@ -9,7 +9,7 @@ title: Alchemy.js Docs Home
     {% for item in sorted_docs %}
         {% assign href = ({{item.title}} | replace: ' ', '-') %}
 
-        <div class = "section-bar list-group-item">
+        <div class = "section-bar list-group-item" id="#nav-{{href}}">
             <a class="level-1" href="#{{href}}"> {{item.title}} </a>
         </div>
 
@@ -19,6 +19,7 @@ title: Alchemy.js Docs Home
 </div>
 
 <div id="doc-content">
+    <div id="pointer" class="hidden"></div> 
 {% for item in sorted_docs %}
     {% assign href = ({{item.title}} | replace: ' ', '-') %}
 
