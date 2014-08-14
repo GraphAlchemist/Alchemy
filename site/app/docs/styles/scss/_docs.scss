@@ -18,7 +18,7 @@
 		max-height: 100vh;
 	}
 	#sidebar{
-		min-height: 500vh;
+		min-height: 1000vh;
 		flex-basis: auto;
 		padding: 0;
 		flex-direction: column;
@@ -30,7 +30,7 @@
 		}
 		a{
 			padding: 10px 100px;
-			padding-left: 20px;
+			padding-left: 10px;
 			min-width: 150px;
 			max-width: 300px;
 			text-decoration:none;
@@ -38,23 +38,28 @@
 			flex-flow: column wrap;
 		}
 		.section-bar{
-			font-size: 20px;
+			font-size: 22px;
 			cursor: pointer;
+			border: none;
 			a.level-1{
 				color: $blue;
 				padding-left: 10px;
 			}
 			&.active{
-				background-color: $blue;
-				// border: thin solid $blue;
+				background-color: white;
+				// border: thin solid $bright-orange;
 				&>a{
 					background-color: white;
 				}
 			}
 			a.level-2{
+				margin-left: 20px;
+				border: none;
+				border-left: $blue medium solid;
 				font-size: 16px;
 				&.active{
 					border: thin darken(#eee, 5%) solid;
+					border-left: $blue medium solid;
 					color: $bright-orange;
 					background-color: #eee;
 					font-size: 18px;
@@ -64,6 +69,7 @@
 			.level-3 {
 				font-size: 14px;
 				.active{
+					background-color: $blue;
 					margin-left: 10px;
 					color: $bright-orange;
 					font-size: 18px;
@@ -71,11 +77,25 @@
 			}
 
 			#lvl-2-Configuration{
+				a.level-2{
+					// &:before{
+					// 	width: 16px;
+					// 	height: 100%;
+					// 	margin-right: 10px;
+					// 	content: "";
+					// 	background: url(../img/alchemyFlatLogoMini.png) no-repeat;
+					// }
+				}
 				a.level-3{
-					padding-left: 40px;
+					border: none;
+					padding-left: 20px;
+					margin-left: 40px;
+					border-left: medium solid $bright-orange;
+					// background: transparent;
 				}
 				div.level-3{
 					margin-bottom: 0;
+					border: $bright-orange;
 				}
 			}
 		}
@@ -90,19 +110,32 @@
 		flex-flow: column nowrap;
 		flex-shrink: 50;
 
+		#pointer{
+			position: absolute;
+			top: 20px;
+			width: 0; 
+			height: 0; 
+			border-top: 20px solid transparent;
+			border-bottom: 20px solid transparent;
+			border-left: 20px solid $bright-orange;
+		}
+
+		:target{
+			padding-top: 25px;
+		}
+
 		.doc{
 			font-size: 16px;
 			padding: 75px;
-			padding-top: 0;
+			padding-top: 25px;
 
 			h1, h2, h3, h4{
 				margin-top: 0;
-				padding-top: 25px;
+				// padding-top: 25px;
 			}
 
 			p ~ h5 {
 				font-weight: 400;
-				padding-top: 30px;
 				padding-right: 10px;
 				color: $bright-orange;
 				font-size: 18px;
@@ -116,9 +149,22 @@
 				padding: 50px;
 				max-width: 100%;
 			}
+			pre span{
+				// override coderay and bootstrap styles
+				background-color: transparent !important;
+			}
+			code{
+				background: transparent;
+			}
+			.config-doc{
+				padding-bottom: 50px;
+			}
 		}
-		>:nth-child(2n){
-			background-color: #eee;
+		// >:nth-child(2n){
+		// 	background-color: #eee;
+		// }
+		>:last-child{
+			padding-bottom: 50vh;
 		}
 	}
 }
