@@ -29,9 +29,9 @@ A function that assigns custom edge styling.  Should return a string that is a v
 
 [`array of strings|object`] default:`null`
 
-Similiar to [nodeTypes](#nodeTypes), a string value will cause Alchemy.js to create an index of edgeTypes based on looking up the values for the parameter on each edge in the GraphJSON.  Below **caption** would create edgeTypes based on the captions provided.  This is a convenience function and can become very costly on larger data sets.
+Similiar to [nodeTypes](#nodetypes), a string value will cause Alchemy.js to create an index of edgeTypes based on looking up the values for the parameter on each edge in the GraphJSON.  Below **caption** would create edgeTypes based on the captions provided.  This is a convenience function and can become very costly on larger data sets.
 
-The correct way to define edgeTypes is by passing an object.  The object passed should correspond to keys and values in the GraphJSON that alchemy will use to create filters. For Example, based on the following GraphJSON, you would pass `{"caption": ["acted in", "parent of"]}` to tell Alchemy.js to look for a "caption" key on each edge, and then build types for "acted in" and "parent of" edges.  These types can be used for [edge filters](#edgeFilters) as well as [styling](#Graph Styling).
+The correct way to define edgeTypes is by passing an object.  The object passed should correspond to keys and values in the GraphJSON that alchemy will use to create filters. For Example, based on the following GraphJSON, you would pass `{"caption": ["acted in", "parent of"]}` to tell Alchemy.js to look for a "caption" key on each edge, and then build types for "acted in" and "parent of" edges.  These types can be used for [edge filters](#edgefilters) as well as [styling](#Graph-Styling).
 
 ~~~ json
 "edges": [
