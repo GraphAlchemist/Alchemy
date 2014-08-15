@@ -5,7 +5,7 @@ title: GraphJSON
 
 # GraphJSON: Overview
 
-Alchemy.js takes a simple data format called GraphJSON.  GraphJSON is similiar to GeoJSON, in many ways, and is a standardized way to represent connected data in applications.  In the future, Alchemy.js will use GraphJSON for the transfer and storage of attributes that will allow for more robust visual representations of the underlying graph data.  For now, GraphJSON serves as a lightweight and flexible representation of graph data, easily consumed locally or over the web.
+Alchemy.js takes a simple data format called GraphJSON.  GraphJSON is similiar to GeoJSON in many ways, and is a standardized way to represent connected data in applications.  In the future, Alchemy.js will use GraphJSON for the transfer and storage of attributes that will allow for more robust visual representations of the underlying graph data.  For now, GraphJSON serves as a lightweight and flexible representation of graph data, easily consumed locally or over the web.
 
 ## The Format
 GraphJSON is a JSON object that contains two objects, **nodes** and **edges**:
@@ -21,7 +21,7 @@ GraphJSON is a JSON object that contains two objects, **nodes** and **edges**:
 The **nodes** and **edges** objects are arrays of the individual nodes and edges that will be represented in the Graph visualization.   
 
 ## Nodes and Edges
-The only requirement for node objects is that they receive an **id** key that is a unique integer in the scope of the GraphJSON.  The only requirement for edge objects is that they receive a **source** and **target** key that correspond to the source and target nodes.
+The only requirement for node objects is that they receive an **id** key that is unique (in the scope of the GraphJSON). The only requirement for edge objects is that they receive a **source** and **target** key that correspond to the source and target nodes.
 
 ## Features
 Alchemy.js has a number of features that rely on the underlying data.  Most of the below features are supported by the example GraphJSON that follows.
@@ -30,10 +30,10 @@ Alchemy.js has a number of features that rely on the underlying data.  Most of t
 Captions are the text that displays in the graph visualization.  By default, the captions will display on search active, on node hover, and when filtering.  In the configuration, [nodeCaption](#nodeCaption) defaults to "caption" which means that Alchemy.js will look for a "caption" key on each node.
 
 ### Clustering 
-Clustering can be enabled in the configuration be setting [cluster](#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes that will result in an integer that will allow them to be clustered by color and layout with similar nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
+Clustering can be enabled in the configuration be setting [cluster](#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes, which will enable a clustering algorithm that colors and positions to nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
 
 ### Defining Root Nodes
-Any node that contains a root key that is truthy will be considered a root node.  For example:
+Any node containing a root key that is truthy will be considered a root node.  For example:
 
 ~~~json
 {
@@ -51,7 +51,7 @@ Any node that contains a root key that is truthy will be considered a root node.
 See the "Charlize" node below or any of the GraphJSON in our [examples gallery](/#/examples) for an example in context.
 
 ### nodeTypes and edgeTypes
-Node and edge types are used for an number of tasks including styling and filtering.  By default, [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes) are not defined.  In the GraphJSON example below, **nodeTypes** might look as follows 
+Node and edge types are used for a number of tasks, including styling and filtering.  By default, [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes) are not defined. In the GraphJSON example [below](#sample-graphjson), **nodeTypes** might look as follows 
 
 ~~~
   {"nodeTypes": {"type": ["award", "actor", "movie"...]}
@@ -60,6 +60,8 @@ Node and edge types are used for an number of tasks including styling and filter
 while **edgeTypes** might look like this 
 
 ~~~"edgeTypes": {"caption": ["ACTED_IN", "DIRECTED", "NOMINATED", etc.]}~~~.
+
+To include nodeTypes and edgeTypes to your application, add them into your script tag where you defined your dataset. 
 
 *Note*: Attributes in the GraphJSON can serve multiple purposes.  **caption** on the edges is used for categorizing nodes as well as the text that will display on hover interactions.
 

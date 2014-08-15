@@ -140,14 +140,31 @@ hr{
 	margin: 0;
 } 
 
-#btn-alchemy-rel{
+.share-button{
+	border-radius: 8px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
 	background: rgba($blue, .3);
-	color: $blue;
-	margin-right: 10%;
-	margin-top: -55px; //height of tweet
-	float: right;
+	padding: 15px;
+	display: inline-block;
 	border: thin solid rgba($blue, .3);
 	box-shadow: 2px 2px 10px rgba(white, .7), 2px 2px 15px $blue;
+	a{
+		line-height: 32px;
+		vertical-align: middle;
+		text-decoration: none;
+		color: $blue;
+	}
+}
+
+#alchemy-social{
+	position: absolute;
+	right: 5%;
+	padding: 5px;
+	text-align: center;
+}
+#btn-alchemy-rel{
+	background: transparent;
 	img{
 		height: 45px;
 	}
@@ -161,6 +178,17 @@ hr{
 	}
 	&:focus, &:active{
 		outline: none;
+	}
+}
+#social-hide{
+	display: inline-block;
+	float: right;
+}
+
+#social-icons{
+	iframe#twitter-widget-0{
+		// override twitter's default width
+		width: 112px !important;
 	}
 }
 

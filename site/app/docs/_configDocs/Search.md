@@ -7,13 +7,13 @@ title: Search
 
 <p></p>
 
-##### search: 
+##### search 
 
 [bool] **default** `true`
 
-Adds a search box to the control dash that searches through node captions.  Will not do anything if showControlDash is set to `false`.
+Adds a search box to the control dash that searches through node captions.  Will not do anything if [showControlDash](#showcontroldash) is set to `false`.
 
-##### searchMethod: 
+##### searchMethod
 
 [string] **default** `"contains"`
 

@@ -7,7 +7,7 @@ title: Start
 
 <p class="lead">Alchemy.js is a graph drawing application built almost entirely in <a href="http://d3js.org/">d3</a>.</p>
 
-<p class="lead">Alchemy.js was built so that developers could easily get up and running with Graph visualization applications, and not much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.</p>
+<p class="lead">Alchemy.js was built so that developers could easily get up and running with Graph visualization applications, without much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.</p>
 
 <p class="lead">Additionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.</p>
 
@@ -103,6 +103,6 @@ bower install alchemyjs --save
 ~~~
 
 ## Next Steps
-Alchemy.js relies on a flexible and open data format called **[GraphJSON](graphjson)** and can do a lot more than draw small graphs.  Alchemy.js includes a large and growing set of default configurations that can be easily overridden.  Check out the **[configuration](#configuration)** documentation to learn about all of the ways Alchemy.js can be configured out of the box.
+Alchemy.js relies on a flexible and open data format called **[GraphJSON](#graphjson)** and can do a lot more than draw small graphs.  Alchemy.js includes a large and growing set of default configurations that can be easily overridden.  Check out the **[configuration](#configuration)** documentation to learn about all of the ways Alchemy.js can be configured out of the box.
 
 ____

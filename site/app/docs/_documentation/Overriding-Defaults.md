@@ -1,4 +1,4 @@
----
+<!-- ---
 position: 5
 title: Overriding Defaults
 ---
@@ -9,4 +9,4 @@ All defaults for the alchemy application are defined in the **[alchemyConf.coffe
 
 ### TODO
 
-_____
+_____ -->

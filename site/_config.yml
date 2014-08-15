@@ -16,7 +16,7 @@ kramdown:
         coderay_line_number_start: 1
         coderay_tab_width:         4
         coderay_bold_every:        10
-        coderay_css:               style
+        coderay_css:               class
 
 # defaults:
 #   -

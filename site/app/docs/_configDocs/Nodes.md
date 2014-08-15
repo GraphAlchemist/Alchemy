@@ -96,6 +96,7 @@ For instance:
 [`int`] default:`24`  
 
 Used in the collision detection function, should be a number slightly more than double the size of the [nodeRadius](#noderadius) and will cause the center of all nodes to be no closer than the specified distance.     
+
 ***Note***: Keep in mind that the stroke-width of the svg element is in addition to the radius of the circle svg element and therefore nodes will overlap with a value of only 2 x the nodeRadius.  For this reason, pick a number slightly greater.
 
 ##### nodeRadius
@@ -134,7 +135,8 @@ The default size of root node(s).  Read more about how to define root nodes in y
 
 Passing a string will cause Alchemy.js to build and assign node types based on all possible filters from the GraphJSON.  For instance, if you assign "_type", "category", "foobar", etc. Alchemy.js will look for that key on every node in the GraphJSON.  This is a convenience feature and can be costly with larger data sets.
 
-The better way to build node Parameters is to pass an object for the **nodeTypes** parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For Example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: `{type: ["award", "movie"]}`.  Visit our [examples gallery](/#/examples) for full examples using nodeTypes for filters and [styling](#Graph-Styling).
+The better way to build node parameters is to pass an object for the **nodeTypes** parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For Example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: `{type: ["award", "movie"]}`.  Visit our [examples gallery](/#/examples) for full examples using nodeTypes for filters and [styling](#Graph-Styling).
+
 
 ~~~ json
 {"nodes": [
