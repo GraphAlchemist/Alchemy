@@ -31,7 +31,7 @@ caption: function(node) {
         },
             ...]
 ~~~
-
+<!--
 ##### nodeStyle
 
 [`object`] default:`{}`
@@ -56,6 +56,7 @@ For example:
 ~~~
 
 This example assigns the style attribute `fill-opacity` based on the `importance` key in the GraphJSON, and checks the boolean `currentCase` property of the node to determine if the node should get a border or not.
+-->
 
 ##### nodeColour 
 
@@ -73,13 +74,13 @@ All nodes are draggable by default.  Setting to `true` means that nodes will not
 
 [`bool`] default:`false`
 
-Root nodes are draggable by default. Setting to `true` means that root nodes cannot be dragged after their initial layout.  You can find more information on how to define root nodes in the GraphJSON [here](../GraphJSON/#defining-root-nodes).
+Root nodes are draggable by default. Setting to `true` means that root nodes cannot be dragged after their initial layout.  You can find more information on how to define root nodes in the GraphJSON [here](#defining-root-nodes).
 
 ##### nodeMouseOver 
 
 [`string|function`] default:`"caption"`  
 
-This defines the text that will be displayed when a user mouses over a node element.  Similiar to the [alchemy.conf.nodeCaption](#nodeCaption) parameter, alchemy.conf.nodeMouseOver can receive a *string* or a *function*.  If it receives a string as in the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the **node** as an optional parameter.
+This defines the text that will be displayed when a user mouses over a node element.  Similiar to the [alchemy.conf.nodeCaption](#nodecaption) parameter, alchemy.conf.nodeMouseOver can receive a *string* or a *function*.  If it receives a string as in the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the **node** as an optional parameter.
 
 For instance:
 
@@ -94,7 +95,7 @@ For instance:
 
 [`int`] default:`24`  
 
-Used in the collision detection function, should be a number slightly more than double the size of the [nodeRadius](#nodeRadius) and will cause the center of all nodes to be no closer than the specified distance.     
+Used in the collision detection function, should be a number slightly more than double the size of the [nodeRadius](#noderadius) and will cause the center of all nodes to be no closer than the specified distance.     
 ***Note***: Keep in mind that the stroke-width of the svg element is in addition to the radius of the circle svg element and therefore nodes will overlap with a value of only 2 x the nodeRadius.  For this reason, pick a number slightly greater.
 
 ##### nodeRadius
@@ -125,7 +126,7 @@ alchemy.conf.nodeRadius: function(n) {
 
 [`int`] default:`15`   
 
-The default size of root node(s).  Read more about how to define root nodes in your GraphJSON [here](../GraphJSON/#defining-root-nodes).
+The default size of root node(s).  Read more about how to define root nodes in your GraphJSON [here](#defining-root-nodes).
 
 ##### nodeTypes
 
@@ -133,7 +134,7 @@ The default size of root node(s).  Read more about how to define root nodes in y
 
 Passing a string will cause Alchemy.js to build and assign node types based on all possible filters from the GraphJSON.  For instance, if you assign "_type", "category", "foobar", etc. Alchemy.js will look for that key on every node in the GraphJSON.  This is a convenience feature and can be costly with larger data sets.
 
-The better way to build node Parameters is to pass an object for the **nodeTypes** parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For Example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: `{type: ["award", "movie"]}`.  Visit our [examples gallery](../../examples) for full examples using nodeTypes for filters and [styling](../GraphStyling).
+The better way to build node Parameters is to pass an object for the **nodeTypes** parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For Example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: `{type: ["award", "movie"]}`.  Visit our [examples gallery](/#/examples) for full examples using nodeTypes for filters and [styling](#Graph-Styling).
 
 ~~~ json
 {"nodes": [
