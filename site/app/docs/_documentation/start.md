@@ -14,8 +14,7 @@ title: Start
 ## Quick Start
 Alchemy.js requires 3 things, **alchemy.css**, **alchemy.js**, and **data**.  The following are 3 different ways to get started with Alchemy.js.
 
-### Include Alchemy 
-
+### Use The Alchemy CDN
 
 1. Include the CDNs
 
@@ -79,7 +78,7 @@ Alchemy.js requires 3 things, **alchemy.css**, **alchemy.js**, and **data**.  Th
 >> **Be amazed:**    
 >> ![Two Nodes](img/threenodes.png)
 
-### 2.  Download and include Alchemy.js:
+### Download and include Alchemy.js:
 
 ~~~ html
 <link rel="stylesheet" type="text/css" href="path/to/vendor.css">
@@ -96,7 +95,7 @@ Repeat from above:
 * **Be amazed.**        
   
 
-### 3. Install with Bower
+### Install with Bower
 Alchemy.js itself is a yeoman project and can easily be installed with bower.
 
 ~~~ bash
