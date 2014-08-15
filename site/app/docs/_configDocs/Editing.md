@@ -25,7 +25,7 @@ Adds a "Remove Element" button to the editor dropdown in the control dash.  When
 Adds a "Toggle Root Nodes" button to the editor dropdown in the control dash.  When clicked, it will hide all rootNodes.  Keep in mind, this will only be effective if root nodes are defined.
 
 
-#### captionToggle
+##### captionToggle
 [`bool`] default:`false`
 
 Adds a "Toggle Captions" button to the editor dropdown in the control dash.  When clicked, it will hide all captions.
