@@ -9,6 +9,7 @@ module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
+  s3Config = grunt.file.readYAML('./s3.yml')
   grunt.initConfig
     
     # Project settings
@@ -22,15 +23,15 @@ module.exports = (grunt) ->
     s3:
       options:
         #Accesses environment variables
-        key: process.env.AWS_ACCESS_KEY_ID
-        secret: process.env.AWS_SECRET_ACCESS_KEY
+        key: s3Config.AWS_ACCESS_KEY_ID
+        secret: s3Config.AWS_SECRET_ACCESS_KEY
         access: 'public-read'
       production:
         bucket: "cdn.graphalchemist.com"
         upload:[
-          src: "archive/#{pkg.version}/**/*.*"
-          dest: "/"
-          rel: "archive"
+            # upload the files without version to  CDN
+            src: ".tmp/s3/**"
+            dest: "/"
         ]
 
     'string-replace':
@@ -333,7 +334,37 @@ module.exports = (grunt) ->
             src: '.tmp/styles/alchemy.css'
           }
         ]
-      
+      s3: 
+        files: [
+            dest: '.tmp/s3/alchemy.min.js'
+            src: ['<%= yeoman.dist %>/scripts/vendor.js'
+                  '<%= yeoman.dist %>/alchemy.min.js']
+          , # I think this comma format is elegant - if anyone hates it
+            # feel free to comment
+            dest: '.tmp/s3/alchemy.js'
+            src: ['<%= yeoman.dist %>/scripts/vendor.js'
+                  '<%= yeoman.dist %>/alchemy.js']
+          ,
+            dest: '.tmp/s3/alchemy.min.css'
+            src: ['<%= yeoman.dist %>/styles/vendor.css'
+                  '<%= yeoman.dist %>/alchemy.min.css']
+          ,
+            dest: '.tmp/s3/alchemy.css'
+            src: ['<%= yeoman.dist %>/styles/vendor.css'
+                  '<%= yeoman.dist %>/alchemy.css']
+            ]
+      s3Version:
+        files: [
+            expand: true
+            cwd: ".tmp/s3/"
+            src:  "alchemy{,*}.*"
+            dest: ".tmp/s3/"
+            rename: (dest, src) ->
+              name = src.substring(0, src.indexOf('.'))
+              ext = src.substring(src.indexOf('.'), src.length)
+              versioned = "#{name}.#{pkg.version}#{ext}"
+              dest + versioned
+            ]
       buildAlchemy:
         files: [
           {
@@ -368,6 +399,13 @@ module.exports = (grunt) ->
           cwd: "<%= yeoman.app %>"
           dest: "<%= yeoman.dist %>"
           src: ["*.{ico,png,txt}", "images/{,*/}*.webp", "{,*/}*.html", "styles/fonts/{,*/}*.*", "sample_data/{,*/}*.json"]
+        ]
+      s3:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.dist %>/styles"
+          dest: ".tmp/s3/"
+          src: ["fonts/*", "images/*"]
         ]
 
       styles:
@@ -448,22 +486,20 @@ module.exports = (grunt) ->
   grunt.registerTask "default",
     if releaseFlag
       ["newer:jshint", 
-       # run tests
        "test",
        "build",
-       "string-replace",
-        # publish docs
-       "shell:docs",
-       "shell:commitBuild",
-       "bumpBower",
-       # create tag and version
-       "release",
-       "archiveDist",
-       "shell:loadEnvVariables",
-       "s3:production"]
+       "string-replace", # apply version to alchemy.js
+       "shell:docs", # publish docs
+       "shell:commitBuild", # commit dist files
+       "bumpBower", # bump bower version
+       "release", # create tag and version
+       "archiveDist", # create archive of files to zip for github release
+       "concat:s3", # squash vendor and alchemy files for cdn
+       "concat:s3Version", # apply version numbers for cdn
+       "shell:loadEnvVariables", # load aws keys for deployment
+       "s3:production" # publish files to s3 for cdn
+      ]
     else
       ["newer:jshint", 
-        # run tests
        "test",
-       # build alchemy
        "build"]
