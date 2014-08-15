@@ -8,13 +8,13 @@ title: Other
 
 <p></p>
 
-##### dataSource: 
+##### dataSource
 
 [`string, object`] default:`null`  
 
 Does not receive a default value and is the single parameter that **must** be defined by the user in order to use Alchemy.js.  `dataSource` receives either a string specifying the location of a GraphJSON object, or a GraphJSON formatted object directly.  If the user specifies a string, Alchemy.js will use d3's [`d3.json` method](https://github.com/mbostock/d3/wiki/Requests#d3_json) with the string as the data source and the graph viz app as the callback.  If an object is specified, the graph viz will use the object directly as a data source.
 
-##### divSelector: 
+##### divSelector
 
 [`any css3 selector`] default:`#alchemy`  
 

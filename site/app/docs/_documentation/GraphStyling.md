@@ -5,7 +5,7 @@ title: Graph Styling
 
 # Graph Styling: Overview
 
-Alchemy.js uses a combination of the GraphJSON exposed to the app and the configurations defined, to make it intuitive to style the graph visualization with css like you would style any other svg.  However, there are a few styles that have to be assigned dynamically via JavaScript and the Alchemy configurations.
+Alchemy.js uses a combination of the GraphJSON exposed to the app and the configurations defined to make it intuitive to style the graph visualization with css like you would style any other svg.  However, there are a few styles that have to be assigned dynamically via JavaScript and the Alchemy configurations.
 
 ## Alchemy.conf properties that affect Graph Styling
 
@@ -18,7 +18,7 @@ Some of the different ways the graph is *styled* in [alchemy.conf](#Configuratio
   * [graphWidth](#graphwidth)
   * [clusterColours](#clustercolours)
 
-However, css can be used to style the graph in tandem with [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes).
+CSS can be used to style the graph in tandem with [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes).
 
 ## Styling the graph using node and edge types
 

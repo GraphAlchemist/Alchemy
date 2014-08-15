@@ -30,6 +30,10 @@ $ ->
                 id = item.hash.replace("#", "")
                 inView(id)
 
+    $("#social-hide")
+        .on 'click', ()->
+            $("#btn-alchemy-rel, #social-icons").toggleClass("hidden")
+
         # scrollLVL = (level, id)
         #     for item in $("#nav-#{id}").find("a.level-#{level}")
         #         id = item.hash.replace("#", "")
@@ -44,7 +48,6 @@ $ ->
 
     inView = (elementId) ->
         docItem = $("##{elementId}")
-        console.log docItem
         position = docItem.position().top
         # positionNext = docItem.next().position().top
         if position < 30
