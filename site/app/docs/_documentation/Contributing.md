@@ -5,6 +5,10 @@ title: Contributing
 
 # Contributing: Overview
 
+ <p></p>
+
+ If you're eager to contribute, that's great! Check out our [build file](https://github.com/GraphAlchemist/Alchemy/blob/master/BUILD.md) for more info on how to get started.
+
 ### Some Things to Know
 Alchemy.js uses [Yeoman.io](http://yeoman.io/) to manage workflow, and [their documentation](http://yeoman.io/learning/index.html) is a great resource to get up and running quickly.
 
