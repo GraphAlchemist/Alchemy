@@ -27,10 +27,10 @@ The only requirement for node objects is that they receive an **id** key that is
 Alchemy.js has a number of features that rely on the underlying data.  Most of the below features are supported by the example GraphJSON that follows.
 
 ### Captions  
-Captions are the text that displays in the graph visualization.  By default, the captions will display on search active, on node hover, and when filtering.  In the configuration, [nodeCaption](../Configuration/#nodeCaption) defaults to "caption" which means that Alchemy.js will look for a "caption" key on each node.
+Captions are the text that displays in the graph visualization.  By default, the captions will display on search active, on node hover, and when filtering.  In the configuration, [nodeCaption](#nodeCaption) defaults to "caption" which means that Alchemy.js will look for a "caption" key on each node.
 
 ### Clustering 
-Clustering can be enabled in the configuration be setting **[cluster](../Configuration/#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes that will result in an integer that will allow them to be clustered by color and layout with similar nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
+Clustering can be enabled in the configuration be setting [cluster](#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes that will result in an integer that will allow them to be clustered by color and layout with similar nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
 
 ### Defining Root Nodes
 Any node that contains a root key that is truthy will be considered a root node.  For example:
@@ -48,10 +48,10 @@ Any node that contains a root key that is truthy will be considered a root node.
 }
 ~~~
 
-See the "Charlize" node below or any of the GraphJSON in our [examples gallery](../..#/examples) for an example in context.
+See the "Charlize" node below or any of the GraphJSON in our [examples gallery](/#/examples) for an example in context.
 
 ### nodeTypes and edgeTypes
-Node and edge types are used for an number of tasks including styling and filtering.  By default, [nodeTypes](../Configuration/#nodetypes) and [edgeTypes](../Configuration/#edgetypes) are not defined.  In the GraphJSON example below, **nodeTypes** might look as follows 
+Node and edge types are used for an number of tasks including styling and filtering.  By default, [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes) are not defined.  In the GraphJSON example below, **nodeTypes** might look as follows 
 
 ~~~
   {"nodeTypes": {"type": ["award", "actor", "movie"...]}
