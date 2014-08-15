@@ -160,6 +160,12 @@
 			.config-doc{
 				padding-bottom: 50px;
 			}
+      blockquote{
+        padding:2px 20px;
+        margin:0 0 2px;
+        border: none;
+        font-size: inherit;
+      }
 		}
 		// >:nth-child(2n){
 		// 	background-color: #eee;
