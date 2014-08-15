@@ -5,57 +5,72 @@ title: Start
 
 ## Philosophy
 
-Alchemy.js is a graph drawing application built almost entirely in [d3](http://d3js.org/).
+<p class="lead">Alchemy.js is a graph drawing application built almost entirely in <a href="http://d3js.org/">d3</a>.</p>
 
-Alchemy.js was built so that developers could easily get up and running with Graph visualization applications, and not much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.
+<p class="lead">Alchemy.js was built so that developers could easily get up and running with Graph visualization applications, and not much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.</p>
 
-Additionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.
+<p class="lead">Additionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.</p>
 
 ## Quick Start
 Alchemy.js requires 3 things, **alchemy.css**, **alchemy.js**, and **data**.  The following are 3 different ways to get started with Alchemy.js.
 
 ### 1. Include the Alchemy CDNs in your code:
-The CDN's include the vendor code.
 
-~~~html
+
+1. Include the CDNs
+
+~~~ html
 <link rel="stylesheet" href="http://cdn.graphalchemist.com/alchemy.min.css">
+...
 <script type="text/javascript" src="http://cdn.graphalchemist.com/alchemy.min.js">
 ~~~
 
-**Include an element with "alchemy" as the id and class**
+
+  *Note*: The CDNs include all vendor files.  Additionally, **alchemy.js**, **alchemy.min.js**, **alchemy.css**, and **alchemy.min.css** will always be updated with the latest release of Alchemy - **using file names without versions can lead to breaking changes in your application** whenever the CDN is updated.  To avoid this, simply use the version number in the file names in the [sem ver](http://semver.org/) format - MAJOR.MINOR.PATCH.  For example:
 
 ~~~html
-<div id="alchemy" class="alchemy"></div>
+    <link rel="stylesheet" href="http://cdn.graphalchemist.com/alchemy.0.2.min.css">
+    ...
+     <script type="text/javascript" src="http://cdn.graphalchemist.com/alchemy.0.2.min.js">
 ~~~
 
-**Provide Alchemy.js with a graphJSON dataSource:**
 
-~~~javascript
-var some_data = 
-    {
-      "nodes": [
-        {
-          "id": 1
-        },
-        {
-          "id": 2
-        },
-        {
-          "id": 3
-        }
-      ],
-      "edges": [
-        {
-          "source": 1,
-          "target": 2
-        },
-        {
-          "source": 1,
-          "target": 3,
-        }
-      ]
-    };
-~~~
+2. Include an element with "alchemy" as the id and class**
+
+  The *alchemy class* is used to apply styles while the *alchemy id* is used programatically.  By default Alchemy.js looks for the *#alchemy* div but this can be overridden.  See [divSelector](http://localhost:9002/docs/#divselector)
+
+    ~~~html
+    <div id="alchemy" class="alchemy"></div>
+    ~~~~~~~
+
+  **Provide Alchemy.js with a [GraphJSON](#GraphJSON) dataSource:**
+
+  ~~~javascript
+  var some_data = 
+      {
+        "nodes": [
+          {
+            "id": 1
+          },
+          {
+            "id": 2
+          },
+          {
+            "id": 3
+          }
+        ],
+        "edges": [
+          {
+            "source": 1,
+            "target": 2
+          },
+          {
+            "source": 1,
+            "target": 3,
+          }
+        ]
+      };
+  ~~~
 
 **start Alchemy.js:**
 
