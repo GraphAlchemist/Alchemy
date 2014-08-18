@@ -23,15 +23,30 @@ module.exports = function(grunt) {
 
     // Define the configuration for all the tasks
     grunt.initConfig({
+        jekyll: {
+            server: {
+                options: {
+                    config: '_config.yml',
+                    // src: '<%= config.app %>/docs/',
+                    // dest: '.tmp/docs/',
+                    server : false,
+                }
+            },
+            dev: {
+                config: '_config.yml',
+                // src: '<%= config.app %>/docs/',
+                // dest: '.tmp/docs'
+            },
+        },
 
         // Project settings
         config: config,
 
         // Watches files for changes and runs tasks based on the changed files
         watch: {
-            mkdocs: {
-                files: ['<%= config.app %>/docs/{,*/,*/*/}*.md'],
-                tasks: ['shell']
+            jekyll: {
+                files: ['<%= config.app %>/docs/{,*/,*/*/}*{.scss,.coffee,.html,.md}'],
+                tasks: ['jekyll:dev', 'sass:server', 'coffee:dist']
             },
             bower: {
                 files: ['bower.json'],
@@ -50,7 +65,7 @@ module.exports = function(grunt) {
             },
             sass: {
                 files: ['<%= config.app %>/styles/{,*/}*.{scss,sass}',
-                        '<%= config.app %>/docs/css/{,*/}*.{scss,sass}'],
+                        '<%= config.app %>/docs/styles/scss/{,*/}*.{scss,sass}'],
                 tasks: ['sass:server', 'autoprefixer']
             },
             styles: {
@@ -65,18 +80,11 @@ module.exports = function(grunt) {
                     '<%= config.app %>/{,*/}*.html',
                     '.tmp/styles/{,*/}*.css',
                     '.tmp/scripts/{,*/}*.js',
-                    '.tmp/documentation/{,*/}*.html',
-                    '.tmp/documentation/css/*.css',
+                    '.tmp/docs/{,*/}*.html',
+                    '.tmp/docs/styles/*.css',
                     '<%= config.app %>/images/{,*/}*',
                     '<%= config.app %>/{,*/}*.html'
                 ]
-            }
-        },
-
-        // Shell tasks run by grunt to build documentation directory
-        shell: {
-            mkdocs: {
-                command: 'mkdocs build'
             }
         },
 
@@ -177,6 +185,14 @@ module.exports = function(grunt) {
                     src: '{,*/}*.{coffee,litcoffee,coffee.md}',
                     dest: '.tmp/scripts',
                     ext: '.js'
+                },
+                {
+                    expand:true,
+                    cwd: '<%= config.app %>/docs/js/coffee',
+                    src: '*.coffee',
+                    dest: '.tmp/docs/scripts/',
+                    ext: '.js'
+
                 }]
             },
             test: {
@@ -207,9 +223,9 @@ module.exports = function(grunt) {
                 },
                 {
                     expand: true,
-                    cwd: '<%= config.app %>/docs/css',
+                    cwd: '<%= config.app %>/docs/styles',
                     src: ['*.scss'],
-                    dest: '<%= config.app %>/docs/css',
+                    dest: '.tmp/docs/styles/',
                     ext: '.css'
                 }]
             },
@@ -223,9 +239,9 @@ module.exports = function(grunt) {
                 },
                 {
                     expand: true,
-                    cwd: '<%= config.app %>/docs/css',
+                    cwd: '<%= config.app %>/docs/styles/scss/',
                     src: ['*.scss'],
-                    dest: '<%= config.app %>/docs/css',
+                    dest: '.tmp/docs/styles/',
                     ext: '.css'
                 }]
             }
@@ -253,6 +269,12 @@ module.exports = function(grunt) {
                     cwd: '.tmp/styles/',
                     src: '{,*/}*.css',
                     dest: '.tmp/styles/'
+                },
+                {
+                    expand: true,
+                    cwd: '.tmp/docs/styles/',
+                    src: '{,*/}*.css',
+                    dest: '.tmp/docs/styles/',
                 }]
             }
         },
@@ -396,21 +418,37 @@ module.exports = function(grunt) {
                 }]
             },
             styles: {
-                expand: true,
-                dot: true,
-                cwd: '<%= config.app %>/styles',
-                dest: '.tmp/styles/',
-                src: '{,*/}*.css'
-            },
-            docs: {
                 files: [{
                     expand: true,
                     dot: true,
-                    cwd: '.tmp',
-                    src: 'documentation/**',
-                    dest: '<%= config.dist %>'
+                    cwd: '<%= config.app %>/styles',
+                    dest: '.tmp/styles/',
+                    src: '{,*/}*.css'
+                },
+                {
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= config.app %>/docs/styles/scss',
+                    dest: '.tmp/docs/styles/css/',
+                    src: '{,*/}*.css'
                 }]
             },
+            // docs: {
+            //     files: [{
+            //         expand: true,
+            //         dot: true,
+            //         cwd: 'docs/{,*/,*/*/}*',
+            //         src: '**',
+            //         dest: '.tmp/docs'
+            //     },
+            //     {
+            //         expand: true,
+            //         dot: true,
+            //         cwd: '.tmp',
+            //         src: 'docs/**',
+            //         dest: '<%= config.dist %>'
+            //     }]
+            // },
             data: {
                  files: [{
                     expand: true,
@@ -471,7 +509,7 @@ module.exports = function(grunt) {
 
         grunt.task.run([
             'clean:server',
-            'shell',
+            'jekyll:dev',
             'sass:server',
             'concurrent:server',
             'autoprefixer',
@@ -501,14 +539,12 @@ module.exports = function(grunt) {
     });
 
     grunt.registerTask('build', [
-        'shell',
         'clean:dist',
         'useminPrepare',
-        'shell',
         'concurrent:dist',
-        'copy:docs',
         'autoprefixer',
         'concat',
+        // 'copy:docs',
         'ngmin',
         'cssmin',
         'uglify',

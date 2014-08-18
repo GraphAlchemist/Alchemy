@@ -1,7 +1,7 @@
 // Alchemy colors
-$blue: #68B9FE;
-$orange: #FDC670;
-$bright-orange: #E89619;
+$primary: #68B9FE;
+$secondary: #FDC670;
+$bright-secondary: #E89619;
 $ctrl-dash-background: url("images/maze-black.png");
 
 @mixin highlight(){
@@ -21,19 +21,48 @@ $ctrl-dash-background: url("images/maze-black.png");
     border-bottom-right-radius: 3px;
     box-shadow: 0 0 5px rgba(white, .3);
 }
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: .3;
+    }
+    50% {       
+        opacity: .66;
+    }
+    75% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    25% {
+        opacity: .3;
+    }
+    50% {       
+        opacity: .66;
+    }
+    75% {
+        opacity: 1;
+    }
+}
 
 @-webkit-keyframes pulse {
     0% {
         text-shadow: 0 0 10px rgba(white, .2), 0 0 12px rgba(white, .2), 0 0 16px rgba(white, .2);
     }
     25% {
-        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 6px rgba($blue, .7), 0 0 10px rgba($blue, .7);
+        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 6px rgba($primary, .7), 0 0 10px rgba($primary, .7);
     }
     50% {       
-        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 8px rgba($blue, .7), 0 0 10px rgba($blue, .7), 0 0 15px rgba($blue, .7);
+        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 8px rgba($primary, .7), 0 0 10px rgba($primary, .7), 0 0 15px rgba($primary, .7);
     }
     75% {
-        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 25px rgba(white, .2), 0 0 8px rgba($blue, .7), 0 0 12px rgba($blue, .7), 0 0 15px rgba($blue, .7), 0 0 20px rgba($blue, .7);
+        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 25px rgba(white, .2), 0 0 8px rgba($primary, .7), 0 0 12px rgba($primary, .7), 0 0 15px rgba($primary, .7), 0 0 20px rgba($primary, .7);
     }
 }
 
@@ -42,13 +71,13 @@ $ctrl-dash-background: url("images/maze-black.png");
         text-shadow: 0 0 10px rgba(white, .2), 0 0 12px rgba(white, .2), 0 0 16px rgba(white, .2);
     }
     25% {
-        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 6px rgba($blue, .7), 0 0 10px rgba($blue, .7);
+        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 6px rgba($primary, .7), 0 0 10px rgba($primary, .7);
     }
     50% {       
-        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 8px rgba($blue, .7), 0 0 10px rgba($blue, .7), 0 0 15px rgba($blue, .7);
+        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 20px rgba(white, .2), 0 0 8px rgba($primary, .7), 0 0 10px rgba($primary, .7), 0 0 15px rgba($primary, .7);
     }
     75% {
-        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 25px rgba(white, .2), 0 0 8px rgba($blue, .7), 0 0 12px rgba($blue, .7), 0 0 15px rgba($blue, .7), 0 0 20px rgba($blue, .7);
+        text-shadow: 0 0 12px rgba(white, .2), 0 0 15px rgba(white, .2), 0 0 25px rgba(white, .2), 0 0 8px rgba($primary, .7), 0 0 12px rgba($primary, .7), 0 0 15px rgba($primary, .7), 0 0 20px rgba($primary, .7);
     }
 }
 

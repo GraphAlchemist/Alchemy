@@ -14,49 +14,31 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-nodeDragStarted = (d, i) ->
-    d3.event.sourceEvent.stopPropagation()
-    d3.select(this).classed("dragging", true)
-    return
-
-nodeDragged = (d, i) ->
-    d.x += d3.event.dx
-    d.y += d3.event.dy
-    d.px += d3.event.dx
-    d.py += d3.event.dy
-    d3.select(this).attr("transform", "translate(#{d.x}, #{d.y})")
-    if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
-        alchemy.force.start() #restarts force on drag
-
-    alchemy.edge.attr("x1", (d) -> d.source.x )
-        .attr("y1", (d) -> d.source.y )
-        .attr("x2", (d) -> d.target.x )
-        .attr("y2", (d) -> d.target.y )
-        .attr "cx", d.x = d3.event.x
-        .attr "cy", d.y = d3.event.y
-
-nodeDragended = (d, i) ->
-    d3.select(this).classed "dragging", false
-
 alchemy.interactions =
     edgeClick: (d) ->
         vis = alchemy.vis
-        vis.selectAll('line')
-            .classed('highlight', false)
-        d3.select(this)
-            .classed('highlight', true)
-        d3.event.stopPropagation
+        vis.selectAll('.edge')
+            .classed(
+                'highlight': false
+                )
+        d3.select("[source-target='#{d.id}']")
+            .classed(
+                'highlight': true
+                'selected': true
+                    )
+        d3.event.stopPropagation()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
+            node = alchemy._nodes[n.id]
             if typeof alchemy.conf.nodeMouseOver == 'function'
-                alchemy.conf.nodeMouseOver(n)
+                alchemy.conf.nodeMouseOver(node)
             else if typeof alchemy.conf.nodeMouseOver == ('number' or 'string')
                 # the user provided an integer or string to be used
                 # as a data lookup key on the node in the graph json
-                return n[alchemy.conf.nodeMouseOver]
+                return node.properties[alchemy.conf.nodeMouseOver]
         else
             null
 
@@ -65,6 +47,9 @@ alchemy.interactions =
             alchemy.conf.nodeMouseOut(n)
         else
             null
+
+    nodeMouseUp: (n) ->
+        # console.log "mouseup from interactions"
 
     #not currently implemented
     nodeDoubleClick: (c) ->
@@ -85,9 +70,11 @@ alchemy.interactions =
     nodeClick: (c) ->
         d3.event.stopPropagation()
         # select the correct nodes
-        selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-        alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+        if !alchemy.vis.select("#node-#{c.id}").empty()
+            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
+            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
 
+        # alternate click event highlights neighboring nodes and outgoing edges
         # alchemy.vis.selectAll(".node").classed('selected', (d) ->
         #     if d.id is c.id
         #         return !selected
@@ -101,16 +88,10 @@ alchemy.interactions =
 
         # selectedEdges = alchemy.vis.selectAll(".edge[source-target*='#{c.id}']")
         # selectedEdges.classed("selected", !selected)
-
+        # if alchemy.conf.nodeClick?
         if typeof alchemy.conf.nodeClick == 'function'
             alchemy.conf.nodeClick(c)
             return
-
-    drag: d3.behavior.drag()
-                          .origin(Object)
-                          .on("dragstart", nodeDragStarted)
-                          .on("drag", nodeDragged)
-                          .on("dragend", nodeDragended)
 
     zoom: (extent) ->
                 if not @._zoomBehavior?
@@ -120,36 +101,74 @@ alchemy.interactions =
                                     alchemy.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                                 scale(#{ d3.event.scale })" )
                                     
-                            
-
     clickZoom:  (direction) ->
-                    startTransform = alchemy.vis
-                                            .attr("transform")
-                                            .match(/(-*\d+\.*\d*)/g)
-                                            .map( (a) -> return parseFloat(a) )
-                    endTransform = startTransform
+                    [x, y, scale] = alchemy.vis
+                                           .attr("transform")
+                                           .match(/(-*\d+\.*\d*)/g)
+                                           .map( (a) -> return parseFloat(a) )
+
                     alchemy.vis
                         .attr("transform", ->
                             if direction == "in"
-                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]+0.2 })" 
-                            else if direction == "out" 
-                                return "translate(#{ endTransform[0..1]}) scale(#{ endTransform[2] = endTransform[2]-0.2 })" 
+                                scale += 0.2 if scale < alchemy.conf.scaleExtent[1]
+                                return "translate(#{x},#{y}) scale(#{ scale })"
+                            else if direction == "out"
+                                scale -= 0.2 if scale > alchemy.conf.scaleExtent[0]
+                                return "translate(#{x},#{y}) scale(#{ scale })"
                             else if direction == "reset"
                                 return "translate(0,0) scale(1)"
-                            else 
+                            else
                                 console.log 'error'
                             )
                     if not @._zoomBehavior?
                         @._zoomBehavior = d3.behavior.zoom()
-                    @._zoomBehavior.scale(endTransform[2])
-                                   .translate(endTransform[0..1])
+                    @._zoomBehavior.scale(scale)
+                                   .translate([x,y])
 
     toggleControlDash: () ->
         #toggle off-canvas class on click
         offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas") or d3.select("#control-dash-wrapper").classed("initial")
         d3.select("#control-dash-wrapper").classed("off-canvas": !offCanvas, "initial": false, "on-canvas": offCanvas)
 
+    nodeDragStarted: (d, i) ->
+        d3.event.sourceEvent.stopPropagation()
+        d3.select(this).classed("dragging", true)
+        d.fixed = true
 
+    nodeDragged: (d, i) ->
+        d.x += d3.event.dx
+        d.y += d3.event.dy
+        d.px += d3.event.dx
+        d.py += d3.event.dy
 
+        node = d3.select(this)
+        node.attr("transform", "translate(#{d.x}, #{d.y})")
+        edgeIDs = alchemy._nodes[node.datum().id].adjacentEdges
+        drawEdges = new alchemy.drawing.DrawEdges
+        for id in edgeIDs
+            selection = d3.select("g.edge[source-target='#{id}']")
+            drawEdges.updateEdge(selection)
 
+    nodeDragended: (d, i) ->
+        d3.select(this).classed "dragging": false
+        if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
+            alchemy.force.start() #restarts force on drag
 
+    deselectAll: () ->
+        # this function is also fired at the end of a drag, do nothing if this
+        if d3.event?.defaultPrevented then return
+        alchemy.vis.selectAll('.node, .edge')
+            .classed('selected highlight', false)
+
+        d3.select('.alchemy svg').classed({'highlight-active':false})
+
+        if alchemy.conf.showEditor is true
+            alchemy.modifyElements.nodeEditorClear()
+
+        alchemy.vis.selectAll('line.edge')
+            .classed('highlighted connected unconnected', false)
+        alchemy.vis.selectAll('g.node,circle,text')
+            .classed('selected unselected neighbor unconnected connecting', false)
+        # call user-specified deselect function if specified
+        if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
+            alchemy.conf.deselectAll()

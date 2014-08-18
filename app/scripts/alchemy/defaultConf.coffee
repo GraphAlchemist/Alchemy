@@ -24,8 +24,27 @@ alchemy.defaults =
             return window.innerHeight
         else 
             return d3.select(@divSelector).node().parentElement.clientHeight
-    alpha: .5
+    alpha: 0.5
+    collisionDetection: true
+    nodeOverlap: 25
+    fixNodes: false
+    fixRootNodes: false
+    forceLocked: true
+    linkDistancefn: 'default'
+    nodePositions: null # not currently implemented
+
+    # Editing
+    showEditor: false # should change to nodeEditor and edgeEditor
+    captionToggle: false
+    toggleRootNodes: false
+    removeElement: false
+
+    #Control Dash
+    showControlDash: false 
+
+    #Clustering
     cluster: false
+    clusterKey: "cluster"
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
                                 "#00FF30", "#5168FF",
                                 "#00C0FF", "#FF004B",
@@ -33,25 +52,7 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
-    collisionDetection: true
-    fixNodes: false
-    fixRootNodes: false
-    forceLocked: true
-    linkDistance: alchemy.layout.linkDistancefn
-    nodePositions: null # not currently implemented
-
-    # Editing
-    showEditor: false
-    captionToggle: false
-    edgesToggle: false
-    nodesToggle: false
-    toggleRootNodes: true
-    removeElement: false
-    addNodes: false # not currently implemented
-    addEdges: false # not currently implemented
-
-    #Control Dash
-    showControlDash: false 
+    clusterControl: true
 
     #Stats
     showStats: false
@@ -62,25 +63,33 @@ alchemy.defaults =
     showFilters: false
     edgeFilters: false
     nodeFilters: false
+    edgesToggle: false
+    nodesToggle: false
 
     # Controls
     zoomControls: false
 
     # Nodes
     nodeCaption: 'caption'
+    nodeStyle: {}
     nodeColour: null
     nodeMouseOver: 'caption' # partially implemented
-    nodeOverlap: 25
     nodeRadius: 10 # partially implemented
     nodeTypes: null
     rootNodes: 'root'
     rootNodeRadius: 15
 
     # Edges
-    edgeCaption: 'caption' # not implemented
-    edgeStyle: (d)->
+    edgeCaption: 'caption' # in progress
+    edgeClick: 'default'
+    edgeStyle: (d) ->
         null
     edgeTypes: null
+    curvedEdges: false
+    edgeWidth: 4
+    edgeOverlayWidth: 20
+    directedEdges: false
+    edgeArrowSize: 5 # pixel length of arrow
 
     # Search
     search: true
@@ -93,4 +102,5 @@ alchemy.defaults =
     initialScale: 1
     initialTranslate: [0,0]
     scaleExtent: [0.5, 2.4]
+    dataWarning: "default"
     warningMessage: "There be no data!  What's going on?"

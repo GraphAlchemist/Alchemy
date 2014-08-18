@@ -1,7 +1,9 @@
 #filters {
     padding: 0.5em 1em;
     background-color: transparent;
-    border-bottom: thin dashed $bright-orange;
+    border-bottom: thin dashed $bright-secondary;
+    color: white;
+    
     form{
         width: 100%;
     }
@@ -49,14 +51,10 @@
         }
     }
 
-    .active-label {
-        color: white;
-    }
-
     .disabled {
         color: rgba(white,.5);
         &:hover{
-            color: $orange;
+            color: $secondary;
         }
     }
 }

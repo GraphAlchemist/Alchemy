@@ -14,24 +14,44 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.layout =
-    gravity: (k) ->
-        8 * k
+class alchemy.Layout
+    constructor: ->
+        conf = alchemy.conf
+        nodes = alchemy._nodes
+        @k = Math.sqrt(Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight() ) )
+        @_clustering = new alchemy.clustering
+        @d3NodeInternals = _.keys(alchemy._nodes)
+        if conf.cluster
+            @_charge = () -> @_clustering.layout.charge
+            @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
 
-    charge: (k) ->
-        if alchemy.conf.cluster
-            -500
         else
-            -10 / k
+            @_charge = () -> -10 / @k
+            @_linkStrength = (edge) ->
+                if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
+                    1
+                else
+                    0.9
 
-    linkStrength: (edge) ->
+        if conf.cluster
+            @_linkDistancefn = (edge) -> @_clustering.layout.linkDistancefn(edge)
+        else if conf.linkDistancefn is 'default'
+            @_linkDistancefn = (edge) ->
+                1 / (@k * 50)
+        else if typeof conf.linkDistancefn is 'number'
+            @_linkDistancefn = (edge) -> conf.linkDistancefn
+        else if typeof conf.linkDistancefn is 'function'
+            @_linkDistancefn = (edge) -> conf.linkDistancefn(edge)
+
+
+    gravity: () =>
         if alchemy.conf.cluster
-            if edge.source.cluster is edge.target.cluster then 1 else 0.1
+            @_clustering.layout.gravity(@k)
         else
-            if edge.source.root or edge.target.root
-                0.9
-            else
-                1
+            50 * @k
+
+    linkStrength: (edge) =>
+        @_linkStrength(edge)
 
     friction: () ->
         if alchemy.conf.cluster
@@ -39,35 +59,10 @@ alchemy.layout =
         else
             0.9
 
-    # cluster: (alpha) ->
-    #     centroids = {}
-    #     alchemy.nodes.forEach (d) ->
-    #         if d.cluster == ''
-    #             return
-    #         if d.cluster not in centroids
-    #             centroids[d.cluster] = {'x':0, 'y':0, 'c':0}
-    #         centroids[d.cluster].x += d.x
-    #         centroids[d.cluster].y += d.y
-    #         centroids[d.cluster].c++
-
-    #     for c in centroids
-    #         c.x = c.x / c.c
-    #         c.y = c.y / c.c
-
-    #     (d) ->
-    #         if d.cluster is '' then return
-    #         c = centroids[d.cluster]
-    #         x = d.x - c.x
-    #         y = d.y - c.y
-    #         l = Math.sqrt( x * x * y * y)
-    #         if l > nodeRadius * 2 + 5
-    #             l = (l - nodeRadius) / l * alpha
-    #             d.x -= x * l
-    #             d.y -= y * l
-
-
-    collide: (node) ->
-        r = 2.2 * alchemy.utils.nodeSize(node) + alchemy.conf.nodeOverlap
+    collide: (node) =>
+        node = node._d3
+        conf = alchemy.conf
+        r = 2 * (node.r + node['stroke-width']) + conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
         ny1 = node.y - r
@@ -89,55 +84,70 @@ alchemy.layout =
             y1 > ny2 or
             y2 < ny1
 
-    tick: () ->
+    tick: () =>
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree(alchemy.nodes)
-            for node in alchemy.nodes
-                q.visit(alchemy.layout.collide(node))
-        alchemy.edge.attr("x1", (d) -> d.source.x )
-              .attr("y1", (d) -> d.source.y )
-              .attr("x2", (d) -> d.target.x )
-              .attr("y2", (d) -> d.target.y )
-        alchemy.node
-               .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+            q = d3.geom.quadtree(@d3NodeInternals)
+            for node in _.values(alchemy._nodes)
+                q.visit(@collide(node))
 
+        # Isabella, use node generator?
+        alchemy.node
+            .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
+
+        @drawEdge ?= new alchemy.drawing.DrawEdge
+        @drawEdge.styleText(alchemy.edge)
+        @drawEdge.styleLink(alchemy.edge)
 
     positionRootNodes: () ->
-        container = 
-            width: alchemy.conf.graphWidth()
-            height: alchemy.conf.graphHeight()
-        rootNodes = Array()
-        for n, i in alchemy.nodes
-            if not n[alchemy.conf.rootNodes] then continue
-            else
-                n.i = i
-                rootNodes.push(n)
+        conf = alchemy.conf
+        container =
+
+            width: conf.graphWidth()
+            height: conf.graphHeight()
+
+        rootNodes = _.filter alchemy._nodes, (d)-> d.properties.root
         # if there is one root node, position it in the center
         if rootNodes.length == 1
             n = rootNodes[0]
-            alchemy.nodes[n.i].x = container.width / 2
-            alchemy.nodes[n.i].y = container.height / 2
-            alchemy.nodes[n.i].px = container.width / 2
-            alchemy.nodes[n.i].py = container.height / 2
+            [n._d3.x, n._d3.px] = [container.width / 2, container.width / 2]
+            [n._d3.y, n._d3.py] = [container.height/ 2, container.height/ 2]
             # fix root nodes until force layout is complete
-            alchemy.nodes[n.i].fixed = true
+            n._d3.fixed = true
             return
         # position nodes towards center of graph
         else
             number = 0
             for n in rootNodes
                 number++
-                alchemy.nodes[n.i].x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
-                alchemy.nodes[n.i].y = container.height / 2 #container.height / (rootNodes.length / number)
-                alchemy.nodes[n.i].fixed = true
+                n._d3.x = container.width / Math.sqrt((rootNodes.length * number))#container.width / (rootNodes.length / ( number * 2 ))
+                n._d3.y = container.height / 2 #container.height / (rootNodes.length / number)
+                n._d3.fixed = true
 
     chargeDistance: () ->
-         distance = 500
-         distance
+        500
 
-    linkDistancefn: (edge, k) ->
-        if alchemy.conf.cluster
-            if edge.source.root or edge.target.root then 300
-            if edge.source.cluster is edge.target.cluster then 10 else 600
-        else
-            10 / (k * 5)
+    linkDistancefn: (edge) =>
+        @_linkDistancefn(edge)
+
+    charge: () ->
+        @_charge()
+
+alchemy.generateLayout = (start=false)->
+    conf = alchemy.conf
+
+    alchemy.layout = new alchemy.Layout
+    alchemy.force = d3.layout.force()
+        .size([conf.graphWidth(), conf.graphHeight()])
+        .nodes(_.map(alchemy._nodes, (node) -> node._d3))
+        .links(_.map(alchemy._edges, (edge) -> edge._d3))        
+
+    alchemy.force
+        .charge(alchemy.layout.charge())
+        .linkDistance((link) -> alchemy.layout.linkDistancefn(link))
+        .theta(1.0)
+        .gravity(alchemy.layout.gravity())
+        .linkStrength((link) -> alchemy.layout.linkStrength(link))
+        .friction(alchemy.layout.friction())
+        .chargeDistance(alchemy.layout.chargeDistance())
+
+    alchemy.updateGraph()

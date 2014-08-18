@@ -9,6 +9,7 @@ module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
+  s3Config = grunt.file.readYAML('./s3.yml')
   grunt.initConfig
     
     # Project settings
@@ -17,6 +18,21 @@ module.exports = (grunt) ->
       # Configurable paths
       app: "app"
       dist: "dist"
+
+    # Upload to CDN.
+    s3:
+      options:
+        #Accesses environment variables
+        key: s3Config.AWS_ACCESS_KEY_ID
+        secret: s3Config.AWS_SECRET_ACCESS_KEY
+        access: 'public-read'
+      production:
+        bucket: "cdn.graphalchemist.com"
+        upload:[
+            # upload the files without version to  CDN
+            src: ".tmp/s3/**"
+            dest: "/"
+        ]
 
     'string-replace':
       version:
@@ -42,6 +58,8 @@ module.exports = (grunt) ->
         command: "git commit -am 'commit dist files for #{pkg.version}'"
       docs:
         command: 'grunt --gruntfile site/Gruntfile.js'
+      loadEnvVariables:
+        command: 'source s3.sh'
 
     # Watches files for changes and runs tasks based on the changed files
     watch:
@@ -57,7 +75,7 @@ module.exports = (grunt) ->
         files: ["Gruntfile.coffee"]
 
       compass:
-        files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
+        files: ["<%= yeoman.app %>/styles/{,*/,*/*/}*.{scss,sass}"]
         tasks: ["compass:server", "autoprefixer"]
 
       styles:
@@ -316,7 +334,37 @@ module.exports = (grunt) ->
             src: '.tmp/styles/alchemy.css'
           }
         ]
-      
+      s3: 
+        files: [
+            dest: '.tmp/s3/alchemy.min.js'
+            src: ['<%= yeoman.dist %>/scripts/vendor.js'
+                  '<%= yeoman.dist %>/alchemy.min.js']
+          , # I think this comma format is elegant - if anyone hates it
+            # feel free to comment
+            dest: '.tmp/s3/alchemy.js'
+            src: ['<%= yeoman.dist %>/scripts/vendor.js'
+                  '<%= yeoman.dist %>/alchemy.js']
+          ,
+            dest: '.tmp/s3/alchemy.min.css'
+            src: ['<%= yeoman.dist %>/styles/vendor.css'
+                  '<%= yeoman.dist %>/alchemy.min.css']
+          ,
+            dest: '.tmp/s3/alchemy.css'
+            src: ['<%= yeoman.dist %>/styles/vendor.css'
+                  '<%= yeoman.dist %>/alchemy.css']
+            ]
+      s3Version:
+        files: [
+            expand: true
+            cwd: ".tmp/s3/"
+            src:  "alchemy{,*}.*"
+            dest: ".tmp/s3/"
+            rename: (dest, src) ->
+              name = src.substring(0, src.indexOf('.'))
+              ext = src.substring(src.indexOf('.'), src.length)
+              versioned = "#{name}.#{pkg.version}#{ext}"
+              dest + versioned
+            ]
       buildAlchemy:
         files: [
           {
@@ -351,6 +399,13 @@ module.exports = (grunt) ->
           cwd: "<%= yeoman.app %>"
           dest: "<%= yeoman.dist %>"
           src: ["*.{ico,png,txt}", "images/{,*/}*.webp", "{,*/}*.html", "styles/fonts/{,*/}*.*", "sample_data/{,*/}*.json"]
+        ]
+      s3:
+        files: [
+          expand: true
+          cwd: "<%= yeoman.dist %>/styles"
+          dest: ".tmp/s3/"
+          src: ["fonts/*", "images/*"]
         ]
 
       styles:
@@ -392,6 +447,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-shell')
   grunt.loadNpmTasks('grunt-release')
   grunt.loadNpmTasks('grunt-string-replace')
+  # grunt.loadNpmTasks('grunt-s3') # yeoman already includes
 
   grunt.registerTask 'bumpBower', ->
       bower = grunt.file.readJSON('./bower.json')
@@ -430,20 +486,20 @@ module.exports = (grunt) ->
   grunt.registerTask "default",
     if releaseFlag
       ["newer:jshint", 
-       # run tests
        "test",
-       # build alchemy
        "build",
-       "string-replace",
-        # publish docs
-       "shell:docs",
-       "shell:commitBuild",
-       "bumpBower",
-       # create tag and version
-       "release"]
+       "string-replace", # apply version to alchemy.js
+       "shell:docs", # publish docs
+       "shell:commitBuild", # commit dist files
+       "bumpBower", # bump bower version
+       "release", # create tag and version
+       "archiveDist", # create archive of files to zip for github release
+       "concat:s3", # squash vendor and alchemy files for cdn
+       "concat:s3Version", # apply version numbers for cdn
+       "shell:loadEnvVariables", # load aws keys for deployment
+       "s3:production" # publish files to s3 for cdn
+      ]
     else
       ["newer:jshint", 
-        # run tests
        "test",
-       # build alchemy
        "build"]

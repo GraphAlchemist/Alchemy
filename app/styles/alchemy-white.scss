@@ -1,0 +1,65 @@
+@import 'alchemy-white/varsMixinsAnimation';
+
+@import 'alchemy-white/svg';
+@import 'alchemy-white/edges';
+@import 'alchemy-white/controls';
+
+@import 'nodes';
+@import 'utils';
+@import 'filters';
+
+
+.alchemy {
+
+    position: relative;
+
+    #search form {
+        z-index: 2;
+        display: inline;
+        margin-left: 100px;
+    }
+
+    #add-tag {
+        width: 300px;
+        display: inline-block;
+    }
+
+    #tags input {
+        max-width: 220px;
+    }
+
+    #tags-list {
+        padding: 0;
+    }
+
+    #tags-list .icon-remove-sign {
+        cursor: pointer;
+    }
+
+    #tags-list li {
+        display: inline-block;
+        margin-top: 5px;
+    }
+
+    #tags-list span {
+        background-color: #ccc;
+        color: #333;
+        border-radius: 10em;
+        display: inline-block;
+        padding: 1px 6px;
+    }
+
+    #filter-nodes label, #filter-relationships label {
+        font-weight: normal;
+        margin-right: 1em;
+    }
+
+    .clear {
+        clear: both;
+    }
+
+    text {
+        font-weight: 200;
+        text-anchor: middle;
+    }
+}

@@ -15,102 +15,89 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.startGraph = (data) ->
-    
-    if d3.select(alchemy.conf.divSelector).empty()
-        console.warn("""
-                     create an element with the alchemy.conf.divSelector.
-                     e.g. the defaul #alchemy
-                     """)
+    conf = alchemy.conf
 
+    if d3.select(conf.divSelector).empty()
+        console.warn(alchemy.utils.warnings.divWarning())
+    
     # see if data is ok
     if not data
-        # allow for user specified error
-        # clean up search modal
-        no_results = """
-                    <div class="modal fade" id="no-results">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                    <h4 class="modal-title">Sorry!</h4>
-                                </div>
-                                <div class="modal-body">
-                                    <p>#{alchemy.conf.warningMessage}</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                   """
-        $('body').append(no_results)
-        $('#no-results').modal('show')
-        $('#loading-spinner').hide()
-        return
-    # save nodes & edges
-    alchemy.nodes = data.nodes
-    alchemy.edges = data.edges
+        alchemy.utils.warnings.dataWarning()
+
+    # Master Data
+    alchemy._nodes = {}
+    alchemy._edges = {}
 
     # create nodes map and update links
-    nodesMap = d3.map()
-    alchemy.nodes.forEach (n) ->
-        nodesMap.set(n.id, n)
-    alchemy.edges.forEach (e) ->
-        e.source = nodesMap.get(e.source)
-        e.target = nodesMap.get(e.target)
-    
+    data.nodes.forEach (n) ->
+        alchemy._nodes[n.id] = new alchemy.models.Node(n)
+    data.edges.forEach (e) ->
+        edge  = new alchemy.models.Edge(e)
+        alchemy._edges[edge.id] = edge
+
     #create SVG
-    alchemy.vis = d3.select(alchemy.conf.divSelector)
-        .attr("style", "width:#{alchemy.conf.graphWidth()}px; height:#{alchemy.conf.graphHeight()}px")
+    alchemy.vis = d3.select(conf.divSelector)
+        .attr("style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px")
         .append("svg")
             .attr("xmlns", "http://www.w3.org/2000/svg")
             .attr("pointer-events", "all")
             .on("dblclick.zoom", null)
-            .on('click', alchemy.utils.deselectAll)
-            .call(alchemy.interactions.zoom(alchemy.conf.scaleExtent))
+            .on('click', alchemy.interactions.deselectAll)
+            .call(alchemy.interactions.zoom(conf.scaleExtent))
             .append('g')
-                .attr("transform","translate(#{alchemy.conf.initialTranslate}) scale(#{alchemy.conf.initialScale})")
+                .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
 
-    # force layout constant
-    k = Math.sqrt(alchemy.nodes.length / (alchemy.conf.graphWidth() * alchemy.conf.graphHeight()))
+    editorInteractions = new alchemy.editor.Interactions
+    d3.select("body")
+        .on('keydown', editorInteractions.deleteSelected)
 
-    # create layout
-    alchemy.force = d3.layout.force()
-        .charge(alchemy.layout.charge(k))
-        .linkDistance((d) -> alchemy.conf.linkDistance(d,k))
-        .theta(1.0)
-        .gravity(alchemy.layout.gravity(k))
-        .linkStrength(alchemy.layout.linkStrength)
-        .friction(alchemy.layout.friction())
-        .chargeDistance(alchemy.layout.chargeDistance())
-        .size([alchemy.conf.graphWidth(), alchemy.conf.graphHeight()])
-        .nodes(alchemy.nodes)
-        .links(alchemy.edges)
-        .on("tick", alchemy.layout.tick)
-
-    alchemy.updateGraph()
+    alchemy.generateLayout()
     alchemy.controlDash.init()
+
     
-    # alchemy.configuration for forceLocked
-    if !alchemy.conf.forceLocked 
+    # configuration for forceLocked
+    if !conf.forceLocked 
         alchemy.force
                 .on("tick", alchemy.layout.tick)
                 .start()
 
-
     # call user-specified functions after load function if specified
     # deprecate?
-    if alchemy.conf.afterLoad?
-        if typeof alchemy.conf.afterLoad is 'function'
-            alchemy.conf.afterLoad()
-        else if typeof alchemy.conf.afterLoad is 'string'
-            alchemy[alchemy.conf.afterLoad] = true
+    if conf.afterLoad?
+        if typeof conf.afterLoad is 'function'
+            conf.afterLoad()
+        else if typeof conf.afterLoad is 'string'
+            alchemy[conf.afterLoad] = true
 
-    if alchemy.conf.initialScale isnt alchemy.defaults.initialScale
-        alchemy.interactions.zoom().scale(alchemy.conf.initialScale)
+    if conf.initialScale isnt alchemy.defaults.initialScale
+        alchemy.interactions.zoom().scale(conf.initialScale)
         return
 
-    if alchemy.conf.initialTranslate isnt alchemy.defaults.initialTranslate
-        alchemy.interactions.zoom().translate(alchemy.conf.initialTranslate)
+    if conf.initialTranslate isnt alchemy.defaults.initialTranslate
+        alchemy.interactions.zoom().translate(conf.initialTranslate)
         return
+
+    if conf.cluster or conf.directedEdges
+        defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
+
+    if conf.directedEdges
+        arrowSize = conf.edgeArrowSize
+        marker = defs.append("svg:marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}")
+            .attr('markerUnits', 'userSpaceOnUse')
+            .attr("markerWidth", arrowSize)
+            .attr("markerHeight", arrowSize)
+            .attr("orient", "auto")
+        marker.append("svg:path")
+            .attr("d", "M #{arrowSize},0 L 0,#{arrowSize * 0.4} L 0,-#{arrowSize * 0.4}")
+        if conf.curvedEdges
+            marker.attr("refX", arrowSize + 1)
+        else
+            marker.attr('refX', 1)
+
+    if conf.showEditor
+        editor = new alchemy.editor.Editor
+        editor.startEditor()
+        # editor.nodeEditorInit()
+        # editor.edgeEditorInit()

@@ -1,6 +1,6 @@
 do ->
     describe "alchemy.updateGraph()", ->
-        alchemy.begin({'dataSource': 'sample_data/movies.json'})
+        alchemy.begin({'dataSource': 'sample_data/contrib.json'})
         
         describe "alchemy.edge", ->
             it "should be defined", (done) ->
