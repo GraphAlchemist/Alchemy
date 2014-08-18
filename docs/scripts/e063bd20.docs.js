@@ -46,7 +46,6 @@
     inView = function(elementId) {
       var docItem, position, sideBarItem;
       docItem = $("#" + elementId);
-      console.log(docItem);
       position = docItem.position().top;
       if (position < 30) {
         sideBarItem = "a[href='#" + elementId + "']";
