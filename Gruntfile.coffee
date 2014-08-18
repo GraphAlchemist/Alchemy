@@ -66,8 +66,6 @@ module.exports = (grunt) ->
         command: "git add -A && git commit -am 'commit dist files for #{pkg.version}'"
       docs:
         command: 'grunt --gruntfile site/Gruntfile.coffee'
-      loadEnvVariables:
-        command: 'source s3.sh'
 
     # Watches files for changes and runs tasks based on the changed files
     watch:
@@ -502,7 +500,6 @@ module.exports = (grunt) ->
        "archiveDist", # create archive of files to zip for github release
        "concat:s3", # squash vendor and alchemy files for cdn
        "concat:s3Version", # apply version numbers for cdn
-       "shell:loadEnvVariables", # load aws keys for deployment
        "s3:production" # publish files to s3 for cdn
        "shell:docs", # publish docs
       ]
