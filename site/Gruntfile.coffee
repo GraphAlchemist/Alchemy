@@ -7,21 +7,21 @@
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
 module.exports = (grunt) ->
-  
+
   # Load grunt tasks automatically
   require("load-grunt-tasks") grunt
-  
+
   # Time how long tasks take. Can help when optimizing build times
   require("time-grunt") grunt
-  
+
   pkg = grunt.file.readJSON('../package.json')
-  
+
   # Configurable paths
   config =
     app: "app"
     dist: "dist"
 
-  
+
   # Define the configuration for all the tasks
   grunt.initConfig
     jekyll:
@@ -35,10 +35,10 @@ module.exports = (grunt) ->
           config: "_config.yml"
           dest: "<%= config.dist %>/docs"
 
-    
+
     # Project settings
     config: config
-    
+
     'string-replace':
       version:
         files:
@@ -115,14 +115,14 @@ module.exports = (grunt) ->
 
       src: ["**"]
 
-    
+
     # The actual grunt server settings
     connect:
       options:
         port: 9002
         open: true
         livereload: 35730
-        
+
         # Change this to '0.0.0.0' to access the server from outside
         hostname: "localhost"
 
@@ -152,7 +152,7 @@ module.exports = (grunt) ->
           base: "<%= config.dist %>"
           livereload: false
 
-    
+
     # Empties folders to start fresh
     clean:
       dist:
@@ -167,7 +167,7 @@ module.exports = (grunt) ->
 
       server: ".tmp"
 
-    
+
     # Make sure code styles are up to par and there are no obvious mistakes
     jshint:
       options:
@@ -176,13 +176,13 @@ module.exports = (grunt) ->
 
       all: [
         "Gruntfile.js"
-        
+
         # '<%= config.app %>/scripts/{,*/}*.js',
         "!<%= config.app %>/scripts/vendor/*"
         "test/spec/{,*/}*.js"
       ]
 
-    
+
     # Mocha testing framework configuration options
     mocha:
       all:
@@ -190,7 +190,7 @@ module.exports = (grunt) ->
           run: true
           urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
 
-    
+
     # Compiles CoffeeScript to JavaScript
     coffee:
       dist:
@@ -220,7 +220,7 @@ module.exports = (grunt) ->
           ext: ".js"
         ]
 
-    
+
     # Compiles Sass to CSS and generates necessary files if requested
     sass:
       options:
@@ -271,7 +271,7 @@ module.exports = (grunt) ->
           dest: ".tmp/concat/scripts"
         ]
 
-    
+
     # Add vendor prefixed styles
     autoprefixer:
       options:
@@ -293,7 +293,7 @@ module.exports = (grunt) ->
           }
         ]
 
-    
+
     # Automatically inject Bower components into the HTML file
     bowerInstall:
       app:
@@ -303,7 +303,7 @@ module.exports = (grunt) ->
       sass:
         src: ["<%= config.app %>/styles/{,*/}*.{scss,sass}"]
 
-    
+
     # Renames files for browser caching purposes
     rev:
       dist:
@@ -319,7 +319,7 @@ module.exports = (grunt) ->
             "<%= config.dist %>/*.{ico,png}"
           ]
 
-    
+
     # Reads HTML for usemin blocks to enable smart builds that automatically
     # concat, minify and revision files. Creates configurations in memory so
     # additional tasks can operate on them
@@ -328,13 +328,13 @@ module.exports = (grunt) ->
         src: "<%= config.app %>/index.html"
         dest: "<%= config.dist %>"
 
-      docs: 
+      docs:
         src: "<%= config.dist %>/docs/index.html"
         options:
           dest: "<%= config.dist %>/docs"
           root: ".tmp/docs"
           # staging: '.tmp/docs'
-    
+
     # Performs rewrites based on rev and the useminPrepare configuration
     usemin:
       options:
@@ -347,7 +347,7 @@ module.exports = (grunt) ->
       html: ["<%= config.dist %>/{,*/,*/*/}*.html"]
       css: ["<%= config.dist %>/{,*/,*/*/}*.css"]
 
-    
+
     # The following *-min tasks produce minified files in the dist folder
     imagemin:
       dist:
@@ -386,7 +386,7 @@ module.exports = (grunt) ->
           dest: "<%= config.dist %>"
         ]
 
-    
+
     # By default, your `index.html`'s <!-- Usemin block --> will take care of
     # minification. These next options are pre-configured if you do not wish
     # to use the Usemin blocks.
@@ -412,7 +412,7 @@ module.exports = (grunt) ->
     # concat: {
     #     dist: {}
     # },
-    
+
     # Copies remaining files to places other tasks can use
     copy:
       dist:
@@ -480,7 +480,7 @@ module.exports = (grunt) ->
           dest: "<%= config.dist %>"
         ]
 
-    
+
     # Generates a custom Modernizr build that includes only the tests you
     # reference in your app
     modernizr:
@@ -496,7 +496,7 @@ module.exports = (grunt) ->
 
         uglify: true
 
-    
+
     # Run some tasks in parallel to speed up build process
     concurrent:
       server: [
@@ -571,7 +571,7 @@ module.exports = (grunt) ->
     "htmlmin"
   ]
   grunt.registerTask "default", [
-    
+
     # 'newer:jshint',
     "test"
     "build"

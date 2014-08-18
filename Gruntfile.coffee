@@ -9,7 +9,7 @@ module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
-  
+
   if grunt.file.isFile('./s3.yml')
     s3Config = grunt.file.readYAML('./s3.yml')
     key_id = s3Config.AWS_ACCESS_KEY_ID
@@ -17,11 +17,11 @@ module.exports = (grunt) ->
   else
     key_id = ''
     secret = ''
-  
-  grunt.initConfig    
+
+  grunt.initConfig
     # Project settings
     yeoman:
-      
+
       # Configurable paths
       app: "app"
       dist: "dist"
@@ -93,13 +93,13 @@ module.exports = (grunt) ->
           livereload: "<%= connect.options.livereload %>"
 
         files: ["<%= yeoman.app %>/{,*/}*.html", ".tmp/styles/{,*/}*.css", ".tmp/scripts/{,*/}*.js", "<%= yeoman.app %>/images/{,*/}*.{gif,jpeg,jpg,png,svg,webp}"]
-    
+
     # The actual grunt server settings
     connect:
       options:
         port: 9000
         livereload: 35729
-        
+
         # Change this to '0.0.0.0' to access the server from outside
         hostname: "localhost"
 
@@ -119,7 +119,7 @@ module.exports = (grunt) ->
           base: "<%= yeoman.dist %>"
           livereload: false
 
-    
+
     # Empties folders to start fresh
     clean:
       dist:
@@ -130,7 +130,7 @@ module.exports = (grunt) ->
 
       server: ".tmp"
 
-    
+
     # Make sure code styles are up to par and there are no obvious mistakes
     jshint:
       options:
@@ -139,7 +139,7 @@ module.exports = (grunt) ->
 
       all: ["Gruntfile.coffee", "<%= yeoman.app %>/scripts/{,*/}*.js", "!<%= yeoman.app %>/scripts/vendor/*", "test/spec/{,*/}*.js"]
 
-    
+
     # Mocha testing framework configuration options
     mocha:
       all:
@@ -147,7 +147,7 @@ module.exports = (grunt) ->
           run: true
           urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
 
-    
+
     # Compiles CoffeeScript to JavaScript
     coffee:
       dist:
@@ -179,7 +179,7 @@ module.exports = (grunt) ->
           ext: ".js"
         ]
 
-    
+
     # Compiles Sass to CSS and generates necessary files if requested
     compass:
       options:
@@ -204,7 +204,7 @@ module.exports = (grunt) ->
         options:
           debugInfo: true
 
-    
+
     # Add vendor prefixed styles
     autoprefixer:
       options:
@@ -218,21 +218,21 @@ module.exports = (grunt) ->
           dest: ".tmp/styles/"
         ]
 
-    
+
     # Automatically inject Bower components into the HTML file
     "bower-install":
       app:
         html: "<%= yeoman.app %>/index.html"
         ignorePath: "<%= yeoman.app %>/"
 
-    
+
     # Renames files for browser caching purposes
     rev:
       dist:
         files:
           src: ["<%= yeoman.dist %>/scripts/{,*/}*.js", "<%= yeoman.dist %>/styles/{,*/}*.css", "<%= yeoman.dist %>/images/{,*/}*.{gif,jpeg,jpg,png,webp}", "<%= yeoman.dist %>/styles/fonts/{,*/}*.*"]
 
-    
+
     # Reads HTML for usemin blocks to enable smart builds that automatically
     # concat, minify and revision files. Creates configurations in memory so
     # additional tasks can operate on them
@@ -242,7 +242,7 @@ module.exports = (grunt) ->
 
       html: "<%= yeoman.app %>/index.html"
 
-    
+
     # Performs rewrites based on rev and the useminPrepare configuration
     usemin:
       options:
@@ -251,7 +251,7 @@ module.exports = (grunt) ->
       html: ["<%= yeoman.dist %>/{,*/}*.html"]
       css: ["<%= yeoman.dist %>/styles/{,*/}*.css"]
 
-    
+
     # The following *-min tasks produce minified files in the dist folder
     imagemin:
       dist:
@@ -299,7 +299,7 @@ module.exports = (grunt) ->
           '<%= yeoman.dist %>/alchemy.min.css': '.tmp/concat/styles/alchemy.min.css'
           '<%= yeoman.dist %>/styles/vendor.css': '.tmp/concat/styles/vendor.css'
               ]
-      
+
     uglify:
       dist:
         files: [
@@ -312,7 +312,7 @@ module.exports = (grunt) ->
             src: '.tmp/concat/scripts/vendor.js'
           }
         ]
-      buildAlchemy: 
+      buildAlchemy:
         files: [
           {
             dest: '<%= yeoman.dist %>/alchemy.min.js'
@@ -340,7 +340,7 @@ module.exports = (grunt) ->
             src: '.tmp/styles/alchemy.css'
           }
         ]
-      s3: 
+      s3:
         files: [
             dest: '.tmp/s3/alchemy.min.js'
             src: ['<%= yeoman.dist %>/scripts/vendor.js'
@@ -480,15 +480,15 @@ module.exports = (grunt) ->
     else
       grunt.task.run ["connect:test", "mocha"]
 
-  grunt.registerTask 'build', ["clean:dist", "useminPrepare", 
+  grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                 "copy:coffee", "concurrent:buildAlchemy",
                                 "copy:fonts", "copy:images",
-                                "autoprefixer", "concat:buildAlchemy", 
-                                "concat:generated", "cssmin:buildAlchemy", 
+                                "autoprefixer", "concat:buildAlchemy",
+                                "concat:generated", "cssmin:buildAlchemy",
                                 "uglify:buildAlchemy"]
-  
+
   releaseFlag = grunt.option('release')
-                           
+
   grunt.registerTask "default",
     if releaseFlag
       ["test",
