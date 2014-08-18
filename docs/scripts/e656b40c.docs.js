@@ -43,6 +43,9 @@
       }
       return _results;
     });
+    $("#social-hide").on('click', function() {
+      return $("#btn-alchemy-rel, #social-icons").toggleClass("hidden");
+    });
     inView = function(elementId) {
       var docItem, position, sideBarItem;
       docItem = $("#" + elementId);
