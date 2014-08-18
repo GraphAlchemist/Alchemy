@@ -7,16 +7,15 @@
         <meta name="viewport" content="width=device-width">
         <link rel="shortcut icon" href="img/alchemyFlatfavicon.ico">
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-        <!-- build:css styles/vendor.css -->
-<!--         <link rel="stylesheet" type="text/css" href="bower_components/alchemyjs/dist/alchemy.min.css"> -->
-<!--         <link rel="stylesheet" href="../bower_components/google-code-prettify/src/prettify.css"> -->
+        <!-- build:css styles/vendorDocs.css -->
         <!-- bower:css -->
+
         <!-- endbower -->
         <!-- endbuild -->
-        <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/main.css">
+        <!-- build:css(.tmp) styles/docsMain.css -->
+        <link rel="stylesheet" href="styles/docsMain.css">
         <!-- endbuild -->
-        <!-- build:js scripts/vendor/modernizr.js -->
+        <!-- build:js scripts/vendor/docsModernizr.js -->
         <script src="../bower_components/modernizer/modernizr.js"></script>
         <!-- endbuild -->
     </head> 
@@ -61,12 +60,8 @@
             <p>Brought to you by: <a href="http://www.graphalchemist.com"><img id="footer-ga-logo" src="../images/GA-logo-full-100px.png"><img></a></p>
         </div>
 
-        <!-- build:js scripts/vendor.js -->
+        <!-- build:js(app/docs) scripts/docsVendor.js -->
         <!-- bower:js -->
-<!--         // <script src="bower_components/alchemyjs/dist/scripts/vendor.js"></script>
-        // <script src="bower_components/alchemyjs/dist/alchemy.min.js"></script> -->
-<!--         // <script src="../bower_components/google-code-prettify/src/prettify.js"></script>
-        // <script src="../bower_components/google-code-prettify/src/lang-css.js"></script> -->
         <script src="../bower_components/jquery/dist/jquery.js"></script>
         <script src="../bower_components/bootstrap/dist/js/bootstrap.js">
         </script>
@@ -84,15 +79,14 @@
           ga('send', 'pageview');
 
         </script>
+
+        <!-- build:js scripts/docsPlugins.js -->
+        <!-- endbuild -->
+
+        <!-- endbuild -->
+
+        <!-- build:js({app,.tmp}) scripts/docs.js -->
         <script type="text/javascript" src="scripts/docs.js"></script>
-
-        <!-- build:js scripts/plugins.js -->
-        <!-- endbuild -->
-
-        <!-- endbuild -->
-
-        <!-- build:js({app,.tmp}) scripts/main.js -->
-
         <!-- endbuild -->
 </body>
 </html>

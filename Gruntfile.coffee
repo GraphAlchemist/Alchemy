@@ -9,9 +9,16 @@ module.exports = (grunt) ->
   require("load-grunt-tasks") grunt
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
-  s3Config = grunt.file.readYAML('./s3.yml')
-  grunt.initConfig
-    
+  
+  if grunt.file.isFile('./s3.yml')
+    s3Config = grunt.file.readYAML('./s3.yml')
+    key_id = s3Config.AWS_ACCESS_KEY_ID
+    secret = s3Config.AWS_SECRET_ACCESS_KEY
+  else
+    key_id = ''
+    secret = ''
+  
+  grunt.initConfig    
     # Project settings
     yeoman:
       
@@ -23,8 +30,8 @@ module.exports = (grunt) ->
     s3:
       options:
         #Accesses environment variables
-        key: s3Config.AWS_ACCESS_KEY_ID
-        secret: s3Config.AWS_SECRET_ACCESS_KEY
+        key: key_id
+        secret: secret
         access: 'public-read'
       production:
         bucket: "cdn.graphalchemist.com"
@@ -51,13 +58,14 @@ module.exports = (grunt) ->
         file: 'package.json'
         bump: false
         commit: false
+        npm: false
 
     # shell tasks
     shell:
       commitBuild:
-        command: "git commit -am 'commit dist files for #{pkg.version}'"
+        command: "git add -A && git commit -am 'commit dist files for #{pkg.version}'"
       docs:
-        command: 'grunt --gruntfile site/Gruntfile.js'
+        command: 'grunt --gruntfile site/Gruntfile.coffee'
       loadEnvVariables:
         command: 'source s3.sh'
 
@@ -131,7 +139,7 @@ module.exports = (grunt) ->
         jshintrc: ".jshintrc"
         reporter: require("jshint-stylish")
 
-      all: ["Gruntfile.js", "<%= yeoman.app %>/scripts/{,*/}*.js", "!<%= yeoman.app %>/scripts/vendor/*", "test/spec/{,*/}*.js"]
+      all: ["Gruntfile.coffee", "<%= yeoman.app %>/scripts/{,*/}*.js", "!<%= yeoman.app %>/scripts/vendor/*", "test/spec/{,*/}*.js"]
 
     
     # Mocha testing framework configuration options
@@ -485,11 +493,9 @@ module.exports = (grunt) ->
                            
   grunt.registerTask "default",
     if releaseFlag
-      ["newer:jshint", 
-       "test",
+      ["test",
        "build",
        "string-replace", # apply version to alchemy.js
-       "shell:docs", # publish docs
        "shell:commitBuild", # commit dist files
        "bumpBower", # bump bower version
        "release", # create tag and version
@@ -498,8 +504,8 @@ module.exports = (grunt) ->
        "concat:s3Version", # apply version numbers for cdn
        "shell:loadEnvVariables", # load aws keys for deployment
        "s3:production" # publish files to s3 for cdn
+       "shell:docs", # publish docs
       ]
     else
-      ["newer:jshint", 
-       "test",
+      ["test",
        "build"]
