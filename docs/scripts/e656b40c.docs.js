@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var activate, configHeader, header, href, id, item, nextLvl, scrollActivate, section, sectionContent, ssID, subSectionContent, text, _i, _j, _k, _len, _len1, _len2, _ref;
+    var activate, configHeader, header, href, id, inView, item, nextLvl, scrollActivate, section, sectionContent, ssID, subSectionContent, text, _i, _j, _k, _len, _len1, _len2, _ref;
     _ref = $("#sidebar").children();
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       section = _ref[_i];
@@ -32,9 +32,32 @@
         }
       }
     }
+    $("#doc-content").on('scroll', function() {
+      var _l, _len3, _ref1, _results;
+      _ref1 = $("#sidebar").find("a.level-1, a.level-2, a.level-3");
+      _results = [];
+      for (_l = 0, _len3 = _ref1.length; _l < _len3; _l++) {
+        item = _ref1[_l];
+        id = item.hash.replace("#", "");
+        _results.push(inView(id));
+      }
+      return _results;
+    });
     $("#social-hide").on('click', function() {
       return $("#btn-alchemy-rel, #social-icons").toggleClass("hidden");
     });
+    inView = function(elementId) {
+      var docItem, position, sideBarItem;
+      docItem = $("#" + elementId);
+      position = docItem.position().top;
+      if (position < 30) {
+        sideBarItem = "a[href='#" + elementId + "']";
+        activate(sideBarItem, false);
+        return docItem;
+      } else {
+        return null;
+      }
+    };
     $(window).on('load', function() {
       var activeItem, targetItem;
       activeItem = window.location.hash || "#Start";
