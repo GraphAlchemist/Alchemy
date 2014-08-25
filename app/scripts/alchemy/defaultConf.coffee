@@ -86,7 +86,7 @@ alchemy.defaults =
         null
     edgeTypes: null
     curvedEdges: false
-    edgeWidth: 4
+    edgeWidth: (d)-> 4
     edgeOverlayWidth: 20
     directedEdges: false
     edgeArrowSize: 5 # pixel length of arrow
