@@ -339,14 +339,17 @@ module.exports = (grunt) ->
             dest: '<%= yeoman.dist %>/styles/alchemy.css'
             src: '.tmp/styles/alchemy.css'
           }
+          {
+            dest: '<%= yeoman.dist %>/styles/alchemy-white.css'
+            src: '.tmp/styles/alchemy-white.css'
+          }
         ]
       s3:
         files: [
             dest: '.tmp/s3/alchemy.min.js'
             src: ['<%= yeoman.dist %>/scripts/vendor.js'
                   '<%= yeoman.dist %>/alchemy.min.js']
-          , # I think this comma format is elegant - if anyone hates it
-            # feel free to comment
+          , 
             dest: '.tmp/s3/alchemy.js'
             src: ['<%= yeoman.dist %>/scripts/vendor.js'
                   '<%= yeoman.dist %>/alchemy.js']
@@ -384,6 +387,10 @@ module.exports = (grunt) ->
           {
             dest: '<%= yeoman.dist %>/alchemy.css'
             src: '.tmp/styles/alchemy.css'
+          }
+          {
+            dest: '<%= yeoman.dist %>/alchemy-white.css'
+            src: '.tmp/styles/alchemy-white.css'
           }
         ]
 

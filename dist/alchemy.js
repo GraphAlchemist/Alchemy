@@ -13,7 +13,7 @@
       this.begin = __bind(this.begin, this);
       this.setState = __bind(this.setState, this);
       this.getState = __bind(this.getState, this);
-      this.version = "0.2.0";
+      this.version = "#VERSION#";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
@@ -1209,7 +1209,9 @@
     },
     edgeTypes: null,
     curvedEdges: false,
-    edgeWidth: 4,
+    edgeWidth: function(d) {
+      return 4;
+    },
     edgeOverlayWidth: 20,
     directedEdges: false,
     edgeArrowSize: 5,
@@ -1260,7 +1262,11 @@
       } else {
         edge.append('line').attr('class', 'edge-line').attr('shape-rendering', 'optimizeSpeed').style('stroke', function(d) {
           return utils.edgeStyle(d);
-        }).style('stroke-width', conf.edgeWidth);
+        }).style('stroke-width', function(d) {
+          var edgeProperties;
+          edgeProperties = alchemy._edges[d.id].properties;
+          return alchemy.conf.edgeWidth(edgeProperties);
+        });
         edge.filter(function(d) {
           return d.caption != null;
         }).append('text');
