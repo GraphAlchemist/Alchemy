@@ -24,11 +24,12 @@ $ ->
 
                 $("#sidebar").find("div.level-2").addClass("hidden")
 
-    $("#doc-content")
-        .on 'scroll', () ->
-            for item in $("#sidebar").find("a.level-1, a.level-2, a.level-3")
-                id = item.hash.replace("#", "")
-                inView(id)
+    # $("#doc-content")
+    #     .on 'scroll', () ->
+    #         for item in $("#sidebar").find("a.level-1, a.level-2, a.level-3")
+    #             id = item.hash.replace("#", "")
+    #             # console.log id
+    #             # inView(id)
 
     $("#social-hide")
         .on 'click', ()->
@@ -46,17 +47,19 @@ $ ->
 
 
 
-    inView = (elementId) ->
-        docItem = $("##{elementId}")
-        position = docItem.position().top
-        # positionNext = docItem.next().position().top
-        if position < 30
-            sideBarItem = "a[href='##{elementId}']"
-            # window.location.hash = elementId
-            activate(sideBarItem, false)
-            return docItem
-        else
-            return null
+    # inView = (elementId) ->
+    #     console.log elementId
+    #     docItem = $("##{elementId}")
+    #     debugger
+    #     position = docItem.position().top
+    #     # positionNext = docItem.next().position().top
+    #     if position < 30
+    #         sideBarItem = "a[href='##{elementId}']"
+    #         # window.location.hash = elementId
+    #         activate(sideBarItem, false)
+    #         return docItem
+    #     else
+    #         return null
 
 
     $(window).on 'load', () ->
@@ -167,11 +170,3 @@ $ ->
 
             pos =  $(tocEl).offset().top - offset 
             $("#sidebar-wrapper").scrollTop(pos)
-
-        # window.location.hash = $(tocEl)[0].hash
-        # id = $(tocEl)[0].innerText
-        # console.log $("##{id}").position().top
-        # docPos = $("##{id}").position().top - 15
-        # $("#doc-content").scrollTop(docPos)
-
-
