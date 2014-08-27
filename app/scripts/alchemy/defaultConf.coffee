@@ -56,7 +56,6 @@ alchemy.defaults =
     edgeStats: false
 
     # Filtering
-    showFilters: false
     edgeFilters: false
     nodeFilters: false
     edgesToggle: false

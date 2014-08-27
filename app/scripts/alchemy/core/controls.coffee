@@ -72,7 +72,7 @@ alchemy.controlDash =
             d3.select('#zoom-reset').on("click", -> alchemy.interactions.clickZoom 'reset')
 
     filters: ->
-        if alchemy.conf.showFilters
+        if alchemy.conf.nodeFilters or alchemy.conf.edgeFilters
             d3.select("#control-dash")
                 .append("div")
                 .attr("id", "filters")
@@ -129,7 +129,6 @@ alchemy.controlDash =
         conf = alchemy.conf
 
         conf.showEditor    || conf.captionToggle  || conf.toggleRootNodes ||
-        conf.removeElement || conf.clusterControl ||
-        conf.nodeStats     || conf.edgeStats      || conf.showFilters     ||
-        conf.edgeFilters   || conf.nodeFilters    || conf.edgesToggle     ||
-        conf.nodesToggle   || conf.search
+        conf.removeElement || conf.clusterControl || conf.nodeStats       ||
+        conf.edgeStats     || conf.edgeFilters    || conf.nodeFilters     || 
+        conf.edgesToggle   || conf.nodesToggle    || conf.search
