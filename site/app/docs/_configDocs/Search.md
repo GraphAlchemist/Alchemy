@@ -9,9 +9,9 @@ title: Search
 
 ##### search 
 
-[bool] **default** `true`
+[bool] **default** `false`
 
-Adds a search box to the control dash that searches through node captions.  Will not do anything if [showControlDash](#showcontroldash) is set to `false`.
+Adds a search box to the control dash that searches through node captions.
 
 ##### searchMethod
 

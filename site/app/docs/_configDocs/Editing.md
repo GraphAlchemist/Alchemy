@@ -11,7 +11,7 @@ title: Editing
 
 [`bool`] default:`false` 
 
-When both `showEditor` and [`showControlDash`](#showControlDash) are true, creates an Editor menu where you can directly edit elements on the graph. If `showControlDash` is false, then the editor menu will not be visible. When the editor is showing in the Control Dash, there are currently two options, remove element and editor interactions. When the editor interactions are enabled, adding nodes and edges is a simple as clicking and dragging.
+When both `showEditor` is true, an Editor menu where you can directly edit elements on the graph is created. When the editor is showing in the Control Dash, there are currently two options, remove element and editor interactions. When the editor interactions are enabled, adding nodes and edges is a simple as clicking and dragging.
 
 ##### removeElement 
 
