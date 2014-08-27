@@ -49,15 +49,15 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
-    clusterControl: false
+    clusterControl: true 
 
     #Stats
     nodeStats: false
     edgeStats: false
 
     # Filtering
-    edgeFilters: false
-    nodeFilters: false
+    edgeFilters: true
+    nodeFilters: true
     edgesToggle: false
     nodesToggle: false
 

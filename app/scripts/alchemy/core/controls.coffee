@@ -109,12 +109,10 @@ alchemy.controlDash =
     clustering: ->
         if alchemy.conf.clusterControl
             clusterControl_html = """
-                    <div id = "clustering-container">
-                        <div id = "cluster_control_header" data-toggle="collapse" data-target="#clustering #cluster-options">
-                             <h3>
-                                Clustering
-                            </h3>
-                            <span class = "fa fa-2x fa-caret-right"></span>
+                    <div id="clustering-container">
+                        <div id="cluster_control_header" data-toggle="collapse" data-target="#clustering #cluster-options">
+                             <h3>Clustering</h3>
+                            <span id="cluster-arrow" class="fa fa-2x fa-caret-right"></span>
                         </div>
                     </div>
                     """
@@ -125,6 +123,7 @@ alchemy.controlDash =
                 .select('#cluster_control_header')
 
             alchemy.clusterControls.init()
+
     dashIsShown: ->
         conf = alchemy.conf
 
