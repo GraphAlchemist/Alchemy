@@ -52,7 +52,6 @@ alchemy.defaults =
     clusterControl: false
 
     #Stats
-    showStats: false
     nodeStats: false
     edgeStats: false
 

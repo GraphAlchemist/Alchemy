@@ -79,7 +79,7 @@ alchemy.controlDash =
             alchemy.filters.init()
 
     stats: ->
-        if alchemy.conf.showStats
+        if alchemy.conf.nodeStats or alchemy.conf.edgeStats
             stats_html = """
                     <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
                     <h3>
@@ -129,7 +129,7 @@ alchemy.controlDash =
         conf = alchemy.conf
 
         conf.showEditor    || conf.captionToggle  || conf.toggleRootNodes ||
-        conf.removeElement || conf.clusterControl || conf.showStats       ||
+        conf.removeElement || conf.clusterControl ||
         conf.nodeStats     || conf.edgeStats      || conf.showFilters     ||
         conf.edgeFilters   || conf.nodeFilters    || conf.edgesToggle     ||
-        conf.nodesToggle   || conf.zoomControls   || conf.search
+        conf.nodesToggle   || conf.search
