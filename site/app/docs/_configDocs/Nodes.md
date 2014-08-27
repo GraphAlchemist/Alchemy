@@ -62,7 +62,7 @@ This example assigns the style attribute `fill-opacity` based on the `importance
 
 [`css color value`] default:`null`  
 
-This is a convenience parameter to quickly assign a default color to all nodes.  This method will overwrite any styles assigned by the css.  For more on how to assign colors to specific nodes read about [nodeTypes](#nodetypes) and our [guide to graph styling](#Graph-Styling).
+This is a convenience parameter to quickly assign a default color to all nodes.  This method will overwrite any styles assigned by the css.  For more on how to assign colors to specific nodes read about [nodeTypes](#nodetypes) and our [guide to graph styling](../GraphStyling).
 
 ##### fixNodes 
 

@@ -66,7 +66,7 @@ bower install
 
 # Install Jekyll and its depedencies
 gem install jekyll 
-gem install coderay
+gem install codearray
 gem install kramdown
 
 # Run the documentation locally
