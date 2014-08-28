@@ -81,7 +81,7 @@ alchemy.startGraph = (data) ->
         defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
 
     if conf.directedEdges
-        arrowSize = conf.edgeArrowSize
+        arrowSize = conf.edgeArrowSize + (conf.edgeWidth() * 2)
         marker = defs.append("svg:marker")
             .attr("id", "arrow")
             .attr("viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}")
@@ -99,5 +99,3 @@ alchemy.startGraph = (data) ->
     if conf.showEditor
         editor = new alchemy.editor.Editor
         editor.startEditor()
-        # editor.nodeEditorInit()
-        # editor.edgeEditorInit()
