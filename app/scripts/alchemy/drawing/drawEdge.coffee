@@ -58,6 +58,14 @@ class alchemy.drawing.DrawEdge
         if @curved
             edge.selectAll('path')
                  .attr('d', (d) ->
+                    angle = utils.edgeAngle d
+
+                    sideOfY = if Math.abs(angle) > 90 then -1 else 1
+                    sideOfX = do (angle) ->
+                        if angle != 0
+                            return if angle < 0 then -1 else 1
+                        0
+
                     startLine = utils.startLine(d)
                     endLine = utils.endLine(d)
                     sourceX = startLine.x
@@ -70,14 +78,6 @@ class alchemy.drawing.DrawEdge
                     
                     hyp = Math.sqrt( dx * dx + dy * dy)
 
-                    angle = utils.edgeAngle d
-
-                    sideOfY = if Math.abs(angle) > 90 then -1 else 1
-                    sideOfX = do (angle) ->
-                        if angle != 0
-                            return if angle < 0 then -1 else 1
-                        0
-
                     offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
                     offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
 
@@ -85,8 +85,7 @@ class alchemy.drawing.DrawEdge
                     arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
 
                     # "M #{startLine.x},#{startLine.y} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{endLine.x}, #{endLine.y}")
-                    console.log hyp
-                    "M #{sourceX},#{sourceY} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}")
+                    "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}")
             edge.select('path.edge-line')
                 .style('stroke', (d) -> utils.edgeStyle(d))
     
