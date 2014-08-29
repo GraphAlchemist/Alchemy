@@ -50,29 +50,22 @@ class alchemy.drawing.EdgeUtils
             height = edge.target.y - edge.source.y
             # as in hypotenuse
             Math.sqrt(height * height + width * width)
+
         @_edgeWalk = (edge, point) ->
             # build a right triangle
             width  = edge.target.x - edge.source.x
             height = edge.target.y - edge.source.y
             # as in hypotenuse 
             hyp = Math.sqrt(height * height + width * width)
+
             if point is 'middle'
                 distance = (hyp / 2)
                 x: edge.source.x + width * distance / hyp
                 y: edge.source.y + height * distance / hyp
             else if point is 'linkStart'
-                # the link should start at the edge of the circle
-                # not in the middle
-                if conf.curvedEdges
-                    # angle_t = 45
-                    # x: edge.source.x + Math.cos(angle_t) * edge.source.r
-                    # y: edge.source.y + Math.sin(angle_t) * edge.source.r
-                    x: edge.source.x
-                    y: edge.source.y
-                else
-                    distance = edge.source.r + edge.source['stroke-width']
-                    x: edge.source.x + width * distance / hyp
-                    y: edge.source.y + height * distance / hyp
+                distance = edge.source.r + edge.source['stroke-width']
+                x: edge.source.x + width * distance / hyp
+                y: edge.source.y + height * distance / hyp
             else if point is 'linkEnd'
                 if conf.curvedEdges
                     distance = hyp

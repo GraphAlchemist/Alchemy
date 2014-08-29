@@ -78,7 +78,13 @@ alchemy.clusterControls =
             display = element.style("display")
 
             element.style("display", (e)-> 
-                if display == "block" then "none" else "block"))
+                if display == "block" then "none" else "block")
+
+            if d3.select("#cluster-key-container").style("display") == "none"
+                d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-right")
+            else d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-down")
+
+            )
         
         d3.select("#cluster-key")
             .on "keydown", -> 

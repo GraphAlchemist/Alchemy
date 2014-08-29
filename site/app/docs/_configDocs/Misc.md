@@ -20,11 +20,6 @@ Does not receive a default value and is the single parameter that **must** be de
 
 This is the element that Alchemy.js will look for when creating the visualization.  By default alchemy looks for an element with id "alchemy."
 
-##### showControlDash
-
-[`bool`] default:`false`    
-
-The control dash is the element that houses search, filters, and editor functions.  **showControlDash** must be true in order for all other functionality to be visible to the end user.
 
 ##### initialScale
 
