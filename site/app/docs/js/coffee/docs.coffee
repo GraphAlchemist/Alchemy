@@ -24,55 +24,15 @@ $ ->
 
                 $("#sidebar").find("div.level-2").addClass("hidden")
 
-    # $("#doc-content")
-    #     .on 'scroll', () ->
-    #         for item in $("#sidebar").find("a.level-1, a.level-2, a.level-3")
-    #             id = item.hash.replace("#", "")
-    #             # console.log id
-    #             # inView(id)
-
     $("#social-hide")
         .on 'click', ()->
             $("#btn-alchemy-rel, #social-icons").toggleClass("hidden")
-
-        # scrollLVL = (level, id)
-        #     for item in $("#nav-#{id}").find("a.level-#{level}")
-        #         id = item.hash.replace("#", "")
-        #         if inView(id)
-        #             for subsection in $("#lvl-2-#{id}").find("a.level-2")
-        #                 id2 = subsection.hash.replace("#", "")
-        #                 if inView(id2)
-        #                     for subsection in $("#lvl-3-#{id2}").find("a.level-3")
-        #                         id3 = subsection.hash.replace("#", "")
-
-
-
-    # inView = (elementId) ->
-    #     console.log elementId
-    #     docItem = $("##{elementId}")
-    #     debugger
-    #     position = docItem.position().top
-    #     # positionNext = docItem.next().position().top
-    #     if position < 30
-    #         sideBarItem = "a[href='##{elementId}']"
-    #         # window.location.hash = elementId
-    #         activate(sideBarItem, false)
-    #         return docItem
-    #     else
-    #         return null
-
 
     $(window).on 'load', () ->
         activeItem = window.location.hash || "#Start"
         targetItem = "a[href='#{activeItem}']"
         activate(targetItem, false)
-
-        # for item in $("#sidebar").find("a.level-1")
-        #     id = item.hash.replace("#", "")
-        #     activeContent = inView(id)
-        #     if activeContent != null
-        #         scrollLVL(2, id)
-
+    
     $(".section-bar a")
         .on 'click', () ->
             activate(@, true)

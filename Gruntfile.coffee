@@ -49,7 +49,7 @@ module.exports = (grunt) ->
           '<%= yeoman.dist %>/alchemy.min.js':'<%= yeoman.dist %>/alchemy.min.js'
         options:
           replacements: [
-            pattern: "#VERSION#"
+            pattern: /#VERSION#/ig
             replacement: pkg.version
           ]
 
