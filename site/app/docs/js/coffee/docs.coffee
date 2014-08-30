@@ -7,7 +7,7 @@ $ ->
             nextLvl = $("#lvl-2-#{href}")
             for header in sectionContent
                 id = $(header).prop("id")
-                if href != "Configuration"
+                if href (not "Configuration") and (not "API")
                     text =  $(header)[0].innerText
                     nextLvl.append("<a class='level-2 list-group-item' href='##{id}'>#{text}</a>")
                 
