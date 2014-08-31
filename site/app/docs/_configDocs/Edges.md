@@ -3,7 +3,7 @@ position: 2
 title: Edges
 ---
 
-### Edges
+# Edges
 
 <p></p>
 
