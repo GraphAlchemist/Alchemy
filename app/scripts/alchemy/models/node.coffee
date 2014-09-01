@@ -34,7 +34,8 @@ class alchemy.models.Node
     outDegree: () -> @adjacentEdges.length
 
     # Find connected nodes
-    neighbors: ()->
+    neighbors: () ->
+        # please no!
         regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
         _.map @adjacentEdges, (edgeID)->  edgeID.replace(regex, "")
 
