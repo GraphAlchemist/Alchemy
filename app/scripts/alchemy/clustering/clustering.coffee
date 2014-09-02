@@ -63,12 +63,12 @@ class alchemy.clustering
 alchemy.clusterControls =
     init: ()->
         changeClusterHTML = """
-                            <h4>Cluster By:</h4>
-                            <input class='form-control' id='cluster-key' placeholder="Cluster Key"></input>
+                            <input class='form-control form-inline' id='cluster-key' placeholder="Cluster Key"></input>
                             """
         d3.select("#clustering-container")
             .append("div")
             .attr("id", "cluster-key-container")
+            .attr('class', 'property form-inline form-group')
             .html(changeClusterHTML)
             .style("display", "none")
             
