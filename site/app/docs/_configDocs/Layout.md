@@ -62,6 +62,16 @@ The value for cluster will be used to look up a color from [`alchemy.conf.cluste
 ![cluster](img/cluster.png)    
 <!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON-->
 
+##### clusterKey
+[`string`] default:`"cluster"`
+
+The key that Alchemy will use to determine the initial clusters if `cluster` is set to true.  If `clusterControl` is true, then this can be set dynamically from within the running alchemy visualization itself.  The type of the value that the `clusterKey` points to is not taken into account. 
+
+##### clusterControl
+[`bool`] default:`true`
+
+`clusterControl` adds a form to the control dash allowing you to specify different cluster keys.  Any property of a node in your GraphJSON can be used.
+
 ##### clusterColours 
 
 [`array of css colors`] default:

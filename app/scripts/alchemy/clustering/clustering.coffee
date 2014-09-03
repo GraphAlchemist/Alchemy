@@ -79,12 +79,12 @@ class alchemy.clustering
 alchemy.clusterControls =
     init: ()->
         changeClusterHTML = """
-                            <h4>Cluster By:</h4>
-                            <input class='form-control' id='cluster-key' placeholder="Cluster Key"></input>
+                            <input class='form-control form-inline' id='cluster-key' placeholder="Cluster Key"></input>
                             """
         d3.select("#clustering-container")
             .append("div")
             .attr("id", "cluster-key-container")
+            .attr('class', 'property form-inline form-group')
             .html(changeClusterHTML)
             .style("display", "none")
             
@@ -94,7 +94,13 @@ alchemy.clusterControls =
             display = element.style("display")
 
             element.style("display", (e)-> 
-                if display == "block" then "none" else "block"))
+                if display == "block" then "none" else "block")
+
+            if d3.select("#cluster-key-container").style("display") == "none"
+                d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-right")
+            else d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-down")
+
+            )
         
         d3.select("#cluster-key")
             .on "keydown", -> 

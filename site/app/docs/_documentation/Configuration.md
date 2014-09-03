@@ -9,7 +9,7 @@ title: Configuration
 
 Alchemy.js is initialized using the `alchemy.begin(your_config)` where the **your_config** object includes any of the configurations here that you would like to override.
 
-The only configuration absolutely necessary is the [dataSource](#dataSource) configuration.  See the [Quick Start](#quick-start) or [Examples](#examples) for more examples of how to initialize Alchemy.js.
+The only configuration absolutely necessary is the [dataSource](#datasource) configuration.  See the [Quick Start](#quick-start) or [Examples](#examples) for more examples of how to initialize Alchemy.js.
 
 Additionally, configurations for any app are available at the alchemy.conf endpoint after the app has been initialized.
 

@@ -13,7 +13,7 @@
       this.begin = __bind(this.begin, this);
       this.setState = __bind(this.setState, this);
       this.getState = __bind(this.getState, this);
-      this.version = "0.2.0";
+      this.version = "0.2.1";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
@@ -231,19 +231,24 @@
   alchemy.clusterControls = {
     init: function() {
       var changeClusterHTML;
-      changeClusterHTML = "<h4>Cluster By:</h4>\n<input class='form-control' id='cluster-key' placeholder=\"Cluster Key\"></input>";
-      d3.select("#clustering-container").append("div").attr("id", "cluster-key-container").html(changeClusterHTML).style("display", "none");
+      changeClusterHTML = "<input class='form-control form-inline' id='cluster-key' placeholder=\"Cluster Key\"></input>";
+      d3.select("#clustering-container").append("div").attr("id", "cluster-key-container").attr('class', 'property form-inline form-group').html(changeClusterHTML).style("display", "none");
       d3.select("#cluster_control_header").on("click", function() {
         var display, element;
         element = d3.select("#cluster-key-container");
         display = element.style("display");
-        return element.style("display", function(e) {
+        element.style("display", function(e) {
           if (display === "block") {
             return "none";
           } else {
             return "block";
           }
         });
+        if (d3.select("#cluster-key-container").style("display") === "none") {
+          return d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-right");
+        } else {
+          return d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-down");
+        }
       });
       return d3.select("#cluster-key").on("keydown", function() {
         if (d3.event.keyIdentifier === "Enter") {
@@ -261,7 +266,7 @@
   alchemy.controlDash = {
     init: function() {
       var divSelector;
-      if (alchemy.conf.showControlDash === true) {
+      if (this.dashIsShown()) {
         divSelector = alchemy.conf.divSelector;
         d3.select("" + divSelector).append("div").attr("id", "control-dash-wrapper").attr("class", "col-md-4 initial");
         d3.select("#control-dash-wrapper").append("i").attr("id", "dash-toggle").attr("class", "fa fa-flask col-md-offset-12");
@@ -295,14 +300,14 @@
       }
     },
     filters: function() {
-      if (alchemy.conf.showFilters) {
+      if (alchemy.conf.nodeFilters || alchemy.conf.edgeFilters) {
         d3.select("#control-dash").append("div").attr("id", "filters");
         return alchemy.filters.init();
       }
     },
     stats: function() {
       var stats_html;
-      if (alchemy.conf.showStats) {
+      if (alchemy.conf.nodeStats || alchemy.conf.edgeStats) {
         stats_html = "<div id = \"stats-header\" data-toggle=\"collapse\" data-target=\"#stats #all-stats\">\n<h3>\n    Statistics\n</h3>\n<span class = \"fa fa-caret-right fa-2x\"></span>\n</div>\n<div id=\"all-stats\" class=\"collapse\">\n    <ul class = \"list-group\" id=\"node-stats\"></ul>\n    <ul class = \"list-group\" id=\"rel-stats\"></ul>  \n</div>";
         d3.select("#control-dash").append("div").attr("id", "stats").html(stats_html).select('#stats-header').on('click', function() {
           if (d3.select('#all-stats').classed("in")) {
@@ -317,10 +322,15 @@
     clustering: function() {
       var clusterControl_html;
       if (alchemy.conf.clusterControl) {
-        clusterControl_html = "<div id = \"clustering-container\">\n    <div id = \"cluster_control_header\" data-toggle=\"collapse\" data-target=\"#clustering #cluster-options\">\n         <h3>\n            Clustering\n        </h3>\n        <span class = \"fa fa-2x fa-caret-right\"></span>\n    </div>\n</div>";
+        clusterControl_html = "<div id=\"clustering-container\">\n    <div id=\"cluster_control_header\" data-toggle=\"collapse\" data-target=\"#clustering #cluster-options\">\n         <h3>Clustering</h3>\n        <span id=\"cluster-arrow\" class=\"fa fa-2x fa-caret-right\"></span>\n    </div>\n</div>";
         d3.select("#control-dash").append("div").attr("id", "clustering").html(clusterControl_html).select('#cluster_control_header');
         return alchemy.clusterControls.init();
       }
+    },
+    dashIsShown: function() {
+      var conf;
+      conf = alchemy.conf;
+      return conf.showEditor || conf.captionToggle || conf.toggleRootNodes || conf.removeElement || conf.clusterControl || conf.nodeStats || conf.edgeStats || conf.edgeFilters || conf.nodeFilters || conf.edgesToggle || conf.nodesToggle || conf.search;
     }
   };
 
@@ -382,7 +392,7 @@
     },
     show: function() {
       var filter_html;
-      filter_html = "<div id = \"filter-header\" data-toggle=\"collapse\" data-target=\"#filters form\">\n    <h3>\n        Filters\n    </h3>\n    <span class = \"fa fa-2x fa-caret-right\"></span>\n</div>\n    <form class=\"form-inline collapse\">\n    </form>";
+      filter_html = "<div id = \"filter-header\" data-toggle=\"collapse\" data-target=\"#filters form\">\n    <h3>Filters</h3>\n    <span class = \"fa fa-2x fa-caret-right\"></span>\n</div>\n    <form class=\"form-inline collapse\">\n    </form>";
       d3.select('#control-dash #filters').html(filter_html);
       d3.selectAll('#filter-header').on('click', function() {
         if (d3.select('#filters>form').classed("in")) {
@@ -976,7 +986,7 @@
       defs = d3.select("" + alchemy.conf.divSelector + " svg").append("svg:defs");
     }
     if (conf.directedEdges) {
-      arrowSize = conf.edgeArrowSize;
+      arrowSize = conf.edgeArrowSize + (conf.edgeWidth() * 2);
       marker = defs.append("svg:marker").attr("id", "arrow").attr("viewBox", "0 -" + (arrowSize * 0.4) + " " + arrowSize + " " + arrowSize).attr('markerUnits', 'userSpaceOnUse').attr("markerWidth", arrowSize).attr("markerHeight", arrowSize).attr("orient", "auto");
       marker.append("svg:path").attr("d", "M " + arrowSize + ",0 L 0," + (arrowSize * 0.4) + " L 0,-" + (arrowSize * 0.4));
       if (conf.curvedEdges) {
@@ -1180,17 +1190,14 @@
     captionToggle: false,
     toggleRootNodes: false,
     removeElement: false,
-    showControlDash: false,
     cluster: false,
     clusterKey: "cluster",
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f", "#ffcd00", "#184fff", "#ff7e00"]),
     clusterControl: true,
-    showStats: false,
     nodeStats: false,
     edgeStats: false,
-    showFilters: false,
-    edgeFilters: false,
-    nodeFilters: false,
+    edgeFilters: true,
+    nodeFilters: true,
     edgesToggle: false,
     nodesToggle: false,
     zoomControls: false,
@@ -1209,11 +1216,13 @@
     },
     edgeTypes: null,
     curvedEdges: false,
-    edgeWidth: 4,
+    edgeWidth: function(d) {
+      return 4;
+    },
     edgeOverlayWidth: 20,
     directedEdges: false,
     edgeArrowSize: 5,
-    search: true,
+    search: false,
     searchMethod: "contains",
     afterLoad: 'afterLoad',
     divSelector: '#alchemy',
@@ -1260,7 +1269,11 @@
       } else {
         edge.append('line').attr('class', 'edge-line').attr('shape-rendering', 'optimizeSpeed').style('stroke', function(d) {
           return utils.edgeStyle(d);
-        }).style('stroke-width', conf.edgeWidth);
+        }).style('stroke-width', function(d) {
+          var edgeProperties;
+          edgeProperties = alchemy._edges[d.id].properties;
+          return alchemy.conf.edgeWidth(edgeProperties);
+        });
         edge.filter(function(d) {
           return d.caption != null;
         }).append('text');
@@ -1274,7 +1287,19 @@
       utils = this.utils;
       if (this.curved) {
         edge.selectAll('path').attr('d', function(d) {
-          var dx, dy, endLine, hyp, sourceX, sourceY, startLine, targetX, targetY;
+          var angle, arrowX, arrowY, dx, dy, endLine, hyp, offsetX, offsetY, sideOfX, sideOfY, sourceX, sourceY, startLine, targetX, targetY;
+          angle = utils.edgeAngle(d);
+          sideOfY = Math.abs(angle) > 90 ? -1 : 1;
+          sideOfX = (function(angle) {
+            if (angle !== 0) {
+              if (angle < 0) {
+                return -1;
+              } else {
+                return 1;
+              }
+            }
+            return 0;
+          })(angle);
           startLine = utils.startLine(d);
           endLine = utils.endLine(d);
           sourceX = startLine.x;
@@ -1284,7 +1309,11 @@
           dx = targetX - sourceX;
           dy = targetY - sourceY;
           hyp = Math.sqrt(dx * dx + dy * dy);
-          return "M " + sourceX + "," + sourceY + " A " + hyp + ", " + hyp + " " + (utils.captionAngle(d)) + " 0, 1 " + targetX + ", " + targetY;
+          offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp;
+          offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp;
+          arrowX = (-sideOfX * conf.edgeArrowSize) + offsetX;
+          arrowY = (sideOfY * conf.edgeArrowSize) + offsetY;
+          return "M " + (sourceX - offsetX) + "," + (sourceY - offsetY) + " A " + hyp + ", " + hyp + " " + (utils.edgeAngle(d)) + " 0, 1 " + (targetX - arrowX) + ", " + (targetY - arrowY);
         });
         edge.select('path.edge-line').style('stroke', function(d) {
           return utils.edgeStyle(d);
@@ -1584,18 +1613,11 @@
             y: edge.source.y + height * distance / hyp
           };
         } else if (point === 'linkStart') {
-          if (conf.curvedEdges) {
-            return {
-              x: edge.source.x,
-              y: edge.source.y
-            };
-          } else {
-            distance = edge.source.r + edge.source['stroke-width'];
-            return {
-              x: edge.source.x + width * distance / hyp,
-              y: edge.source.y + height * distance / hyp
-            };
-          }
+          distance = edge.source.r + edge.source['stroke-width'];
+          return {
+            x: edge.source.x + width * distance / hyp,
+            y: edge.source.y + height * distance / hyp
+          };
         } else if (point === 'linkEnd') {
           if (conf.curvedEdges) {
             distance = hyp;

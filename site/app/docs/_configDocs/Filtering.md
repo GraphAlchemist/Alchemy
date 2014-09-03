@@ -7,12 +7,6 @@ title: Filtering
 
 <p></p>
 
-##### showFilters 
-
-[`bool`] default:`false`
-
-When both `showFilters` and `showControlDash` are true, creates a filter menu that contains different types of graph filters.  [`showControlDash`](#showcontroldash) must be true in order for the filters menu to be visible.  Current elements in the filters menu are [edgeFilters](#edgefilters), [nodeFilters](#nodefilters), [captionToggle](#captiontoggle), [edgesToggle](#edgestoggle), [nodesToggle](#nodestoggle), and [toggleRootNodes](#togglerootnodes).
-
 ##### edgeFilters
 
 [`bool`] default:`false`

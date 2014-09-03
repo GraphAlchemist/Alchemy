@@ -288,3 +288,21 @@
     }
 }
 
+#clustering {
+    padding: 0.5em 1em;
+    cursor: pointer;
+    color: white;
+    border-bottom: thin dashed #E89619;
+    #cluster_control_header, #cluster-key-container {
+        padding: 10px 10px 0 10px;
+    }
+    #cluster-key {
+        color: #333;
+        background-color: #000;
+        border-radius: 4px;
+        border: thin solid #333;
+        text-align: center;
+        display: inline-block;
+        width: 100%;
+    }
+}
