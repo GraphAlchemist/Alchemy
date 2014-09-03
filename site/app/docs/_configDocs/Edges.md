@@ -7,6 +7,8 @@ title: Edges
 
 <p></p>
 
+By default, edges do not require an ID, only a source and target.  If, however, there are multiple edges that share the same source and target, a unique ID will be required.
+
 ##### edgeCaption
 
 [`string`] default:`'caption'` 
