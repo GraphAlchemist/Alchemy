@@ -21,7 +21,7 @@ GraphJSON is a JSON object that contains two objects, **nodes** and **edges**:
 The **nodes** and **edges** objects are arrays of the individual nodes and edges that will be represented in the Graph visualization.   
 
 ## Nodes and Edges
-The only requirement for node objects is that they receive an **id** key that is unique (in the scope of the GraphJSON). The only requirement for edge objects is that they receive a **source** and **target** key that correspond to the source and target nodes.
+The only requirement for node objects is that they receive an **id** key that is unique (in the scope of the GraphJSON). The only requirement for edge objects is that they receive a **source** and **target** key that correspond to the source and target nodes. If there are multiple edges with identical source and targets, those edges MUST have a unique id.
 
 ## Features
 Alchemy.js has a number of features that rely on the underlying data.  Most of the below features are supported by the example GraphJSON that follows.
