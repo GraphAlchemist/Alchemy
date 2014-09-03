@@ -39,9 +39,6 @@ alchemy.defaults =
     toggleRootNodes: false
     removeElement: false
 
-    #Control Dash
-    showControlDash: false 
-
     #Clustering
     cluster: false
     clusterKey: "cluster"
@@ -52,17 +49,15 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
-    clusterControl: true
+    clusterControl: true 
 
     #Stats
-    showStats: false
     nodeStats: false
     edgeStats: false
 
     # Filtering
-    showFilters: false
-    edgeFilters: false
-    nodeFilters: false
+    edgeFilters: true
+    nodeFilters: true
     edgesToggle: false
     nodesToggle: false
 
@@ -86,13 +81,13 @@ alchemy.defaults =
         null
     edgeTypes: null
     curvedEdges: false
-    edgeWidth: 4
+    edgeWidth: (d)-> 4
     edgeOverlayWidth: 20
     directedEdges: false
     edgeArrowSize: 5 # pixel length of arrow
 
     # Search
-    search: true
+    search: false
     searchMethod: "contains"
 
     # Misc

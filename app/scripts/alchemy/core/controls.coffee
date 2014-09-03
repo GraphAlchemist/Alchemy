@@ -15,8 +15,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.controlDash = 
-    init: () ->
-        if alchemy.conf.showControlDash is true 
+    init: ->
+        if @dashIsShown()
             divSelector = alchemy.conf.divSelector
             # add dashboard wrapper
             d3.select("#{divSelector}")
@@ -44,7 +44,7 @@ alchemy.controlDash =
             alchemy.controlDash.stats()
             alchemy.controlDash.clustering()
 
-    search: () ->
+    search: ->
         if alchemy.conf.search
             d3.select("#control-dash")
                     .append("div")
@@ -57,7 +57,7 @@ alchemy.controlDash =
                           """)
             alchemy.search.init()
     
-    zoomCtrl: () ->
+    zoomCtrl: ->
         if alchemy.conf.zoomControls 
             d3.select("#control-dash-wrapper")
                 .append("div")
@@ -67,19 +67,19 @@ alchemy.controlDash =
                         <button id='zoom-in'  class='btn btn-defualt btn-primary'><i class='fa fa-plus'></i></button>
                         <button id='zoom-out' class='btn btn-default btn-primary'><i class='fa fa-minus'></i></button>")
             
-            d3.select('#zoom-in').on("click", () -> alchemy.interactions.clickZoom 'in' )
-            d3.select('#zoom-out').on("click", () -> alchemy.interactions.clickZoom 'out' )
-            d3.select('#zoom-reset').on("click", () -> alchemy.interactions.clickZoom 'reset')
+            d3.select('#zoom-in').on("click", -> alchemy.interactions.clickZoom 'in' )
+            d3.select('#zoom-out').on("click", -> alchemy.interactions.clickZoom 'out' )
+            d3.select('#zoom-reset').on("click", -> alchemy.interactions.clickZoom 'reset')
 
-    filters: () ->
-        if alchemy.conf.showFilters
+    filters: ->
+        if alchemy.conf.nodeFilters or alchemy.conf.edgeFilters
             d3.select("#control-dash")
                 .append("div")
                 .attr("id", "filters")
             alchemy.filters.init()
 
-    stats: () ->
-        if alchemy.conf.showStats
+    stats: ->
+        if alchemy.conf.nodeStats or alchemy.conf.edgeStats
             stats_html = """
                     <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
                     <h3>
@@ -106,15 +106,13 @@ alchemy.controlDash =
 
             alchemy.stats.init()
 
-    clustering: () ->
+    clustering: ->
         if alchemy.conf.clusterControl
             clusterControl_html = """
-                    <div id = "clustering-container">
-                        <div id = "cluster_control_header" data-toggle="collapse" data-target="#clustering #cluster-options">
-                             <h3>
-                                Clustering
-                            </h3>
-                            <span class = "fa fa-2x fa-caret-right"></span>
+                    <div id="clustering-container">
+                        <div id="cluster_control_header" data-toggle="collapse" data-target="#clustering #cluster-options">
+                             <h3>Clustering</h3>
+                            <span id="cluster-arrow" class="fa fa-2x fa-caret-right"></span>
                         </div>
                     </div>
                     """
@@ -125,3 +123,11 @@ alchemy.controlDash =
                 .select('#cluster_control_header')
 
             alchemy.clusterControls.init()
+
+    dashIsShown: ->
+        conf = alchemy.conf
+
+        conf.showEditor    || conf.captionToggle  || conf.toggleRootNodes ||
+        conf.removeElement || conf.clusterControl || conf.nodeStats       ||
+        conf.edgeStats     || conf.edgeFilters    || conf.nodeFilters     || 
+        conf.edgesToggle   || conf.nodesToggle    || conf.search

@@ -55,9 +55,7 @@ alchemy.filters =
     show: () ->
         filter_html = """
                     <div id = "filter-header" data-toggle="collapse" data-target="#filters form">
-                        <h3>
-                            Filters
-                        </h3>
+                        <h3>Filters</h3>
                         <span class = "fa fa-2x fa-caret-right"></span>
                     </div>
                         <form class="form-inline collapse">
