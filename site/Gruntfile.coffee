@@ -43,6 +43,7 @@ module.exports = (grunt) ->
       version:
         files:
           '<%= config.dist %>/views/home.html': '<%= config.dist %>/views/home.html'
+          '<%= config.dist %>/views/nav.html': '<%= config.dist %>/views/nav.html'
         options:
           replacements: [
             pattern: /#VERSION#/ig
