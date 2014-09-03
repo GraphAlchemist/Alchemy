@@ -58,7 +58,7 @@ module.exports = (grunt) ->
         file: 'package.json'
         bump: false
         commit: false
-        npm: false
+        # npm: false
 
     # shell tasks
     shell:
