@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var activate, configHeader, header, href, id, item, nextLvl, scrollActivate, section, sectionContent, ssID, subSectionContent, text, _i, _j, _k, _len, _len1, _len2, _ref;
+    var activate, configHeader, header, href, id, item, nextLvl, section, sectionContent, ssID, subSectionContent, text, _i, _j, _k, _len, _len1, _len2, _ref;
     _ref = $("#sidebar").children();
     for (_i = 0, _len = _ref.length; _i < _len; _i++) {
       section = _ref[_i];
@@ -44,31 +44,17 @@
     $(".section-bar a").on('click', function() {
       return activate(this, true);
     });
-    scrollActivate = function(tocEl) {
-      var offset, padding, pos;
-      padding = 50 - 15;
-      offset = $("#sidebar").offset().top - padding;
-      if ($(tocEl).hasClass("active")) {
-        $("#pointer").removeClass("hidden");
-        $(tocEl).parents(".level-3, .level-2, .level-1, .section-bar").removeClass("hidden").addClass("active");
-        $(tocEl).siblings("a.level-1, a.level-2, a.level-3").removeClass("active");
-      } else if (!$(tocEl).hasClass("active")) {
-        $("#pointer").addClass("hidden");
-        $(tocEl).parents(".level-3,  .level-2, .level-1, .section-bar").removeClass("active");
-        $(tocEl).siblings("a.level-1, a.level-2, a.level-3").removeClass("active");
-      }
-      pos = $(tocEl).offset().top - offset;
-      return $("#sidebar-wrapper").scrollTop(pos);
-    };
     return activate = function(tocEl, click) {
       var offset, padding, pos;
       if ($(tocEl).length) {
         padding = 50 - 15;
         offset = $("#sidebar").offset().top - padding;
-        $("#sidebar").find('.active').removeClass("active");
         if ($(tocEl).hasClass("level-1")) {
+          if ($(tocEl).hasClass("active")) {
+            event.preventDefault();
+          }
+          $(tocEl).toggleClass("active");
           if (click) {
-            $(tocEl).toggleClass("active");
             $(tocEl).parent().children(".level-2").toggleClass("hidden", function() {
               if ($(tocEl).hasClass(".active")) {
                 return false;
