@@ -42,10 +42,10 @@ module.exports = (grunt) ->
     'string-replace':
       version:
         files:
-          '<%= config.dist %>/views/home.html'
+          '<%= config.dist %>/views/home.html': '<%= config.dist %>/views/home.html'
         options:
           replacements: [
-            pattern: "#VERSION#"
+            pattern: /#VERSION#/ig
             replacement: pkg.version
           ]
 
@@ -501,16 +501,13 @@ module.exports = (grunt) ->
     concurrent:
       server: [
         "coffee:dist"
-        # "copy:styles"
       ]
       test: [
         "coffee"
-        # "copy:styles"
       ]
       dist: [
         "coffee"
         "sass:dist"
-        # "copy:styles"
         "copy:data"
         "imagemin"
         "svgmin"
@@ -519,6 +516,7 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks "grunt-shell"
   grunt.loadNpmTasks "grunt-gh-pages"
   grunt.loadNpmTasks "grunt-ngmin"
+
   grunt.registerTask "serve", (target) ->
     if target is "dist"
       return grunt.task.run([
@@ -565,6 +563,7 @@ module.exports = (grunt) ->
     "cssmin"
     "uglify"
     "copy:dist"
+    "string-replace:version"
     "modernizr"
     "rev"
     "usemin"
