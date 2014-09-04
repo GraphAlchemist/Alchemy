@@ -1,4 +1,4 @@
-class alchemy.models.NodeAttributes
+class alchemy.models.NodeStyle
     constructor: ->
         rootKey = alchemy.conf.rootNodes
         if typeof alchemy.conf.nodeRadius is 'function'

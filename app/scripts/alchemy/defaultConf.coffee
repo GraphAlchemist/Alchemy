@@ -16,6 +16,9 @@
 
 alchemy.defaults =
 
+    # Renderer
+    renderer: "svg"
+
     # Layout
     graphWidth: ->
         d3.select(@divSelector).node().parentElement.clientWidth

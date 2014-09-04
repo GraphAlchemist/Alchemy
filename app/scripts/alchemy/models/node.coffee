@@ -1,8 +1,8 @@
 class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
-        nodeAttr = new alchemy.models.NodeAttributes
-        radius = nodeAttr.nodeSize(node)
+        style = new alchemy.models.NodeStyle
+        radius = style.nodeSize(node)
         
         @id = node.id
         @properties = node
@@ -11,13 +11,10 @@ class alchemy.models.Node
         @_d3 = {
             'id': node.id,
             'r' : radius
-            'stroke-width': nodeAttr.strokeWidth(radius) # should nest 'style' related properties and attributes
+            'stroke-width': style.strokeWidth(radius)
             'root': @properties[conf.rootNodes]
         }
-        
-        # Merge undefined nodeStyle keys from conf.
-        # Works with undefined @nodeStyle
-        @nodeStyle = _.merge(conf.nodeStyle, @nodeStyle)
+
         @adjacentEdges = []
         # Add to node collection
         Node::all.push(@.id)
