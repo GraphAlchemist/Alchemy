@@ -52,15 +52,15 @@ alchemy.defaults =
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
                                 "#ff7e00"])
-    clusterControl: true 
+    clusterControl: false
 
     #Stats
     nodeStats: false
     edgeStats: false
 
     # Filtering
-    edgeFilters: true
-    nodeFilters: true
+    edgeFilters: false
+    nodeFilters: false
     edgesToggle: false
     nodesToggle: false
 
@@ -69,16 +69,25 @@ alchemy.defaults =
 
     # Nodes
     nodeCaption: 'caption'
-    nodeStyle: {}
-    nodeColour: null
-    nodeMouseOver: 'caption' # partially implemented
-    nodeRadius: 10 # partially implemented
+    nodeStyle:
+        "all":
+            "radius": 10,
+            "color"  : "#68B9FE"
+            "borderColor": "#127DC1"
+            "borderWidth": (radius) ->
+                radius / 3
+            "captionColor": "#FFFFFF",
+            "captionBackground": null
+            "captionSize": 12
+    nodeColour: null # WILL BE DEPRECATED IN 1.0
+    nodeMouseOver: 'caption'
+    nodeRadius: 10 # WILL BE DEPRECATED IN 1.0
     nodeTypes: null
     rootNodes: 'root'
     rootNodeRadius: 15
 
     # Edges
-    edgeCaption: 'caption' # in progress
+    edgeCaption: 'caption'
     edgeClick: 'default'
     edgeStyle: (d) ->
         null
@@ -87,7 +96,7 @@ alchemy.defaults =
     edgeWidth: (d)-> 4
     edgeOverlayWidth: 20
     directedEdges: false
-    edgeArrowSize: 5 # pixel length of arrow
+    edgeArrowSize: 5
 
     # Search
     search: false
