@@ -42,9 +42,7 @@ alchemy.stats =
 
         #add the graph
         nodeGraph = "<li id='node-stats-graph' class='list-group-item'></li>" 
-
         nodeStats += nodeGraph
-        
         $('#node-stats').html(nodeStats)
 
     edgeStats: () ->
@@ -104,8 +102,6 @@ alchemy.stats =
         if data is null 
             d3.select("##{element}-stats-graph")
                 .html("<br><h4 class='no-data'>There are no #{element}Types listed in your conf.</h4>")
-
-
         else
             width = alchemy.conf.graphWidth() * .25
             height = 250
@@ -146,11 +142,6 @@ alchemy.stats =
                 .classed("hidden", true)
                 .text((d, i) -> data[i][0])
 
-
-
     update: () -> 
-        if alchemy.conf.nodeStats is true
-            alchemy.stats.nodeStats()
-        if alchemy.conf.edgeStats is true
-            alchemy.stats.edgeStats()
-
+        if alchemy.conf.nodeStats then alchemy.stats.nodeStats()
+        if alchemy.conf.edgeStats then alchemy.stats.edgeStats()

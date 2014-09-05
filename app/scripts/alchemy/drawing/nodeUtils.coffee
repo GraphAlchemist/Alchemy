@@ -21,9 +21,13 @@ class alchemy.drawing.NodeUtils
                         ''
         
         nodeStyle: (d) ->
-            color = @nodeColours(d)
-            stroke = if alchemy.getState("interactions") is "editor" then "#E82C0C" else color
-            "fill: #{color}; stroke: #{color}; stroke-width: #{d['stroke-width']};"
+            node = alchemy._nodes[d.id]
+            styles = node.renderedStyles
+
+            if @nodeColours(d) is not ''
+                styles.fill = @nodeColours d
+
+            alchemy.svgRenderer.jsonToCSS styles
 
         nodeText: (d) ->
             node = alchemy._nodes[d.id]

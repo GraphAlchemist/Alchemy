@@ -19,7 +19,6 @@
 #         if alchemy.conf.showEditor is true
 #             alchemy.modifyElements.showOptions()
 #             alchemy.modifyElements.nodeEditorInit()
-
     
 #     showOptions: () ->
 #         optionsHTML = """<ul class="list-group"> 
@@ -186,8 +185,6 @@
 #                     d3.select("#node-add-prop-value").attr("placeholder", "null or invlid input")
 #                 else
 #                     d3.select("#node-#{key}-input").attr("placeholder", "null or invalid input")
-            
-
 
 #     nodeEditorClear: () ->
 #         d3.selectAll(".node").classed("editing":false)

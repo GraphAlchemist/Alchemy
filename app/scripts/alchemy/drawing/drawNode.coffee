@@ -35,7 +35,7 @@ class alchemy.drawing.DrawNode
                 .attr('id', (d) -> "text-#{d.id}")
 
         @_styleNode = (node) ->
-            node.select('circle')
+            node.selectAll('circle')
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')
                 .attr('style', (d) -> utils.nodeStyle(d))
@@ -51,7 +51,6 @@ class alchemy.drawing.DrawNode
                 .on("dragstart", null)
                 .on("drag", null)
                 .on("dragend", null)
-
 
             if editorEnabled
                 editorInteractions = new alchemy.editor.Interactions
@@ -69,8 +68,7 @@ class alchemy.drawing.DrawNode
                 # node.call(drag)
 
             else 
-                node
-                    .on('mouseup', null)
+                node.on('mouseup', null)
                     .on('mouseover', coreInteractions.nodeMouseOver)
                     .on('mouseout', coreInteractions.nodeMouseOut)
                     .on('dblclick', coreInteractions.nodeDoubleClick)
@@ -101,5 +99,3 @@ class alchemy.drawing.DrawNode
 
     styleNode: (node) =>
         @_styleNode(node)
-
-

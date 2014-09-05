@@ -1,27 +1,27 @@
 class alchemy.models.Edge
     constructor: (edge) ->
-        # Merge undefined edgeStyle keys from conf.
-        # Works with undefined @edgeStyle
         conf = alchemy.conf
+
+        @style = new alchemy.models.EdgeStyle(@, edge)
         @id = if edge.id? then edge.id else "#{edge.source}-#{edge.target}"
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
         
         # Contains state of edge, used by renderers
-        @state = {'active': true} 
-        
+        @state = {'active': true}
+
         # Edge properties, as provided by the user
         @properties = edge
         @_edgeAttributes = new alchemy.models.EdgeAttributes
         caption = @_edgeAttributes.edgeCaption(@properties)
         if caption       
             @properties.caption = caption
-        
+
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@properties.source]._d3
             'target': alchemy._nodes[@properties.target]._d3
             'caption': caption
-       
+
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id
         alchemy._nodes["#{edge.target}"].addEdge @id
