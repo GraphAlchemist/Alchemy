@@ -89,8 +89,13 @@ alchemy.defaults =
     # Edges
     edgeCaption: 'caption'
     edgeClick: 'default'
-    edgeStyle: (d) ->
-        null
+    edgeStyle:
+        "all":
+            "width": 2
+            "color": "#FFFFFF"
+            "opacity": 0.2
+            "directed": true
+            "curved": true
     edgeTypes: null
     curvedEdges: false
     edgeWidth: (d)-> 4

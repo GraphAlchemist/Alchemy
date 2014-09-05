@@ -39,9 +39,6 @@ class alchemy.drawing.DrawNode
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')
                 .attr('style', (d) -> utils.nodeStyle(d))
-                # .style((d) -> 
-                #     console.log "InStyleYo"
-                #     return utils.nodeStyle(d))
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"

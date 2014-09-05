@@ -8,7 +8,6 @@ alchemy.svgRenderer =
         strokeWidth = defaultStyle.borderWidth d, radius
         
         svgStyles = {
-            "r": radius
             "fill": fill
             "stroke": stroke
             "stroke-width": strokeWidth

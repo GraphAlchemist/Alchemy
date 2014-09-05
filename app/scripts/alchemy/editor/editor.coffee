@@ -320,8 +320,6 @@ class alchemy.editor.Editor
             if ((key!="") and (value != ""))
                 alchemy._edges[edgeID].setProperty("#{key}", "#{value}")
                 edgeSelection = d3.select("#edge-#{edgeID}")
-                # edgeSelection.data((d) -> d)
-                # debugger
                 drawEdges = new alchemy.drawing.DrawEdges
                 drawEdges.updateEdge(d3.select("#edge-#{edgeID}"))
                 if newProperty is true 
