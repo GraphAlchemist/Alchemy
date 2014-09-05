@@ -24,7 +24,7 @@ class alchemy.drawing.NodeUtils
             node = alchemy._nodes[d.id]
             styles = node.renderedStyles
 
-            if @nodeColours d is not ''
+            if @nodeColours(d) is not ''
                 styles.fill = @nodeColours d
 
             str = JSON.stringify styles
@@ -32,7 +32,6 @@ class alchemy.drawing.NodeUtils
             str = str.replace "{", ""
             str = str.replace "}", ""
             str = str.replace '"', ""
-            str
 
             str.split(",").join(";")
                .split("{").join("")
