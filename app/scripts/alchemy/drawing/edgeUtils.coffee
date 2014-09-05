@@ -36,12 +36,9 @@ class alchemy.drawing.EdgeUtils
                     id = "#{nodes[d.source.id].properties[clusterKey]}-#{nodes[d.target.id].properties[clusterKey]}"
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
-        else if alchemy.conf.edgeStyle? and not alchemy.conf.cluster
-            @edgeStyle = (d) ->
-                "#{alchemy.conf.edgeStyle(d)}"
         else
             @edgeStyle = (d) ->
-                ""
+                alchemy.conf.edgeStyle
 
         square = (n) -> n * n
         hyp = (edge) ->

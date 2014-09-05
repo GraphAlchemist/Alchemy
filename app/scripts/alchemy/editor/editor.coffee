@@ -52,7 +52,6 @@ class alchemy.editor.Editor
                 </form>
             """
 
-
     startEditor: =>
         divSelector = alchemy.conf.divSelector
         html = @editorContainerHTML

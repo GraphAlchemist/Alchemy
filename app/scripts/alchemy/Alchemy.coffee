@@ -30,14 +30,9 @@ class Alchemy
         @editor = {}
 
         @log = {}
-        @state = {
+        @state =
             "interactions": "default"
             "layout": "default"
-            "filters": {
-                "edges": {},
-                "nodes": {}
-            }
-        }
 
     getState: (key) =>
         if @state.key?
@@ -83,7 +78,6 @@ class Alchemy
 
     allEdges: =>
         _.map(@_edges, (e) -> e.properties)
-
 
 currentRelationshipTypes = {}
 

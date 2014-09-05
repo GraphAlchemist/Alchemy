@@ -27,16 +27,7 @@ class alchemy.drawing.NodeUtils
             if @nodeColours(d) is not ''
                 styles.fill = @nodeColours d
 
-            str = JSON.stringify styles
-            str = str.replace ",", ";"
-            str = str.replace "{", ""
-            str = str.replace "}", ""
-            str = str.replace '"', ""
-
-            str.split(",").join(";")
-               .split("{").join("")
-               .split("}").join("")
-               .split('"').join("")
+            alchemy.svgRenderer.jsonToCSS styles
 
         nodeText: (d) ->
             node = alchemy._nodes[d.id]

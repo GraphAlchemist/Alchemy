@@ -14,10 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
 class alchemy.drawing.DrawEdge
     constructor: (utils)->
-        # edge is a selection of a single edge or multiple edges
         conf = alchemy.conf
         @curved = conf.curvedEdges
         @directed = conf.directedEdges
@@ -141,4 +139,3 @@ class alchemy.drawing.DrawEdge
         else
             edge.select('.edge-handler')
                 .on('click', alchemy.interactions.edgeClick)
-

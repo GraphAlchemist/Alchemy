@@ -52,7 +52,6 @@ class alchemy.drawing.DrawNode
                 .on("drag", null)
                 .on("dragend", null)
 
-
             if editorEnabled
                 editorInteractions = new alchemy.editor.Interactions
                 node.on('mouseup', editorInteractions.nodeMouseUp)
@@ -69,8 +68,7 @@ class alchemy.drawing.DrawNode
                 # node.call(drag)
 
             else 
-                node
-                    .on('mouseup', null)
+                node.on('mouseup', null)
                     .on('mouseover', coreInteractions.nodeMouseOver)
                     .on('mouseout', coreInteractions.nodeMouseOut)
                     .on('dblclick', coreInteractions.nodeDoubleClick)
@@ -101,5 +99,3 @@ class alchemy.drawing.DrawNode
 
     styleNode: (node) =>
         @_styleNode(node)
-
-

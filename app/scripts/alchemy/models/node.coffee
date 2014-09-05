@@ -9,22 +9,18 @@ class alchemy.models.Node
         @properties = node
         @state = { "active": true }
 
-        @_d3 = {
+        @_d3 =
             'id': node.id,
             'r' : radius
             'stroke-width': @renderedStyles["stroke-width"]
             'root': @properties[conf.rootNodes]
-        }
 
         @adjacentEdges = []
-        # Add to node collection
-        Node::all.push(@.id)
 
         if conf.nodeTypes
             @nodeType = @properties[Object.keys(alchemy.conf.nodeTypes)]
             if @nodeType then @_d3['nodeType'] = @nodeType
 
-   
     addEdge: (edge) ->
         # Stores edge.id for easy edge lookup
         @adjacentEdges.push(edge)
@@ -46,6 +42,3 @@ class alchemy.models.Node
     removeProperty: (property) =>
     	if @properties.property?
     		_.omit(@properties, property)
-
-    # Class properties
-    all: []
