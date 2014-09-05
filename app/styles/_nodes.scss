@@ -1,15 +1,5 @@
 .node {
     cursor: pointer;
-    circle  {
-        fill: $primary;
-        fill-opacity: 0.8;
-        stroke: #127dc1;
-        stroke-opacity: 1;
-        &.root {
-            fill: #9000ff;
-            stroke: #90c73d;
-        }
-    }
     text.root {
         font-size: 32px;
     }
