@@ -16,6 +16,10 @@ class alchemy.models.Node
             'root': @properties[conf.rootNodes]
 
         @adjacentEdges = []
+        
+        # commented out just in case it breaks something        
+        # Add to node collection
+        Node::all.push(@.id)
 
         if conf.nodeTypes
             @nodeType = @properties[Object.keys(alchemy.conf.nodeTypes)]

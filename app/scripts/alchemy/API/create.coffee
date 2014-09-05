@@ -14,13 +14,53 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-###
-API create methods
-###
+apiCreateMethods = 
+    create:    
+        nodes: (nodeMap, nodeMaps...) ->
+            registerNode = (node) ->
+                # check if the node already exists
+                if not alchemy._nodes[node.id]
+                    alchemyNode = new alchemy.models.Node(node)
+                    alchemy._nodes[node.id] = alchemyNode
+                    [alchemyNode]
+                else
+                    # if the node already exists, suggest that the user uses a 
+                    # different method for creating/updating the node
+                    console.warn("""
+                                A node with the id #{node.id} already exists.
+                                Consider using the alchemy.get.nodes() method to 
+                                retrieve the node and then using the Node methods.
+                                """)
+            if nodeMaps.length isnt 0
+                nodeMaps.push(nodeMap)
+                # create the results set
+                results = []
+                for n in nodeMaps
+                    # check if the node already exists
+                    registerNode(n)
+                results
+            else
+                registerNode(nodeMap)
 
+        edges: (edgeMap, edgeMaps...) ->
+            registerEdge = (edge) ->
+                if edge.id and not alchemy._edges[edge.id]
+                    alchemyEdge = new alchemy.models.Edge(edge)
+                    alchemy._edges[edge.id] = alchemyEdge
+                    [alchemyEdge]
+                else if edge.id and alchemy._edges[edge.id]
+                    console.warn("""
+                        An edge with that id #{someEdgeMap.id} already exists.
+                        Consider using the alchemy.get.edge() method to 
+                        retrieve the edge and then using the Edge methods.
+                        Note: id's are not required for edges.  Alchemy will create
+                        an unlimited number of edges for the same source and target node.
+                        Simply omit 'id' when creating the edge.
+                        """)
+                else
+                    if alchemy._edges["#{edge.source}-{edge.target}"]
+                        console.log('work in progress')
+            if edgeMaps.length isnt 0
+                console.warn("Make sure this function supports multiple arguments")
+            else
 
-_.extend alchemy,
-
-    createNodes: (nodeMap) ->
-
-    createEdges: (edgeMap) ->
