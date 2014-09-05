@@ -24,14 +24,12 @@ alchemy.startGraph = (data) ->
     if not data
         alchemy.utils.warnings.dataWarning()
 
-    # Master Data
-    alchemy._nodes = {}
-    alchemy._edges = {}
-
     # create nodes map and update links
-    data.nodes.forEach (n) ->
-        alchemy._nodes[n.id] = new alchemy.models.Node(n)
+    alchemy.create.nodes.apply(@, data.nodes)
+    # alchemy.create.edges.apply(@, data.edges)
+    
     data.edges.forEach (e) ->
+        # alchemy.create.edges(e)
         edge  = new alchemy.models.Edge(e)
         alchemy._edges[edge.id] = edge
 

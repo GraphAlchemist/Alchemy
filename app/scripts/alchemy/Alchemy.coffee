@@ -18,7 +18,8 @@ lets
 """
 
 class Alchemy
-    constructor: () ->   
+    constructor: () ->
+        # Alchemy houses a number modules that can be considered submodules
         @version = "#VERSION#"
         @layout = {}
         @interactions = {}
@@ -32,7 +33,29 @@ class Alchemy
         @state =
             "interactions": "default"
             "layout": "default"
+            "filters": {
+                "edges": {},
+                "nodes": {}
+            }
+        }
+        
+        # node and edge internals...  It is unadvised to access internals
+        # directly.  Use, alchemy.get.nodes or alchemy.get.edges
+        @_nodes = {}
+        @_edges = {}
 
+        # extend alchemy with API methods
+        _.extend(@, api())
+
+    # depricate v1.0
+    allEdges: ->
+            _.map(@_edges, (e) -> e.properties)
+    # depricate in v1.0
+    allNodes: ->
+            _.map(@_nodes, (n) -> n.properties)
+
+    # change this to alchemy.state.get()
+    # alchemy.state.set() 
     getState: (key) =>
         if @state.key?
             @state.key
@@ -41,6 +64,7 @@ class Alchemy
         @state.key = value
 
     begin: (userConf) =>
+        # overide configuration with user inputs
         @conf = _.assign({}, alchemy.defaults, userConf)
         if typeof alchemy.conf.dataSource == 'string'
             d3.json(alchemy.conf.dataSource, alchemy.startGraph)
@@ -84,3 +108,5 @@ if typeof module isnt 'undefined' and module.exports
   module.exports = new Alchemy()
 else
   @alchemy = new Alchemy()
+
+api()
