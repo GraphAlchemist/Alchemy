@@ -29,14 +29,9 @@ class Alchemy
         @drawing = {}
         @editor = {}
         @log = {}
-        @state = {
+        @state =
             "interactions": "default"
             "layout": "default"
-            "filters": {
-                "edges": {},
-                "nodes": {}
-            }
-        }
 
     getState: (key) =>
         if @state.key?
@@ -51,6 +46,37 @@ class Alchemy
             d3.json(alchemy.conf.dataSource, alchemy.startGraph)
         else if typeof alchemy.conf.dataSource == 'object'
             alchemy.startGraph(alchemy.conf.dataSource)
+
+    #API methods
+    getNodes: (id, ids...) =>
+        # returns one or more nodes as an array
+        if ids
+            ids.push(id)
+            params = _.union(ids)
+            results = []
+            for p in params
+                results.push(alchemy._nodes[p].properties)
+            results
+        else
+            [@_nodes[id].properties]
+
+    getEdges: (id=null, target=null) =>
+        # returns one or more edges as an array
+        if id? and target?
+            edge_id = "#{id}-#{target}"
+            edge = @_edges[edge_id]
+            [edge.properties]
+        else if id? and not target?
+            results = _.map(@_edges, (edge) -> 
+                        if (edge.properties.source is id) or (edge.properties.target is id)
+                            edge.properties)
+            _.compact(results) # best way to do this?
+
+    allNodes: =>
+        _.map(@_nodes, (n) -> n.properties)
+
+    allEdges: =>
+        _.map(@_edges, (e) -> e.properties)
 
 currentRelationshipTypes = {}
 

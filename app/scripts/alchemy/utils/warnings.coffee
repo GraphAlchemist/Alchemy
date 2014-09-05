@@ -2,9 +2,7 @@ alchemy.utils.warnings =
     dataWarning: ->
         if alchemy.conf.dataWarning and typeof alchemy.conf.dataWarning is 'function'
             alchemy.conf.dataWarning()
-        else if alchemy.conf.dataWarning is 'default'    
-            # allow for user specified error
-            # clean up search modal
+        else if alchemy.conf.dataWarning is 'default'
             no_results = """
                         <div class="modal fade" id="no-results">
                             <div class="modal-dialog">
@@ -25,7 +23,6 @@ alchemy.utils.warnings =
                        """
             $('body').append(no_results)
             $('#no-results').modal('show')
-            $('#loading-spinner').hide()
             return
     divWarning: ->
         """
