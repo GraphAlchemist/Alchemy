@@ -35,10 +35,13 @@ class alchemy.drawing.DrawNode
                 .attr('id', (d) -> "text-#{d.id}")
 
         @_styleNode = (node) ->
-            node.select('circle')
+            node.selectAll('circle')
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')
                 .attr('style', (d) -> utils.nodeStyle(d))
+                # .style((d) -> 
+                #     console.log "InStyleYo"
+                #     return utils.nodeStyle(d))
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"
