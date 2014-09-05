@@ -19,6 +19,7 @@ class alchemy.models.Node
         # Works with undefined @nodeStyle
         @nodeStyle = _.merge(conf.nodeStyle, @nodeStyle)
         @adjacentEdges = []
+        
         # Add to node collection
         Node::all.push(@.id)
 

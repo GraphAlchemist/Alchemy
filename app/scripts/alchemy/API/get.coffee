@@ -19,11 +19,12 @@ apiGetMethods =
     # e.g. alchemy.get.nodes()
     get:
         nodes: (id, ids...) ->
+            debugger
             if not id
                 console.warn("Please specify a node id.")
                 return
             # returns one or more nodes as an array
-            if ids
+            if ids.length isnt 0
                 ids.push(id)
                 params = _.union(ids)
                 results = []

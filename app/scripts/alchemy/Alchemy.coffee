@@ -39,6 +39,11 @@ class Alchemy
             }
         }
         
+        # node and edge internals...  It is unadvised to access internals
+        # directly.  Use, alchemy.get.nodes or alchemy.get.edges
+        @_nodes = {}
+        @_edges = {}
+
         # extend alchemy with API methods
         _.extend(@, api())
 
