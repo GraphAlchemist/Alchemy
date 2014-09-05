@@ -1,9 +1,10 @@
 class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
-        style = new alchemy.models.NodeStyle
-        radius = style.nodeSize(node)
-        
+
+        @style = new alchemy.models.NodeStyle(@, node)
+        radius = @style.nodeSize(node)
+
         @id = node.id
         @properties = node
         @state = { "active": true }
@@ -11,7 +12,7 @@ class alchemy.models.Node
         @_d3 = {
             'id': node.id,
             'r' : radius
-            'stroke-width': style.strokeWidth(radius)
+            'stroke-width': @renderedStyles["stroke-width"]
             'root': @properties[conf.rootNodes]
         }
 
@@ -25,7 +26,7 @@ class alchemy.models.Node
 
    
     addEdge: (edge) ->
-         # Stores edge.id for easy edge lookup
+        # Stores edge.id for easy edge lookup
         @adjacentEdges.push(edge)
         @adjacentEdges = _.uniq @adjacentEdges
     outDegree: () -> @adjacentEdges.length

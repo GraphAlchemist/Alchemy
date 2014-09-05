@@ -71,13 +71,13 @@ alchemy.defaults =
     nodeCaption: 'caption'
     nodeStyle:
         "all":
-            "radius": 10,
-            "color"  : "#68B9FE"
-            "borderColor": "#127DC1"
-            "borderWidth": (radius) ->
+            "radius": (d) -> 10,
+            "color"  : (d) -> "#68B9FE"
+            "borderColor": (d) ->"#127DC1"
+            "borderWidth": (d, radius) ->
                 radius / 3
-            "captionColor": "#FFFFFF",
-            "captionBackground": null
+            "captionColor": (d) -> "#FFFFFF",
+            "captionBackground": (d) -> null
             "captionSize": 12
     nodeColour: null # WILL BE DEPRECATED IN 1.0
     nodeMouseOver: 'caption'

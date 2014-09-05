@@ -1,26 +1,30 @@
 class alchemy.models.NodeStyle
-    constructor: ->
-        rootKey = alchemy.conf.rootNodes
-        if typeof alchemy.conf.nodeRadius is 'function'
+    constructor: (node) ->
+        conf = alchemy.conf
+        rootKey = conf.rootNodes
+        if typeof conf.nodeRadius is 'function'
             @nodeSize = (node) ->
                 if node[rootKey]? and d[rootKey]
-                    alchemy.conf.rootNodeRadius(node)
+                    conf.rootNodeRadius(node)
                 else
-                    alchemy.conf.nodeRadius(node)
-        else if typeof alchemy.conf.nodeRadius is 'string'
+                    conf.nodeRadius(node)
+        else if typeof conf.nodeRadius is 'string'
             @nodeSize = (node) ->
-                key = alchemy.conf.nodeRadius
+                key = conf.nodeRadius
                 if node[rootKey]?
-                    alchemy.conf.rootNodeRadius
+                    conf.rootNodeRadius
                 else if node[key]?
                     node[key]
                 else
-                    alchemy.defaults.rootNodeRadius
-        else if typeof alchemy.conf.nodeRadius is 'number'
+                    defaults.rootNodeRadius
+        else if typeof conf.nodeRadius is 'number'
             @nodeSize = (node) ->
                 if node[rootKey]?
-                    alchemy.conf.rootNodeRadius
+                    conf.rootNodeRadius
                 else
-                    alchemy.conf.nodeRadius
-    
+                    conf.nodeRadius
+        
+        if conf.renderer is "svg"
+            alchemy.svgRenderer.populate(node)
+
     strokeWidth: (radius) -> radius / 3
