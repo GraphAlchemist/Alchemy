@@ -2,6 +2,7 @@ class alchemy.models.Edge
     constructor: (edge) ->
         conf = alchemy.conf
 
+        debugger
         @style = new alchemy.models.EdgeStyle(@, edge)
         @id = if edge.id? then edge.id else "#{edge.source}-#{edge.target}"
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
@@ -11,16 +12,16 @@ class alchemy.models.Edge
 
         # Edge properties, as provided by the user
         @properties = edge
-        @_edgeAttributes = new alchemy.models.EdgeAttributes
-        caption = @_edgeAttributes.edgeCaption(@properties)
-        if caption       
-            @properties.caption = caption
+        # @_edgeAttributes = new alchemy.models.EdgeAttributes
+        # caption = @_edgeAttributes.edgeCaption(@properties)
+        # if caption       
+        #     @properties.caption = caption
 
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@properties.source]._d3
             'target': alchemy._nodes[@properties.target]._d3
-            'caption': caption
+            'caption': @style.edgeCaption
 
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id

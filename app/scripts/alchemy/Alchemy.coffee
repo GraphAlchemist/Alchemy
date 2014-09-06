@@ -37,7 +37,6 @@ class Alchemy
                 "edges": {},
                 "nodes": {}
             }
-        }
         
         # node and edge internals...  It is unadvised to access internals
         # directly.  Use, alchemy.get.nodes or alchemy.get.edges
