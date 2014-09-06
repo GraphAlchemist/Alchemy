@@ -23,7 +23,7 @@ class alchemy.drawing.EdgeUtils
         # edge styles based on clustering
         if alchemy.conf.cluster
             clustering = alchemy.layout._clustering
-            @edgeStyle = (d) ->
+            @edgeColour = (d) ->
                 clusterKey = alchemy.conf.clusterKey
                 if nodes[d.source.id].properties.root or nodes[d.target.id].properties.root
                     index = (if nodes[d.source.id].properties.root then nodes[d.target.id].properties[clusterKey] else nodes[d.source.id].properties[clusterKey])
@@ -37,8 +37,7 @@ class alchemy.drawing.EdgeUtils
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
         else
-            @edgeStyle = (d) ->
-                alchemy.conf.edgeStyle
+            @edgeColour = ''
 
         square = (n) -> n * n
         hyp = (edge) ->
@@ -55,29 +54,34 @@ class alchemy.drawing.EdgeUtils
             # as in hypotenuse 
             hyp = Math.sqrt(height * height + width * width)
 
-            if point is 'middle'
-                distance = (hyp / 2)
-                x: edge.source.x + width * distance / hyp
-                y: edge.source.y + height * distance / hyp
-            else if point is 'linkStart'
-                distance = edge.source.r + edge.source['stroke-width']
-                x: edge.source.x + width * distance / hyp
-                y: edge.source.y + height * distance / hyp
-            else if point is 'linkEnd'
-                if conf.curvedEdges
-                    distance = hyp
-                else
-                    distance = hyp - (edge.target.r + edge.target['stroke-width'])
-                if conf.directedEdges
-                    distance = distance - conf.edgeArrowSize
-                x: edge.source.x + width * distance / hyp
-                y: edge.source.y + height * distance / hyp
-        
+            switch point
+                when 'middle' then distance = hyp / 2
+                when 'linkStart' then distance = edge.source.r + edge.source['stroke-width']
+                when 'linkEnd'
+                    if conf.curvedEdges
+                        distance = hyp
+                    else
+                        distance = hyp - (edge.target.r + edge.target['stroke-width'])
+                    if conf.directedEdges
+                        distance = distance - conf.edgeArrowSize
+
+            x: edge.source.x + width  * distance / hyp
+            y: edge.source.y + height * distance / hyp
+
         caption = alchemy.conf.edgeCaption
         if typeof caption is ('string' or 'number')
             @edgeCaption = (d) -> edges[d.id].properties[caption]
         else if typeof caption is 'function'
             @edgeCaption = (d) -> caption(edges[d.id])
+
+    edgeStyle: (d) ->
+        edge = alchemy._edges[d.id]
+        styles = edge.renderedStyles
+
+        if @edgeColour(d) is not ''
+            styles.fill = @nodeColours d
+
+        alchemy.svgRenderer.jsonToCSS styles
 
     middleLine: (edge) -> @_edgeWalk(edge, 'middle')
     startLine: (edge) ->  @_edgeWalk(edge, 'linkStart')
