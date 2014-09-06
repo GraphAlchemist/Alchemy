@@ -1,19 +1,16 @@
 class alchemy.models.Edge
     constructor: (edge) ->
         conf = alchemy.conf
-
-        @style = new alchemy.models.EdgeStyle(@, edge)
         @id = if edge.id? then edge.id else "#{edge.source}-#{edge.target}"
-        @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)
-        
+
         # Contains state of edge, used by renderers
         @state = {'active': true}
 
         # Edge properties, as provided by the user
         @properties = edge
-        @_edgeAttributes = new alchemy.models.EdgeAttributes
-        caption = @_edgeAttributes.edgeCaption(@properties)
-        if caption       
+        @style = new alchemy.models.EdgeStyle @, edge
+        caption = @style.edgeCaption(@properties)
+        if caption
             @properties.caption = caption
 
         @_d3 =
@@ -40,7 +37,7 @@ class alchemy.models.Edge
 
     setD3Property: (property, value) =>
         @_d3[property] = value
-    
+
     getProperties: () =>
         @properties
 
