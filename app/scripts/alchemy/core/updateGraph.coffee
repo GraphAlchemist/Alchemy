@@ -15,11 +15,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.updateGraph = (start=true) ->
+
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("g.edge")
-                 .data(_.map(alchemy._edges, (e) -> e._d3), (e)->e.id) 
+                        .data( ->  
+                            debugger
+                            alchemy.flatEdges)
+    # alchemy.edge = alchemy.vis.selectAll("g.edge")
+    #              .data(_.map(alchemy._edges, (e) -> e._d3), (e)-> e.id) 
     alchemy.node = alchemy.vis.selectAll("g.node")
-                .data(_.map(alchemy._nodes, (n) -> n._d3), (n)->n.id)
+                .data(_.map(alchemy._nodes, (n) -> n._d3), (n)-> n.id)
 
     if start
         alchemy.layout.positionRootNodes()

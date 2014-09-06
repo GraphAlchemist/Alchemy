@@ -2,7 +2,6 @@ class alchemy.models.Edge
     constructor: (edge) ->
         conf = alchemy.conf
 
-        debugger
         @style = new alchemy.models.EdgeStyle(@, edge)
         @id = if edge.id? then edge.id else "#{edge.source}-#{edge.target}"
         @edgeStyle = _.merge(conf.edgeStyle, @edgeStyle)

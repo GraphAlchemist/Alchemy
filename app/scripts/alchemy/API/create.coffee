@@ -44,10 +44,12 @@ apiCreateMethods =
 
         edges: (edgeMap, edgeMaps...) ->
             registerEdge = (edge) ->
+                # data provided a unique id and that edge does not yet exist
                 if edge.id and not alchemy._edges[edge.id]
                     alchemyEdge = new alchemy.models.Edge(edge)
-                    alchemy._edges[edge.id] = alchemyEdge
+                    alchemy._edges[edge.id] = [alchemyEdge]
                     [alchemyEdge]
+                # data provided a unique id and that edge already exists
                 else if edge.id and alchemy._edges[edge.id]
                     console.warn("""
                         An edge with that id #{someEdgeMap.id} already exists.
@@ -57,10 +59,19 @@ apiCreateMethods =
                         an unlimited number of edges for the same source and target node.
                         Simply omit 'id' when creating the edge.
                         """)
+                # data did not provide a unique id and so alchemy uses source-target
                 else
-                    if alchemy._edges["#{edge.source}-{edge.target}"]
-                        console.log('work in progress')
+                    edgeArray = alchemy._edges["#{edge.source}-#{edge.target}"]
+                    # edges already exist with this source target, append a new edge object
+                    alchemyEdge = new alchemy.models.Edge(edge)
+                    if edgeArray
+                        edgeArray.push(alchemyEdge)
+                        [alchemyEdge]
+                    else
+                        alchemy._edges["#{edge.source}-#{edge.target}"] = [alchemyEdge]
+                        [alchemyEdge]
+                        
             if edgeMaps.length isnt 0
                 console.warn("Make sure this function supports multiple arguments")
             else
-
+                registerEdge(edgeMap)

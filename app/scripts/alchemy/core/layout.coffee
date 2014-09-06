@@ -137,7 +137,7 @@ alchemy.generateLayout = (start=false)->
     alchemy.force = d3.layout.force()
         .size([conf.graphWidth(), conf.graphHeight()])
         .nodes(_.map(alchemy._nodes, (node) -> node._d3))
-        .links(_.map(alchemy._edges, (edge) -> edge._d3))        
+        .links(alchemy.flatEdges)        
 
     alchemy.force
         .charge(alchemy.layout.charge())

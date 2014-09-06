@@ -16,7 +16,7 @@
 
 alchemy.startGraph = (data) ->
     conf = alchemy.conf
-
+        
     if d3.select(conf.divSelector).empty()
         console.warn(alchemy.utils.warnings.divWarning())
     
@@ -29,10 +29,13 @@ alchemy.startGraph = (data) ->
     # alchemy.create.edges.apply(@, data.edges)
     
     data.edges.forEach (e) ->
-        # alchemy.create.edges(e)
-        edge  = new alchemy.models.Edge(e)
-        alchemy._edges[edge.id] = edge
-
+        alchemy.create.edges(e)
+        # edge  = new alchemy.models.Edge(e)
+        # alchemy._edges[edge.id] = edge
+        
+    # unpack edge data to be used by d3
+    alchemy.flatEdges = _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
+    
     #create SVG
     alchemy.vis = d3.select(conf.divSelector)
         .attr("style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px")
