@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+
 class alchemy.drawing.DrawEdge
     constructor: (utils)->
         conf = alchemy.conf
@@ -39,8 +40,8 @@ class alchemy.drawing.DrawEdge
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
-                .style('stroke', (d) ->
-                    utils.edgeStyle(d))
+                # .attr('style', (d) -> @utils.edgeStyle(d))
+                # .style('stroke', (d) -> utils.edgeStyle(d))
                 .style('stroke-width', (d) ->
                     edgeProperties = alchemy._edges[d.id].properties
                     alchemy.conf.edgeWidth(edgeProperties))
