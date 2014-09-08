@@ -91,9 +91,9 @@ alchemy.defaults =
     edgeClick: 'default'
     edgeStyle:
         "all":
-            "width": (d) -> 2
+            "width": (d) -> 4
             "color": (d) -> "#FFFFFF"
-            "opacity": (d) -> 0.2
+            "opacity": (d) -> 1
             "directed": (d) -> true
             "curved": (d) -> true
     edgeTypes: null
