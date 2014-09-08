@@ -9,7 +9,7 @@ class alchemy.models.Edge
         # Edge properties, as provided by the user
         @properties = edge
         @style = new alchemy.models.EdgeStyle @, edge
-        caption = @style.edgeCaption(@properties)
+        caption = @style.edgeCaption
         if caption
             @properties.caption = caption
 
