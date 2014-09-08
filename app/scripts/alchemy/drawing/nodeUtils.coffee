@@ -22,12 +22,13 @@ class alchemy.drawing.NodeUtils
         
         nodeStyle: (d) ->
             node = alchemy._nodes[d.id]
-            styles = node.renderedStyles
+            styles = node._styles
 
             if @nodeColours(d) is not ''
                 styles.fill = @nodeColours d
 
-            alchemy.svgRenderer.jsonToCSS styles
+            styles
+            # alchemy.svgRenderer.jsonToCSS styles
 
         nodeText: (d) ->
             node = alchemy._nodes[d.id]

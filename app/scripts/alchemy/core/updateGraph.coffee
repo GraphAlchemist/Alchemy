@@ -18,8 +18,7 @@ alchemy.updateGraph = (start=true) ->
 
     #enter/exit nodes/edges
     alchemy.edge = alchemy.vis.selectAll("g.edge")
-                        .data -> alchemy.flatEdges
-
+                        .data(_.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray)))
     alchemy.node = alchemy.vis.selectAll("g.node")
                 .data(_.map(alchemy._nodes, (n) -> n._d3), (n)-> n.id)
 

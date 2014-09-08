@@ -7,4 +7,4 @@ class alchemy.models.EdgeStyle
             when ('string' or 'number') then edge[caption]
             when 'function' then caption(edge)
 
-        alchemy.svgRenderer.edge.populate(edge) if conf.renderer is "svg"
+        alchemy.svgStyleTranslator.edge.populate(edge) if conf.renderer is "svg"

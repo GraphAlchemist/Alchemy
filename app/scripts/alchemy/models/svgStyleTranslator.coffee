@@ -1,4 +1,4 @@
-alchemy.svgRenderer =
+alchemy.svgStyleTranslator =
     node:
         populate: (node)->
             defaultStyle = alchemy.conf.nodeStyle.all
@@ -14,7 +14,7 @@ alchemy.svgRenderer =
                 "stroke": stroke
                 "stroke-width": strokeWidth
 
-            node.renderedStyles = svgStyles
+            _.assign(node._style, svgStyles)
 
     edge:
         populate: (edge) ->

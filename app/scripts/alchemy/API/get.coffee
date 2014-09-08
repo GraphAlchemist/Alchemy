@@ -28,21 +28,27 @@ apiGetMethods =
                 params = _.union(ids)
                 results = []
                 for p in params
-                    results.push(alchemy._nodes[p].properties)
+                    results.push(alchemy._nodes[p])
                 results
             else
-                [alchemy._nodes[id].properties]
+                [alchemy._nodes[id]]
 
         edges: (id=null, target=null) ->
             # returns one or more edges as an array
             if id? and target?
                 edge_id = "#{id}-#{target}"
                 edge = alchemy._edges[edge_id]
-                [edge.properties]
+                [edge]
             else if id? and not target?
-                results = _.map(alchemy._edges, (edge) -> 
-                            if (edge.properties.source is id) or (edge.properties.target is id)
-                                edge.properties)
+                if alchemy._edges[id]?
+                    [_.flatten(alchemy._edges[id])]
+                else
+                    # edge does not exist, so return all edges with `id` as the 
+                    # `source OR `target` this method scans ALL edges....
+                    debugger
+                    results = _.map(alchemy._edges, (edge) ->
+                        if (edge.properties.source is id) or (edge.properties.target is id)
+                            edge.properties)
                 _.compact(results) # best way to do this?
 
         allNodes: ->
@@ -50,4 +56,4 @@ apiGetMethods =
 
 
         allEdges: ->
-            _.map(alchemy._edges, (e) -> e.properties)
+            _.flatten(_.map(alchemy._edges, (edgeArray) -> e for e in edgeArray))

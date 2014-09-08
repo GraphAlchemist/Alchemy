@@ -22,4 +22,5 @@ class alchemy.models.NodeStyle
                     else
                         conf.nodeRadius
 
-        alchemy.svgRenderer.node.populate(node) if conf.renderer is "svg"
+        # populates nodeStyle with all svg styles
+        alchemys.svgStyleTranslator.node.populate(node) if conf.renderer is "svg"
