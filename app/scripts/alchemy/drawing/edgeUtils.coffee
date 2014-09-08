@@ -37,7 +37,7 @@ class alchemy.drawing.EdgeUtils
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
         else
-            @edgeColour = ''
+            @edgeColour = -> ''
 
         square = (n) -> n * n
         hyp = (edge) ->
@@ -76,7 +76,7 @@ class alchemy.drawing.EdgeUtils
 
     edgeStyle: (d) ->
         edge = alchemy._edges[d.id]
-        styles = edge.renderedStyles
+        styles = edge[0].renderedStyles
 
         if @edgeColour(d) is not ''
             styles.fill = @nodeColours d

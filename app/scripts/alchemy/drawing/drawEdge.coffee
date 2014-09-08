@@ -40,11 +40,8 @@ class alchemy.drawing.DrawEdge
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
-                # .attr('style', (d) -> @utils.edgeStyle(d))
-                # .style('stroke', (d) -> utils.edgeStyle(d))
-                .style('stroke-width', (d) ->
-                    edgeProperties = alchemy._edges[d.id].properties
-                    alchemy.conf.edgeWidth(edgeProperties))
+                .attr('style', (d) ->
+                    utils["edgeStyle"](d))
             edge.filter((d) -> d.caption?)
                 .append('text')
             edge.append('rect')
