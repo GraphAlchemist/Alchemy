@@ -8,16 +8,21 @@ class alchemy.models.Edge
 
         # Edge properties, as provided by the user
         @_properties = edge
-        @style = new alchemy.models.EdgeStyle @, edge
-        caption = @style.edgeCaption(@_properties)
+        @style = alchemy.svgStyleTranslator.edge.populate edge
+
+        caption = conf.edgeCaption
+        @edgeCaption = (edge) -> switch typeof caption
+            when ('string' or 'number') then edge[caption]
+            when 'function' then caption(edge)
+
         if caption
-            @_properties.caption = caption
+            @_properties.caption = @edgeCaption
 
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@_properties.source]._d3
             'target': alchemy._nodes[@_properties.target]._d3
-            'caption': @style.edgeCaption
+            'caption': @edgeCaption
 
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id

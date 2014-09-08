@@ -20,15 +20,10 @@ class alchemy.drawing.NodeUtils
                     else
                         ''
         
-        nodeStyle: (d) ->
-            node = alchemy._nodes[d.id]
-            styles = node._styles
-
-            if @nodeColours(d) is not ''
-                styles.fill = @nodeColours d
-
+        nodeStyle: (styles) ->
+            if @nodeColours(styles) is not ''
+                styles.fill = @nodeColours styles
             styles
-            # alchemy.svgRenderer.jsonToCSS styles
 
         nodeText: (d) ->
             node = alchemy._nodes[d.id]

@@ -38,7 +38,7 @@ class alchemy.drawing.DrawNode
             node.selectAll('circle')
                 .attr('r', (d) -> d.r)
                 .attr('shape-rendering', 'optimizeSpeed')
-                .attr('style', (d) -> utils.nodeStyle(d))
+                .each (d) -> d3.select(@).style(utils.nodeStyle(d))
 
         @_setInteractions = (node) ->
             editorEnabled = alchemy.getState("interactions") is "editor"

@@ -1,20 +1,22 @@
 alchemy.svgStyleTranslator =
     node:
         populate: (node)->
-            defaultStyle = alchemy.conf.nodeStyle.all
-            d = node.properties
+            conf = alchemy.conf
+            defaultStyle = conf.nodeStyle.all
+            d = node
 
-            radius = defaultStyle.radius d
+            radius = if node.root then conf.rootNodeRadius(d) else defaultStyle.radius(d)
             fill = defaultStyle.color d
             stroke = defaultStyle.borderColor d
             strokeWidth = defaultStyle.borderWidth d, radius
             
             svgStyles =
+                "r": radius
                 "fill": fill
                 "stroke": stroke
                 "stroke-width": strokeWidth
 
-            _.assign(node._style, svgStyles)
+            return svgStyles
 
     edge:
         populate: (edge) ->
@@ -32,16 +34,4 @@ alchemy.svgStyleTranslator =
                 "stroke-width": width
                 "opacity": opacity
 
-            edge.renderedStyles = svgStyles
-
-    jsonToCSS: (json) ->
-            str = JSON.stringify json
-            str = str.replace ",", ";"
-            str = str.replace "{", ""
-            str = str.replace "}", ""
-            str = str.replace '"', ""
-
-            str.split(",").join(";")
-               .split("{").join("")
-               .split("}").join("")
-               .split('"').join("")
+            return svgStyles
