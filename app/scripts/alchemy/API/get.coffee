@@ -19,7 +19,6 @@ apiGetMethods =
     # e.g. alchemy.get.nodes()
     get:
         nodes: (id, ids...) ->
-            debugger
             if not id
                 console.warn("Please specify a node id.")
                 return
@@ -47,7 +46,6 @@ apiGetMethods =
                 _.compact(results) # best way to do this?
 
         allNodes: ->
-            debugger
             _.map(alchemy._nodes, (n) -> n.properties)
 
 

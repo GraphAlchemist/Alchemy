@@ -17,7 +17,7 @@ class alchemy.models.Edge
             'id': @id
             'source': alchemy._nodes[@properties.source]._d3
             'target': alchemy._nodes[@properties.target]._d3
-            'caption': @style.edgeCaption
+            'caption': caption
 
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id
