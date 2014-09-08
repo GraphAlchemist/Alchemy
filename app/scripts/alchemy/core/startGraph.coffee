@@ -34,7 +34,7 @@ alchemy.startGraph = (data) ->
         # alchemy._edges[edge.id] = edge
         
     # unpack edge data to be used by d3
-    alchemy.flatEdges = _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
+    # alchemy.flatEdges = _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
     
     #create SVG
     alchemy.vis = d3.select(conf.divSelector)

@@ -7,16 +7,16 @@ class alchemy.models.Edge
         @state = {'active': true}
 
         # Edge properties, as provided by the user
-        @properties = edge
+        @_properties = edge
         @style = new alchemy.models.EdgeStyle @, edge
-        caption = @style.edgeCaption(@properties)
+        caption = @style.edgeCaption(@_properties)
         if caption
-            @properties.caption = caption
+            @_properties.caption = caption
 
         @_d3 =
             'id': @id
-            'source': alchemy._nodes[@properties.source]._d3
-            'target': alchemy._nodes[@properties.target]._d3
+            'source': alchemy._nodes[@_properties.source]._d3
+            'target': alchemy._nodes[@_properties.target]._d3
             'caption': @style.edgeCaption
 
         # Add id to source/target's edgelist
@@ -24,11 +24,11 @@ class alchemy.models.Edge
         alchemy._nodes["#{edge.target}"].addEdge @id
 
     toPublic: =>
-        keys = _.keys(@properties)
+        keys = _.keys(@_properties)
         _.pick(@, keys)
 
     setProperty: (property, value) =>
-        @properties[property] = value
+        @_properties[property] = value
         if (property is 'source') or (property is 'target')
             # add properties to d3 internals
             @setD3Property(property, alchemy._nodes[value]._d3)
@@ -38,8 +38,11 @@ class alchemy.models.Edge
     setD3Property: (property, value) =>
         @_d3[property] = value
 
-    getProperties: () =>
-        @properties
+    getProperties: (key=null) =>
+        if key?
+            @_properties[key]
+        else
+            @_properties
 
     # Find if both endpoints are active
     allNodesActive: () =>

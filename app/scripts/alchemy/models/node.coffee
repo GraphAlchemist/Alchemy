@@ -2,18 +2,15 @@ class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
 
-        @style = new alchemy.models.NodeStyle(@, node)
-        radius = @style.nodeSize(node)
+        @_style = new alchemy.models.NodeStyle(@, node)
+        radius = @_style.nodeSize(node)
 
         @id = node.id
         @properties = node
         @state = { "active": true }
 
-        @_d3 =
-            'id': node.id,
-            'r' : radius
-            'stroke-width': @renderedStyles["stroke-width"]
-            'root': @properties[conf.rootNodes]
+        @_d3 = # the data packet that is sent to the DOM to be rendered by d3
+            _.assign({'id': node.id, 'root': @properties[conf.rootNodes]}, @_style)
 
         @adjacentEdges = []
         
@@ -29,6 +26,7 @@ class alchemy.models.Node
         # Stores edge.id for easy edge lookup
         @adjacentEdges.push(edge)
         @adjacentEdges = _.uniq @adjacentEdges
+    
     outDegree: () -> @adjacentEdges.length
 
     # Find connected nodes
@@ -47,3 +45,14 @@ class alchemy.models.Node
     removeProperty: (property) =>
     	if @properties.property?
     		_.omit(@properties, property)
+
+    # Style methods
+    getStyles: (key=null) =>
+        if key?
+            @_style[key]
+        else
+            @_style
+
+    setStyles: (key, value) =>
+        @_style[key] = value
+
