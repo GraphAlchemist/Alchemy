@@ -67,16 +67,10 @@ class alchemy.drawing.EdgeUtils
             x: edge.source.x + width  * distance / hyp
             y: edge.source.y + height * distance / hyp
 
-        caption = alchemy.conf.edgeCaption
-        if typeof caption is ('string' or 'number')
-            @edgeCaption = (d) -> edges[d.id].properties[caption]
-        else if typeof caption is 'function'
-            @edgeCaption = (d) -> caption(edges[d.id])
-
     edgeStyle: (d) ->
         edge = alchemy._edges[d.id]
         styles = edge[0].style
-        console.log styles
+
         if @edgeColour(d) is not ''
             styles.fill = @nodeColours d
 

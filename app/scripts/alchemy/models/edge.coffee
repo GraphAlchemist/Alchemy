@@ -11,9 +11,12 @@ class alchemy.models.Edge
         @style = alchemy.svgStyleTranslator.edge.populate edge
 
         caption = conf.edgeCaption
-        @edgeCaption = (edge) -> switch typeof caption
-            when ('string' or 'number') then edge[caption]
-            when 'function' then caption(edge)
+        @edgeCaption = do (edge) -> 
+            switch typeof caption
+                when ('string' or 'number') then edge[caption]
+                when 'function' then caption(edge)
+
+        console.log @edgeCaption
 
         if caption
             @_properties.caption = @edgeCaption
