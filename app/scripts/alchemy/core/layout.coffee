@@ -88,7 +88,6 @@ class alchemy.Layout
             for node in _.values(alchemy._nodes)
                 q.visit(@collide(node))
 
-        # Isabella, use node generator?
         alchemy.node
             .attr("transform", (d) -> "translate(#{d.x},#{d.y})")
 

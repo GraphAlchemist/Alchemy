@@ -16,8 +16,6 @@ class alchemy.models.Edge
                 when ('string' or 'number') then edge[caption]
                 when 'function' then caption(edge)
 
-        console.log @edgeCaption
-
         if caption
             @_properties.caption = @edgeCaption
 
