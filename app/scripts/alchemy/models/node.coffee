@@ -1,50 +1,63 @@
 class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
-
-        @_style = alchemy.svgStyles.node.populate(@)
-
+        
         @id = node.id
-        @properties = node
-        @state = { "active": true }
-        @_d3 = # the data packet that is sent to the DOM to be rendered by d3
-            _.assign({'id': node.id, 'root': @properties[conf.rootNodes]}, @_style)
-
-        @adjacentEdges = []
-
-        # commented out just in case it breaks something        
-        # Add to node collection
-        # Node::all.push(@.id)
-
-        if conf.nodeTypes
-            @nodeType = @properties[Object.keys(alchemy.conf.nodeTypes)]
-            if @nodeType then @_d3['nodeType'] = @nodeType
-
+        @_style = alchemy.svgStyles.node.populate(@)
+        @_properties = node
+        @_state = { "active": true }
+        @_d3 = _.assign({'id': @id, 'root': @_properties[conf.rootNodes]}, @_style)
+        @_adjacentEdges = []
+        @_nodeType = @_setNodeType()
+                    
     # internal methods
+    _setNodeType: =>
+        conf = alchemy.conf
+        if conf.nodeTypes
+            if _.isPlainObject(conf.nodeTypes)
+                lookup = Object.keys(alchemy.conf.nodeTypes)
+                types = _.values(conf.nodeTypes)
+                nodeType = @_properties[lookup]
+                if types.indexOf(nodeType)
+                    @_d3['nodeType'] = nodeType
+                    nodeType
+            else if typeof conf.nodeTypes is 'string'
+                nodeType = @_properties[conf.nodeTypes]
+                if nodeType
+                    @_setD3Properties('nodeType', nodeType)
+                    nodeType
+
     _setD3Properties: (props) =>
         # set d3 properties
         _.assign(@_d3, props)
 
     _addEdge: (edge) ->
         # Stores edge.id for easy edge lookup
-        @adjacentEdges.push(edge)
-        @adjacentEdges = _.uniq @adjacentEdges
+        @_adjacentEdges = _.union(@_adjacentEdges, edge)
     
-    outDegree: () -> @adjacentEdges.length
+    # Edit node properties
+    getProperties: (key=null, keys...) =>
+    	if not key? and (keys.length is 0)
+            @_properties
+        else if keys.length isnt 0
+            query = _.union([key], keys)
+            _.pick(@_properties, query)
+        else
+            @_properties[key]
 
-    # Find connected nodes
-    neighbors: () ->
-        regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
-        _.map @adjacentEdges, (edgeID)->  edgeID.replace(regex, "")
-
-    # Edit Node
-    getProperties: =>
-    	@properties
-    setProperty: (property, value) =>
-    	@properties[property] = value
+    setProperty: (property, value=null) =>
+        if _.isPlainObject(property)
+            _.assign(@_properties, property)
+            @
+        else
+            @_properties[property] = value
+            @
+    
     removeProperty: (property) =>
-    	if @properties.property?
-    		_.omit(@properties, property)
+        if @_properties.property?
+            _.omit(@_properties, property)
+            @
+            
     
     # Style methods
     getStyles: (key=null) =>
@@ -62,9 +75,18 @@ class alchemy.models.Node
             _.assign(@_style, key)
             @_setD3Properties(@_style)
             alchemy._drawNodes.updateNode(@_d3)
+            @
         else
             @_style[key] = value
             @_setD3Properties(@_style)
             alchemy._drawNodes.updateNode(@_d3)
+            @
 
+    # Convenience methods
+    outDegree: () -> @_adjacentEdges.length
+
+    neighbors: () ->
+        # Find connected nodes
+        regex = new RegExp("[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g")
+        _.map @adjacentEdges, (edgeID)->  edgeID.replace(regex, "")
 

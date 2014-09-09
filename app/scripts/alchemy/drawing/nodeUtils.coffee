@@ -28,13 +28,13 @@ class alchemy.drawing.NodeUtils
         nodeText: (d) ->
             node = alchemy._nodes[d.id]
             if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'string'
-                if node.properties[alchemy.conf.nodeCaption]?
-                    node.properties[alchemy.conf.nodeCaption]
+                if node._properties[alchemy.conf.nodeCaption]?
+                    node._properties[alchemy.conf.nodeCaption]
                 else
                     ''
             else if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'function'
-                caption = alchemy.conf.nodeCaption(node)
+                caption = alchemy.conf.nodeCaption(node._properties)
                 if caption == undefined or String(caption) == 'undefined'
                     alchemy.log["caption"] = "At least one caption returned undefined"
                     alchemy.conf.caption = false
-                return caption
+                caption
