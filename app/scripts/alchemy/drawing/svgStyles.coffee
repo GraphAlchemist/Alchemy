@@ -1,4 +1,4 @@
-alchemy.svgStyleTranslator =
+alchemy.svgStyles =
     node:
         populate: (node)->
             conf = alchemy.conf
@@ -20,7 +20,8 @@ alchemy.svgStyleTranslator =
 
     edge:
         populate: (edge) ->
-            defaultStyle = alchemy.conf.edgeStyle.all
+            conf = alchemy.conf
+            defaultStyle = conf.edgeStyle.all
             d = edge.properties
 
             width = defaultStyle.width(d)

@@ -8,7 +8,7 @@ class alchemy.models.Edge
 
         # Edge properties, as provided by the user
         @_properties = edge
-        @style = alchemy.svgStyleTranslator.edge.populate edge
+        @_style = alchemy.svgStyles.edge.populate edge
 
         caption = conf.edgeCaption
         @edgeCaption = do (edge) -> 

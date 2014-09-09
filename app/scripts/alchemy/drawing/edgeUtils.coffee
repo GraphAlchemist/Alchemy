@@ -69,7 +69,7 @@ class alchemy.drawing.EdgeUtils
 
     edgeStyle: (d) ->
         edge = alchemy._edges[d.id]
-        styles = edge[0].style
+        styles = edge[0]._style
 
         if @edgeColour(d) is not ''
             styles.fill = @nodeColours d

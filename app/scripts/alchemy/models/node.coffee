@@ -2,7 +2,7 @@ class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
 
-        @_style = alchemy.svgStyleTranslator.node.populate(@)
+        @_style = alchemy.svgStyles.node.populate(@)
 
         @id = node.id
         @properties = node
