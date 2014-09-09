@@ -18,7 +18,10 @@ class alchemy.drawing.DrawNodes
     constructor: ->
         @drawNode = new alchemy.drawing.DrawNode
 
-    createNode: (node) ->
+    createNode: (alchemyNode) ->
+        # alchemyNode is an array of one or more alchemyNode._d3 packets
+        node = alchemy.vis.selectAll("g.node")
+                        .data(alchemyNode, (n)-> n.id)
         node.enter().append("g")
                 .attr("class", (d) ->
                     node_data = alchemy._nodes[d.id].getProperties()
@@ -33,7 +36,9 @@ class alchemy.drawing.DrawNodes
         @drawNode.setInteractions(node)
         node.exit().remove()
 
-    updateNode: (node) ->
+    updateNode: (alchemyNode) ->
+        # alchemyNode is an array of one or more alchemyNode._d3 packets
+        node = d3.select("#node-#{alchemyNode.id}")
         @drawNode.styleNode(node)
         @drawNode.styleText(node)
         @drawNode.setInteractions(node)

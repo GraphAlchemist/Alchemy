@@ -11,19 +11,19 @@ class alchemy.models.Edge
         @_style = alchemy.svgStyles.edge.populate edge
 
         caption = conf.edgeCaption
-        @edgeCaption = do (edge) -> 
+        edgeCaption = do (edge) -> 
             switch typeof caption
                 when ('string' or 'number') then edge[caption]
                 when 'function' then caption(edge)
 
         if caption
-            @_properties.caption = @edgeCaption
+            @_properties.caption = edgeCaption
 
         @_d3 =
             'id': @id
             'source': alchemy._nodes[@_properties.source]._d3
             'target': alchemy._nodes[@_properties.target]._d3
-            'caption': @edgeCaption
+            'caption': edgeCaption
 
         # Add id to source/target's edgelist
         alchemy._nodes["#{edge.source}"].addEdge @id

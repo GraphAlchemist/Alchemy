@@ -52,7 +52,7 @@ apiGetMethods =
                 _.compact(results) # best way to do this?
 
         allNodes: ->
-            _.map(alchemy._nodes, (n) -> n.properties)
+            _.map(alchemy._nodes, (n) -> n)
 
 
         allEdges: ->

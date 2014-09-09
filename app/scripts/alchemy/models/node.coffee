@@ -20,6 +20,11 @@ class alchemy.models.Node
             @nodeType = @properties[Object.keys(alchemy.conf.nodeTypes)]
             if @nodeType then @_d3['nodeType'] = @nodeType
 
+    # internal methods
+    _setD3Properties: (props) =>
+        # set d3 properties
+        _.assign(@_d3, props)
+
     addEdge: (edge) ->
         # Stores edge.id for easy edge lookup
         @adjacentEdges.push(edge)
@@ -37,12 +42,10 @@ class alchemy.models.Node
     	@properties
     setProperty: (property, value) =>
     	@properties[property] = value
-    setD3Property: (property, value) =>
-    	@_d3[property] = value
     removeProperty: (property) =>
     	if @properties.property?
     		_.omit(@properties, property)
-
+    
     # Style methods
     getStyles: (key=null) =>
         if key?
@@ -51,6 +54,16 @@ class alchemy.models.Node
             @_style
 
     setStyles: (key, value) =>
-        @_style[key] = value
+        # takes a key, value or map of key values
+        # the user passes a map of styles to set multiple styles at once
+        if typeof key isnt "string"
+            value = ""
+            _.assign(@_style, key)
+            @_setD3Properties(@_style)
+            alchemy.drawing.drawNodes.updateNode(@_d3)
+        else
+            @_style[key] = value
+            @_setD3Properties(@_style)
+            alchemy._drawNodes.updateNode(@_d3)
 
-        
+
