@@ -57,6 +57,7 @@ class alchemy.models.Node
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
         if typeof key isnt "string"
+            # use lodash, _.isPlainObject() test here...
             value = ""
             _.assign(@_style, key)
             @_setD3Properties(@_style)

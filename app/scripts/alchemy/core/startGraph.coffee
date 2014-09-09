@@ -64,7 +64,7 @@ alchemy.startGraph = (data) =>
 
     # alchemy.node = alchemy.vis.selectAll("g.node")
     #             .data(_.map(alchemy._nodes, (n) -> n._d3), (n)-> n.id)
-    debugger
+
     # if start
     alchemy.layout.positionRootNodes()
     alchemy.force.start()
