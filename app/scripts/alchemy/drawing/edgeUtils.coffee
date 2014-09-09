@@ -55,12 +55,12 @@ class alchemy.drawing.EdgeUtils
             hyp = Math.sqrt(height * height + width * width)
             switch point
                 when 'middle' then distance = hyp / 2
-                when 'linkStart' then distance = edge.source.r + edge.source['stroke-width']
+                when 'linkStart' then distance = edge.source.radius + edge.source['stroke-width']
                 when 'linkEnd'
                     if conf.curvedEdges
                         distance = hyp
                     else
-                        distance = hyp - (edge.target.r + edge.target['stroke-width'])
+                        distance = hyp - (edge.target.radius + edge.target['stroke-width'])
                     if conf.directedEdges
                         distance = distance - conf.edgeArrowSize
 

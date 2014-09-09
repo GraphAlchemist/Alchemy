@@ -52,3 +52,5 @@ class alchemy.models.Node
 
     setStyles: (key, value) =>
         @_style[key] = value
+
+        

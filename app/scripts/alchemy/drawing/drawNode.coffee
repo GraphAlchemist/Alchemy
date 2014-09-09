@@ -36,7 +36,7 @@ class alchemy.drawing.DrawNode
 
         @_styleNode = (node) ->
             node.selectAll('circle')
-                .attr('r', (d) -> d.r)
+                .attr('r', (d) -> d.radius)
                 .attr('shape-rendering', 'optimizeSpeed')
                 .each (d) -> d3.select(@).style(utils.nodeStyle(d))
 
