@@ -28,7 +28,6 @@ class Alchemy
         @models = {}
         @drawing = {}
         @editor = {}
-
         @log = {}
         @state = {
             "interactions": "default"
