@@ -1,7 +1,18 @@
 class alchemy.models.Edge
-    constructor: (edge) ->
+    # takes an edge property map from GraphJSON
+    # as well as an index, which is the position of the edge map in
+    # the array of edges stored in alchemy._edges at each "source-target"
+    # this is used to create the id for the individual node which will be "source-target-index"
+    # e.g. 1-0-1
+    constructor: (edge, index=null) ->
         conf = alchemy.conf
-        @id = if edge.id? then edge.id else "#{edge.source}-#{edge.target}"
+        @id = do ->
+            if edge.id? 
+                edge.id
+            else 
+                "#{edge.source}-#{edge.target}"
+        
+        @_index = index
 
         # Contains state of edge, used by renderers
         @state = {'active': true}
@@ -21,13 +32,14 @@ class alchemy.models.Edge
 
         @_d3 =
             'id': @id
+            'pos': @_index
             'source': alchemy._nodes[@_properties.source]._d3
             'target': alchemy._nodes[@_properties.target]._d3
             'caption': edgeCaption
 
         # Add id to source/target's edgelist
-        alchemy._nodes["#{edge.source}"].addEdge @id
-        alchemy._nodes["#{edge.target}"].addEdge @id
+        alchemy._nodes["#{edge.source}"]._addEdge @id
+        alchemy._nodes["#{edge.target}"]._addEdge @id
 
     toPublic: =>
         keys = _.keys(@_properties)

@@ -25,7 +25,7 @@ class alchemy.models.Node
         # set d3 properties
         _.assign(@_d3, props)
 
-    addEdge: (edge) ->
+    _addEdge: (edge) ->
         # Stores edge.id for easy edge lookup
         @adjacentEdges.push(edge)
         @adjacentEdges = _.uniq @adjacentEdges
@@ -60,7 +60,7 @@ class alchemy.models.Node
             value = ""
             _.assign(@_style, key)
             @_setD3Properties(@_style)
-            alchemy.drawing.drawNodes.updateNode(@_d3)
+            alchemy._drawNodes.updateNode(@_d3)
         else
             @_style[key] = value
             @_setD3Properties(@_style)
