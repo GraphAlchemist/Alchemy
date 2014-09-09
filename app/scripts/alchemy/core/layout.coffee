@@ -147,4 +147,4 @@ alchemy.generateLayout = (start=false)->
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
 
-    alchemy.updateGraph()
+    # alchemy.updateGraph()

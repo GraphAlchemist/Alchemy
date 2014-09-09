@@ -14,7 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-alchemy.startGraph = (data) ->
+alchemy.startGraph = (data) =>
+    
     conf = alchemy.conf
         
     if d3.select(conf.divSelector).empty()
@@ -54,6 +55,33 @@ alchemy.startGraph = (data) ->
 
     alchemy.generateLayout()
     alchemy.controlDash.init()
+
+
+    #enter/exit nodes/edges
+    alchemy.edge = alchemy.vis.selectAll("g.edge")
+                        .data(_.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray)))
+    d3Nodes = _.map(alchemy._nodes, (n) -> n._d3)
+
+    # alchemy.node = alchemy.vis.selectAll("g.node")
+    #             .data(_.map(alchemy._nodes, (n) -> n._d3), (n)-> n.id)
+    debugger
+    # if start
+    alchemy.layout.positionRootNodes()
+    alchemy.force.start()
+    while alchemy.force.alpha() > 0.005
+        alchemy.force.tick()
+    
+    alchemy._drawEdges = new alchemy.drawing.DrawEdges
+    alchemy._drawEdges.createEdge(alchemy.edge)
+    alchemy._drawNodes = new alchemy.drawing.DrawNodes
+    alchemy._drawNodes.createNode(d3Nodes)
+
+    initialComputationDone = true
+    console.log(Date() + ' completed initial computation')
+
+    nodes = alchemy.vis.selectAll('g.node')
+                    .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
+
 
     
     # configuration for forceLocked
