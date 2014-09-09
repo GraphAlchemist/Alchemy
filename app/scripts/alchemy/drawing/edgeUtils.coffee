@@ -53,7 +53,6 @@ class alchemy.drawing.EdgeUtils
             height = edge.target.y - edge.source.y
             # as in hypotenuse 
             hyp = Math.sqrt(height * height + width * width)
-
             switch point
                 when 'middle' then distance = hyp / 2
                 when 'linkStart' then distance = edge.source.r + edge.source['stroke-width']
@@ -68,20 +67,14 @@ class alchemy.drawing.EdgeUtils
             x: edge.source.x + width  * distance / hyp
             y: edge.source.y + height * distance / hyp
 
-        caption = alchemy.conf.edgeCaption
-        if typeof caption is ('string' or 'number')
-            @edgeCaption = (d) -> edges[d.id].properties[caption]
-        else if typeof caption is 'function'
-            @edgeCaption = (d) -> caption(edges[d.id])
-
     edgeStyle: (d) ->
         edge = alchemy._edges[d.id]
-        styles = edge[0].renderedStyles
+        styles = edge[0]._style
 
         if @edgeColour(d) is not ''
             styles.fill = @nodeColours d
 
-        alchemy.svgRenderer.jsonToCSS styles
+        styles
 
     middleLine: (edge) -> @_edgeWalk(edge, 'middle')
     startLine: (edge) ->  @_edgeWalk(edge, 'linkStart')

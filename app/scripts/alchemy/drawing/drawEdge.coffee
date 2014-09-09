@@ -40,8 +40,7 @@ class alchemy.drawing.DrawEdge
             edge.append('line')
                 .attr('class', 'edge-line')
                 .attr('shape-rendering', 'optimizeSpeed')
-                .attr('style', (d) ->
-                    utils["edgeStyle"](d))
+                .each (d) -> d3.select(@).style utils.edgeStyle d
             edge.filter((d) -> d.caption?)
                 .append('text')
             edge.append('rect')
