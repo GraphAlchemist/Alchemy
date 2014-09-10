@@ -2,10 +2,9 @@ class alchemy.models.Node
     constructor: (node) ->
         conf = alchemy.conf
 
-        @_style = alchemy.svgStyles.node.populate(@)
-
         @id = node.id
         @properties = node
+        @_style = alchemy.svgStyles.node.populate(@)
         @state = { "active": true }
         @_d3 = # the data packet that is sent to the DOM to be rendered by d3
             _.assign({'id': node.id, 'root': @properties[conf.rootNodes]}, @_style)

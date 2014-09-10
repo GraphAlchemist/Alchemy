@@ -5,10 +5,15 @@ alchemy.svgStyles =
             defaultStyle = conf.nodeStyle.all
             d = node
 
-            radius = if node.root then conf.rootNodeRadius(d) else defaultStyle.radius(d)
-            fill = defaultStyle.color d
-            stroke = defaultStyle.borderColor d
-            strokeWidth = defaultStyle.borderWidth d, radius
+            nodeTypeKey = _.keys(conf.nodeTypes)[0]
+            nodeType = node.getProperties()[nodeTypeKey]
+
+            style = _.assign(_.cloneDeep(defaultStyle), conf.nodeStyle[nodeType])
+
+            radius = if node.root then conf.rootNodeRadius(d) else style.radius(d)
+            fill = style.color d
+            stroke = style.borderColor d
+            strokeWidth = style.borderWidth d, radius
             
             svgStyles =
                 "r": radius

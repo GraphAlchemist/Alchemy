@@ -25,7 +25,11 @@ class alchemy.drawing.DrawNode
 
         @_styleText = (node) ->
             node.selectAll("text")
-                .attr('dy', (d) -> if nodes[d.id].properties.root then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
+                .attr('dy', (d) ->
+                    if nodes[d.id].properties.root
+                        conf.rootNodeRadius / 2 
+                    else 
+                        conf.nodeRadius * 2 - 5)
                 .html((d) -> utils.nodeText(d))
 
         @_createNode = (node) ->
