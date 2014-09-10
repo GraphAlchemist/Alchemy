@@ -14,92 +14,71 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class alchemy.drawing.DrawNode
-    constructor: ->
-        interactions = alchemy.interactions
+alchemy.drawing.DrawNode =
+    styleText: (node) ->
         conf = alchemy.conf
+        utils = alchemy.drawing.NodeUtils
         nodes = alchemy._nodes
-        interactions = alchemy.interactions
-        @utils = new alchemy.drawing.NodeUtils
-        utils = @utils
+        node.selectAll "text"
+            .attr 'dy', (d) ->
+                if nodes[d.id].getProperties().root
+                    conf.rootNodeRadius / 2 
+                else 
+                    conf.nodeRadius * 2 - 5
+            .html (d) -> utils.nodeText(d)
 
-        @_styleText = (node) ->
-            node.selectAll("text")
-                .attr('dy', (d) ->
-                    if nodes[d.id].properties.root
-                        conf.rootNodeRadius / 2 
-                    else 
-                        conf.nodeRadius * 2 - 5)
-                .html((d) -> utils.nodeText(d))
+    createNode: (node) ->
+        node.append 'circle'
+            .attr 'id', (d) -> "circle-#{d.id}"
+        node.append 'svg:text'
+            .attr 'id', (d) -> "text-#{d.id}"
 
-        @_createNode = (node) ->
-            node.append('circle')
-                .attr('id', (d) -> "circle-#{d.id}")
-            node.append('svg:text')
-                .attr('id', (d) -> "text-#{d.id}")
+    styleNode: (node) ->
+        utils = alchemy.drawing.NodeUtils
 
-        @_styleNode = (node) ->
-            node.selectAll('circle')
-                .attr('r', (d) -> d.r)
-                .attr('shape-rendering', 'optimizeSpeed')
-                .each (d) -> d3.select(@).style(utils.nodeStyle(d))
+        node.selectAll 'circle'
+            .attr 'r', (d) -> d.radius
+            .attr 'shape-rendering', 'optimizeSpeed'
+            .each (d) -> d3.select(@).style utils.nodeStyle d
 
-        @_setInteractions = (node) ->
-            editorEnabled = alchemy.getState("interactions") is "editor"
-            # editor = alchemy.editor.interactions()
-            coreInteractions = alchemy.interactions
 
-            # reset drag
+    setInteractions: (node) ->
+        conf = alchemy.conf
+        coreInteractions = alchemy.interactions
+        editorEnabled = alchemy.getState("interactions") is "editor"
+
+        # reset drag
+        drag = d3.behavior.drag()
+            .origin Object
+            .on "dragstart", null
+            .on "drag", null
+            .on "dragend", null
+
+        if editorEnabled
+            editorInteractions = new alchemy.editor.Interactions
+            node.on 'mouseup', editorInteractions.nodeMouseUp
+                .on 'mouseover', editorInteractions.nodeMouseOver
+                .on 'mouseout', editorInteractions.nodeMouseOut
+                .on 'dblclick', coreInteractions.nodeDoubleClick
+                .on 'click', editorInteractions.nodeClick
+
+        else 
+            node.on 'mouseup', null
+                .on 'mouseover', coreInteractions.nodeMouseOver
+                .on 'mouseout', coreInteractions.nodeMouseOut
+                .on 'dblclick', coreInteractions.nodeDoubleClick
+                .on 'click', coreInteractions.nodeClick
+
             drag = d3.behavior.drag()
-                .origin(Object)
-                .on("dragstart", null)
-                .on("drag", null)
-                .on("dragend", null)
+                    .origin(Object)
+                    .on "dragstart", coreInteractions.nodeDragStarted
+                    .on "drag", coreInteractions.nodeDragged
+                    .on "dragend", coreInteractions.nodeDragended
 
-            if editorEnabled
-                editorInteractions = new alchemy.editor.Interactions
-                node.on('mouseup', editorInteractions.nodeMouseUp)
-                    .on('mouseover', editorInteractions.nodeMouseOver)
-                    .on('mouseout', editorInteractions.nodeMouseOut)
-                    .on('dblclick', coreInteractions.nodeDoubleClick)
-                    .on('click', editorInteractions.nodeClick)
+            if not conf.fixNodes
+                nonRootNodes = node.filter (d) -> d.root isnt true
+                nonRootNodes.call drag
 
-                # drag = d3.behavior.drag()
-                #     .origin(Object)
-                #     .on("dragstart", editorInteractions.addNodeStart)
-                #     .on("drag", editorInteractions.addNodeDragging)
-                #     .on("dragend", editorInteractions.addNodeDragended)
-                # node.call(drag)
-
-            else 
-                node.on('mouseup', null)
-                    .on('mouseover', coreInteractions.nodeMouseOver)
-                    .on('mouseout', coreInteractions.nodeMouseOut)
-                    .on('dblclick', coreInteractions.nodeDoubleClick)
-                    .on('click', coreInteractions.nodeClick)
-
-                drag = d3.behavior.drag()
-                        .origin(Object)
-                        .on("dragstart", coreInteractions.nodeDragStarted)
-                        .on("drag", coreInteractions.nodeDragged)
-                        .on("dragend", coreInteractions.nodeDragended)
-
-                if not conf.fixNodes
-                    nonRootNodes = node.filter((d) -> return d.root != true)
-                    nonRootNodes.call(drag)
-
-                if not conf.fixRootNodes
-                    rootNodes = node.filter((d) -> return d.root == true)
-                    rootNodes.call(drag)
-
-    styleText: (node) =>
-        @_styleText(node)
-
-    createNode: (node) =>
-        @_createNode(node)
-
-    setInteractions: (node) =>
-        @_setInteractions(node)
-
-    styleNode: (node) =>
-        @_styleNode(node)
+            if not conf.fixRootNodes
+                rootNodes = node.filter (d) -> d.root is true
+                rootNodes.call drag

@@ -1,40 +1,33 @@
-class alchemy.drawing.NodeUtils
-        constructor: ->
-            nodes = alchemy._nodes
-            conf = alchemy.conf
-            
+alchemy.drawing.NodeUtils =
+        nodeStyle: (styles) ->
+            conf = alchemy.conf           
             if conf.cluster
-                @nodeColours = (d) ->
-                    node_data = alchemy._nodes[d.id].properties
+                nodeColours = ->
+                    d = alchemy._nodes[d.id].properties
                     clusterMap = alchemy.layout._clustering.clusterMap
-                    clusterKey = alchemy.conf.clusterKey
+                    key = alchemy.conf.clusterKey
+                    colours = conf.clusterColours
                     # Modulo makes sure to reuse colors if it runs out
-                    colourIndex = clusterMap[node_data[clusterKey]] % conf.clusterColours.length
-
-                    colour = conf.clusterColours[colourIndex]
+                    colourIndex = clusterMap[d[key]] % colours.length
+                    colour = colours[colourIndex]
                     "#{colour}"
             else
-                @nodeColours = (d) ->
-                    if conf.nodeColour
-                        colour = conf.nodeColour
-                    else
-                        ''
-        
-        nodeStyle: (styles) ->
-            if @nodeColours(styles) is not ''
-                styles.fill = @nodeColours styles
+                nodeColours = -> if conf.nodeColour then conf.nodeColour else ''
+
+            if nodeColours is not '' then styles.fill = nodeColours
             styles
 
         nodeText: (d) ->
-            node = alchemy._nodes[d.id]
-            if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'string'
-                if node.properties[alchemy.conf.nodeCaption]?
-                    node.properties[alchemy.conf.nodeCaption]
+            conf = alchemy.conf
+            nodeProps = alchemy._nodes[d.id]._properties
+            if conf.nodeCaption and typeof conf.nodeCaption is 'string'
+                if nodeProps[conf.nodeCaption]?
+                    nodeProps[conf.nodeCaption]
                 else
                     ''
-            else if alchemy.conf.nodeCaption and typeof alchemy.conf.nodeCaption is 'function'
-                caption = alchemy.conf.nodeCaption(node)
-                if caption == undefined or String(caption) == 'undefined'
+            else if conf.nodeCaption and typeof conf.nodeCaption is 'function'
+                caption = conf.nodeCaption(nodeProps)
+                if caption is undefined or String(caption) is 'undefined'
                     alchemy.log["caption"] = "At least one caption returned undefined"
-                    alchemy.conf.caption = false
-                return caption
+                    conf.caption = false
+                caption

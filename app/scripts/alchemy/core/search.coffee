@@ -16,45 +16,34 @@
 
 alchemy.search = 
     init: () ->
-        searchBox = d3.select("#search input")
+        searchBox = d3.select "#search input"
 
-        searchBox.on("keyup", ()->
+        searchBox.on "keyup", ()->
             input = searchBox[0][0].value.toLowerCase()
 
-            d3.selectAll(".node").classed("inactive", false)
+            d3.selectAll(".node").classed "inactive", false
+            d3.selectAll "text"
+                .attr "style", -> "display: inline;" if input != ""
+            d3.selectAll ".node"
+                .classed "inactive", (node) ->
+                    DOMtext = d3.select(@).text()
 
-            d3.selectAll("text").attr("style", ->
-                "display: inline;" if input != "")
-            d3.selectAll(".node")
-              .classed("inactive", (node) ->
-                DOMnode = d3.select(@)
+                    switch alchemy.conf.searchMethod
+                        when 'contains'
+                            hidden = DOMtext.toLowerCase().indexOf(input) < 0
+                        when 'begins'
+                            hidden = DOMtext.toLowerCase().indexOf(input) != 0
 
-                if alchemy.conf.searchMethod is "contains"
-                    hidden = DOMnode.text()
-                                 .toLowerCase()
-                                 .indexOf(input) < 0
-                if alchemy.conf.searchMethod is "begins"
-                    hidden = DOMnode.text()
-                                    .toLowerCase()
-                                    .indexOf(input) != 0
-
-                if hidden
-                    d3.selectAll("[source-target*='#{node.id}']")
-                      .classed("inactive", hidden)
-                else
-                    d3.selectAll("[source-target*='#{node.id}']")
-                      .classed("inactive", (edge)-> 
-                        nodeIDs = [edge.source.id, edge.target.id]
-                        
-                        sourceHidden = d3.select("#node-#{nodeIDs[0]}").classed("inactive")
-                        targetHidden = d3.select("#node-#{nodeIDs[1]}").classed("inactive")
-                        
-                        targetHidden or sourceHidden 
-                    )
-
-                hidden
-                
-                )
-
-        )
-        
+                    if hidden
+                        d3.selectAll "[source-target*='#{node.id}']"
+                          .classed("inactive", hidden)
+                    else
+                        d3.selectAll "[source-target*='#{node.id}']"
+                          .classed "inactive", (edge)-> 
+                            nodeIDs = [edge.source.id, edge.target.id]
+                            
+                            sourceHidden = d3.select("#node-#{nodeIDs[0]}").classed "inactive"
+                            targetHidden = d3.select("#node-#{nodeIDs[1]}").classed "inactive"
+                            
+                            targetHidden or sourceHidden
+                    hidden

@@ -213,7 +213,7 @@ class alchemy.editor.Editor
             nodeID = n.id
             if ((key!="") and (value != ""))
                 alchemy._nodes[nodeID].setProperty("#{key}", "#{value}")
-                drawNodes = new alchemy.drawing.DrawNodes
+                drawNodes = alchemy._drawNodes
                 drawNodes.updateNode(d3.select("#node-#{nodeID}"))
                 if newProperty is true 
                     d3.select("#node-add-prop-key").attr("value", "property added/updated to key: #{key}")

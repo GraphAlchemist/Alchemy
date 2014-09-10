@@ -21,9 +21,8 @@ alchemy.utils.warnings =
                             </div>
                         </div>
                        """
-            $('body').append(no_results)
-            $('#no-results').modal('show')
-            return
+            $('body').append no_results
+            $('#no-results').modal 'show'
     divWarning: ->
         """
             create an element that matches the value for 'divSelector' in your conf.

@@ -1,6 +1,6 @@
 alchemy.svgStyles =
     node:
-        populate: (node)->
+        populate: (node) ->
             conf = alchemy.conf
             defaultStyle = conf.nodeStyle.all
             d = node
@@ -8,20 +8,20 @@ alchemy.svgStyles =
             nodeTypeKey = _.keys(conf.nodeTypes)[0]
             nodeType = node.getProperties()[nodeTypeKey]
 
-            style = _.assign(_.cloneDeep(defaultStyle), conf.nodeStyle[nodeType])
+            style = _.assign _.cloneDeep(defaultStyle), conf.nodeStyle[nodeType]
 
-            radius = if node.root then conf.rootNodeRadius(d) else style.radius(d)
+            radius = if node.root then conf.rootNodeRadius d else style.radius d
             fill = style.color d
             stroke = style.borderColor d
             strokeWidth = style.borderWidth d, radius
             
             svgStyles =
-                "r": radius
+                "radius": radius
                 "fill": fill
                 "stroke": stroke
                 "stroke-width": strokeWidth
 
-            return svgStyles
+            svgStyles
 
     edge:
         populate: (edge) ->
@@ -34,15 +34,15 @@ alchemy.svgStyles =
 
             style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
 
-            width = style.width(d)
-            color = style.color(d)
-            opacity = style.opacity(d)
-            directed = style.directed(d)
-            curved = style.curved(d)
+            width = style.width d
+            color = style.color d
+            opacity = style.opacity d
+            directed = style.directed d
+            curved = style.curved d
 
             svgStyles =
                 "stroke": color
                 "stroke-width": width
                 "opacity": opacity
 
-            return svgStyles
+            svgStyles
