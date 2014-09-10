@@ -18,10 +18,10 @@ class alchemy.drawing.DrawNodes
     constructor: ->
         @drawNode = new alchemy.drawing.DrawNode
 
-    createNode: (alchemyNode) ->
+    createNode: (d3Nodes) ->
         # alchemyNode is an array of one or more alchemyNode._d3 packets
         node = alchemy.vis.selectAll("g.node")
-                        .data(alchemyNode, (n)-> n.id)
+                        .data(d3Nodes, (n) -> n.id)
         node.enter().append("g")
                 .attr("class", (d) ->
                     node_data = alchemy._nodes[d.id].getProperties()

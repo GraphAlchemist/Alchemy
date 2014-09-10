@@ -1,6 +1,6 @@
 alchemy.svgStyles =
     node:
-        populate: (node)->
+        populate: (node) ->
             conf = alchemy.conf
             defaultStyle = conf.nodeStyle.all
             d = node

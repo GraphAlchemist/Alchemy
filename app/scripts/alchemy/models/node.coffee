@@ -28,7 +28,6 @@ class alchemy.models.Node
                     nodeType
 
     _setD3Properties: (props) =>
-        # set d3 properties
         _.assign(@_d3, props)
 
     _addEdge: (edge) ->
@@ -66,11 +65,10 @@ class alchemy.models.Node
         else
             @_style
 
-    setStyles: (key, value) =>
+    setStyles: (key, value=null) =>
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
-        if typeof key isnt "string"
-            # use lodash, _.isPlainObject() test here...
+        if _.isPlainObject(key)
             value = ""
             _.assign(@_style, key)
             @_setD3Properties(@_style)

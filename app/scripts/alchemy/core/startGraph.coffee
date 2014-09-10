@@ -58,8 +58,10 @@ alchemy.startGraph = (data) =>
 
 
     #enter/exit nodes/edges
-    alchemy.edge = alchemy.vis.selectAll("g.edge")
-                        .data(_.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray)))
+    # d3Edges
+    # alchemy.edge = alchemy.vis.selectAll("g.edge")
+    #                     .data()
+    d3Edges = _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
     d3Nodes = _.map(alchemy._nodes, (n) -> n._d3)
 
     # alchemy.node = alchemy.vis.selectAll("g.node")
@@ -72,7 +74,7 @@ alchemy.startGraph = (data) =>
         alchemy.force.tick()
     
     alchemy._drawEdges = new alchemy.drawing.DrawEdges
-    alchemy._drawEdges.createEdge(alchemy.edge)
+    alchemy._drawEdges.createEdge(d3Edges)
     alchemy._drawNodes = new alchemy.drawing.DrawNodes
     alchemy._drawNodes.createNode(d3Nodes)
 
