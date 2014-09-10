@@ -124,7 +124,7 @@ alchemy.filters =
           .on("click", ->
             isDisplayed = d3.select("g text").attr("style")
 
-            if isDisplayed == "display: block" || null
+            if isDisplayed is "display: block" || null
                 d3.selectAll("g text").attr("style", "display: none")
             else
                 d3.selectAll("g text").attr("style", "display: block")
@@ -137,7 +137,7 @@ alchemy.filters =
           .attr({"id":"toggle-edges","class":"list-group-item active-label toggle"})
           .html("Toggle Edges")
           .on("click", ->
-            if d3.selectAll(".edge.hidden")[0].length == 0
+            if d3.selectAll(".edge.hidden")[0].length is 0
                 d3.selectAll(".edge")
                   .classed("hidden", true)
             else
@@ -155,7 +155,7 @@ alchemy.filters =
 
             affectedNodes = if alchemy.conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
 
-            if d3.selectAll(".node.hidden")[0].length == 0
+            if d3.selectAll(".node.hidden")[0].length is 0
                 d3.selectAll(affectedNodes)
                   .classed("hidden", true)
             else
@@ -173,12 +173,12 @@ alchemy.filters =
 
         reFilter = (tag, filterType, isDisabled, highlight) ->
             # Stop running if during graph initialization
-            if typeof tag == "object" then return
+            if typeof tag is "object" then return
 
             elements = d3.selectAll(".#{tag}")
             elements.classed({"inactive": isDisabled, "highlight": highlight})
 
-            if filterType == "nodes"
+            if filterType is "nodes"
                 for node in elements.data()
                     for edge in alchemy._nodes[node.id].adjacentEdges
                         edgeData = alchemy._edges[edge]
@@ -188,7 +188,7 @@ alchemy.filters =
 
                         d3.select("[source-target='#{edge}']")
                           .classed({"inactive": isDisabled, "highlight": highlight})
-            if filterType == "edges"
+            if filterType is "edges"
                 elements.classed({"inactive": (d, i)-> 
                     allNodesActive = alchemy._edges[d.id].allNodesActive()
                     isDisabled || !allNodesActive

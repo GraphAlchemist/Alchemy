@@ -23,10 +23,10 @@ alchemy.defaults =
     graphWidth: ->
         d3.select(@divSelector).node().parentElement.clientWidth
     graphHeight: ->
-        if d3.select(@divSelector).node().parentElement.nodeName == "BODY"
-            return window.innerHeight
+        if d3.select(@divSelector).node().parentElement.nodeName is "BODY"
+            window.innerHeight
         else 
-            return d3.select(@divSelector).node().parentElement.clientHeight
+            d3.select(@divSelector).node().parentElement.clientHeight
     alpha: 0.5
     collisionDetection: true
     nodeOverlap: 25
@@ -45,13 +45,13 @@ alchemy.defaults =
     #Clustering
     cluster: false
     clusterKey: "cluster"
-    clusterColours: d3.shuffle(["#DD79FF", "#FFFC00",
+    clusterColours: d3.shuffle ["#DD79FF", "#FFFC00",
                                 "#00FF30", "#5168FF",
                                 "#00C0FF", "#FF004B",
                                 "#00CDCD", "#f83f00",
                                 "#f800df", "#ff8d8f",
                                 "#ffcd00", "#184fff",
-                                "#ff7e00"])
+                                "#ff7e00"]
     clusterControl: false
 
     #Stats
@@ -71,13 +71,12 @@ alchemy.defaults =
     nodeCaption: 'caption'
     nodeStyle:
         "all":
-            "radius": (d) -> 10,
-            "color"  : (d) -> "#68B9FE"
-            "borderColor": (d) ->"#127DC1"
-            "borderWidth": (d, radius) ->
-                radius / 3
-            "captionColor": (d) -> "#FFFFFF",
-            "captionBackground": (d) -> null
+            "radius": -> 10,
+            "color"  : -> "#68B9FE"
+            "borderColor": ->"#127DC1"
+            "borderWidth": (d, radius) -> radius / 3
+            "captionColor": -> "#FFFFFF",
+            "captionBackground": -> null
             "captionSize": 12
     nodeColour: null # WILL BE DEPRECATED IN 1.0
     nodeMouseOver: 'caption'
@@ -91,14 +90,14 @@ alchemy.defaults =
     edgeClick: 'default'
     edgeStyle:
         "all":
-            "width": (d) -> 4
-            "color": (d) -> "#FFFFFF"
-            "opacity": (d) -> 1
-            "directed": (d) -> true
-            "curved": (d) -> true
+            "width": -> 4
+            "color": -> "#FFFFFF"
+            "opacity": -> 1
+            "directed": -> true
+            "curved": -> true
     edgeTypes: null
     curvedEdges: false
-    edgeWidth: (d)-> 4
+    edgeWidth: -> 4
     edgeOverlayWidth: 20
     directedEdges: false
     edgeArrowSize: 5

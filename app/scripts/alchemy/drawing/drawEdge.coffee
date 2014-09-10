@@ -15,44 +15,42 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-class alchemy.drawing.DrawEdge
-    constructor: (utils)->
-        conf = alchemy.conf
-        @curved = conf.curvedEdges
-        @directed = conf.directedEdges
-        @utils = new alchemy.drawing.EdgeUtils
-
+alchemy.drawing.DrawEdge =
     createLink: (edge) =>
         conf = alchemy.conf
+        curved = conf.curvedEdges
+        directed = conf.directedEdges
         interactions = alchemy.interactions
-        utils = @utils
+        utils = alchemy.drawing.EdgeUtils
 
-        if @curved
-            edge.append('path')
-                .attr('class', 'edge-line')
-                .attr('id', (d) -> "path-#{d.id}")
-            edge.filter((d) -> d.caption?)
-                .append('text')
-            edge.append('path')
-                .attr('class', 'edge-handler')
-                .style('stroke-width', "#{conf.edgeOverlayWidth}")
+        if curved
+            edge.append 'path'
+                .attr 'class', 'edge-line'
+                .attr 'id', (d) -> "path-#{d.id}"
+            edge.filter (d) -> d.caption?
+                .append 'text'
+            edge.append 'path'
+                .attr 'class', 'edge-handler'
+                .style 'stroke-width', "#{conf.edgeOverlayWidth}"
         else
-            edge.append('line')
-                .attr('class', 'edge-line')
-                .attr('shape-rendering', 'optimizeSpeed')
+            edge.append 'line'
+                .attr 'class', 'edge-line'
+                .attr 'shape-rendering', 'optimizeSpeed'
                 .each (d) -> d3.select(@).style utils.edgeStyle d
-            edge.filter((d) -> d.caption?)
-                .append('text')
-            edge.append('rect')
-                .attr('class', 'edge-handler')
+            edge.filter (d) -> d.caption?
+                .append 'text'
+            edge.append 'rect'
+                .attr 'class', 'edge-handler'
 
     styleLink: (edge) =>
         conf = alchemy.conf
-        utils = @utils
+        curved = conf.curvedEdges
+        directed = conf.directedEdges
+        utils = alchemy.drawing.EdgeUtils
 
-        if @curved
-            edge.selectAll('path')
-                 .attr('d', (d) ->
+        if curved
+            edge.selectAll 'path'
+                 .attr 'd', (d) ->
                     angle = utils.edgeAngle d
 
                     sideOfY = if Math.abs(angle) > 90 then -1 else 1
@@ -61,8 +59,8 @@ class alchemy.drawing.DrawEdge
                             return if angle < 0 then -1 else 1
                         0
 
-                    startLine = utils.startLine(d)
-                    endLine = utils.endLine(d)
+                    startLine = utils.startLine d
+                    endLine = utils.endLine d
                     sourceX = startLine.x
                     sourceY = startLine.y
                     targetX = endLine.x
@@ -71,7 +69,7 @@ class alchemy.drawing.DrawEdge
                     dx = targetX - sourceX
                     dy = targetY - sourceY
                     
-                    hyp = Math.sqrt( dx * dx + dy * dy)
+                    hyp = Math.sqrt dx * dx + dy * dy
 
                     offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
                     offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
@@ -79,60 +77,62 @@ class alchemy.drawing.DrawEdge
                     arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
                     arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
 
-                    # "M #{startLine.x},#{startLine.y} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{endLine.x}, #{endLine.y}")
-                    "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}")
-            edge.select('path.edge-line')
-                .style('stroke', (d) -> utils.edgeStyle(d))
+                    #M #{startLine.x},    #{startLine.y}     A #{hyp}, #{hyp} #{captionAngle(d)}    0, 1 #{endLine.x},        #{endLine.y}"
+                    "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
+           
+            edge.select 'path.edge-line'
+                .style 'stroke', (d) -> utils.edgeStyle(d)
     
         else
-            edge.select('.edge-line')
-                .each( (d) ->
-                    startLine = utils.startLine(d)
-                    endLine = utils.endLine(d)
-                    d3.select(@).attr(
+            edge.select '.edge-line'
+                .each (d) ->
+                    startLine = utils.startLine d
+                    endLine = utils.endLine d
+                    d3.select(@).attr
                         'x1': startLine.x
                         'y1': startLine.y
                         'x2': endLine.x
                         'y2': endLine.y
-                        )
-                    )
 
-            edge.select('.edge-handler')
-                .attr('x', 0)
-                .attr('y', -conf.edgeOverlayWidth/2)
-                .attr('height', conf.edgeOverlayWidth)
-                .attr('width', (d) -> utils.edgeLength(d))
-                .attr('transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})")
+            edge.select '.edge-handler'
+                .attr 'x', 0
+                .attr 'y', -conf.edgeOverlayWidth/2
+                .attr 'height', conf.edgeOverlayWidth
+                .attr 'width', (d) -> utils.edgeLength(d)
+                .attr 'transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})"
 
         if @directed
-            edge.select('.edge-line')
-                .attr('marker-end', 'url(#arrow)')
+            edge.select '.edge-line'
+                .attr 'marker-end', 'url(#arrow)'
 
     classEdge: (edge) =>
-        edge.classed('active', true)
+        edge.classed 'active', true
 
     styleText: (edge) =>
-        utils = @utils
+        conf = alchemy.conf
+        curved = conf.curvedEdges
+        directed = conf.directedEdges
+        utils = alchemy.drawing.EdgeUtils
 
-        if @curved
-            edge.select('text')
-                .attr('dx', (d) -> utils.middlePath(d).x)
-                .attr('dy', (d) -> utils.middlePath(d).y + 20)
-                .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})")
-                .text((d) -> d.caption)
+        if curved
+            edge.select 'text'
+                .attr 'dx', (d) -> utils.middlePath(d).x
+                .attr 'dy', (d) -> utils.middlePath(d).y + 20
+                .attr 'transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                .text (d) -> d.caption
         else
-            edge.select('text')
-                .attr('dx', (d) -> utils.middleLine(d).x)
-                .attr('dy', (d) -> utils.middleLine(d).y - 5)
-                .attr('transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})")
-                .text((d) -> d.caption)
+            edge.select 'text'
+                .attr 'dx', (d) -> utils.middleLine(d).x
+                .attr 'dy', (d) -> utils.middleLine(d).y - 5
+                .attr 'transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})"
+                .text (d) -> d.caption
 
     setInteractions: (edge) =>
         editorEnabled = alchemy.getState("interactions") is "editor"
         if editorEnabled
             editorInteractions = new alchemy.editor.Interactions
-            edge.select('.edge-handler')
-                .on('click', editorInteractions.edgeClick)
+            edge.select '.edge-handler'
+                .on 'click', editorInteractions.edgeClick
         else
-            edge.select('.edge-handler')
-                .on('click', alchemy.interactions.edgeClick)
+            edge.select '.edge-handler'
+                .on 'click', alchemy.interactions.edgeClick

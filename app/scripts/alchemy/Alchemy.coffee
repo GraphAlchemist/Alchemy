@@ -33,10 +33,9 @@ class Alchemy
         @state =
             "interactions": "default"
             "layout": "default"
-            "filters": {
-                "edges": {},
+            "filters":
+                "edges": {}
                 "nodes": {}
-            }
         
         # node and edge internals...  It is unadvised to access internals
         # directly.  Use, alchemy.get.nodes or alchemy.get.edges
@@ -51,41 +50,31 @@ class Alchemy
         @_edges = {}
 
         # extend alchemy with API methods
-        _.extend(@, api())
+        _.extend @, api()
 
-    # depricate v1.0
-    allEdges: ->
-            _.map(@_edges, (e) -> e.properties)
-    # depricate in v1.0
-    allNodes: ->
-            _.map(@_nodes, (n) -> n.properties)
+    allEdges: -> _.map @_edges, (e) -> e.properties
+    allNodes: -> _.map @_nodes, (n) -> n.properties
 
-    # change this to alchemy.state.get()
-    # alchemy.state.set() 
-    getState: (key) =>
-        if @state.key?
-            @state.key
-
-    setState: (key, value) =>
-        @state.key = value
+    getState: (key) => if @state.key? then @state.key
+    setState: (key, value) => @state.key = value
 
     begin: (userConf) =>
         # overide configuration with user inputs
-        @conf = _.assign({}, alchemy.defaults, userConf)
-        if typeof alchemy.conf.dataSource == 'string'
-            d3.json(alchemy.conf.dataSource, alchemy.startGraph)
-        else if typeof alchemy.conf.dataSource == 'object'
-            alchemy.startGraph(alchemy.conf.dataSource)
+        @conf = _.assign {}, alchemy.defaults, userConf
+        if typeof alchemy.conf.dataSource is 'string'
+            d3.json alchemy.conf.dataSource, alchemy.startGraph
+        else if typeof alchemy.conf.dataSource is 'object'
+            alchemy.startGraph alchemy.conf.dataSource
 
     #API methods
     getNodes: (id, ids...) =>
         # returns one or more nodes as an array
         if ids
-            ids.push(id)
-            params = _.union(ids)
+            ids.push id
+            params = _.union ids
             results = []
             for p in params
-                results.push(alchemy._nodes[p].properties)
+                results.push alchemy._nodes[p].properties
             results
         else
             [@_nodes[id].properties]
@@ -97,16 +86,13 @@ class Alchemy
             edge = @_edges[edge_id]
             [edge.properties]
         else if id? and not target?
-            results = _.map(@_edges, (edge) -> 
+            results = _.map @_edges, (edge) -> 
                         if (edge.properties.source is id) or (edge.properties.target is id)
-                            edge.properties)
-            _.compact(results) # best way to do this?
+                            edge.properties
+            _.compact results
 
-    allNodes: =>
-        _.map(@_nodes, (n) -> n.properties)
-
-    allEdges: =>
-        _.map(@_edges, (e) -> e.properties)
+    allNodes: => _.map @_nodes, (n) -> n.properties
+    allEdges: => _.map @_edges, (e) -> e.properties
 
 currentRelationshipTypes = {}
 

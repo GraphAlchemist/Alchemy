@@ -15,57 +15,39 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 alchemy.startGraph = (data) =>
-    
     conf = alchemy.conf
         
     if d3.select(conf.divSelector).empty()
-        console.warn(alchemy.utils.warnings.divWarning())
+        console.warn alchemy.utils.warnings.divWarning()
     
     # see if data is ok
     if not data
         alchemy.utils.warnings.dataWarning()
 
     # create nodes map and update links
-    alchemy.create.nodes.apply(@, data.nodes)
-    # alchemy.create.edges.apply(@, data.edges)
+    alchemy.create.nodes.apply @, data.nodes
     
     data.edges.forEach (e) ->
-        alchemy.create.edges(e)
-        # edge  = new alchemy.models.Edge(e)
-        # alchemy._edges[edge.id] = edge
-        
-    # unpack edge data to be used by d3
-    # alchemy.flatEdges = _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
-    
-    #create SVG
-    alchemy.vis = d3.select(conf.divSelector)
-        .attr("style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px")
-        .append("svg")
-            .attr("xmlns", "http://www.w3.org/2000/svg")
-            .attr("pointer-events", "all")
-            .on("dblclick.zoom", null)
-            .on('click', alchemy.interactions.deselectAll)
-            .call(alchemy.interactions.zoom(conf.scaleExtent))
-            .append('g')
-                .attr("transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})")
+        alchemy.create.edges e
 
-    editorInteractions = new alchemy.editor.Interactions
-    d3.select("body")
-        .on('keydown', editorInteractions.deleteSelected)
+    #create SVG
+    alchemy.vis = d3.select conf.divSelector
+        .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px"
+        .append "svg"
+            .attr "xmlns", "http://www.w3.org/2000/svg"
+            .attr "pointer-events", "all"
+            .on "dblclick.zoom", null
+            .on 'click', alchemy.interactions.deselectAll
+            .call alchemy.interactions.zoom(conf.scaleExtent)
+            .append 'g'
+                .attr "transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})"
 
     alchemy.generateLayout()
     alchemy.controlDash.init()
 
-
     #enter/exit nodes/edges
-    # d3Edges
-    # alchemy.edge = alchemy.vis.selectAll("g.edge")
-    #                     .data()
-    d3Edges = _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
-    d3Nodes = _.map(alchemy._nodes, (n) -> n._d3)
-
-    # alchemy.node = alchemy.vis.selectAll("g.node")
-    #             .data(_.map(alchemy._nodes, (n) -> n._d3), (n)-> n.id)
+    d3Edges = _.flatten _.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray)
+    d3Nodes = _.map alchemy._nodes, (n) -> n._d3
 
     # if start
     alchemy.layout.positionRootNodes()
@@ -73,23 +55,21 @@ alchemy.startGraph = (data) =>
     while alchemy.force.alpha() > 0.005
         alchemy.force.tick()
     
-    alchemy._drawEdges = new alchemy.drawing.DrawEdges
-    alchemy._drawEdges.createEdge(d3Edges)
-    alchemy._drawNodes = new alchemy.drawing.DrawNodes
-    alchemy._drawNodes.createNode(d3Nodes)
+    alchemy._drawEdges = alchemy.drawing.DrawEdges
+    alchemy._drawEdges.createEdge d3Edges
+    alchemy._drawNodes = alchemy.drawing.DrawNodes
+    alchemy._drawNodes.createNode d3Nodes
 
     initialComputationDone = true
-    console.log(Date() + ' completed initial computation')
+    console.log Date() + ' completed initial computation'
 
-    nodes = alchemy.vis.selectAll('g.node')
-                    .attr('transform', (id, i) -> "translate(#{id.x}, #{id.y})")
-
-
-    
+    nodes = alchemy.vis.selectAll 'g.node'
+                    .attr 'transform', (id, i) -> "translate(#{id.x}, #{id.y})"
+ 
     # configuration for forceLocked
     if !conf.forceLocked 
         alchemy.force
-                .on("tick", alchemy.layout.tick)
+                .on "tick", alchemy.layout.tick
                 .start()
 
     # call user-specified functions after load function if specified
@@ -101,32 +81,36 @@ alchemy.startGraph = (data) =>
             alchemy[conf.afterLoad] = true
 
     if conf.initialScale isnt alchemy.defaults.initialScale
-        alchemy.interactions.zoom().scale(conf.initialScale)
+        alchemy.interactions.zoom().scale conf.initialScale
         return
 
     if conf.initialTranslate isnt alchemy.defaults.initialTranslate
-        alchemy.interactions.zoom().translate(conf.initialTranslate)
+        alchemy.interactions.zoom().translate conf.initialTranslate
         return
 
     if conf.cluster or conf.directedEdges
-        defs = d3.select("#{alchemy.conf.divSelector} svg").append("svg:defs")
+        defs = d3.select("#{alchemy.conf.divSelector} svg").append "svg:defs"
 
     if conf.directedEdges
         arrowSize = conf.edgeArrowSize + (conf.edgeWidth() * 2)
-        marker = defs.append("svg:marker")
-            .attr("id", "arrow")
-            .attr("viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}")
-            .attr('markerUnits', 'userSpaceOnUse')
-            .attr("markerWidth", arrowSize)
-            .attr("markerHeight", arrowSize)
-            .attr("orient", "auto")
-        marker.append("svg:path")
-            .attr("d", "M #{arrowSize},0 L 0,#{arrowSize * 0.4} L 0,-#{arrowSize * 0.4}")
+        marker = defs.append "svg:marker"
+            .attr "id", "arrow"
+            .attr "viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}"
+            .attr 'markerUnits', 'userSpaceOnUse'
+            .attr "markerWidth", arrowSize
+            .attr "markerHeight", arrowSize
+            .attr "orient", "auto"
+        marker.append "svg:path"
+            .attr "d", "M #{arrowSize},0 L 0,#{arrowSize * 0.4} L 0,-#{arrowSize * 0.4}"
         if conf.curvedEdges
-            marker.attr("refX", arrowSize + 1)
+            marker.attr "refX", arrowSize + 1
         else
-            marker.attr('refX', 1)
+            marker.attr 'refX', 1
 
     if conf.showEditor
         editor = new alchemy.editor.Editor
+        editorInteractions = new alchemy.editor.Interactions
+        d3.select "body"
+            .on 'keydown', editorInteractions.deleteSelected
+
         editor.startEditor()

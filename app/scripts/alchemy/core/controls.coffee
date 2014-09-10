@@ -19,24 +19,24 @@ alchemy.controlDash =
         if @dashIsShown()
             divSelector = alchemy.conf.divSelector
             # add dashboard wrapper
-            d3.select("#{divSelector}")
-                .append("div")
-                .attr("id", "control-dash-wrapper")
-                .attr("class", "col-md-4 initial")
+            d3.select "#{divSelector}"
+                .append "div"
+                .attr "id", "control-dash-wrapper"
+                .attr "class", "col-md-4 initial"
 
             # add the dash toggle button 
-            d3.select("#control-dash-wrapper") 
-                .append("i")
-                .attr("id", "dash-toggle")
-                .attr("class", "fa fa-flask col-md-offset-12")
+            d3.select "#control-dash-wrapper"
+                .append "i"
+                .attr "id", "dash-toggle"
+                .attr "class", "fa fa-flask col-md-offset-12"
 
             # add the control dash
-            d3.select("#control-dash-wrapper") 
-                .append("div")
-                .attr("id", "control-dash")
-                .attr("class", "col-md-12")
+            d3.select "#control-dash-wrapper"
+                .append "div"
+                .attr "id", "control-dash"
+                .attr "class", "col-md-12"
 
-            d3.select('#dash-toggle').on('click', alchemy.interactions.toggleControlDash)
+            d3.select('#dash-toggle').on 'click', alchemy.interactions.toggleControlDash
 
             alchemy.controlDash.zoomCtrl()
             alchemy.controlDash.search()
@@ -46,36 +46,36 @@ alchemy.controlDash =
 
     search: ->
         if alchemy.conf.search
-            d3.select("#control-dash")
-                    .append("div")
-                    .attr("id", "search")
-                    .html("""
+            d3.select "#control-dash"
+                    .append "div"
+                    .attr "id", "search"
+                    .html """
                         <div class='input-group'>
                             <input class='form-control' placeholder='Search'>
                             <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
                         </div> 
-                          """)
+                          """
             alchemy.search.init()
     
     zoomCtrl: ->
         if alchemy.conf.zoomControls 
-            d3.select("#control-dash-wrapper")
-                .append("div")
-                .attr("id", "zoom-controls")
-                .attr("class", "col-md-offset-12")
-                .html("<button id='zoom-reset'  class='btn btn-defualt btn-primary'><i class='fa fa-crosshairs fa-lg'></i></button>
+            d3.select "#control-dash-wrapper"
+                .append "div"
+                .attr "id", "zoom-controls"
+                .attr "class", "col-md-offset-12"
+                .html "<button id='zoom-reset'  class='btn btn-defualt btn-primary'><i class='fa fa-crosshairs fa-lg'></i></button>
                         <button id='zoom-in'  class='btn btn-defualt btn-primary'><i class='fa fa-plus'></i></button>
-                        <button id='zoom-out' class='btn btn-default btn-primary'><i class='fa fa-minus'></i></button>")
+                        <button id='zoom-out' class='btn btn-default btn-primary'><i class='fa fa-minus'></i></button>"
             
-            d3.select('#zoom-in').on("click", -> alchemy.interactions.clickZoom 'in' )
-            d3.select('#zoom-out').on("click", -> alchemy.interactions.clickZoom 'out' )
-            d3.select('#zoom-reset').on("click", -> alchemy.interactions.clickZoom 'reset')
+            d3.select('#zoom-in').on "click", -> alchemy.interactions.clickZoom 'in'
+            d3.select('#zoom-out').on "click", -> alchemy.interactions.clickZoom 'out'
+            d3.select('#zoom-reset').on "click", -> alchemy.interactions.clickZoom 'reset'
 
     filters: ->
         if alchemy.conf.nodeFilters or alchemy.conf.edgeFilters
-            d3.select("#control-dash")
-                .append("div")
-                .attr("id", "filters")
+            d3.select "#control-dash"
+                .append "div"
+                .attr "id", "filters"
             alchemy.filters.init()
 
     stats: ->
@@ -93,16 +93,15 @@ alchemy.controlDash =
                     </div>
                 """
 
-            d3.select("#control-dash")
-                .append("div")
-                .attr("id", "stats")
-                .html(stats_html)
-                .select('#stats-header')
-                .on('click', () ->
-                    if d3.select('#all-stats').classed("in")
-                        d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-right")
-                    else d3.select("#stats-header>span").attr("class", "fa fa-2x fa-caret-down")
-                )
+            d3.select "#control-dash"
+                .append "div"
+                .attr "id", "stats"
+                .html stats_html
+                .select '#stats-header'
+                .on 'click', () ->
+                    if d3.select('#all-stats').classed "in"
+                        d3.select("#stats-header>span").attr "class", "fa fa-2x fa-caret-right"
+                    else d3.select("#stats-header>span").attr "class", "fa fa-2x fa-caret-down"
 
             alchemy.stats.init()
 
@@ -116,11 +115,11 @@ alchemy.controlDash =
                         </div>
                     </div>
                     """
-            d3.select("#control-dash")
-                .append("div")
-                .attr("id", "clustering")
-                .html(clusterControl_html)
-                .select('#cluster_control_header')
+            d3.select "#control-dash"
+                .append "div"
+                .attr "id", "clustering"
+                .html clusterControl_html
+                .select '#cluster_control_header'
 
             alchemy.clusterControls.init()
 

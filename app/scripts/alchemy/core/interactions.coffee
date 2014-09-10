@@ -17,15 +17,10 @@
 alchemy.interactions =
     edgeClick: (d) ->
         vis = alchemy.vis
-        vis.selectAll('.edge')
-            .classed(
-                'highlight': false
-                )
-        d3.select("[source-target='#{d.id}']")
-            .classed(
-                'highlight': true
-                'selected': true
-                    )
+        vis.selectAll '.edge'
+            .classed 'highlight': false
+        d3.select "[source-target='#{d.id}']"
+            .classed {'highlight': true, 'selected': true}
         d3.event.stopPropagation()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
@@ -33,39 +28,20 @@ alchemy.interactions =
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
             node = alchemy._nodes[n.id]
-            if typeof alchemy.conf.nodeMouseOver == 'function'
+            if typeof alchemy.conf.nodeMouseOver is 'function'
                 alchemy.conf.nodeMouseOver(node)
-            else if typeof alchemy.conf.nodeMouseOver == ('number' or 'string')
+            else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
                 # the user provided an integer or string to be used
                 # as a data lookup key on the node in the graph json
-                return node.properties[alchemy.conf.nodeMouseOver]
+                node.properties[alchemy.conf.nodeMouseOver]
         else
             null
 
     nodeMouseOut: (n) ->
-        if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut == 'function'
+        if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
         else
             null
-
-    nodeMouseUp: (n) ->
-        # console.log "mouseup from interactions"
-
-    #not currently implemented
-    nodeDoubleClick: (c) ->
-        d3.event.stopPropagation()
-        if not alchemy.conf.extraDataSource or
-            c.expanded or
-            alchemy.conf.unexpandable.indexOf c.type is not -1 then return
-
-        $('<div id="loading-spi"></div>nner').show()
-        console.log "loading more data for #{c.id}"
-        c.expanded = true
-        d3.json alchemy.conf.extraDataSource + c.id, loadMoreNodes
-
-        links = findAllEdges c
-        for e of edges
-            edges[e].distance *= 2
 
     nodeClick: (c) ->
         d3.event.stopPropagation()
@@ -74,22 +50,7 @@ alchemy.interactions =
             selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
             alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
 
-        # alternate click event highlights neighboring nodes and outgoing edges
-        # alchemy.vis.selectAll(".node").classed('selected', (d) ->
-        #     if d.id is c.id
-        #         return !selected
-        #     else 
-        #         connections = alchemy.edges.some (e) -> 
-        #             ((e.source.id is c.id and e.target.id is d.id) or 
-        #             (e.source.id is d.id and e.target.id is c.id))
-        #             # and d3.select(".edge[source-target*='#{d.id}']").classed("active")
-        #         return connections
-        #     )
-
-        # selectedEdges = alchemy.vis.selectAll(".edge[source-target*='#{c.id}']")
-        # selectedEdges.classed("selected", !selected)
-        # if alchemy.conf.nodeClick?
-        if typeof alchemy.conf.nodeClick == 'function'
+        if typeof alchemy.conf.nodeClick is 'function'
             alchemy.conf.nodeClick(c)
             return
 
@@ -108,18 +69,17 @@ alchemy.interactions =
                                            .map( (a) -> return parseFloat(a) )
 
                     alchemy.vis
-                        .attr("transform", ->
-                            if direction == "in"
+                        .attr "transform", ->
+                            if direction is "in"
                                 scale += 0.2 if scale < alchemy.conf.scaleExtent[1]
                                 return "translate(#{x},#{y}) scale(#{ scale })"
-                            else if direction == "out"
+                            else if direction is "out"
                                 scale -= 0.2 if scale > alchemy.conf.scaleExtent[0]
                                 return "translate(#{x},#{y}) scale(#{ scale })"
-                            else if direction == "reset"
+                            else if direction is "reset"
                                 return "translate(0,0) scale(1)"
                             else
                                 console.log 'error'
-                            )
                     if not @._zoomBehavior?
                         @._zoomBehavior = d3.behavior.zoom()
                     @._zoomBehavior.scale(scale)
@@ -169,5 +129,5 @@ alchemy.interactions =
         alchemy.vis.selectAll('g.node,circle,text')
             .classed('selected unselected neighbor unconnected connecting', false)
         # call user-specified deselect function if specified
-        if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll == 'function')
+        if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll is 'function')
             alchemy.conf.deselectAll()

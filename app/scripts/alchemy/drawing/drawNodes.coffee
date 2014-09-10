@@ -14,32 +14,32 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class alchemy.drawing.DrawNodes
-    constructor: ->
-        @drawNode = new alchemy.drawing.DrawNode
-
+alchemy.drawing.DrawNodes =
     createNode: (d3Nodes) ->
+        drawNode = alchemy.drawing.DrawNode
+
         # alchemyNode is an array of one or more alchemyNode._d3 packets
-        node = alchemy.vis.selectAll("g.node")
-                        .data(d3Nodes, (n) -> n.id)
-        node.enter().append("g")
-                .attr("class", (d) ->
+        node = alchemy.vis.selectAll "g.node"
+                        .data d3Nodes, (n) -> n.id
+        node.enter().append "g"
+                .attr "class", (d) ->
                     node_data = alchemy._nodes[d.id].getProperties()
                     if d.nodeType? then "node #{d.nodeType} active" else "node active"
-                    )
-                .attr('id', (d) -> "node-#{d.id}")
-                .classed('root', (d) -> d.root)
+                .attr 'id', (d) -> "node-#{d.id}"
+                .classed 'root', (d) -> d.root
 
-        @drawNode.createNode(node)
-        @drawNode.styleNode(node)
-        @drawNode.styleText(node)
-        @drawNode.setInteractions(node)
+        drawNode.createNode node
+        drawNode.styleNode node
+        drawNode.styleText node
+        drawNode.setInteractions node
         node.exit().remove()
 
     updateNode: (alchemyNode) ->
         # alchemyNode is an array of one or more alchemyNode._d3 packets
-        node = d3.select("#node-#{alchemyNode.id}")
-        @drawNode.styleNode(node)
-        @drawNode.styleText(node)
-        @drawNode.setInteractions(node)
+        drawNode = alchemy.drawing.DrawNode
+        node = d3.select "#node-#{alchemyNode.id}"
+
+        drawNode.styleNode node
+        drawNode.styleText node
+        drawNode.setInteractions node
 

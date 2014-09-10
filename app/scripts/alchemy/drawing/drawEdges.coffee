@@ -14,30 +14,28 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-class alchemy.drawing.DrawEdges
-    constructor: ->
-        @utils = new alchemy.drawing.EdgeUtils
-        @drawEdge = new alchemy.drawing.DrawEdge(@utils)
-    
+alchemy.drawing.DrawEdges =
     createEdge: (d3Edges) ->
-        edge = alchemy.vis.selectAll("g.edge")
-                        .data(d3Edges)
-        edge.enter().append('g')
-                    .attr("id", (d) -> "edge-#{d.id}-#{d.pos}")
-                    .attr('class', (d)-> 
+        drawEdge = alchemy.drawing.DrawEdge
+        edge = alchemy.vis.selectAll "g.edge"
+                        .data d3Edges
+        edge.enter().append 'g'
+                    .attr "id", (d) -> "edge-#{d.id}-#{d.pos}"
+                    .attr 'class', (d)-> 
                         edgeType = d.caption 
-                        "edge #{edgeType}")
-                    .attr('source-target', (d) -> "#{d.source.id}-#{d.target.id}")    
-        @drawEdge.createLink(edge)
-        @drawEdge.classEdge(edge)
-        @drawEdge.styleLink(edge)
-        @drawEdge.styleText(edge)
-        @drawEdge.setInteractions(edge)
+                        "edge #{edgeType}"
+                    .attr 'source-target', (d) -> "#{d.source.id}-#{d.target.id}"    
+        drawEdge.createLink edge
+        drawEdge.classEdge edge
+        drawEdge.styleLink edge
+        drawEdge.styleText edge
+        drawEdge.setInteractions edge
         edge.exit().remove()
 
     updateEdge: (d3Edge) ->
-        edge = d3.select("#edge-#{d3Edge.id}-#{d3Edge.pos}")
-        @drawEdge.classEdge(edge)
-        @drawEdge.styleLink(edge)
-        @drawEdge.styleText(edge)
-        @drawEdge.setInteractions(edge)
+        drawEdge = alchemy.drawing.DrawEdge
+        edge = d3.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
+        drawEdge.classEdge edge
+        drawEdge.styleLink edge
+        drawEdge.styleText edge
+        drawEdge.setInteractions edge
