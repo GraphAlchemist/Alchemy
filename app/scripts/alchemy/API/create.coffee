@@ -62,12 +62,15 @@ apiCreateMethods =
                 # data did not provide a unique id and so alchemy uses source-target
                 else
                     edgeArray = alchemy._edges["#{edge.source}-#{edge.target}"]
-                    # edges already exist with this source target, append a new edge object
-                    alchemyEdge = new alchemy.models.Edge(edge)
                     if edgeArray
+                        # edges already exist with this source target, append a new edge object
+                        alchemyEdge = new alchemy.models.Edge(edge, edgeArray.length)
                         edgeArray.push(alchemyEdge)
                         [alchemyEdge]
                     else
+                        # edge array does not exist - create the array and give the edge
+                        # an id of 'source-target-0' for the first position in the array
+                        alchemyEdge = new alchemy.models.Edge(edge, 0)
                         alchemy._edges["#{edge.source}-#{edge.target}"] = [alchemyEdge]
                         [alchemyEdge]
                         

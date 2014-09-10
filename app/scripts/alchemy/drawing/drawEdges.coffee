@@ -19,11 +19,11 @@ class alchemy.drawing.DrawEdges
         @utils = new alchemy.drawing.EdgeUtils
         @drawEdge = new alchemy.drawing.DrawEdge(@utils)
     
-    createEdge: (edge) ->
-        # used to create edges
-        # 'edge' is one or more edges in a d3 selection
+    createEdge: (d3Edges) ->
+        edge = alchemy.vis.selectAll("g.edge")
+                        .data(d3Edges)
         edge.enter().append('g')
-                    .attr("id", (d) -> "edge-#{d.id}")
+                    .attr("id", (d) -> "edge-#{d.id}-#{d.pos}")
                     .attr('class', (d)-> 
                         edgeType = d.caption 
                         "edge #{edgeType}")
@@ -35,8 +35,8 @@ class alchemy.drawing.DrawEdges
         @drawEdge.setInteractions(edge)
         edge.exit().remove()
 
-    updateEdge: (edge) ->
-        # 'edge' is one or more edges in a d3 selection
+    updateEdge: (d3Edge) ->
+        edge = d3.select("#edge-#{d3Edge.id}-#{d3Edge.pos}")
         @drawEdge.classEdge(edge)
         @drawEdge.styleLink(edge)
         @drawEdge.styleText(edge)

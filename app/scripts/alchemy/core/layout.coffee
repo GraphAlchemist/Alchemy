@@ -27,7 +27,7 @@ class alchemy.Layout
         else
             @_charge = () -> -10 / @k
             @_linkStrength = (edge) ->
-                if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
+                if nodes[edge.source.id].getProperties('root') or nodes[edge.target.id].getProperties('root')
                     1
                 else
                     0.9
@@ -102,7 +102,7 @@ class alchemy.Layout
             width: conf.graphWidth()
             height: conf.graphHeight()
 
-        rootNodes = _.filter alchemy._nodes, (d)-> d.properties.root
+        rootNodes = _.filter(alchemy.get.allNodes(), (node) -> node.getProperties('root'))
         # if there is one root node, position it in the center
         if rootNodes.length == 1
             n = rootNodes[0]
@@ -147,4 +147,4 @@ alchemy.generateLayout = (start=false)->
         .friction(alchemy.layout.friction())
         .chargeDistance(alchemy.layout.chargeDistance())
 
-    alchemy.updateGraph()
+    # alchemy.updateGraph()

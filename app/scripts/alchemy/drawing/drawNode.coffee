@@ -25,7 +25,7 @@ class alchemy.drawing.DrawNode
 
         @_styleText = (node) ->
             node.selectAll("text")
-                .attr('dy', (d) -> if nodes[d.id].properties.root then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
+                .attr('dy', (d) -> if nodes[d.id].getProperties('root') then conf.rootNodeRadius / 2 else conf.nodeRadius * 2 - 5)
                 .html((d) -> utils.nodeText(d))
 
         @_createNode = (node) ->
@@ -36,7 +36,7 @@ class alchemy.drawing.DrawNode
 
         @_styleNode = (node) ->
             node.selectAll('circle')
-                .attr('r', (d) -> d.r)
+                .attr('r', (d) -> d.radius)
                 .attr('shape-rendering', 'optimizeSpeed')
                 .each (d) -> d3.select(@).style(utils.nodeStyle(d))
 
@@ -81,11 +81,11 @@ class alchemy.drawing.DrawNode
                         .on("dragend", coreInteractions.nodeDragended)
 
                 if not conf.fixNodes
-                    nonRootNodes = node.filter((d) -> return d.root != true)
+                    nonRootNodes = node.filter((d) -> d.root isnt true)
                     nonRootNodes.call(drag)
 
                 if not conf.fixRootNodes
-                    rootNodes = node.filter((d) -> return d.root == true)
+                    rootNodes = node.filter((d) -> d.root is true)
                     rootNodes.call(drag)
 
     styleText: (node) =>

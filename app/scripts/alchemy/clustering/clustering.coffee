@@ -44,8 +44,8 @@ class alchemy.clustering
             gravity: (k) -> _gravity(k)
 
     identifyClusters: ->
-        nodes = alchemy._nodes
-        clusters = _.uniq _.map(_.values(nodes), (node)-> node.properties["#{alchemy.conf.clusterKey}"])
+        nodes = alchemy.get.allNodes()
+        clusters = _.uniq(_.map(_.values(nodes), (node)-> node.setProperty["#{alchemy.conf.clusterKey}"]))
         @clusterMap = _.zipObject clusters, [0..clusters.length]
     
     getClusterColour: (clusterValue) ->
