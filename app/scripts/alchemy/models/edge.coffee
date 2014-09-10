@@ -21,8 +21,8 @@ class alchemy.models.Edge
 
         @_setCaption(edge, conf)
         # Add id to source/target's edgelist
-        alchemy._nodes["#{edge.source}"]._addEdge @id
-        alchemy._nodes["#{edge.target}"]._addEdge @id
+        alchemy._nodes["#{edge.source}"]._addEdge("#{@id}-#{@_index}")
+        alchemy._nodes["#{edge.target}"]._addEdge("#{@id}-#{@_index}")
 
     _setD3Properties: (props) =>
         _.assign(@_d3, props)

@@ -30,9 +30,9 @@ class alchemy.models.Node
     _setD3Properties: (props) =>
         _.assign(@_d3, props)
 
-    _addEdge: (edge) ->
+    _addEdge: (edgeDomID) ->
         # Stores edge.id for easy edge lookup
-        @_adjacentEdges = _.union(@_adjacentEdges, edge)
+        @_adjacentEdges = _.union(@_adjacentEdges, [edgeDomID])
     
     # Edit node properties
     getProperties: (key=null, keys...) =>
