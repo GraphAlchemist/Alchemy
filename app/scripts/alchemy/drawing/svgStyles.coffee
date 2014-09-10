@@ -29,11 +29,16 @@ alchemy.svgStyles =
             defaultStyle = conf.edgeStyle.all
             d = edge.properties
 
-            width = defaultStyle.width(d)
-            color = defaultStyle.color(d)
-            opacity = defaultStyle.opacity(d)
-            directed = defaultStyle.directed(d)
-            curved = defaultStyle.curved(d)
+            edgeTypeKey = _.keys(conf.edgeTypes)[0]
+            edgeType = edge[edgeTypeKey]
+
+            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
+
+            width = style.width(d)
+            color = style.color(d)
+            opacity = style.opacity(d)
+            directed = style.directed(d)
+            curved = style.curved(d)
 
             svgStyles =
                 "stroke": color
