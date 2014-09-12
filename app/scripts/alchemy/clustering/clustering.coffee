@@ -25,7 +25,7 @@ class alchemy.clustering
         _linkStrength = (edge) ->
             source = alchemy._nodes[edge.source.id].getProperties()
             target = alchemy._nodes[edge.target.id].getProperties()
-            if source[@clusterKey] is target[@clusterKey] then 1 else 1
+            if source[@clusterKey] is target[@clusterKey] then 0.1 else 0
         _friction = () ->
             0.7
         _linkDistancefn = (edge) ->
@@ -51,7 +51,7 @@ class alchemy.clustering
 
     identifyClusters: ->
         nodes = alchemy.get.allNodes()
-        clusters = _.uniq _.map(_.values(nodes), (node)-> node.setProperty["#{alchemy.conf.clusterKey}"])
+        clusters = _.uniq _.map(_.values(nodes), (node)-> node.getProperties()[alchemy.conf.clusterKey])
         @clusterMap = _.zipObject clusters, [0..clusters.length]
     
     getClusterColour: (clusterValue) ->
