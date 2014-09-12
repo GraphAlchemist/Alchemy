@@ -25,35 +25,7 @@
 	            fill: white;
 	        }
 		}
-	    &.selected{        
-	        circle {
-	            stroke-width: 5px;
-	            fill-opacity: .8;
-	            stroke-opacity: 1;
-	            stroke: white;
-	            fill: $primary;
-	        }
-	        text {
-	            display: block;
-	        }
-	    }
-        &.selected:hover{
-            circle {
-                stroke-width: 5px;
-                fill-opacity: .8;
-                stroke-opacity: 1;
-                stroke: white;
-                fill: white;
-            }
-        }
-        &:hover{
-            circle {
-                stroke-width: 3px;
-                fill-opacity: .8;
-                stroke-opacity: 1;
-                stroke: darken($primary, 40%);
-                fill: lighten($primary, 10%);
-            }
+        &:hover, &.selected{
             text {
                 display: block;
             }
