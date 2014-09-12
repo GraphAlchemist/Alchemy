@@ -3,8 +3,9 @@
 angular.module('site')
     .directive 'prettyPrint', () ->
         restrict: 'A',
-        link: makePretty = ($scope, $element, attrs) ->
-            $element.html(prettyPrintOne($element.html()))
+        link: 
+            makePretty = ($scope, $element, attrs) ->
+                $element.html(prettyPrintOne($element.html()))
 
     .directive 'popupTweet', () ->
         restrict: 'A',
@@ -35,14 +36,15 @@ angular.module('site')
             return
 
         # very hacky scrollSnap, should probably be a directive
-        $scope.snapElement = (inview, part, element) ->
+        $scope.snapElement = (inview, part) ->
             # body = angular.element(document).find('body')
             # section = angular.element(element)
-            # offset = section.offset().top
-            # headerOffset = angular.element('.navbar').height()
-            if part is "top"
-                @sectionSnap(element)
-                return
+            # # offset = section.offset().top
+            # # headerOffset = angular.element('.navbar').height()s            
+            # if part is "top"
+            #     @sectionSnap(section)
+            #     return
+        return
 
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location, $route, $http) ->
@@ -70,27 +72,6 @@ angular.module('navigation', ['ui.bootstrap'])
                     $location.path(link.href)
                 else 
                     link.state= ""
-
-    # .directive 'githubStat', ($http) ->
-    #     restrict: 'A',
-    #     link: 
-    #         ghData = ($scope) ->
-    #             $http.get("https://api.github.com/repos/graphalchemist/alchemy?callback=JSON_CALLBACK", headers: {'If-Modified-Since': 'Wed, 13 Aug 2014 21:40:14 GMT'})
-    #                 .success((response, status) ->
-    #                     console.log response
-    #                         console.log status
-    #                         $scope.stargazers_count = response.data.stargazers_count
-    #                         $scope.forks_count = response.data.forks_count
-    #                         console.log $scope.stargazers_count
-    #                     #     )
-    #                     .error((response, status) ->
-    #                         console.log status
-    #                     )
-    #                 )
-    #                 .error((response, status) ->
-    #                     console.log response
-    #                     console.log status
-    #                 )
 
 angular.module('alchemyExamples', [])
     .controller 'examplesCtrl', ($scope, $location) ->

@@ -1,4 +1,4 @@
-    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="info-wrapper">
+    <section in-view="snapElement($inview, $inviewpart)" class="row" id="info-wrapper">
         <div class="row text-center" id="alchemy-logo">
             <div class="col-xs-12">
                 <img src="images/alchemy-01.svg"></img>
@@ -8,7 +8,7 @@
         </div>
         <i class="fa fa-arrow-down float-right" ng-click="sectionSnap('#config-wrapper')"></i>
     </section>
-    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="config-wrapper">
+    <section in-view="snapElement($inview, $inviewpart)" class="row" id="config-wrapper">
         <i class="fa fa-arrow-up float-right" ng-click="sectionSnap('#info-wrapper')"></i>
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -22,7 +22,7 @@
         </div>
         <i class="fa fa-arrow-down float-right" ng-click="sectionSnap('#carousel-wrapper')"></i>
     </section>  
-    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="carousel-wrapper">
+    <section in-view="snapElement($inview, $inviewpart)" class="row" id="carousel-wrapper">
         <i class="fa fa-arrow-up float-right" ng-click="sectionSnap('#config-wrapper')"></i>
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -44,7 +44,7 @@
         <i class="fa fa-arrow-down" ng-click="sectionSnap('#team-wrapper')"></i>
     </section>
 
-    <section in-view="snapElement($inview, $inviewpart, $element)" class="row" id="team-wrapper">
+    <section in-view="snapElement($inview, $inviewpart)" class="row" id="team-wrapper">
     <i class="fa fa-arrow-up" ng-click="sectionSnap('#carousel-wrapper')"></i>
         <div class="col-md-12" id="team-info">
             <div class="row contributing">
