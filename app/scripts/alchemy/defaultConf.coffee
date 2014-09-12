@@ -78,7 +78,7 @@ alchemy.defaults =
             "captionColor": -> "#FFFFFF",
             "captionBackground": -> null
             "captionSize": 12
-    nodeColour: null # WILL BE DEPRECATED IN 1.0
+    nodeColour: "#68B9FE" # WILL BE DEPRECATED IN 1.0
     nodeMouseOver: 'caption'
     nodeRadius: 10 # WILL BE DEPRECATED IN 1.0
     nodeTypes: null

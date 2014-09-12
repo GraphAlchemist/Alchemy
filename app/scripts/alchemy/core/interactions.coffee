@@ -33,8 +33,9 @@ alchemy.interactions =
         #     "fill-opacity": ".8"
         # }
 
-        alchemy.vis.select("#node-#{n.id} circle")
-               .style("fill", "#FFFFFF")
+        # temporary fix until Node#setStyles() is working
+        alchemy.vis.select "#node-#{n.id} circle"
+               .style "fill", "#FFFFFF"
 
         if alchemy.conf.nodeMouseOver?
             if typeof alchemy.conf.nodeMouseOver is 'function'
@@ -47,8 +48,17 @@ alchemy.interactions =
             null
 
     nodeMouseOut: (n) ->
+        # temporary fix until Node#setStyles() is working
         alchemy.vis.select "#node-#{n.id} circle"
-               .attr "style",(d)-> alchemy.drawing.NodeUtils.nodeStyle(d)
+               .style "fill", (d)-> 
+                    nodeType = alchemy._nodes[d.id]["_nodeType"]
+                    nodeStyles = alchemy.conf.nodeStyle
+                    typeStyle = nodeStyles[nodeType]
+                    if typeStyle is not undefined
+                        typeStyle["color"]()
+                    else 
+                        nodeStyles["all"]["color"]()
+
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
         else
