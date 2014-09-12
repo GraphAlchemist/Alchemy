@@ -26,8 +26,17 @@ alchemy.interactions =
             alchemy.conf.edgeClick()
 
     nodeMouseOver: (n) ->
+        node = alchemy._nodes[n.id]
+        # node.setStyles {
+        #     "fill": "#FFFFFF"
+        #     "stroke-width": "3px"
+        #     "fill-opacity": ".8"
+        # }
+
+        alchemy.vis.select("#node-#{n.id} circle")
+               .style("fill", "#FFFFFF")
+
         if alchemy.conf.nodeMouseOver?
-            node = alchemy._nodes[n.id]
             if typeof alchemy.conf.nodeMouseOver is 'function'
                 alchemy.conf.nodeMouseOver(node)
             else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
@@ -38,6 +47,8 @@ alchemy.interactions =
             null
 
     nodeMouseOut: (n) ->
+        alchemy.vis.select "#node-#{n.id} circle"
+               .attr "style",(d)-> alchemy.drawing.NodeUtils.nodeStyle(d)
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
         else

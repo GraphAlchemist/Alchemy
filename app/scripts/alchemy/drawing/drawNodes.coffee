@@ -37,8 +37,7 @@ alchemy.drawing.DrawNodes =
     updateNode: (alchemyNode) ->
         # alchemyNode is an array of one or more alchemyNode._d3 packets
         drawNode = alchemy.drawing.DrawNode
-        node = d3.select "#node-#{alchemyNode.id}"
-
+        node = d3.select("#node-#{alchemyNode.id}")
         drawNode.styleNode node
         drawNode.styleText node
         drawNode.setInteractions node
