@@ -99,3 +99,4 @@ alchemy.defaults =
     scaleExtent: [0.5, 2.4]
     dataWarning: "default"
     warningMessage: "There be no data!  What's going on?"
+    backend: null
