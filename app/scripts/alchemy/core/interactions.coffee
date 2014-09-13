@@ -27,8 +27,8 @@ alchemy.interactions =
                 'selected': true
                     )
         d3.event.stopPropagation()
-        if typeof alchemy.conf.edgeClick? is 'function'
-            alchemy.conf.edgeClick()
+        if typeof alchemy.conf.edgeClick == 'function'
+            alchemy.conf.edgeClick(d)
 
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
