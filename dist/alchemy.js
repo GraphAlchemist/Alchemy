@@ -13,7 +13,7 @@
       this.begin = __bind(this.begin, this);
       this.setState = __bind(this.setState, this);
       this.getState = __bind(this.getState, this);
-      this.version = "0.2.1";
+      this.version = "0.2.2";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
@@ -553,8 +553,8 @@
         'selected': true
       });
       d3.event.stopPropagation();
-      if (typeof (alchemy.conf.edgeClick != null) === 'function') {
-        return alchemy.conf.edgeClick();
+      if (typeof alchemy.conf.edgeClick === 'function') {
+        return alchemy.conf.edgeClick(d);
       }
     },
     nodeMouseOver: function(n) {
@@ -1193,11 +1193,11 @@
     cluster: false,
     clusterKey: "cluster",
     clusterColours: d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f", "#ffcd00", "#184fff", "#ff7e00"]),
-    clusterControl: true,
+    clusterControl: false,
     nodeStats: false,
     edgeStats: false,
-    edgeFilters: true,
-    nodeFilters: true,
+    edgeFilters: false,
+    nodeFilters: false,
     edgesToggle: false,
     nodesToggle: false,
     zoomControls: false,
@@ -1449,7 +1449,7 @@
           } else {
             return conf.nodeRadius * 2 - 5;
           }
-        }).html(function(d) {
+        }).text(function(d) {
           return utils.nodeText(d);
         });
       };
