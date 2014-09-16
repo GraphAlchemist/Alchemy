@@ -2,14 +2,14 @@ do ->
     describe "alchemy.updateGraph()", ->
         alchemy.begin({'dataSource': 'sample_data/contrib.json'})
         
-        describe "alchemy.edge", ->
+        describe "alchemy._edges", ->
             it "should be defined", (done) ->
-                alchemy.edge.should.not.equal undefined
+                alchemy._edges.should.not.equal undefined
                 done()
 
-        describe "alchemy.node", ->
+        describe "alchemy._nodes", ->
             it "should be defined", (done) ->
-                alchemy.node.should.not.equal undefined
+                alchemy._nodes.should.not.equal undefined
                 done()
         return
     return

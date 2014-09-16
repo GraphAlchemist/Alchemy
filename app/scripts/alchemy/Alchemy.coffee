@@ -50,7 +50,7 @@ class Alchemy
         @_edges = {}
 
         # extend alchemy with API methods
-        _.extend @, api()
+        # _.extend @, api()
 
     allEdges: -> _.map @_edges, (e) -> e.properties
     allNodes: -> _.map @_nodes, (n) -> n.properties
@@ -100,5 +100,3 @@ if typeof module isnt 'undefined' and module.exports
   module.exports = new Alchemy()
 else
   @alchemy = new Alchemy()
-
-api()

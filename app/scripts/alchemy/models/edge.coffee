@@ -44,7 +44,7 @@ class alchemy.models.Edge
         else
             @_properties[property] = value
             if (property is 'source') or (property is 'target')
-                @_setD3Property property, alchemy._nodes[value]._d3
+                @_setD3Properties {property: alchemy._nodes[value]._d3}
         @
 
     getProperties: (key=null, keys...) =>

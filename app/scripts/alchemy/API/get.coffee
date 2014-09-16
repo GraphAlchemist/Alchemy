@@ -14,11 +14,8 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-apiGetMethods = 
-    # name spaced get methods
-    # e.g. alchemy.get.nodes()
-    get:
-        nodes: (id, ids...) ->
+alchemy.get = 
+    nodes: (id, ids...) ->
             if not id
                 console.warn "Please specify a node id."
                 return
@@ -33,26 +30,26 @@ apiGetMethods =
             else
                 [alchemy._nodes[id]]
 
-        edges: (id=null, target=null) ->
-            # returns one or more edges as an array
-            if id? and target?
-                edge_id = "#{id}-#{target}"
-                edge = alchemy._edges[edge_id]
-                [edge]
-            else if id? and not target?
-                if alchemy._edges[id]?
-                    [_.flatten(alchemy._edges[id])]
-                else
-                    # edge does not exist, so return all edges with `id` as the 
-                    # `source OR `target` this method scans ALL edges....
-                    results = _.map alchemy._edges, (edge) ->
-                        if (edge.properties.source is id) or (edge.properties.target is id)
-                            edge.properties
-                _.compact results
+    edges: (id=null, target=null) ->
+        # returns one or more edges as an array
+        if id? and target?
+            edge_id = "#{id}-#{target}"
+            edge = alchemy._edges[edge_id]
+            [edge]
+        else if id? and not target?
+            if alchemy._edges[id]?
+                [_.flatten(alchemy._edges[id])]
+            else
+                # edge does not exist, so return all edges with `id` as the 
+                # `source OR `target` this method scans ALL edges....
+                results = _.map alchemy._edges, (edge) ->
+                    if (edge.properties.source is id) or (edge.properties.target is id)
+                        edge.properties
+            _.compact results
 
-        allNodes: ->
-            _.map alchemy._nodes, (n) -> n
+    allNodes: ->
+        _.map alchemy._nodes, (n) -> n
 
 
-        allEdges: ->
-            _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
+    allEdges: ->
+        _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
