@@ -1,21 +1,22 @@
 alchemy.drawing.NodeUtils =
-        nodeStyle: (styles) ->
-            conf = alchemy.conf           
+        nodeStyle: (d) ->
+            conf = alchemy.conf          
             if conf.cluster
-                nodeColours = ->
-                    d = alchemy._nodes[d.id].properties
-                    clusterMap = alchemy.layout._clustering.clusterMap
+                nodeColours = do (d)->
+                    clustering = alchemy.layout._clustering
+                    node = alchemy._nodes[d.id].getProperties()
+                    clusterMap = clustering.clusterMap
                     key = alchemy.conf.clusterKey
                     colours = conf.clusterColours
                     # Modulo makes sure to reuse colors if it runs out
-                    colourIndex = clusterMap[d[key]] % colours.length
+                    colourIndex = clusterMap[node[key]] % colours.length
                     colour = colours[colourIndex]
                     "#{colour}"
             else
                 nodeColours = -> if conf.nodeColour then conf.nodeColour else ''
 
-            if nodeColours is not '' then styles.fill = nodeColours
-            styles
+            if nodeColours? then d.fill = nodeColours
+            d
 
         nodeText: (d) ->
             conf = alchemy.conf
