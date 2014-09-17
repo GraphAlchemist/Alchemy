@@ -180,7 +180,7 @@ alchemy.filters =
 
             if filterType is "nodes"
                 for node in elements.data()
-                    for edge in alchemy._nodes[node.id].adjacentEdges
+                    for edge in alchemy._nodes[node.id]._adjacentEdges
                         edgeData = alchemy._edges[edge]
 
                         # If either node is disabled then the edge is inactive
@@ -202,7 +202,23 @@ alchemy.filters =
                 element = d3.select(this)
                 [tag, filterType, isDisabled] = identifyFilter(element)
 
-                d3.selectAll(".#{tag}").classed("highlight", true)
+                d3.selectAll ".#{tag}"
+                    .each (d)-> 
+                        element = do (d)-> 
+                            if alchemy._nodes[d.id]?
+                               alchemy._nodes[d.id]
+                            else 
+                               alchemy._edges[d.id][0]
+
+                        if typeof element is Array
+                        # Edges are in arrays
+                            for edge in element
+                                console.log "edge: ", edge
+                                edge.setStyles({"fill": "#DD00DD"})
+                            # Nodes are objects
+                        else
+                            console.log "node: ", element 
+                            element.setStyles({"fill": "#DD00DD"})
 
             .on "mouseleave", () ->
                 element = d3.select(this)
