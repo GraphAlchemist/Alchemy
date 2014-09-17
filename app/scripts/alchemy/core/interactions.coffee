@@ -28,6 +28,7 @@ alchemy.interactions =
     nodeMouseOver: (n) ->
         if alchemy.conf.nodeMouseOver?
             node = alchemy._nodes[n.id]
+            node.setStyles("fill", "#FFF")
             if typeof alchemy.conf.nodeMouseOver is 'function'
                 alchemy.conf.nodeMouseOver(node)
             else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
@@ -41,6 +42,9 @@ alchemy.interactions =
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
         else
+            node = alchemy._nodes[n.id]
+            console.log node
+            node.setStyles alchemy.svgStyles.node.populate(node)
             null
 
     nodeClick: (c) ->

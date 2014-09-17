@@ -47,13 +47,6 @@
             }
         }
         &:hover{
-            circle {
-                stroke-width: 3px;
-                fill-opacity: .8;
-                stroke-opacity: 1;
-                stroke: darken($primary, 40%);
-                fill: lighten($primary, 10%);
-            }
             text {
                 display: block;
             }
