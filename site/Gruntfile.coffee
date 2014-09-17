@@ -11,13 +11,7 @@ module.exports = (grunt) ->
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
 
-  if grunt.file.isFile('./s3.yml')
-    s3Config = grunt.file.readYAML('./s3.yml')
-    key_id = s3Config.AWS_ACCESS_KEY_ID
-    secret = s3Config.AWS_SECRET_ACCESS_KEY
-  else
-    key_id = ''
-    secret = ''
+
   
   appConfig =
     app: require("./bower.json").appPath or "app"
@@ -38,21 +32,6 @@ module.exports = (grunt) ->
         options:
           config: "_config.yml"
           dest: "<%= yeoman.dist %>/docs"
-
-    # Upload to CDN.
-    s3:
-      options:
-        #Accesses environment variables
-        key: key_id
-        secret: secret
-        access: 'public-read'
-      production:
-        bucket: "cdn.graphalchemist.com"
-        upload:[
-            # upload the files without version to  CDN
-            src: ".tmp/s3/**"
-            dest: "/"
-        ]
 
     'string-replace':
       version:
@@ -86,7 +65,7 @@ module.exports = (grunt) ->
         files: ["<%= yeoman.app %>/docs/{,*/,*/*/}*{.scss,.coffee,.html,.md}"]
         tasks: [
           "jekyll:dev"
-          "sass:server"
+          "compass:docs"
           "coffee:dist"
         ]
 
@@ -111,7 +90,7 @@ module.exports = (grunt) ->
               ]
         
         tasks: [
-          "compass:server"
+          "compass"
           "autoprefixer"
         ]
 
