@@ -190,6 +190,7 @@ alchemy.filters =
                           .classed({"inactive": isDisabled, "highlight": highlight})
             if filterType is "edges"
                 elements.classed({"inactive": (d, i)-> 
+                    # for edge in alchemy._edges[d.id]
                     allNodesActive = alchemy._edges[d.id].allNodesActive()
                     isDisabled || !allNodesActive
                 })
@@ -204,33 +205,51 @@ alchemy.filters =
 
                 d3.selectAll ".#{tag}"
                     .each (d)-> 
-                        element = do (d)-> 
-                            if alchemy._nodes[d.id]?
-                               alchemy._nodes[d.id]
-                            else 
-                               alchemy._edges[d.id][0]
+                        element = do (d)->
+                            return alchemy._nodes[d.id] if alchemy._nodes[d.id]?
+                            return alchemy._edges[d.id][0]
 
                         if typeof element is Array
                         # Edges are in arrays
                             for edge in element
-                                console.log "edge: ", edge
-                                edge.setStyles({"fill": "#DD00DD"})
-                            # Nodes are objects
+                                edge.setStyles({"stroke": "#FFFFFF", "opacity": "1"})
+                        # Nodes are objects
                         else
-                            console.log "node: ", element 
-                            element.setStyles({"fill": "#DD00DD"})
+                            element.setStyles({"fill": "#359FE3", "stroke": "#8BDBFF"})
 
             .on "mouseleave", () ->
                 element = d3.select(this)
                 [tag, filterType, isDisabled] = identifyFilter(element)
 
-                d3.selectAll(".#{tag}").classed("highlight", false)
+                d3.selectAll ".#{tag}"
+                    .each (d)->
+                        element = do (d)->
+                            return alchemy._nodes[d.id] if alchemy._nodes[d.id]?
+                            return alchemy._edges[d.id][0]
+                        
+                        if typeof element is Array
+                            for edge in element
+                                edge.setStyles alchemy.svgStyles.edge.populate(edge)
+                        else
+                            element.setStyles alchemy.svgStyles.node.populate(element)
 
             .on "click", () ->
-                element = d3.select(this)
-                [tag, filterType, isDisabled] = identifyFilter(element)
-                highlight = false
-
-                #toggle disabled class
-                element.classed({'disabled': isDisabled})
-                reFilter(tag, filterType, isDisabled, highlight)
+                element = d3.select this
+                tag = element.attr "name"
+                alchemy.vis.selectAll ".#{tag}"
+                    .each (d)-> 
+                        if alchemy._nodes[d.id]?
+                            node = alchemy._nodes[d.id]
+                            # Toggle state
+                            node._state["active"] = !node._state["active"]
+                            if node._state["active"]
+                                node.setStyles(alchemy.svgStyles.node.populate)
+                            else
+                                node.setStyles {"display": "none"}
+                        else
+                            for edge in alchemy._edges[d.id]
+                                edge._state["active"] = !edge._state["active"]
+                                if edge._state["active"]
+                                   edge.setStyles alchemy.svgStyles.edge.populate(edge)
+                                else
+                                    edge.setStyles {"display": "none"}
