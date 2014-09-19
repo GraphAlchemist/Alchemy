@@ -43,7 +43,6 @@ alchemy.interactions =
             alchemy.conf.nodeMouseOut(n)
         else
             node = alchemy._nodes[n.id]
-            console.log node
             node.setStyles alchemy.svgStyles.node.populate(node)
             null
 
