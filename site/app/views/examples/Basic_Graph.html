@@ -1,14 +1,16 @@
+
 <div class="row">
-        <div class="col-md-10">
-            <h2>Description</h2>
-            <p class="lead">{{current_example.desc}}</p>
-        </div>
-        <div id="graph-container" class="col-md-6">
-            <h3 class="filename">Graph</h3>
-            <div class="alchemy" id="alchemy" style="height:450px"></div>
-        </div>  
-        <div class="col-md-6 example-code">
-            <h3 class="filename">HTML and Configuration</h3>
+    <h2>Description</h2>
+    <p class="lead">{{current_example.desc}}</p>
+</div>
+
+<div id="graph-container" class="row">
+    <h3 class="filename">Graph</h3>
+    <div class="alchemy" id="alchemy" style="height:450px"></div>
+</div>  
+
+<div class="row example-code">
+    <h3 class="filename">HTML and Configuration</h3>
             <pre pretty-print>
 &lt;html&gt;
 &lt;head&gt;
@@ -29,13 +31,10 @@
 &lt;/html&gt;
         </pre>
         </div>
-    </div>
-</div>
-
 <script type="text/javascript">
     var config = {
         dataSource: 'data/charlize.json',
-        linkDistance: function() { return 40; }
+        // linkDistance: function() { return 40; }
     };
     alchemy.begin(config)
 </script>
