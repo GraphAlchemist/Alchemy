@@ -78,6 +78,7 @@ alchemy.defaults =
             "captionColor": -> "#FFFFFF"
             "captionBackground": -> null
             "captionSize": 12
+
             "selected":
                 "color" : -> "#FFFFFF"
                 "borderColor": -> "#349FE3"
@@ -101,9 +102,16 @@ alchemy.defaults =
         "all":
             "width": -> 4
             "color": -> "#FFFFFF"
-            "opacity": -> 1
+            "opacity": -> 0.6
             "directed": -> true
             "curved": -> true
+
+            "selected":
+                "opacity": -> 0.8
+            "highlighted":
+                "opacity": -> 1
+            "hidden":
+                "opacity": 0
     edgeTypes: null
     curvedEdges: false
     edgeWidth: -> 4
