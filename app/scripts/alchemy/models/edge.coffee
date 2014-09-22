@@ -61,9 +61,9 @@ class alchemy.models.Edge
     setStyles: (key, value=null) =>
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
-        if _.isPlainObject(key)
+        if _.isPlainObject key
             value = ""
-            _.assign(@_style, key)
+            _.assign @_style, key
         else
             @_style[key] = value
         @_setD3Properties @_style
@@ -73,7 +73,7 @@ class alchemy.models.Edge
     # Find if both endpoints are active
     # there are probably better ways to do this
     allNodesActive: () =>
-        source = d3.select("#node-#{@properties.source}")
-        target = d3.select("#node-#{@properties.target}")
+        source = d3.select "#node-#{@properties.source}"
+        target = d3.select "#node-#{@properties.target}"
 
         !source.classed("inactive") && !target.classed("inactive")

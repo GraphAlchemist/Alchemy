@@ -241,9 +241,9 @@ alchemy.filters =
                             else
                                 node.setStyles {"display": "none"}
                         else
-                            for edge in alchemy._edges[d.id]
-                                edge._state["active"] = !edge._state["active"]
-                                if edge._state["active"]
-                                   edge.setStyles alchemy.svgStyles.edge.populate(edge)
-                                else
-                                    edge.setStyles {"display": "none"}
+                            edge = alchemy._edges[d.id][0]
+                            edge._state["active"] = !edge._state["active"]
+                            if edge._state["active"]
+                               edge.setStyles {"display": "block"}
+                            else
+                                edge.setStyles {"display": "none"}

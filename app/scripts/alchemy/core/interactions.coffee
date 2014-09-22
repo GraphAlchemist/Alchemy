@@ -26,25 +26,23 @@ alchemy.interactions =
             alchemy.conf.edgeClick()
 
     nodeMouseOver: (n) ->
-        if alchemy.conf.nodeMouseOver?
-            node = alchemy._nodes[n.id]
-            node.setStyles("fill", "#FFF")
-            if typeof alchemy.conf.nodeMouseOver is 'function'
-                alchemy.conf.nodeMouseOver(node)
-            else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
-                # the user provided an integer or string to be used
-                # as a data lookup key on the node in the graph json
-                node.properties[alchemy.conf.nodeMouseOver]
-        else
-            null
+        node = alchemy._nodes[n.id]
+
+        node._state = "highlighted"
+        node.setStyles()
+        if typeof alchemy.conf.nodeMouseOver is 'function'
+            alchemy.conf.nodeMouseOver(node)
+        else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
+            # the user provided an integer or string to be used
+            # as a data lookup key on the node in the graph json
+            node.properties[alchemy.conf.nodeMouseOver]
 
     nodeMouseOut: (n) ->
+        node = alchemy._nodes[n.id]
+        node._state = "active"
+        node.setStyles()
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
-        else
-            node = alchemy._nodes[n.id]
-            node.setStyles alchemy.svgStyles.node.populate(node)
-            null
 
     nodeClick: (c) ->
         d3.event.stopPropagation()

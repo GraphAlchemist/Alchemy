@@ -15,53 +15,15 @@
 
     &.active{
 		@include active();
-        fill: white;
-		&.highlight{
-			@include highlight();
-	        circle{
-	            fill-opacity: 1;
-	            stroke: darken($primary, 40%);
-	            stroke-width: 3px;
-	            fill: white;
-	        }
-		}
 	    &.selected{        
-	        circle {
-	            stroke-width: 5px;
-	            fill-opacity: .8;
-	            stroke-opacity: 1;
-	            stroke: white;
-	            fill: $primary;
-	        }
 	        text {
 	            display: block;
 	        }
 	    }
-        &.selected:hover{
-            circle {
-                stroke-width: 5px;
-                fill-opacity: .8;
-                stroke-opacity: 1;
-                stroke: white;
-                fill: white;
-            }
-        }
         &:hover{
             text {
                 display: block;
             }
         }
-    }
-    &.inactive{
-    	@include inactive();
-    	&.highlight{
-    		@include highlight();
-	        circle{
-	            fill-opacity: 1;
-	            stroke: $bright-secondary;
-	            stroke-width: 2px;
-	            fill: white;
-	        }
-    	}
     }
 }

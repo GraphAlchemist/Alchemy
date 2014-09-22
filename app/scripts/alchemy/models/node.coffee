@@ -4,12 +4,12 @@ class alchemy.models.Node
         
         @id = node.id
         @_properties = node
+        @_state = "active"
         @_style = alchemy.svgStyles.node.populate @
-        @_state = { "active": true }
         @_d3 = _.assign {'id': @id, 'root': @_properties[conf.rootNodes]}, @_style
         @_adjacentEdges = []
         @_nodeType = @_setNodeType()
-                    
+
     # internal methods
     _setNodeType: =>
         conf = alchemy.conf
@@ -65,10 +65,13 @@ class alchemy.models.Node
             @_style
 
     setStyles: (key, value=null) =>
+        # If undefined, set styles based on state
+        if key is undefined
+            key = alchemy.svgStyles.node.populate @
+            console.log key    
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
         if _.isPlainObject key
-            value = ""
             _.assign @_style, key
         else
             @_style[key] = value
