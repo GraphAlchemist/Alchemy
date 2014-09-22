@@ -1,6 +1,6 @@
 Build this repo locally
 =======================
-Alchemy.js leverages yeoman.io heavily for workflow.  At the heart of Yeoman is the Gruntfile which is used to run tasks.  The Alchemy.js app `./app` builds a `./dist` folder containing Alchemy.js and dependencies, while the Alchemy.js site is built from a seperate Yeoman project in the `./site` folder which publishes to the gh-pages branch of this repo.  Additionally, we use [CoffeeScript](http://coffeescript.org), [Sass](http://sass-lang.com/), [d3](http://sass-lang.com/), and [lodash](http://lodash.com/).  If you are looking to contribute, each project has fantastic documentation.
+Alchemy.js leverages yeoman.io heavily for workflow.  At the heart of Yeoman is the Gruntfile which is used to run tasks.  The Alchemy.js app `./app` builds a `./dist` folder containing Alchemy.js and dependencies, while the Alchemy.js site is built from a seperate Yeoman project in the `./site` folder which publishes to the gh-pages branch of this repo.  Additionally, we use [CoffeeScript](http://coffeescript.org), [Sass](http://sass-lang.com/), [d3](http://d3js.org/), and [lodash](http://lodash.com/).  If you are looking to contribute, each project has fantastic documentation.
 
 ##### Up and Running with Yeoman: 
 (note, these instructions assume that you are running OSX. If you are running linux then you will not be using brew, instead use the package manager of your platform [Like yum or apt] to install, or install node from directly from the site. You will also need to have ruby installed in order for gem to work) 
