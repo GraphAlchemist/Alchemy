@@ -68,7 +68,6 @@ class alchemy.models.Node
         # If undefined, set styles based on state
         if key is undefined
             key = alchemy.svgStyles.node.populate @
-            console.log key    
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
         if _.isPlainObject key

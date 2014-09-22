@@ -24,19 +24,22 @@ alchemy.svgStyles =
                 "fill": fill
                 "stroke": stroke
                 "stroke-width": strokeWidth
-            console.log node._state, svgStyles
+            
             svgStyles
 
     edge:
         populate: (edge) ->
             conf = alchemy.conf
-            defaultStyle = conf.edgeStyle.all
-            d = edge.properties
+            defaultStyle = _.omit conf.edgeStyle.all, "selected", "highlighted", "hidden"
+            d = edge.getProperties()
 
             edgeTypeKey = _.keys(conf.edgeTypes)[0]
             edgeType = edge[edgeTypeKey]
 
-            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
+            if conf.edgeStyle[edgeType] is undefined
+                edgeType = "all"
+
+            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType][edge._state]
 
             width = style.width d
             color = style.color d

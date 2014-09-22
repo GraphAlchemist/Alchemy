@@ -10,9 +10,9 @@ class alchemy.models.Edge
         @id = @_setID edge
         
         @_index = index
-        @_state = {'active': true}
+        @_state = "active"
         @_properties = edge
-        @_style = alchemy.svgStyles.edge.populate edge
+        @_style = alchemy.svgStyles.edge.populate @
         @_d3 = 
             'id': @id
             'pos': @_index
@@ -59,6 +59,10 @@ class alchemy.models.Edge
     # Style methods
     getStyles: (key=null) => if key? then @_style[key] else @_style
     setStyles: (key, value=null) =>
+        # If undefined, set styles based on state
+        if key is undefined
+            key = alchemy.svgStyles.edge.populate @
+
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
         if _.isPlainObject key

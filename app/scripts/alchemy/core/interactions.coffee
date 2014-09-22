@@ -16,12 +16,13 @@
 
 alchemy.interactions =
     edgeClick: (d) ->
-        vis = alchemy.vis
-        vis.selectAll '.edge'
-            .classed 'highlight': false
-        d3.select "[source-target='#{d.id}']"
-            .classed {'highlight': true, 'selected': true}
         d3.event.stopPropagation()
+        edge = alchemy._edges[d.id][0]
+
+        edge._state = do -> 
+            return "active" if edge._state is "selected"
+            "selected"
+        edge.setStyles()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 

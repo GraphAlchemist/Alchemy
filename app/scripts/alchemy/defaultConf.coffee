@@ -102,16 +102,16 @@ alchemy.defaults =
         "all":
             "width": -> 4
             "color": -> "#FFFFFF"
-            "opacity": -> 0.6
+            "opacity": -> 0.2
             "directed": -> true
             "curved": -> true
 
             "selected":
-                "opacity": -> 0.8
+                "opacity": -> 1
             "highlighted":
                 "opacity": -> 1
             "hidden":
-                "opacity": 0
+                "opacity": -> 0
     edgeTypes: null
     curvedEdges: false
     edgeWidth: -> 4

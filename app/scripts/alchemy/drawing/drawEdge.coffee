@@ -93,7 +93,7 @@ alchemy.drawing.DrawEdge =
                         'y1': startLine.y
                         'x2': endLine.x
                         'y2': endLine.y
-
+                      .style utils.edgeStyle d
             edge.select '.edge-handler'
                 .attr 'x', 0
                 .attr 'y', -conf.edgeOverlayWidth/2
