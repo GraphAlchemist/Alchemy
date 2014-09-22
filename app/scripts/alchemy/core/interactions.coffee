@@ -27,9 +27,9 @@ alchemy.interactions =
 
     nodeMouseOver: (n) ->
         node = alchemy._nodes[n.id]
-
-        node._state = "highlighted"
-        node.setStyles()
+        if node._state != "selected"
+            node._state = "highlighted"
+            node.setStyles()
         if typeof alchemy.conf.nodeMouseOver is 'function'
             alchemy.conf.nodeMouseOver(node)
         else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
@@ -39,21 +39,22 @@ alchemy.interactions =
 
     nodeMouseOut: (n) ->
         node = alchemy._nodes[n.id]
-        node._state = "active"
-        node.setStyles()
+        if node._state != "selected"
+            node._state = "active"
+            node.setStyles()
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
 
-    nodeClick: (c) ->
+    nodeClick: (n) ->
         d3.event.stopPropagation()
-        # select the correct nodes
-        if !alchemy.vis.select("#node-#{c.id}").empty()
-            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+        node = alchemy._nodes[n.id]
 
+        node._state = do -> 
+            return "active" if node._state is "selected"
+            "selected"
+        node.setStyles()
         if typeof alchemy.conf.nodeClick is 'function'
-            alchemy.conf.nodeClick(c)
-            return
+            alchemy.conf.nodeClick(n)
 
     zoom: (extent) ->
                 if not @._zoomBehavior?
