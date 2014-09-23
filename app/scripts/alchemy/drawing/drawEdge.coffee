@@ -128,6 +128,7 @@ alchemy.drawing.DrawEdge =
                 .text (d) -> d.caption
 
     setInteractions: (edge) =>
+        interactions = alchemy.interactions
         editorEnabled = alchemy.getState("interactions") is "editor"
         if editorEnabled
             editorInteractions = new alchemy.editor.Interactions
@@ -135,4 +136,6 @@ alchemy.drawing.DrawEdge =
                 .on 'click', editorInteractions.edgeClick
         else
             edge.select '.edge-handler'
-                .on 'click', alchemy.interactions.edgeClick
+                .on 'click', interactions.edgeClick
+                .on 'mouseover', (d)-> interactions.edgeMouseOver(d)
+                .on 'mouseout', (d)-> interactions.edgeMouseOut(d)

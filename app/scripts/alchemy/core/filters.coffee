@@ -34,7 +34,7 @@ alchemy.filters =
             $('#node-dropdown').append nodeTypes
 
         if alchemy.conf.edgeTypes
-            for e in d3.selectAll(".edge")[0]
+            for e in alchemy.vis.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
             edgeTypes = ''
@@ -123,110 +123,43 @@ alchemy.filters =
             isDisplayed = d3.select("g text").attr("style")
 
             if isDisplayed is "display: block" || null
-                d3.selectAll("g text").attr "style", "display: none"
+                alchemy.vis.selectAll("g text").attr "style", "display: none"
             else
-                d3.selectAll("g text").attr "style", "display: block"
+                alchemy.vis.selectAll("g text").attr "style", "display: block"
 
     #create edges toggle
     edgesToggle: () ->
-        d3.select "#filters form"
+        alchemy.vis.select "#filters form"
           .append "li"
           .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
           .html "Toggle Edges"
           .on "click", ->
-            if d3.selectAll(".edge.hidden")[0].length is 0
-                d3.selectAll ".edge"
+            if alchemy.vis.selectAll(".edge.hidden")[0].length is 0
+                alchemy.vis.selectAll ".edge"
                   .classed "hidden", true
             else
-                d3.selectAll ".edge"
+                alchemy.vis.selectAll ".edge"
                   .classed "hidden", false
 
     #create nodes toggle
     nodesToggle: () ->
-        d3.select "#filters form"
+        alchemy.vis.select "#filters form"
           .append "li"
           .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
           .html "Toggle Nodes"
           .on "click", ->
             affectedNodes = if alchemy.conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
 
-            if d3.selectAll(".node.hidden")[0].length is 0
-                d3.selectAll affectedNodes
+            if alchemy.vis.selectAll(".node.hidden")[0].length is 0
+                alchemy.vis.selectAll affectedNodes
                   .classed "hidden", true
             else
-                d3.selectAll affectedNodes
+                alchemy.vis.selectAll affectedNodes
                   .classed "hidden", false
 
     #update filters
     update: () ->
-        identifyFilter = (element) ->
-            tag = element.attr "name"
-            isDisabled = !element.classed "disabled"
-            filterType = if element.classed("nodeType") then "nodes" else "edges"
-            [tag, filterType, isDisabled]
-
-        reFilter = (tag, filterType, isDisabled, highlight) ->
-            # Stop running if during graph initialization
-            if typeof tag is "object" then return
-
-            elements = d3.selectAll ".#{tag}"
-            elements.classed {"inactive": isDisabled, "highlight": highlight}
-
-            if filterType is "nodes"
-                for node in elements.data()
-                    for edge in alchemy._nodes[node.id]._adjacentEdges
-                        edgeData = alchemy._edges[edge]
-
-                        # If either node is disabled then the edge is inactive
-                        if !edgeData.allNodesActive() then isDisabled = true
-
-                        d3.select "[source-target='#{edge}']"
-                          .classed {"inactive": isDisabled, "highlight": highlight}
-            if filterType is "edges"
-                elements.classed {"inactive": (d, i)->
-                    # for edge in alchemy._edges[d.id]
-                    allNodesActive = alchemy._edges[d.id].allNodesActive()
-                    isDisabled || !allNodesActive
-                }
-            #update stats
-            alchemy.stats.update()
-
-        # filter previews
-        d3.selectAll ".nodeType, .edgeType"
-            .on "mouseenter", () ->
-                element = d3.select this
-                [tag, filterType, isDisabled] = identifyFilter(element)
-
-                d3.selectAll ".#{tag}"
-                    .each (d)-> 
-                        element = do (d)->
-                            return alchemy._nodes[d.id] if alchemy._nodes[d.id]?
-                            return alchemy._edges[d.id][0]
-
-                        if typeof element is Array
-                        # Edges are in arrays
-                            for edge in element
-                                edge.setStyles {"stroke": "#FFFFFF", "opacity": "1"}
-                        # Nodes are objects
-                        else
-                            element.setStyles {"fill": "#359FE3", "stroke": "#8BDBFF"}
-
-            .on "mouseleave", () ->
-                element = d3.select(this)
-                [tag, filterType, isDisabled] = identifyFilter(element)
-
-                d3.selectAll ".#{tag}"
-                    .each (d)->
-                        element = do (d)->
-                            return alchemy._nodes[d.id] if alchemy._nodes[d.id]?
-                            return alchemy._edges[d.id][0]
-                        
-                        if typeof element is Array
-                            for edge in element
-                                edge.setStyles alchemy.svgStyles.edge.populate(edge)
-                        else
-                            element.setStyles alchemy.svgStyles.node.populate(element)
-
+        alchemy.vis.selectAll ".nodeType, .edgeType"
             .on "click", () ->
                 element = d3.select this
                 tag = element.attr "name"
@@ -234,16 +167,7 @@ alchemy.filters =
                     .each (d)-> 
                         if alchemy._nodes[d.id]?
                             node = alchemy._nodes[d.id]
-                            # Toggle state
-                            node._state["active"] = !node._state["active"]
-                            if node._state["active"]
-                                node.setStyles {"display": "block"}
-                            else
-                                node.setStyles {"display": "none"}
+                            node.toggleHidden()
                         else
                             edge = alchemy._edges[d.id][0]
-                            edge._state["active"] = !edge._state["active"]
-                            if edge._state["active"]
-                               edge.setStyles {"display": "block"}
-                            else
-                                edge.setStyles {"display": "none"}
+                            edge.toggleHidden()

@@ -78,10 +78,12 @@ class alchemy.models.Node
         alchemy._drawNodes.updateNode @_d3
         @
 
+    toggleHidden: ->
+        @._state = if @._state == "active" then "hidden" else "active"
+        @setStyles()
+        _.each @._adjacentEdges, (id)-> 
+            [source, target, pos] = id.split("-")
+            alchemy._edges["#{source}-#{target}"][pos].toggleHidden()
+
     # Convenience methods
     outDegree: () -> @_adjacentEdges.length
-
-    neighbors: () ->
-        # Find connected nodes
-        regex = new RegExp "[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g"
-        _.map @adjacentEdges, (edgeID)->  edgeID.replace regex, ""

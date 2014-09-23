@@ -73,6 +73,9 @@ class alchemy.models.Edge
         @_setD3Properties @_style
         alchemy._drawEdges.updateEdge @_d3
         @
+    toggleHidden: ()->
+        @._state = if @._state is "active" then "hidden" else "active"
+        @.setStyles()
 
     # Find if both endpoints are active
     # there are probably better ways to do this

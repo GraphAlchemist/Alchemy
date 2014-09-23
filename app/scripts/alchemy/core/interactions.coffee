@@ -26,6 +26,18 @@ alchemy.interactions =
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
+    edgeMouseOver: (d) ->
+        edge = alchemy._edges[d.id][0]
+        if edge._state != "selected"
+            edge._state = "highlighted"
+        edge.setStyles()
+
+    edgeMouseOut: (d) ->
+        edge = alchemy._edges[d.id][0]
+        if edge._state != "selected"
+            edge._state = "active"
+        edge.setStyles()
+
     nodeMouseOver: (n) ->
         node = alchemy._nodes[n.id]
         if node._state != "selected"
