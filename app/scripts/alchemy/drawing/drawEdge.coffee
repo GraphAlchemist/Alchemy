@@ -27,6 +27,7 @@ alchemy.drawing.DrawEdge =
             edge.append 'path'
                 .attr 'class', 'edge-line'
                 .attr 'id', (d) -> "path-#{d.id}"
+                .each (d) -> d3.select(@).style utils.edgeStyle d
             edge.filter (d) -> d.caption?
                 .append 'text'
             edge.append 'path'
@@ -81,7 +82,7 @@ alchemy.drawing.DrawEdge =
                     "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
            
             edge.select 'path.edge-line'
-                .style 'stroke', (d) -> utils.edgeStyle(d)
+                .style (d) -> utils.edgeStyle(d)
     
         else
             edge.select '.edge-line'
