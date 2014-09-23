@@ -119,18 +119,18 @@ alchemy.interactions =
     deselectAll: () ->
         # this function is also fired at the end of a drag, do nothing if this
         if d3.event?.defaultPrevented then return
-        alchemy.vis.selectAll('.node, .edge')
-            .classed('selected highlight', false)
-
-        d3.select('.alchemy svg').classed({'highlight-active':false})
-
         if alchemy.conf.showEditor is true
             alchemy.modifyElements.nodeEditorClear()
-
-        alchemy.vis.selectAll('line.edge')
-            .classed('highlighted connected unconnected', false)
-        alchemy.vis.selectAll('g.node,circle,text')
-            .classed('selected unselected neighbor unconnected connecting', false)
+        
+        _.each alchemy._nodes, (n)->
+            n._state = "active"
+            n.setStyles()
+        
+        _.each alchemy._edges, (edge)->
+            _.each edge, (e)->
+                e._state = "active"
+                e.setStyles()
+        
         # call user-specified deselect function if specified
         if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll is 'function')
             alchemy.conf.deselectAll()
