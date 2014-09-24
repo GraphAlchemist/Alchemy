@@ -20,7 +20,12 @@ class alchemy.Layout
         nodes = alchemy._nodes
         @k = Math.sqrt Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight())
         @_clustering = new alchemy.clustering
-        @d3NodeInternals = _.keys alchemy._nodes
+
+        # Set up quad tree
+        if conf.collisionDetection
+            @d3NodeInternals = _.values alchemy._nodes
+            @q = d3.geom.quadtree @d3NodeInternals
+        
         if conf.cluster
             @_charge = () -> @_clustering.layout.charge
             @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
@@ -57,7 +62,7 @@ class alchemy.Layout
     collide: (node) =>
         node = node._d3
         conf = alchemy.conf
-        r = 2 * (node.r + node['stroke-width']) + conf.nodeOverlap
+        r = 2 * (node.radius + node['stroke-width']) + conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
         ny1 = node.y - r
@@ -74,6 +79,7 @@ class alchemy.Layout
                     node.y -= y *= l
                     quad.point.x += x
                     quad.point.y += y
+            # console.log(x1,nx2,x2,nx1,y1,ny2,y2,ny1)
             x1 > nx2 or
             x2 < nx1 or
             y1 > ny2 or
@@ -81,9 +87,8 @@ class alchemy.Layout
 
     tick: () =>
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree @d3NodeInternals
             for node in _.values alchemy._nodes
-                q.visit @collide(node)
+                @q.visit @collide(node)
 
         # alchemy.node
         alchemy.vis
