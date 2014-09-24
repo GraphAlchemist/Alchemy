@@ -23,7 +23,7 @@ class alchemy.Layout
 
         # Set up quad tree
         if conf.collisionDetection
-            @d3NodeInternals = _.values alchemy._nodes
+            @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
             @q = d3.geom.quadtree @d3NodeInternals
         
         if conf.cluster
@@ -60,7 +60,6 @@ class alchemy.Layout
         if alchemy.conf.cluster then 0.7 else 0.9
 
     collide: (node) =>
-        node = node._d3
         conf = alchemy.conf
         r = 2 * (node.radius + node['stroke-width']) + conf.nodeOverlap
         nx1 = node.x - r
@@ -79,7 +78,6 @@ class alchemy.Layout
                     node.y -= y *= l
                     quad.point.x += x
                     quad.point.y += y
-            # console.log(x1,nx2,x2,nx1,y1,ny2,y2,ny1)
             x1 > nx2 or
             x2 < nx1 or
             y1 > ny2 or
@@ -87,7 +85,7 @@ class alchemy.Layout
 
     tick: () =>
         if alchemy.conf.collisionDetection
-            for node in _.values alchemy._nodes
+            for node in @d3NodeInternals
                 @q.visit @collide(node)
 
         # alchemy.node
@@ -117,10 +115,8 @@ class alchemy.Layout
             return
         # position nodes towards center of graph
         else
-            number = 0
-            for n in rootNodes
-                number++
-                n._d3.x = container.width / Math.sqrt(rootNodes.length * number)
+            for n, i in rootNodes
+                n._d3.x = container.width / Math.sqrt(rootNodes.length * (i+1))
                 n._d3.y = container.height / 2
                 n._d3.fixed = true
 
