@@ -26,7 +26,7 @@ class alchemy.clustering
             sourceCluster = nodes[edge.source.id]._properties[@clusterKey]
             targetCluster = nodes[edge.target.id]._properties[@clusterKey]
             if sourceCluster is targetCluster
-                0.3
+                0.15
             else
                 0
         _friction = () ->
