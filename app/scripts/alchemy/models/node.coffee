@@ -4,12 +4,12 @@ class alchemy.models.Node
         
         @id = node.id
         @_properties = node
+        @_state = "active"
         @_style = alchemy.svgStyles.node.populate @
-        @_state = { "active": true }
         @_d3 = _.assign {'id': @id, 'root': @_properties[conf.rootNodes]}, @_style
         @_adjacentEdges = []
         @_nodeType = @_setNodeType()
-                    
+
     # internal methods
     _setNodeType: =>
         conf = alchemy.conf
@@ -65,10 +65,12 @@ class alchemy.models.Node
             @_style
 
     setStyles: (key, value=null) =>
+        # If undefined, set styles based on state
+        if key is undefined
+            key = alchemy.svgStyles.node.populate @
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
         if _.isPlainObject key
-            value = ""
             _.assign @_style, key
         else
             @_style[key] = value
@@ -76,10 +78,12 @@ class alchemy.models.Node
         alchemy._drawNodes.updateNode @_d3
         @
 
+    toggleHidden: ->
+        @._state = if @._state == "active" then "hidden" else "active"
+        @setStyles()
+        _.each @._adjacentEdges, (id)-> 
+            [source, target, pos] = id.split("-")
+            alchemy._edges["#{source}-#{target}"][pos].toggleHidden()
+
     # Convenience methods
     outDegree: () -> @_adjacentEdges.length
-
-    neighbors: () ->
-        # Find connected nodes
-        regex = new RegExp "[(#{@id}#{'\\'}-)(#{'\\'}-#{@id})]","g"
-        _.map @adjacentEdges, (edgeID)->  edgeID.replace regex, ""

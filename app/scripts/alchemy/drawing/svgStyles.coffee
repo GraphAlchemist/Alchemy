@@ -2,13 +2,17 @@ alchemy.svgStyles =
     node:
         populate: (node) ->
             conf = alchemy.conf
-            defaultStyle = conf.nodeStyle.all
+            defaultStyle = _.omit conf.nodeStyle.all, "selected", "highlighted", "hidden"
             d = node
 
             nodeTypeKey = _.keys(conf.nodeTypes)[0]
             nodeType = node.getProperties()[nodeTypeKey]
 
-            style = _.assign _.cloneDeep(defaultStyle), conf.nodeStyle[nodeType]
+            if conf.nodeStyle[nodeType] is undefined
+                nodeType = "all"
+
+            typedStyle = _.assign _.cloneDeep(defaultStyle), conf.nodeStyle[nodeType]
+            style = _.assign typedStyle, conf.nodeStyle[nodeType][node._state]
 
             radius = if node.root then conf.rootNodeRadius d else style.radius d
             fill = style.color d
@@ -20,19 +24,22 @@ alchemy.svgStyles =
                 "fill": fill
                 "stroke": stroke
                 "stroke-width": strokeWidth
-
+            
             svgStyles
 
     edge:
         populate: (edge) ->
             conf = alchemy.conf
-            defaultStyle = conf.edgeStyle.all
-            d = edge.properties
+            defaultStyle = _.omit conf.edgeStyle.all, "selected", "highlighted", "hidden"
+            d = edge.getProperties()
 
             edgeTypeKey = _.keys(conf.edgeTypes)[0]
             edgeType = edge[edgeTypeKey]
 
-            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
+            if conf.edgeStyle[edgeType] is undefined
+                edgeType = "all"
+
+            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType][edge._state]
 
             width = style.width d
             color = style.color d

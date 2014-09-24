@@ -56,18 +56,18 @@ alchemy.drawing.DrawNode =
 
         if editorEnabled
             editorInteractions = new alchemy.editor.Interactions
-            node.on 'mouseup', editorInteractions.nodeMouseUp
-                .on 'mouseover', editorInteractions.nodeMouseOver
-                .on 'mouseout', editorInteractions.nodeMouseOut
-                .on 'dblclick', coreInteractions.nodeDoubleClick
-                .on 'click', editorInteractions.nodeClick
+            node.on 'mouseup',(d)->  editorInteractions.nodeMouseUp(d)
+                .on 'mouseover', (d)-> editorInteractions.nodeMouseOver(d)
+                .on 'mouseout', (d)-> editorInteractions.nodeMouseOut(d)
+                .on 'dblclick', (d)-> coreInteractions.nodeDoubleClick(d)
+                .on 'click', (d)-> editorInteractions.nodeClick(d)
 
         else 
             node.on 'mouseup', null
-                .on 'mouseover', coreInteractions.nodeMouseOver
-                .on 'mouseout', coreInteractions.nodeMouseOut
-                .on 'dblclick', coreInteractions.nodeDoubleClick
-                .on 'click', coreInteractions.nodeClick
+                .on 'mouseover', (d)-> coreInteractions.nodeMouseOver(d)
+                .on 'mouseout', (d)-> coreInteractions.nodeMouseOut(d)
+                .on 'dblclick', (d)-> coreInteractions.nodeDoubleClick(d)
+                .on 'click', (d)-> coreInteractions.nodeClick(d)
 
             drag = d3.behavior.drag()
                     .origin(Object)
