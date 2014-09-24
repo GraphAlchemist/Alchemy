@@ -86,7 +86,8 @@ class alchemy.Layout
                 q.visit @collide(node)
 
         # alchemy.node
-        d3.selectAll "g.node"
+        alchemy.vis
+            .selectAll "g.node"
             .attr "transform", (d) -> "translate(#{d.x},#{d.y})"
 
         edges = alchemy.vis.selectAll "g.edge"

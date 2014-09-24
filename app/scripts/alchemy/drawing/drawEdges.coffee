@@ -34,7 +34,7 @@ alchemy.drawing.DrawEdges =
 
     updateEdge: (d3Edge) ->
         drawEdge = alchemy.drawing.DrawEdge
-        edge = d3.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
+        edge = alchemy.vis.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
         drawEdge.classEdge edge
         drawEdge.styleLink edge
         drawEdge.styleText edge

@@ -23,9 +23,12 @@ class alchemy.clustering
     
         _charge = -500
         _linkStrength = (edge) ->
-            source = nodes[edge.source.id]
-            target = nodes[edge.target.id]
-            if source._properties[@clusterKey] is target._properties[@clusterKey] then 1
+            sourceCluster = nodes[edge.source.id]._properties[@clusterKey]
+            targetCluster = nodes[edge.target.id]._properties[@clusterKey]
+            if sourceCluster is targetCluster
+                0.3
+            else
+                0
         _friction = () ->
             0.7
         _linkDistancefn = (edge) ->
@@ -56,7 +59,7 @@ class alchemy.clustering
         alchemy.conf.clusterColours[index]
 
     edgeGradient: (edges) ->
-        defs = d3.select "#{alchemy.conf.divSelector} svg"
+        defs = alchemy.vis.select "#{alchemy.conf.divSelector} svg"
         Q = {}
         nodes = alchemy._nodes
         for edge in _.map(edges, (edge) -> edge._d3)
@@ -84,25 +87,33 @@ alchemy.clusterControls =
         changeClusterHTML = """
                             <input class='form-control form-inline' id='cluster-key' placeholder="Cluster Key"></input>
                             """
-        d3.select "#clustering-container"
-            .append "div"
-            .attr "id", "cluster-key-container"
-            .attr 'class', 'property form-inline form-group'
-            .html changeClusterHTML
-            .style "display", "none"
+        alchemy.dash
+               .select "#clustering-container"
+               .append "div"
+               .attr "id", "cluster-key-container"
+               .attr 'class', 'property form-inline form-group'
+               .html changeClusterHTML
+               .style "display", "none"
             
-        d3.select "#cluster_control_header"
-          .on "click", ()->
-            element = d3.select "#cluster-key-container"
-            display = element.style "display"
+        alchemy.dash
+               .select "#cluster_control_header"
+               .on "click", ()->
+                    element = alchemy.dash.select "#cluster-key-container"
+                    display = element.style "display"
 
             element.style "display", (e)-> if display is "block" then "none" else "block"
 
-            if d3.select("#cluster-key-container").style("display") is "none"
-                d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-right")
-            else d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-down")
+            if alchemy.dash.select("#cluster-key-container").style("display") is "none"
+                alchemy.dash
+                       .select "#cluster-arrow"
+                       .attr "class", "fa fa-2x fa-caret-right"
+            else 
+                alchemy.dash
+                       .select "#cluster-arrow"
+                       .attr "class", "fa fa-2x fa-caret-down"
         
-        d3.select "#cluster-key"
+        alchemy.dash
+            .select "#cluster-key"
             .on "keydown", -> 
                 if d3.event.keyIdentifier is "Enter"
                     alchemy.conf.cluster = true

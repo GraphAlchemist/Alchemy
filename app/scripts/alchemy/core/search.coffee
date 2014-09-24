@@ -16,34 +16,42 @@
 
 alchemy.search = 
     init: () ->
-        searchBox = d3.select "#search input"
+        searchBox = alchemy.dash
+                           .select "#search input"
 
         searchBox.on "keyup", ()->
             input = searchBox[0][0].value.toLowerCase()
 
-            d3.selectAll(".node").classed "inactive", false
-            d3.selectAll "text"
-                .attr "style", -> "display: inline;" if input != ""
-            d3.selectAll ".node"
-                .classed "inactive", (node) ->
-                    DOMtext = d3.select(@).text()
-
-                    switch alchemy.conf.searchMethod
-                        when 'contains'
-                            hidden = DOMtext.toLowerCase().indexOf(input) < 0
-                        when 'begins'
-                            hidden = DOMtext.toLowerCase().indexOf(input) != 0
-
-                    if hidden
-                        d3.selectAll "[source-target*='#{node.id}']"
-                          .classed("inactive", hidden)
-                    else
-                        d3.selectAll "[source-target*='#{node.id}']"
-                          .classed "inactive", (edge)-> 
-                            nodeIDs = [edge.source.id, edge.target.id]
-                            
-                            sourceHidden = d3.select("#node-#{nodeIDs[0]}").classed "inactive"
-                            targetHidden = d3.select("#node-#{nodeIDs[1]}").classed "inactive"
-                            
-                            targetHidden or sourceHidden
-                    hidden
+            alchemy.vis
+                   .selectAll ".node"
+                   .classed "inactive", false
+            alchemy.vis
+                   .selectAll "text"
+                   .attr "style", -> "display: inline;" if input != ""
+            alchemy.vis
+                   .selectAll ".node"
+                   .classed "inactive", (node) ->
+                       DOMtext = d3.select @
+                                   .text()
+   
+                       switch alchemy.conf.searchMethod
+                           when 'contains'
+                               hidden = DOMtext.toLowerCase().indexOf(input) < 0
+                           when 'begins'
+                               hidden = DOMtext.toLowerCase().indexOf(input) != 0
+   
+                       if hidden
+                           alchemy.vis
+                                  .selectAll "[source-target*='#{node.id}']"
+                                  .classed "inactive", hidden
+                       else
+                           alchemy.vis
+                                  .selectAll "[source-target*='#{node.id}']"
+                                  .classed "inactive", (edge)-> 
+                                       nodeIDs = [edge.source.id, edge.target.id]
+                                       
+                                       sourceHidden = alchemy.vis.select("#node-#{nodeIDs[0]}").classed "inactive"
+                                       targetHidden = alchemy.vis.select("#node-#{nodeIDs[1]}").classed "inactive"
+                                       
+                                       targetHidden or sourceHidden
+                       hidden

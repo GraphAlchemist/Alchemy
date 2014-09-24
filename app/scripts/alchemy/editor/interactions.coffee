@@ -9,9 +9,12 @@ class alchemy.editor.Interactions
 
     nodeMouseOver: (n) ->
         if !d3.select(@).select("circle").empty()
-            radius = d3.select(@).select("circle").attr("r")
-            d3.select(@).select("circle")
-                .attr("r", radius*3)
+            radius = d3.select @
+                       .select "circle"
+                       .attr "r"
+            d3.select @
+              .select "circle"
+                .attr "r", radius*3
         @
 
     nodeMouseUp: (n) =>
@@ -25,37 +28,46 @@ class alchemy.editor.Interactions
 
     nodeMouseOut: (n) ->
         if !d3.select(@).select("circle").empty()
-            radius = d3.select(@).select("circle").attr("r")
-            d3.select(@).select("circle")
-                .attr("r", radius/3)
+            radius = d3.select @
+                       .select "circle"
+                       .attr "r"
+            d3.select @
+              .select "circle"
+              .attr "r", radius/3
         @
 
     nodeClick: (c) =>
         d3.event.stopPropagation()
         # select the correct nodes
         if !alchemy.vis.select("#node-#{c.id}").empty()
-            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+            selected = alchemy.vis
+                              .select "#node-#{c.id}"
+                              .classed 'selected'
+            alchemy.vis
+                   .select "#node-#{c.id}"
+                   .classed 'selected', !selected
         @editor.editorClear()
-        @editor.nodeEditor(c)
+        @editor.nodeEditor c
 
     edgeClick: (e) =>
         d3.event.stopPropagation()
         @editor.editorClear()
-        @editor.edgeEditor(e)
+        @editor.edgeEditor e
         
     addNodeStart: (d, i) =>
         d3.event.sourceEvent.stopPropagation()
         @sourceNode = d
-        d3.select('#dragline')
-            .classed("hidden":false)
+        alchemy.vis
+            .select '#dragline'
+            .classed "hidden":false
         @
 
     addNodeDragging: (d, i) =>
         # rework
         x2coord = d3.event.x
         y2coord = d3.event.y
-        d3.select('#dragline')
+        alchemy.vis
+            .select '#dragline'
             .attr "x1", @sourceNode.x
             .attr "y1", @sourceNode.y
             .attr "x2", x2coord
@@ -68,14 +80,23 @@ class alchemy.editor.Interactions
         #we moused up on an existing (different) node
         if !@click 
             if !@mouseUpNode
-                dragline = d3.select("#dragline")
-                targetX = dragline.attr("x2")
-                targetY = dragline.attr("y2")
+                dragline = alchemy.vis.select "#dragline"
+                targetX = dragline.attr "x2"
+                targetY = dragline.attr "y2"
 
-                @targetNode = {id: "#{_.uniqueId('addedNode_')}", x: parseFloat(targetX), y: parseFloat(targetY), caption: "node added"}
+                @targetNode =
+                    id: "#{_.uniqueId('addedNode_')}",
+                    x: parseFloat(targetX),
+                    y: parseFloat(targetY),
+                    caption: "node added"
 
-            @newEdge = {id: "#{@sourceNode.id}-#{@targetNode.id}", source: @sourceNode.id, target: @targetNode.id, caption: "edited"}   
-            alchemy.editor.update(@targetNode, @newEdge)
+            @newEdge =
+                id: "#{@sourceNode.id}-#{@targetNode.id}", 
+                source: @sourceNode.id, 
+                target: @targetNode.id, 
+                caption: "edited"
+
+            alchemy.editor.update @targetNode, @newEdge
         
         @reset()
         @
@@ -96,7 +117,8 @@ class alchemy.editor.Interactions
         @click = null
 
         #reset dragline
-        d3.select("#dragline")
+        alchemy.vis
+            .select "#dragline"
             .classed "hidden":true
             .attr "x1", 0            
             .attr "y1", 0
