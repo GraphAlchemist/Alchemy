@@ -30,11 +30,12 @@ alchemy.filters =
 
                 # Create Filter list element
                 caption = nodeType.replace '_', ' '
-                nodeTypes += "<li class = 'list-group-item nodeType' role = 'menuitem' id='li-#{nodeType}' name = #{nodeType}>#{caption}</li>"
-            $('#node-dropdown').append nodeTypes
+                nodeTypes += "<li class='list-group-item nodeType' role='menuitem' id='li-#{nodeType}' name=#{nodeType}>#{caption}</li>"
+            alchemy.dash.select '#node-dropdown'
+                   .html nodeTypes
 
         if alchemy.conf.edgeTypes
-            for e in alchemy.vis.selectAll(".edge")[0]
+            for e in alchemy.dash.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
             edgeTypes = ''
@@ -44,8 +45,9 @@ alchemy.filters =
 
                 # Create Filter list element
                 caption = edgeType.replace '_', ' '
-                edgeTypes += "<li class = 'list-group-item edgeType' role = 'menuitem' id='li-#{edgeType}' name = #{edgeType}>#{caption}</li>"
-            $('#rel-dropdown').append(edgeTypes)
+                edgeTypes += "<li class='list-group-item edgeType' role='menuitem' id='li-#{edgeType}' name=#{edgeType}>#{caption}</li>"
+            alchemy.dash.select '#rel-dropdown'
+                   .html edgeTypes
         
         if alchemy.conf.captionsToggle then alchemy.filters.captionsToggle()
         if alchemy.conf.edgesToggle then alchemy.filters.edgesToggle()
@@ -61,105 +63,118 @@ alchemy.filters =
                         <form class="form-inline collapse">
                         </form>
                       """
-        d3.select('#control-dash #filters').html filter_html
-        d3.selectAll '#filter-header'
+        alchemy.dash.select('#control-dash #filters').html filter_html
+        alchemy.dash.selectAll '#filter-header'
             .on 'click', () ->
-                if d3.select('#filters>form').classed "in"
-                    d3.select("#filter-header>span").attr "class", "fa fa-2x fa-caret-right"
-                else d3.select("#filter-header>span").attr "class", "fa fa-2x fa-caret-down"
+                if alchemy.dash.select('#filters>form').classed "in"
+                    alchemy.dash.select "#filter-header>span"
+                           .attr "class", "fa fa-2x fa-caret-right"
+                else
+                    alchemy.dash.select "#filter-header>span"
+                           .attr "class", "fa fa-2x fa-caret-down"
 
-        $('#filters form').submit false
+        alchemy.dash.select '#filters form'
+               # .submit false
 
     #create relationship filters
     showEdgeFilters: () ->
         rel_filter_html = """
-                           <div id="filter-relationships">
-                                <div id="filter-rel-header" data-target = "#rel-dropdown" data-toggle="collapse">
-                                    <h4>
-                                        Edge Types
-                                    </h4>
-                                    <span class="fa fa-lg fa-caret-right"></span>
-                                </div>
-                                <ul id="rel-dropdown" class="collapse list-group" role="menu">
-                                </ul>
-                           </div>
-
+                        <div id="filter-rel-header" data-target = "#rel-dropdown" data-toggle="collapse">
+                            <h4>
+                                Edge Types
+                            </h4>
+                            <span class="fa fa-lg fa-caret-right"></span>
+                        </div>
+                        <ul id="rel-dropdown" class="collapse list-group" role="menu">
+                        </ul>
                            """
-        $('#filters form').append rel_filter_html
-        d3.select "#filter-rel-header"
+        alchemy.dash.select '#filters form'
+               .append "div"
+               .attr "id", "filter-relationships"
+               .html rel_filter_html
+        alchemy.dash.select "#filter-rel-header"
             .on 'click', () ->
-                if d3.select('#rel-dropdown').classed "in"
-                    d3.select("#filter-rel-header>span").attr "class", "fa fa-lg fa-caret-right"
-                else d3.select("#filter-rel-header>span").attr "class", "fa fa-lg fa-caret-down"
+                if alchemy.dash.select('#rel-dropdown').classed "in"
+                    alchemy.dash.select "#filter-rel-header>span"
+                           .attr "class", "fa fa-lg fa-caret-right"
+                else
+                    alchemy.dash.select "#filter-rel-header>span"
+                           .attr "class", "fa fa-lg fa-caret-down"
 
     #create node filters
     showNodeFilters: () ->
         node_filter_html = """
-                            <div id="filter-nodes">
-                                <div id="filter-node-header" data-target = "#node-dropdown" data-toggle="collapse">
-                                    <h4>
-                                        Node Types
-                                    </h4>
-                                    <span class="fa fa-lg fa-caret-right"></span>
-                                </div>
-                                <ul id="node-dropdown" class="collapse list-group" role="menu">
-                                </ul>
-                           </div>
+                            <div id="filter-node-header" data-target = "#node-dropdown" data-toggle="collapse">
+                                <h4>
+                                    Node Types
+                                </h4>
+                                <span class="fa fa-lg fa-caret-right"></span>
+                            </div>
+                            <ul id="node-dropdown" class="collapse list-group" role="menu">
+                            </ul>
                            """
-        $('#filters form').append node_filter_html
-        d3.select "#filter-node-header"    
+        alchemy.dash.select '#filters form'
+               .append "div"
+               .attr "id", "filter-nodes"
+               .html node_filter_html
+        alchemy.dash.select "#filter-node-header"    
             .on 'click', () ->
-                if d3.select('#node-dropdown').classed("in")
-                    d3.select("#filter-node-header>span").attr "class", "fa fa-lg fa-caret-right"
-                else d3.select("#filter-node-header>span").attr "class", "fa fa-lg fa-caret-down"
+                if alchemy.dash.select('#node-dropdown').classed "in"
+                    alchemy.dash.select "#filter-node-header>span"
+                           .attr "class", "fa fa-lg fa-caret-right"
+                else 
+                    alchemy.dash.select "#filter-node-header>span"
+                           .attr "class", "fa fa-lg fa-caret-down"
 
     #create captions toggle
     captionsToggle: () ->
-        d3.select "#filters form"
+        alchemy.dash.select "#filters form"
           .append "li"
           .attr {"id":"toggle-captions","class":"list-group-item active-label toggle"}
           .html "Show Captions"
           .on "click", ->
-            isDisplayed = d3.select("g text").attr("style")
+            isDisplayed = alchemy.dash.select("g text").attr("style")
 
             if isDisplayed is "display: block" || null
-                alchemy.vis.selectAll("g text").attr "style", "display: none"
+                alchemy.dash.selectAll "g text"
+                       .attr "style", "display: none"
             else
-                alchemy.vis.selectAll("g text").attr "style", "display: block"
+                alchemy.dash.selectAll "g text"
+                       .attr "style", "display: block"
 
     #create edges toggle
     edgesToggle: () ->
-        alchemy.vis.select "#filters form"
+        alchemy.dash.select "#filters form"
           .append "li"
           .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
           .html "Toggle Edges"
           .on "click", ->
-            if alchemy.vis.selectAll(".edge.hidden")[0].length is 0
-                alchemy.vis.selectAll ".edge"
+            if alchemy.dash.selectAll(".edge.hidden")[0].length is 0
+                alchemy.dash.selectAll ".edge"
                   .classed "hidden", true
             else
-                alchemy.vis.selectAll ".edge"
+                alchemy.dash.selectAll ".edge"
                   .classed "hidden", false
 
     #create nodes toggle
     nodesToggle: () ->
-        alchemy.vis.select "#filters form"
+        alchemy.dash.select "#filters form"
           .append "li"
           .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
           .html "Toggle Nodes"
           .on "click", ->
             affectedNodes = if alchemy.conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
 
-            if alchemy.vis.selectAll(".node.hidden")[0].length is 0
-                alchemy.vis.selectAll affectedNodes
+            if alchemy.dash.selectAll(".node.hidden")[0].length is 0
+                alchemy.dash.selectAll affectedNodes
                   .classed "hidden", true
             else
-                alchemy.vis.selectAll affectedNodes
+                alchemy.dash.selectAll affectedNodes
                   .classed "hidden", false
 
     #update filters
     update: () ->
-        alchemy.vis.selectAll ".nodeType, .edgeType"
+        alchemy.dash.selectAll ".nodeType, .edgeType"
             .on "click", () ->
                 element = d3.select this
                 tag = element.attr "name"
