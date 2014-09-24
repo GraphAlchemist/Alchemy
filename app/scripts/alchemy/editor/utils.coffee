@@ -11,17 +11,19 @@ class alchemy.editor.Utils
 
         @drawNodes.updateNode alchemy.node
         @drawEdges.updateEdge alchemy.edge
-        selectedElements = d3.selectAll(".selected")
+        selectedElements = alchemy.vis.selectAll ".selected"
         editor = new alchemy.editor.Editor
         if (not selectedElements.empty()) and (selectedElements.length is 1)
             if selectedElements.classed 'node'
                 editor.nodeEditor selectedElements.datum()
-                d3.select "#node-editor" 
+                alchemy.dash
+                    .select "#node-editor" 
                     .attr "class", "enabled"
                     .style "opacity", 1
             else if selectedElements.classed 'edge'
                 editor.edgeEditor selectedElements.datum()
-                d3.select "#edge-editor"
+                alchemy.dash
+                    .select "#edge-editor"
                     .attr "class", "enabled"
                     .style "opacity", 1
         else
@@ -29,34 +31,47 @@ class alchemy.editor.Utils
 
     disableEditor: () ->
         alchemy.setState "interactions", "default"
-        alchemy.vis.select("#dragline").remove()
+        alchemy.vis
+               .select "#dragline"
+               .remove()
 
-        d3.select "#node-editor"
-            .transition()
-            .duration 300
-            .style "opacity", 0
-        d3.select "#node-editor"
-            .transition()
-            .delay 300
-            .attr "class", "hidden"
+        alchemy.dash
+               .select "#node-editor"
+               .transition()
+               .duration 300
+               .style "opacity", 0
+        alchemy.dash
+               .select "#node-editor"
+               .transition()
+               .delay 300
+               .attr "class", "hidden"
 
         @drawNodes.updateNode alchemy.node
-        d3.selectAll(".node").classed "selected":false
+        alchemy.vis
+               .selectAll ".node"
+               .classed "selected":false
 
     remove: () ->
-        selectedNodes = d3.selectAll ".selected.node"
+        selectedNodes = alchemy.vis.selectAll ".selected.node"
         for node in selectedNodes[0]
-            nodeID = d3.select(node).data()[0].id
+            nodeID = alchemy.vis
+                            .select node
+                            .data()[0]
+                            .id
 
             node_data = alchemy._nodes[nodeID]
             if node_data?  
                 for edge in node_data.adjacentEdges
                     alchemy._edges = _.omit alchemy._edges, "#{edge}"
                     alchemy.edge = alchemy.edge.data _.map(alchemy._edges, (e) -> e._d3), (e)->e.id
-                    d3.select("#edge-#{edge}").remove()
-                alchemy._nodes = _.omit(alchemy._nodes, "#{nodeID}")
+                    alchemy.vis
+                           .select "#edge-#{edge}"
+                           .remove()
+                alchemy._nodes = _.omit alchemy._nodes, "#{nodeID}"
                 alchemy.node = alchemy.node.data _.map(alchemy._nodes, (n) -> n._d3), (n)->n.id
-                d3.select(node).remove()
+                alchemy.vis
+                       .select node
+                       .remove()
                 if alchemy.getState("interactions") is "editor"
                     alchemy.modifyElements.nodeEditorClear()
 

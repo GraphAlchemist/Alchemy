@@ -21,9 +21,9 @@ alchemy.stats =
     nodeStats: () ->
         #general node stats
         nodeStats = ''
-        nodeNum = d3.selectAll(".node")[0].length
-        activeNodes = d3.selectAll(".node.active")[0].length
-        inactiveNodes = d3.selectAll(".node.inactive")[0].length
+        nodeNum = alchemy.vis.selectAll(".node")[0].length
+        activeNodes = alchemy.vis.selectAll(".node.active")[0].length
+        inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length
         nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{nodeNum}</span></li>"            
         nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>"
         nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>"
@@ -35,7 +35,7 @@ alchemy.stats =
             for nodeType in alchemy.conf.nodeTypes[nodeKey]
                 # if not currentNodeTypes[t] then continue
                 caption = nodeType.replace('_', ' ')
-                nodeNum = d3.selectAll("g.node.#{nodeType}")[0].length
+                nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
                 nodeTypes += "<li class = 'list-group-item nodeType' id='li-#{nodeType}' 
                                 name = #{caption}>Number of nodes of type #{caption}: <span class='badge'>#{nodeNum}</span></li>"
             nodeStats += nodeTypes
@@ -43,14 +43,16 @@ alchemy.stats =
         #add the graph
         nodeGraph = "<li id='node-stats-graph' class='list-group-item'></li>" 
         nodeStats += nodeGraph
-        $('#node-stats').html(nodeStats)
+        alchemy.dash
+               .select '#node-stats'
+               .html nodeStats
 
     edgeStats: () ->
         #general edge stats
         edgeData = null
-        edgeNum = d3.selectAll(".edge")[0].length
-        activeEdges = d3.selectAll(".edge.active")[0].length
-        inactiveEdges = d3.selectAll(".edge.inactive")[0].length
+        edgeNum = alchemy.vis.selectAll(".edge")[0].length
+        activeEdges = alchemy.vis.selectAll(".edge.active")[0].length
+        inactiveEdges = alchemy.vis.selectAll(".edge.inactive")[0].length
 
         edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>#{edgeNum}</span></li>
                     <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>#{activeEdges}</span></li>
@@ -60,32 +62,34 @@ alchemy.stats =
         #add stats for edge types
         if alchemy.conf.edgeTypes
             edgeData = []
-            for e in d3.selectAll(".edge")[0]
+            for e in alchemy.vis.selectAll(".edge")[0]
                 currentRelationshipTypes[[e].caption] = true
 
             for edgeType in alchemy.conf.edgeTypes
                 if not edgeType then continue
                 caption = edgeType.replace('_', ' ')
-                edgeNum = d3.selectAll(".edge.#{edgeType}")[0].length
+                edgeNum = alchemy.vis.selectAll(".edge.#{edgeType}")[0].length
                 edgeData.push(["#{caption}", edgeNum])
 
-        $('#rel-stats').html(edgeGraph) 
-        alchemy.stats.insertSVG("edge", edgeData)
+        alchemy.dash
+               .select '#rel-stats'
+               .html edgeGraph 
+        alchemy.stats.insertSVG "edge", edgeData
         return edgeData
 
     nodeStats: () ->
         #general node stats
         nodeData = null
-        totalNodes = d3.selectAll(".node")[0].length
-        activeNodes = d3.selectAll(".node.active")[0].length
-        inactiveNodes = d3.selectAll(".node.inactive")[0].length
+        totalNodes = alchemy.vis.selectAll(".node")[0].length
+        activeNodes = alchemy.vis.selectAll(".node.active")[0].length
+        inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length
 
         #add stats for all node types
         if alchemy.conf.nodeTypes
             nodeData = []
             nodeKey = Object.keys(alchemy.conf.nodeTypes)
             for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                nodeNum = d3.selectAll("g.node.#{nodeType}")[0].length
+                nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
                 nodeData.push(["#{nodeType}", nodeNum])
 
         #add the graph
@@ -94,14 +98,17 @@ alchemy.stats =
                     <li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>
                     <li id='node-stats-graph' class='list-group-item'></li>" 
 
-        $('#node-stats').html(nodeGraph)
-        alchemy.stats.insertSVG("node", nodeData)
+        alchemy.dash
+               .select '#node-stats'
+               .html nodeGraph
+        alchemy.stats.insertSVG "node", nodeData
         return nodeData
 
     insertSVG: (element, data) ->
         if data is null 
-            d3.select("##{element}-stats-graph")
-                .html("<br><h4 class='no-data'>There are no #{element}Types listed in your conf.</h4>")
+            alchemy.dash
+                   .select "##{element}-stats-graph"
+                   .html "<br><h4 class='no-data'>There are no #{element}Types listed in your conf.</h4>"
         else
             width = alchemy.conf.graphWidth() * .25
             height = 250
@@ -116,31 +123,39 @@ alchemy.stats =
                 .sort(null)
                 .value((d) -> d[1])
 
-            svg = d3.select("##{element}-stats-graph")
-                .append("svg")
-                .append("g")
-                .style({"width": width, "height":height})
-                .attr("transform", "translate(" + width/2 + "," + height/2 + ")")
+            svg = alchemy.dash
+                         .select "##{element}-stats-graph"
+                         .append "svg"
+                         .append "g"
+                         .style {"width": width, "height":height}
+                         .attr "transform", "translate(" + width/2 + "," + height/2 + ")"
 
-            arcs = svg.selectAll(".arc")
-                .data(pie(data))
-                .enter().append("g")
-                .classed("arc", true)
-                .on("mouseover", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", false))
-                .on("mouseout", (d,i) -> d3.select("##{data[i][0]}-stat").classed("hidden", true))
+            arcs = svg.selectAll ".arc"
+                .data pie(data)
+                .enter()
+                .append "g"
+                .classed "arc", true
+                .on "mouseover", (d,i) -> 
+                    alchemy.dash
+                      .select "##{data[i][0]}-stat"
+                      .classed "hidden", false
+                .on "mouseout", (d,i) -> 
+                    alchemy.dash
+                      .select "##{data[i][0]}-stat"
+                      .classed "hidden", true
 
-            arcs.append("path")
-                .attr("d", arc)
-                .attr("stroke", (d, i) -> color(i)) 
-                .attr("stroke-width", 2)
-                .attr("fill-opacity", "0.3")
+            arcs.append "path"
+                .attr "d", arc
+                .attr "stroke", (d, i) -> color(i)
+                .attr "stroke-width", 2
+                .attr "fill-opacity", "0.3"
 
-            arcs.append("text")
-                .attr("transform", (d) -> "translate(" + arc.centroid(d) + ")")
-                .attr("id", (d, i)-> "#{data[i][0]}-stat")
-                .attr("dy", ".35em")
-                .classed("hidden", true)
-                .text((d, i) -> data[i][0])
+            arcs.append "text"
+                .attr "transform", (d) -> "translate(" + arc.centroid(d) + ")"
+                .attr "id", (d, i)-> "#{data[i][0]}-stat"
+                .attr "dy", ".35em"
+                .classed "hidden", true
+                .text (d, i) -> data[i][0]
 
     update: () -> 
         if alchemy.conf.nodeStats then alchemy.stats.nodeStats()

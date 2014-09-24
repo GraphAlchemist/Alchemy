@@ -86,25 +86,33 @@ alchemy.clusterControls =
         changeClusterHTML = """
                             <input class='form-control form-inline' id='cluster-key' placeholder="Cluster Key"></input>
                             """
-        d3.select "#clustering-container"
-            .append "div"
-            .attr "id", "cluster-key-container"
-            .attr 'class', 'property form-inline form-group'
-            .html changeClusterHTML
-            .style "display", "none"
+        alchemy.dash
+               .select "#clustering-container"
+               .append "div"
+               .attr "id", "cluster-key-container"
+               .attr 'class', 'property form-inline form-group'
+               .html changeClusterHTML
+               .style "display", "none"
             
-        d3.select "#cluster_control_header"
-          .on "click", ()->
-            element = d3.select "#cluster-key-container"
-            display = element.style "display"
+        alchemy.dash
+               .select "#cluster_control_header"
+               .on "click", ()->
+                    element = alchemy.dash.select "#cluster-key-container"
+                    display = element.style "display"
 
             element.style "display", (e)-> if display is "block" then "none" else "block"
 
-            if d3.select("#cluster-key-container").style("display") is "none"
-                d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-right")
-            else d3.select("#cluster-arrow").attr("class", "fa fa-2x fa-caret-down")
+            if alchemy.dash.select("#cluster-key-container").style("display") is "none"
+                alchemy.dash
+                       .select "#cluster-arrow"
+                       .attr "class", "fa fa-2x fa-caret-right"
+            else 
+                alchemy.dash
+                       .select "#cluster-arrow"
+                       .attr "class", "fa fa-2x fa-caret-down"
         
-        d3.select "#cluster-key"
+        alchemy.dash
+            .select "#cluster-key"
             .on "keydown", -> 
                 if d3.event.keyIdentifier is "Enter"
                     alchemy.conf.cluster = true

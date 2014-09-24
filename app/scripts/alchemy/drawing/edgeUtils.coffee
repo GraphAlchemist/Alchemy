@@ -90,7 +90,9 @@ alchemy.drawing.EdgeUtils =
         else
             angle
     middlePath: (edge) ->
-            pathNode = d3.select("#path-#{edge.id}").node()
+            pathNode = alchemy.vis
+                              .select "#path-#{edge.id}"
+                              .node()
             midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
  
             x: midPoint.x

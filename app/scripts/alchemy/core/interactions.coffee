@@ -108,12 +108,18 @@ alchemy.interactions =
 
     toggleControlDash: () ->
         #toggle off-canvas class on click
-        offCanvas = d3.select("#control-dash-wrapper").classed("off-canvas") or d3.select("#control-dash-wrapper").classed("initial")
-        d3.select("#control-dash-wrapper").classed("off-canvas": !offCanvas, "initial": false, "on-canvas": offCanvas)
+        offCanvas = alchemy.dash.classed("off-canvas") or
+                    alchemy.dash.classed("initial")
+        alchemy.dash
+               .classed {
+                    "off-canvas": !offCanvas,
+                    "initial"   : false,
+                    "on-canvas" : offCanvas
+                }
 
     nodeDragStarted: (d, i) ->
         d3.event.sourceEvent.stopPropagation()
-        alchemy.vis.select(this).classed("dragging", true)
+        d3.select(@).classed "dragging", true
         d.fixed = true
 
     nodeDragged: (d, i) ->
@@ -122,7 +128,7 @@ alchemy.interactions =
         d.px += d3.event.dx
         d.py += d3.event.dy
 
-        node = alchemy.vis.select this
+        node = d3.select @
         node.attr "transform", "translate(#{d.x}, #{d.y})"
         edgeIDs = alchemy._nodes[d.id]._adjacentEdges
         for id in edgeIDs
@@ -130,7 +136,7 @@ alchemy.interactions =
             alchemy._drawEdges.updateEdge selection.data()[0]
 
     nodeDragended: (d, i) ->
-        alchemy.vis.select(@).classed "dragging": false
+        d3.select(@).classed "dragging": false
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
 

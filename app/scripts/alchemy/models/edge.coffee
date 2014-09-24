@@ -80,7 +80,7 @@ class alchemy.models.Edge
     # Find if both endpoints are active
     # there are probably better ways to do this
     allNodesActive: () =>
-        source = d3.select "#node-#{@properties.source}"
-        target = d3.select "#node-#{@properties.target}"
+        source = alchemy.vis.select "#node-#{@properties.source}"
+        target = alchemy.vis.select "#node-#{@properties.target}"
 
         !source.classed("inactive") && !target.classed("inactive")
