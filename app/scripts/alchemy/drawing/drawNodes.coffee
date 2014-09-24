@@ -38,7 +38,6 @@ alchemy.drawing.DrawNodes =
         # alchemyNode is an array of one or more alchemyNode._d3 packets
         drawNode = alchemy.drawing.DrawNode
         node = alchemy.vis.select "#node-#{alchemyNode.id}"
-
         drawNode.styleNode node
         drawNode.styleText node
         drawNode.setInteractions node

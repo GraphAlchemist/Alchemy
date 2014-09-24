@@ -5422,7 +5422,7 @@
             "cluster": 1,
             "id": "k1-gPU5NCQ",
             "firstName": "Toby",
-            "node_type": "other"
+            "node_type": "coworker"
         },
         {
             "cluster": 5,
@@ -5434,19 +5434,19 @@
             "cluster": "none",
             "id": "9QTmcvNkfk",
             "firstName": "Matt",
-            "node_type": "other"
+            "node_type": "coworker"
         },
         {
             "cluster": 5,
             "id": "k8qL7izpTb",
             "firstName": "Andysheh",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "JfwhEiTqhW",
             "firstName": "Ashley",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 1,
@@ -5458,7 +5458,7 @@
             "cluster": 2,
             "id": "5ODYY_SfJM",
             "firstName": "Brian",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
@@ -5590,7 +5590,7 @@
             "cluster": "none",
             "id": "w-W-hCpLpX",
             "firstName": "Matthew",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
@@ -5794,7 +5794,7 @@
             "cluster": 5,
             "id": "EzA8dil6Sg",
             "firstName": "Jay",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
@@ -5830,7 +5830,7 @@
             "cluster": 5,
             "id": "9FmexuhUnC",
             "firstName": "Ryann",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
@@ -5854,13 +5854,13 @@
             "cluster": 5,
             "id": "gGMKQuf_T2",
             "firstName": "Alyson",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
             "id": "pMlFQGZ1Nc",
             "firstName": "Huston",
-            "node_type": "other",
+            "node_type": "coworker",
             "root": true
         },
         {
@@ -5891,7 +5891,7 @@
             "cluster": 5,
             "id": "a_-GvdCXSG",
             "firstName": "Megan",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
@@ -5945,7 +5945,7 @@
             "cluster": 5,
             "id": "t5HCRRcwNq",
             "firstName": "Jase",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
@@ -5999,7 +5999,7 @@
             "cluster": 5,
             "id": "bdUk-4KeB_",
             "firstName": "Genevieve",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 6,
@@ -6059,13 +6059,13 @@
             "cluster": 5,
             "id": "IWyGeE3AM4",
             "firstName": "Nathan",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "-bErCrgbwS",
             "firstName": "Shannon",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
@@ -6107,7 +6107,7 @@
             "cluster": 5,
             "id": "SuTNSmTlmN",
             "firstName": "lisa",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 6,
@@ -6233,7 +6233,7 @@
             "cluster": 2,
             "id": "eP5MoMXXqa",
             "firstName": "Matthew",
-            "node_type": "other"
+            "node_type": "coworker"
         },
         {
             "cluster": 0,
@@ -6275,7 +6275,7 @@
             "cluster": "none",
             "id": "K1J3V8EI9M",
             "firstName": "Grace",
-            "node_type": "other",
+            "node_type": "coworker",
             "root": true
         },
         {
@@ -6288,7 +6288,7 @@
             "cluster": 5,
             "id": "-Ic8ogoK5J",
             "firstName": "Sharath",
-            "node_type": "other"
+            "node_type": "classmate"
         }
     ]
 }

@@ -156,9 +156,8 @@ module.exports = (grunt) ->
             sourceMap: false
         files:
             # all of the core, alchemy.js files
-            ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
-                                        ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
-                                        ".tmp/scripts/alchemy/end.coffee"]
+            ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/Alchemy.coffee"
+                                        ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
       dev:
         options:
             bare: false
@@ -166,9 +165,8 @@ module.exports = (grunt) ->
 
         files:
           # all of the core, alchemy.js files
-          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
-                                      ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
-                                      ".tmp/scripts/alchemy/end.coffee"]
+          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/Alchemy.coffee"
+                                      ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
 
       test:
         files: [

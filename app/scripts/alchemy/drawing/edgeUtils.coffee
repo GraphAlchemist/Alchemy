@@ -23,7 +23,8 @@ alchemy.drawing.EdgeUtils =
         # edge styles based on clustering
         if alchemy.conf.cluster
             clustering = alchemy.layout._clustering
-            edgeColour = (d) ->
+            styles.fill = do (d) ->
+                nodes = alchemy._nodes
                 clusterKey = alchemy.conf.clusterKey
                 source = nodes[d.source.id]._properties
                 target = nodes[d.target.id]._properties
@@ -38,11 +39,6 @@ alchemy.drawing.EdgeUtils =
                     id = "#{source[clusterKey]}-#{target[clusterKey]}"
                     gid = "cluster-gradient-#{id}"
                     "url(##{gid})"
-        else
-            edgeColour = -> ''
-
-        if edgeColour(d) is not ''
-            styles.fill = @nodeColours d
 
         styles
 

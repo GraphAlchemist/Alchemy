@@ -1,16 +1,21 @@
 # 'use strict'
 
-angular.module('site',['ngRoute', 'alchemyExamples', 'featCarousel', 'angular-inview', 'navigation'])
+angular.module('site',['ngRoute'
+                       'alchemyExamples'
+                       'featCarousel'
+                       'angular-inview'
+                       'navigation'
+                       ])
   .config ($routeProvider) ->
     $routeProvider
       .when '/',
         templateUrl: 'views/home.html'
         controller: 'MainCtrl'
-      .when '/examples',
+      .when '/examples/:exampleName?',
         templateUrl: 'views/examples.html'
         controller: 'MainCtrl'
         reloadOnSearch: false,
-      .when '/examples/FullApp',
-        templateUrl: 'views/examples/example3viz.html'
+      .when '/examples/Full_Application/Viz',
+        templateUrl: 'views/examples/Full_ApplicationViz.html'
         controller: 'MainCtrl'
     return

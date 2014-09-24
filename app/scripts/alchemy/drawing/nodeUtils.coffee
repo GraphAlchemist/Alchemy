@@ -14,7 +14,6 @@ alchemy.drawing.NodeUtils =
                     "#{colour}"
             else
                 nodeColours = -> if conf.nodeColour then conf.nodeColour else ''
-
             d
 
         nodeText: (d) ->

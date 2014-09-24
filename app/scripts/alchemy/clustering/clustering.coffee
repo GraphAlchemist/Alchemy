@@ -50,7 +50,7 @@ class alchemy.clustering
 
     identifyClusters: ->
         nodes = alchemy.get.allNodes()
-        clusters = _.uniq _.map(_.values(nodes), (node)-> node.setProperty["#{alchemy.conf.clusterKey}"])
+        clusters = _.uniq _.map(_.values(nodes), (node)-> node.getProperties()[alchemy.conf.clusterKey])
         @clusterMap = _.zipObject clusters, [0..clusters.length]
     
     getClusterColour: (clusterValue) ->
@@ -68,6 +68,7 @@ class alchemy.clustering
             # skip nodes from the same cluster
             continue if nodes[edge.source.id]._properties[@clusterKey] is nodes[edge.target.id]._properties[@clusterKey]
             if nodes[edge.target.id]._properties[@clusterKey] isnt nodes[edge.source.id]._properties[@clusterKey]
+                # gradient `id`
                 id = nodes[edge.source.id]._properties[@clusterKey] + "-" + nodes[edge.target.id]._properties[@clusterKey]
                 if id of Q
                     continue

@@ -1,4 +1,4 @@
-# Generated on 2014-06-24 using generator-webapp 0.4.9
+# Generated on 2014-09-11 using generator-angular 0.9.8
 "use strict"
 
 # # Globbing
@@ -7,23 +7,21 @@
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
 module.exports = (grunt) ->
-
-  # Load grunt tasks automatically
   require("load-grunt-tasks") grunt
-
-  # Time how long tasks take. Can help when optimizing build times
   require("time-grunt") grunt
+  pkg = grunt.file.readJSON('./package.json')
 
-  pkg = grunt.file.readJSON('../package.json')
 
-  # Configurable paths
-  config =
-    app: "app"
+  
+  appConfig =
+    app: require("./bower.json").appPath or "app"
     dist: "dist"
 
-
-  # Define the configuration for all the tasks
+  
   grunt.initConfig
+    
+    yeoman: appConfig
+    
     jekyll:
       dev:
         options:
@@ -33,81 +31,81 @@ module.exports = (grunt) ->
       dist:
         options:
           config: "_config.yml"
-          dest: "<%= config.dist %>/docs"
-
-
-    # Project settings
-    config: config
+          dest: "<%= yeoman.dist %>/docs"
 
     'string-replace':
       version:
         files:
-          '<%= config.dist %>/views/home.html': '<%= config.dist %>/views/home.html'
-          '<%= config.dist %>/views/nav.html': '<%= config.dist %>/views/nav.html'
+          './bower.json': './bower.json'
+          '<%= yeoman.dist %>/alchemy.js':'<%= yeoman.dist %>/alchemy.js'
+          '<%= yeoman.dist %>/alchemy.min.js':'<%= yeoman.dist %>/alchemy.min.js'
         options:
           replacements: [
             pattern: /#VERSION#/ig
             replacement: pkg.version
           ]
 
+    release:
+      options:
+        file: 'package.json'
+        bump: false
+        commit: false
+        npm: false
 
+    # shell tasks
+    shell:
+      commitBuild:
+        command: "git add -A && git commit -am 'commit dist files for #{pkg.version}'"
+      docs:
+        command: 'grunt --gruntfile site/Gruntfile.coffee'
+    
     # Watches files for changes and runs tasks based on the changed files
     watch:
       jekyll:
-        files: ["<%= config.app %>/docs/{,*/,*/*/}*{.scss,.coffee,.html,.md}"]
+        files: ["<%= yeoman.app %>/docs/{,*/,*/*/}*{.scss,.coffee,.html,.md}"]
         tasks: [
           "jekyll:dev"
-          "sass:server"
+          "compass:docs"
           "coffee:dist"
         ]
 
       bower:
         files: ["bower.json"]
-        tasks: ["bowerInstall"]
+        tasks: ["wiredep"]
 
       coffee:
-        files: ["<%= config.app %>/scripts/{,*/,*/*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["coffee:dist"]
+        files: ["<%= yeoman.app %>/scripts/{,*/}*.{coffee,litcoffee,coffee.md}"]
+        tasks: ["newer:coffee:dist"]
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
         tasks: [
-          "coffee:test"
-          "test:watch"
+          "newer:coffee:test"
+          "karma"
+        ]
+
+      compass:
+        files: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"
+                "<%= yeoman.app %>/docs/styles/scss/{,*/}*.{scss,sass}"
+              ]
+        
+        tasks: [
+          "compass"
+          "autoprefixer"
         ]
 
       gruntfile:
         files: ["Gruntfile.coffee"]
-
-      sass:
-        files: [
-          "<%= config.app %>/styles/{,*/}*.{scss,sass}"
-          "<%= config.app %>/docs/styles/scss/{,*/}*.{scss,sass}"
-        ]
-        tasks: [
-          "sass:server"
-          "autoprefixer"
-        ]
-
-      styles:
-        files: ["<%= config.app %>/styles/{,*/}*.css"]
-        tasks: [
-          "newer:copy:styles"
-          "autoprefixer"
-        ]
 
       livereload:
         options:
           livereload: "<%= connect.options.livereload %>"
 
         files: [
-          "<%= config.app %>/{,*/}*.html"
+          "<%= yeoman.app %>/{,*/}*.html"
           ".tmp/styles/{,*/}*.css"
           ".tmp/scripts/{,*/}*.js"
-          ".tmp/docs/{,*/}*.html"
-          ".tmp/docs/styles/*.css"
-          "<%= config.app %>/images/{,*/}*"
-          "<%= config.app %>/{,*/}*.html"
+          "<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
         ]
 
     "gh-pages":
@@ -115,45 +113,53 @@ module.exports = (grunt) ->
         base: "dist"
 
       src: ["**"]
-
-
+    
     # The actual grunt server settings
     connect:
       options:
         port: 9002
-        open: true
-        livereload: 35730
-
-        # Change this to '0.0.0.0' to access the server from outside
+        
+        # Change this to '0.0.0.0' to access the server from outside.
         hostname: "localhost"
+        livereload: 35729
 
       livereload:
         options:
+          open: true
           middleware: (connect) ->
             [
               connect.static(".tmp")
               connect().use("/bower_components", connect.static("./bower_components"))
-              connect.static(config.app)
+              connect.static(appConfig.app)
             ]
 
       test:
         options:
-          open: false
-          port: 9003
+          port: 9001
           middleware: (connect) ->
             [
               connect.static(".tmp")
               connect.static("test")
               connect().use("/bower_components", connect.static("./bower_components"))
-              connect.static(config.app)
+              connect.static(appConfig.app)
             ]
 
       dist:
         options:
-          base: "<%= config.dist %>"
-          livereload: false
+          open: true
+          base: "<%= yeoman.dist %>"
 
+    
+    # Make sure code styles are up to par and there are no obvious mistakes
+    jshint:
+      options:
+        jshintrc: ".jshintrc"
+        reporter: require("jshint-stylish")
 
+      all:
+        src: ["Gruntfile.js"]
+
+    
     # Empties folders to start fresh
     clean:
       dist:
@@ -161,51 +167,56 @@ module.exports = (grunt) ->
           dot: true
           src: [
             ".tmp"
-            "<%= config.dist %>/*"
-            "!<%= config.dist %>/.git*"
+            "<%= yeoman.dist %>/{,*/}*"
+            "!<%= yeoman.dist %>/.git*"
           ]
         ]
 
       server: ".tmp"
 
-
-    # Make sure code styles are up to par and there are no obvious mistakes
-    jshint:
+    
+    # Add vendor prefixed styles
+    autoprefixer:
       options:
-        jshintrc: ".jshintrc"
-        reporter: require("jshint-stylish")
+        browsers: ["last 1 version"]
 
-      all: [
-        "Gruntfile.js"
-
-        # '<%= config.app %>/scripts/{,*/}*.js',
-        "!<%= config.app %>/scripts/vendor/*"
-        "test/spec/{,*/}*.js"
-      ]
-
-
-    # Mocha testing framework configuration options
-    mocha:
-      all:
-        options:
-          run: true
-          urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
-
-
-    # Compiles CoffeeScript to JavaScript
-    coffee:
       dist:
         files: [
-          {
+          expand: true
+          cwd: ".tmp/styles/"
+          src: "{,*/}*.css"
+          dest: ".tmp/styles/"
+        ]
+
+    
+    # Automatically inject Bower components into the app
+    wiredep:
+      app:
+        src: ["<%= yeoman.app %>/index.html"]
+        ignorePath: /\.\.\//
+
+      sass:
+        src: ["<%= yeoman.app %>/styles/{,*/}*.{scss,sass}"]
+        ignorePath: /(\.\.\/){1,2}bower_components\//
+    
+    # Compiles CoffeeScript to JavaScript
+    coffee:
+      options:
+        sourceMap: true
+        sourceRoot: ""
+
+      dist:
+        files: [
+          {  
             expand: true
-            cwd: "<%= config.app %>/scripts"
-            src: "{,*/}*.{coffee,litcoffee,coffee.md}"
+            cwd: "<%= yeoman.app %>/scripts"
+            src: "{,*/}*.coffee"
             dest: ".tmp/scripts"
             ext: ".js"
           }
           {
             expand: true
-            cwd: "<%= config.app %>/docs/js/coffee"
+            cwd: "<%= yeoman.app %>/docs/js/coffee"
             src: "*.coffee"
             dest: ".tmp/docs/scripts/"
             ext: ".js"
@@ -216,309 +227,265 @@ module.exports = (grunt) ->
         files: [
           expand: true
           cwd: "test/spec"
-          src: "{,*/}*.{coffee,litcoffee,coffee.md}"
+          src: "{,*/}*.coffee"
           dest: ".tmp/spec"
           ext: ".js"
         ]
 
-
+    
     # Compiles Sass to CSS and generates necessary files if requested
-    sass:
-      options:
-        includePaths: ["bower_components"]
-
-      dist:
-        files: [
-          {
-            expand: true
-            cwd: "<%= config.app %>/styles"
-            src: ["*.scss"]
-            dest: ".tmp/styles"
-            ext: ".css"
-          }
-          {
-            expand: true
-            cwd: "<%= config.app %>/docs/styles/scss"
-            src: ["*.scss"]
-            dest: ".tmp/docs/styles"
-            ext: ".css"
-          }
-        ]
-
-      server:
-        files: [
-          {
-            expand: true
-            cwd: "<%= config.app %>/styles"
-            src: ["*.scss"]
-            dest: ".tmp/styles"
-            ext: ".css"
-          }
-          {
-            expand: true
-            cwd: "<%= config.app %>/docs/styles/scss"
-            src: ["*.scss"]
-            dest: ".tmp/docs/styles"
-            ext: ".css"
-          }
-        ]
-
-    ngmin:
-      dist:
-        files: [
-          expand: true
-          cwd: ".tmp/concat/scripts"
-          src: "*.js"
-          dest: ".tmp/concat/scripts"
-        ]
-
-
-    # Add vendor prefixed styles
-    autoprefixer:
-      options:
-        browsers: ["last 1 version"]
-
-      dist:
-        files: [
-          {
-            expand: true
-            cwd: ".tmp/styles/"
-            src: "{,*/}*.css"
-            dest: ".tmp/styles/"
-          }
-          {
-            expand: true
-            cwd: ".tmp/docs/styles/"
-            src: "{,*/}*.css"
-            dest: ".tmp/docs/styles/"
-          }
-        ]
-
-
-    # Automatically inject Bower components into the HTML file
-    bowerInstall:
+    compass:
       app:
-        src: ["<%= config.app %>/index.html"]
-        exclude: ["bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap.js"]
+        options:
+          relativeAssets: false
+          assetCacheBuster: false
+          raw: "Sass::Script::Number.precision = 10\n"
+          sassDir: "<%= yeoman.app %>/styles"
+          cssDir: ".tmp/styles"
+          generatedImagesDir: ".tmp/images/generated"
+          imagesDir: "<%= yeoman.app %>/images"
+          javascriptsDir: "<%= yeoman.app %>/scripts"
+          fontsDir: "<%= yeoman.app %>/styles/fonts"
+          importPath: "./bower_components"
+          httpImagesPath: "/images"
+          httpGeneratedImagesPath: "/images/generated"
+          httpFontsPath: "/styles/fonts"
+          # generatedImagesDir: "<%= yeoman.dist %>/images/generated"
 
-      sass:
-        src: ["<%= config.app %>/styles/{,*/}*.{scss,sass}"]
+      docs:
+        options:
+          assetCacheBuster: false
+          raw: "Sass::Script::Number.precision = 10\n"
+          debugInfo: true
+          sassDir: "<%= yeoman.app %>/docs/styles/scss"
+          cssDir: ".tmp/docs/styles"
 
+      # Old tasks from grunt sass
+      # dist:
+      #   files: [
+      #     {
+      #       expand: true
+      #       cwd: "<%= config.app %>/styles"
+      #       src: ["*.scss"]
+      #       dest: ".tmp/styles"
+      #       ext: ".css"
+      #     }
+      #     {
+      #       expand: true
+      #       cwd: "<%= config.app %>/docs/styles/scss"
+      #       src: ["*.scss"]
+      #       dest: ".tmp/docs/styles"
+      #       ext: ".css"
+      #     }
+      #   ]
+      # server:
+      #   files: [
+      #     {
+      #       expand: true
+      #       cwd: "<%= config.app %>/styles"
+      #       src: ["*.scss"]
+      #       dest: ".tmp/styles"
+      #       ext: ".css"
+      #     }
+      #     {
+      #       expand: true
+      #       cwd: "<%= config.app %>/docs/styles/scss"
+      #       src: ["*.scss"]
+      #       dest: ".tmp/docs/styles"
+      #       ext: ".css"
+      #     }
+      #   ]
 
+    
     # Renames files for browser caching purposes
-    rev:
+    filerev:
       dist:
-        files:
-          src: [
-            "<%= config.dist %>/scripts/{,*/}*.js"
-            "<%= config.dist %>/styles/{,*/}*.css"
-            "<%= config.dist %>/docs/scripts/{,*/}*.js"
-            "<%= config.dist %>/docs/styles/{,*/}*.css"
-            # rev will not rewrite paths in bootstrap Sass
-            # "<%= config.dist %>/images/{,*/}*.*",
-            # "<%= config.dist %>/styles/fonts/{,*/}*.*",
-            "<%= config.dist %>/*.{ico,png}"
-          ]
+        src: [
+          "<%= yeoman.dist %>/scripts/{,*/}*.js"
+          "<%= yeoman.dist %>/styles/{,*/}*.css"
+          "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
+          "<%= yeoman.dist %>/styles/fonts/*"
+        ]
 
-
+    
     # Reads HTML for usemin blocks to enable smart builds that automatically
     # concat, minify and revision files. Creates configurations in memory so
     # additional tasks can operate on them
     useminPrepare:
-      html:
-        src: "<%= config.app %>/index.html"
-        dest: "<%= config.dist %>"
+      html: "<%= yeoman.app %>/index.html"
+      options:
+        dest: "<%= yeoman.dist %>"
+        flow:
+          html:
+            steps:
+              js: [
+                "concat"
+                "uglifyjs"
+              ]
+              css: ["cssmin"]
 
-      docs:
-        src: "<%= config.dist %>/docs/index.html"
-        options:
-          dest: "<%= config.dist %>/docs"
-          root: ".tmp/docs"
-          # staging: '.tmp/docs'
+            post: {}
 
-    # Performs rewrites based on rev and the useminPrepare configuration
+    
+    # Performs rewrites based on filerev and the useminPrepare configuration
     usemin:
+      html: ["<%= yeoman.dist %>/{,*/}*.html"]
+      css: ["<%= yeoman.dist %>/styles/{,*/}*.css"]
       options:
         assetsDirs: [
-          "<%= config.dist %>"
-          "<%= config.dist %>/images"
-          "<%= config.dist %>/docs"
+          "<%= yeoman.dist %>"
+          "<%= yeoman.dist %>/images"
         ]
 
-      html: ["<%= config.dist %>/{,*/,*/*/}*.html"]
-      css: ["<%= config.dist %>/{,*/,*/*/}*.css"]
-
-
-    # The following *-min tasks produce minified files in the dist folder
+    
+    # The following *-min tasks will produce minified files in the dist folder
+    # By default, your `index.html`'s <!-- Usemin block --> will take care of
+    # minification. These next options are pre-configured if you do not wish
+    # to use the Usemin blocks.
+    # cssmin: {
+    #   dist: {
+    #     files: {
+    #       '<%= yeoman.dist %>/styles/main.css': [
+    #         '.tmp/styles/{,*/}*.css'
+    #       ]
+    #     }
+    #   }
+    # },
+    # uglify: {
+    #   dist: {
+    #     files: {
+    #       '<%= yeoman.dist %>/scripts/scripts.js': [
+    #         '<%= yeoman.dist %>/scripts/scripts.js'
+    #       ]
+    #     }
+    #   }
+    # },
+    # concat: {
+    #   dist: {}
+    # },
     imagemin:
       dist:
         files: [
           expand: true
-          cwd: "<%= config.app %>/images"
-          src: "{,*/}*.{gif,jpeg,jpg,png}"
-          dest: "<%= config.dist %>/images"
+          cwd: "<%= yeoman.app %>/images"
+          src: "{,*/}*.{png,jpg,jpeg,gif}"
+          dest: "<%= yeoman.dist %>/images"
         ]
 
     svgmin:
       dist:
         files: [
           expand: true
-          cwd: "<%= config.app %>/images"
+          cwd: "<%= yeoman.app %>/images"
           src: "{,*/}*.svg"
-          dest: "<%= config.dist %>/images"
+          dest: "<%= yeoman.dist %>/images"
         ]
 
     htmlmin:
       dist:
         options:
-          collapseBooleanAttributes: true
           collapseWhitespace: true
-          removeAttributeQuotes: true
+          conservativeCollapse: true
+          collapseBooleanAttributes: true
           removeCommentsFromCDATA: true
-          removeEmptyAttributes: true
           removeOptionalTags: true
-          removeRedundantAttributes: true
-          useShortDoctype: true
 
         files: [
           expand: true
-          cwd: "<%= config.dist %>"
-          src: "{,*/,*/*/}*.html"
-          dest: "<%= config.dist %>"
+          cwd: "<%= yeoman.dist %>"
+          src: [
+            "*.html"
+            "views/{,*/}*.html"
+          ]
+          dest: "<%= yeoman.dist %>"
         ]
 
+    
+    # ng-annotate tries to make the code safe for minification automatically
+    # by using the Angular long form for dependency injection.
+    ngAnnotate:
+      dist:
+        files: [
+          expand: true
+          cwd: ".tmp/concat/scripts"
+          src: [
+            "*.js"
+            "!oldieshim.js"
+          ]
+          dest: ".tmp/concat/scripts"
+        ]
 
-    # By default, your `index.html`'s <!-- Usemin block --> will take care of
-    # minification. These next options are pre-configured if you do not wish
-    # to use the Usemin blocks.
-    # cssmin: {
-    #     dist: {
-    #         files: {
-    #             '<%= config.dist %>/styles/main.css': [
-    #                 '.tmp/styles/{,*/}*.css',
-    #                 '<%= config.app %>/styles/{,*/}*.css'
-    #             ]
-    #         }
-    #     }
-    # },
-    # uglify: {
-    #     dist: {
-    #         files: {
-    #             '<%= config.dist %>/scripts/scripts.js': [
-    #                 '<%= config.dist %>/scripts/scripts.js'
-    #             ]
-    #         }
-    #     }
-    # },
-    # concat: {
-    #     dist: {}
-    # },
+    
+    # Replace Google CDN references
+    cdnify:
+      dist:
+        html: ["<%= yeoman.dist %>/*.html"]
 
+    
     # Copies remaining files to places other tasks can use
     copy:
       dist:
         files: [
+          {
             expand: true
             dot: true
-            cwd: "<%= config.app %>"
-            dest: "<%= config.dist %>"
+            cwd: "<%= yeoman.app %>"
+            dest: "<%= yeoman.dist %>"
             src: [
               "*.{ico,png,txt}"
               ".htaccess"
-              "images/{,*/}*.webp"
-              "{,*/,*/*/}*.html"
-              "styles/fonts/{,*/}*.*"
-              "!docs/**"
-              "!bower_components/**"
+              "*.html"
+              "views/{,*/}*.html"
+              "images/{,*/}*.{webp}"
+              "fonts/*"
             ]
-          ,
+          }
+          {
             expand: true
-            dot: true
+            cwd: ".tmp/images"
+            dest: "<%= yeoman.dist %>/images"
+            src: ["generated/*"]
+          }
+          {
+            expand: true
             cwd: "."
-            src: ["bower_components/bootstrap-sass-official/vendor/assets/fonts/bootstrap/*.*"]
-            dest: "<%= config.dist %>"
-          ,
-            expand: true
-            dot: true
-            cwd: ".tmp/docs/"
-            src: "**"
-            dest: "dist/docs/"
+            src: "bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*"
+            dest: "<%= yeoman.dist %>"
+          }
         ]
 
-      # styles:
-      #   files: [
-      #     {
-      #       expand: true
-      #       dot: true
-      #       cwd: "<%= config.app %>/styles"
-      #       dest: ".tmp/styles/"
-      #       src: "{,*/}*.css"
-      #     }
-      #     {
-      #       expand: true
-      #       dot: true
-      #       cwd: "<%= config.app %>/docs/styles/scss"
-      #       dest: ".tmp/docs/styles/css/"
-      #       src: "{,*/}*.css"
-      #     }
-      #   ]
+      styles:
+        expand: true
+        cwd: "<%= yeoman.app %>/styles"
+        dest: ".tmp/styles/"
+        src: "{,*/}*.css"
 
-      # docs:
-      #   files: [
-      #     expand: true
-      #     dot: true
-      #     cwd: ".tmp/docs/"
-      #     src: "**"
-      #     dest: "dist/docs/"
-      #   ]
-
-      data:
-        files: [
-          expand: true
-          dot: true
-          cwd: "<%= config.app %>"
-          src: "data/**"
-          dest: "<%= config.dist %>"
-        ]
-
-
-    # Generates a custom Modernizr build that includes only the tests you
-    # reference in your app
-    modernizr:
-      dist:
-        devFile: "<%= config.app %>/bower_components/modernizr/modernizr.js"
-        outputFile: "<%= config.dist %>/scripts/vendor/modernizr.js"
-        files:
-          src: [
-            "<%= config.dist %>/scripts/{,*/}*.js"
-            "<%= config.dist %>/styles/{,*/}*.css"
-            "!<%= config.dist %>/scripts/vendor/*"
-          ]
-
-        uglify: true
-
-
-    # Run some tasks in parallel to speed up build process
+    
+    # Run some tasks in parallel to speed up the build process
     concurrent:
       server: [
         "coffee:dist"
+        "compass"
       ]
       test: [
         "coffee"
+        "compass"
       ]
       dist: [
         "coffee"
-        "sass:dist"
-        "copy:data"
+        "compass:dist"
         "imagemin"
         "svgmin"
       ]
 
-  grunt.loadNpmTasks "grunt-shell"
-  grunt.loadNpmTasks "grunt-gh-pages"
-  grunt.loadNpmTasks "grunt-ngmin"
+    
+    # Test settings
+    karma:
+      unit:
+        configFile: "test/karma.conf.coffee"
+        singleRun: true
 
-  grunt.registerTask "serve", (target) ->
+  grunt.registerTask "serve", "Compile then start a connect web server", (target) ->
     if target is "dist"
       return grunt.task.run([
         "build"
@@ -527,7 +494,7 @@ module.exports = (grunt) ->
     grunt.task.run [
       "clean:server"
       "jekyll:dev"
-      "sass:server"
+      "wiredep"
       "concurrent:server"
       "autoprefixer"
       "connect:livereload"
@@ -535,46 +502,38 @@ module.exports = (grunt) ->
     ]
     return
 
-  grunt.registerTask "server", (target) ->
+  grunt.registerTask "server", "DEPRECATED TASK. Use the \"serve\" task instead", (target) ->
     grunt.log.warn "The `server` task has been deprecated. Use `grunt serve` to start a server."
-    grunt.task.run [(if target then ("serve:" + target) else "serve")]
+    grunt.task.run ["serve:" + target]
     return
 
-  grunt.registerTask "test", (target) ->
-    if target isnt "watch"
-      grunt.task.run [
-        "clean:server"
-        "concurrent:test"
-        "autoprefixer"
-      ]
-    grunt.task.run [
-      "connect:test"
-      "mocha"
-    ]
-    return
-
+  grunt.registerTask "test", [
+    "clean:server"
+    "concurrent:test"
+    "autoprefixer"
+    "connect:test"
+    "karma"
+  ]
   grunt.registerTask "build", [
     "clean:dist"
-    "jekyll:dist"
+    "wiredep"
     "useminPrepare"
     "concurrent:dist"
     "autoprefixer"
     "concat"
-    "ngmin"
-    "cssmin"
-    "uglify"
+    "ngAnnotate"
     "copy:dist"
     "string-replace:version"
-    "modernizr"
-    "rev"
+    "cdnify"
+    "cssmin"
+    "uglify"
+    "filerev"
     "usemin"
     "htmlmin"
   ]
   grunt.registerTask "default", [
-
-    # 'newer:jshint',
+    "newer:jshint"
     "test"
     "build"
-    "gh-pages"
   ]
   return

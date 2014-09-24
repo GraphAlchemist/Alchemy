@@ -78,7 +78,6 @@ alchemy.defaults =
             "captionColor": -> "#FFFFFF"
             "captionBackground": -> null
             "captionSize": 12
-
             "selected":
                 "color" : -> "#FFFFFF"
                 "borderColor": -> "#349FE3"

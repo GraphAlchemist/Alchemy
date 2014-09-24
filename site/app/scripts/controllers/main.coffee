@@ -3,8 +3,9 @@
 angular.module('site')
     .directive 'prettyPrint', () ->
         restrict: 'A',
-        link: makePretty = ($scope, $element, attrs) ->
-            $element.html(prettyPrintOne($element.html()))
+        link: 
+            makePretty = ($scope, $element, attrs) ->
+                $element.html(prettyPrintOne($element.html()))
 
     .directive 'popupTweet', () ->
         restrict: 'A',
@@ -35,14 +36,15 @@ angular.module('site')
             return
 
         # very hacky scrollSnap, should probably be a directive
-        $scope.snapElement = (inview, part, element) ->
+        $scope.snapElement = (inview, part) ->
             # body = angular.element(document).find('body')
             # section = angular.element(element)
-            # offset = section.offset().top
-            # headerOffset = angular.element('.navbar').height()
-            if part is "top"
-                @sectionSnap(element)
-                return
+            # # offset = section.offset().top
+            # # headerOffset = angular.element('.navbar').height()s            
+            # if part is "top"
+            #     @sectionSnap(section)
+            #     return
+        return
 
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location, $route, $http) ->
@@ -61,6 +63,7 @@ angular.module('navigation', ['ui.bootstrap'])
                 # { name: 'Tutorial', tooltip:"Coming Soon!"} 
             ] 
             $scope.active($location.path())
+            $scope.hidden = false
 
         $scope.active = (navTab) ->
             $location.hash("")
@@ -70,78 +73,68 @@ angular.module('navigation', ['ui.bootstrap'])
                     $location.path(link.href)
                 else 
                     link.state= ""
+        
+        $scope.socialToggle = ->
+            if $scope.hidden is false
+                $scope.hidden = true
+            else if $scope.hidden is true
+                $scope.hidden = false
 
-    # .directive 'githubStat', ($http) ->
-    #     restrict: 'A',
-    #     link: 
-    #         ghData = ($scope) ->
-    #             $http.get("https://api.github.com/repos/graphalchemist/alchemy?callback=JSON_CALLBACK", headers: {'If-Modified-Since': 'Wed, 13 Aug 2014 21:40:14 GMT'})
-    #                 .success((response, status) ->
-    #                     console.log response
-    #                         console.log status
-    #                         $scope.stargazers_count = response.data.stargazers_count
-    #                         $scope.forks_count = response.data.forks_count
-    #                         console.log $scope.stargazers_count
-    #                     #     )
-    #                     .error((response, status) ->
-    #                         console.log status
-    #                     )
-    #                 )
-    #                 .error((response, status) ->
-    #                     console.log response
-    #                     console.log status
-    #                 )
-
-angular.module('alchemyExamples', [])
-    .controller 'examplesCtrl', ($scope, $location) ->
-        $scope.init = ->
-            $scope.examples =
-             [
-                {
-                    name: 'Basic Graph',
-                    src: 'views/examples/example1.html', 
-                    id:"example1", 
-                    desc: "A basic Alchemy.js graph, with only a custom dataSource defined." },
-                {
-                    name: 'Embedded Graph', 
-                    src: "views/examples/example2.html", 
-                    id: "example2",
-                    desc: "An example with custom graphHeight, graphWidth, and linkDistance making it easy to include and embed within larger applications."},
-                {
-                    name: 'Custom Styling',
-                    src: 'views/examples/example4.html',
-                    id:"example4",
-                    desc: "An example illustrating how to apply custom styles to the graph, overriding Alchemy.css by using nodeTypes and edgeTypes."},
-                {
-                    name: 'Full Application',
-                    src: 'views/examples/example3.html',
-                    id: "example3",
-                    desc: "A full application using clustering, filters, node typing, and search."},
-                {
-                    name: 'Advanced Styling',
-                    src: 'views/examples/example5.html',
-                    id: "example5",
-                    desc: "Styling based on node and edge properties."}
-            ]
-        # should probably be moved to a directive
-        $scope.showExample = (e) ->
+angular.module('alchemyExamples', ['ngRoute'])
+    .controller 'examplesCtrl', ($scope, $location, $routeParams) ->
+        showExample = (name) ->
+            e = $scope.examples[name]
+            e.state = 'active'
             $scope.current_example = e
+            $location.path("/examples/#{name}")
             if angular.element("#removethis")?
                 angular.element("#removethis").remove()
-            for example in $scope.examples
-                if $scope.current_example is example
-                    example.state = "active"
-                else
-                    example.state= ""
-            name = e.name.replace " ", "_"
-            $location.hash(name)
+        
+        $scope.init = ->
+            $scope.examples =
+                'Basic_Graph':
+                    name: 'Basic Graph'
+                    src: 'views/examples/Basic_Graph.html'
+                    desc: "A basic Alchemy.js graph, with only a custom dataSource defined."
+                'Embedded_Graph':
+                    name: 'Embedded Graph'
+                    src: "views/examples/Embedded_Graph.html"
+                    desc: "An example with custom graphHeight, graphWidth, and linkDistance making it easy to include and embed within larger applications."
+                'Custom_Styling':
+                    name: 'Custom Styling'
+                    src: 'views/examples/Custom_Styling.html'
+                    desc: "An example illustrating how to apply custom styles to the graph, overriding Alchemy.css by using nodeTypes and edgeTypes."
+                'Full_Application':    
+                    name: 'Full Application'
+                    src: 'views/examples/Full_Application.html'
+                    desc: "A full application using clustering, filters, node typing, and search."
+                'Advanced_Styling':
+                    name: 'Advanced Styling'
+                    src: 'views/examples/Advanced_Styling.html'
+                    id: 'Advanced_Styling'
+                    desc: 'Styling based on node and edge properties.'
+
+            $scope.orderedExamples = ['Basic_Graph', 'Embedded_Graph', 
+                                      'Custom_Styling','Advanced_Styling',
+                                      'Full_Application'
+                                  ]
+
+            if 'exampleName' of $routeParams
+                showExample($routeParams.exampleName)
+
+            return
+
+        # should probably be moved to a directive
+        $scope.showExample = (name) ->
+            showExample(name)
+            return
 
         $scope.showViz = ->
-            $location.path("examples/FullApp")
+            $location.path("examples/Full_Application/Viz")
+            return
 
         $scope.hideViz = ->
-            $location.hash("")
-            $location.path("examples/")
+            $location.path("examples/Full_Application")
 
 angular.module('featCarousel', ['ui.bootstrap'])
     .controller 'carouselCtrl', ($scope) ->
