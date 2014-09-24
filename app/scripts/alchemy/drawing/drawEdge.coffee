@@ -101,7 +101,7 @@ alchemy.drawing.DrawEdge =
                 .attr 'width', (d) -> utils.edgeLength(d)
                 .attr 'transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})"
 
-        if @directed
+        if directed
             edge.select '.edge-line'
                 .attr 'marker-end', 'url(#arrow)'
 

@@ -32,7 +32,7 @@ alchemy.startGraph = (data) =>
 
     #create SVG
     alchemy.vis = d3.select conf.divSelector
-        .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px"
+        .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour}"
         .append "svg"
             .attr "xmlns", "http://www.w3.org/2000/svg"
             .attr "pointer-events", "all"

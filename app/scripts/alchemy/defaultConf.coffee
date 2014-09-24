@@ -123,6 +123,7 @@ alchemy.defaults =
     searchMethod: "contains"
 
     # Misc
+    backgroundColour: "#000000"
     afterLoad: 'afterLoad'
     divSelector: '#alchemy'
     dataSource: null
