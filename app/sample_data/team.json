@@ -5206,13 +5206,13 @@
             "cluster": 1,
             "id": "jgxWzatM0z",
             "firstName": "Jennifer",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 1,
             "id": "lebsumPb_N",
             "firstName": "Michael",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5230,31 +5230,31 @@
             "cluster": 3,
             "id": "kkFh_WDZPo",
             "firstName": "Ian",
-            "node_type": "other"
+            "node_type": "coworker"
         },
         {
             "cluster": 4,
             "id": "oqFk0F86Wc",
             "firstName": "Antonio",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 2,
             "id": "2lm94E-BrX",
             "firstName": "Amy",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "nr7evN57Sy",
             "firstName": "Sara",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 4,
             "id": "4iCXTMR7PD",
             "firstName": "Alexandra",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 0,
@@ -5266,7 +5266,7 @@
             "cluster": 3,
             "id": "81x9laXkE7",
             "firstName": "Claire",
-            "node_type": "other"
+            "node_type": "coworker"
         },
         {
             "cluster": 0,
@@ -5278,85 +5278,85 @@
             "cluster": 2,
             "id": "i8Wb5ge2uM",
             "firstName": "Scott",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "ZmyGZO5stA",
             "firstName": "Ross",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "XlyNI84OIV",
             "firstName": "Meghan",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "NXp9uWQDUU",
             "firstName": "Devin",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "d-lysQWzfo",
             "firstName": "Christopher",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "BgrMHfVqlt",
             "firstName": "Dana",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "oZ3DoDtURr",
             "firstName": "Jeannie",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "2UMnK1gcFl",
             "firstName": "Dina",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "Ah-F9ZR9GN",
             "firstName": "Christine",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "qDawLLjG0I",
             "firstName": "Sam",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "y8iQbRvIND",
             "firstName": "Alondra",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "jlc4gQ6zjn",
             "firstName": "Amy",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 4,
             "id": "185SVkc_WL",
             "firstName": "Aekta",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 1,
             "id": "r4HWhFHDF4",
             "firstName": "David",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5368,19 +5368,19 @@
             "cluster": 6,
             "id": "bl8BlKM9l_",
             "firstName": "Sonny",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "Xk5fxtphbE",
             "firstName": "Serena",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 4,
             "id": "UoOzZz_Lq3",
             "firstName": "Luba",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 0,
@@ -5392,25 +5392,25 @@
             "cluster": 4,
             "id": "BhCa0qYEIZ",
             "firstName": "Philippa",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 3,
             "id": "PAiI6j6lZD",
             "firstName": "Tracy",
-            "node_type": "other"
+            "node_type": "coworker"
         },
         {
             "cluster": 7,
             "id": "6U5bFCjJAt",
             "firstName": "SABIHA RUMANI",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": 2,
             "id": "M832V9qptr",
             "firstName": "Robin",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
@@ -5422,49 +5422,49 @@
             "cluster": 1,
             "id": "k1-gPU5NCQ",
             "firstName": "Toby",
-            "node_type": "coworker"
+            "node_type": "friend"
         },
         {
             "cluster": 5,
             "id": "vexbsHqepx",
             "firstName": "Yuwei",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": "none",
             "id": "9QTmcvNkfk",
             "firstName": "Matt",
-            "node_type": "coworker"
+            "node_type": "other"
         },
         {
             "cluster": 5,
             "id": "k8qL7izpTb",
             "firstName": "Andysheh",
-            "node_type": "friend"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "JfwhEiTqhW",
             "firstName": "Ashley",
-            "node_type": "friend"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "pqzAxl7WAu",
             "firstName": "Todd",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "5ODYY_SfJM",
             "firstName": "Brian",
-            "node_type": "friend"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "AqNJUJpfDG",
             "firstName": "Saeeda",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
@@ -5482,7 +5482,7 @@
             "cluster": 1,
             "id": "9sZb7xEvwD",
             "firstName": "Paola",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5494,13 +5494,13 @@
             "cluster": 1,
             "id": "cCMfAEhPgj",
             "firstName": "Ben",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 6,
             "id": "WzKxKMxHbY",
             "firstName": "Lars",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 0,
@@ -5512,19 +5512,19 @@
             "cluster": 4,
             "id": "lXoQNDJxYo",
             "firstName": "Ravi",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 2,
             "id": "ANXvqftT1u",
             "firstName": "Sarah",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "4Sxo8nc92W",
             "firstName": "Adam",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5536,7 +5536,7 @@
             "cluster": 2,
             "id": "_4hRybv6nk",
             "firstName": "Jeanne M.",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 0,
@@ -5548,13 +5548,13 @@
             "cluster": 2,
             "id": "qGN4FNJA7I",
             "firstName": "Maida",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "181BDWowKw",
             "firstName": "Ben",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 0,
@@ -5566,55 +5566,55 @@
             "cluster": 7,
             "id": "rVXe9fsogm",
             "firstName": "Ali",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": 2,
             "id": "xmq0tuIwQX",
             "firstName": "Emily",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "2BJi98bfxS",
             "firstName": "Amy",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 5,
             "id": "51DqdwWbpf",
             "firstName": "Ayesha",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": "none",
             "id": "w-W-hCpLpX",
             "firstName": "Matthew",
-            "node_type": "friend"
+            "node_type": "other"
         },
         {
             "cluster": 2,
             "id": "ByGmnLBkB1",
             "firstName": "Fernando",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "83hpSjoIGF",
             "firstName": "David",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 4,
             "id": "grfVwJ6vpe",
             "firstName": "cynthia",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 4,
             "id": "qdalE5aHwf",
             "firstName": "Elizabeth",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 0,
@@ -5632,7 +5632,7 @@
             "cluster": 2,
             "id": "NDdqRT4xHo",
             "firstName": "Elma",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
@@ -5650,7 +5650,7 @@
             "cluster": 1,
             "id": "6XCkaSd5Sr",
             "firstName": "Vidya",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5662,7 +5662,7 @@
             "cluster": 7,
             "id": "mt1RgswRR6",
             "firstName": "Brittany",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": 0,
@@ -5680,7 +5680,7 @@
             "cluster": 1,
             "id": "jco89GUNAn",
             "firstName": "Portia",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5710,79 +5710,79 @@
             "cluster": 5,
             "id": "W3IKXIMJi7",
             "firstName": "Dayton",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 4,
             "id": "R3v9MJ0KVb",
             "firstName": "Rawan",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 4,
             "id": "GxfWPAVIrV",
             "firstName": "Emily",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 1,
             "id": "DtRpB460tf",
             "firstName": "Kirsten",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "tk_CZ4Eq93",
             "firstName": "Brita",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "-AEbkbbsaW",
             "firstName": "Daniel",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "s3tYezYBcT",
             "firstName": "Katherine",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "EEUua1_-RK",
             "firstName": "Helga",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 6,
             "id": "e4UFlrBvvv",
             "firstName": "Naveena",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 7,
             "id": "1n9X6GMrAD",
             "firstName": "Natasha",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": 2,
             "id": "7OsszZfnCE",
             "firstName": "Shawn",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "no6JOMp3jH",
             "firstName": "Crystal",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 5,
             "id": "wxZIHEpKxf",
             "firstName": "Kate",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 0,
@@ -5794,7 +5794,7 @@
             "cluster": 5,
             "id": "EzA8dil6Sg",
             "firstName": "Jay",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": "none",
@@ -5812,13 +5812,13 @@
             "cluster": 2,
             "id": "yb3lOAI85d",
             "firstName": "Frank",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "8GhkRlugEI",
             "firstName": "Molly",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 0,
@@ -5830,50 +5830,50 @@
             "cluster": 5,
             "id": "9FmexuhUnC",
             "firstName": "Ryann",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "oX0bRacXju",
             "firstName": "Devin",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 7,
             "id": "EDPe7cSpbt",
             "firstName": "Dawn",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": 1,
             "id": "cIsd9UqSYN",
             "firstName": "Lynn",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 5,
             "id": "gGMKQuf_T2",
             "firstName": "Alyson",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": "none",
             "id": "pMlFQGZ1Nc",
             "firstName": "Huston",
-            "node_type": "coworker",
+            "node_type": "other",
             "root": true
         },
         {
             "cluster": 2,
             "id": "9Ss2_HgS0V",
             "firstName": "Jacob",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "s2k1f_Zgx2",
             "firstName": "Anne-Claire",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
@@ -5885,31 +5885,31 @@
             "cluster": 2,
             "id": "aoCbbp-lwq",
             "firstName": "Lidija",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "a_-GvdCXSG",
             "firstName": "Megan",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "BIU0eMPNve",
             "firstName": "Aaron",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "xBdOC9Igzd",
             "firstName": "Patrick",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 1,
             "id": "m2DtotZHyF",
             "firstName": "Dave",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5921,37 +5921,37 @@
             "cluster": 1,
             "id": "VsCFjwlf23",
             "firstName": "Wasim",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "zGusjbMpbg",
             "firstName": "Nicholas",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "2RKqxuZBs2",
             "firstName": "Nat",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 4,
             "id": "XUjDxq_EU1",
             "firstName": "James",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 5,
             "id": "t5HCRRcwNq",
             "firstName": "Jase",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 1,
             "id": "lfZ1BNmSFa",
             "firstName": "Bill",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -5969,13 +5969,13 @@
             "cluster": 1,
             "id": "teQJ798Fou",
             "firstName": "Brian",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 5,
             "id": "IPWyEgh97o",
             "firstName": "Ross",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 0,
@@ -5999,13 +5999,13 @@
             "cluster": 5,
             "id": "bdUk-4KeB_",
             "firstName": "Genevieve",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 6,
             "id": "mAJDid0C-I",
             "firstName": "Rik",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": "none",
@@ -6017,19 +6017,19 @@
             "cluster": 1,
             "id": "eKX4jrcF46",
             "firstName": "M. Edward (Ed)",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 1,
             "id": "62P0ekFHXn",
             "firstName": "Toti",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 1,
             "id": "BGUxnMxt03",
             "firstName": "Ryan",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 0,
@@ -6047,31 +6047,31 @@
             "cluster": 1,
             "id": "jS3cb11FKu",
             "firstName": "Anita",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "OmGpNe45xe",
             "firstName": "Fuad",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "IWyGeE3AM4",
             "firstName": "Nathan",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 5,
             "id": "-bErCrgbwS",
             "firstName": "Shannon",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "HRnAXPagJI",
             "firstName": "Shedisha A.",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 0,
@@ -6083,7 +6083,7 @@
             "cluster": 7,
             "id": "jsL7ZYNijR",
             "firstName": "Sean",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": 0,
@@ -6095,31 +6095,31 @@
             "cluster": 2,
             "id": "0tVElFrSvM",
             "firstName": "Athea",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 4,
             "id": "BH866TR9rc",
             "firstName": "Marsha",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 5,
             "id": "SuTNSmTlmN",
             "firstName": "lisa",
-            "node_type": "classmate"
+            "node_type": "teacher"
         },
         {
             "cluster": 6,
             "id": "gdj9F6sPWY",
             "firstName": "Edward",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 1,
             "id": "89YnkVCgGk",
             "firstName": "Kate",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": "none",
@@ -6131,55 +6131,55 @@
             "cluster": 2,
             "id": "xNqitziYhG",
             "firstName": "Jerry",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "vH2wk0t-Bs",
             "firstName": "Brittnie",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "fSfADru2wr",
             "firstName": "Shawn",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "-fi3w8_OlG",
             "firstName": "Lakecia",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "-t0TgAK2Tw",
             "firstName": "Zuleyma",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 4,
             "id": "VMxANoxcbd",
             "firstName": "Yelena",
-            "node_type": "other"
+            "node_type": "excoworker"
         },
         {
             "cluster": 1,
             "id": "0T_QIeTBR0",
             "firstName": "Shelley",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 1,
             "id": "DKfgddj4QU",
             "firstName": "Joanna",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 7,
             "id": "fPKtFfXDds",
             "firstName": "Katherine",
-            "node_type": "other"
+            "node_type": "roommate"
         },
         {
             "cluster": "none",
@@ -6191,31 +6191,31 @@
             "cluster": 2,
             "id": "bCDKkgp7i7",
             "firstName": "Philip",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "ZFpxq7Fe_q",
             "firstName": "Malorie",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "6kETrXweJ7",
             "firstName": "Heather",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 2,
             "id": "JbJjp0TpUe",
             "firstName": "Meegan S.",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 1,
             "id": "do6TySfg5u",
             "firstName": "Amelia",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": "none",
@@ -6233,7 +6233,7 @@
             "cluster": 2,
             "id": "eP5MoMXXqa",
             "firstName": "Matthew",
-            "node_type": "coworker"
+            "node_type": "classmateker"
         },
         {
             "cluster": 0,
@@ -6245,50 +6245,50 @@
             "cluster": 1,
             "id": "qEqDaLdAWQ",
             "firstName": "Tyler",
-            "node_type": "other"
+            "node_type": "friend"
         },
         {
             "cluster": 2,
             "id": "_vJLkbC-tW",
             "firstName": "Moyara",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 6,
             "id": "K2DzS6ewnZ",
             "firstName": "Adam",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 6,
             "id": "Wo74T2eDjI",
             "firstName": "Emil",
-            "node_type": "other"
+            "node_type": "teacher"
         },
         {
             "cluster": 2,
             "id": "ATV6mO7nNt",
             "firstName": "Brittany",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": "none",
             "id": "K1J3V8EI9M",
             "firstName": "Grace",
-            "node_type": "coworker",
+            "node_type": "other",
             "root": true
         },
         {
             "cluster": 2,
             "id": "XDHkGuiUzr",
             "firstName": "Matthew J.",
-            "node_type": "other"
+            "node_type": "classmate"
         },
         {
             "cluster": 5,
             "id": "-Ic8ogoK5J",
             "firstName": "Sharath",
-            "node_type": "classmate"
+            "node_type": "teacher"
         }
     ]
 }

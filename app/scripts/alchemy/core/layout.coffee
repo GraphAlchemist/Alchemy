@@ -20,7 +20,12 @@ class alchemy.Layout
         nodes = alchemy._nodes
         @k = Math.sqrt Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight())
         @_clustering = new alchemy.clustering
-        @d3NodeInternals = _.keys alchemy._nodes
+
+        # Set up quad tree
+        if conf.collisionDetection
+            @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
+            @q = d3.geom.quadtree @d3NodeInternals
+        
         if conf.cluster
             @_charge = () -> @_clustering.layout.charge
             @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
@@ -55,9 +60,8 @@ class alchemy.Layout
         if alchemy.conf.cluster then 0.7 else 0.9
 
     collide: (node) =>
-        node = node._d3
         conf = alchemy.conf
-        r = 2 * (node.r + node['stroke-width']) + conf.nodeOverlap
+        r = 2 * (node.radius + node['stroke-width']) + conf.nodeOverlap
         nx1 = node.x - r
         nx2 = node.x + r
         ny1 = node.y - r
@@ -81,9 +85,8 @@ class alchemy.Layout
 
     tick: () =>
         if alchemy.conf.collisionDetection
-            q = d3.geom.quadtree @d3NodeInternals
-            for node in _.values alchemy._nodes
-                q.visit @collide(node)
+            for node in @d3NodeInternals
+                @q.visit @collide(node)
 
         # alchemy.node
         alchemy.vis
@@ -112,10 +115,8 @@ class alchemy.Layout
             return
         # position nodes towards center of graph
         else
-            number = 0
-            for n in rootNodes
-                number++
-                n._d3.x = container.width / Math.sqrt(rootNodes.length * number)
+            for n, i in rootNodes
+                n._d3.x = container.width / Math.sqrt(rootNodes.length * (i+1))
                 n._d3.y = container.height / 2
                 n._d3.fixed = true
 
