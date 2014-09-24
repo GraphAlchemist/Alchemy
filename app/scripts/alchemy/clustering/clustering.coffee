@@ -23,7 +23,12 @@ class alchemy.clustering
     
         _charge = -500
         _linkStrength = (edge) ->
-            if nodes[edge.source.id]._properties[@clusterKey] is nodes[edge.target.id]._properties[@clusterKey] then 1 else 1
+            sourceCluster = nodes[edge.source.id]._properties[@clusterKey]
+            targetCluster = nodes[edge.target.id]._properties[@clusterKey]
+            if sourceCluster is targetCluster
+                0.3
+            else
+                0
         _friction = () ->
             0.7
         _linkDistancefn = (edge) ->
