@@ -71,14 +71,23 @@ alchemy.defaults =
     nodeCaption: 'caption'
     nodeStyle:
         "all":
-            "radius": -> 10,
+            "radius": -> 10
             "color"  : -> "#68B9FE"
             "borderColor": ->"#127DC1"
             "borderWidth": (d, radius) -> radius / 3
-            "captionColor": -> "#FFFFFF",
+            "captionColor": -> "#FFFFFF"
             "captionBackground": -> null
             "captionSize": 12
-    nodeColour: "#68B9FE" # WILL BE DEPRECATED IN 1.0
+            "selected":
+                "color" : -> "#FFFFFF"
+                "borderColor": -> "#349FE3"
+            "highlighted":
+                "color" : -> "#EEEEFF"
+            "hidden":
+                "color": -> "none" 
+                "borderColor": -> "none"
+
+    nodeColour: null # WILL BE DEPRECATED IN 1.0
     nodeMouseOver: 'caption'
     nodeRadius: 10 # WILL BE DEPRECATED IN 1.0
     nodeTypes: null
@@ -92,9 +101,16 @@ alchemy.defaults =
         "all":
             "width": -> 4
             "color": -> "#FFFFFF"
-            "opacity": -> 1
+            "opacity": -> 0.2
             "directed": -> true
             "curved": -> true
+
+            "selected":
+                "opacity": -> 1
+            "highlighted":
+                "opacity": -> 1
+            "hidden":
+                "opacity": -> 0
     edgeTypes: null
     curvedEdges: false
     edgeWidth: -> 4

@@ -18,6 +18,7 @@ alchemy.drawing.EdgeUtils =
     edgeStyle: (d) ->
         edge = alchemy._edges[d.id]
         styles = edge[d.pos]._style
+        nodes = alchemy._nodes
 
         # edge styles based on clustering
         if alchemy.conf.cluster
@@ -25,8 +26,8 @@ alchemy.drawing.EdgeUtils =
             styles.fill = do (d) ->
                 nodes = alchemy._nodes
                 clusterKey = alchemy.conf.clusterKey
-                source = nodes[d.source.id].getProperties()
-                target = nodes[d.target.id].getProperties()
+                source = nodes[d.source.id]._properties
+                target = nodes[d.target.id]._properties
                 if source.root or target.root
                     index = if source.root then target[clusterKey] else source[clusterKey]
                     "#{clustering.getClusterColour(index)}"

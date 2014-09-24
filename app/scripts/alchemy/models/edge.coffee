@@ -10,9 +10,9 @@ class alchemy.models.Edge
         @id = @_setID edge
         
         @_index = index
-        @_state = {'active': true}
+        @_state = "active"
         @_properties = edge
-        @_style = alchemy.svgStyles.edge.populate edge
+        @_style = alchemy.svgStyles.edge.populate @
         @_d3 = 
             'id': @id
             'pos': @_index
@@ -59,21 +59,28 @@ class alchemy.models.Edge
     # Style methods
     getStyles: (key=null) => if key? then @_style[key] else @_style
     setStyles: (key, value=null) =>
+        # If undefined, set styles based on state
+        if key is undefined
+            key = alchemy.svgStyles.edge.populate @
+
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
-        if _.isPlainObject(key)
+        if _.isPlainObject key
             value = ""
-            _.assign(@_style, key)
+            _.assign @_style, key
         else
             @_style[key] = value
         @_setD3Properties @_style
         alchemy._drawEdges.updateEdge @_d3
         @
+    toggleHidden: ()->
+        @._state = if @._state is "active" then "hidden" else "active"
+        @.setStyles()
 
     # Find if both endpoints are active
     # there are probably better ways to do this
     allNodesActive: () =>
-        source = d3.select("#node-#{@properties.source}")
-        target = d3.select("#node-#{@properties.target}")
+        source = d3.select "#node-#{@properties.source}"
+        target = d3.select "#node-#{@properties.target}"
 
         !source.classed("inactive") && !target.classed("inactive")

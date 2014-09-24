@@ -23,20 +23,16 @@ class alchemy.clustering
     
         _charge = -500
         _linkStrength = (edge) ->
-            source = alchemy._nodes[edge.source.id].getProperties()
-            target = alchemy._nodes[edge.target.id].getProperties()
-            if source[@clusterKey] is target[@clusterKey] then 0.1 else 0
+            source = nodes[edge.source.id]
+            target = nodes[edge.target.id]
+            if source._properties[@clusterKey] is target._properties[@clusterKey] then 1
         _friction = () ->
             0.7
         _linkDistancefn = (edge) ->
-            # debugger
             nodes = alchemy._nodes
-            source = nodes[edge.source.id].getProperties()
-            target = nodes[edge.target.id].getProperties()
-
-            if source.root or target.root
+            if nodes[edge.source.id]._properties.root or nodes[edge.target.id]._properties.root
                 300
-            else if source[@clusterKey] is target[@clusterKey]
+            else if nodes[edge.source.id]._properties[@clusterKey] is nodes[edge.target.id]._properties[@clusterKey]
                 10
             else
                 600
@@ -65,16 +61,17 @@ class alchemy.clustering
         nodes = alchemy._nodes
         for edge in _.map(edges, (edge) -> edge._d3)
             # skip root
-            continue if nodes[edge.source.id].properties.root or nodes[edge.target.id].properties.root
+            continue if nodes[edge.source.id]._properties.root or nodes[edge.target.id]._properties.root
             # skip nodes from the same cluster
-            continue if nodes[edge.source.id].properties[@clusterKey] is nodes[edge.target.id].properties[@clusterKey]
-            if nodes[edge.target.id].properties[@clusterKey] isnt nodes[edge.source.id].properties[@clusterKey]
-                id = nodes[edge.source.id].properties[@clusterKey] + "-" + nodes[edge.target.id].properties[@clusterKey]
+            continue if nodes[edge.source.id]._properties[@clusterKey] is nodes[edge.target.id]._properties[@clusterKey]
+            if nodes[edge.target.id]._properties[@clusterKey] isnt nodes[edge.source.id]._properties[@clusterKey]
+                # gradient `id`
+                id = nodes[edge.source.id]._properties[@clusterKey] + "-" + nodes[edge.target.id]._properties[@clusterKey]
                 if id of Q
                     continue
                 else if id not of Q
-                    startColour = @getClusterColour(nodes[edge.target.id].properties[@clusterKey])
-                    endColour = @getClusterColour(nodes[edge.source.id].properties[@clusterKey])
+                    startColour = @getClusterColour(nodes[edge.target.id]._properties[@clusterKey])
+                    endColour = @getClusterColour(nodes[edge.source.id]._properties[@clusterKey])
                     Q[id] = {'startColour': startColour,'endColour': endColour}
         for ids of Q
             gradient_id = "cluster-gradient-" + ids

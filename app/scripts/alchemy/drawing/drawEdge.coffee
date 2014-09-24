@@ -26,6 +26,7 @@ alchemy.drawing.DrawEdge =
             edge.append 'path'
                 .attr 'class', 'edge-line'
                 .attr 'id', (d) -> "path-#{d.id}"
+                .each (d) -> d3.select(@).style utils.edgeStyle d
             edge.filter (d) -> d.caption?
                 .append 'text'
             edge.append 'path'
@@ -80,7 +81,7 @@ alchemy.drawing.DrawEdge =
                     "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
            
             edge.select 'path.edge-line'
-                .style 'stroke', (d) -> utils.edgeStyle(d)
+                .style (d) -> utils.edgeStyle(d)
     
         else
             edge.select '.edge-line'
@@ -92,7 +93,7 @@ alchemy.drawing.DrawEdge =
                         'y1': startLine.y
                         'x2': endLine.x
                         'y2': endLine.y
-
+                      .style utils.edgeStyle d
             edge.select '.edge-handler'
                 .attr 'x', 0
                 .attr 'y', -conf.edgeOverlayWidth/2
@@ -127,6 +128,7 @@ alchemy.drawing.DrawEdge =
                 .text (d) -> d.caption
 
     setInteractions: (edge) =>
+        interactions = alchemy.interactions
         editorEnabled = alchemy.getState("interactions") is "editor"
         if editorEnabled
             editorInteractions = new alchemy.editor.Interactions
@@ -134,4 +136,6 @@ alchemy.drawing.DrawEdge =
                 .on 'click', editorInteractions.edgeClick
         else
             edge.select '.edge-handler'
-                .on 'click', alchemy.interactions.edgeClick
+                .on 'click', interactions.edgeClick
+                .on 'mouseover', (d)-> interactions.edgeMouseOver(d)
+                .on 'mouseout', (d)-> interactions.edgeMouseOut(d)

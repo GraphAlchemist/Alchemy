@@ -16,64 +16,58 @@
 
 alchemy.interactions =
     edgeClick: (d) ->
-        vis = alchemy.vis
-        vis.selectAll '.edge'
-            .classed 'highlight': false
-        d3.select "[source-target='#{d.id}']"
-            .classed {'highlight': true, 'selected': true}
         d3.event.stopPropagation()
+        edge = alchemy._edges[d.id][0]
+
+        edge._state = do -> 
+            return "active" if edge._state is "selected"
+            "selected"
+        edge.setStyles()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
+    edgeMouseOver: (d) ->
+        edge = alchemy._edges[d.id][0]
+        if edge._state != "selected"
+            edge._state = "highlighted"
+        edge.setStyles()
+
+    edgeMouseOut: (d) ->
+        edge = alchemy._edges[d.id][0]
+        if edge._state != "selected"
+            edge._state = "active"
+        edge.setStyles()
+
     nodeMouseOver: (n) ->
         node = alchemy._nodes[n.id]
-        # node.setStyles {
-        #     "fill": "#FFFFFF"
-        #     "stroke-width": "3px"
-        #     "fill-opacity": ".8"
-        # }
-
-        # temporary fix until Node#setStyles() is working
-        alchemy.vis.select "#node-#{n.id} circle"
-               .style "fill", "#FFFFFF"
-
-        if alchemy.conf.nodeMouseOver?
-            if typeof alchemy.conf.nodeMouseOver is 'function'
-                alchemy.conf.nodeMouseOver(node)
-            else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
-                # the user provided an integer or string to be used
-                # as a data lookup key on the node in the graph json
-                node.properties[alchemy.conf.nodeMouseOver]
-        else
-            null
+        if node._state != "selected"
+            node._state = "highlighted"
+            node.setStyles()
+        if typeof alchemy.conf.nodeMouseOver is 'function'
+            alchemy.conf.nodeMouseOver(node)
+        else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
+            # the user provided an integer or string to be used
+            # as a data lookup key on the node in the graph json
+            node.properties[alchemy.conf.nodeMouseOver]
 
     nodeMouseOut: (n) ->
-        # temporary fix until Node#setStyles() is working
-        alchemy.vis.select "#node-#{n.id} circle"
-               .style "fill", (d)-> 
-                    nodeType = alchemy._nodes[d.id]["_nodeType"]
-                    nodeStyles = alchemy.conf.nodeStyle
-                    typeStyle = nodeStyles[nodeType]
-                    if typeStyle is not undefined
-                        typeStyle["color"]()
-                    else 
-                        nodeStyles["all"]["color"]()
-
+        node = alchemy._nodes[n.id]
+        if node._state != "selected"
+            node._state = "active"
+            node.setStyles()
         if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
             alchemy.conf.nodeMouseOut(n)
-        else
-            null
 
-    nodeClick: (c) ->
+    nodeClick: (n) ->
         d3.event.stopPropagation()
-        # select the correct nodes
-        if !alchemy.vis.select("#node-#{c.id}").empty()
-            selected = alchemy.vis.select("#node-#{c.id}").classed('selected')
-            alchemy.vis.select("#node-#{c.id}").classed('selected', !selected)
+        node = alchemy._nodes[n.id]
 
+        node._state = do -> 
+            return "active" if node._state is "selected"
+            "selected"
+        node.setStyles()
         if typeof alchemy.conf.nodeClick is 'function'
-            alchemy.conf.nodeClick(c)
-            return
+            alchemy.conf.nodeClick(n)
 
     zoom: (extent) ->
                 if not @._zoomBehavior?
@@ -137,18 +131,18 @@ alchemy.interactions =
     deselectAll: () ->
         # this function is also fired at the end of a drag, do nothing if this
         if d3.event?.defaultPrevented then return
-        alchemy.vis.selectAll('.node, .edge')
-            .classed('selected highlight', false)
-
-        d3.select('.alchemy svg').classed({'highlight-active':false})
-
         if alchemy.conf.showEditor is true
             alchemy.modifyElements.nodeEditorClear()
-
-        alchemy.vis.selectAll('line.edge')
-            .classed('highlighted connected unconnected', false)
-        alchemy.vis.selectAll('g.node,circle,text')
-            .classed('selected unselected neighbor unconnected connecting', false)
+        
+        _.each alchemy._nodes, (n)->
+            n._state = "active"
+            n.setStyles()
+        
+        _.each alchemy._edges, (edge)->
+            _.each edge, (e)->
+                e._state = "active"
+                e.setStyles()
+        
         # call user-specified deselect function if specified
         if alchemy.conf.deselectAll and typeof(alchemy.conf.deselectAll is 'function')
             alchemy.conf.deselectAll()

@@ -15,32 +15,15 @@
 
     &.active{
 		@include active();
-        fill: white;
-		&.highlight{
-			@include highlight();
-	        circle{
-	            fill-opacity: 1;
-	            stroke: darken($primary, 40%);
-	            stroke-width: 3px;
-	            fill: white;
+	    &.selected{        
+	        text {
+	            display: block;
 	        }
-		}
-        &:hover, &.selected{
+	    }
+        &:hover{
             text {
                 display: block;
             }
         }
-    }
-    &.inactive{
-    	@include inactive();
-    	&.highlight{
-    		@include highlight();
-	        circle{
-	            fill-opacity: 1;
-	            stroke: $bright-secondary;
-	            stroke-width: 2px;
-	            fill: white;
-	        }
-    	}
     }
 }
