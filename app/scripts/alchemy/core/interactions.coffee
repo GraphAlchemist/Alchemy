@@ -64,6 +64,9 @@ alchemy.interactions =
                 alchemy.conf.nodeMouseOut(n)
 
     nodeClick: (n) ->
+        # Don't consider drag a click
+        return if d3.event.defaultPrevented
+
         d3.event.stopPropagation()
         node = alchemy._nodes[n.id]
 
@@ -118,6 +121,7 @@ alchemy.interactions =
                 }
 
     nodeDragStarted: (d, i) ->
+        d3.event.preventDefault
         d3.event.sourceEvent.stopPropagation()
         d3.select(@).classed "dragging", true
         d.fixed = true
