@@ -19,53 +19,59 @@ alchemy.interactions =
         d3.event.stopPropagation()
         edge = alchemy._edges[d.id][0]
 
-        edge._state = do -> 
-            return "active" if edge._state is "selected"
-            "selected"
-        edge.setStyles()
+        if edge._state != "hidden"
+            edge._state = do -> 
+                return "active" if edge._state is "selected"
+                "selected"
+            edge.setStyles()
         if typeof alchemy.conf.edgeClick? is 'function'
             alchemy.conf.edgeClick()
 
     edgeMouseOver: (d) ->
         edge = alchemy._edges[d.id][0]
-        if edge._state != "selected"
-            edge._state = "highlighted"
-        edge.setStyles()
+        if edge._state != "hidden"
+            if edge._state != "selected"
+                edge._state = "highlighted"
+            edge.setStyles()
 
     edgeMouseOut: (d) ->
         edge = alchemy._edges[d.id][0]
-        if edge._state != "selected"
-            edge._state = "active"
-        edge.setStyles()
+        if edge._state != "hidden"
+            if edge._state != "selected"
+                edge._state = "active"
+            edge.setStyles()
 
     nodeMouseOver: (n) ->
         node = alchemy._nodes[n.id]
-        if node._state != "selected"
-            node._state = "highlighted"
-            node.setStyles()
-        if typeof alchemy.conf.nodeMouseOver is 'function'
-            alchemy.conf.nodeMouseOver(node)
-        else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
-            # the user provided an integer or string to be used
-            # as a data lookup key on the node in the graph json
-            node.properties[alchemy.conf.nodeMouseOver]
+        if node._state != "hidden"
+            if node._state != "selected"
+                node._state = "highlighted"
+                node.setStyles()
+            if typeof alchemy.conf.nodeMouseOver is 'function'
+                alchemy.conf.nodeMouseOver(node)
+            else if typeof alchemy.conf.nodeMouseOver is ('number' or 'string')
+                # the user provided an integer or string to be used
+                # as a data lookup key on the node in the graph json
+                node.properties[alchemy.conf.nodeMouseOver]
 
     nodeMouseOut: (n) ->
         node = alchemy._nodes[n.id]
-        if node._state != "selected"
-            node._state = "active"
-            node.setStyles()
-        if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
-            alchemy.conf.nodeMouseOut(n)
+        if node._state != "hidden"
+            if node._state != "selected"
+                node._state = "active"
+                node.setStyles()
+            if alchemy.conf.nodeMouseOut? and typeof alchemy.conf.nodeMouseOut is 'function'
+                alchemy.conf.nodeMouseOut(n)
 
     nodeClick: (n) ->
         d3.event.stopPropagation()
         node = alchemy._nodes[n.id]
 
-        node._state = do -> 
-            return "active" if node._state is "selected"
-            "selected"
-        node.setStyles()
+        if node._state != "hidden"
+            node._state = do -> 
+                return "active" if node._state is "selected"
+                "selected"
+            node.setStyles()
         if typeof alchemy.conf.nodeClick is 'function'
             alchemy.conf.nodeClick(n)
 
@@ -107,7 +113,7 @@ alchemy.interactions =
 
     nodeDragStarted: (d, i) ->
         d3.event.sourceEvent.stopPropagation()
-        d3.select(this).classed("dragging", true)
+        alchemy.vis.select(this).classed("dragging", true)
         d.fixed = true
 
     nodeDragged: (d, i) ->
@@ -116,15 +122,15 @@ alchemy.interactions =
         d.px += d3.event.dx
         d.py += d3.event.dy
 
-        node = d3.select(this)
-        node.attr("transform", "translate(#{d.x}, #{d.y})")
+        node = alchemy.vis.select this
+        node.attr "transform", "translate(#{d.x}, #{d.y})"
         edgeIDs = alchemy._nodes[d.id]._adjacentEdges
         for id in edgeIDs
-            selection = d3.select("#edge-#{id}")
-            alchemy._drawEdges.updateEdge(selection.data()[0])
+            selection = alchemy.vis.select "#edge-#{id}"
+            alchemy._drawEdges.updateEdge selection.data()[0]
 
     nodeDragended: (d, i) ->
-        d3.select(this).classed "dragging": false
+        alchemy.vis.select(@).classed "dragging": false
         if !alchemy.conf.forceLocked  #alchemy.configuration for forceLocked
             alchemy.force.start() #restarts force on drag
 
