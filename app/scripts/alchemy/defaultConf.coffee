@@ -100,7 +100,7 @@ alchemy.defaults =
     edgeStyle:
         "all":
             "width": -> 4
-            "color": -> "#FFFFFF"
+            "color": -> "#CCC"
             "opacity": -> 0.2
             "directed": -> true
             "curved": -> true
