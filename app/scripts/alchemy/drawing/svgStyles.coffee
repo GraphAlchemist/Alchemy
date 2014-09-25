@@ -51,5 +51,6 @@ alchemy.svgStyles =
                 "stroke": color
                 "stroke-width": width
                 "opacity": opacity
+                "fill": "none"
 
             svgStyles

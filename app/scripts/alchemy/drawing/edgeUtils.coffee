@@ -23,7 +23,7 @@ alchemy.drawing.EdgeUtils =
         # edge styles based on clustering
         if alchemy.conf.cluster
             clustering = alchemy.layout._clustering
-            styles.fill = do (d) ->
+            styles.stroke = do (d) ->
                 nodes = alchemy._nodes
                 clusterKey = alchemy.conf.clusterKey
                 source = nodes[d.source.id]._properties
