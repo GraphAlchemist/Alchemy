@@ -149,8 +149,8 @@ alchemy.filters =
           .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
           .html "Toggle Edges"
           .on "click", ->
-              _.each _.values(alchemy._edges), (e)->
-                  e.toggleHidden()
+              _.each _.values(alchemy._edges), (edges)->
+                  _.each edges, (e)-> e.toggleHidden()
 
     #create nodes toggle
     nodesToggle: () ->
