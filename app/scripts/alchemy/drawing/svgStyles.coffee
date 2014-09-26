@@ -34,23 +34,20 @@ alchemy.svgStyles =
     edge:
         populate: (edge) ->
             conf = alchemy.conf
-            defaultStyle = _.omit conf.edgeStyle.all, "selected", "highlighted", "hidden"
-            d = edge.getProperties()
+            defaultStyle = conf.edgeStyle.all
 
             toFunc = (inp)->
                 if typeof inp is "function"
                     return inp
                 return -> inp
 
-            edgeTypeKey = _.keys(conf.edgeTypes)[0]
-            edgeType = edge[edgeTypeKey]
+            edgeType = edge._edgeType
 
             if conf.edgeStyle[edgeType] is undefined
                 edgeType = "all"
 
-            typedStyle = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType][edge._state]
+            typedStyle = _.merge _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
             style = _.assign typedStyle, conf.edgeStyle[edgeType][edge._state]
-
             width = toFunc style.width
             color = toFunc style.color
             opacity = toFunc style.opacity
@@ -58,9 +55,11 @@ alchemy.svgStyles =
             curved = toFunc style.curved
 
             svgStyles =
-                "stroke": color d
-                "stroke-width": width d
-                "opacity": opacity d
+                "stroke": color edge
+                "stroke-width": width edge
+                "opacity": opacity edge
                 "fill": "none"
+                # Uncomment for flower
+                # "fill": color edge
 
             svgStyles

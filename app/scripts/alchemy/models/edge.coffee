@@ -42,7 +42,6 @@ class alchemy.models.Edge
         if conf.edgeTypes
             if _.isPlainObject conf.edgeTypes
                 lookup = Object.keys alchemy.conf.edgeTypes
-                types = _.values conf.edgeTypes
                 edgeType = @_properties[lookup]
             else if typeof conf.edgeTypes is 'string'
                 edgeType = @_properties[conf.edgeTypes]
