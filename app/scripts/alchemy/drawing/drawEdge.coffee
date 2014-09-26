@@ -81,8 +81,6 @@ alchemy.drawing.DrawEdge =
                     "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
                 .each (d)->
                     d3.select(@).style utils.edgeStyle d
-            edge.selectAll 'path, line'
-                .style (d) -> utils.edgeStyle(d)
     
         else
             edge.select '.edge-line'
