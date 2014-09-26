@@ -17,6 +17,7 @@ class alchemy.models.Edge
         @_d3 = _.merge
             'id': @id
             'pos': @_index
+            'edgeType': @_edgeType
             'source': a._nodes[@_properties.source]._d3
             'target': a._nodes[@_properties.target]._d3
             , a.svgStyles.edge.populate @

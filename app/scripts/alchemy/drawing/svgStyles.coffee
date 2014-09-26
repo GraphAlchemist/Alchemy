@@ -19,10 +19,10 @@ alchemy.svgStyles =
             typedStyle = _.assign _.cloneDeep(defaultStyle), conf.nodeStyle[nodeType]
             style = _.assign typedStyle, conf.nodeStyle[nodeType][node._state]
 
-            radius = toFunc(style.radius)
-            fill = toFunc(style.color)
-            stroke = toFunc(style.borderColor)
-            strokeWidth = toFunc(style.borderWidth)
+            radius = toFunc style.radius
+            fill = toFunc style.color
+            stroke = toFunc style.borderColor
+            strokeWidth = toFunc style.borderWidth
             svgStyles =
                 "radius": radius d
                 "fill": fill d
@@ -48,18 +48,19 @@ alchemy.svgStyles =
             if conf.edgeStyle[edgeType] is undefined
                 edgeType = "all"
 
-            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType][edge._state]
+            typedStyle = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType][edge._state]
+            style = _.assign typedStyle, conf.edgeStyle[edgeType][edge._state]
 
-            width = do toFunc style.width d
-            color = do toFunc style.color d
-            opacity = toFunc style.opacity d
-            directed = do toFunc style.directed d
-            curved = do toFunc style.curved d
+            width = toFunc style.width
+            color = toFunc style.color
+            opacity = toFunc style.opacity
+            directed = toFunc style.directed
+            curved = toFunc style.curved
 
             svgStyles =
-                "stroke": color
-                "stroke-width": width
-                "opacity": opacity
+                "stroke": color d
+                "stroke-width": width d
+                "opacity": opacity d
                 "fill": "none"
 
             svgStyles
