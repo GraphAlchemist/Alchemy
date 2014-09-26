@@ -60,7 +60,7 @@ class Alchemy
 
     begin: (userConf) =>
         # overide configuration with user inputs
-        @conf = _.assign {}, alchemy.defaults, userConf
+        @conf = _.merge alchemy.defaults, userConf
         if typeof alchemy.conf.dataSource is 'string'
             d3.json alchemy.conf.dataSource, alchemy.startGraph
         else if typeof alchemy.conf.dataSource is 'object'

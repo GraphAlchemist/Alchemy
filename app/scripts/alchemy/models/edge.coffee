@@ -5,24 +5,25 @@ class alchemy.models.Edge
     # this is used to create the id for the individual node which will be "source-target-index"
     # e.g. 1-0-1
     constructor: (edge, index=null) ->
-        conf = alchemy.conf
+        a = alchemy
+        conf = a.conf
         
         @id = @_setID edge
-        
         @_index = index
         @_state = "active"
         @_properties = edge
-        @_style = alchemy.svgStyles.edge.populate @
-        @_d3 = 
+        @_edgeType = @_setEdgeType()
+        @_style = conf.edgeStyle[@_edgeType]
+        @_d3 = _.merge
             'id': @id
             'pos': @_index
-            'source': alchemy._nodes[@_properties.source]._d3
-            'target': alchemy._nodes[@_properties.target]._d3
-
+            'source': a._nodes[@_properties.source]._d3
+            'target': a._nodes[@_properties.target]._d3
+            , a.svgStyles.edge.populate @
         @_setCaption(edge, conf)
         # Add id to source/target's edgelist
-        alchemy._nodes["#{edge.source}"]._addEdge "#{@id}-#{@_index}"
-        alchemy._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
+        a._nodes["#{edge.source}"]._addEdge "#{@id}-#{@_index}"
+        a._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
 
     _setD3Properties: (props) => _.assign @_d3, props
     _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
@@ -35,6 +36,18 @@ class alchemy.models.Edge
                 when 'function' then cap(edge)
         if edgeCaption
             @_d3.caption = edgeCaption
+    _setEdgeType: ->
+        conf = alchemy.conf
+        if conf.edgeTypes
+            if _.isPlainObject conf.edgeTypes
+                lookup = Object.keys alchemy.conf.edgeTypes
+                types = _.values conf.edgeTypes
+                edgeType = @_properties[lookup]
+            else if typeof conf.edgeTypes is 'string'
+                edgeType = @_properties[conf.edgeTypes]
+        if edgeType is undefined then edgeType = "all"
+        @_setD3Properties 'edgeType', edgeType
+        edgeType
 
     setProperties: (property, value=null) =>
         if _.isPlainObject property
@@ -57,7 +70,12 @@ class alchemy.models.Edge
             @_properties[key]
 
     # Style methods
-    getStyles: (key=null) => if key? then @_style[key] else @_style
+    getStyles: (key=null) =>
+        if key?
+            @_style[key] 
+        else
+            @_style
+
     setStyles: (key, value=null) =>
         # If undefined, set styles based on state
         if key is undefined
@@ -66,13 +84,15 @@ class alchemy.models.Edge
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
         if _.isPlainObject key
-            value = ""
             _.assign @_style, key
         else
+            if typeof value isnt "function"
+                value = (d)-> value
             @_style[key] = value
-        @_setD3Properties @_style
+        @_setD3Properties alchemy.svgStyles.edge.populate(@)
         alchemy._drawEdges.updateEdge @_d3
         @
+
     toggleHidden: ()->
         @._state = if @._state is "active" then "hidden" else "active"
         @.setStyles()
