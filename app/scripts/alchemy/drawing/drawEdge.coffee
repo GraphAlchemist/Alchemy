@@ -95,7 +95,6 @@ alchemy.drawing.DrawEdge =
     
         else
             edge.each (d) ->
-                debugger
                 edgeWalk = utils.edgeWalk d
                 g = d3.select(@)
                 g.attr('transform', 
@@ -103,14 +102,15 @@ alchemy.drawing.DrawEdge =
                 g.select '.edge-line'
                     .attr('d', (d) ->
                         edgeWalk = utils.edgeWalk d
-                        if conf.directed
+                        if conf.directedEdges
                             """
-                            M #{edgeWalk.startPathX},#{edgeWalk.startPathY}
-                            L #{edgeWalk.L1X}, #{edgeWalk.L1Y}
-                            L #{edgeWalk.L2X}, #{edgeWalk.L2Y}
-                            L #{edgeWalk.L3X}, #{edgeWalk.L3Y} 
-                            L #{edgeWalk.L4X}, #{edgeWalk.L4Y} 
-                            L #{edgeWalk.L5X}, #{edgeWalk.L5Y}
+                            M #{edgeWalk.startPathX} #{edgeWalk.startPathY}
+                            L #{edgeWalk.L1X} #{edgeWalk.L1Y}
+                            L #{edgeWalk.L2X} #{edgeWalk.L2Y}
+                            L #{edgeWalk.L3X} #{edgeWalk.L3Y} 
+                            L #{edgeWalk.L4X} #{edgeWalk.L4Y} 
+                            L #{edgeWalk.L5X} #{edgeWalk.L5Y}
+                            L #{edgeWalk.L6X} #{edgeWalk.L6Y}
                             Z
                             """
                         else

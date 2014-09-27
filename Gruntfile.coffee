@@ -161,8 +161,7 @@ module.exports = (grunt) ->
       dev:
         options:
             bare: false
-            sourceMap: true
-
+            # sourceMap: true
         files:
           # all of the core, alchemy.js files
           ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/Alchemy.coffee"
@@ -400,7 +399,7 @@ module.exports = (grunt) ->
           dot: true,
           cwd: '<%= yeoman.app %>/scripts',
           dest: '.tmp/scripts',
-          src: '**/{,*/}*.coffee'
+          src: '**/{,*/}*.{litcoffee,coffee,coffee.md}'
         ]
 
       dist:

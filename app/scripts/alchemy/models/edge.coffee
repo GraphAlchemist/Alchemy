@@ -97,11 +97,7 @@ class alchemy.models.Edge
             if typeof value isnt "function"
                 value = (d)-> value
             @_style[key] = value
-<<<<<<< HEAD
-        @_setD3Properties {style: @_style}
-=======
         @_setD3Properties alchemy.svgStyles.edge.populate(@)
->>>>>>> e1c2775f0bf7a31e724e581a548b20da9da7dfd5
         alchemy._drawEdges.updateEdge @_d3
         @
 

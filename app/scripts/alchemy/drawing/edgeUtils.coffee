@@ -52,17 +52,16 @@ alchemy.drawing.EdgeUtils =
 
     edgeWalk: (edge) ->
         arrowSize = alchemy.conf.edgeArrowSize
+        arrowScale = 0.3
         triangle = @triangle(edge)
         # build a right triangle
         width  = triangle.width
         height = triangle.height
         # as in hypotenuse 
         hyp = triangle.hyp
-        edgeWidth = edge.style['stroke-width']
-        debugger
-        
+        edgeWidth = edge['stroke-width']
+        edgeLength = hyp - edge.source.radius - edge.target.radius
         edgeAngle: Math.atan2(height, width) / Math.PI * 180
-
         # start and end are in the middle of the node
         startLineX: edge.source.x + width / hyp
         startLineY: edge.source.y + height / hyp
@@ -70,25 +69,29 @@ alchemy.drawing.EdgeUtils =
         midLineY: edge.source.x + height / 2
         endLineX: edge.source.x + width / hyp
         endLineY: edge.source.x + height / hyp
-        
         # path x and y are relative to the <g> parent element
-        startPathX: 0
+        startPathX: 0 + edge.source.radius
         startPathY: edgeWidth
+        
+        arrowBend1X: edgeLength - arrowSize
+        arrowBend1Y: edgeWidth
+        
+        arrowTip1X: edgeLength - arrowSize
+        arrowTip1Y: edgeWidth + (arrowSize * arrowScale)
+        
+        arrowEndX: edgeLength
+        arrowEndY: 0
+        
+        arrowTip2X: edgeLength - arrowSize
+        arrowTip2Y: -(arrowSize * arrowScale + edgeWidth)
+        
+        arrowBend2X: edgeLength - arrowSize
+        arrowBend2Y: -edgeWidth
 
-        L1X: hyp
-        L1Y: edgeWidth
+        L6X: 0 + edge.source.radius
+        L6Y: -edgeWidth 
 
-        L2X: hyp
-        L2Y: edgeWidth + arrowSize
-
-        L3X: hyp + arrowSize
-        L3Y: 0
-
-        L4X: hyp
-        L4Y: -arrowSize
-
-        L5X: 0
-        L5Y: -arrowSize
+    
 
     # middleLine: (edge) -> @edgeWalk edge, 'middle'
     # startLine: (edge) -> @edgeWalk edge, 'linkStart'
