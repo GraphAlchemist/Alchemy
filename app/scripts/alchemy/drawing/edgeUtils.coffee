@@ -42,30 +42,56 @@ alchemy.drawing.EdgeUtils =
 
         styles
 
-    edgeWalk: (edge, point) ->
-        conf = alchemy.conf
-
-        # build a right triangle
-        width  = edge.target.x - edge.source.x
+    triangle: (edge) ->
+        width = edge.target.x - edge.source.x
         height = edge.target.y - edge.source.y
+
+        width: width
+        height: height
+        hyp: Math.sqrt height * height + width * width
+
+    edgeWalk: (edge) ->
+        arrowSize = alchemy.conf.edgeArrowSize
+        triangle = @triangle(edge)
+        # build a right triangle
+        width  = triangle.width
+        height = triangle.height
         # as in hypotenuse 
-        hyp = Math.sqrt height * height + width * width
-        switch point
-            when 'middle' then distance = hyp / 2
-            when 'linkStart' then distance = edge.source.radius + edge.source['stroke-width']
-            when 'linkEnd'
-                if conf.curvedEdges
-                    distance = hyp
-                else
-                    distance = hyp - (edge.target.radius + edge.target['stroke-width'])
-                if conf.directedEdges
-                    distance = distance - conf.edgeArrowSize
+        hyp = triangle.hyp
+        edgeWidth = edge.style['stroke-width']
+        debugger
+        
+        edgeAngle: Math.atan2(height, width) / Math.PI * 180
 
-        x: edge.source.x + width  * distance / hyp
-        y: edge.source.y + height * distance / hyp
+        # start and end are in the middle of the node
+        startLineX: edge.source.x + width / hyp
+        startLineY: edge.source.y + height / hyp
+        midLineX: edge.source.x + width / 2
+        midLineY: edge.source.x + height / 2
+        endLineX: edge.source.x + width / hyp
+        endLineY: edge.source.x + height / hyp
+        
+        # path x and y are relative to the <g> parent element
+        startPathX: 0
+        startPathY: edgeWidth
 
-    middleLine: (edge) -> @edgeWalk edge, 'middle'
-    startLine: (edge) -> @edgeWalk edge, 'linkStart'
+        L1X: hyp
+        L1Y: edgeWidth
+
+        L2X: hyp
+        L2Y: edgeWidth + arrowSize
+
+        L3X: hyp + arrowSize
+        L3Y: 0
+
+        L4X: hyp
+        L4Y: -arrowSize
+
+        L5X: 0
+        L5Y: -arrowSize
+
+    # middleLine: (edge) -> @edgeWalk edge, 'middle'
+    # startLine: (edge) -> @edgeWalk edge, 'linkStart'
     endLine: (edge) -> @edgeWalk edge, 'linkEnd'
     
     edgeLength: (edge) ->

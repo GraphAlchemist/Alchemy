@@ -12,12 +12,14 @@ class alchemy.models.Edge
         @_index = index
         @_state = "active"
         @_properties = edge
+        # refactor to deal with graph styles directly
         @_style = alchemy.svgStyles.edge.populate @
         @_d3 = 
             'id': @id
             'pos': @_index
             'source': alchemy._nodes[@_properties.source]._d3
             'target': alchemy._nodes[@_properties.target]._d3
+            'style': alchemy.svgStyles.edge.populate @
 
         @_setCaption(edge, conf)
         # Add id to source/target's edgelist
@@ -70,7 +72,7 @@ class alchemy.models.Edge
             _.assign @_style, key
         else
             @_style[key] = value
-        @_setD3Properties @_style
+        @_setD3Properties {style: @_style}
         alchemy._drawEdges.updateEdge @_d3
         @
     toggleHidden: ()->

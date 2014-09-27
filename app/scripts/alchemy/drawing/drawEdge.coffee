@@ -22,25 +22,36 @@ alchemy.drawing.DrawEdge =
         interactions = alchemy.interactions
         utils = alchemy.drawing.EdgeUtils
 
-        if curved
-            edge.append 'path'
-                .attr 'class', 'edge-line'
-                .attr 'id', (d) -> "path-#{d.id}"
-                .each (d) -> d3.select(@).style utils.edgeStyle d
-            edge.filter (d) -> d.caption?
-                .append 'text'
-            edge.append 'path'
-                .attr 'class', 'edge-handler'
-                .style 'stroke-width', "#{conf.edgeOverlayWidth}"
-        else
-            edge.append 'line'
-                .attr 'class', 'edge-line'
-                .attr 'shape-rendering', 'optimizeSpeed'
-                .each (d) -> d3.select(@).style utils.edgeStyle d
-            edge.filter (d) -> d.caption?
-                .append 'text'
-            edge.append 'rect'
-                .attr 'class', 'edge-handler'
+        edge.append 'path'
+            .attr 'class', 'edge-line'
+            .attr 'id', (d) -> "path-#{d.id}"
+            .each (d) -> d3.select(@).style utils.edgeStyle d
+        edge.filter (d) -> d.caption?
+            .append 'text'
+        edge.append 'path'
+            .attr 'class', 'edge-handler'
+            .style 'stroke-width', "#{conf.edgeOverlayWidth}"
+
+        # if curved
+        #     edge.append 'path'
+        #         .attr 'class', 'edge-line'
+        #         .attr 'id', (d) -> "path-#{d.id}"
+        #         .each (d) -> d3.select(@).style utils.edgeStyle d
+        #     edge.filter (d) -> d.caption?
+        #         .append 'text'
+        #     edge.append 'path'
+        #         .attr 'class', 'edge-handler'
+        #         .style 'stroke-width', "#{conf.edgeOverlayWidth}"
+
+        # else
+        #     edge.append 'line'
+        #         .attr 'class', 'edge-line'
+        #         .attr 'shape-rendering', 'optimizeSpeed'
+        #         .each (d) -> d3.select(@).style utils.edgeStyle d
+        #     edge.filter (d) -> d.caption?
+        #         .append 'text'
+        #     edge.append 'rect'
+        #         .attr 'class', 'edge-handler'
 
     styleLink: (edge) =>
         conf = alchemy.conf
@@ -84,26 +95,45 @@ alchemy.drawing.DrawEdge =
                 .style (d) -> utils.edgeStyle(d)
     
         else
-            edge.select '.edge-line'
-                .each (d) ->
-                    startLine = utils.startLine d
-                    endLine = utils.endLine d
-                    d3.select(@).attr
-                        'x1': startLine.x
-                        'y1': startLine.y
-                        'x2': endLine.x
-                        'y2': endLine.y
-                      .style utils.edgeStyle d
-            edge.select '.edge-handler'
-                .attr 'x', 0
-                .attr 'y', -conf.edgeOverlayWidth/2
-                .attr 'height', conf.edgeOverlayWidth
-                .attr 'width', (d) -> utils.edgeLength(d)
-                .attr 'transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})"
-
-        if directed
-            edge.select '.edge-line'
-                .attr 'marker-end', 'url(#arrow)'
+            edge.each (d) ->
+                debugger
+                edgeWalk = utils.edgeWalk d
+                g = d3.select(@)
+                g.attr('transform', 
+                       "translate(#{edgeWalk.startLineX}, #{edgeWalk.startLineY}) rotate(#{edgeWalk.edgeAngle})")
+                g.select '.edge-line'
+                    .attr('d', (d) ->
+                        edgeWalk = utils.edgeWalk d
+                        if conf.directed
+                            """
+                            M #{edgeWalk.startPathX},#{edgeWalk.startPathY}
+                            L #{edgeWalk.L1X}, #{edgeWalk.L1Y}
+                            L #{edgeWalk.L2X}, #{edgeWalk.L2Y}
+                            L #{edgeWalk.L3X}, #{edgeWalk.L3Y} 
+                            L #{edgeWalk.L4X}, #{edgeWalk.L4Y} 
+                            L #{edgeWalk.L5X}, #{edgeWalk.L5Y}
+                            Z
+                            """
+                        else
+                            "add the path for undirected edges"
+                        )
+                
+                # .each (d) ->
+                #     startLine = utils.startLine d
+                #     endLine = utils.endLine d
+                #     d3.select(@).attr
+                #         'x1': startLine.x
+                #         'y1': startLine.y
+                #         'x2': endLine.x
+                #         'y2': endLine.y
+                #       .style utils.edgeStyle d
+            
+            # edge.select '.edge-handler'
+            #     .attr 'x', 0
+            #     .attr 'y', -conf.edgeOverlayWidth/2
+            #     .attr 'height', conf.edgeOverlayWidth
+            #     .attr 'width', (d) -> utils.edgeLength(d)
+            #     .attr 'transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})"
 
     classEdge: (edge) =>
         edge.classed 'active', true
@@ -115,17 +145,21 @@ alchemy.drawing.DrawEdge =
         utils = alchemy.drawing.EdgeUtils
 
         if curved
-            edge.select 'text'
-                .attr 'dx', (d) -> utils.middlePath(d).x
-                .attr 'dy', (d) -> utils.middlePath(d).y + 20
-                .attr 'transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
-                .text (d) -> d.caption
+            edge.select 'text' 
+                .each (d) ->
+                    edgeWalk = utils.edgeWalk d
+                    d3.select(@).attr 'dx', edgeWalk.midLineX
+                                .attr 'dy', (d) -> edgeWalk.midLineY
+                                .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                                .text d.caption
         else
             edge.select 'text'
-                .attr 'dx', (d) -> utils.middleLine(d).x
-                .attr 'dy', (d) -> utils.middleLine(d).y - 5
-                .attr 'transform', (d) -> "rotate(#{utils.captionAngle(d)} #{utils.middleLine(d).x} #{utils.middleLine(d).y})"
-                .text (d) -> d.caption
+                .each (d) ->
+                    edgeWalk = utils.edgeWalk d
+                    d3.select(@).attr 'dx', edgeWalk.midLineX
+                                .attr 'dy', (d) -> edgeWalk.midLineY
+                                .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                                .text d.caption
 
     setInteractions: (edge) =>
         interactions = alchemy.interactions
