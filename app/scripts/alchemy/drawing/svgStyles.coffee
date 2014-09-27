@@ -4,6 +4,11 @@ alchemy.svgStyles =
             conf = alchemy.conf
             defaultStyle = _.omit conf.nodeStyle.all, "selected", "highlighted", "hidden"
             d = node
+            # if user put in hard value, turn into a function
+            toFunc = (inp)->
+                if typeof inp is "function"
+                    return inp
+                return (d)-> inp
 
             nodeTypeKey = _.keys(conf.nodeTypes)[0]
             nodeType = node.getProperties()[nodeTypeKey]
@@ -14,42 +19,47 @@ alchemy.svgStyles =
             typedStyle = _.assign _.cloneDeep(defaultStyle), conf.nodeStyle[nodeType]
             style = _.assign typedStyle, conf.nodeStyle[nodeType][node._state]
 
-            radius = if node.root then conf.rootNodeRadius d else style.radius d
-            fill = style.color d
-            stroke = style.borderColor d
-            strokeWidth = style.borderWidth d, radius
-            
+            radius = toFunc style.radius
+            fill = toFunc style.color
+            stroke = toFunc style.borderColor
+            strokeWidth = toFunc style.borderWidth
             svgStyles =
-                "radius": radius
-                "fill": fill
-                "stroke": stroke
-                "stroke-width": strokeWidth
+                "radius": radius d
+                "fill": fill d
+                "stroke": stroke d
+                "stroke-width": strokeWidth d, radius(d)
             
             svgStyles
 
     edge:
         populate: (edge) ->
             conf = alchemy.conf
-            defaultStyle = _.omit conf.edgeStyle.all, "selected", "highlighted", "hidden"
-            d = edge.getProperties()
+            defaultStyle = conf.edgeStyle.all
 
-            edgeTypeKey = _.keys(conf.edgeTypes)[0]
-            edgeType = edge[edgeTypeKey]
+            toFunc = (inp)->
+                if typeof inp is "function"
+                    return inp
+                return -> inp
+
+            edgeType = edge._edgeType
 
             if conf.edgeStyle[edgeType] is undefined
                 edgeType = "all"
 
-            style = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType][edge._state]
-
-            width = style.width d
-            color = style.color d
-            opacity = style.opacity d
-            directed = style.directed d
-            curved = style.curved d
+            typedStyle = _.merge _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
+            style = _.assign typedStyle, conf.edgeStyle[edgeType][edge._state]
+            width = toFunc style.width
+            color = toFunc style.color
+            opacity = toFunc style.opacity
+            directed = toFunc style.directed
+            curved = toFunc style.curved
 
             svgStyles =
-                "stroke": color
-                "stroke-width": width
-                "opacity": opacity
+                "stroke": color edge
+                "stroke-width": width edge
+                "opacity": opacity edge
+                "fill": "none"
+                # Uncomment for flower
+                # "fill": color edge
 
             svgStyles

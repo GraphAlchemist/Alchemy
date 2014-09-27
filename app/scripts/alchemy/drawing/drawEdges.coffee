@@ -21,9 +21,8 @@ alchemy.drawing.DrawEdges =
                         .data d3Edges
         edge.enter().append 'g'
                     .attr "id", (d) -> "edge-#{d.id}-#{d.pos}"
-                    .attr 'class', (d)-> 
-                        edgeType = d.caption 
-                        "edge #{edgeType}"
+                    .attr 'class', (d)->
+                        "edge #{d.edgeType}"
                     .attr 'source-target', (d) -> "#{d.source.id}-#{d.target.id}"    
         drawEdge.createLink edge
         drawEdge.classEdge edge

@@ -17,7 +17,7 @@
 alchemy.interactions =
     edgeClick: (d) ->
         d3.event.stopPropagation()
-        edge = alchemy._edges[d.id][0]
+        edge = alchemy._edges[d.id][d.pos]
 
         if edge._state != "hidden"
             edge._state = do -> 
@@ -28,14 +28,14 @@ alchemy.interactions =
             alchemy.conf.edgeClick()
 
     edgeMouseOver: (d) ->
-        edge = alchemy._edges[d.id][0]
+        edge = alchemy._edges[d.id][d.pos]
         if edge._state != "hidden"
             if edge._state != "selected"
                 edge._state = "highlighted"
             edge.setStyles()
 
     edgeMouseOut: (d) ->
-        edge = alchemy._edges[d.id][0]
+        edge = alchemy._edges[d.id][d.pos]
         if edge._state != "hidden"
             if edge._state != "selected"
                 edge._state = "active"
