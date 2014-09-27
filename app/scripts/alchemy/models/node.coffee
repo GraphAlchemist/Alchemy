@@ -30,7 +30,7 @@ class alchemy.models.Node
         nodeType
 
     _setD3Properties: (props) =>
-        _.assign @_d3, props
+        _.merge @_d3, props
 
     _addEdge: (edgeDomID) ->
         # Stores edge.id for easy edge lookup
@@ -72,11 +72,9 @@ class alchemy.models.Node
             key = alchemy.svgStyles.node.populate @
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
-        if _.isPlainObject key
+        else if _.isPlainObject key
             _.assign @_style, key
         else
-            if typeof value isnt "function"
-                value = (d)-> value
             @_style[key] = value
         @_setD3Properties alchemy.svgStyles.node.populate(@)
         alchemy._drawNodes.updateNode @_d3
