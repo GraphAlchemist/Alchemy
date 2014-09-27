@@ -50,7 +50,7 @@ alchemy.drawing.DrawEdge =
 
         if curved
             edge.selectAll 'path'
-                 .attr 'd', (d) ->
+                .attr 'd', (d) ->
                     angle = utils.edgeAngle d
 
                     sideOfY = if Math.abs(angle) > 90 then -1 else 1
@@ -79,9 +79,8 @@ alchemy.drawing.DrawEdge =
 
                     #M #{startLine.x},    #{startLine.y}     A #{hyp}, #{hyp} #{captionAngle(d)}    0, 1 #{endLine.x},        #{endLine.y}"
                     "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
-           
-            edge.select 'path.edge-line'
-                .style (d) -> utils.edgeStyle(d)
+                .each (d)->
+                    d3.select(@).style utils.edgeStyle d
     
         else
             edge.select '.edge-line'

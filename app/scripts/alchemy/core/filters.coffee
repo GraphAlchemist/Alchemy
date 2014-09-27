@@ -149,12 +149,8 @@ alchemy.filters =
           .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
           .html "Toggle Edges"
           .on "click", ->
-            if alchemy.dash.selectAll(".edge.hidden")[0].length is 0
-                alchemy.dash.selectAll ".edge"
-                  .classed "hidden", true
-            else
-                alchemy.dash.selectAll ".edge"
-                  .classed "hidden", false
+              _.each _.values(alchemy._edges), (edges)->
+                  _.each edges, (e)-> e.toggleHidden()
 
     #create nodes toggle
     nodesToggle: () ->
@@ -163,14 +159,9 @@ alchemy.filters =
           .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
           .html "Toggle Nodes"
           .on "click", ->
-            affectedNodes = if alchemy.conf.toggleRootNodes then ".node,.edge" else ".node:not(.root),.edge"
-
-            if alchemy.dash.selectAll(".node.hidden")[0].length is 0
-                alchemy.dash.selectAll affectedNodes
-                  .classed "hidden", true
-            else
-                alchemy.dash.selectAll affectedNodes
-                  .classed "hidden", false
+              _.each _.values(alchemy._nodes), (n)->
+                  if alchemy.conf.toggleRootNodes and n._d3.root then return
+                  n.toggleHidden()
 
     #update filters
     update: () ->

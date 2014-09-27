@@ -16,14 +16,14 @@
 
 alchemy.drawing.EdgeUtils =
     edgeStyle: (d) ->
-        edge = alchemy._edges[d.id]
-        styles = edge[d.pos]._style
+        edge = alchemy._edges[d.id][d.pos]
+        styles = alchemy.svgStyles.edge.populate edge
         nodes = alchemy._nodes
 
         # edge styles based on clustering
         if alchemy.conf.cluster
             clustering = alchemy.layout._clustering
-            styles.fill = do (d) ->
+            styles.stroke = do (d) ->
                 nodes = alchemy._nodes
                 clusterKey = alchemy.conf.clusterKey
                 source = nodes[d.source.id]._properties

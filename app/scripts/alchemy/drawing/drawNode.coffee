@@ -37,7 +37,11 @@ alchemy.drawing.DrawNode =
         utils = alchemy.drawing.NodeUtils
 
         node.selectAll 'circle'
-            .attr 'r', (d) -> d.radius
+            .attr 'r', (d) ->
+                if typeof d.radius is "function"
+                    d.radius()
+                else
+                    d.radius
             .attr 'shape-rendering', 'optimizeSpeed'
             .each (d) -> d3.select(@).style utils.nodeStyle d
 

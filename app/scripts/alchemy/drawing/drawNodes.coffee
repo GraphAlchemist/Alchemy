@@ -23,8 +23,8 @@ alchemy.drawing.DrawNodes =
                         .data d3Nodes, (n) -> n.id
         node.enter().append "g"
                 .attr "class", (d) ->
-                    node_data = alchemy._nodes[d.id].getProperties()
-                    if d.nodeType? then "node #{d.nodeType} active" else "node active"
+                    nodeType = alchemy._nodes[d.id]._nodeType
+                    "node #{nodeType} active"
                 .attr 'id', (d) -> "node-#{d.id}"
                 .classed 'root', (d) -> d.root
 
