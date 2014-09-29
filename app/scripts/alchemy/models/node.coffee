@@ -10,7 +10,11 @@ class alchemy.models.Node
             'root': @_properties[conf.rootNodes]
             , a.svgStyles.node.populate(@)
         @_nodeType = @_setNodeType()
-        @_style = conf.nodeStyle[@_nodeType]
+        @_style = 
+            if conf.nodeStyle[@_nodeType]
+                conf.nodeStyle[@_nodeType]
+            else
+                conf.nodeStyle["all"]
         @_state = "active"
 
         @_adjacentEdges = []
