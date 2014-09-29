@@ -95,7 +95,7 @@ class alchemy.models.Edge
         @
 
     toggleHidden: ()->
-        @._state = if @._state is "active" then "hidden" else "active"
+        @._state = if @._state is "hidden" then "active" else "hidden"
         @.setStyles()
 
     # Find if both endpoints are active

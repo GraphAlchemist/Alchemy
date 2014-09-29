@@ -81,7 +81,7 @@ class alchemy.models.Node
         @
 
     toggleHidden: ->
-        @._state = if @._state == "active" then "hidden" else "active"
+        @._state = if @._state == "hidden" then "active" else "hidden"
         @setStyles()
         _.each @._adjacentEdges, (id)-> 
             [source, target, pos] = id.split("-")
