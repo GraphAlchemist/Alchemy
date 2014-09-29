@@ -80,19 +80,20 @@ alchemy.drawing.DrawEdge =
                     #M #{startLine.x},    #{startLine.y}     A #{hyp}, #{hyp} #{captionAngle(d)}    0, 1 #{endLine.x},        #{endLine.y}"
                     "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
                 .each (d)->
-                    d3.select(@).style utils.edgeStyle d
+                    d3.select(@).style utils.edgeStyle(d)
     
         else
-            edge.select '.edge-line'
+            edge.selectAll '.edge-line'
                 .each (d) ->
                     startLine = utils.startLine d
                     endLine = utils.endLine d
-                    d3.select(@).attr
+                    d3.select(@).attr({
                         'x1': startLine.x
                         'y1': startLine.y
                         'x2': endLine.x
                         'y2': endLine.y
-                      .style utils.edgeStyle d
+                        })
+                      .style utils.edgeStyle(d)
             edge.select '.edge-handler'
                 .attr 'x', 0
                 .attr 'y', -conf.edgeOverlayWidth/2

@@ -57,8 +57,8 @@ class alchemy.models.Node
         if @_properties.property?
             _.omit @_properties, property
         @
-            
-    
+ 
+ 
     # Style methods
     getStyles: (key=null) =>
         if key?
@@ -76,7 +76,7 @@ class alchemy.models.Node
             _.assign @_style, key
         else
             @_style[key] = value
-        @_setD3Properties alchemy.svgStyles.node.populate(@)
+        @_setD3Properties alchemy.svgStyles.node.populate @
         alchemy._drawNodes.updateNode @_d3
         @
 
