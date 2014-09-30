@@ -66,7 +66,7 @@ class alchemy.models.Node
     # Style methods
     getStyles: (key=null) =>
         if key?
-            @_style[key]\
+            @_style[key]
         else
             @_style
 
