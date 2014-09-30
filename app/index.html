@@ -41,7 +41,14 @@
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
           var config = {
-            dataSource: 'sample_data/contrib.json'
+            dataSource: 'sample_data/contrib.json',
+            directedEdges: true,
+            curvedEdges: true,
+            edgeStyle: {"all": { "width": 10 }},
+            nodeStyle: {"all": { "radius": 50, "color": "none", "borderColor": "rgba(18, 125, 193, 0.46)" }},
+            edgeArrowSize: 10,
+            // cluster: true
+
           };
 
           alchemy.begin(config)

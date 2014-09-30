@@ -1,14 +1,23 @@
 class alchemy.models.Node
     constructor: (node) ->
-        conf = alchemy.conf
+        a = alchemy
+        conf = a.conf
         
         @id = node.id
         @_properties = node
-        @_state = "active"
-        @_style = alchemy.svgStyles.node.populate @
-        @_d3 = _.assign {'id': @id, 'root': @_properties[conf.rootNodes]}, @_style
-        @_adjacentEdges = []
+        @_d3 = _.merge
+            'id': @id 
+            'root': @_properties[conf.rootNodes]
+            , a.svgStyles.node.populate(@)
         @_nodeType = @_setNodeType()
+        @_style = 
+            if conf.nodeStyle[@_nodeType]
+                conf.nodeStyle[@_nodeType]
+            else
+                conf.nodeStyle["all"]
+        @_state = "active"
+
+        @_adjacentEdges = []
 
     # internal methods
     _setNodeType: =>
@@ -18,17 +27,14 @@ class alchemy.models.Node
                 lookup = Object.keys alchemy.conf.nodeTypes
                 types = _.values conf.nodeTypes
                 nodeType = @_properties[lookup]
-                if types.indexOf nodeType
-                    @_d3['nodeType'] = nodeType
-                    nodeType
             else if typeof conf.nodeTypes is 'string'
                 nodeType = @_properties[conf.nodeTypes]
-                if nodeType
-                    @_setD3Properties 'nodeType', nodeType
-                    nodeType
+        if nodeType is undefined then nodeType = "all"
+        @_setD3Properties 'nodeType', nodeType
+        nodeType
 
     _setD3Properties: (props) =>
-        _.assign @_d3, props
+        _.merge @_d3, props
 
     _addEdge: (edgeDomID) ->
         # Stores edge.id for easy edge lookup
@@ -36,7 +42,7 @@ class alchemy.models.Node
     
     # Edit node properties
     getProperties: (key=null, keys...) =>
-    	if not key? and (keys.length is 0)
+        if not key? and (keys.length is 0)
             @_properties
         else if keys.length isnt 0
             query = _.union [key], keys
@@ -55,31 +61,31 @@ class alchemy.models.Node
         if @_properties.property?
             _.omit @_properties, property
         @
-            
-    
+ 
+ 
     # Style methods
     getStyles: (key=null) =>
         if key?
-            @_style[key]
+            @_style[key]\
         else
             @_style
 
-    setStyles: (key, value=null) =>
+    setStyles: (key, value=null) ->
         # If undefined, set styles based on state
         if key is undefined
             key = alchemy.svgStyles.node.populate @
         # takes a key, value or map of key values
         # the user passes a map of styles to set multiple styles at once
-        if _.isPlainObject key
+        else if _.isPlainObject key
             _.assign @_style, key
         else
             @_style[key] = value
-        @_setD3Properties @_style
+        @_setD3Properties alchemy.svgStyles.node.populate @
         alchemy._drawNodes.updateNode @_d3
         @
 
     toggleHidden: ->
-        @._state = if @._state == "active" then "hidden" else "active"
+        @._state = if @._state == "hidden" then "active" else "hidden"
         @setStyles()
         _.each @._adjacentEdges, (id)-> 
             [source, target, pos] = id.split("-")
