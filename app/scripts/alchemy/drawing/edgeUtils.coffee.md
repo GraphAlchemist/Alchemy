@@ -125,6 +125,99 @@ for the curve of the node.
             edgeLength: edgeLength
 
         
+        curvedEdgeWalk: (edge) ->
+            arrowSize = alchemy.conf.edgeArrowSize
+            arrowScale = 0.3
+            
+            minOffset = -15
+
+            triangle = @triangle(edge)
+            width  = triangle.width
+            height = triangle.height
+            hyp = triangle.hyp
+
+            edgeWidth = edge['stroke-width']
+
+            startRadius = edge.source.radius + edge.source['stroke-width'] + edgeWidth / 2
+            endRadius = edge.target.radius + edge.target['stroke-width'] + arrowSize
+            #rename to bend ratio?
+            radiusRatio = startRadius / endRadius
+
+            square = (n) -> n * n
+
+Yes, the [homotheticCenter](http://en.wikipedia.org/wiki/Homothetic_center)
+            
+            homotheticCenter = -hyp * radiusRatio / (1 - radiusRatio)
+
+            # rename
+            intersectWithOtherCircle = (fixedPointX, fixedPointY, radius, xCenter, polarity) ->
+                
+                gradient = fixedPointY / (fixedPointX - homotheticCenter)
+                hc = fixedPointY - gradient * fixedPointX
+                A = 1 + square(gradient)
+                B = 2 * (gradient * hc - xCenter)
+                C = square(hc) + square(xCenter) - square(radius)
+                intersection = x: (-B + polarity * Math.sqrt(square(B) - 4 * A * C)) / (2 * A)
+                intersection.y = (intersection.x - homotheticCenter) * gradient
+                intersection
+
+            if edge.target.radius + arrowSize > edge.source.radius
+                offsetAngle = minOffset / edge.source.radius
+                pathStartX = Math.cos( offsetAngle ) * edge.source.radius
+                pathStartY = Math.sin( offsetAngle ) * edge.source.radius
+                intersection = intersectWithOtherCircle(pathStartX, pathStartY, edge.target.radius + arrowSize, hyp, -1)
+                pathEndX = intersection.x
+                pathEndY = intersection.y
+            
+            #else
+            #    offsetAngle = minOffset / endRadius;
+            #    endAttach = {
+            #        x: endCentre - Math.cos( offsetAngle ) * (endRadius + headLength),
+            #        y: Math.sin( offsetAngle ) * (endRadius + headLength)
+            #    }
+            #    startAttach = intersectWithOtherCircle( endAttach, startRadius, 0, 1 )
+
+            g1 = - pathStartX / pathEndY
+            c1 = pathStartY + (pathStartX * pathStartX) / pathStartY
+            g2 = -( pathEndX - hyp ) / pathEndY
+            c2 = pathEndY + (pathEndX - hyp) * pathEndX / pathEndY
+
+            cx = (c1 - c2) / (g2 - g1)
+            cy = g1 * cx + c1
+
+            arcRadius = Math.sqrt( (cx - pathStartX) * (cx - pathStartX) + (cy - pathStartY) * (cy - pathStartY) )
+
+            # change name?
+            startTangent = (dr) ->
+                dx = (if dr < 0 then -1 else 1) * Math.sqrt(dr * dr / (1 + g1 * g1))
+                dy = g1 * dx
+                "#{pathStartX + dx} #{pathStartY + dy}"
+
+            endTangent = (dr) ->
+                dx = (if dr < 0 then -1 else 1) * Math.sqrt( dr * dr / (1 + g2 * g2) )
+                dy = g2 * dx
+                "#{pathEndX + dx} #{pathEndY + dy}"
+
+            endNormal = (dc) ->
+                dx = (if dc < 0 then -1 else 1) * Math.sqrt( dc * dc / (1 + (1 / g2) * (1 / g2)) )
+                dy = dx / g2
+                "#{pathEndX + dx} #{pathEndY - dy}"
+
+            """
+            M #{startTangent(-edgeWidth)}
+            L #{startTangent(edgeWidth)}
+            A #{arcRadius - edgeWidth} #{arcRadius - edgeWidth} 
+              0, 0, #{if minOffset > 0 then 0 else 1}
+              #{endTangent(-edgeWidth)}
+            L #{endTangent(-arrowSize * arrowScale)}
+            L #{endNormal(arrowSize)}
+            L #{endTangent(arrowSize * arrowScale)}
+            L #{endTangent(edgeWidth)}
+            A #{arcRadius + edgeWidth} #{arcRadius + edgeWidth}
+              0, 0, #{if minOffset > 0 then 0 else 1}
+              #{startTangent(-edgeWidth)}
+            """
+
 
         # middleLine: (edge) -> @edgeWalk edge, 'middle'
         # startLine: (edge) -> @edgeWalk edge, 'linkStart'

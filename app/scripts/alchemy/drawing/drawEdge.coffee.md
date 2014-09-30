@@ -47,65 +47,69 @@
 
 **This can be refactored for readability (please!)**                    
                 
-                if conf.curvedEdges
-                    angle = edgeWalk.edgeAngle
+                    if conf.curvedEdges
+                        utils.curvedEdgeWalk(d)
+                        #if conf.curvedEdges
+                        #    angle = edgeWalk.edgeAngle
 
-                    sideOfY = if Math.abs(angle) > 90 then -1 else 1
-                    sideOfX = do (angle) ->
-                        if angle != 0
-                            return if angle < 0 then -1 else 1
-                        0
+                        #    sideOfY = if Math.abs(angle) > 90 then -1 else 1
+                        #    sideOfX = do (angle) ->
+                        #        if angle != 0
+                        #            return if angle < 0 then -1 else 1
+                        #        0
 
-                    #startLine = utils.startLine d
-                    #endLine = utils.endLine d
-                    #sourceX = edgeWalk.pathStartX
-                    #sourceY = startLine.y
-                    #targetX = endLine.x
-                    #targetY = endLine.y
+                        #startLine = utils.startLine d
+                        #endLine = utils.endLine d
+                        #sourceX = edgeWalk.pathStartX
+                        #sourceY = startLine.y
+                        #targetX = endLine.x
+                        #targetY = endLine.y
 
-                    #dx = targetX - sourceX
-                    #dy = targetY - sourceY
-                    
-                    #hyp = Math.sqrt dx * dx + dy * dy
+                        #dx = targetX - sourceX
+                        #dy = targetY - sourceY
+                        
+                        #hyp = Math.sqrt dx * dx + dy * dy
 
-                    #offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
-                    #offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
+                        #offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
+                        #offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
 
-                    #arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
-                    #arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
-                    # "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
+                        #arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
+                        #arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
+                        # "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
 
 Here we need to change the offset the vertical offset of the start and end of the arc.
 *(E.g. startPathTopY)*
 
-                    """
-                    M #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
-                    A #{edgeWalk.edgeLength} #{edgeWalk.edgeLength} 
-                      0 0 1 
-                      #{edgeWalk.edgeLength} #{edgeWalk.startPathTopY}
-                    """
-                else
-                    if conf.directedEdges
+                        ###
                         """
-                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}
-                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY} 
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY} 
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}
-                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
-                        Z
+                        M #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                        A #{edgeWalk.edgeLength} #{edgeWalk.edgeLength} 
+                          0 0 1 
+                          #{edgeWalk.edgeLength} #{edgeWalk.startPathTopY}
                         """
+                        ###
                     else
-                        """
-                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
-                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}
-                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}
-                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
-                        Z
-                        """
-                g.select '.edge-handler'
-                        .attr('d', (d) -> g.select('.edge-line').attr('d'))
+                        if conf.directedEdges
+                            """
+                            M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
+                            L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}
+                            L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}
+                            L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY} 
+                            L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY} 
+                            L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}
+                            L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                            Z
+                            """
+                        else
+                            """
+                            M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
+                            L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}
+                            L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}
+                            L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                            Z
+                            """
+                    g.select '.edge-handler'
+                            .attr('d', (d) -> g.select('.edge-line').attr('d'))
 
         classEdge: (edge) =>
             edge.classed 'active', true
