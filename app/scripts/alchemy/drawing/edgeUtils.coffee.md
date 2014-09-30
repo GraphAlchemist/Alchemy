@@ -17,7 +17,7 @@
     alchemy.drawing.EdgeUtils =
         edgeStyle: (d) ->
             edge = alchemy._edges[d.id][d.pos]
-            styles = alchemy.svgStyles.edge.populate edge
+            styles = alchemy.svgStyles.edge.update edge
             nodes = alchemy._nodes
 
             # edge styles based on clustering

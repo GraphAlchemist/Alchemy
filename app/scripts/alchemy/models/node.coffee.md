@@ -85,7 +85,7 @@
             @
 
         toggleHidden: ->
-            @._state = if @._state == "hidden" then "active" else "hidden"
+            @._state = if @._state is "hidden" then "active" else "hidden"
             @setStyles()
             _.each @._adjacentEdges, (id)-> 
                 [source, target, pos] = id.split("-")

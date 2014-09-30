@@ -12,16 +12,12 @@
             @_index = index
             @_state = "active"
             @_properties = edge
-            # # refactor to deal with graph styles directly
-            # @_style = alchemy.svgStyles.edge.populate @
-            # @_d3 = 
-            #     'id': @id
-            #     'pos': @_index
-            #     'source': alcshemy._nodes[@_properties.source]._d3
-            #     'target': alchemy._nodes[@_properties.target]._d3
-            #     'style': alchemy.svgStyles.edge.populate @
             @_edgeType = @_setEdgeType()
-            @_style = conf.edgeStyle[@_edgeType]
+            @_style = 
+                if conf.edgeStyle[@_edgeType]?
+                    _.merge _.clone(conf.edgeStyle["all"]), conf.edgeStyle[@_edgeType]
+                else
+                    _.clone conf.edgeStyle["all"]
             @_d3 = _.merge
                 'id': @id
                 'pos': @_index
@@ -34,7 +30,7 @@
             a._nodes["#{edge.source}"]._addEdge "#{@id}-#{@_index}"
             a._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
 
-        _setD3Properties: (props) => _.assign @_d3, props
+        _setD3Properties: (props) => _.merge @_d3, props
         _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
         _setCaption: (edge, conf) =>
@@ -84,7 +80,7 @@
             else
                 @_style
 
-        setStyles: (key, value=null) =>
+        setStyles: (key, value=null) ->
             # If undefined, set styles based on state
             if key is undefined
                 key = alchemy.svgStyles.edge.populate @
@@ -93,16 +89,15 @@
             # the user passes a map of styles to set multiple styles at once
             if _.isPlainObject key
                 _.assign @_style, key
-            else
-                if typeof value isnt "function"
-                    value = (d)-> value
+            else if typeof key is "string"
                 @_style[key] = value
-            @_setD3Properties alchemy.svgStyles.edge.populate(@)
+
+            @_setD3Properties alchemy.svgStyles.edge.update(@)
             alchemy._drawEdges.updateEdge @_d3
             @
 
         toggleHidden: ()->
-            @._state = if @._state is "active" then "hidden" else "active"
+            @._state = if @._state is "hidden" then "active" else "hidden"
             @.setStyles()
 
         # Find if both endpoints are active
