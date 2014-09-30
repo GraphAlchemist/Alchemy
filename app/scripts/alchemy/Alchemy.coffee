@@ -65,6 +65,7 @@ class Alchemy
             d3.json alchemy.conf.dataSource, alchemy.startGraph
         else if typeof alchemy.conf.dataSource is 'object'
             alchemy.startGraph alchemy.conf.dataSource
+        @
 
     #API methods
     getNodes: (id, ids...) =>

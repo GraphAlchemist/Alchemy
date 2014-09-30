@@ -10,7 +10,11 @@ class alchemy.models.Node
             'root': @_properties[conf.rootNodes]
             , a.svgStyles.node.populate(@)
         @_nodeType = @_setNodeType()
-        @_style = conf.nodeStyle[@_nodeType]
+        @_style = 
+            if conf.nodeStyle[@_nodeType]
+                conf.nodeStyle[@_nodeType]
+            else
+                conf.nodeStyle["all"]
         @_state = "active"
 
         @_adjacentEdges = []
@@ -57,8 +61,8 @@ class alchemy.models.Node
         if @_properties.property?
             _.omit @_properties, property
         @
-            
-    
+ 
+ 
     # Style methods
     getStyles: (key=null) =>
         if key?
@@ -76,12 +80,12 @@ class alchemy.models.Node
             _.assign @_style, key
         else
             @_style[key] = value
-        @_setD3Properties alchemy.svgStyles.node.populate(@)
+        @_setD3Properties alchemy.svgStyles.node.populate @
         alchemy._drawNodes.updateNode @_d3
         @
 
     toggleHidden: ->
-        @._state = if @._state == "active" then "hidden" else "active"
+        @._state = if @._state == "hidden" then "active" else "hidden"
         @setStyles()
         _.each @._adjacentEdges, (id)-> 
             [source, target, pos] = id.split("-")
