@@ -99,18 +99,17 @@
         edgeClick: 'default'
         edgeStyle:
             "all":
-                "width": -> 4
-                "color": -> "#CCC"
-                "opacity": -> 0.2
-                "directed": -> true
-                "curved": -> true
-
+                "width": 4
+                "color": "#CCC"
+                "opacity": 0.2
+                "directed": true
+                "curved": true
                 "selected":
-                    "opacity": -> 1
+                    "opacity": 1
                 "highlighted":
-                    "opacity": -> 1
+                    "opacity": 1
                 "hidden":
-                    "opacity": -> 0
+                    "opacity": 0
         edgeTypes: null
         curvedEdges: false
         edgeWidth: -> 4

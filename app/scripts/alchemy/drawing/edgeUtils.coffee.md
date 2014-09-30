@@ -50,46 +50,79 @@
             height: height
             hyp: Math.sqrt height * height + width * width
 
+This is the primary function used to draw the svg paths between
+two nodes for directed or undirected noncurved edges. 
+
         edgeWalk: (edge) ->
             arrowSize = alchemy.conf.edgeArrowSize
             arrowScale = 0.3
+            
+Build a right triangle.
+
             triangle = @triangle(edge)
-            # build a right triangle
             width  = triangle.width
             height = triangle.height
-            # as in hypotenuse 
             hyp = triangle.hyp
+
+The widht of the stroke places a large part in how the arrow lays out with larger edge widths.
+
             edgeWidth = edge['stroke-width']
-            edgeLength = hyp - edge.source.radius - edge.target.radius
+
+After all of our calculations, we offset the edge by 2 pixels to account for the curve of the node.
+This typically is only noticable with opaque styles.
+
+            curveOffset = 2
+
+We start the edge at the very *edge* of the node, taking into account distances created by the stroke-width of the node
+and edge itself.  The length of startPathX is then accounted for in the edgeLength.
+
+            startPathX = 0 + edge.source.radius + edge.source['stroke-width'] - (edgeWidth / 2) + curveOffset
+            edgeLength = hyp - startPathX - curveOffset * 1.5
+
+
+The absolute angle of the edge used for caption rendering and
+path rendering.
+
             edgeAngle: Math.atan2(height, width) / Math.PI * 180
-            # start and end are in the middle of the node
-            startLineX: edge.source.x + width / hyp
-            startLineY: edge.source.y + height / hyp
+
+The start of the edge in absolute coordinates.  The start of the edge and end
+of the edge are simply the center of the source and target nodes.
+
+            startEdgeX: edge.source.x
+            startEdgeY: edge.source.y
+
+            #endEdgeX: edge.target.x + (width * edge.target.radius + edge.target['stroke-width']) / hyp
+            #endEdgeY: edge.target.y + (height * edge.target.radius + edge.target['stroke-width']) / hyp
+
+The middle point of the edge, where the caption will be anchored.
+
             midLineX: edge.source.x + width / 2
             midLineY: edge.source.x + height / 2
             endLineX: edge.source.x + width / hyp
             endLineY: edge.source.x + height / hyp
-            # path x and y are relative to the <g> parent element
-            startPathX: 0 + edge.source.radius
-            startPathY: edgeWidth
             
-            arrowBend1X: edgeLength - arrowSize
-            arrowBend1Y: edgeWidth
+Here we offset the start of the path to the very edge of the node by adding the stroke-width and the radius.
+Additionally, we account for the 'stroke-width' of the edge itself, and then offeset that by one pixel to account
+for the curve of the node.
+
+            startPathX: startPathX
+            startPathBottomY: edgeWidth / 2
             
-            arrowTip1X: edgeLength - arrowSize
-            arrowTip1Y: edgeWidth + (arrowSize * arrowScale)
+            arrowBendX: edgeLength - arrowSize
+            arrowBendBottomY: edgeWidth / 2
+            
+            arrowTipBottomY: edgeWidth / 2 + (arrowSize * arrowScale)
             
             arrowEndX: edgeLength
             arrowEndY: 0
             
-            arrowTip2X: edgeLength - arrowSize
-            arrowTip2Y: -(arrowSize * arrowScale + edgeWidth)
+            arrowTipTopY: -(arrowSize * arrowScale + edgeWidth / 2)
             
-            arrowBend2X: edgeLength - arrowSize
-            arrowBend2Y: -edgeWidth
+            arrowBendTopY: - edgeWidth / 2
 
-            L6X: 0 + edge.source.radius
-            L6Y: -edgeWidth 
+            startPathTopY: - edgeWidth / 2
+
+            edgeLength: edgeLength
 
         
 
@@ -108,12 +141,11 @@
             height = edge.target.y - edge.source.y
             Math.atan2(height, width) / Math.PI * 180
         
-        captionAngle: (edge) ->
-            angle = @edgeAngle(edge)
+        captionAngle: (angle) ->
             if angle < -90 or angle > 90
-                angle += 180
+                180
             else
-                angle
+                0
         middlePath: (edge) ->
                 pathNode = alchemy.vis
                                   .select "#path-#{edge.id}"

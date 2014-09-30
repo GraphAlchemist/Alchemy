@@ -25,114 +25,87 @@
             edge.append 'path'
                 .attr 'class', 'edge-line'
                 .attr 'id', (d) -> "path-#{d.id}"
-                .each (d) -> d3.select(@).style utils.edgeStyle d
             edge.filter (d) -> d.caption?
                 .append 'text'
             edge.append 'path'
                 .attr 'class', 'edge-handler'
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
 
-            # if curved
-            #     edge.append 'path'
-            #         .attr 'class', 'edge-line'
-            #         .attr 'id', (d) -> "path-#{d.id}"
-            #         .each (d) -> d3.select(@).style utils.edgeStyle d
-            #     edge.filter (d) -> d.caption?
-            #         .append 'text'
-            #     edge.append 'path'
-            #         .attr 'class', 'edge-handler'
-            #         .style 'stroke-width', "#{conf.edgeOverlayWidth}"
-
-            # else
-            #     edge.append 'line'
-            #         .attr 'class', 'edge-line'
-            #         .attr 'shape-rendering', 'optimizeSpeed'
-            #         .each (d) -> d3.select(@).style utils.edgeStyle d
-            #     edge.filter (d) -> d.caption?
-            #         .append 'text'
-            #     edge.append 'rect'
-            #         .attr 'class', 'edge-handler'
-
         styleLink: (edge) =>
             conf = alchemy.conf
-            curved = conf.curvedEdges
             directed = conf.directedEdges
             utils = alchemy.drawing.EdgeUtils
-
-            if curved
-                edge.selectAll 'path'
-                    .attr 'd', (d) ->
-                        angle = utils.edgeAngle d
-
-                        sideOfY = if Math.abs(angle) > 90 then -1 else 1
-                        sideOfX = do (angle) ->
-                            if angle != 0
-                                return if angle < 0 then -1 else 1
-                            0
-
-                        startLine = utils.startLine d
-                        endLine = utils.endLine d
-                        sourceX = startLine.x
-                        sourceY = startLine.y
-                        targetX = endLine.x
-                        targetY = endLine.y
-
-                        dx = targetX - sourceX
-                        dy = targetY - sourceY
-                        
-                        hyp = Math.sqrt dx * dx + dy * dy
-
-                        offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
-                        offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
-
-                        arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
-                        arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
-
-                        #M #{startLine.x},    #{startLine.y}     A #{hyp}, #{hyp} #{captionAngle(d)}    0, 1 #{endLine.x},        #{endLine.y}"
-                        "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
-                    .each (d)->
-                        d3.select(@).style utils.edgeStyle d
-        
-            else
-                edge.each (d) ->
-                    edgeWalk = utils.edgeWalk d
-                    g = d3.select(@)
-                    g.attr('transform', 
-                           "translate(#{edgeWalk.startLineX}, #{edgeWalk.startLineY}) rotate(#{edgeWalk.edgeAngle})")
-                    g.select '.edge-line'
-                        .attr('d', (d) ->
-                            edgeWalk = utils.edgeWalk d
-                            if conf.directedEdges
-                                """
-                                M #{edgeWalk.startPathX} #{edgeWalk.startPathY}
-                                L #{edgeWalk.L1X} #{edgeWalk.L1Y}
-                                L #{edgeWalk.L2X} #{edgeWalk.L2Y}
-                                L #{edgeWalk.L3X} #{edgeWalk.L3Y} 
-                                L #{edgeWalk.L4X} #{edgeWalk.L4Y} 
-                                L #{edgeWalk.L5X} #{edgeWalk.L5Y}
-                                L #{edgeWalk.L6X} #{edgeWalk.L6Y}
-                                Z
-                                """
-                            else
-                                "add the path for undirected edges"
-                            )
-                    
-                    # .each (d) ->
-                    #     startLine = utils.startLine d
-                    #     endLine = utils.endLine d
-                    #     d3.select(@).attr
-                    #         'x1': startLine.x
-                    #         'y1': startLine.y
-                    #         'x2': endLine.x
-                    #         'y2': endLine.y
-                    #       .style utils.edgeStyle d
+            edge.each (d) ->
+                edgeWalk = utils.edgeWalk d
+                g = d3.select(@)
+                g.attr('transform', 
+                       "translate(#{edgeWalk.startEdgeX}, #{edgeWalk.startEdgeY}) rotate(#{edgeWalk.edgeAngle})")
+                 .style utils.edgeStyle d
                 
-                # edge.select '.edge-handler'
-                #     .attr 'x', 0
-                #     .attr 'y', -conf.edgeOverlayWidth/2
-                #     .attr 'height', conf.edgeOverlayWidth
-                #     .attr 'width', (d) -> utils.edgeLength(d)
-                #     .attr 'transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})"
+                g.select('.edge-line')
+                 .attr 'd',
+
+**This can be refactored for readability (please!)**                    
+                
+                if conf.curvedEdges
+                    angle = edgeWalk.edgeAngle
+
+                    sideOfY = if Math.abs(angle) > 90 then -1 else 1
+                    sideOfX = do (angle) ->
+                        if angle != 0
+                            return if angle < 0 then -1 else 1
+                        0
+
+                    #startLine = utils.startLine d
+                    #endLine = utils.endLine d
+                    #sourceX = edgeWalk.pathStartX
+                    #sourceY = startLine.y
+                    #targetX = endLine.x
+                    #targetY = endLine.y
+
+                    #dx = targetX - sourceX
+                    #dy = targetY - sourceY
+                    
+                    #hyp = Math.sqrt dx * dx + dy * dy
+
+                    #offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
+                    #offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
+
+                    #arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
+                    #arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
+                    # "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
+
+Here we need to change the offset the vertical offset of the start and end of the arc.
+*(E.g. startPathTopY)*
+
+                    """
+                    M #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                    A #{edgeWalk.edgeLength} #{edgeWalk.edgeLength} 
+                      0 0 1 
+                      #{edgeWalk.edgeLength} #{edgeWalk.startPathTopY}
+                    """
+                else
+                    if conf.directedEdges
+                        """
+                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}
+                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY} 
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY} 
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}
+                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                        Z
+                        """
+                    else
+                        """
+                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
+                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}
+                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}
+                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                        Z
+                        """
+                g.select '.edge-handler'
+                        .attr('d', (d) -> g.select('.edge-line').attr('d'))
 
         classEdge: (edge) =>
             edge.classed 'active', true
@@ -155,9 +128,14 @@
                 edge.select 'text'
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        d3.select(@).attr 'dx', edgeWalk.midLineX
-                                    .attr 'dy', (d) -> edgeWalk.midLineY
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                        captionAngle = utils.captionAngle(edgeWalk.edgeAngle)
+                        if captionAngle is 180
+                            dx = - edgeWalk.edgeLength / 2
+                        else
+                            dx = edgeWalk.edgeLength / 2
+                        d3.select(@).attr 'dx', "#{dx}"
+                                    .attr 'dy', "#{- d['stroke-width'] * 1.1}"
+                                    .attr 'transform', "rotate(#{captionAngle})"
                                     .text d.caption
 
         setInteractions: (edge) =>
