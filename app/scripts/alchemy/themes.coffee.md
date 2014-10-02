@@ -1,5 +1,6 @@
     alchemy.themes = 
         "default":
+            "backgroundColour": "#000000"
             "nodeStyle":
                 "all":
                     "radius": -> 10
@@ -32,6 +33,7 @@
                         "opacity": 0
 
         "white":
+            "backgroundColour": "#FFFFFF"
             "nodeStyle":
                 "all":
                     "radius": -> 10

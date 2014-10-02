@@ -66,8 +66,13 @@ title: Anotated Source
         setState: (key, value) => @state.key = value
 
         begin: (userConf) =>
+            # apply base themes
+            if userConf.theme?
+                userConf = _.merge userConf, alchemy.themes["#{userConf.theme}"]
+
             # overide configuration with user inputs
             @conf = _.merge alchemy.defaults, userConf
+
             if typeof alchemy.conf.dataSource is 'string'
                 d3.json alchemy.conf.dataSource, alchemy.startGraph
             else if typeof alchemy.conf.dataSource is 'object'

@@ -29,8 +29,8 @@
         
         data.edges.forEach (e) ->
             alchemy.create.edges e
-
-        #create SVG
+ 
+        # create SVG
         alchemy.vis = d3.select conf.divSelector
             .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour}"
             .append "svg"

@@ -123,6 +123,7 @@
 
         # Misc
         backgroundColour: "#000000"
+        theme: null
         afterLoad: 'afterLoad'
         divSelector: '#alchemy'
         dataSource: null
