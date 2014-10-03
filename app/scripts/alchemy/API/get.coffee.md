@@ -47,9 +47,11 @@
                             edge.properties
                 _.compact results
 
-        allNodes: ->
-            _.map alchemy._nodes, (n) -> n
-
+        allNodes: (type) ->
+            if type?
+                _.filter alchemy._nodes, (n) -> n if n._nodeType is type
+            else
+                _.map alchemy._nodes, (n) -> n
 
         allEdges: ->
             _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
