@@ -40,9 +40,10 @@
         <script src="scripts/else.js"></script>
         <script type="text/javascript">
           var config = {
-            dataSource: 'sample_data/soccer.json', 
+            dataSource: 'sample_data/contrib.json', 
             cluster: true,
-            clusterKey: "country"
+            clusterKey: "role",
+            captionToggle: true
           };
 
           alchemy.begin(config)

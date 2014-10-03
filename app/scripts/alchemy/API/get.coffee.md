@@ -47,19 +47,19 @@
                             edge.properties
                 _.compact results
 
+        clusters: ->
+            clusterMap = alchemy.layout._clustering.clusterMap
+            nodesByCluster = {}
+            _.each clusterMap, (key, value) ->
+                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) -> node._properties[alchemy.conf.clusterKey] == value
+            nodesByCluster
+
         clusterColours: ->
             clusterMap = alchemy.layout._clustering.clusterMap
             clusterColoursObject = {}
             _.each clusterMap, (key, value) ->
                clusterColoursObject[value] = alchemy.conf.clusterColours[key%alchemy.conf.clusterColours.length]
-
             clusterColoursObject
-               #  console.log alchemy.conf.clusterColours[key]
-
-
-
-
-            # : alchemy.conf.clusterColours[value] for value of clusterMap
 
         allNodes: ->
             _.map alchemy._nodes, (n) -> n
