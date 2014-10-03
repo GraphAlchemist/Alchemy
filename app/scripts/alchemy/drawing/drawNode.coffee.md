@@ -26,6 +26,9 @@
                     else 
                         conf.nodeRadius * 2 - 5
                 .html (d) -> utils.nodeText(d)
+                .style "display", (d)->
+                    return "block" if conf.nodeCaptionsOnByDefault
+                    return "none"
 
         createNode: (node) ->
             node.append 'circle'

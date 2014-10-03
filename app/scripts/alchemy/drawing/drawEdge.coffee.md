@@ -124,6 +124,9 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .attr 'dy', (d) -> edgeWalk.midLineY
                                     .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
                                     .text d.caption
+                                    .style "display", (d)->
+                                        return "block" if conf.edgeCaptionsOnByDefault
+                                        return "none"
             else
                 edge.select 'text'
                     .each (d) ->
@@ -137,6 +140,9 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .attr 'dy', "#{- d['stroke-width'] * 1.1}"
                                     .attr 'transform', "rotate(#{captionAngle})"
                                     .text d.caption
+                                    .style "display", (d)->
+                                        return "block" if conf.edgeCaptionsOnByDefault
+                                        return "none"
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions
