@@ -15,20 +15,15 @@
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     alchemy.get = 
+        # returns one or more nodes as an array
         nodes: (id, ids...) ->
-                if not id
-                    console.warn "Please specify a node id."
-                    return
-                # returns one or more nodes as an array
-                if ids.length isnt 0
-                    ids.push id
-                    params = _.union ids
-                    results = []
-                    for p in params
-                        results.push alchemy._nodes[p]
-                    results
+                if id?
+                    # All passed ids with artificially enforced type safety
+                    allIDs = _.map arguments, (arg) -> String(arg)
+                    _.filter alchemy._nodes, (val, key)->
+                        val if _.contains allIDs, key
                 else
-                    [alchemy._nodes[id]]
+                    console.warn "Please specify a node id."
 
         edges: (id=null, target=null) ->
             # returns one or more edges as an array
