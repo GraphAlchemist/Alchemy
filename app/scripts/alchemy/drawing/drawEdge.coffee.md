@@ -107,7 +107,6 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .text d.caption
                                     .style "display", (d)->
                                         return "block" if conf.edgeCaptionsOnByDefault
-                                        return "none"
             else
                 edge.select 'text'
                     .each (d) ->
@@ -123,7 +122,6 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .text d.caption
                                     .style "display", (d)->
                                         return "block" if conf.edgeCaptionsOnByDefault
-                                        return "none"
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions
