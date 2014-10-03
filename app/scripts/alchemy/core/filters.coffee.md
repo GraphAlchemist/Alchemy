@@ -33,7 +33,7 @@
 
             if alchemy.conf.edgeTypes
                 for e in alchemy.dash.selectAll(".edge")[0]
-                    currentRelationshipTypes[[e].caption] = true
+                    alchemy.currentRelationshipTypes[[e].caption] = true
 
                 edgeTypes = ''
                 for edgeType in alchemy.conf.edgeTypes

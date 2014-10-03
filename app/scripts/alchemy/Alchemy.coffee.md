@@ -37,6 +37,7 @@ title: Anotated Source
             @drawing = {}
             @editor = {}
             @log = {}
+            @currentRelationshipTypes = {}
             @state =
                 "interactions": "default"
                 "layout": "default"
@@ -69,8 +70,6 @@ title: Anotated Source
             else if typeof alchemy.conf.dataSource is 'object'
                 alchemy.startGraph alchemy.conf.dataSource
             @
-
-    currentRelationshipTypes = {}
 
     if typeof module isnt 'undefined' and module.exports
       module.exports = new Alchemy()
