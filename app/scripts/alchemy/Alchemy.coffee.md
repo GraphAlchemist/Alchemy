@@ -68,7 +68,7 @@ title: Anotated Source
         begin: (userConf) =>
             # apply base themes
             if userConf.theme?
-                userConf = _.merge userConf, alchemy.themes["#{userConf.theme}"]
+                _.merge alchemy.defaults, alchemy.themes["#{userConf.theme}"]
 
             # overide configuration with user inputs
             @conf = _.merge alchemy.defaults, userConf
