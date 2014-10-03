@@ -3,7 +3,6 @@ position: 5
 title: Filtering
 ---
 
-
 # Filtering
 
 <p></p>

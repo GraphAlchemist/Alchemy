@@ -18,13 +18,7 @@ kramdown:
         coderay_bold_every:        10
         coderay_css:               class
 
-# defaults:
-#   -
-#     scope:
-#       path: _documentation/ # an empty string here means all files in the project
-#     values:
-#       layout: "docsLayout"
-
 collections:
 - documentation
 - configDocs
+- apiDocs

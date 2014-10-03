@@ -62,7 +62,7 @@ ol.CodeRay li { white-space: pre; }
 .CodeRay .doc-string { color:#D42; font-weight:bold; }
 .CodeRay .escape  { color:#666; font-weight:bold; }
 .CodeRay .entity { color:#800; font-weight:bold; }
-.CodeRay .error { color:#F00; background-color:#FAA; }
+.CodeRay .error { color: gray;} //background-color:#FAA; }
 .CodeRay .exception { color:#C00; font-weight:bold; }
 .CodeRay .filename { color:#099; }
 .CodeRay .function { color:#900; font-weight:bold; }
