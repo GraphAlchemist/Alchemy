@@ -56,25 +56,6 @@
                             return if angle < 0 then -1 else 1
                         0
 
-                    #startLine = utils.startLine d
-                    #endLine = utils.endLine d
-                    #sourceX = edgeWalk.pathStartX
-                    #sourceY = startLine.y
-                    #targetX = endLine.x
-                    #targetY = endLine.y
-
-                    #dx = targetX - sourceX
-                    #dy = targetY - sourceY
-                    
-                    #hyp = Math.sqrt dx * dx + dy * dy
-
-                    #offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
-                    #offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
-
-                    #arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
-                    #arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
-                    # "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
-
 Here we need to change the offset the vertical offset of the start and end of the arc.
 *(E.g. startPathTopY)*
 

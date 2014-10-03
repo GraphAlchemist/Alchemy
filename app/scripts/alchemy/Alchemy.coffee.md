@@ -42,8 +42,12 @@ title: Anotated Source
                 "interactions": "default"
                 "layout": "default"
             
-            # node and edge internals...  It is unadvised to access internals
-            # directly.  Use, alchemy.get.nodes or alchemy.get.edges
+            # node and edge internals
+            # It is unadvised to access internals directly.
+            # Use alchemy.get.nodes() or alchemy.get.edges() instead.
+            
+            # alchemy._nodes stores a node object as the value with the unique
+            # id specified in the GraphJSON.
             @_nodes = {}
 
             # alchemy._edges stores an array of edges under every unique id.
@@ -53,9 +57,6 @@ title: Anotated Source
             # The value is an array of edge 'packets', where the length of the array
             # is typically 1.
             @_edges = {}
-
-            # extend alchemy with API methods
-            # _.extend @, api()
 
         begin: (userConf) =>
             # apply base themes
