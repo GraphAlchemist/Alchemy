@@ -53,3 +53,5 @@
 
         allEdges: ->
             _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
+        
+        state: (key) -> if alchemy.state.key? then alchemy.state.key

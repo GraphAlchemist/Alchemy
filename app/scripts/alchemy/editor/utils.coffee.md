@@ -4,7 +4,7 @@
             @drawEdges = alchemy._drawEdges
 
         enableEditor: () =>
-            alchemy.setState "interactions", "editor"
+            alchemy.set.state "interactions", "editor"
             dragLine = alchemy.vis
                 .append "line"
                 .attr "id", "dragline"
@@ -72,7 +72,7 @@
                     alchemy.vis
                            .select node
                            .remove()
-                    if alchemy.getState("interactions") is "editor"
+                    if alchemy.get.state("interactions") is "editor"
                         alchemy.modifyElements.nodeEditorClear()
 
         addNode: (node) ->

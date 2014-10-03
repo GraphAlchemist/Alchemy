@@ -76,14 +76,14 @@
                 .on 'click', ->
                     d3.select @
                       .attr "class", () ->
-                        if alchemy.getState() is 'editor'
-                            alchemy.setState 'interactions', 'default'
+                        if alchemy.get.state() is 'editor'
+                            alchemy.set.state 'interactions', 'default'
                             "inactive list-group-item"
                         else
-                            alchemy.setState 'interactions', 'editor'
+                            alchemy.set.state 'interactions', 'editor'
                             "active list-group-item"
                       .html ->
-                          if alchemy.getState() is 'editor'
+                          if alchemy.get.state() is 'editor'
                               """Disable Editor Interactions"""
                           else 
                               """Enable Editor Interactions"""

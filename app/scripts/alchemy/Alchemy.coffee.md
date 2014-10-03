@@ -40,9 +40,6 @@ title: Anotated Source
             @state =
                 "interactions": "default"
                 "layout": "default"
-                "filters":
-                    "edges": {}
-                    "nodes": {}
             
             # node and edge internals...  It is unadvised to access internals
             # directly.  Use, alchemy.get.nodes or alchemy.get.edges
@@ -58,12 +55,6 @@ title: Anotated Source
 
             # extend alchemy with API methods
             # _.extend @, api()
-
-        allEdges: -> _.map @_edges, (e) -> e.properties
-        allNodes: -> _.map @_nodes, (n) -> n.properties
-
-        getState: (key) => if @state.key? then @state.key
-        setState: (key, value) => @state.key = value
 
         begin: (userConf) =>
             # apply base themes

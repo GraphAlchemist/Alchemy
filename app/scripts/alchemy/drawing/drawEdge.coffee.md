@@ -140,7 +140,7 @@ Here we need to change the offset the vertical offset of the start and end of th
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions
-            editorEnabled = alchemy.getState("interactions") is "editor"
+            editorEnabled = alchemy.get.state("interactions") is "editor"
             if editorEnabled
                 editorInteractions = new alchemy.editor.Interactions
                 edge.select '.edge-handler'

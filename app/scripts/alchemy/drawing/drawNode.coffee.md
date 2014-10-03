@@ -49,7 +49,7 @@
         setInteractions: (node) ->
             conf = alchemy.conf
             coreInteractions = alchemy.interactions
-            editorEnabled = alchemy.getState("interactions") is "editor"
+            editorEnabled = alchemy.get.state("interactions") is "editor"
 
             # reset drag
             drag = d3.behavior.drag()
