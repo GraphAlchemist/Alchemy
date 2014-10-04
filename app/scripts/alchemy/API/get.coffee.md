@@ -51,14 +51,15 @@
             clusterMap = alchemy.layout._clustering.clusterMap
             nodesByCluster = {}
             _.each clusterMap, (key, value) ->
-                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) -> node._properties[alchemy.conf.clusterKey] == value
+                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
+                    node.getProperties()[alchemy.conf.clusterKey] is value
             nodesByCluster
 
         clusterColours: ->
             clusterMap = alchemy.layout._clustering.clusterMap
             clusterColoursObject = {}
             _.each clusterMap, (key, value) ->
-               clusterColoursObject[value] = alchemy.conf.clusterColours[key%alchemy.conf.clusterColours.length]
+               clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
             clusterColoursObject
 
         allNodes: ->
