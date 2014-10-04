@@ -74,4 +74,27 @@ Currently, takes no arguments and returns an array of all edges that are loaded 
 
 It is important to realize that this returns an array of edge data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered 'state' of the edges (such as `hidden`, `selected`, etc...) has no effect on the results of `allEdges()`, and if the edge is loaded it will be returned.  If an edge has been deleted in the editor (either directly, or indirectly be deleting it's source or target node) then it is no longer loaded into Alchemy and will not appear in the result.
 
+##### alchemy.get.clusters()
+<!--  -->
+
+`alchemy.get.clusters()`<br>
+API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster
+  For example:
+
+~~~ javascript
+/* returns all clusters, and their associated nodes */
+alchemy.get.clusters();
+~~~
+
+##### alchemy.get.clusterColours()
+<!--  -->
+
+`alchemy.get.clusterColours()`<br>
+API method which returns a dictionary whose keys are the cluster names, and whose values the hex code of the color used for that cluster
+  For example:
+
+~~~ javascript
+/* returns all clusters, and their associated color codes */
+alchemy.get.clusterColours();
+~~~
 _______
