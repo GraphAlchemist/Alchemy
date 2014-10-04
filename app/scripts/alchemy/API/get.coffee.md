@@ -52,3 +52,19 @@
             _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
         
         state: (key) -> if alchemy.state.key? then alchemy.state.key
+
+        clusters: ->
+            clusterMap = alchemy.layout._clustering.clusterMap
+            nodesByCluster = {}
+            _.each clusterMap, (key, value) ->
+                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
+                    node.getProperties()[alchemy.conf.clusterKey] is value
+            nodesByCluster
+
+        clusterColours: ->
+            clusterMap = alchemy.layout._clustering.clusterMap
+            clusterColoursObject = {}
+            _.each clusterMap, (key, value) ->
+               clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
+            clusterColoursObject
+
