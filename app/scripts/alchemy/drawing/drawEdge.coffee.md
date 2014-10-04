@@ -56,25 +56,6 @@
                             return if angle < 0 then -1 else 1
                         0
 
-                    #startLine = utils.startLine d
-                    #endLine = utils.endLine d
-                    #sourceX = edgeWalk.pathStartX
-                    #sourceY = startLine.y
-                    #targetX = endLine.x
-                    #targetY = endLine.y
-
-                    #dx = targetX - sourceX
-                    #dy = targetY - sourceY
-                    
-                    #hyp = Math.sqrt dx * dx + dy * dy
-
-                    #offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
-                    #offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
-
-                    #arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
-                    #arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
-                    # "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
-
 Here we need to change the offset the vertical offset of the start and end of the arc.
 *(E.g. startPathTopY)*
 
@@ -124,6 +105,8 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .attr 'dy', (d) -> edgeWalk.midLineY
                                     .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
                                     .text d.caption
+                                    .style "display", (d)->
+                                        return "block" if conf.edgeCaptionsOnByDefault
             else
                 edge.select 'text'
                     .each (d) ->
@@ -137,10 +120,12 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .attr 'dy', "#{- d['stroke-width'] * 1.1}"
                                     .attr 'transform', "rotate(#{captionAngle})"
                                     .text d.caption
+                                    .style "display", (d)->
+                                        return "block" if conf.edgeCaptionsOnByDefault
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions
-            editorEnabled = alchemy.getState("interactions") is "editor"
+            editorEnabled = alchemy.get.state("interactions") is "editor"
             if editorEnabled
                 editorInteractions = new alchemy.editor.Interactions
                 edge.select '.edge-handler'

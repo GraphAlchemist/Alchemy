@@ -44,8 +44,8 @@
                     "captionBackground": -> null
                     "captionSize": 12
                     "selected":
-                        "color" : -> "#FFFFFF"
-                        "borderColor": -> "#349FE3"
+                        "color": -> "#FFFFFF"
+                        "borderColor": -> "38DD38"
                     "highlighted":
                         "color" : -> "#EEEEFF"
                     "hidden":

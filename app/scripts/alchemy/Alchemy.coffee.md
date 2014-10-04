@@ -37,15 +37,17 @@ title: Anotated Source
             @drawing = {}
             @editor = {}
             @log = {}
+            @currentRelationshipTypes = {}
             @state =
                 "interactions": "default"
                 "layout": "default"
-                "filters":
-                    "edges": {}
-                    "nodes": {}
             
-            # node and edge internals...  It is unadvised to access internals
-            # directly.  Use, alchemy.get.nodes or alchemy.get.edges
+            # node and edge internals
+            # It is unadvised to access internals directly.
+            # Use alchemy.get.nodes() or alchemy.get.edges() instead.
+            
+            # alchemy._nodes stores a node object as the value with the unique
+            # id specified in the GraphJSON.
             @_nodes = {}
 
             # alchemy._edges stores an array of edges under every unique id.
@@ -55,15 +57,6 @@ title: Anotated Source
             # The value is an array of edge 'packets', where the length of the array
             # is typically 1.
             @_edges = {}
-
-            # extend alchemy with API methods
-            # _.extend @, api()
-
-        allEdges: -> _.map @_edges, (e) -> e.properties
-        allNodes: -> _.map @_nodes, (n) -> n.properties
-
-        getState: (key) => if @state.key? then @state.key
-        setState: (key, value) => @state.key = value
 
         begin: (userConf) =>
             # apply base themes
@@ -78,36 +71,6 @@ title: Anotated Source
             else if typeof alchemy.conf.dataSource is 'object'
                 alchemy.startGraph alchemy.conf.dataSource
             @
-
-        #API methods
-        getNodes: (id, ids...) =>
-            # returns one or more nodes as an array
-            if ids
-                ids.push id
-                params = _.union ids
-                results = []
-                for p in params
-                    results.push alchemy._nodes[p].properties
-                results
-            else
-                [@_nodes[id].properties]
-
-        getEdges: (id=null, target=null) =>
-            # returns one or more edges as an array
-            if id? and target?
-                edge_id = "#{id}-#{target}"
-                edge = @_edges[edge_id]
-                [edge.properties]
-            else if id? and not target?
-                results = _.map @_edges, (edge) -> 
-                            if (edge.properties.source is id) or (edge.properties.target is id)
-                                edge.properties
-                _.compact results
-
-        allNodes: => _.map @_nodes, (n) -> n.properties
-        allEdges: => _.map @_edges, (e) -> e.properties
-
-    currentRelationshipTypes = {}
 
     if typeof module isnt 'undefined' and module.exports
       module.exports = new Alchemy()

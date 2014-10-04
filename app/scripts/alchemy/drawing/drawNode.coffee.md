@@ -26,6 +26,8 @@
                     else 
                         conf.nodeRadius * 2 - 5
                 .html (d) -> utils.nodeText(d)
+                .style "display", (d)->
+                    return "block" if conf.nodeCaptionsOnByDefault
 
         createNode: (node) ->
             node.append 'circle'
@@ -49,7 +51,7 @@
         setInteractions: (node) ->
             conf = alchemy.conf
             coreInteractions = alchemy.interactions
-            editorEnabled = alchemy.getState("interactions") is "editor"
+            editorEnabled = alchemy.get.state("interactions") is "editor"
 
             # reset drag
             drag = d3.behavior.drag()

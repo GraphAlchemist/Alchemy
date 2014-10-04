@@ -63,7 +63,7 @@
             if alchemy.conf.edgeTypes
                 edgeData = []
                 for e in alchemy.vis.selectAll(".edge")[0]
-                    currentRelationshipTypes[[e].caption] = true
+                    alchemy.currentRelationshipTypes[[e].caption] = true
 
                 for edgeType in alchemy.conf.edgeTypes
                     if not edgeType then continue

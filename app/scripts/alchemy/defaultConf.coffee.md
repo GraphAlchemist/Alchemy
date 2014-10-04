@@ -69,6 +69,7 @@
 
         # Nodes
         nodeCaption: 'caption'
+        nodeCaptionsOnByDefault: false
         nodeStyle:
             "all":
                 "radius": 10
@@ -96,6 +97,7 @@
 
         # Edges
         edgeCaption: 'caption'
+        edgeCaptionsOnByDefault: false
         edgeClick: 'default'
         edgeStyle:
             "all":

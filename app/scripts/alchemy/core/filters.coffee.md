@@ -25,9 +25,6 @@
 
                 nodeTypes = ''
                 for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                    # Add to @state for tracking
-                    alchemy.state.filters.nodes["#{nodeType}"] = {"active": true}
-
                     # Create Filter list element
                     caption = nodeType.replace '_', ' '
                     nodeTypes += "<li class='list-group-item nodeType' role='menuitem' id='li-#{nodeType}' name=#{nodeType}>#{caption}</li>"
@@ -36,13 +33,10 @@
 
             if alchemy.conf.edgeTypes
                 for e in alchemy.dash.selectAll(".edge")[0]
-                    currentRelationshipTypes[[e].caption] = true
+                    alchemy.currentRelationshipTypes[[e].caption] = true
 
                 edgeTypes = ''
                 for edgeType in alchemy.conf.edgeTypes
-                    # Add to @state for tracking
-                    alchemy.state.filters.edges["#{edgeType}"] = {"active": true}
-
                     # Create Filter list element
                     caption = edgeType.replace '_', ' '
                     edgeTypes += "<li class='list-group-item edgeType' role='menuitem' id='li-#{edgeType}' name=#{edgeType}>#{caption}</li>"
