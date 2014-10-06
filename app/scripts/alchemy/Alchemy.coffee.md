@@ -66,18 +66,29 @@ title: Anotated Source
         setState: (key, value) => @state.key = value
 
         begin: (userConf) =>
-            # apply base themes
-            if userConf.theme?
-                _.merge alchemy.defaults, alchemy.themes["#{userConf.theme}"]
-
             # overide configuration with user inputs
-            @conf = _.merge alchemy.defaults, userConf
+            @conf = _.merge alchemy.defaults, alchemy.cleanConf(userConf)
 
             if typeof alchemy.conf.dataSource is 'string'
                 d3.json alchemy.conf.dataSource, alchemy.startGraph
             else if typeof alchemy.conf.dataSource is 'object'
                 alchemy.startGraph alchemy.conf.dataSource
             @
+
+        cleanConf: (userConf) -> 
+            # apply base themes
+            if userConf.theme?
+                _.merge alchemy.defaults, alchemy.themes["#{userConf.theme}"]
+                
+            # alias British/American colour/color spelling, hopefully temporary
+            for key, value of userConf
+                if key == "clusterColors" 
+                    userConf["clusterColours"] = value
+                if key == "backgroundColor"
+                    userConf["backgroundColour"] = value
+                if key == "nodeColor"
+                    userConf["nodeColour"] = value
+            userConf
 
         #API methods
         getNodes: (id, ids...) =>
