@@ -59,18 +59,60 @@ title: Anotated Source
             @_edges = {}
 
         begin: (userConf) =>
-            # apply base themes
-            if userConf.theme?
-                _.merge alchemy.defaults, alchemy.themes["#{userConf.theme}"]
-
             # overide configuration with user inputs
-            @conf = _.merge alchemy.defaults, userConf
+            @setConf(userConf)
 
             if typeof alchemy.conf.dataSource is 'string'
                 d3.json alchemy.conf.dataSource, alchemy.startGraph
             else if typeof alchemy.conf.dataSource is 'object'
                 alchemy.startGraph alchemy.conf.dataSource
             @
+
+        setConf: (userConf) -> 
+            # apply base themes
+            if userConf.theme?
+                _.merge alchemy.defaults, alchemy.themes["#{userConf.theme}"]
+
+            # alias British/American colour/color spelling, hopefully temporary
+            for key, value of userConf
+                if key is "clusterColors" 
+                    userConf["clusterColours"] = value
+                if key is "backgroundColor"
+                    userConf["backgroundColour"] = value
+                if key is "nodeColor"
+                    userConf["nodeColour"] = value
+
+            @conf = _.merge alchemy.defaults, userConf
+
+        #API methods
+        getNodes: (id, ids...) =>
+            # returns one or more nodes as an array
+            if ids
+                ids.push id
+                params = _.union ids
+                results = []
+                for p in params
+                    results.push alchemy._nodes[p].properties
+                results
+            else
+                [@_nodes[id].properties]
+
+        getEdges: (id=null, target=null) =>
+            # returns one or more edges as an array
+            if id? and target?
+                edge_id = "#{id}-#{target}"
+                edge = @_edges[edge_id]
+                [edge.properties]
+            else if id? and not target?
+                results = _.map @_edges, (edge) -> 
+                            if (edge.properties.source is id) or (edge.properties.target is id)
+                                edge.properties
+                _.compact results
+
+        allNodes: => _.map @_nodes, (n) -> n.properties
+        allEdges: => _.map @_edges, (e) -> e.properties
+
+    currentRelationshipTypes = {}
 
     if typeof module isnt 'undefined' and module.exports
       module.exports = new Alchemy()
