@@ -64,7 +64,7 @@ Build a right triangle.
             height = triangle.height
             hyp = triangle.hyp
 
-The widht of the stroke places a large part in how the arrow lays out with larger edge widths.
+The width of the stroke places a large part in how the arrow lays out with larger edge widths.
 
             edgeWidth = edge['stroke-width']
 
@@ -128,46 +128,63 @@ for the curve of the node.
         curvedEdgeWalk: (edge) ->
             arrowSize = alchemy.conf.edgeArrowSize
             arrowScale = 0.3
+            arrowLength = arrowSize
+            arrowWidth = arrowSize * arrowScale
             
-            minOffset = -15
+            arrowAngle = -45
+
+Pixel spacing ("padding") between node and edge
+            
+            padding = 0
 
             triangle = @triangle(edge)
             width  = triangle.width
             height = triangle.height
             hyp = triangle.hyp
 
+            if height < 0 then arrowAngle = -arrowAngle
+
             edgeWidth = edge['stroke-width']
 
-            startRadius = edge.source.radius + edge.source['stroke-width'] + edgeWidth / 2
-            endRadius = edge.target.radius + edge.target['stroke-width'] + arrowSize
-            #rename to bend ratio?
-            radiusRatio = startRadius / endRadius
+            startRadius = edge.source.radius + edge.source['stroke-width']
+            endRadius = edge.target.radius + edge.target['stroke-width']
+            
+            radiusRatio = (startRadius + padding ) / (endRadius + arrowSize + padding)
 
             square = (n) -> n * n
 
 Yes, the [homotheticCenter](http://en.wikipedia.org/wiki/Homothetic_center)
             
-            homotheticCenter = -hyp * radiusRatio / (1 - radiusRatio)
+            homotheticCenter = -width * radiusRatio / (1 - radiusRatio)
 
             # rename
             intersectWithOtherCircle = (fixedPointX, fixedPointY, radius, xCenter, polarity) ->
+
+Some context for gradient, `tan(gradient) =  "opposite" / "adjacent" 
                 
                 gradient = fixedPointY / (fixedPointX - homotheticCenter)
-                hc = fixedPointY - gradient * fixedPointX
+
+The internal homotheticCenter = "opposite" - tan(theta) * "adjacent"
+A is sec2(theta) = 1 + square(tan(theta))
+B is 
+     
+                internalHC = fixedPointY - gradient * fixedPointX
                 A = 1 + square(gradient)
-                B = 2 * (gradient * hc - xCenter)
-                C = square(hc) + square(xCenter) - square(radius)
-                intersection = x: (-B + polarity * Math.sqrt(square(B) - 4 * A * C)) / (2 * A)
+                B = 2 * (gradient * internalHC - xCenter)
+                C = square(internalHC) + square(xCenter) - square(radius)
+                intersection = {x: (-B + polarity * Math.sqrt(Math.abs(square(B) - 4 * A * C))) / (2 * A)}
                 intersection.y = (intersection.x - homotheticCenter) * gradient
                 intersection
 
-            if edge.target.radius + arrowSize > edge.source.radius
-                offsetAngle = minOffset / edge.source.radius
-                pathStartX = Math.cos( offsetAngle ) * edge.source.radius
-                pathStartY = Math.sin( offsetAngle ) * edge.source.radius
-                intersection = intersectWithOtherCircle(pathStartX, pathStartY, edge.target.radius + arrowSize, hyp, -1)
-                pathEndX = intersection.x
-                pathEndY = intersection.y
+            
+            #if edge.target.radius + arrowSize > edge.source.radius
+            #offsetAngle = minOffset / edge.source.radius
+            offsetAngle = (arrowAngle * Math.PI) / (180 * startRadius)
+            pathStartX = Math.cos( offsetAngle ) * ( startRadius + padding )
+            pathStartY = Math.sin( offsetAngle ) * ( startRadius + padding )
+            intersection = intersectWithOtherCircle(pathStartX, pathStartY, endRadius + arrowLength, hyp, -1)
+            pathEndX = intersection.x
+            pathEndY = intersection.y
             
             #else
             #    offsetAngle = minOffset / endRadius;
@@ -185,39 +202,92 @@ Yes, the [homotheticCenter](http://en.wikipedia.org/wiki/Homothetic_center)
             cx = (c1 - c2) / (g2 - g1)
             cy = g1 * cx + c1
 
-            arcRadius = Math.sqrt( (cx - pathStartX) * (cx - pathStartX) + (cy - pathStartY) * (cy - pathStartY) )
+            arcRadius = Math.sqrt( square(cx - pathStartX) + square(cy - pathStartY) )
 
             # change name?
             startTangent = (dr) ->
                 dx = (if dr < 0 then -1 else 1) * Math.sqrt(dr * dr / (1 + g1 * g1))
                 dy = g1 * dx
-                "#{pathStartX + dx} #{pathStartY + dy}"
+                "#{pathStartX + dx}, #{pathStartY + dy}"
 
             endTangent = (dr) ->
                 dx = (if dr < 0 then -1 else 1) * Math.sqrt( dr * dr / (1 + g2 * g2) )
                 dy = g2 * dx
-                "#{pathEndX + dx} #{pathEndY + dy}"
+                "#{pathEndX + dx}, #{pathEndY + dy}"
 
             endNormal = (dc) ->
                 dx = (if dc < 0 then -1 else 1) * Math.sqrt( dc * dc / (1 + (1 / g2) * (1 / g2)) )
                 dy = dx / g2
-                "#{pathEndX + dx} #{pathEndY - dy}"
+                "#{pathEndX + dx}, #{pathEndY - dy}"
+            
+            # STTest = (dr) ->
+            #     dx = (if dr < 0 then -1 else 1) * Math.sqrt(dr * dr / (1 + g1 * g1))
+            #     dy = g1 * dx
+                
+            #     x: pathStartX + dx
+            #     y: pathStartY + dy
 
-            """
-            M #{startTangent(-edgeWidth)}
-            L #{startTangent(edgeWidth)}
-            A #{arcRadius - edgeWidth} #{arcRadius - edgeWidth} 
-              0, 0, #{if minOffset > 0 then 0 else 1}
-              #{endTangent(-edgeWidth)}
-            L #{endTangent(-arrowSize * arrowScale)}
-            L #{endNormal(arrowSize)}
-            L #{endTangent(arrowSize * arrowScale)}
-            L #{endTangent(edgeWidth)}
-            A #{arcRadius + edgeWidth} #{arcRadius + edgeWidth}
-              0, 0, #{if minOffset > 0 then 0 else 1}
-              #{startTangent(-edgeWidth)}
-            """
+            # ETTest = (dr) ->
+            #     dx = (if dr < 0 then -1 else 1) * Math.sqrt( dr * dr / (1 + g2 * g2) )
+            #     dy = g2 * dx
+                
+            #     x: pathEndX + dx
+            #     y: pathEndY + dy
 
+            # ENTest = (dc) ->
+            #     dx = (if dc < 0 then -1 else 1) * Math.sqrt( dc * dc / (1 + (1 / g2) * (1 / g2)) )
+            #     dy = dx / g2
+                
+            #     x: pathEndX + dx
+            #     y: pathEndY - dy
+
+            # edgeEl = d3.select("#edge-"+ edge.id + "-" + edge.pos)
+
+            # test = STTest(-edgeWidth)
+            
+            # edgeEl.append('circle')
+            #      .attr('r', 1)
+            #      .attr('cx', test.x)
+            #      .attr('cy', test.y)
+            #      .attr('style', 'stroke: red !important;')
+
+            # test = STTest(edgeWidth)
+            # edgeEl.append('circle')
+            #      .attr('r', 1)
+            #      .attr('cx', test.x)
+            #      .attr('cy', test.y)
+            #      .attr('style', 'stroke: blue !important;')
+
+            # test = ETTest(-edgeWidth)
+            # edgeEl.append('circle')
+            #      .attr('r', 1)
+            #      .attr('cx', test.x)
+            #      .attr('cy', test.y)
+            #      .attr('style', 'stroke: orange !important;')
+
+            # test = ETTest(edgeWidth)
+            # edgeEl.append('circle')
+            #      .attr('r', 1)
+            #      .attr('cx', test.x)
+            #      .attr('cy', test.y)
+            #      .attr('style', 'stroke: #ff00de !important;')
+            
+            #              0, 0, #{if minOffset > 0 then 0 else 1},
+            """
+            M #{startTangent(-edgeWidth)},
+            L #{startTangent(edgeWidth)},
+            A #{arcRadius - edgeWidth}, #{arcRadius - edgeWidth},
+               0, 0, 1,
+              #{endTangent(-edgeWidth)},
+            L #{endTangent(-arrowWidth)},
+            L #{endNormal(arrowLength)},
+            L #{endTangent(arrowWidth)},
+            L #{endTangent(edgeWidth)},
+            A #{arcRadius +  edgeWidth}, #{arcRadius + edgeWidth},
+              0, 0, 0,
+              #{startTangent(-edgeWidth)},
+            """           
+            # First arc is on bottom of path, bending up...
 
         # middleLine: (edge) -> @edgeWalk edge, 'middle'
         # startLine: (edge) -> @edgeWalk edge, 'linkStart'
