@@ -25,7 +25,7 @@ The action that occurs when the user clicks an edge.  When the string `'default'
 
 [`css style value`] default:`null`
 
-A function that assigns custom edge styling.  Should return a string that is a valid value to the "style" svg attribute in css.  If `alchemy.conf.cluster` is `true` then styling is assigned by edge gradients take priority.  Read more about the [`cluster` configuration](#cluster).
+A function that assigns custom edge styling.  Should return a string that is a valid value to the "style" svg attribute in css.  If `alchemy.conf.cluster` is `true` then styling between nodes of the same cluster will receive that cluster's color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors. Read more about the [`cluster` configuration](#cluster).
 
 ##### edgeTypes
 
