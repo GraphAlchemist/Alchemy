@@ -5,6 +5,8 @@ angular.module('site',['ngRoute'
                        'featCarousel'
                        'angular-inview'
                        'navigation'
+                       'yaru22.md'
+                       
                        ])
   .config ($routeProvider) ->
     $routeProvider
