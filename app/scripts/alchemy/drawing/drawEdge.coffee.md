@@ -40,7 +40,7 @@
                 g = d3.select(@)
                 g.style utils.edgeStyle d
                 
-                if !conf.curvedEdges and !directed
+                if !conf.curvedEdges #and !directed
                     g.attr('transform', 
                        "translate(#{edgeWalk.startEdgeX}, #{edgeWalk.startEdgeY}) rotate(#{edgeWalk.edgeAngle})")
 
