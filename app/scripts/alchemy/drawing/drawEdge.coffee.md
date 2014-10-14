@@ -122,14 +122,14 @@
                 edge.select 'text'
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        captionAngle = utils.captionAngle(edgeWalk.edgeAngle)
+                        captionAngle = utils.captionAngle(d)
                         if captionAngle is 180
                             dx = - edgeWalk.edgeLength / 2
                         else
                             dx = edgeWalk.edgeLength / 2
                         d3.select(@).attr 'dx', "#{dx}"
                                     .attr 'dy', "#{- d['stroke-width'] * 1.1}"
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)})"
+                                    .attr 'transform', "rotate(#{captionAngle})"
                                     .text d.caption
                                     .style "display", (d)->
                                         return "block" if conf.edgeCaptionsOnByDefault
