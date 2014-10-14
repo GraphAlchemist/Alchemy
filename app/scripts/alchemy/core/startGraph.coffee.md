@@ -35,6 +35,7 @@
             .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour}"
             .append "svg"
                 .attr "xmlns", "http://www.w3.org/2000/svg"
+                .attr "xlink", "http://www.w3.org/1999/xlink"
                 .attr "pointer-events", "all"
                 .on "dblclick.zoom", null
                 .on 'click', alchemy.interactions.deselectAll

@@ -113,12 +113,11 @@
                 edge.select 'text' 
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        d3.select(@).attr 'dx', edgeWalk.midLineX
-                                    .attr 'dy', (d) -> edgeWalk.midLineY
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                        d3.select(@).attr 'dx', (d) -> utils.middlePath(d).x
+                                    .attr 'dy', (d) -> utils.middlePath(d).y + 20
+                                    .attr 'transform', "rotate(#{utils.captionAngle(d)})"
                                     .text d.caption
-                                    .style "display", (d)->
-                                        return "block" if conf.edgeCaptionsOnByDefault
+                                    .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
             else
                 edge.select 'text'
                     .each (d) ->
@@ -130,10 +129,23 @@
                             dx = edgeWalk.edgeLength / 2
                         d3.select(@).attr 'dx', "#{dx}"
                                     .attr 'dy', "#{- d['stroke-width'] * 1.1}"
-                                    .attr 'transform', "rotate(#{captionAngle})"
+                                    .attr 'transform', "rotate(#{utils.captionAngle(d)})"
                                     .text d.caption
                                     .style "display", (d)->
                                         return "block" if conf.edgeCaptionsOnByDefault
+
+            # TODO: Code to start having text follow path.
+            # This will eliminate the need for alot of math and extra work if we can
+            # simply get the text to xlink to the path itself.  It's not currently
+            # working and we need to get on with the release, but it needs to be
+            # implemented.
+            #
+            # edge.select 'text'
+            #     .each (d) ->
+            #         d3.select @
+            #           .text d.caption
+            #           .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
+            #           .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions

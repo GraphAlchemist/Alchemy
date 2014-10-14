@@ -174,10 +174,18 @@ for the curve of the node.
             else
                 0
         middlePath: (edge) ->
-                pathNode = alchemy.vis
-                                  .select "#path-#{edge.id}"
-                                  .node()
-                midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
-     
-                x: midPoint.x
-                y: midPoint.y
+            pathNode = alchemy.vis
+                              .select "#path-#{edge.id}"
+                              .node()
+            midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
+ 
+            x: midPoint.x
+            y: midPoint.y
+                
+        # Temporary fill in for curved edges until math is completed for new path only edges
+        middlePathCurve: (edge) ->
+            pathNode = d3.select("#path-#{edge.id}").node()
+            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
+
+            x: midPoint.x
+            y: midPoint.y
