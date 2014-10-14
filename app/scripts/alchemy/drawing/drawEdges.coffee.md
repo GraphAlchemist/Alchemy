@@ -31,6 +31,10 @@
             drawEdge.setInteractions edge
             edge.exit().remove()
 
+            if alchemy.conf.directedEdges and alchemy.conf.curvedEdges
+                edge.select('.edge-line')
+                    .attr('marker-end', 'url(#arrow)')
+
         updateEdge: (d3Edge) ->
             drawEdge = alchemy.drawing.DrawEdge
             edge = alchemy.vis.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
