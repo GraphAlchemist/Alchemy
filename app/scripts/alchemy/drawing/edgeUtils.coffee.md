@@ -124,11 +124,38 @@ for the curve of the node.
 
             edgeLength: edgeLength
 
-        
+        # Temporary drop in to reimplement curved directed edges.
+        # Will be replaced once the math for the better alternative is worked out.
+        curvedDirectedEdgeWalk: (edge, point)->
+            conf = alchemy.conf
 
-        # middleLine: (edge) -> @edgeWalk edge, 'middle'
-        # startLine: (edge) -> @edgeWalk edge, 'linkStart'
-        endLine: (edge) -> @edgeWalk edge, 'linkEnd'
+            # build a right triangle
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
+            # as in hypotenuse 
+            hyp = Math.sqrt(height * height + width * width)
+
+            newpoint = if point is 'middle'
+                    distance = (hyp / 2)
+                    x: edge.source.x + width * distance / hyp
+                    y: edge.source.y + height * distance / hyp
+                else if point is 'linkStart'
+                    distance = edge.source.radius+ edge.source['stroke-width']
+                    x: edge.source.x + width * distance / hyp
+                    y: edge.source.y + height * distance / hyp
+                else if point is 'linkEnd'
+                    if conf.curvedEdges
+                        distance = hyp
+                    else
+                        distance = hyp - (edge.target.radius + edge.target['stroke-width'])
+                    if conf.directedEdges
+                        distance = distance - conf.edgeArrowSize
+                    x: edge.source.x + width * distance / hyp
+                    y: edge.source.y + height * distance / hyp
+            newpoint
+        middleLine: (edge) -> @curvedDirectedEdgeWalk edge, 'middle'
+        startLine: (edge) -> @curvedDirectedEdgeWalk edge, 'linkStart'
+        endLine: (edge) -> @curvedDirectedEdgeWalk edge, 'linkEnd'
         
         edgeLength: (edge) ->
             # build a right triangle
@@ -147,10 +174,18 @@ for the curve of the node.
             else
                 0
         middlePath: (edge) ->
-                pathNode = alchemy.vis
-                                  .select "#path-#{edge.id}"
-                                  .node()
-                midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
-     
-                x: midPoint.x
-                y: midPoint.y
+            pathNode = alchemy.vis
+                              .select "#path-#{edge.id}"
+                              .node()
+            midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
+ 
+            x: midPoint.x
+            y: midPoint.y
+                
+        # Temporary fill in for curved edges until math is completed for new path only edges
+        middlePathCurve: (edge) ->
+            pathNode = d3.select("#path-#{edge.id}").node()
+            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
+
+            x: midPoint.x
+            y: midPoint.y

@@ -38,33 +38,45 @@
             edge.each (d) ->
                 edgeWalk = utils.edgeWalk d
                 g = d3.select(@)
-                g.attr('transform', 
-                       "translate(#{edgeWalk.startEdgeX}, #{edgeWalk.startEdgeY}) rotate(#{edgeWalk.edgeAngle})")
-                 .style utils.edgeStyle d
+                g.style utils.edgeStyle d
                 
+                if !conf.curvedEdges #and !directed
+                    g.attr('transform', 
+                       "translate(#{edgeWalk.startEdgeX}, #{edgeWalk.startEdgeY}) rotate(#{edgeWalk.edgeAngle})")
+
                 g.select('.edge-line')
                  .attr 'd',
 
 **This can be refactored for readability (please!)**                    
                 
                 if conf.curvedEdges
-                    angle = edgeWalk.edgeAngle
+                        angle = utils.edgeAngle d
 
-                    sideOfY = if Math.abs(angle) > 90 then -1 else 1
-                    sideOfX = do (angle) ->
-                        if angle != 0
-                            return if angle < 0 then -1 else 1
-                        0
+                        sideOfY = if Math.abs(angle) > 90 then -1 else 1
+                        sideOfX = do (angle) ->
+                                return 0 if angle is 0
+                                return if angle < 0 then -1 else 1
 
-Here we need to change the offset the vertical offset of the start and end of the arc.
-*(E.g. startPathTopY)*
+                        startLine = utils.startLine(d)
+                        endLine = utils.endLine(d)
+                        sourceX = startLine.x
+                        sourceY = startLine.y
+                        targetX = endLine.x
+                        targetY = endLine.y
 
-                    """
-                    M #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
-                    A #{edgeWalk.edgeLength} #{edgeWalk.edgeLength} 
-                      0 0 1 
-                      #{edgeWalk.edgeLength} #{edgeWalk.startPathTopY}
-                    """
+                        dx = targetX - sourceX
+                        dy = targetY - sourceY
+                        
+                        hyp = Math.sqrt( dx * dx + dy * dy)
+
+                        offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
+                        offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
+
+                        arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
+                        arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
+                        # "M #{startLine.x},#{startLine.y} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{endLine.x}, #{endLine.y}")
+                        "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
+
                 else
                     if conf.directedEdges
                         """
@@ -101,17 +113,16 @@ Here we need to change the offset the vertical offset of the start and end of th
                 edge.select 'text' 
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        d3.select(@).attr 'dx', edgeWalk.midLineX
-                                    .attr 'dy', (d) -> edgeWalk.midLineY
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                        d3.select(@).attr 'dx', (d) -> utils.middlePath(d).x
+                                    .attr 'dy', (d) -> utils.middlePath(d).y + 20
+                                    .attr 'transform', "rotate(#{utils.captionAngle(d)})"
                                     .text d.caption
-                                    .style "display", (d)->
-                                        return "block" if conf.edgeCaptionsOnByDefault
+                                    .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
             else
                 edge.select 'text'
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        captionAngle = utils.captionAngle(edgeWalk.edgeAngle)
+                        captionAngle = utils.captionAngle(d)
                         if captionAngle is 180
                             dx = - edgeWalk.edgeLength / 2
                         else
@@ -122,6 +133,19 @@ Here we need to change the offset the vertical offset of the start and end of th
                                     .text d.caption
                                     .style "display", (d)->
                                         return "block" if conf.edgeCaptionsOnByDefault
+
+            # TODO: Code to start having text follow path.
+            # This will eliminate the need for alot of math and extra work if we can
+            # simply get the text to xlink to the path itself.  It's not currently
+            # working and we need to get on with the release, but it needs to be
+            # implemented.
+            #
+            # edge.select 'text'
+            #     .each (d) ->
+            #         d3.select @
+            #           .text d.caption
+            #           .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
+            #           .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions
