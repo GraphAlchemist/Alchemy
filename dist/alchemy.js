@@ -11,13 +11,7 @@
       this.getEdges = __bind(this.getEdges, this);
       this.getNodes = __bind(this.getNodes, this);
       this.begin = __bind(this.begin, this);
-<<<<<<< HEAD
-      this.setState = __bind(this.setState, this);
-      this.getState = __bind(this.getState, this);
-      this.version = "0.2.2";
-=======
       this.version = "0.3";
->>>>>>> release-0.3
       this.layout = {};
       this.interactions = {};
       this.utils = {};
@@ -648,10 +642,6 @@
     edgeClick: function(d) {
       var edge;
       d3.event.stopPropagation();
-<<<<<<< HEAD
-      if (typeof alchemy.conf.edgeClick === 'function') {
-        return alchemy.conf.edgeClick(d);
-=======
       edge = alchemy._edges[d.id][d.pos];
       if (edge._state !== "hidden") {
         edge._state = (function() {
@@ -664,7 +654,6 @@
       }
       if (typeof (alchemy.conf.edgeClick != null) === 'function') {
         return alchemy.conf.edgeClick();
->>>>>>> release-0.3
       }
     },
     edgeMouseOver: function(d) {
@@ -1530,28 +1519,6 @@
       conf = alchemy.conf;
       utils = alchemy.drawing.NodeUtils;
       nodes = alchemy._nodes;
-<<<<<<< HEAD
-      interactions = alchemy.interactions;
-      this.utils = new alchemy.drawing.NodeUtils;
-      utils = this.utils;
-      this._styleText = function(node) {
-        return node.selectAll("text").attr('dy', function(d) {
-          if (nodes[d.id].properties.root) {
-            return conf.rootNodeRadius / 2;
-          } else {
-            return conf.nodeRadius * 2 - 5;
-          }
-        }).text(function(d) {
-          return utils.nodeText(d);
-        });
-      };
-      this._createNode = function(node) {
-        node.append('circle').attr('id', function(d) {
-          return "circle-" + d.id;
-        });
-        return node.append('svg:text').attr('id', function(d) {
-          return "text-" + d.id;
-=======
       return node.selectAll("text").attr('dy', function(d) {
         if (nodes[d.id].getProperties().root) {
           return conf.rootNodeRadius / 2;
@@ -1605,7 +1572,6 @@
           return coreInteractions.nodeDoubleClick(d);
         }).on('click', function(d) {
           return editorInteractions.nodeClick(d);
->>>>>>> release-0.3
         });
       } else {
         node.on('mouseup', null).on('mouseover', function(d) {
