@@ -114,7 +114,6 @@
 }
 
 svg {
-  background: black;
   position: absolute;
   left: 0;
   cursor: -webkit-grab;
@@ -125,18 +124,6 @@ svg {
 
 .node {
   cursor: pointer;
-}
-
-.node circle {
-  fill: #68b9fe;
-  fill-opacity: 0.8;
-  stroke: #127dc1;
-  stroke-opacity: 1;
-}
-
-.node circle.root {
-  fill: #9000ff;
-  stroke: #90c73d;
 }
 
 .node text.root {
@@ -154,65 +141,14 @@ svg {
 
 .node.active {
   opacity: 1;
-  fill: white;
-}
-
-.node.active.highlight {
-  opacity: .8 !important;
-}
-
-.node.active.highlight circle {
-  fill-opacity: 1;
-  stroke: #015399;
-  stroke-width: 3px;
-  fill: white;
-}
-
-.node.active.selected circle {
-  stroke-width: 5px;
-  fill-opacity: .8;
-  stroke-opacity: 1;
-  stroke: white;
-  fill: #68b9fe;
 }
 
 .node.active.selected text {
   display: block;
 }
 
-.node.active.selected:hover circle {
-  stroke-width: 5px;
-  fill-opacity: .8;
-  stroke-opacity: 1;
-  stroke: white;
-  fill: white;
-}
-
-.node.active:hover circle {
-  stroke-width: 3px;
-  fill-opacity: .8;
-  stroke-opacity: 1;
-  stroke: #015399;
-  fill: #9bd0fe;
-}
-
 .node.active:hover text {
   display: block;
-}
-
-.node.inactive {
-  opacity: 0;
-}
-
-.node.inactive.highlight {
-  opacity: .8 !important;
-}
-
-.node.inactive.highlight circle {
-  fill-opacity: 1;
-  stroke: #e89619;
-  stroke-width: 2px;
-  fill: white;
 }
 
 defs #arrow path {
@@ -220,12 +156,6 @@ defs #arrow path {
   stroke-opacity: 0.2;
   fill: #CCC;
   opacity: 1;
-}
-
-.edge {
-  stroke-width: 2;
-  stroke: #ccc;
-  stroke-opacity: 0.2;
 }
 
 .edge text {
@@ -241,15 +171,12 @@ defs #arrow path {
   fill: none;
 }
 
-.edge.active {
-  opacity: 1;
-}
-
 .edge.active text {
   display: none;
   fill: white;
   font-weight: 200;
   text-anchor: middle;
+  text-shadow: 1px 1px #333, -1px 1px #333, 1px -1px #333, -1px -1px #333;
   z-index: 1000;
 }
 
@@ -258,44 +185,13 @@ defs #arrow path {
   cursor: pointer;
 }
 
-.edge.active:hover .edge-line,
-.edge.active.selected .edge-line {
-  stroke: white !important;
-  stroke-opacity: 1;
-  stroke-width: 4;
-}
-
 .edge.active:hover text,
 .edge.active.selected text {
   display: block;
 }
 
-.edge.active.highlight {
-  opacity: .8 !important;
-  stroke-width: 2;
-  stroke: white !important;
-  stroke-opacity: 1;
-}
-
 .edge.active.highlight text {
   display: block;
-}
-
-.edge.inactive {
-  display: none;
-  opacity: 0;
-}
-
-.edge.inactive.highlight {
-  opacity: .8 !important;
-  stroke-width: 2;
-  stroke-opacity: .5;
-  stroke: #e89619;
-}
-
-#loading-spinner {
-  position: absolute;
-  right: 0;
 }
 
 #zoom-controls {

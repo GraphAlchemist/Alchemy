@@ -37,15 +37,17 @@ title: Anotated Source
             @drawing = {}
             @editor = {}
             @log = {}
+            @currentRelationshipTypes = {}
             @state =
                 "interactions": "default"
                 "layout": "default"
-                "filters":
-                    "edges": {}
-                    "nodes": {}
             
-            # node and edge internals...  It is unadvised to access internals
-            # directly.  Use, alchemy.get.nodes or alchemy.get.edges
+            # node and edge internals
+            # It is unadvised to access internals directly.
+            # Use alchemy.get.nodes() or alchemy.get.edges() instead.
+            
+            # alchemy._nodes stores a node object as the value with the unique
+            # id specified in the GraphJSON.
             @_nodes = {}
 
             # alchemy._edges stores an array of edges under every unique id.
@@ -56,22 +58,31 @@ title: Anotated Source
             # is typically 1.
             @_edges = {}
 
-            # extend alchemy with API methods
-            # _.extend @, api()
-
-        allEdges: -> _.map @_edges, (e) -> e.properties
-        allNodes: -> _.map @_nodes, (n) -> n.properties
-
-        getState: (key) => if @state.key? then @state.key
-        setState: (key, value) => @state.key = value
-
         begin: (userConf) =>
             # overide configuration with user inputs
-            @conf = _.merge alchemy.defaults, userConf
+            @setConf(userConf)
+
             if typeof alchemy.conf.dataSource is 'string'
                 d3.json alchemy.conf.dataSource, alchemy.startGraph
             else if typeof alchemy.conf.dataSource is 'object'
                 alchemy.startGraph alchemy.conf.dataSource
+            @
+
+        setConf: (userConf) -> 
+            # apply base themes
+            if userConf.theme?
+                _.merge alchemy.defaults, alchemy.themes["#{userConf.theme}"]
+
+            # alias British/American colour/color spelling, hopefully temporary
+            for key, value of userConf
+                if key is "clusterColors" 
+                    userConf["clusterColours"] = value
+                if key is "backgroundColor"
+                    userConf["backgroundColour"] = value
+                if key is "nodeColor"
+                    userConf["nodeColour"] = value
+
+            @conf = _.merge alchemy.defaults, userConf
 
         #API methods
         getNodes: (id, ids...) =>
@@ -205,20 +216,15 @@ title: Anotated Source
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     alchemy.get = 
+        # returns one or more nodes as an array
         nodes: (id, ids...) ->
-                if not id
-                    console.warn "Please specify a node id."
-                    return
-                # returns one or more nodes as an array
-                if ids.length isnt 0
-                    ids.push id
-                    params = _.union ids
-                    results = []
-                    for p in params
-                        results.push alchemy._nodes[p]
-                    results
+                if id?
+                    # All passed ids with artificially enforced type safety
+                    allIDs = _.map arguments, (arg) -> String(arg)
+                    _.filter alchemy._nodes, (val, key)->
+                        val if _.contains allIDs, key
                 else
-                    [alchemy._nodes[id]]
+                    console.warn "Please specify a node id."
 
         edges: (id=null, target=null) ->
             # returns one or more edges as an array
@@ -237,12 +243,51 @@ title: Anotated Source
                             edge.properties
                 _.compact results
 
-        allNodes: ->
-            _.map alchemy._nodes, (n) -> n
-
+        allNodes: (type) ->
+            if type?
+                _.filter alchemy._nodes, (n) -> n if n._nodeType is type
+            else
+                _.map alchemy._nodes, (n) -> n
 
         allEdges: ->
             _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
+        
+        state: (key) -> if alchemy.state.key? then alchemy.state.key
+
+        clusters: ->
+            clusterMap = alchemy.layout._clustering.clusterMap
+            nodesByCluster = {}
+            _.each clusterMap, (key, value) ->
+                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
+                    node.getProperties()[alchemy.conf.clusterKey] is value
+            nodesByCluster
+
+        clusterColours: ->
+            clusterMap = alchemy.layout._clustering.clusterMap
+            clusterColoursObject = {}
+            _.each clusterMap, (key, value) ->
+               clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
+            clusterColoursObject
+
+
+    # Alchemy.js is a graph drawing application for the web.
+    # Copyright (C) 2014  GraphAlchemist, Inc.
+
+    # This program is free software: you can redistribute it and/or modify
+    # it under the terms of the GNU Affero General Public License as published by
+    # the Free Software Foundation, either version 3 of the License, or
+    # (at your option) any later version.
+
+    # This program is distributed in the hope that it will be useful,
+    # but WITHOUT ANY WARRANTY; without even the implied warranty of
+    # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    # GNU Affero General Public License for more details.
+
+    # You should have received a copy of the GNU Affero General Public License
+    # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+    alchemy.set =
+        state: (key, value) -> alchemy.state.key = value
 
     # Alchemy.js is a graph drawing application for the web.
     # Copyright (C) 2014  GraphAlchemist, Inc.
@@ -543,9 +588,6 @@ title: Anotated Source
 
                 nodeTypes = ''
                 for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                    # Add to @state for tracking
-                    alchemy.state.filters.nodes["#{nodeType}"] = {"active": true}
-
                     # Create Filter list element
                     caption = nodeType.replace '_', ' '
                     nodeTypes += "<li class='list-group-item nodeType' role='menuitem' id='li-#{nodeType}' name=#{nodeType}>#{caption}</li>"
@@ -554,13 +596,10 @@ title: Anotated Source
 
             if alchemy.conf.edgeTypes
                 for e in alchemy.dash.selectAll(".edge")[0]
-                    currentRelationshipTypes[[e].caption] = true
+                    alchemy.currentRelationshipTypes[[e].caption] = true
 
                 edgeTypes = ''
                 for edgeType in alchemy.conf.edgeTypes
-                    # Add to @state for tracking
-                    alchemy.state.filters.edges["#{edgeType}"] = {"active": true}
-
                     # Create Filter list element
                     caption = edgeType.replace '_', ' '
                     edgeTypes += "<li class='list-group-item edgeType' role='menuitem' id='li-#{edgeType}' name=#{edgeType}>#{caption}</li>"
@@ -1084,29 +1123,30 @@ title: Anotated Source
 
     alchemy.startGraph = (data) =>
         conf = alchemy.conf
-            
+
         if d3.select(conf.divSelector).empty()
             console.warn alchemy.utils.warnings.divWarning()
-        
+
         # see if data is ok
         if not data
             alchemy.utils.warnings.dataWarning()
 
         # create nodes map and update links
         alchemy.create.nodes.apply @, data.nodes
-        
+
         data.edges.forEach (e) ->
             alchemy.create.edges e
 
-        #create SVG
+        # create SVG
         alchemy.vis = d3.select conf.divSelector
             .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour}"
             .append "svg"
                 .attr "xmlns", "http://www.w3.org/2000/svg"
+                .attr "xlink", "http://www.w3.org/1999/xlink"
                 .attr "pointer-events", "all"
-                .on "dblclick.zoom", null
                 .on 'click', alchemy.interactions.deselectAll
                 .call alchemy.interactions.zoom(conf.scaleExtent)
+                .on "dblclick.zoom", null
                 .append 'g'
                     .attr "transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})"
 
@@ -1122,7 +1162,7 @@ title: Anotated Source
         alchemy.force.start()
         while alchemy.force.alpha() > 0.005
             alchemy.force.tick()
-        
+
         alchemy._drawEdges = alchemy.drawing.DrawEdges
         alchemy._drawEdges.createEdge d3Edges
         alchemy._drawNodes = alchemy.drawing.DrawNodes
@@ -1133,9 +1173,9 @@ title: Anotated Source
 
         nodes = alchemy.vis.selectAll 'g.node'
                         .attr 'transform', (id, i) -> "translate(#{id.x}, #{id.y})"
-     
+
         # configuration for forceLocked
-        if !conf.forceLocked 
+        if !conf.forceLocked
             alchemy.force
                     .on "tick", alchemy.layout.tick
                     .start()
@@ -1182,6 +1222,7 @@ title: Anotated Source
                 .on 'keydown', editorInteractions.deleteSelected
 
             editor.startEditor()
+
     # Alchemy.js is a graph drawing application for the web.
     # Copyright (C) 2014  GraphAlchemist, Inc.
 
@@ -1247,7 +1288,7 @@ title: Anotated Source
             if alchemy.conf.edgeTypes
                 edgeData = []
                 for e in alchemy.vis.selectAll(".edge")[0]
-                    currentRelationshipTypes[[e].caption] = true
+                    alchemy.currentRelationshipTypes[[e].caption] = true
 
                 for edgeType in alchemy.conf.edgeTypes
                     if not edgeType then continue
@@ -1415,23 +1456,24 @@ title: Anotated Source
 
         # Nodes
         nodeCaption: 'caption'
+        nodeCaptionsOnByDefault: false
         nodeStyle:
             "all":
-                "radius": -> 10
-                "color"  : -> "#68B9FE"
-                "borderColor": ->"#127DC1"
+                "radius": 10
+                "color"  : "#68B9FE"
+                "borderColor": "#127DC1"
                 "borderWidth": (d, radius) -> radius / 3
-                "captionColor": -> "#FFFFFF"
-                "captionBackground": -> null
+                "captionColor": "#FFFFFF"
+                "captionBackground": null
                 "captionSize": 12
                 "selected":
-                    "color" : -> "#FFFFFF"
-                    "borderColor": -> "#349FE3"
+                    "color" : "#FFFFFF"
+                    "borderColor": "#349FE3"
                 "highlighted":
-                    "color" : -> "#EEEEFF"
+                    "color" : "#EEEEFF"
                 "hidden":
-                    "color": -> "none" 
-                    "borderColor": -> "none"
+                    "color": "none" 
+                    "borderColor": "none"
 
         nodeColour: null # WILL BE DEPRECATED IN 1.0
         nodeMouseOver: 'caption'
@@ -1442,21 +1484,21 @@ title: Anotated Source
 
         # Edges
         edgeCaption: 'caption'
+        edgeCaptionsOnByDefault: false
         edgeClick: 'default'
         edgeStyle:
             "all":
-                "width": -> 4
-                "color": -> "#CCC"
-                "opacity": -> 0.2
-                "directed": -> true
-                "curved": -> true
-
+                "width": 4
+                "color": "#CCC"
+                "opacity": 0.2
+                "directed": true
+                "curved": true
                 "selected":
-                    "opacity": -> 1
+                    "opacity": 1
                 "highlighted":
-                    "opacity": -> 1
+                    "opacity": 1
                 "hidden":
-                    "opacity": -> 0
+                    "opacity": 0
         edgeTypes: null
         curvedEdges: false
         edgeWidth: -> 4
@@ -1470,6 +1512,7 @@ title: Anotated Source
 
         # Misc
         backgroundColour: "#000000"
+        theme: null
         afterLoad: 'afterLoad'
         divSelector: '#alchemy'
         dataSource: null
@@ -1505,53 +1548,40 @@ title: Anotated Source
             edge.append 'path'
                 .attr 'class', 'edge-line'
                 .attr 'id', (d) -> "path-#{d.id}"
-                .each (d) -> d3.select(@).style utils.edgeStyle d
             edge.filter (d) -> d.caption?
                 .append 'text'
             edge.append 'path'
                 .attr 'class', 'edge-handler'
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
 
-            # if curved
-            #     edge.append 'path'
-            #         .attr 'class', 'edge-line'
-            #         .attr 'id', (d) -> "path-#{d.id}"
-            #         .each (d) -> d3.select(@).style utils.edgeStyle d
-            #     edge.filter (d) -> d.caption?
-            #         .append 'text'
-            #     edge.append 'path'
-            #         .attr 'class', 'edge-handler'
-            #         .style 'stroke-width', "#{conf.edgeOverlayWidth}"
-
-            # else
-            #     edge.append 'line'
-            #         .attr 'class', 'edge-line'
-            #         .attr 'shape-rendering', 'optimizeSpeed'
-            #         .each (d) -> d3.select(@).style utils.edgeStyle d
-            #     edge.filter (d) -> d.caption?
-            #         .append 'text'
-            #     edge.append 'rect'
-            #         .attr 'class', 'edge-handler'
-
         styleLink: (edge) =>
             conf = alchemy.conf
-            curved = conf.curvedEdges
             directed = conf.directedEdges
             utils = alchemy.drawing.EdgeUtils
+            edge.each (d) ->
+                edgeWalk = utils.edgeWalk d
+                g = d3.select(@)
+                g.style utils.edgeStyle d
+                
+                if !conf.curvedEdges #and !directed
+                    g.attr('transform', 
+                       "translate(#{edgeWalk.startEdgeX}, #{edgeWalk.startEdgeY}) rotate(#{edgeWalk.edgeAngle})")
 
-            if curved
-                edge.selectAll 'path'
-                    .attr 'd', (d) ->
+                g.select('.edge-line')
+                 .attr 'd',
+
+**This can be refactored for readability (please!)**                    
+                
+                if conf.curvedEdges
                         angle = utils.edgeAngle d
 
                         sideOfY = if Math.abs(angle) > 90 then -1 else 1
                         sideOfX = do (angle) ->
-                            if angle != 0
+                                return 0 if angle is 0
                                 return if angle < 0 then -1 else 1
-                            0
 
-                        startLine = utils.startLine d
-                        endLine = utils.endLine d
+                        startLine = utils.startLine(d)
+                        endLine = utils.endLine(d)
                         sourceX = startLine.x
                         sourceY = startLine.y
                         targetX = endLine.x
@@ -1560,59 +1590,38 @@ title: Anotated Source
                         dx = targetX - sourceX
                         dy = targetY - sourceY
                         
-                        hyp = Math.sqrt dx * dx + dy * dy
+                        hyp = Math.sqrt( dx * dx + dy * dy)
 
                         offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
                         offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
 
                         arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
                         arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
-
-                        #M #{startLine.x},    #{startLine.y}     A #{hyp}, #{hyp} #{captionAngle(d)}    0, 1 #{endLine.x},        #{endLine.y}"
+                        # "M #{startLine.x},#{startLine.y} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{endLine.x}, #{endLine.y}")
                         "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
-                    .each (d)->
-                        d3.select(@).style utils.edgeStyle d
-        
-            else
-                edge.each (d) ->
-                    edgeWalk = utils.edgeWalk d
-                    g = d3.select(@)
-                    g.attr('transform', 
-                           "translate(#{edgeWalk.startLineX}, #{edgeWalk.startLineY}) rotate(#{edgeWalk.edgeAngle})")
-                    g.select '.edge-line'
-                        .attr('d', (d) ->
-                            edgeWalk = utils.edgeWalk d
-                            if conf.directedEdges
-                                """
-                                M #{edgeWalk.startPathX} #{edgeWalk.startPathY}
-                                L #{edgeWalk.L1X} #{edgeWalk.L1Y}
-                                L #{edgeWalk.L2X} #{edgeWalk.L2Y}
-                                L #{edgeWalk.L3X} #{edgeWalk.L3Y} 
-                                L #{edgeWalk.L4X} #{edgeWalk.L4Y} 
-                                L #{edgeWalk.L5X} #{edgeWalk.L5Y}
-                                L #{edgeWalk.L6X} #{edgeWalk.L6Y}
-                                Z
-                                """
-                            else
-                                "add the path for undirected edges"
-                            )
-                    
-                    # .each (d) ->
-                    #     startLine = utils.startLine d
-                    #     endLine = utils.endLine d
-                    #     d3.select(@).attr
-                    #         'x1': startLine.x
-                    #         'y1': startLine.y
-                    #         'x2': endLine.x
-                    #         'y2': endLine.y
-                    #       .style utils.edgeStyle d
-                
-                # edge.select '.edge-handler'
-                #     .attr 'x', 0
-                #     .attr 'y', -conf.edgeOverlayWidth/2
-                #     .attr 'height', conf.edgeOverlayWidth
-                #     .attr 'width', (d) -> utils.edgeLength(d)
-                #     .attr 'transform', (d) -> "translate(#{d.source.x}, #{d.source.y}) rotate(#{utils.edgeAngle(d)})"
+
+                else
+                    if conf.directedEdges
+                        """
+                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}
+                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY} 
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY} 
+                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}
+                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                        Z
+                        """
+                    else
+                        """
+                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
+                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}
+                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}
+                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
+                        Z
+                        """
+                g.select '.edge-handler'
+                        .attr('d', (d) -> g.select('.edge-line').attr('d'))
 
         classEdge: (edge) =>
             edge.classed 'active', true
@@ -1627,22 +1636,43 @@ title: Anotated Source
                 edge.select 'text' 
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        d3.select(@).attr 'dx', edgeWalk.midLineX
-                                    .attr 'dy', (d) -> edgeWalk.midLineY
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                        d3.select(@).attr 'dx', (d) -> utils.middlePath(d).x
+                                    .attr 'dy', (d) -> utils.middlePath(d).y + 20
+                                    .attr 'transform', "rotate(#{utils.captionAngle(d)})"
                                     .text d.caption
+                                    .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
             else
                 edge.select 'text'
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        d3.select(@).attr 'dx', edgeWalk.midLineX
-                                    .attr 'dy', (d) -> edgeWalk.midLineY
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)} #{utils.middlePath(d).x} #{utils.middlePath(d).y})"
+                        captionAngle = utils.captionAngle(d)
+                        if captionAngle is 180
+                            dx = - edgeWalk.edgeLength / 2
+                        else
+                            dx = edgeWalk.edgeLength / 2
+                        d3.select(@).attr 'dx', "#{dx}"
+                                    .attr 'dy', "#{- d['stroke-width'] * 1.1}"
+                                    .attr 'transform', "rotate(#{captionAngle})"
                                     .text d.caption
+                                    .style "display", (d)->
+                                        return "block" if conf.edgeCaptionsOnByDefault
+
+            # TODO: Code to start having text follow path.
+            # This will eliminate the need for alot of math and extra work if we can
+            # simply get the text to xlink to the path itself.  It's not currently
+            # working and we need to get on with the release, but it needs to be
+            # implemented.
+            #
+            # edge.select 'text'
+            #     .each (d) ->
+            #         d3.select @
+            #           .text d.caption
+            #           .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
+            #           .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
 
         setInteractions: (edge) =>
             interactions = alchemy.interactions
-            editorEnabled = alchemy.getState("interactions") is "editor"
+            editorEnabled = alchemy.get.state("interactions") is "editor"
             if editorEnabled
                 editorInteractions = new alchemy.editor.Interactions
                 edge.select '.edge-handler'
@@ -1686,6 +1716,10 @@ title: Anotated Source
             drawEdge.setInteractions edge
             edge.exit().remove()
 
+            if alchemy.conf.directedEdges and alchemy.conf.curvedEdges
+                edge.select('.edge-line')
+                    .attr('marker-end', 'url(#arrow)')
+
         updateEdge: (d3Edge) ->
             drawEdge = alchemy.drawing.DrawEdge
             edge = alchemy.vis.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
@@ -1722,6 +1756,8 @@ title: Anotated Source
                     else 
                         conf.nodeRadius * 2 - 5
                 .html (d) -> utils.nodeText(d)
+                .style "display", (d)->
+                    return "block" if conf.nodeCaptionsOnByDefault
 
         createNode: (node) ->
             node.append 'circle'
@@ -1745,7 +1781,7 @@ title: Anotated Source
         setInteractions: (node) ->
             conf = alchemy.conf
             coreInteractions = alchemy.interactions
-            editorEnabled = alchemy.getState("interactions") is "editor"
+            editorEnabled = alchemy.get.state("interactions") is "editor"
 
             # reset drag
             drag = d3.behavior.drag()
@@ -1847,7 +1883,7 @@ title: Anotated Source
     alchemy.drawing.EdgeUtils =
         edgeStyle: (d) ->
             edge = alchemy._edges[d.id][d.pos]
-            styles = alchemy.svgStyles.edge.populate edge
+            styles = alchemy.svgStyles.edge.update edge
             nodes = alchemy._nodes
 
             # edge styles based on clustering
@@ -1881,19 +1917,34 @@ title: Anotated Source
             hyp: Math.sqrt height * height + width * width
 
 This is the primary function used to draw the svg paths between
-two nodes for directed or undirected noncurved edges 
+two nodes for directed or undirected noncurved edges. 
 
         edgeWalk: (edge) ->
             arrowSize = alchemy.conf.edgeArrowSize
             arrowScale = 0.3
+            
+Build a right triangle.
+
             triangle = @triangle(edge)
-            # build a right triangle
             width  = triangle.width
             height = triangle.height
-            # as in hypotenuse 
             hyp = triangle.hyp
+
+The widht of the stroke places a large part in how the arrow lays out with larger edge widths.
+
             edgeWidth = edge['stroke-width']
-            edgeLength = hyp - edge.source.radius - edge.target.radius
+
+After all of our calculations, we offset the edge by 2 pixels to account for the curve of the node.
+This typically is only noticable with opaque styles.
+
+            curveOffset = 2
+
+We start the edge at the very *edge* of the node, taking into account distances created by the stroke-width of the node
+and edge itself.  The length of startPathX is then accounted for in the edgeLength.
+
+            startPathX = 0 + edge.source.radius + edge.source['stroke-width'] - (edgeWidth / 2) + curveOffset
+            edgeLength = hyp - startPathX - curveOffset * 1.5
+
 
 The absolute angle of the edge used for caption rendering and
 path rendering.
@@ -1901,44 +1952,76 @@ path rendering.
             edgeAngle: Math.atan2(height, width) / Math.PI * 180
 
 The start of the edge in absolute coordinates.  The start of the edge and end
-of the edge are in the middle of the source and target nodes.
+of the edge are simply the center of the source and target nodes.
 
-            startEdgeX: edge.source.x + width / hyp
-            startEdgeY: edge.source.y + height / hyp
+            startEdgeX: edge.source.x
+            startEdgeY: edge.source.y
 
+            #endEdgeX: edge.target.x + (width * edge.target.radius + edge.target['stroke-width']) / hyp
+            #endEdgeY: edge.target.y + (height * edge.target.radius + edge.target['stroke-width']) / hyp
+
+The middle point of the edge, where the caption will be anchored.
 
             midLineX: edge.source.x + width / 2
             midLineY: edge.source.x + height / 2
             endLineX: edge.source.x + width / hyp
             endLineY: edge.source.x + height / hyp
             
-            # path x and y are relative to the <g> parent element
-            startPathX: 0 + edge.source.radius
-            startPathY: edgeWidth
+Here we offset the start of the path to the very edge of the node by adding the stroke-width and the radius.
+Additionally, we account for the 'stroke-width' of the edge itself, and then offeset that by one pixel to account
+for the curve of the node.
+
+            startPathX: startPathX
+            startPathBottomY: edgeWidth / 2
             
-            arrowBend1X: edgeLength - arrowSize
-            arrowBend1Y: edgeWidth
+            arrowBendX: edgeLength - arrowSize
+            arrowBendBottomY: edgeWidth / 2
             
-            arrowTip1X: edgeLength - arrowSize
-            arrowTip1Y: edgeWidth + (arrowSize * arrowScale)
+            arrowTipBottomY: edgeWidth / 2 + (arrowSize * arrowScale)
             
             arrowEndX: edgeLength
             arrowEndY: 0
             
-            arrowTip2X: edgeLength - arrowSize
-            arrowTip2Y: -(arrowSize * arrowScale + edgeWidth)
+            arrowTipTopY: -(arrowSize * arrowScale + edgeWidth / 2)
             
-            arrowBend2X: edgeLength - arrowSize
-            arrowBend2Y: -edgeWidth
+            arrowBendTopY: - edgeWidth / 2
 
-            L6X: 0 + edge.source.radius
-            L6Y: -edgeWidth 
+            startPathTopY: - edgeWidth / 2
 
-        
+            edgeLength: edgeLength
 
-        # middleLine: (edge) -> @edgeWalk edge, 'middle'
-        # startLine: (edge) -> @edgeWalk edge, 'linkStart'
-        endLine: (edge) -> @edgeWalk edge, 'linkEnd'
+        # Temporary drop in to reimplement curved directed edges.
+        # Will be replaced once the math for the better alternative is worked out.
+        curvedDirectedEdgeWalk: (edge, point)->
+            conf = alchemy.conf
+
+            # build a right triangle
+            width  = edge.target.x - edge.source.x
+            height = edge.target.y - edge.source.y
+            # as in hypotenuse 
+            hyp = Math.sqrt(height * height + width * width)
+
+            newpoint = if point is 'middle'
+                    distance = (hyp / 2)
+                    x: edge.source.x + width * distance / hyp
+                    y: edge.source.y + height * distance / hyp
+                else if point is 'linkStart'
+                    distance = edge.source.radius+ edge.source['stroke-width']
+                    x: edge.source.x + width * distance / hyp
+                    y: edge.source.y + height * distance / hyp
+                else if point is 'linkEnd'
+                    if conf.curvedEdges
+                        distance = hyp
+                    else
+                        distance = hyp - (edge.target.radius + edge.target['stroke-width'])
+                    if conf.directedEdges
+                        distance = distance - conf.edgeArrowSize
+                    x: edge.source.x + width * distance / hyp
+                    y: edge.source.y + height * distance / hyp
+            newpoint
+        middleLine: (edge) -> @curvedDirectedEdgeWalk edge, 'middle'
+        startLine: (edge) -> @curvedDirectedEdgeWalk edge, 'linkStart'
+        endLine: (edge) -> @curvedDirectedEdgeWalk edge, 'linkEnd'
         
         edgeLength: (edge) ->
             # build a right triangle
@@ -1951,20 +2034,27 @@ of the edge are in the middle of the source and target nodes.
             height = edge.target.y - edge.source.y
             Math.atan2(height, width) / Math.PI * 180
         
-        captionAngle: (edge) ->
-            angle = @edgeAngle(edge)
+        captionAngle: (angle) ->
             if angle < -90 or angle > 90
-                angle += 180
+                180
             else
-                angle
+                0
         middlePath: (edge) ->
-                pathNode = alchemy.vis
-                                  .select "#path-#{edge.id}"
-                                  .node()
-                midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
-     
-                x: midPoint.x
-                y: midPoint.y
+            pathNode = alchemy.vis
+                              .select "#path-#{edge.id}"
+                              .node()
+            midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
+ 
+            x: midPoint.x
+            y: midPoint.y
+                
+        # Temporary fill in for curved edges until math is completed for new path only edges
+        middlePathCurve: (edge) ->
+            pathNode = d3.select("#path-#{edge.id}").node()
+            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
+
+            x: midPoint.x
+            y: midPoint.y
     alchemy.drawing.NodeUtils =
             nodeStyle: (d) ->
                 conf = alchemy.conf          
@@ -2004,11 +2094,12 @@ of the edge are in the middle of the source and target nodes.
                 conf = alchemy.conf
                 defaultStyle = _.omit conf.nodeStyle.all, "selected", "highlighted", "hidden"
                 d = node
+
                 # if user put in hard value, turn into a function
                 toFunc = (inp)->
                     if typeof inp is "function"
                         return inp
-                    return (d)-> inp
+                    return -> inp
 
                 nodeTypeKey = _.keys(conf.nodeTypes)[0]
                 nodeType = node.getProperties()[nodeTypeKey]
@@ -2034,8 +2125,9 @@ of the edge are in the middle of the source and target nodes.
         edge:
             populate: (edge) ->
                 conf = alchemy.conf
-                defaultStyle = conf.edgeStyle.all
+                defaultStyle = _.omit conf.edgeStyle.all, "selected", "highlighted", "hidden"
 
+                # if user put in hard value, turn into a function
                 toFunc = (inp)->
                     if typeof inp is "function"
                         return inp
@@ -2046,13 +2138,12 @@ of the edge are in the middle of the source and target nodes.
                 if conf.edgeStyle[edgeType] is undefined
                     edgeType = "all"
 
-                typedStyle = _.merge _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
+                typedStyle = _.assign _.cloneDeep(defaultStyle), conf.edgeStyle[edgeType]
                 style = _.assign typedStyle, conf.edgeStyle[edgeType][edge._state]
+
                 width = toFunc style.width
                 color = toFunc style.color
                 opacity = toFunc style.opacity
-                directed = toFunc style.directed
-                curved = toFunc style.curved
 
                 svgStyles =
                     "stroke": color edge
@@ -2061,6 +2152,26 @@ of the edge are in the middle of the source and target nodes.
                     "fill": "none"
                     # Uncomment for flower
                     # "fill": color edge
+
+                svgStyles
+
+            update: (edge) ->
+                conf = alchemy.conf
+                style = edge._style
+                toFunc = (inp)->
+                    if typeof inp is "function"
+                        return inp
+                    return -> inp
+
+                width = toFunc style.width
+                color = toFunc style.color
+                opacity = toFunc style.opacity
+
+                svgStyles =
+                    "stroke": color edge
+                    "stroke-width": width edge
+                    "opacity": opacity edge
+                    "fill": "none"
 
                 svgStyles
     # Alchemy.js is a graph drawing application for the web.
@@ -2141,14 +2252,14 @@ of the edge are in the middle of the source and target nodes.
                 .on 'click', ->
                     d3.select @
                       .attr "class", () ->
-                        if alchemy.getState() is 'editor'
-                            alchemy.setState 'interactions', 'default'
+                        if alchemy.get.state() is 'editor'
+                            alchemy.set.state 'interactions', 'default'
                             "inactive list-group-item"
                         else
-                            alchemy.setState 'interactions', 'editor'
+                            alchemy.set.state 'interactions', 'editor'
                             "active list-group-item"
                       .html ->
-                          if alchemy.getState() is 'editor'
+                          if alchemy.get.state() is 'editor'
                               """Disable Editor Interactions"""
                           else 
                               """Enable Editor Interactions"""
@@ -2596,7 +2707,7 @@ of the edge are in the middle of the source and target nodes.
             @drawEdges = alchemy._drawEdges
 
         enableEditor: () =>
-            alchemy.setState "interactions", "editor"
+            alchemy.set.state "interactions", "editor"
             dragLine = alchemy.vis
                 .append "line"
                 .attr "id", "dragline"
@@ -2664,7 +2775,7 @@ of the edge are in the middle of the source and target nodes.
                     alchemy.vis
                            .select node
                            .remove()
-                    if alchemy.getState("interactions") is "editor"
+                    if alchemy.get.state("interactions") is "editor"
                         alchemy.modifyElements.nodeEditorClear()
 
         addNode: (node) ->
@@ -2706,16 +2817,12 @@ of the edge are in the middle of the source and target nodes.
             @_index = index
             @_state = "active"
             @_properties = edge
-            # # refactor to deal with graph styles directly
-            # @_style = alchemy.svgStyles.edge.populate @
-            # @_d3 = 
-            #     'id': @id
-            #     'pos': @_index
-            #     'source': alcshemy._nodes[@_properties.source]._d3
-            #     'target': alchemy._nodes[@_properties.target]._d3
-            #     'style': alchemy.svgStyles.edge.populate @
             @_edgeType = @_setEdgeType()
-            @_style = conf.edgeStyle[@_edgeType]
+            @_style = 
+                if conf.edgeStyle[@_edgeType]?
+                    _.merge _.clone(conf.edgeStyle["all"]), conf.edgeStyle[@_edgeType]
+                else
+                    _.clone conf.edgeStyle["all"]
             @_d3 = _.merge
                 'id': @id
                 'pos': @_index
@@ -2728,7 +2835,7 @@ of the edge are in the middle of the source and target nodes.
             a._nodes["#{edge.source}"]._addEdge "#{@id}-#{@_index}"
             a._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
 
-        _setD3Properties: (props) => _.assign @_d3, props
+        _setD3Properties: (props) => _.merge @_d3, props
         _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
         _setCaption: (edge, conf) =>
@@ -2778,7 +2885,7 @@ of the edge are in the middle of the source and target nodes.
             else
                 @_style
 
-        setStyles: (key, value=null) =>
+        setStyles: (key, value=null) ->
             # If undefined, set styles based on state
             if key is undefined
                 key = alchemy.svgStyles.edge.populate @
@@ -2787,16 +2894,15 @@ of the edge are in the middle of the source and target nodes.
             # the user passes a map of styles to set multiple styles at once
             if _.isPlainObject key
                 _.assign @_style, key
-            else
-                if typeof value isnt "function"
-                    value = (d)-> value
+            else if typeof key is "string"
                 @_style[key] = value
-            @_setD3Properties alchemy.svgStyles.edge.populate(@)
+
+            @_setD3Properties alchemy.svgStyles.edge.update(@)
             alchemy._drawEdges.updateEdge @_d3
             @
 
         toggleHidden: ()->
-            @._state = if @._state is "active" then "hidden" else "active"
+            @._state = if @._state is "hidden" then "active" else "hidden"
             @.setStyles()
 
         # Find if both endpoints are active
@@ -2819,7 +2925,11 @@ of the edge are in the middle of the source and target nodes.
                 'root': @_properties[conf.rootNodes]
                 , a.svgStyles.node.populate(@)
             @_nodeType = @_setNodeType()
-            @_style = conf.nodeStyle[@_nodeType]
+            @_style = 
+                if conf.nodeStyle[@_nodeType]
+                    conf.nodeStyle[@_nodeType]
+                else
+                    conf.nodeStyle["all"]
             @_state = "active"
 
             @_adjacentEdges = []
@@ -2847,7 +2957,7 @@ of the edge are in the middle of the source and target nodes.
         
         # Edit node properties
         getProperties: (key=null, keys...) =>
-        	if not key? and (keys.length is 0)
+            if not key? and (keys.length is 0)
                 @_properties
             else if keys.length isnt 0
                 query = _.union [key], keys
@@ -2866,8 +2976,8 @@ of the edge are in the middle of the source and target nodes.
             if @_properties.property?
                 _.omit @_properties, property
             @
-                
-        
+     
+     
         # Style methods
         getStyles: (key=null) =>
             if key?
@@ -2885,12 +2995,12 @@ of the edge are in the middle of the source and target nodes.
                 _.assign @_style, key
             else
                 @_style[key] = value
-            @_setD3Properties alchemy.svgStyles.node.populate(@)
+            @_setD3Properties alchemy.svgStyles.node.populate @
             alchemy._drawNodes.updateNode @_d3
             @
 
         toggleHidden: ->
-            @._state = if @._state == "active" then "hidden" else "active"
+            @._state = if @._state is "hidden" then "active" else "hidden"
             @setStyles()
             _.each @._adjacentEdges, (id)-> 
                 [source, target, pos] = id.split("-")
@@ -2898,6 +3008,75 @@ of the edge are in the middle of the source and target nodes.
 
         # Convenience methods
         outDegree: () -> @_adjacentEdges.length
+    alchemy.themes = 
+        "default":
+            "backgroundColour": "#000000"
+            "nodeStyle":
+                "all":
+                    "radius": -> 10
+                    "color"  : -> "#68B9FE"
+                    "borderColor": ->"#127DC1"
+                    "borderWidth": (d, radius) -> radius / 3
+                    "captionColor": -> "#FFFFFF"
+                    "captionBackground": -> null
+                    "captionSize": 12
+                    "selected":
+                        "color" : -> "#FFFFFF"
+                        "borderColor": -> "#349FE3"
+                    "highlighted":
+                        "color" : -> "#EEEEFF"
+                    "hidden":
+                        "color": -> "none" 
+                        "borderColor": -> "none"
+            "edgeStyle":
+                "all":
+                    "width": 4
+                    "color": "#CCC"
+                    "opacity": 0.2
+                    "directed": true
+                    "curved": true
+                    "selected":
+                        "opacity": 1
+                    "highlighted":
+                        "opacity": 1
+                    "hidden":
+                        "opacity": 0
+
+        "white":
+            "backgroundColour": "#FFFFFF"
+            "nodeStyle":
+                "all":
+                    "radius": -> 10
+                    "color"  : -> "#68B9FE"
+                    "borderColor": ->"#127DC1"
+                    "borderWidth": (d, radius) -> radius / 3
+                    "captionColor": -> "#FFFFFF"
+                    "captionBackground": -> null
+                    "captionSize": 12
+                    "selected":
+                        "color": -> "#FFFFFF"
+                        "borderColor": -> "38DD38"
+                    "highlighted":
+                        "color" : -> "#EEEEFF"
+                    "hidden":
+                        "color": -> "none" 
+                        "borderColor": -> "none"
+            "edgeStyle":
+                "all":
+                    "width": 4
+                    "color": "#333"
+                    "opacity": 0.4
+                    "directed": false
+                    "curved": false
+                    "selected":
+                        "color": "#38DD38"
+                        "opacity": 0.9
+                    "highlighted":
+                        "color": "#383838"
+                        "opacity": 0.7
+                    "hidden":
+                        "opacity": 0
+
     alchemy.utils.warnings = 
         dataWarning: ->
             if alchemy.conf.dataWarning and typeof alchemy.conf.dataWarning is 'function'
