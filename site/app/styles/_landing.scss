@@ -239,7 +239,14 @@ hr{
 	margin-right: 5%;
 	padding: 5px;
 	text-align: center;
+	
+	#social-hide{
+		display: inline-block;
+		float: right;
+		color: $blue;
+	}
 }
+
 #btn-alchemy-rel{
 	background: transparent;
 	img{

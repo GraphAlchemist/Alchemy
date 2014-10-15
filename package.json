@@ -1,6 +1,6 @@
 {
   "name": "alchemyjs",
-  "version": "0.2.2",
+  "version": "0.3",
   "repository": {
     "type": "git",
     "url": "http://github.com/graphalchemist/alchemy.git"
@@ -13,7 +13,7 @@
     "grunt-bower-install": "~0.7.0",
     "grunt-concurrent": "~0.4.0",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-coffee": "~0.10.0",
+    "grunt-contrib-coffee": "git://github.com/hustonhedinger/grunt-contrib-coffee.git#eee38fa950eefe5ff940f0eaba69d00dbacd6b7c",
     "grunt-contrib-compass": "~0.7.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-connect": "~0.5.0",

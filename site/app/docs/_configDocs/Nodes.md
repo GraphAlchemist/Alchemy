@@ -31,32 +31,44 @@ caption: function(node) {
         },
             ...]
 ~~~
-<!--
 ##### nodeStyle
 
-[`object`] default:`{}`
+[`nodeType`: { `list of css style values` }] default nodeType:`all`
 
-nodeStyle takes an object where the key is the css key, and the value is the css value.  The values can be a set string, or a callback function that returns a string.  Each key/value in the object will be applied to svg element of the nodes, and therefore override any other css.  Usually this will be used for dynamic properties, such as changing the `fill-opacity` based on a property.
+A set of configuration options that assigns custom node styling.  Should return an object whose key is an nodeType, and whose value is a list of valid css styles.  
 
-For example:
+Current default configuration:
 
-~~~ js
+~~~ javascript
 {
-    "fill-opacity": function(node) {
-        return node.properties.importance;
-     },
-    "stroke-width": function(node) {
-        if (node.properties.currentCase) {
-          return "10px";
-        } else {
-          return "0px";
+    nodeStyle: {
+        "all": {
+            "radius": 10,
+            "color"  : "#68B9FE",
+            "borderColor": "#127DC1",
+            "borderWidth": function (d, radius) { radius / 3 },
+            "captionColor": "#FFFFFF",
+            "captionBackground": null,
+            "captionSize": 12,
+            "selected": {
+                "color" : "#FFFFFF"
+                "borderColor": "#349FE3"
+            },
+            "highlighted": {
+                "color" : "#EEEEFF"
+            },
+            "hidden": {
+                "color": "none" 
+                "borderColor": "none"
+            }
         }
     }
 }
 ~~~
 
-This example assigns the style attribute `fill-opacity` based on the `importance` key in the GraphJSON, and checks the boolean `currentCase` property of the node to determine if the node should get a border or not.
--->
+By default nodeStyles apply to "all" nodes.  This can be changed to be any valid [`nodeType` value](#nodeTypes).  Different styles may be applied to different nodeTypes at user's discretion.
+
+"selected", "highlighted", and "hidden" are conditional stylings based on current node state.  
 
 ##### nodeColour 
 
