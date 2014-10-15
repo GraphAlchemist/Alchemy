@@ -11,7 +11,7 @@
       this.getEdges = __bind(this.getEdges, this);
       this.getNodes = __bind(this.getNodes, this);
       this.begin = __bind(this.begin, this);
-      this.version = "0.2.1";
+      this.version = "0.3";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
