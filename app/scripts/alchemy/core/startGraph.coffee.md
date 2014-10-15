@@ -16,29 +16,29 @@
 
     alchemy.startGraph = (data) =>
         conf = alchemy.conf
-            
+
         if d3.select(conf.divSelector).empty()
             console.warn alchemy.utils.warnings.divWarning()
-        
+
         # see if data is ok
         if not data
             alchemy.utils.warnings.dataWarning()
 
         # create nodes map and update links
         alchemy.create.nodes.apply @, data.nodes
-        
+
         data.edges.forEach (e) ->
             alchemy.create.edges e
- 
+
         # create SVG
         alchemy.vis = d3.select conf.divSelector
             .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour}"
             .append "svg"
                 .attr "xmlns", "http://www.w3.org/2000/svg"
                 .attr "pointer-events", "all"
-                .on "dblclick.zoom", null
                 .on 'click', alchemy.interactions.deselectAll
                 .call alchemy.interactions.zoom(conf.scaleExtent)
+                .on "dblclick.zoom", null
                 .append 'g'
                     .attr "transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})"
 
@@ -54,7 +54,7 @@
         alchemy.force.start()
         while alchemy.force.alpha() > 0.005
             alchemy.force.tick()
-        
+
         alchemy._drawEdges = alchemy.drawing.DrawEdges
         alchemy._drawEdges.createEdge d3Edges
         alchemy._drawNodes = alchemy.drawing.DrawNodes
@@ -65,9 +65,9 @@
 
         nodes = alchemy.vis.selectAll 'g.node'
                         .attr 'transform', (id, i) -> "translate(#{id.x}, #{id.y})"
-     
+
         # configuration for forceLocked
-        if !conf.forceLocked 
+        if !conf.forceLocked
             alchemy.force
                     .on "tick", alchemy.layout.tick
                     .start()
