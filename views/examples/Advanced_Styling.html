@@ -1,4 +1,4 @@
-<div class=row><div class=col-md-12><h2>Description</h2><p class=lead>{{current_example.desc}}</p></div></div><div class=row id=example5><div id=graph-container class=col-md-12 style=height:450px><h3 class=filename>Graph</h3><div class=alchemy id=alchemy></div></div></div><div class=row><div class="col-md-6 example-code"><h3 class=filename>HTML and Configuration</h3><pre pretty-print="">
+<div class="row"> <h2>Description</h2> <p class="lead">{{current_example.desc}}</p> </div> <div class="row" id="example5"> <div id="graph-container" style="height:450px"> <h3 class="filename">Graph</h3> <div class="alchemy" id="alchemy"></div> </div> </div> <div class="row example-code"> <h3 class="filename">HTML and Configuration</h3> <pre pretty-print>
 &lt;html&gt;
 &lt;head&gt;
   &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
@@ -50,7 +50,7 @@
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-        </pre></div><div class="col-md-6 example-code"><h3 class=filename>Data</h3><code><pre pretty-print="" class="prettyprint prettyprinted">
+      </pre> </div> <div class="row example-code"> <h3 class="filename">Data</h3> <code> <pre pretty-print class="prettyprint prettyprinted">
 {
   "comment": "Network Graph",
   "nodes": [
@@ -152,7 +152,7 @@
 
   ]
 }
-        </pre></code></div><script type=text/javascript>var config = {
+        </pre> </code> </div> <script type="text/javascript">var config = {
           dataSource: {
             "comment": "Network Graph",
             "nodes": [
@@ -254,39 +254,37 @@
 
             ]
           },
-    linkDistance: function(d) { 
+      linkDistance: function(d) { 
       if (d.source.role === d.target.role) {
         return 70;
       } else {
         return 100;
       }
-    },
-    edgeStyle: function(d) {
-        debugger
-        var loadStyling;
-        if (d.load === 0) {
-            loadStyling = "stroke-width: 2px !important; stroke-dasharray: 10,5,5,5,6 !important;"                    
-        } else {
-            loadStyling = "stroke-width:" + (d.load * (d.load/2) + d.load + 2) + "px !important;"
+      },
+      edgeStyle: function(d) {
+          var loadStyling;
+          if (d.load === 0) {
+              loadStyling = "stroke-width: 2px !important; stroke-dasharray: 10,5,5,5,6 !important;"                    
+          } else {
+              loadStyling = "stroke-width:" + (d.load * (d.load/2) + d.load + 2) + "px !important;"
+          }
+          var colorIndexMap = {
+              "neo4j": "rgba(255,0,100,",
+              "http_server": "rgba(0,255,0,", 
+              "postgres": "rgba(0,120,255,"
+          }
+
+          var color;
+          if (colorIndexMap[d.target.role] !== undefined) {
+              color = "stroke:" + colorIndexMap[d.target.role] + "1) !important;"
+          } else {
+               color = "stroke: rgba(255,255,255,1) !important;"
+          }
+
+          return color + loadStyling + "stroke-linecap:round;";
         }
+      };
 
-        var colorIndexMap = {
-            "neo4j": "rgba(255,0,100,",
-            "http_server": "rgba(0,255,0,", 
-            "postgres": "rgba(0,120,255,"
-        }
-
-        var color;
-        if (colorIndexMap[d.target.role] !== undefined) {
-            color = "stroke:" + colorIndexMap[d.target.role] + "1) !important;"
-        } else {
-             color = "stroke: rgba(255,255,255,1) !important;"
-        }
-
-        return color + loadStyling + "stroke-linecap:round;";
-    }
-  };
-
-  alchemy.begin(config);
-  $('pre').addClass('prettyprint');
-  prettyPrint();</script></div>
+      alchemy.begin(config);
+      $('pre').addClass('prettyprint');
+      prettyPrint();</script>

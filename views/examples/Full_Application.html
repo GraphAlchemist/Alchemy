@@ -1,4 +1,5 @@
-<div class=row><div class=col-md-8><h2>Description</h2><p class=lead>{{current_example.desc}}</p></div><button ng-click=showViz() id=to-full-app-btn type=button class="btn btn-default" href=#><h3>See it in Action <i class="glyphicon glyphicon-arrow-right"></i></h3></button></div><div class="col-md-6 example-code"><h3 class=filename>alchemyConfig.js</h3><pre pretty-print="">
+<div class="row"> <div class="col-md-8"> <h2>Description</h2> <p class="lead">{{current_example.desc}}</p> </div> <button ng-click="showViz()" id="to-full-app-btn" type="button" class="btn btn-default" href="#"> <h3>See it in Action <i class="glyphicon glyphicon-arrow-right"></i></h3> </button> </div> <div class="row example-code"> <h3 class="filename">alchemyConfig.js</h3> <pre pretty-print>
+
 <code>
 var config = {
   dataSource: 'data/team.json',                      
@@ -33,10 +34,10 @@ var config = {
   zoomControls: true
 };
 
-alchemy.begin(config)
+alchemy.begin(config);
 
 </code>
-        </pre></div><div class="col-md-6 example-code"><h3 class=filename>index.html</h3><pre pretty-print="">
+        </pre> </div> <div class="row example-code"> <h3 class="filename">index.html</h3> <pre pretty-print>
 &lt;html&gt;
 &lt;head&gt;
   &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
@@ -52,4 +53,4 @@ alchemy.begin(config)
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
-        </pre></div>
+  </pre> </div>

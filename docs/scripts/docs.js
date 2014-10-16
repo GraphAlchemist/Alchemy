@@ -12,10 +12,8 @@
         for (_j = 0, _len1 = sectionContent.length; _j < _len1; _j++) {
           header = sectionContent[_j];
           id = $(header).prop("id");
-          if (href !== "Configuration") {
-            text = $(header)[0].innerText;
-            nextLvl.append("<a class='level-2 list-group-item' href='#" + id + "'>" + text + "</a>");
-          } else {
+          if ((href === "Configuration") || (href === "API")) {
+            nextLvl.addClass('lvl-2-extended');
             nextLvl.append("<a href='#" + id + "' class='level-2 list-group-item'>" + id + "</a>");
             nextLvl.append("<div id='lvl-3-" + id + "' class='level-3 list-group'></div>");
             configHeader = $("#lvl-3-" + id);
@@ -27,6 +25,9 @@
               configHeader.append("<a class='level-3 list-group-item' href='#" + ssID + "'>" + text + "</a>");
             }
             $(configHeader).find("div.level-3").addClass("hidden");
+          } else {
+            text = $(header)[0].innerText;
+            nextLvl.append("<a class='level-2 list-group-item' href='#" + id + "'>" + text + "</a>");
           }
           $("#sidebar").find("div.level-2").addClass("hidden");
         }
@@ -106,3 +107,5 @@
   });
 
 }).call(this);
+
+//# sourceMappingURL=docs.js.map
