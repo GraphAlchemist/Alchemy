@@ -7,17 +7,16 @@
 # use this if you want to recursively match all subfolders:
 # 'test/spec/**/*.js'
 module.exports = (grunt) ->
-  require("load-grunt-tasks") grunt
-  require("time-grunt") grunt
-  pkg = grunt.file.readJSON('./package.json')
-
-
   
+  require("load-grunt-tasks") grunt
+  require("time-grunt") grunt 
+  # the package file from the alchemy directory
+  pkg = grunt.file.readJSON('./package.json')
+  AlchemyPkg = grunt.file.readJSON('../package.json')
   appConfig =
     app: require("./bower.json").appPath or "app"
     dist: "dist"
 
-  
   grunt.initConfig
     
     yeoman: appConfig
@@ -36,28 +35,13 @@ module.exports = (grunt) ->
     'string-replace':
       version:
         files:
-          './bower.json': './bower.json'
-          '<%= yeoman.dist %>/alchemy.js':'<%= yeoman.dist %>/alchemy.js'
-          '<%= yeoman.dist %>/alchemy.min.js':'<%= yeoman.dist %>/alchemy.min.js'
+          '<%= yeoman.dist %>/views/home.html': '<%= yeoman.dist %>/views/home.html'
+          '<%= yeoman.dist %>/views/nav.html': '<%= yeoman.dist %>/views/nav.html'
         options:
           replacements: [
             pattern: /#VERSION#/ig
-            replacement: pkg.version
+            replacement: AlchemyPkg.version
           ]
-
-    release:
-      options:
-        file: 'package.json'
-        bump: false
-        commit: false
-        npm: false
-
-    # shell tasks
-    shell:
-      commitBuild:
-        command: "git add -A && git commit -am 'commit dist files for #{pkg.version}'"
-      docs:
-        command: 'grunt --gruntfile site/Gruntfile.coffee'
     
     # Watches files for changes and runs tasks based on the changed files
     watch:
@@ -111,7 +95,6 @@ module.exports = (grunt) ->
     "gh-pages":
       options:
         base: "dist"
-
       src: ["**"]
     
     # The actual grunt server settings
@@ -148,7 +131,6 @@ module.exports = (grunt) ->
         options:
           open: true
           base: "<%= yeoman.dist %>"
-
     
     # Make sure code styles are up to par and there are no obvious mistakes
     jshint:
@@ -303,8 +285,8 @@ module.exports = (grunt) ->
         src: [
           "<%= yeoman.dist %>/scripts/{,*/}*.js"
           "<%= yeoman.dist %>/styles/{,*/}*.css"
-          "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
-          "<%= yeoman.dist %>/styles/fonts/*"
+          # "<%= yeoman.dist %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}"
+          # "<%= yeoman.dist %>/styles/fonts/*"
         ]
 
     
@@ -312,29 +294,37 @@ module.exports = (grunt) ->
     # concat, minify and revision files. Creates configurations in memory so
     # additional tasks can operate on them
     useminPrepare:
-      html: "<%= yeoman.app %>/index.html"
-      options:
-        dest: "<%= yeoman.dist %>"
-        flow:
-          html:
-            steps:
-              js: [
-                "concat"
-                "uglifyjs"
-              ]
-              css: ["cssmin"]
+      html: 
+        src: "<%= yeoman.app %>/index.html"
+        options:
+          dest: "<%= yeoman.dist %>"
+          flow:
+            html:
+              steps:
+                js: [
+                  "concat"
+                  "uglifyjs"
+                ]
+                css: ["cssmin"]
 
-            post: {}
+              post: {}
+        
+      docs:
+        src: "<%= yeoman.dist %>/docs/index.html"
+        options:
+          dest: "<%= yeoman.dist %>/docs"
+          root: ".tmp/docs"
 
     
     # Performs rewrites based on filerev and the useminPrepare configuration
     usemin:
-      html: ["<%= yeoman.dist %>/{,*/}*.html"]
-      css: ["<%= yeoman.dist %>/styles/{,*/}*.css"]
+      html: ["<%= yeoman.dist %>/{,*/,*/*/}*.html"]
+      css: ["<%= yeoman.dist %>/{,*/,*/*/}*.css"]
       options:
         assetsDirs: [
           "<%= yeoman.dist %>"
           "<%= yeoman.dist %>/images"
+          "<%= yeoman.dist %>/docs"
         ]
 
     
@@ -437,8 +427,18 @@ module.exports = (grunt) ->
               "*.html"
               "views/{,*/}*.html"
               "images/{,*/}*.{webp}"
-              "fonts/*"
+              "styles/fonts/*"
+              "!docs/**"
             ]
+          }
+          {
+            # hack to get around doubled up font-awesome dependency!!
+            # fix in alchemy build and here
+            expand: true
+            dot: true
+            cwd: "./bower_components/font-awesome/"
+            dest: "<%= yeoman.dist %>"
+            src: [ "fonts/**"] 
           }
           {
             expand: true
@@ -452,6 +452,13 @@ module.exports = (grunt) ->
             src: "bower_components/bootstrap-sass-official/assets/fonts/bootstrap/*"
             dest: "<%= yeoman.dist %>"
           }
+          {
+            expand: true
+            dot: true
+            cwd: ".tmp/docs"
+            src: "**"
+            dest: "<%= yeoman.dist %>/docs/"
+          }
         ]
 
       styles:
@@ -459,6 +466,15 @@ module.exports = (grunt) ->
         cwd: "<%= yeoman.app %>/styles"
         dest: ".tmp/styles/"
         src: "{,*/}*.css"
+      
+      data:
+        files: [
+          expand: true
+          dot: true
+          cwd: "<%= yeoman.app %>"
+          src: "data/**"
+          dest: "<%= yeoman.dist %>"
+        ]
 
     
     # Run some tasks in parallel to speed up the build process
@@ -473,9 +489,10 @@ module.exports = (grunt) ->
       ]
       dist: [
         "coffee"
-        "compass:dist"
+        "compass"
         "imagemin"
         "svgmin"
+        "copy:data"
       ]
 
     
@@ -485,6 +502,7 @@ module.exports = (grunt) ->
         configFile: "test/karma.conf.coffee"
         singleRun: true
 
+  grunt.loadNpmTasks('grunt-string-replace')
   grunt.registerTask "serve", "Compile then start a connect web server", (target) ->
     if target is "dist"
       return grunt.task.run([
@@ -516,24 +534,26 @@ module.exports = (grunt) ->
   ]
   grunt.registerTask "build", [
     "clean:dist"
+    "jekyll:dist"
     "wiredep"
     "useminPrepare"
     "concurrent:dist"
     "autoprefixer"
     "concat"
     "ngAnnotate"
-    "copy:dist"
-    "string-replace:version"
     "cdnify"
     "cssmin"
     "uglify"
+    "copy:dist"
+    "string-replace:version"
     "filerev"
     "usemin"
     "htmlmin"
   ]
   grunt.registerTask "default", [
-    "newer:jshint"
-    "test"
+    # "newer:jshint"
+    # "test"
     "build"
+    "gh-pages"
   ]
   return

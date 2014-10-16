@@ -80,68 +80,11 @@ angular.module('navigation', ['ui.bootstrap'])
             else if $scope.hidden is true
                 $scope.hidden = false
 
-<<<<<<< HEAD
-    # .directive 'githubStat', ($http) ->
-    #     restrict: 'A',
-    #     link: 
-    #         ghData = ($scope) ->
-    #             $http.get("https://api.github.com/repos/graphalchemist/alchemy?callback=JSON_CALLBACK", headers: {'If-Modified-Since': 'Wed, 13 Aug 2014 21:40:14 GMT'})
-    #                 .success((response, status) ->
-    #                     console.log response
-    #                         console.log status
-    #                         $scope.stargazers_count = response.data.stargazers_count
-    #                         $scope.forks_count = response.data.forks_count
-    #                         console.log $scope.stargazers_count
-    #                     #     )
-    #                     .error((response, status) ->
-    #                         console.log status
-    #                     )
-    #                 )
-    #                 .error((response, status) ->
-    #                     console.log response
-    #                     console.log status
-    #                 )
-
-angular.module('alchemyExamples', [])
-    .controller 'examplesCtrl', ($scope, $location) ->
-        $scope.init = ->
-            $scope.examples =
-             [
-                {
-                    name: 'Basic Graph',
-                    src: 'views/examples/example1.html', 
-                    id:"example1", 
-                    desc: "A basic Alchemy.js graph, with only a custom dataSource defined." },
-                {
-                    name: 'Embedded Graph', 
-                    src: "views/examples/example2.html", 
-                    id: "example2",
-                    desc: "An example with custom graphHeight, graphWidth, and linkDistance making it easy to include and embed within larger applications."},
-                {
-                    name: 'Custom Styling',
-                    src: 'views/examples/example4.html',
-                    id:"example4",
-                    desc: "An example illustrating how to apply custom styles to the graph, overriding Alchemy.css by using nodeTypes and edgeTypes."},
-                {
-                    name: 'Full Application',
-                    src: 'views/examples/example3.html',
-                    id: "example3",
-                    desc: "A full application using clustering, filters, node typing, and search."},
-                # {
-                #     name: 'Advanced Styling',
-                #     src: 'views/examples/example5.html',
-                #     id: "example5",
-                #     desc: "Styling based on node and edge properties."}
-            ]
-        # should probably be moved to a directive
-        $scope.showExample = (e) ->
-=======
 angular.module('alchemyExamples', ['ngRoute'])
     .controller 'examplesCtrl', ($scope, $location, $routeParams) ->
         showExample = (name) ->
             e = $scope.examples[name]
             e.state = 'active'
->>>>>>> release-0.3
             $scope.current_example = e
             $location.path("/examples/#{name}")
             if angular.element("#removethis")?
