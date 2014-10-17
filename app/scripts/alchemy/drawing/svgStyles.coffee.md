@@ -7,8 +7,7 @@
 
                 # if user put in hard value, turn into a function
                 toFunc = (inp)->
-                    if typeof inp is "function"
-                        return inp
+                    return inp if typeof inp is "function"
                     return -> inp
 
                 nodeTypeKey = _.keys(conf.nodeTypes)[0]
@@ -24,11 +23,12 @@
                 fill = toFunc style.color
                 stroke = toFunc style.borderColor
                 strokeWidth = toFunc style.borderWidth
-                svgStyles =
-                    "radius": radius d
-                    "fill": fill d
-                    "stroke": stroke d
-                    "stroke-width": strokeWidth d, radius(d)
+
+                svgStyles = {}
+                svgStyles["radius"] = radius d
+                svgStyles["fill"] = fill d
+                svgStyles["stroke"] = stroke d
+                svgStyles["stroke-width"] = strokeWidth d, radius(d)
                 
                 svgStyles
 
