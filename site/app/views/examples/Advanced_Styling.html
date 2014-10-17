@@ -302,7 +302,7 @@
                 }
 
             ]
-<<<<<<< HEAD
+
             }, 
             directedEdges: true,
             nodeTypes: { "role": ["http_server", "postgres", "neo4j", "load_balancer"] }, 
@@ -329,39 +329,6 @@
                 }
             }
         };
-=======
-          },
-      linkDistance: function(d) { 
-      if (d.source.role === d.target.role) {
-        return 70;
-      } else {
-        return 100;
-      }
-      },
-      edgeStyle: function(d) {
-          var loadStyling;
-          if (d.load === 0) {
-              loadStyling = "stroke-width: 2px !important; stroke-dasharray: 10,5,5,5,6 !important;"                    
-          } else {
-              loadStyling = "stroke-width:" + (d.load * (d.load/2) + d.load + 2) + "px !important;"
-          }
-          var colorIndexMap = {
-              "neo4j": "rgba(255,0,100,",
-              "http_server": "rgba(0,255,0,", 
-              "postgres": "rgba(0,120,255,"
-          }
-
-          var color;
-          if (colorIndexMap[d.target.role] !== undefined) {
-              color = "stroke:" + colorIndexMap[d.target.role] + "1) !important;"
-          } else {
-               color = "stroke: rgba(255,255,255,1) !important;"
-          }
-
-          return color + loadStyling + "stroke-linecap:round;";
-        }
-      };
->>>>>>> 5b5420aedfe7344783250b069042f992a6246bfe
 
       alchemy.begin(config);
       $('pre').addClass('prettyprint');
