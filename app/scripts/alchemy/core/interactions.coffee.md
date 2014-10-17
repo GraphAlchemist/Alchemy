@@ -88,9 +88,9 @@
                                         
         clickZoom:  (direction) ->
                         [x, y, scale] = alchemy.vis
-                                               .attr("transform")
-                                               .match(/(-*\d+\.*\d*)/g)
-                                               .map( (a) -> return parseFloat(a) )
+                                               .attr "transform"
+                                               .match /(-*\d+\.*\d*)/g
+                                               .map (a) -> parseFloat(a)
 
                         alchemy.vis
                             .attr "transform", ->
