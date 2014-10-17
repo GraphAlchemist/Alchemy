@@ -14,7 +14,7 @@
     "angular-route": "~1.2.0",
     "angular-bootstrap": "~0.11.0",
     "angular-inview": "~1.3.2",
-    "alchemyjs": "~0.2.2",
+    "alchemyjs": "~0.3.0",
     "google-code-prettify": "~1.0.1",
     "modernizr": "~2.8.3"
   },

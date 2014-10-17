@@ -1,0 +1,189 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'install', '-g', 'wiredep' ]
+2 info using npm@2.0.2
+3 info using node@v0.10.32
+4 verbose cache add [ 'wiredep', null ]
+5 verbose cache add spec="wiredep" args=["wiredep",null]
+6 verbose parsed spec { raw: 'wiredep',
+6 verbose parsed spec   scope: null,
+6 verbose parsed spec   name: 'wiredep',
+6 verbose parsed spec   rawSpec: '',
+6 verbose parsed spec   spec: '*',
+6 verbose parsed spec   type: 'range' }
+7 verbose parsed spec { raw: 'wiredep',
+7 verbose parsed spec   scope: null,
+7 verbose parsed spec   name: 'wiredep',
+7 verbose parsed spec   rawSpec: '',
+7 verbose parsed spec   spec: '*',
+7 verbose parsed spec   type: 'range' }
+8 verbose addNamed [ 'wiredep', '*' ]
+9 verbose addNamed [ null, '*' ]
+10 silly lockFile ba7948ca-wiredep wiredep@*
+11 verbose lock wiredep@* /home/harland/.npm/ba7948ca-wiredep.lock
+12 silly addNameRange { name: 'wiredep', range: '*', hasData: false }
+13 verbose mapToRegistry name wiredep
+14 verbose mapToRegistry uri http://registry.npmjs.org/wiredep
+15 verbose request on initialization, where is /wiredep
+16 verbose request after pass 1, where is /wiredep
+17 verbose request url raw /wiredep
+18 verbose request resolving registry [ 'http://registry.npmjs.org/', './wiredep' ]
+19 verbose request after pass 2, where is http://registry.npmjs.org/wiredep
+20 verbose request no auth needed
+21 info attempt registry request try #1 at 12:15:41
+22 verbose request id c34616554264494c
+23 verbose etag "4KQYCHMDH0TA6N4THX0NWV2VK"
+24 http request GET http://registry.npmjs.org/wiredep
+25 http 304 http://registry.npmjs.org/wiredep
+26 silly registry.get cb [ 304,
+26 silly registry.get   { date: 'Tue, 14 Oct 2014 19:15:41 GMT',
+26 silly registry.get     via: '1.1 varnish',
+26 silly registry.get     'last-modified': 'Tue, 14 Oct 2014 19:13:43 GMT',
+26 silly registry.get     'cache-control': 'max-age=60',
+26 silly registry.get     etag: '"4KQYCHMDH0TA6N4THX0NWV2VK"',
+26 silly registry.get     age: '0',
+26 silly registry.get     connection: 'keep-alive',
+26 silly registry.get     'x-served-by': 'cache-lax1431-LAX',
+26 silly registry.get     'x-cache': 'HIT',
+26 silly registry.get     'x-cache-hits': '1',
+26 silly registry.get     'x-timer': 'S1413314141.433658,VS0,VE247',
+26 silly registry.get     vary: 'Accept' } ]
+27 verbose etag http://registry.npmjs.org/wiredep from cache
+28 silly addNameRange number 2 { name: 'wiredep', range: '*', hasData: true }
+29 silly addNameRange versions [ 'wiredep',
+29 silly addNameRange   [ '0.1.0',
+29 silly addNameRange     '0.1.1',
+29 silly addNameRange     '0.1.2',
+29 silly addNameRange     '0.1.4',
+29 silly addNameRange     '0.1.5',
+29 silly addNameRange     '0.1.6',
+29 silly addNameRange     '0.1.7',
+29 silly addNameRange     '0.1.8',
+29 silly addNameRange     '0.2.0',
+29 silly addNameRange     '0.3.0',
+29 silly addNameRange     '0.3.1',
+29 silly addNameRange     '0.4.0',
+29 silly addNameRange     '0.4.1',
+29 silly addNameRange     '0.4.2',
+29 silly addNameRange     '0.5.0',
+29 silly addNameRange     '0.5.1',
+29 silly addNameRange     '0.5.2',
+29 silly addNameRange     '1.0.0',
+29 silly addNameRange     '1.1.0',
+29 silly addNameRange     '1.1.1',
+29 silly addNameRange     '1.2.0',
+29 silly addNameRange     '1.2.1',
+29 silly addNameRange     '1.2.2',
+29 silly addNameRange     '1.3.0',
+29 silly addNameRange     '1.3.1',
+29 silly addNameRange     '1.3.2',
+29 silly addNameRange     '1.3.3',
+29 silly addNameRange     '1.4.0',
+29 silly addNameRange     '1.4.1',
+29 silly addNameRange     '1.4.2',
+29 silly addNameRange     '1.4.3',
+29 silly addNameRange     '1.4.4',
+29 silly addNameRange     '1.5.0',
+29 silly addNameRange     '1.6.0',
+29 silly addNameRange     '1.6.1',
+29 silly addNameRange     '1.6.2',
+29 silly addNameRange     '1.7.0',
+29 silly addNameRange     '1.7.1',
+29 silly addNameRange     '1.7.2',
+29 silly addNameRange     '1.7.3',
+29 silly addNameRange     '1.8.0',
+29 silly addNameRange     '1.8.1',
+29 silly addNameRange     '1.8.2',
+29 silly addNameRange     '1.8.3',
+29 silly addNameRange     '1.8.4',
+29 silly addNameRange     '1.8.5',
+29 silly addNameRange     '1.8.6' ] ]
+30 verbose addNamed [ 'wiredep', '1.8.6' ]
+31 verbose addNamed [ '1.8.6', '1.8.6' ]
+32 silly lockFile fc8457ae-wiredep-1-8-6 wiredep@1.8.6
+33 verbose lock wiredep@1.8.6 /home/harland/.npm/fc8457ae-wiredep-1-8-6.lock
+34 silly lockFile fc8457ae-wiredep-1-8-6 wiredep@1.8.6
+35 silly lockFile fc8457ae-wiredep-1-8-6 wiredep@1.8.6
+36 silly lockFile ba7948ca-wiredep wiredep@*
+37 silly lockFile ba7948ca-wiredep wiredep@*
+38 silly resolved [ { name: 'wiredep',
+38 silly resolved     version: '1.8.6',
+38 silly resolved     main: './wiredep.js',
+38 silly resolved     bin: { wiredep: './wiredep-cli.js' },
+38 silly resolved     description: 'Wire Bower dependencies to your source code.',
+38 silly resolved     repository: { type: 'git', url: 'https://github.com/taptapship/wiredep' },
+38 silly resolved     author: { name: 'Stephen Sawchuk', email: 'sawchuk@gmail.com' },
+38 silly resolved     keywords:
+38 silly resolved      [ 'bower',
+38 silly resolved        'package',
+38 silly resolved        'management',
+38 silly resolved        'inject',
+38 silly resolved        'script',
+38 silly resolved        'dependencies' ],
+38 silly resolved     files: [ 'lib/', 'LICENSE', 'wiredep.js', 'wiredep-cli.js' ],
+38 silly resolved     licenses: [ [Object] ],
+38 silly resolved     scripts: { test: 'jshint *.js lib/*.js test/*.js && NODE_ENV=test mocha -R spec' },
+38 silly resolved     dependencies:
+38 silly resolved      { 'bower-config': '^0.5.0',
+38 silly resolved        chalk: '^0.5.1',
+38 silly resolved        glob: '^4.0.5',
+38 silly resolved        lodash: '^2.4.1',
+38 silly resolved        minimist: '^1.1.0',
+38 silly resolved        propprop: '^0.3.0',
+38 silly resolved        through2: '^0.6.1' },
+38 silly resolved     devDependencies: { 'fs-extra': '^0.11.0', jshint: '*', mocha: '*' },
+38 silly resolved     gitHead: '2117509b6121fb7bd80da249fcec90d5b90d7d94',
+38 silly resolved     bugs: { url: 'https://github.com/taptapship/wiredep/issues' },
+38 silly resolved     homepage: 'https://github.com/taptapship/wiredep',
+38 silly resolved     _id: 'wiredep@1.8.6',
+38 silly resolved     _shasum: 'eea722ae2c522b9561f04d986e55b84092c714fe',
+38 silly resolved     _from: 'wiredep@*',
+38 silly resolved     _npmVersion: '2.1.3',
+38 silly resolved     _nodeVersion: '0.10.32',
+38 silly resolved     _npmUser: { name: 'stephenplusplus', email: 'sawchuk@gmail.com' },
+38 silly resolved     maintainers: [ [Object] ],
+38 silly resolved     dist:
+38 silly resolved      { shasum: 'eea722ae2c522b9561f04d986e55b84092c714fe',
+38 silly resolved        tarball: 'http://registry.npmjs.org/wiredep/-/wiredep-1.8.6.tgz' },
+38 silly resolved     directories: {},
+38 silly resolved     _resolved: 'http://registry.npmjs.org/wiredep/-/wiredep-1.8.6.tgz',
+38 silly resolved     readme: 'ERROR: No README data found!' } ]
+39 info install wiredep@1.8.6 into /usr/local/lib
+40 info installOne wiredep@1.8.6
+41 verbose lib/node_modules/wiredep unbuild
+42 verbose gentlyRm vacuuming /usr/local/lib/node_modules/wiredep
+43 verbose tar unpack /home/harland/.npm/wiredep/1.8.6/package.tgz
+44 silly lockFile 8d3b3452-r-local-lib-node-modules-wiredep tar:///usr/local/lib/node_modules/wiredep
+45 verbose lock tar:///usr/local/lib/node_modules/wiredep /home/harland/.npm/8d3b3452-r-local-lib-node-modules-wiredep.lock
+46 silly lockFile 959ac94b-nd-npm-wiredep-1-8-6-package-tgz tar:///home/harland/.npm/wiredep/1.8.6/package.tgz
+47 verbose lock tar:///home/harland/.npm/wiredep/1.8.6/package.tgz /home/harland/.npm/959ac94b-nd-npm-wiredep-1-8-6-package-tgz.lock
+48 verbose gentlyRm vacuuming /usr/local/lib/node_modules/wiredep
+49 silly gunzTarPerm modes [ '775', '664' ]
+50 verbose fstream_path /usr/local/lib/node_modules/wiredep
+51 verbose fstream_type Directory
+52 verbose fstream_class DirWriter
+53 verbose stack Error: EACCES, mkdir '/usr/local/lib/node_modules/wiredep'
+54 verbose fstream_stack /usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23
+54 verbose fstream_stack /usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53
+54 verbose fstream_stack Object.oncomplete (fs.js:107:15)
+55 verbose cwd /home/harland/graph/Alchemy/site
+56 error Linux 3.11.0-26-generic
+57 error argv "node" "/usr/local/bin/npm" "install" "-g" "wiredep"
+58 error node v0.10.32
+59 error npm  v2.0.2
+60 error path /usr/local/lib/node_modules/wiredep
+61 error code EACCES
+62 error errno 3
+63 error Error: EACCES, mkdir '/usr/local/lib/node_modules/wiredep'
+63 error  { [Error: EACCES, mkdir '/usr/local/lib/node_modules/wiredep']
+63 error   errno: 3,
+63 error   code: 'EACCES',
+63 error   path: '/usr/local/lib/node_modules/wiredep',
+63 error   fstream_type: 'Directory',
+63 error   fstream_path: '/usr/local/lib/node_modules/wiredep',
+63 error   fstream_class: 'DirWriter',
+63 error   fstream_stack:
+63 error    [ '/usr/local/lib/node_modules/npm/node_modules/fstream/lib/dir-writer.js:36:23',
+63 error      '/usr/local/lib/node_modules/npm/node_modules/mkdirp/index.js:46:53',
+63 error      'Object.oncomplete (fs.js:107:15)' ] }
+64 error Please try running this command again as root/Administrator.
+65 verbose exit [ 3, true ]
