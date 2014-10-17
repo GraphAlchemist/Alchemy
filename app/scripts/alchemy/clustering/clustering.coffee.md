@@ -50,11 +50,6 @@
                 linkDistancefn: (edge) -> _linkDistancefn(edge)
                 gravity: (k) -> _gravity(k)
 
-            # # apply cluster styles
-            _.each alchemy.get.allNodes(), (node)->
-                clusterID = node.getProperties()[conf.clusterKey] 
-                node._style.color = clustering.getClusterColour(clusterID)
-            # _.each alchemy.get.allNodes(), (node)-> node.setStyles()
         identifyClusters: ->
             nodes = alchemy.get.allNodes()
             clusters = _.uniq _.map(_.values(nodes), (node)-> node.getProperties()[alchemy.conf.clusterKey])
