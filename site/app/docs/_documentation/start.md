@@ -12,7 +12,15 @@ title: Start
 <p class="lead">Additionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.</p>
 
 ## Quick Start
-Alchemy.js requires 3 things, **alchemy.css**, **alchemy.js**, and **data**.  The following are 3 different ways to get started with Alchemy.js.
+Alchemy.js requires 3 things, **alchemy.css**, **alchemy.js**, and **data**.  Additionally, Alchemy requires CSS, JavaScript, and font dependencies.  These dependencies with version numbers can be found in the [bower.json file](https://github.com/GraphAlchemist/Alchemy/blob/master/bower.json){:target="_blank"} on GitHub, can be loaded via the vendor.js and vendor.css files as outlined below, and are listed here:
+
+* [jQuery](http://jquery.com/)
+* [d3](http://d3js.org/)
+* [Lo-Dash](http://lodash.com/)
+* [Bootstrap](http://getbootstrap.com/) (for the control dash)
+* [Font Awesome](http://fortawesome.github.io/Font-Awesome/) (for the control dash)
+
+The following are 3 different ways to get started with Alchemy.js.
 
 ### Use The Alchemy CDN
 

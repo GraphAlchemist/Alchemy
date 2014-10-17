@@ -511,8 +511,8 @@ module.exports = (grunt) ->
       ["test",
        "build",
        "string-replace", # apply version to alchemy.js
-       "shell:commitBuild", # commit dist files
        "bumpBower", # bump bower version
+       "shell:commitBuild", # commit dist files
        "release", # create tag and version
        "archiveDist", # create archive of files to zip for github release
        "concat:s3", # squash vendor and alchemy files for cdn
