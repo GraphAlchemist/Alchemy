@@ -171,3 +171,4 @@
                             else
                                 edge = alchemy._edges[d.id][0]
                                 edge.toggleHidden()
+                    alchemy.stats.nodeStats()
