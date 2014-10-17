@@ -24,42 +24,45 @@
   &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
   &lt;script type=&quot;text/javascript&quot;&gt;
 
-    var config = {
-      dataSource: 'data/network.json',
-      
-      linkDistance: function(d) { 
-        if (d.source.role === d.target.role) {
-          return 20;
-        } else {
-          return 40;
-        }
-      },
-
-      edgeStyle: function(d) {
-        var loadStyling;
-        if (d.load === 0) {
-          loadStyle = "stroke-width:2px; stroke-dasharray:10,5,5,5,6;"                    
-        } else {
-          var l = d.load
-          loadStyle = "stroke-width:" + (l * (l/2) + l + 2) + "px;"
-        }
-
-        var colorIndexMap = {
-          "neo4j": "rgba(255,0,100,",
-          "http_server": "rgba(0,255,0,", 
-          "postgres": "rgba(0,120,255,"
-        }
-
-        var color;
-        if (colorIndexMap[d.target.role] !== undefined) {
-          color = "stroke:" + colorIndexMap[d.target.role] + "1);"
-        } else {
-          color = "stroke: rgba(255,255,255,1);"
-        }
-
-        return color + loadStyle;
-      }
-    };
+      var config = {
+            dataSource: 'data/network.json',
+            directedEdges: true,
+            nodeTypes: { "role": 
+                ["http_server", "postgres", "neo4j", "load_balancer"] 
+            }, 
+            nodeStyle: {
+                "all": {
+                    "borderColor": "#127DC1",
+                    "borderWidth": function(d, radius) {
+                        return radius / 4
+                    },
+                    "color": function(d) { 
+                        return "rgba(104, 185, 254, " + 
+                        (d.getProperties().memoryUsage / 100) + " )" 
+                    }, 
+                    "radius": function(d) {
+                        if(d.getProperties().root)
+                        return 15; else return 10 
+                    }, 
+                },
+                "http_server":{
+                    "color": "#000067",
+                    "selected": {
+                        "color": "#ffffff",
+                    },                    
+                    "highlighted": {
+                        "color": "#b4dcff"
+                    }
+                }
+            },
+            edgeStyle: {
+                "all": {
+                    "width": function(d) {
+                     return (d.getProperties().load + 0.5) * 1.3 
+                    }
+                }
+            }
+        };
 
     alchemy.begin(config)
   &lt;/script&gt;
@@ -72,158 +75,180 @@
       <code>
         <pre pretty-print class="prettyprint prettyprinted">
 {
-  "comment": "Network Graph",
-  "nodes": [
-      {
-          "id": "1",
-          "caption": "192.168.0.20",
-          "role": "http_server",
-          "root": true
-      },
-      {
-          "id": "2",
-          "caption": "192.168.0.21",
-          "role": "http_server",
-          "root": true
-      },        
-      {
-          "id": "3",
-          "caption": "192.168.0.22",
-          "role": "http_server",
-          "root": true
-      },
-      {
-          "id": "4",
-          "caption": "192.168.2.4",
-          "role": "neo4j",
-      },
-      {
-          "id": "5",
-          "caption": "192.168.2.6",
-          "role": "postgres",
-      },
-      {
-          "id": "6",
-          "caption": "192.168.2.7",
-          "role": "db_backups"
-      },
-      {
-          "id": "7",
-          "caption": "192.168.2.12",
-          "role": "load balancer",
-      }
-  ],
-  "edges": [
-      {
-          "source": "7",
-          "target": "1",
-          "load": 7
-      },
-      {
-          "source": "7",
-          "target": "2",
-          "load": 2
-      },
-      {
-          "source": "7",
-          "target": "3",
-          "load": 2
-      },
-      {
-          "source": "1",
-          "target": "4",
-          "load": 4
-      },
-      {
-          "source": "1",
-          "target": "5",
-          "load": 1
-      },
-      {
-          "source": "2",
-          "target": "4",
-          "load": 1
-      },
-      {
-          "source": "2",
-          "target": "5",
-          "load": 1
-      },
-      {
-          "source": "3",
-          "target": "4",
-          "load": 0
-      },
-      {
-          "source": "3",
-          "target": "5",
-          "load": 1
-      },
-      {
-          "source": "4",
-          "target": "6",
-          "load": 0
-      },
-      {
-          "source": "5",
-          "target": "6",
-          "load": 0
-      }
+    "comment": "Network Graph",
+    "nodes": [
+        {
+            "id": "s1",
+            "caption": "192.168.0.20",
+            "role": "http_server",
+            "memoryUsage": 50,
+            "root": true
+        },
+        {
+            "id": "s2",
+            "caption": "192.168.0.21",
+            "role": "http_server",
+            "memoryUsage": 22,
+            "root": true
+        },        
+        {
+            "id": "s3",
+            "caption": "192.168.0.22",
+            "role": "http_server",
+            "memoryUsage": 95,
+            "root": true
+        },
+        {
+            "id": "s4",
+            "caption": "192.168.2.4",
+            "role": "neo4j",
+            "memoryUsage": 10,
+            "root": false
+        },
+        {
+            "id": "s5",
+            "caption": "192.168.2.6",
+            "role": "postgres",
+            "memoryUsage": 30,
+            "root": false
+        },
+        {
+            "id": "s6",
+            "caption": "192.168.2.7",
+            "role": "db_backups",
+            "memoryUsage": 10, 
+            "root": false
+        },
+        {
+            "id": "s7",
+            "caption": "192.168.2.12",
+            "role": "load balancer",
+            "memoryUsage": 42,
+            "root": false
+        }
+    ],
+    "edges": [
+        {
+            "source": "s7",
+            "target": "s1",
+            "load": 5
+        },
+        {
+            "source": "s7",
+            "target": "s2",
+            "load": 2
+        },
+        {
+            "source": "s7",
+            "target": "s3",
+            "load": 2
+        },
+        {
+            "source": "s1",
+            "target": "s4",
+            "load": 4
+        },
+        {
+            "source": "s1",
+            "target": "s5",
+            "load": 1
+        },
+        {
+            "source": "s2",
+            "target": "s4",
+            "load": 1
+        },
+        {
+            "source": "s2",
+            "target": "s5",
+            "load": 1
+        },
+        {
+            "source": "s3",
+            "target": "s4",
+            "load": 0
+        },
+        {
+            "source": "s3",
+            "target": "s5",
+            "load": 1
+        },
+        {
+            "source": "s4",
+            "target": "s6",
+            "load": 0
+        },
+        {
+            "source": "s5",
+            "target": "s6",
+            "load": 0
+        }
 
-  ]
+    ]
 }
         </pre>
       </code>
     </div>
     <script type=text/javascript>
       var config = {
-          dataSource: {
+            dataSource: {
             "comment": "Network Graph",
             "nodes": [
                 {
                     "id": "s1",
                     "caption": "192.168.0.20",
                     "role": "http_server",
+                    "memoryUsage": 50,
                     "root": true
                 },
                 {
                     "id": "s2",
                     "caption": "192.168.0.21",
                     "role": "http_server",
+                    "memoryUsage": 22,
                     "root": true
                 },        
                 {
                     "id": "s3",
                     "caption": "192.168.0.22",
                     "role": "http_server",
+                    "memoryUsage": 95,
                     "root": true
                 },
                 {
                     "id": "s4",
                     "caption": "192.168.2.4",
                     "role": "neo4j",
+                    "memoryUsage": 10,
+                    "root": false
                 },
                 {
                     "id": "s5",
                     "caption": "192.168.2.6",
                     "role": "postgres",
+                    "memoryUsage": 30,
+                    "root": false
                 },
                 {
                     "id": "s6",
                     "caption": "192.168.2.7",
-                    "role": "db_backups"
+                    "role": "db_backups",
+                    "memoryUsage": 10, 
+                    "root": false
                 },
                 {
                     "id": "s7",
                     "caption": "192.168.2.12",
                     "role": "load balancer",
+                    "memoryUsage": 42,
+                    "root": false
                 }
             ],
             "edges": [
                 {
                     "source": "s7",
                     "target": "s1",
-                    "load": 7
+                    "load": 5
                 },
                 {
                     "source": "s7",
@@ -277,37 +302,33 @@
                 }
 
             ]
-          },
-      linkDistance: function(d) { 
-      if (d.source.role === d.target.role) {
-        return 70;
-      } else {
-        return 100;
-      }
-      },
-      edgeStyle: function(d) {
-          var loadStyling;
-          if (d.load === 0) {
-              loadStyling = "stroke-width: 2px !important; stroke-dasharray: 10,5,5,5,6 !important;"                    
-          } else {
-              loadStyling = "stroke-width:" + (d.load * (d.load/2) + d.load + 2) + "px !important;"
-          }
-          var colorIndexMap = {
-              "neo4j": "rgba(255,0,100,",
-              "http_server": "rgba(0,255,0,", 
-              "postgres": "rgba(0,120,255,"
-          }
 
-          var color;
-          if (colorIndexMap[d.target.role] !== undefined) {
-              color = "stroke:" + colorIndexMap[d.target.role] + "1) !important;"
-          } else {
-               color = "stroke: rgba(255,255,255,1) !important;"
-          }
-
-          return color + loadStyling + "stroke-linecap:round;";
-        }
-      };
+            }, 
+            directedEdges: true,
+            nodeTypes: { "role": ["http_server", "postgres", "neo4j", "load_balancer"] }, 
+            nodeStyle: {
+                "all": {
+                    "borderColor": "#127DC1",
+                    "borderWidth": function(d, radius) { return radius / 4 },
+                    "color": function(d) { return "rgba(104, 185, 254, " + (d.getProperties().memoryUsage / 100) + " )" }, 
+                    "radius": function(d) { if(d.getProperties().root) return 15; else return 10 }, 
+                },
+                "http_server":{
+                    "color": "#000067",
+                    "selected": {
+                        "color": "#ffffff",
+                    },                    
+                    "highlighted": {
+                        "color": "#b4dcff"
+                    }
+                }
+            },
+            edgeStyle: {
+                "all": {
+                    "width": function(d) { return (d.getProperties().load + 0.5) * 1.3 }
+                }
+            }
+        };
 
       alchemy.begin(config);
       $('pre').addClass('prettyprint');
