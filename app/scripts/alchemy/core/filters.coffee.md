@@ -143,8 +143,12 @@
               .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
               .html "Toggle Edges"
               .on "click", ->
-                  _.each _.values(alchemy._edges), (edges)->
-                      _.each edges, (e)-> e.toggleHidden()
+                  if _.contains(_.pluck(_.flatten(_.values(alchemy._edges)), "_state"), "active")
+                    _.each _.values(alchemy._edges), (edges)->
+                        _.each edges, (e)-> if e._state is "active" then e.toggleHidden()
+                  else
+                    _.each _.values(alchemy._edges), (edges)->
+                        _.each edges, (e)-> e.toggleHidden()
 
         #create nodes toggle
         nodesToggle: () ->
