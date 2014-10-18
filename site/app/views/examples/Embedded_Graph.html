@@ -36,8 +36,19 @@
 &lt;/html&gt;
   </pre>
 </div>
+<div class="row example-code">
+  <h3 class="filename">graphJSON</h3>
+  
+   <pre class="prettyprint lang-js"> 
+  </pre> 
+
+</div>
 
 <script type="text/javascript">
+$.get("data/contrib.json", (function(res){
+        $(".lang-js").html(JSON.stringify(res, null, '\t'));
+      })
+  );
     var config = {
         dataSource: 'data/contrib.json',
         graphHeight: function(){ return 400; },
