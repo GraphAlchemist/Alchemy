@@ -6,7 +6,7 @@
 
 <div id="graph-container" class="row">
     <h3 class="filename">Graph</h3>
-    <div class="alchemy" id="alchemy" style="height:450px"></div>
+    <div class="alchemy" id="alchemy1" style="height:450px; width: 100%;"></div>
 </div>  
 
 <div class="row example-code">
@@ -32,7 +32,28 @@
         </pre>
         </div>
 <script type="text/javascript">
+    // Blank any possible instance.
+    d3.select("svg").remove()
+    alchemy._nodes = {}
+    alchemy._edges = {}
+    alchemy.layout = {}
+    alchemy.interactions = {}
+    alchemy.utils = {}
+    alchemy.visControls = {}
+    alchemy.styles = {}
+    alchemy.models = {}
+    alchemy.drawing = {}
+    alchemy.editor = {}
+    alchemy.log = {}
+    alchemy.currentRelationshipTypes = {}
+    alchemy.state ={
+        "interactions": "default",
+        "layout": "default"
+     }
+
+   // Start
     var config = {
+        divSelector: "#alchemy1",
         dataSource: 'data/charlize.json',
         // linkDistance: function() { return 40; }
     };

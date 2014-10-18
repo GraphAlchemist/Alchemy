@@ -3,7 +3,7 @@
         <p class="lead">{{current_example.desc}}</p>
     <div id="graph-container">
         <h3 class="filename">Graph</h3>
-        <div class="alchemy" id="alchemy"></div>
+        <div class="alchemy" id="alchemy2"></div>
     </div>
 </div>
 <div class="row example-code">
@@ -38,7 +38,28 @@
 </div>
 
 <script type="text/javascript">
+    // Blank any possible instance.
+    d3.select("svg").remove()
+    alchemy._nodes = {}
+    alchemy._edges = {}
+    alchemy.layout = {}
+    alchemy.interactions = {}
+    alchemy.utils = {}
+    alchemy.visControls = {}
+    alchemy.styles = {}
+    alchemy.models = {}
+    alchemy.drawing = {}
+    alchemy.editor = {}
+    alchemy.log = {}
+    alchemy.currentRelationshipTypes = {}
+    alchemy.state ={
+        "interactions": "default",
+        "layout": "default"
+     }
+
+    // start
     var config = {
+        divSelector: "#alchemy2",
         dataSource: 'data/contrib.json',
         graphHeight: function(){ return 400; },
         graphWidth: function() { return 400; },

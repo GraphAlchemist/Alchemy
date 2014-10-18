@@ -6,7 +6,7 @@
 <div class = "row" id="example4">
     <div id="graph-container" style="height:450px">
     	<h3 class="filename">Graph</h3>
-    	<div class="alchemy" id="alchemy"></div>
+    	<div class="alchemy" id="alchemy4"  style="width: 100%;"></div>
     </div>
 </div>
 
@@ -107,16 +107,37 @@
 </div>
 
 <script type="text/javascript">
-var config = {
-  dataSource: 'data/charlize.json',
+    // Blank any possible instance.
+    d3.select("svg").remove()
+    alchemy._nodes = {}
+    alchemy._edges = {}
+    alchemy.layout = {}
+    alchemy.interactions = {}
+    alchemy.utils = {}
+    alchemy.visControls = {}
+    alchemy.styles = {}
+    alchemy.models = {}
+    alchemy.drawing = {}
+    alchemy.editor = {}
+    alchemy.log = {}
+    alchemy.currentRelationshipTypes = {}
+    alchemy.state ={
+        "interactions": "default",
+        "layout": "default"
+     }
 
-  linkDistance: function(){ return 40; },
-  forceLocked: false,
-  nodeTypes: {"type":["movie", "award", "person"]},
-  caption: "caption"
-  };
+    // start
+    var config = {
+      divSelector: "#alchemy4",
+      dataSource: 'data/charlize.json',
 
-alchemy.begin(config);
-$('pre').addClass('prettyprint');
-prettyPrint();
+      linkDistance: function(){ return 40; },
+      forceLocked: false,
+      nodeTypes: {"type":["movie", "award", "person"]},
+      caption: "caption"
+      };
+
+    alchemy.begin(config);
+    $('pre').addClass('prettyprint');
+    prettyPrint();
 </script>
