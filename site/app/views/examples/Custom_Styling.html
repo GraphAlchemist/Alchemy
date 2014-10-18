@@ -106,6 +106,14 @@
   </pre>
 </div>
 
+<div class="row example-code">
+  <h3 class="filename">graphJSON</h3>
+  
+   <pre class="prettyprint lang-js"> 
+  </pre> 
+
+</div>
+
 <script type="text/javascript">
     // Blank any possible instance.
     d3.select("svg").remove()
@@ -126,9 +134,13 @@
         "layout": "default"
      }
 
+
+    $.get("data/charlize.json", (function(res){
+          $(".lang-js").html(JSON.stringify(res, null, '\t'));
+        })
+    );
     // start
     var config = {
-      divSelector: "#alchemy4",
       dataSource: 'data/charlize.json',
 
       linkDistance: function(){ return 40; },

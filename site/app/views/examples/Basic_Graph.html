@@ -31,7 +31,18 @@
 &lt;/html&gt;
         </pre>
         </div>
+
+
+<div class="row example-code">
+  <h3 class="filename">graphJSON</h3>
+  
+   <pre class="prettyprint lang-js"> 
+  </pre> 
+
+</div>
+
 <script type="text/javascript">
+<<<<<<< HEAD
     // Blank any possible instance.
     d3.select("svg").remove()
     alchemy._nodes = {}
@@ -51,7 +62,11 @@
         "layout": "default"
      }
 
-   // Start
+    $.get("data/charlize.json", (function(res){
+            $(".lang-js").html(JSON.stringify(res, null, '\t'));
+          })
+      );
+    // Start
     var config = {
         divSelector: "#alchemy1",
         dataSource: 'data/charlize.json',
