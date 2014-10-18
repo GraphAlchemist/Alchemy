@@ -119,21 +119,6 @@
     d3.select("svg").remove()
     alchemy._nodes = {}
     alchemy._edges = {}
-    alchemy.layout = {}
-    alchemy.interactions = {}
-    alchemy.utils = {}
-    alchemy.visControls = {}
-    alchemy.styles = {}
-    alchemy.models = {}
-    alchemy.drawing = {}
-    alchemy.editor = {}
-    alchemy.log = {}
-    alchemy.currentRelationshipTypes = {}
-    alchemy.state ={
-        "interactions": "default",
-        "layout": "default"
-     }
-
 
     $.get("data/charlize.json", (function(res){
           $(".lang-js").html(JSON.stringify(res, null, '\t'));
@@ -141,6 +126,7 @@
     );
     // start
     var config = {
+      divSelector:"#alchemy4",
       dataSource: 'data/charlize.json',
 
       linkDistance: function(){ return 40; },

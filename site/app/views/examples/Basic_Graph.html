@@ -42,25 +42,10 @@
 </div>
 
 <script type="text/javascript">
-<<<<<<< HEAD
     // Blank any possible instance.
     d3.select("svg").remove()
     alchemy._nodes = {}
     alchemy._edges = {}
-    alchemy.layout = {}
-    alchemy.interactions = {}
-    alchemy.utils = {}
-    alchemy.visControls = {}
-    alchemy.styles = {}
-    alchemy.models = {}
-    alchemy.drawing = {}
-    alchemy.editor = {}
-    alchemy.log = {}
-    alchemy.currentRelationshipTypes = {}
-    alchemy.state ={
-        "interactions": "default",
-        "layout": "default"
-     }
 
     $.get("data/charlize.json", (function(res){
             $(".lang-js").html(JSON.stringify(res, null, '\t'));

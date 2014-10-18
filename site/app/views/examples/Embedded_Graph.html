@@ -1,9 +1,9 @@
 <div class = "row">
       <h2>Description</h2>
         <p class="lead">{{current_example.desc}}</p>
-    <div id="graph-container">
+    <div id="graph-container" style="min-height:400px; width:400px;">
         <h3 class="filename">Graph</h3>
-        <div class="alchemy" id="alchemy2"></div>
+        <div class="alchemy" id="alchemy2" style="height:400px; width:400px;"></div>
     </div>
 </div>
 <div class="row example-code">
@@ -49,21 +49,6 @@
     d3.select("svg").remove()
     alchemy._nodes = {}
     alchemy._edges = {}
-    alchemy.layout = {}
-    alchemy.interactions = {}
-    alchemy.utils = {}
-    alchemy.visControls = {}
-    alchemy.styles = {}
-    alchemy.models = {}
-    alchemy.drawing = {}
-    alchemy.editor = {}
-    alchemy.log = {}
-    alchemy.currentRelationshipTypes = {}
-    alchemy.state ={
-        "interactions": "default",
-        "layout": "default"
-     }
-
 
     $.get("data/contrib.json", (function(res){
             $(".lang-js").html(JSON.stringify(res, null, '\t'));
@@ -74,8 +59,6 @@
     var config = {
         divSelector: "#alchemy2",
         dataSource: 'data/contrib.json',
-        graphHeight: function(){ return 400; },
-        graphWidth: function() { return 400; },
 
         linkDistance: function(){ return 40; },
 
