@@ -6,7 +6,7 @@
 <div class = "row" id="example5">
     <div id="graph-container" style="height:450px">
         <h3 class="filename">Graph</h3>
-        <div class="alchemy" id="alchemy"></div>
+        <div class="alchemy" id="alchemy5" style="width: 100%;"></div>
     </div>
 </div>
 
@@ -190,7 +190,14 @@
       </code>
     </div>
     <script type=text/javascript>
+        // Blank any possible instance.
+        d3.select("svg").remove()
+        alchemy._nodes = {}
+        alchemy._edges = {}
+
+        // start
       var config = {
+            divSelector: "#alchemy5",
             dataSource: {
             "comment": "Network Graph",
             "nodes": [
