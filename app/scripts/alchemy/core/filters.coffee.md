@@ -148,7 +148,11 @@
                         _.each edges, (e)-> if e._state is "active" then e.toggleHidden()
                   else
                     _.each _.values(alchemy._edges), (edges)->
-                        _.each edges, (e)-> e.toggleHidden()
+                        _.each edges, (e)->
+                            source = alchemy._nodes[e._properties.source]
+                            target = alchemy._nodes[e._properties.target]
+                            if source._state is "active" and target._state is "active"
+                              e.toggleHidden()
 
         #create nodes toggle
         nodesToggle: () ->
@@ -179,5 +183,8 @@
                                 node.toggleHidden()
                             else
                                 edge = alchemy._edges[d.id][0]
-                                edge.toggleHidden()
+                                source = alchemy._nodes[edge._properties.source]
+                                target = alchemy._nodes[edge._properties.target]
+                                if source._state is "active" and target._state is "active"
+                                  edge.toggleHidden()
                     alchemy.stats.nodeStats()
