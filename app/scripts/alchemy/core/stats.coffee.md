@@ -21,23 +21,26 @@
         nodeStats: () ->
             #general node stats
             nodeStats = ''
-            nodeNum = alchemy.vis.selectAll(".node")[0].length
-            activeNodes = alchemy.vis.selectAll(".node.active")[0].length
-            inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length
-            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{nodeNum}</span></li>"            
+            nodeData = []
+
+            allNodes = alchemy.get.allNodes().length
+            activeNodes = alchemy.get.activeNodes().length
+            inactiveNodes = allNodes - activeNodes
+
+            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{allNodes}</span></li>"            
             nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>"
             nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>"
 
             #add stats for all node types
             if alchemy.conf.nodeTypes
-                nodeKey = Object.keys(alchemy.conf.nodeTypes)
+                nodeKeys = Object.keys(alchemy.conf.nodeTypes)
                 nodeTypes = ''
-                for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                    # if not currentNodeTypes[t] then continue
+                for nodeType in alchemy.conf.nodeTypes[nodeKeys]
                     caption = nodeType.replace('_', ' ')
                     nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
                     nodeTypes += "<li class = 'list-group-item nodeType' id='li-#{nodeType}' 
-                                    name = #{caption}>Number of nodes of type #{caption}: <span class='badge'>#{nodeNum}</span></li>"
+                                    name = #{caption}>Number of <strong style='text-transform: uppercase'>#{caption}</strong> nodes: <span class='badge'>#{nodeNum}</span></li>"
+                    nodeData.push(["#{nodeType}", nodeNum])
                 nodeStats += nodeTypes
 
             #add the graph
@@ -46,6 +49,7 @@
             alchemy.dash
                    .select '#node-stats'
                    .html nodeStats
+            @insertSVG "node", nodeData
 
         edgeStats: () ->
             #general edge stats
@@ -76,33 +80,6 @@
                    .html edgeGraph 
             alchemy.stats.insertSVG "edge", edgeData
             return edgeData
-
-        nodeStats: () ->
-            #general node stats
-            nodeData = null
-            totalNodes = alchemy.vis.selectAll(".node")[0].length
-            activeNodes = alchemy.vis.selectAll(".node.active")[0].length
-            inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length
-
-            #add stats for all node types
-            if alchemy.conf.nodeTypes
-                nodeData = []
-                nodeKey = Object.keys(alchemy.conf.nodeTypes)
-                for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                    nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
-                    nodeData.push(["#{nodeType}", nodeNum])
-
-            #add the graph
-            nodeGraph = "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{totalNodes}</span></li>
-                        <li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>
-                        <li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>
-                        <li id='node-stats-graph' class='list-group-item'></li>" 
-
-            alchemy.dash
-                   .select '#node-stats'
-                   .html nodeGraph
-            alchemy.stats.insertSVG "node", nodeData
-            return nodeData
 
         insertSVG: (element, data) ->
             if data is null 

@@ -2,15 +2,15 @@
         constructor: (node) ->
             a = alchemy
             conf = a.conf
-            
+
             @id = node.id
             @_properties = node
             @_d3 = _.merge
-                'id': @id 
+                'id': @id
                 'root': @_properties[conf.rootNodes]
                 , a.svgStyles.node.populate(@)
             @_nodeType = @_setNodeType()
-            @_style = 
+            @_style =
                 if conf.nodeStyle[@_nodeType]
                     conf.nodeStyle[@_nodeType]
                 else
@@ -39,7 +39,7 @@
         _addEdge: (edgeDomID) ->
             # Stores edge.id for easy edge lookup
             @_adjacentEdges = _.union @_adjacentEdges, [edgeDomID]
-        
+
         # Edit node properties
         getProperties: (key=null, keys...) =>
             if not key? and (keys.length is 0)
@@ -56,13 +56,13 @@
             else
                 @_properties[property] = value
             @
-        
+
         removeProperty: (property) =>
             if @_properties.property?
                 _.omit @_properties, property
             @
-     
-     
+
+
         # Style methods
         getStyles: (key=null) =>
             if key?
@@ -87,9 +87,15 @@
         toggleHidden: ->
             @._state = if @._state is "hidden" then "active" else "hidden"
             @setStyles()
-            _.each @._adjacentEdges, (id)-> 
+            _.each @._adjacentEdges, (id)->
                 [source, target, pos] = id.split("-")
-                alchemy._edges["#{source}-#{target}"][pos].toggleHidden()
+                e = alchemy._edges["#{source}-#{target}"][pos]
+                sourceState = alchemy._nodes["#{source}"]._state
+                targetState = alchemy._nodes["#{target}"]._state
+                if e._state is "hidden" and (sourceState is "active" and targetState is "active")
+                  e.toggleHidden()
+                else if e._state is "active" and (sourceState is "hidden" or targetState is "hidden")
+                  e.toggleHidden()
 
         # Convenience methods
         outDegree: () -> @_adjacentEdges.length

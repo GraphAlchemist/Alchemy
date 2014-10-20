@@ -48,6 +48,9 @@
             else
                 _.map alchemy._nodes, (n) -> n
 
+        activeNodes: () ->
+            _.filter alchemy._nodes, (node) -> node if node._state is "active"
+
         allEdges: ->
             _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
         
