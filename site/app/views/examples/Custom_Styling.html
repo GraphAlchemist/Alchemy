@@ -135,7 +135,11 @@
       caption: "caption"
       };
 
-    alchemy.begin(config);
+    setTimeout(function(){
+      if (!d3.select("#alchemy4").empty() && d3.select("#alchemy4 svg").empty()){
+        alchemy.begin(config)    
+      }}, 200)
+
     $('pre').addClass('prettyprint');
     prettyPrint();
 </script>
