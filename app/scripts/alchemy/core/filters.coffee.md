@@ -13,10 +13,10 @@
 
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    alchemy.filters = 
-        init: () -> 
+    alchemy.filters =
+        init: () ->
             alchemy.filters.show()
-            
+
             if alchemy.conf.edgeFilters then alchemy.filters.showEdgeFilters()
             if alchemy.conf.nodeFilters then alchemy.filters.showNodeFilters()
             #generate filter forms
@@ -42,7 +42,7 @@
                     edgeTypes += "<li class='list-group-item edgeType' role='menuitem' id='li-#{edgeType}' name=#{edgeType}>#{caption}</li>"
                 alchemy.dash.select '#rel-dropdown'
                        .html edgeTypes
-            
+
             if alchemy.conf.captionsToggle then alchemy.filters.captionsToggle()
             if alchemy.conf.edgesToggle then alchemy.filters.edgesToggle()
             if alchemy.conf.nodesToggle then alchemy.filters.nodesToggle()
@@ -111,12 +111,12 @@
                    .append "div"
                    .attr "id", "filter-nodes"
                    .html node_filter_html
-            alchemy.dash.select "#filter-node-header"    
+            alchemy.dash.select "#filter-node-header"
                 .on 'click', () ->
                     if alchemy.dash.select('#node-dropdown').classed "in"
                         alchemy.dash.select "#filter-node-header>span"
                                .attr "class", "fa fa-lg fa-caret-right"
-                    else 
+                    else
                         alchemy.dash.select "#filter-node-header>span"
                                .attr "class", "fa fa-lg fa-caret-down"
 
@@ -143,8 +143,16 @@
               .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
               .html "Toggle Edges"
               .on "click", ->
-                  _.each _.values(alchemy._edges), (edges)->
-                      _.each edges, (e)-> e.toggleHidden()
+                  if _.contains(_.pluck(_.flatten(_.values(alchemy._edges)), "_state"), "active")
+                    _.each _.values(alchemy._edges), (edges)->
+                        _.each edges, (e)-> if e._state is "active" then e.toggleHidden()
+                  else
+                    _.each _.values(alchemy._edges), (edges)->
+                        _.each edges, (e)->
+                            source = alchemy._nodes[e._properties.source]
+                            target = alchemy._nodes[e._properties.target]
+                            if source._state is "active" and target._state is "active"
+                              e.toggleHidden()
 
         #create nodes toggle
         nodesToggle: () ->
@@ -153,9 +161,14 @@
               .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
               .html "Toggle Nodes"
               .on "click", ->
-                  _.each _.values(alchemy._nodes), (n)->
-                      if alchemy.conf.toggleRootNodes and n._d3.root then return
-                      n.toggleHidden()
+                  if _.contains(_.pluck(_.values(alchemy._nodes), "_state"), "active")
+                    _.each _.values(alchemy._nodes), (n)->
+                        if alchemy.conf.toggleRootNodes and n._d3.root then return
+                        if n._state is "active" then n.toggleHidden()
+                  else
+                    _.each _.values(alchemy._nodes), (n)->
+                        if alchemy.conf.toggleRootNodes and n._d3.root then return
+                        n.toggleHidden()
 
         #update filters
         update: () ->
@@ -164,11 +177,14 @@
                     element = d3.select this
                     tag = element.attr "name"
                     alchemy.vis.selectAll ".#{tag}"
-                        .each (d)-> 
+                        .each (d)->
                             if alchemy._nodes[d.id]?
                                 node = alchemy._nodes[d.id]
                                 node.toggleHidden()
                             else
                                 edge = alchemy._edges[d.id][0]
-                                edge.toggleHidden()
+                                source = alchemy._nodes[edge._properties.source]
+                                target = alchemy._nodes[edge._properties.target]
+                                if source._state is "active" and target._state is "active"
+                                  edge.toggleHidden()
                     alchemy.stats.nodeStats()

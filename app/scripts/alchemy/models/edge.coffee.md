@@ -7,13 +7,13 @@
         constructor: (edge, index=null) ->
             a = alchemy
             conf = a.conf
-            
+
             @id = @_setID edge
             @_index = index
             @_state = "active"
             @_properties = edge
             @_edgeType = @_setEdgeType()
-            @_style = 
+            @_style =
                 if conf.edgeStyle[@_edgeType]?
                     _.merge _.clone(conf.edgeStyle["all"]), conf.edgeStyle[@_edgeType]
                 else
@@ -35,7 +35,7 @@
 
         _setCaption: (edge, conf) =>
             cap = conf.edgeCaption
-            edgeCaption = do (edge) -> 
+            edgeCaption = do (edge) ->
                 switch typeof cap
                     when ('string' or 'number') then edge[cap]
                     when 'function' then cap(edge)
@@ -47,6 +47,8 @@
                 if _.isPlainObject conf.edgeTypes
                     lookup = Object.keys alchemy.conf.edgeTypes
                     edgeType = @_properties[lookup]
+                else if _.isArray conf.edgeTypes
+                    edgeType = @_properties["caption"]
                 else if typeof conf.edgeTypes is 'string'
                     edgeType = @_properties[conf.edgeTypes]
             if edgeType is undefined then edgeType = "all"
@@ -76,7 +78,7 @@
         # Style methods
         getStyles: (key=null) =>
             if key?
-                @_style[key] 
+                @_style[key]
             else
                 @_style
 
