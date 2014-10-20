@@ -299,7 +299,11 @@
           warningMessage: "There be no data!  What's going on?"
     };
 
-    alchemy.begin(config);
-    $('pre').addClass('prettyprint');
-    prettyPrint();
+      setTimeout(function(){
+        if (!d3.select("#alchemy5").empty() && d3.select("#alchemy5 svg").empty()){
+          alchemy.begin(config)    
+        }}, 200)
+
+      $('pre').addClass('prettyprint');
+      prettyPrint();
   </script>

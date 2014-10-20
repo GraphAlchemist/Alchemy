@@ -161,6 +161,8 @@
           dataWarning: "default",
           warningMessage: "There be no data!  What's going on?"
     };
-    alchemy.begin(config)
-
+  setTimeout(function(){
+    if (!d3.select("#alchemy1").empty() && d3.select("#alchemy1 svg").empty()){
+      alchemy.begin(config)    
+    }}, 300)
 </script>
