@@ -42,7 +42,7 @@ Specifies a custom warning message if there is no data.
 
 [`string, function`] default:`"afterLoad"` 
 
-If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This may be helpful for certain applications where the graph context is being watch and events can be fired when `alchemy.afterLoad` or `alchemy.someOtherString` is `true`.
+If `afterLoad` receives a string, that string is passed to `alchemy` as a top level key that returns `true` when the graph has loaded.  This may be helpful for certain applications where the graph context is being watched and events can be fired when `alchemy.afterLoad` or `alchemy.someOtherString` is `true`.
 
 If `afterLoad` receives a function, that function is simply run after the graph is drawn.  E.g. `alchemy.someFunction()`
 
