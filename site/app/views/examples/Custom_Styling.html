@@ -116,6 +116,7 @@
 
 <script type="text/javascript">
     // Blank any possible instance.
+    if(alchemy.force) { alchemy.force.stop() }
     d3.select("svg").remove()
     alchemy._nodes = {}
     alchemy._edges = {}
