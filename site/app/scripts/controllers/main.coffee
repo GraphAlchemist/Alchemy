@@ -147,6 +147,5 @@ angular.module('featCarousel', ['ui.bootstrap'])
             {image: "images/features/filters&Stats_movies.png", text: "Network statistic API endpoints to use in the rest of your app"}
         ]
 
- # angular.module('ngApp',['yaru22.md']);
- # angular.module('ngMarked',['marked.js']);
+
     
