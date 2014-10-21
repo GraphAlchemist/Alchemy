@@ -17,8 +17,10 @@
     class alchemy.clustering
         constructor: ->
             nodes = alchemy._nodes
+            conf = alchemy.conf
+            clustering = @
 
-            @clusterKey = alchemy.conf.clusterKey
+            @clusterKey = conf.clusterKey
             @identifyClusters()
         
             _charge = -500

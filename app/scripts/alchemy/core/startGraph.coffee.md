@@ -42,6 +42,10 @@
                 .on "dblclick.zoom", null
                 .append 'g'
                     .attr "transform","translate(#{conf.initialTranslate}) scale(#{conf.initialScale})"
+        
+        # Create zoom event handlers
+        alchemy.interactions.zoom().scale conf.initialScale
+        alchemy.interactions.zoom().translate conf.initialTranslate
 
         alchemy.generateLayout()
         alchemy.controlDash.init()
@@ -81,14 +85,6 @@
             else if typeof conf.afterLoad is 'string'
                 alchemy[conf.afterLoad] = true
 
-        if conf.initialScale isnt alchemy.defaults.initialScale
-            alchemy.interactions.zoom().scale conf.initialScale
-            return
-
-        if conf.initialTranslate isnt alchemy.defaults.initialTranslate
-            alchemy.interactions.zoom().translate conf.initialTranslate
-            return
-
         if conf.cluster or conf.directedEdges
             defs = d3.select("#{alchemy.conf.divSelector} svg").append "svg:defs"
 
@@ -106,7 +102,10 @@
             if conf.curvedEdges
                 marker.attr "refX", arrowSize + 1
             else
-                marker.attr 'refX', 1
+                marker.attr 'refX', 1 
+
+        if conf.nodeStats
+            alchemy.stats.nodeStats()
 
         if conf.showEditor
             editor = new alchemy.editor.Editor
