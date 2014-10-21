@@ -59,10 +59,6 @@ title: Anotated Source
             @_edges = {}
 
         begin: (userConf) =>
-            # Make sure current instance hasn't already begun
-            d3.select userConf.divSelector
-              .html ""
-            console.log alchemy._nodes
             # overide configuration with user inputs
             @setConf(userConf)
 
@@ -252,6 +248,9 @@ title: Anotated Source
                 _.filter alchemy._nodes, (n) -> n if n._nodeType is type
             else
                 _.map alchemy._nodes, (n) -> n
+
+        activeNodes: () ->
+            _.filter alchemy._nodes, (node) -> node if node._state is "active"
 
         allEdges: ->
             _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
@@ -583,10 +582,10 @@ title: Anotated Source
 
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-    alchemy.filters = 
-        init: () -> 
+    alchemy.filters =
+        init: () ->
             alchemy.filters.show()
-            
+
             if alchemy.conf.edgeFilters then alchemy.filters.showEdgeFilters()
             if alchemy.conf.nodeFilters then alchemy.filters.showNodeFilters()
             #generate filter forms
@@ -612,7 +611,7 @@ title: Anotated Source
                     edgeTypes += "<li class='list-group-item edgeType' role='menuitem' id='li-#{edgeType}' name=#{edgeType}>#{caption}</li>"
                 alchemy.dash.select '#rel-dropdown'
                        .html edgeTypes
-            
+
             if alchemy.conf.captionsToggle then alchemy.filters.captionsToggle()
             if alchemy.conf.edgesToggle then alchemy.filters.edgesToggle()
             if alchemy.conf.nodesToggle then alchemy.filters.nodesToggle()
@@ -681,12 +680,12 @@ title: Anotated Source
                    .append "div"
                    .attr "id", "filter-nodes"
                    .html node_filter_html
-            alchemy.dash.select "#filter-node-header"    
+            alchemy.dash.select "#filter-node-header"
                 .on 'click', () ->
                     if alchemy.dash.select('#node-dropdown').classed "in"
                         alchemy.dash.select "#filter-node-header>span"
                                .attr "class", "fa fa-lg fa-caret-right"
-                    else 
+                    else
                         alchemy.dash.select "#filter-node-header>span"
                                .attr "class", "fa fa-lg fa-caret-down"
 
@@ -713,8 +712,16 @@ title: Anotated Source
               .attr {"id":"toggle-edges","class":"list-group-item active-label toggle"}
               .html "Toggle Edges"
               .on "click", ->
-                  _.each _.values(alchemy._edges), (edges)->
-                      _.each edges, (e)-> e.toggleHidden()
+                  if _.contains(_.pluck(_.flatten(_.values(alchemy._edges)), "_state"), "active")
+                    _.each _.values(alchemy._edges), (edges)->
+                        _.each edges, (e)-> if e._state is "active" then e.toggleHidden()
+                  else
+                    _.each _.values(alchemy._edges), (edges)->
+                        _.each edges, (e)->
+                            source = alchemy._nodes[e._properties.source]
+                            target = alchemy._nodes[e._properties.target]
+                            if source._state is "active" and target._state is "active"
+                              e.toggleHidden()
 
         #create nodes toggle
         nodesToggle: () ->
@@ -723,9 +730,14 @@ title: Anotated Source
               .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
               .html "Toggle Nodes"
               .on "click", ->
-                  _.each _.values(alchemy._nodes), (n)->
-                      if alchemy.conf.toggleRootNodes and n._d3.root then return
-                      n.toggleHidden()
+                  if _.contains(_.pluck(_.values(alchemy._nodes), "_state"), "active")
+                    _.each _.values(alchemy._nodes), (n)->
+                        if alchemy.conf.toggleRootNodes and n._d3.root then return
+                        if n._state is "active" then n.toggleHidden()
+                  else
+                    _.each _.values(alchemy._nodes), (n)->
+                        if alchemy.conf.toggleRootNodes and n._d3.root then return
+                        n.toggleHidden()
 
         #update filters
         update: () ->
@@ -734,13 +746,18 @@ title: Anotated Source
                     element = d3.select this
                     tag = element.attr "name"
                     alchemy.vis.selectAll ".#{tag}"
-                        .each (d)-> 
+                        .each (d)->
                             if alchemy._nodes[d.id]?
                                 node = alchemy._nodes[d.id]
                                 node.toggleHidden()
                             else
                                 edge = alchemy._edges[d.id][0]
-                                edge.toggleHidden()
+                                source = alchemy._nodes[edge._properties.source]
+                                target = alchemy._nodes[edge._properties.target]
+                                if source._state is "active" and target._state is "active"
+                                  edge.toggleHidden()
+                    alchemy.stats.nodeStats()
+
     # Alchemy.js is a graph drawing application for the web.
     # Copyright (C) 2014  GraphAlchemist, Inc.
 
@@ -928,12 +945,8 @@ title: Anotated Source
             nodes = alchemy._nodes
             @k = Math.sqrt Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight())
             @_clustering = new alchemy.clustering
+            @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
 
-            # Set up quad tree
-            if conf.collisionDetection
-                @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
-                @q = d3.geom.quadtree @d3NodeInternals
-            
             if conf.cluster
                 @_charge = () -> @_clustering.layout.charge
                 @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
@@ -955,6 +968,8 @@ title: Anotated Source
             else if typeof conf.linkDistancefn is 'function'
                 @_linkDistancefn = (edge) -> conf.linkDistancefn(edge)
 
+            
+
         gravity: () =>
             if alchemy.conf.cluster
                 @_clustering.layout.gravity @k
@@ -964,10 +979,9 @@ title: Anotated Source
         linkStrength: (edge) =>
             @_linkStrength edge
 
-        friction: () ->
-            if alchemy.conf.cluster then 0.7 else 0.9
+        friction: () -> 0.9
 
-        collide: (node) =>
+        collide: (node) ->
             conf = alchemy.conf
             r = 2 * (node.radius + node['stroke-width']) + conf.nodeOverlap
             nx1 = node.x - r
@@ -992,9 +1006,10 @@ title: Anotated Source
                 y2 < ny1
 
         tick: () =>
-            if alchemy.conf.collisionDetection
+            if alchemy.conf.collisionDetectionls
+                q = d3.geom.quadtree @d3NodeInternals
                 for node in @d3NodeInternals
-                    @q.visit @collide(node)
+                    q.visit @collide(node)
 
             # alchemy.node
             alchemy.vis
@@ -1216,7 +1231,10 @@ title: Anotated Source
             if conf.curvedEdges
                 marker.attr "refX", arrowSize + 1
             else
-                marker.attr 'refX', 1
+                marker.attr 'refX', 1 
+
+        if conf.nodeStats
+            alchemy.stats.nodeStats()
 
         if conf.showEditor
             editor = new alchemy.editor.Editor
@@ -1249,23 +1267,26 @@ title: Anotated Source
         nodeStats: () ->
             #general node stats
             nodeStats = ''
-            nodeNum = alchemy.vis.selectAll(".node")[0].length
-            activeNodes = alchemy.vis.selectAll(".node.active")[0].length
-            inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length
-            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{nodeNum}</span></li>"            
+            nodeData = []
+
+            allNodes = alchemy.get.allNodes().length
+            activeNodes = alchemy.get.activeNodes().length
+            inactiveNodes = allNodes - activeNodes
+
+            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{allNodes}</span></li>"            
             nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>"
             nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>"
 
             #add stats for all node types
             if alchemy.conf.nodeTypes
-                nodeKey = Object.keys(alchemy.conf.nodeTypes)
+                nodeKeys = Object.keys(alchemy.conf.nodeTypes)
                 nodeTypes = ''
-                for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                    # if not currentNodeTypes[t] then continue
+                for nodeType in alchemy.conf.nodeTypes[nodeKeys]
                     caption = nodeType.replace('_', ' ')
                     nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
                     nodeTypes += "<li class = 'list-group-item nodeType' id='li-#{nodeType}' 
-                                    name = #{caption}>Number of nodes of type #{caption}: <span class='badge'>#{nodeNum}</span></li>"
+                                    name = #{caption}>Number of <strong style='text-transform: uppercase'>#{caption}</strong> nodes: <span class='badge'>#{nodeNum}</span></li>"
+                    nodeData.push(["#{nodeType}", nodeNum])
                 nodeStats += nodeTypes
 
             #add the graph
@@ -1274,6 +1295,7 @@ title: Anotated Source
             alchemy.dash
                    .select '#node-stats'
                    .html nodeStats
+            @insertSVG "node", nodeData
 
         edgeStats: () ->
             #general edge stats
@@ -1304,33 +1326,6 @@ title: Anotated Source
                    .html edgeGraph 
             alchemy.stats.insertSVG "edge", edgeData
             return edgeData
-
-        nodeStats: () ->
-            #general node stats
-            nodeData = null
-            totalNodes = alchemy.vis.selectAll(".node")[0].length
-            activeNodes = alchemy.vis.selectAll(".node.active")[0].length
-            inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length
-
-            #add stats for all node types
-            if alchemy.conf.nodeTypes
-                nodeData = []
-                nodeKey = Object.keys(alchemy.conf.nodeTypes)
-                for nodeType in alchemy.conf.nodeTypes[nodeKey]
-                    nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
-                    nodeData.push(["#{nodeType}", nodeNum])
-
-            #add the graph
-            nodeGraph = "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{totalNodes}</span></li>
-                        <li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>
-                        <li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>
-                        <li id='node-stats-graph' class='list-group-item'></li>" 
-
-            alchemy.dash
-                   .select '#node-stats'
-                   .html nodeGraph
-            alchemy.stats.insertSVG "node", nodeData
-            return nodeData
 
         insertSVG: (element, data) ->
             if data is null 
@@ -2813,13 +2808,13 @@ for the curve of the node.
         constructor: (edge, index=null) ->
             a = alchemy
             conf = a.conf
-            
+
             @id = @_setID edge
             @_index = index
             @_state = "active"
             @_properties = edge
             @_edgeType = @_setEdgeType()
-            @_style = 
+            @_style =
                 if conf.edgeStyle[@_edgeType]?
                     _.merge _.clone(conf.edgeStyle["all"]), conf.edgeStyle[@_edgeType]
                 else
@@ -2841,7 +2836,7 @@ for the curve of the node.
 
         _setCaption: (edge, conf) =>
             cap = conf.edgeCaption
-            edgeCaption = do (edge) -> 
+            edgeCaption = do (edge) ->
                 switch typeof cap
                     when ('string' or 'number') then edge[cap]
                     when 'function' then cap(edge)
@@ -2853,6 +2848,8 @@ for the curve of the node.
                 if _.isPlainObject conf.edgeTypes
                     lookup = Object.keys alchemy.conf.edgeTypes
                     edgeType = @_properties[lookup]
+                else if _.isArray conf.edgeTypes
+                    edgeType = @_properties["caption"]
                 else if typeof conf.edgeTypes is 'string'
                     edgeType = @_properties[conf.edgeTypes]
             if edgeType is undefined then edgeType = "all"
@@ -2882,7 +2879,7 @@ for the curve of the node.
         # Style methods
         getStyles: (key=null) =>
             if key?
-                @_style[key] 
+                @_style[key]
             else
                 @_style
 
