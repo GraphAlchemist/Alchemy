@@ -20,12 +20,8 @@
             nodes = alchemy._nodes
             @k = Math.sqrt Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight())
             @_clustering = new alchemy.clustering
+            @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
 
-            # Set up quad tree
-            if conf.collisionDetection
-                @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
-                @q = d3.geom.quadtree @d3NodeInternals
-            
             if conf.cluster
                 @_charge = () -> @_clustering.layout.charge
                 @_linkStrength = (edge) -> @_clustering.layout.linkStrength(edge)
@@ -47,6 +43,8 @@
             else if typeof conf.linkDistancefn is 'function'
                 @_linkDistancefn = (edge) -> conf.linkDistancefn(edge)
 
+            
+
         gravity: () =>
             if alchemy.conf.cluster
                 @_clustering.layout.gravity @k
@@ -56,10 +54,9 @@
         linkStrength: (edge) =>
             @_linkStrength edge
 
-        friction: () ->
-            if alchemy.conf.cluster then 0.7 else 0.9
+        friction: () -> 0.9
 
-        collide: (node) =>
+        collide: (node) ->
             conf = alchemy.conf
             r = 2 * (node.radius + node['stroke-width']) + conf.nodeOverlap
             nx1 = node.x - r
@@ -84,9 +81,10 @@
                 y2 < ny1
 
         tick: () =>
-            if alchemy.conf.collisionDetection
+            if alchemy.conf.collisionDetectionls
+                q = d3.geom.quadtree @d3NodeInternals
                 for node in @d3NodeInternals
-                    @q.visit @collide(node)
+                    q.visit @collide(node)
 
             # alchemy.node
             alchemy.vis
