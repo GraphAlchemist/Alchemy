@@ -35,9 +35,10 @@
 
 <div class="row example-code">
   <h3 class="filename">graphJSON</h3>
-  
-   <pre class="prettyprint lang-js"> 
-  </pre> 
+  <code>
+    <pre pretty-print class="prettyprint prettyprinted" id="graphJSON">
+    </pre> 
+  </code>
 
 </div>
 
@@ -49,7 +50,7 @@
     alchemy._edges = {}
 
     $.get("data/charlize.json", (function(res){
-            $(".lang-js").html(JSON.stringify(res, null, '\t'));
+            $("#graphJSON").html(JSON.stringify(res, null, '\t'));
           })
       );
     // Start
@@ -166,4 +167,6 @@
     if (!d3.select("#alchemy1").empty() && d3.select("#alchemy1 svg").empty()){
       alchemy.begin(config)    
     }}, 300)
+  $('pre').addClass('prettyprint');
+    prettyPrint();
 </script>
