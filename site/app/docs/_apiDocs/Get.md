@@ -78,7 +78,7 @@ It is important to realize that this returns an array of edge data and not the e
 <!--  -->
 
 `alchemy.get.clusters()`<br>
-API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster
+API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster.
   For example:
 
 ~~~ javascript
@@ -86,15 +86,15 @@ API method which returns a dictionary whose keys are the cluster names, and whos
 alchemy.get.clusters();
 ~~~
 
-##### alchemy.get.clusterColours()
+##### alchemy.get.clusterColors()
 <!--  -->
 
-`alchemy.get.clusterColours()`<br>
-API method which returns a dictionary whose keys are the cluster names, and whose values the hex code of the color used for that cluster
+`alchemy.get.clusterColors()`<br>
+API method which returns a dictionary whose keys are the cluster names, and whose values are the hex code of the color used for that cluster
   For example:
 
 ~~~ javascript
 /* returns all clusters, and their associated color codes */
-alchemy.get.clusterColours();
+alchemy.get.clusterColors();
 ~~~
 _______
