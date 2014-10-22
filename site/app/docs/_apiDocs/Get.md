@@ -35,7 +35,7 @@ If provided only a single node id, this method will return an array of all edges
 alchemy.getEdges(1);
 ~~~
 
-If two ids are provided then it will return only edges that have the source node and as target node of the ids provided, provided one exists.  For example:
+If two ids are provided then it will return only edges that have the source node and target node of the ids provided, provided one exists.  For example:
 ~~~ javascript
 /* returns only edges where node with id 1 is the source
 and node with id 2 is the target */
