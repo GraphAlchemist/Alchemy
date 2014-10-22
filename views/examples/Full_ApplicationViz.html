@@ -125,30 +125,6 @@
 
 
   
-  alchemy.begin(config);
-     
-  // Hotfix.  THis has already been put into the library, but is being
-  // patched up here due to a time crunch.  Does not effect the validity
-  // of the example in any way
-  alchemy.drawing.NodeUtils.nodeStyle = function(d) {
-    var conf, node;
-    conf = alchemy.conf;
-    node = alchemy._nodes[d.id];
-    if (conf.cluster && (node._state !== "hidden")) {
-      d.fill = (function(d) {
-        var clusterMap, clustering, colour, colourIndex, colours, key, nodeProp;
-        clustering = alchemy.layout._clustering;
-        nodeProp = node.getProperties();
-        clusterMap = clustering.clusterMap;
-        key = alchemy.conf.clusterKey;
-        colours = conf.clusterColours;
-        colourIndex = clusterMap[nodeProp[key]] % colours.length;
-        colour = colours[colourIndex];
-        return "" + colour;
-      })(d);
-    }
-    return d;
-  };
   alchemy.search = {
      init: function() {
        var searchBox;
@@ -188,4 +164,29 @@
        });
      }
    };
+
+  alchemy.begin(config);
+     
+  // Hotfix.  THis has already been put into the library, but is being
+  // patched up here due to a time crunch.  Does not effect the validity
+  // of the example in any way
+  alchemy.drawing.NodeUtils.nodeStyle = function(d) {
+    var conf, node;
+    conf = alchemy.conf;
+    node = alchemy._nodes[d.id];
+    if (conf.cluster && (node._state !== "hidden")) {
+      d.fill = (function(d) {
+        var clusterMap, clustering, colour, colourIndex, colours, key, nodeProp;
+        clustering = alchemy.layout._clustering;
+        nodeProp = node.getProperties();
+        clusterMap = clustering.clusterMap;
+        key = alchemy.conf.clusterKey;
+        colours = conf.clusterColours;
+        colourIndex = clusterMap[nodeProp[key]] % colours.length;
+        colour = colours[colourIndex];
+        return "" + colour;
+      })(d);
+    }
+    return d;
+  };
   </script>
