@@ -87,7 +87,7 @@
                         id: "Advanced_Styling",
                         desc: "Differential styling based on the properties of nodes and edges."
                     }
-                }, a.orderedExamples = ["Basic_Graph", "Embedded_Graph", "Custom_Styling", "Advanced_Styling", "Full_Application"], "exampleName" in c && d(c.exampleName)
+                }, a.orderedExamples = ["Basic_Graph", "Embedded_Graph", "Advanced_Styling", "Full_Application"], "exampleName" in c && d(c.exampleName)
             }, a.showExample = function(a) {
                 d(a)
             }, a.showViz = function() {
