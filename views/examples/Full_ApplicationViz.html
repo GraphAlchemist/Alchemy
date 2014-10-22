@@ -100,7 +100,7 @@
    "edgeOverlayWidth":20,
    "directedEdges":false,
    "edgeArrowSize":5,
-   "search":false,
+   "search":true,
    "searchMethod":"contains",
    "backgroundColour":"#000000",
    "theme":null,
@@ -149,5 +149,43 @@
     }
     return d;
   };
-  
+  alchemy.search = {
+     init: function() {
+       var searchBox;
+       searchBox = alchemy.dash.select("#search input");
+       return searchBox.on("keyup", function() {
+         var input;
+         input = searchBox[0][0].value.toLowerCase();
+         _.each(alchemy._nodes, function(n) {
+           return n._state = "active";
+         });
+         return _.each(alchemy._nodes, function(n) {
+           var caption, conf, hidden;
+           conf = alchemy.conf;
+           caption = n.getProperties()[conf.nodeCaption];
+           switch (conf.searchMethod) {
+             case 'contains':
+               hidden = caption.toLowerCase().indexOf(input) < 0;
+               break;
+             case 'begins':
+               hidden = caption.toLowerCase().indexOf(input) !== 0;
+           }
+           n._state = hidden ? "hidden" : "active";
+           n.setStyles();
+           return _.each(n._adjacentEdges, function(id) {
+             var e, pos, source, sourceState, target, targetState, _ref;
+             _ref = id.split("-"), source = _ref[0], target = _ref[1], pos = _ref[2];
+             e = alchemy._edges["" + source + "-" + target][pos];
+             sourceState = alchemy._nodes["" + source]._state;
+             targetState = alchemy._nodes["" + target]._state;
+             if (e._state === "hidden" && (sourceState === "active" && targetState === "active")) {
+               return e.toggleHidden();
+             } else if (e._state === "active" && (sourceState === "hidden" || targetState === "hidden")) {
+               return e.toggleHidden();
+             }
+           });
+         });
+       });
+     }
+   };
   </script>
