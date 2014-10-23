@@ -3,7 +3,7 @@ position: 2
 title: Edges
 ---
 
-### Edges
+# Edges
 
 <p></p>
 
@@ -23,9 +23,38 @@ The action that occurs when the user clicks an edge.  When the string `'default'
 
 ##### edgeStyle
 
-[`css style value`] default:`null`
+[`edgeType`: { `list of css style values` }] default edgeType:`all`
 
-A function that assigns custom edge styling.  Should return a string that is a valid value to the "style" svg attribute in css.  If `alchemy.conf.cluster` is `true` then styling is assigned by edge gradients take priority.  Read more about the [`cluster` configuration](#cluster).
+A set of configuration options that assigns custom edge styling.  Should return an object whose key is an edgeType, and whose value is a list of valid css styles.  
+
+Current default configuration:
+
+~~~ javascript
+{
+  edgeStyle: {
+    "all": {
+      "width": 4,
+      "color": "#CCC",
+      "opacity": 0.2,
+      "selected": {
+          "opacity": 1
+        },
+      "highlighted": {
+          "opacity": 1
+        },
+      "hidden": {
+          "opacity": 0
+        }
+    }
+  }
+}
+~~~
+
+By default edgeStyles apply to "all" edges.  This can be changed to be any valid [`edgeType` value](#edgeTypes).  Different styles may be applied to different edgeTypes at user's discretion.
+
+"selected", "highlighted", and "hidden" are conditional stylings based on current edge state.  
+
+If `alchemy.conf.cluster` is `true` then styling is assigned by edge gradients take priority.  Read more about the [`cluster` configuration](#cluster).
 
 ##### edgeTypes
 

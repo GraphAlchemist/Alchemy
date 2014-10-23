@@ -1,6 +1,8 @@
 $icon-font-path: "../../styles/fonts/";
-@import '../../../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss';
-@import '../../../bower_components/components-font-awesome/scss/font-awesome.scss';
+
+@import "../../../../bower_components/bootstrap-sass-official/assets/stylesheets/_bootstrap.scss";
+@import "../../../../bower_components/font-awesome/scss/font-awesome.scss";
+
 @import 'buttonsVars.scss';
 @import 'coderay.scss';
 @import 'docs.scss';

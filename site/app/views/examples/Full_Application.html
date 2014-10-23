@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-8">
+    <h2>Description</h2>
+    <p class="lead">{{current_example.desc}}</p>
+  </div>
+  <button ng-click="showViz()" id="to-full-app-btn" type="button" class="btn btn-default" href="#">
+    <h3>See it in Action <i class = "glyphicon glyphicon-arrow-right"></i></h3>
+  </button>
+</div>
+
+<div class = "row example-code">
+  <h3 class="filename">alchemyConfig.js</h3>
+  <pre pretty-print>
+
+<code>
+var config = {
+  dataSource: 'data/team.json',                      
+
+  cluster: true,
+
+  nodeTypes: {"node_type":
+                [
+                 "family",
+                 "coworker", 
+                 "classmate", 
+                 "friend", 
+                 "other"
+                ]
+               },
+  nodeCaption: "firstName",
+  rootNodeRadius: 30,
+
+  showControlDash: true,
+
+  showStats: true,
+  nodeStats: true,
+
+  showFilters: true,
+  nodeFilters: true,
+
+  captionToggle: true,
+  edgesToggle: true,
+  nodesToggle: true,
+  toggleRootNotes: false,
+
+  zoomControls: true
+};
+
+alchemy.begin(config);
+
+</code>
+        </pre>
+	</div>
+
+<div class="row example-code">
+  <h3 class="filename">index.html</h3>
+  <pre pretty-print>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+  </pre>
+</div>
+<div class="row example-code">
+  <h3 class="filename">graphJSON</h3>
+  
+   <pre class="prettyprint lang-js"> 
+  </pre> 
+
+</div>
+
+<script type="text/javascript">
+  $.get("data/team.json", (function(res){
+        $(".lang-js").html(JSON.stringify(res, null, '\t'));
+      })
+  );
+  </script>

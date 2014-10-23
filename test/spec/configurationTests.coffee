@@ -5,8 +5,8 @@ do ->
     # Test configuration to test assignment, not specific circumstance
     genericTestConf = {
         dataSource: "sample_data/contrib.json",
-        graphWidth: ()-> 200,
-        graphHeight: ()-> 200,
+        graphWidth: () -> 200,
+        graphHeight : () -> 200,
         alpha: 0.23
     }
 
@@ -15,8 +15,8 @@ do ->
         alchemy.begin(conf)
     
     describe "Configuration testing", ->
-        before (done)->
-            d3.select("alchemy").html("")
+        before (done) ->
+            d3.select("#alchemy").html("")
             runWithConf(genericTestConf)
             setTimeout(done, 1000)
 

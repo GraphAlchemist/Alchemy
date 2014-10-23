@@ -123,12 +123,6 @@ svg {
   color: #333;
 }
 
-.edge {
-  stroke-width: 2;
-  stroke: #ccc;
-  stroke-opacity: 0.2;
-}
-
 .edge path {
   fill: none;
 }
@@ -147,10 +141,6 @@ svg {
   text-shadow: 1px 1px #333, -1px 1px #333, 1px -1px #333, -1px -1px #333;
 }
 
-.edge.active {
-  opacity: 1;
-}
-
 .edge.active text {
   display: none;
   fill: white;
@@ -165,35 +155,9 @@ svg {
   cursor: pointer;
 }
 
-.edge.active:hover .edge-line,
-.edge.active.selected .edge-line {
-  stroke: #383838;
-  stroke-opacity: 1;
-  stroke-width: 4;
-}
-
 .edge.active:hover text,
 .edge.active.selected text {
   display: block;
-}
-
-.edge.active.highlight .edge-line {
-  opacity: .8 !important;
-  stroke-width: 2px;
-  stroke-opacity: .7;
-  stroke: red;
-}
-
-.edge.inactive {
-  display: none;
-  opacity: 0;
-}
-
-.edge.inactive.highlight {
-  opacity: .8 !important;
-  stroke-width: 2;
-  stroke-opacity: .5;
-  stroke: #68b9fe;
 }
 
 #zoom-controls {
@@ -566,18 +530,6 @@ svg {
   cursor: pointer;
 }
 
-.node circle {
-  fill: #68b9fe;
-  fill-opacity: 0.8;
-  stroke: #127dc1;
-  stroke-opacity: 1;
-}
-
-.node circle.root {
-  fill: #9000ff;
-  stroke: #90c73d;
-}
-
 .node text.root {
   font-size: 32px;
 }
@@ -593,70 +545,14 @@ svg {
 
 .node.active {
   opacity: 1;
-  fill: white;
-}
-
-.node.active.highlight {
-  opacity: .8 !important;
-}
-
-.node.active.highlight circle {
-  fill-opacity: 1;
-  stroke: #015399;
-  stroke-width: 3px;
-  fill: white;
-}
-
-.node.active.selected circle {
-  stroke-width: 5px;
-  fill-opacity: .8;
-  stroke-opacity: 1;
-  stroke: white;
-  fill: #68b9fe;
 }
 
 .node.active.selected text {
   display: block;
 }
 
-.node.active.selected:hover circle {
-  stroke-width: 5px;
-  fill-opacity: .8;
-  stroke-opacity: 1;
-  stroke: white;
-  fill: white;
-}
-
-.node.active:hover circle {
-  stroke-width: 3px;
-  fill-opacity: .8;
-  stroke-opacity: 1;
-  stroke: #015399;
-  fill: #9bd0fe;
-}
-
 .node.active:hover text {
   display: block;
-}
-
-.node.inactive {
-  opacity: 0;
-}
-
-.node.inactive.highlight {
-  opacity: .8 !important;
-}
-
-.node.inactive.highlight circle {
-  fill-opacity: 1;
-  stroke: #68b9fe;
-  stroke-width: 2px;
-  fill: white;
-}
-
-#loading-spinner {
-  position: absolute;
-  right: 0;
 }
 
 #filters {

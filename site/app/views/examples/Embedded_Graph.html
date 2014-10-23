@@ -1,0 +1,173 @@
+<div class = "row">
+      <h2>Description</h2>
+        <p class="lead">{{current_example.desc}}</p>
+    <div id="graph-container" style="min-height:400px; width:400px;">
+        <h3 class="filename">Graph</h3>
+        <div class="alchemy" id="alchemy2" style="height:400px; width:400px;"></div>
+    </div>
+</div>
+<div class="row example-code">
+  <h3 class="filename">HTML and Configuration</h3>
+  <pre pretty-print>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    var config = {
+      dataSource: 'data/contrib.json',
+      graphHeight: function(){ return 400; },
+      graphWidth: function(){ return 400; },
+      
+      linkDistance: function(){ return 40; },
+
+      nodeTypes: {"node_type":[ "Maintainer",
+                                "Contributor"]},
+      nodeCaption: function(node){ 
+        return node.caption + " " + node.fun_fact;}
+      };
+
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+  </pre>
+</div>
+<div class="row example-code">
+  <h3 class="filename">graphJSON</h3>
+  
+   <pre id="graphJSON" class="prettyprint lang-js"> 
+  </pre> 
+
+</div>
+
+<script type="text/javascript">
+    $.get("data/contrib.json", (function(res){
+        $("#graphJSON").html(JSON.stringify(res, null, '\t'));
+      })
+    );
+
+    // Blank any possible instance.
+    if(alchemy.force) { alchemy.force.stop() }
+    d3.select("svg").remove()
+    alchemy._nodes = {}
+    alchemy._edges = {}    
+
+      var config = {
+          dataSource: 'data/contrib.json',
+          renderer: "svg",
+          graphWidth: function() {
+            return d3.select(this.divSelector).node().parentElement.clientWidth;
+          },
+          graphHeight: function() {
+            if (d3.select(this.divSelector).node().parentElement.nodeName === "BODY") {
+              return window.innerHeight;
+            } else {
+              return d3.select(this.divSelector).node().parentElement.clientHeight;
+            }
+          },
+          alpha: 0.5,
+          collisionDetection: true,
+          nodeOverlap: 25,
+          fixNodes: false,
+          fixRootNodes: false,
+          forceLocked: false,
+          linkDistance: function(){ return 40; },          
+          nodePositions: null,
+          showEditor: false,
+          captionToggle: false,
+          toggleRootNodes: false,
+          removeElement: false,
+          cluster: false,
+          clusterKey: "cluster",
+          clusterColours: d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f", "#ffcd00", "#184fff", "#ff7e00"]),
+          clusterControl: false,
+          nodeStats: false,
+          edgeStats: false,
+          edgeFilters: false,
+          nodeFilters: false,
+          edgesToggle: false,
+          nodesToggle: false,
+          zoomControls: false,
+          nodeCaption: function(node){ return node.caption + " " + node.fun_fact; },
+          nodeCaptionsOnByDefault: false,
+          nodeStyle: {
+            "all": {
+              "radius": 10,
+              "color": "#68B9FE",
+              "borderColor": "#127DC1",
+              "borderWidth": function(d, radius) {
+                return radius / 3;
+              },
+              "captionColor": "#FFFFFF",
+              "captionBackground": null,
+              "captionSize": 12,
+              "selected": {
+                "color": "#FFFFFF",
+                "borderColor": "#349FE3"
+              },
+              "highlighted": {
+                "color": "#EEEEFF"
+              },
+              "hidden": {
+                "color": "none",
+                "borderColor": "none"
+              }
+            }
+          },
+          nodeColour: null,
+          nodeMouseOver: 'caption',
+          nodeRadius: 10,
+          nodeTypes: {"node_type":["Maintainer", "Contributor"]},
+          rootNodes: 'root',
+          rootNodeRadius: 15,
+          edgeCaption: 'caption',
+          edgeCaptionsOnByDefault: false,
+          edgeClick: 'default',
+          edgeStyle: {
+            "all": {
+              "width": 4,
+              "color": "#CCC",
+              "opacity": 0.2,
+              "directed": true,
+              "curved": true,
+              "selected": {
+                "opacity": 1
+              },
+              "highlighted": {
+                "opacity": 1
+              },
+              "hidden": {
+                "opacity": 0
+              }
+            }
+          },
+          edgeTypes: null,
+          curvedEdges: false,
+          edgeWidth: function() {
+            return 4;
+          },
+          edgeOverlayWidth: 20,
+          directedEdges: false,
+          edgeArrowSize: 5,
+          search: false,
+          searchMethod: "contains",
+          backgroundColour: "#000000",
+          theme: null,
+          afterLoad: 'afterLoad',
+          divSelector: '#alchemy2',
+          initialScale: 1,
+          initialTranslate: [0, 0],
+          scaleExtent: [0.5, 2.4],
+          dataWarning: "default",
+          warningMessage: "There be no data!  What's going on?"
+    };
+
+    setTimeout(function(){
+      if (!d3.select("#alchemy2").empty() && d3.select("#alchemy2 svg").empty()){
+        alchemy.begin(config)    
+      }}, 300)
+</script>

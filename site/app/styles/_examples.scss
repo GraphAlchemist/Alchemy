@@ -18,7 +18,7 @@
 }
 
 .example {
-	padding: 20px;
+	padding: 40px;
 	background-color: white;
 	border: 3px $blue solid;
 	border-radius: 5px;
@@ -99,10 +99,12 @@
 	}
 }
 
+
 .example-code{
 	pre{
 		overflow: scroll;
-		height: 450px;
+		max-height: 450px;
+		font-size: 18px;
 	}
 }
 .alchemy{

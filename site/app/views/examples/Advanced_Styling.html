@@ -1,0 +1,310 @@
+<div class="row">
+    <h2>Description</h2>
+      <p class="lead">{{current_example.desc}}</p>
+</div>
+
+<div class = "row" id="example5">
+    <div id="graph-container" style="height:450px">
+        <h3 class="filename">Graph</h3>
+        <div class="alchemy" id="alchemy5" style="width: 100%;"></div>
+    </div>
+</div>
+
+
+<div class="row example-code">
+  <h3 class="filename">HTML and Configuration</h3>
+    <pre pretty-print>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+
+      var config = {
+            dataSource: 'data/network.json',
+            directedEdges: true,
+            nodeTypes: { "role": 
+                ["http_server", "postgres", "neo4j", "load_balancer"] 
+            }, 
+            nodeStyle: {
+                "all": {
+                    "borderColor": "#127DC1",
+                    "borderWidth": function(d, radius) {
+                        return radius / 4
+                    },
+                    "color": function(d) { 
+                        return "rgba(104, 185, 254, " + 
+                        (d.getProperties().memoryUsage / 100) + " )" 
+                    }, 
+                    "radius": function(d) {
+                        if(d.getProperties().root)
+                        return 15; else return 10 
+                    }, 
+                },
+                "http_server":{
+                    "color": "#000067",
+                    "selected": {
+                        "color": "#ffffff",
+                    },                    
+                    "highlighted": {
+                        "color": "#b4dcff"
+                    }
+                }
+            },
+            edgeStyle: {
+                "all": {
+                    "width": function(d) {
+                     return (d.getProperties().load + 0.5) * 1.3 
+                    }
+                }
+            }
+        };
+
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+      </pre>
+    </div>
+    <div class="row example-code">
+      <h3 class="filename">graphJSON</h3>
+      <code>
+        <pre pretty-print class="prettyprint prettyprinted">
+{
+    "comment": "Network Graph",
+    "nodes": [
+        {
+            "id": "s1",
+            "caption": "192.168.0.20",
+            "role": "http_server",
+            "memoryUsage": 50,
+            "root": true
+        },
+        {
+            "id": "s2",
+            "caption": "192.168.0.21",
+            "role": "http_server",
+            "memoryUsage": 22,
+            "root": true
+        },        
+        {
+            "id": "s3",
+            "caption": "192.168.0.22",
+            "role": "http_server",
+            "memoryUsage": 95,
+            "root": true
+        },
+        {
+            "id": "s4",
+            "caption": "192.168.2.4",
+            "role": "neo4j",
+            "memoryUsage": 10,
+            "root": false
+        },
+        {
+            "id": "s5",
+            "caption": "192.168.2.6",
+            "role": "postgres",
+            "memoryUsage": 30,
+            "root": false
+        },
+        {
+            "id": "s6",
+            "caption": "192.168.2.7",
+            "role": "db_backups",
+            "memoryUsage": 10, 
+            "root": false
+        },
+        {
+            "id": "s7",
+            "caption": "192.168.2.12",
+            "role": "load balancer",
+            "memoryUsage": 42,
+            "root": false
+        }
+    ],
+    "edges": [
+        {
+            "source": "s7",
+            "target": "s1",
+            "load": 5
+        },
+        {
+            "source": "s7",
+            "target": "s2",
+            "load": 2
+        },
+        {
+            "source": "s7",
+            "target": "s3",
+            "load": 2
+        },
+        {
+            "source": "s1",
+            "target": "s4",
+            "load": 4
+        },
+        {
+            "source": "s1",
+            "target": "s5",
+            "load": 1
+        },
+        {
+            "source": "s2",
+            "target": "s4",
+            "load": 1
+        },
+        {
+            "source": "s2",
+            "target": "s5",
+            "load": 1
+        },
+        {
+            "source": "s3",
+            "target": "s4",
+            "load": 0
+        },
+        {
+            "source": "s3",
+            "target": "s5",
+            "load": 1
+        },
+        {
+            "source": "s4",
+            "target": "s6",
+            "load": 0
+        },
+        {
+            "source": "s5",
+            "target": "s6",
+            "load": 0
+        }
+
+    ]
+}
+        </pre>
+      </code>
+    </div>
+    <script type=text/javascript>
+        // Blank any possible instance.
+        if(alchemy.force) { alchemy.force.stop() }
+        d3.select("svg").remove()
+        alchemy._nodes = {}
+        alchemy._edges = {}
+
+        // start
+        var config = {
+          dataSource: 'data/networkGraph.json',
+          renderer: "svg",
+          graphWidth: function() {
+            return d3.select(this.divSelector).node().parentElement.clientWidth;
+          },
+          graphHeight: function() {
+            if (d3.select(this.divSelector).node().parentElement.nodeName === "BODY") {
+              return window.innerHeight;
+            } else {
+              return d3.select(this.divSelector).node().parentElement.clientHeight;
+            }
+          },
+          alpha: 0.5,
+          collisionDetection: true,
+          nodeOverlap: 25,
+          fixNodes: false,
+          fixRootNodes: false,
+          forceLocked: true,
+          linkDistancefn: 'default',
+          nodePositions: null,
+          showEditor: false,
+          captionToggle: false,
+          toggleRootNodes: false,
+          removeElement: false,
+          cluster: false,
+          clusterKey: "cluster",
+          clusterColours: d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f", "#ffcd00", "#184fff", "#ff7e00"]),
+          clusterControl: false,
+          nodeStats: false,
+          edgeStats: false,
+          edgeFilters: false,
+          nodeFilters: false,
+          edgesToggle: false,
+          nodesToggle: false,
+          zoomControls: false,
+          nodeCaption: 'caption',
+          nodeCaptionsOnByDefault: false,
+            nodeStyle: {
+                "all": {
+                    "borderColor": "#127DC1",
+                    "borderWidth": function(d, radius) { return radius / 4 },
+                    "color": function(d) { return "rgba(104, 185, 254, " + (d.getProperties().memoryUsage / 100) + " )" }, 
+                    "radius": function(d) { if(d.getProperties().root) return 15; else return 10 }, 
+                },
+                "http_server":{
+                    "color": "#000067",
+                    "selected": {
+                        "color": "#ffffff"
+                    },                    
+                    "highlighted": {
+                        "color": "#b4dcff"
+                    }
+                }
+            },
+          nodeColour: null,
+          nodeMouseOver: 'caption',
+          nodeRadius: 10,
+          nodeTypes: { "role": ["http_server", "postgres", "neo4j", "load_balancer"] },          
+          rootNodes: 'root',
+          rootNodeRadius: 15,
+          edgeCaption: 'caption',
+          edgeCaptionsOnByDefault: false,
+          edgeClick: 'default',
+          edgeStyle: {
+            "all": {
+              "width": function(d) { return (d.getProperties().load + 0.5) * 1.3 },
+              "color": "#CCC",
+              "opacity": 0.2,
+              "directed": true,
+              "curved": true,
+              "selected": {
+                "opacity": 1
+              },
+              "highlighted": {
+                "opacity": 1
+              },
+              "hidden": {
+                "opacity": 0
+              }
+            }
+          },
+          edgeTypes: null,
+          curvedEdges: false,
+          edgeWidth: function() {
+            return 4;
+          },
+          edgeOverlayWidth: 20,
+          directedEdges: true,
+          edgeArrowSize: 5,
+          search: false,
+          searchMethod: "contains",
+          backgroundColour: "#000000",
+          theme: null,
+          afterLoad: 'afterLoad',
+          divSelector: '#alchemy5',
+          initialScale: 1,
+          initialTranslate: [0, 0],
+          scaleExtent: [0.5, 2.4],
+          dataWarning: "default",
+          warningMessage: "There be no data!  What's going on?"
+    };
+
+      setTimeout(function(){
+        if (!d3.select("#alchemy5").empty() && d3.select("#alchemy5 svg").empty()){
+          alchemy.begin(config)    
+        }}, 300)
+
+      $('pre').addClass('prettyprint');
+      prettyPrint();
+  </script>

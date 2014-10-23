@@ -1,0 +1,138 @@
+<div ng-controller="examplesCtrl" id="graph-container-full">
+	<button ng-click='hideViz()' id='from-full-app-btn' type='button' class='btn btn-default' href='#'>
+	    <h3><i class = 'glyphicon glyphicon-arrow-left'></i>Back to Examples</h3>
+	</button>
+   	<div class="alchemy" id="alchemy"></div>
+</div>
+
+
+<script type="text/javascript">
+  var config = {  
+   "dataSource":"data/team.json",
+   "renderer":"svg",
+   "alpha":0.5,
+   "collisionDetection":true,
+   "nodeOverlap":25,
+   "fixNodes":false,
+   "fixRootNodes":false,
+   "forceLocked":true,
+   "nodePositions":null,
+   "showEditor":false,
+   "captionToggle":true,
+   "toggleRootNodes":false,
+   "removeElement":false,
+   "cluster":true,
+   "clusterKey":"cluster",
+   "clusterColours":[  
+      "#ff8d8f",
+      "#ffcd00",
+      "#ff7e00",
+      "#f800df",
+      "#DD79FF",
+      "#FF004B",
+      "#00CDCD",
+      "#FFFC00",
+      "#5168FF",
+      "#00FF30",
+      "#184fff",
+      "#f83f00",
+      "#00C0FF"
+   ],
+   "clusterControl":false,
+   "nodeStats":true,
+   "edgeStats":false,
+   "edgeFilters":false,
+   "nodeFilters":true,
+   "edgesToggle":true,
+   "nodesToggle":true,
+   "zoomControls":true,
+   "nodeCaption":"firstName",
+   "nodeCaptionsOnByDefault":false,
+   "nodeStyle":{  
+      "all":{  
+         "radius":10,
+         "color":"#68B9FE",
+         "borderColor":"#127DC1",
+         "captionColor":"#FFFFFF",
+         "captionBackground":null,
+         "captionSize":12,
+         "selected":{  
+            "color":"#FFFFFF",
+            "borderColor":"#349FE3"
+         },
+         "highlighted":{  
+            "color":"#EEEEFF"
+         },
+         "hidden":{  
+            "color":"none",
+            "borderColor":"none"
+         }
+      }
+   },
+   "nodeColour":null,
+   "nodeMouseOver":"caption",
+   "nodeRadius":10,
+   "nodeTypes":{  
+      "node_type":[  
+         "family",
+         "coworker",
+         "classmate",
+         "friend",
+         "other"
+      ]
+   },
+   "rootNodes":"root",
+   "rootNodeRadius":15,
+   "edgeCaption":"caption",
+   "edgeCaptionsOnByDefault":false,
+   "edgeClick":"default",
+   "edgeStyle":{  
+      "all":{  
+         "width":4,
+         "color":"#CCC",
+         "opacity":0.2,
+         "directed":true,
+         "curved":true,
+         "selected":{  
+            "opacity":1
+         },
+         "highlighted":{  
+            "opacity":1
+         },
+         "hidden":{  
+            "opacity":0
+         }
+      }
+   },
+   "edgeTypes":null,
+   "curvedEdges":false,
+   "edgeOverlayWidth":20,
+   "directedEdges":false,
+   "edgeArrowSize":5,
+   "search":false,
+   "searchMethod":"contains",
+   "backgroundColour":"#000000",
+   "theme":null,
+   "afterLoad":"afterLoad",
+   "divSelector":"#alchemy",
+   "initialScale":1,
+   "initialTranslate":[  
+      0,
+      0
+   ],
+   "scaleExtent":[  
+      0.5,
+      2.4
+   ],
+   "dataWarning":"default",
+   "warningMessage":"There be no data!  What's going on?",
+   "showControlDash":true,
+   "showStats":true,
+   "showFilters":true,
+   "toggleRootNotes":false
+}
+
+
+  
+  alchemy.begin(config);
+</script>

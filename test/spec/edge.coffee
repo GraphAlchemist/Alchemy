@@ -8,14 +8,14 @@ do ->
         describe "@constructor", ->
             describe '@_d3', ->
                 it "should initialize as an object", ->
-                    testEdge = alchemy._edges["1-0"]
+                    testEdge = alchemy._edges["1-0"][0]
                     _d3Type = typeof testEdge._d3
                     objType = typeof {}
 
                     typeof _d3Type.should.equal objType
 
                 it "should contain properties from d3 calculations", ->
-                    testEdge = alchemy._edges["1-0"]
+                    testEdge = alchemy._edges["1-0"][0]
                     _d3Keys = _.keys testEdge._d3
                     d3Properties = ['id', 'source', 'target']
 
@@ -24,46 +24,49 @@ do ->
                     overlap.length.should.equal d3Properties.length
 
                 it "should contain a copy of the edge id", ->
-                    testEdge = alchemy._edges["1-0"]
+                    testEdge = alchemy._edges["1-0"][0]
                     testEdge._d3.id.should.equal testEdge.id
 
             it "should inform source and target nodes that it is connected", ->
-                testEdge = alchemy._edges["1-0"]
+                positionInEdgeArray = 0
+                testEdge = alchemy._edges["1-0"][positionInEdgeArray]
                 source = alchemy._nodes[testEdge._d3.source.id]
                 target = alchemy._nodes[testEdge._d3.target.id]
 
-                sourceKnowsEdge = _.contains source.adjacentEdges, testEdge.id
-                targetKnowsEdge = _.contains target.adjacentEdges, testEdge.id
+                fullEdgeId = "#{testEdge.id}-#{positionInEdgeArray}"
+
+                sourceKnowsEdge = _.contains source._adjacentEdges, fullEdgeId
+                targetKnowsEdge = _.contains target._adjacentEdges, fullEdgeId
 
                 sourceKnowsEdge.should.equal true
                 targetKnowsEdge.should.equal true
 
         describe "Property accessor/modifier methods", ->
-            describe "setProperty()", ->
+            describe "setProperties()", ->
                 it "should change specificed property", ->
-                    testEdge = alchemy._edges["1-0"]
+                    testEdge = alchemy._edges["1-0"][0]
                     # Initial caption is "Maintains"
-                    initialCaption = testEdge.properties.caption
+                    initialCaption = testEdge.getProperties('caption')
 
-                    testEdge.setProperty "caption", "newCaption"
-                    newCaption = testEdge.properties.caption
+                    testEdge.setProperties "caption", "newCaption"
+                    newCaption = testEdge.getProperties('caption')
 
                     initialCaption.should.not.equal newCaption and
                     newCaption.should.not.equal "Maintains"
 
-            describe "setD3Property()", ->
+            describe "setProperties(source/target)", ->
                 it "should change specified _d3 property", ->
-                    testEdge = alchemy._edges["1-0"]
+                    testEdge = alchemy._edges["1-0"][0]
                     # Initial source is 1
                     initialSource = testEdge._d3.source
-
-                    testEdge.setD3Property "source", "newSource"
+                    newSource = 4
+                    testEdge.setProperties "source", 4
                     newSource = testEdge._d3.source
 
                     initialSource.should.not.equal newSource &&
                     newSource.should.not.equal 1
 
                     # Resetting for future tests without reload
-                    testEdge.setD3Property "source", 1
+                    testEdge.setProperties "source", 1
 
     return

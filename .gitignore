@@ -6,7 +6,7 @@ node_modules
 *.DS_Store
 app/scripts/testConf.coffee
 ToDo.md
-testConf.coffee
+testConf.coffee.md
 app/index.html
 site/dist
 .grunt
