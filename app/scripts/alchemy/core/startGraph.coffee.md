@@ -102,7 +102,10 @@
             if conf.curvedEdges
                 marker.attr "refX", arrowSize + 1
             else
-                marker.attr 'refX', 1
+                marker.attr 'refX', 1 
+
+        if conf.nodeStats
+            alchemy.stats.nodeStats()
 
         if conf.showEditor
             editor = new alchemy.editor.Editor
