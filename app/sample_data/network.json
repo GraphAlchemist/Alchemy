@@ -1,0 +1,100 @@
+{
+  "comment": "Network Graph",
+  "nodes": [
+    {
+      "id": "1",
+      "caption": "192.168.0.20",
+      "role": "http_server",
+      "root": true
+    },
+    {
+      "id": "2",
+      "caption": "192.168.0.21",
+      "role": "http_server",
+      "root": true
+    },
+    {
+      "id": "3",
+      "caption": "192.168.0.22",
+      "role": "http_server",
+      "root": true
+    },
+    {
+      "id": "4",
+      "caption": "192.168.2.4",
+      "role": "neo4j"
+    },
+    {
+      "id": "5",
+      "caption": "192.168.2.6",
+      "role": "postgres"
+    },
+    {
+      "id": "6",
+      "caption": "192.168.2.7",
+      "role": "db_backups"
+    },
+    {
+      "id": "7",
+      "caption": "192.168.2.12",
+      "role": "load balancer"
+    }
+  ],
+  "edges": [
+    {
+      "source": "7",
+      "target": "1",
+      "load": 7
+    },
+    {
+      "source": "7",
+      "target": "2",
+      "load": 2
+    },
+    {
+      "source": "7",
+      "target": "3",
+      "load": 2
+    },
+    {
+      "source": "1",
+      "target": "4",
+      "load": 4
+    },
+    {
+      "source": "1",
+      "target": "5",
+      "load": 1
+    },
+    {
+      "source": "2",
+      "target": "4",
+      "load": 1
+    },
+    {
+      "source": "2",
+      "target": "5",
+      "load": 1
+    },
+    {
+      "source": "3",
+      "target": "4",
+      "load": 0
+    },
+    {
+      "source": "3",
+      "target": "5",
+      "load": 1
+    },
+    {
+      "source": "4",
+      "target": "6",
+      "load": 0
+    },
+    {
+      "source": "5",
+      "target": "6",
+      "load": 0
+    }
+  ]
+}

@@ -1,15 +1,5 @@
 .node {
     cursor: pointer;
-    circle  {
-        fill: $primary;
-        fill-opacity: 0.8;
-        stroke: #127dc1;
-        stroke-opacity: 1;
-        &.root {
-            fill: #9000ff;
-            stroke: #90c73d;
-        }
-    }
     text.root {
         font-size: 32px;
     }
@@ -25,60 +15,15 @@
 
     &.active{
 		@include active();
-        fill: white;
-		&.highlight{
-			@include highlight();
-	        circle{
-	            fill-opacity: 1;
-	            stroke: darken($primary, 40%);
-	            stroke-width: 3px;
-	            fill: white;
-	        }
-		}
 	    &.selected{        
-	        circle {
-	            stroke-width: 5px;
-	            fill-opacity: .8;
-	            stroke-opacity: 1;
-	            stroke: white;
-	            fill: $primary;
-	        }
 	        text {
 	            display: block;
 	        }
 	    }
-        &.selected:hover{
-            circle {
-                stroke-width: 5px;
-                fill-opacity: .8;
-                stroke-opacity: 1;
-                stroke: white;
-                fill: white;
-            }
-        }
         &:hover{
-            circle {
-                stroke-width: 3px;
-                fill-opacity: .8;
-                stroke-opacity: 1;
-                stroke: darken($primary, 40%);
-                fill: lighten($primary, 10%);
-            }
             text {
                 display: block;
             }
         }
-    }
-    &.inactive{
-    	@include inactive();
-    	&.highlight{
-    		@include highlight();
-	        circle{
-	            fill-opacity: 1;
-	            stroke: $bright-secondary;
-	            stroke-width: 2px;
-	            fill: white;
-	        }
-    	}
     }
 }

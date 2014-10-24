@@ -128,7 +128,11 @@ module.exports = (grunt) ->
           src: [".tmp", "<%= yeoman.dist %>/*", "!<%= yeoman.dist %>/.git*"]
         ]
 
-      server: ".tmp"
+      server: 
+        files: [
+          dot: true
+          src: ".tmp"
+        ]
 
 
     # Make sure code styles are up to par and there are no obvious mistakes
@@ -153,22 +157,22 @@ module.exports = (grunt) ->
       dist:
         options:
             bare: false
-            sourceMap: false
+            sourceMap: true
+            joinExt: 'src.coffee.md'
         files:
             # all of the core, alchemy.js files
-            ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
-                                        ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
-                                        ".tmp/scripts/alchemy/end.coffee"]
-      dev:
+            ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/Alchemy.{coffee,litcoffee,coffee.md}"
+                                        ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"]
+      dev:              
         options:
             bare: false
             sourceMap: true
-
+            joinExt: 'src.coffee.md'
         files:
           # all of the core, alchemy.js files
-          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/start.coffee"
+          ".tmp/scripts/alchemy.js": [".tmp/scripts/alchemy/Alchemy.{coffee,litcoffee,coffee.md}"
                                       ".tmp/scripts/alchemy/{,*/}*.{coffee,litcoffee,coffee.md}"
-                                      ".tmp/scripts/alchemy/end.coffee"]
+                                      ]
 
       test:
         files: [
@@ -402,7 +406,7 @@ module.exports = (grunt) ->
           dot: true,
           cwd: '<%= yeoman.app %>/scripts',
           dest: '.tmp/scripts',
-          src: '**/{,*/}*.coffee'
+          src: '**/{,*/}*.{litcoffee,coffee,coffee.md}'
         ]
 
       dist:
@@ -412,14 +416,15 @@ module.exports = (grunt) ->
           cwd: "<%= yeoman.app %>"
           dest: "<%= yeoman.dist %>"
           src: ["*.{ico,png,txt}", "images/{,*/}*.webp", "{,*/}*.html", "styles/fonts/{,*/}*.*", "sample_data/{,*/}*.json"]
-        ]
+          ]
+      
       s3:
         files: [
           expand: true
           cwd: "<%= yeoman.dist %>/styles"
           dest: ".tmp/s3/"
           src: ["fonts/*", "images/*"]
-        ]
+          ]
 
       styles:
         expand: true
@@ -449,9 +454,13 @@ module.exports = (grunt) ->
         cwd: "<%= yeoman.dist %>"
         src: "**"
 
+      litcoffee:
+        files:
+          'site/app/docs/_documentation/Annotated-Source.md':'.tmp/scripts/alchemysrc.coffee.md'
+
     concurrent:
       # Run some tasks in parallel to speed up build process
-      server: ["compass:server", "coffee",  "copy:styles"]
+      server: ["compass:server", "coffee:dev",  "copy:styles"]
       test: ["coffee:test", "coffee:dist", "copy:styles"]
       dist: ["coffee", "compass", "copy:styles", "imagemin", "svgmin"]
       buildAlchemy: ["coffee:dist", "coffee:test", "compass", "copy:styles"]
@@ -488,11 +497,12 @@ module.exports = (grunt) ->
       grunt.task.run ["connect:test", "mocha"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
-                                "copy:coffee", "concurrent:buildAlchemy",
-                                "copy:fonts", "copy:images",
-                                "autoprefixer", "concat:buildAlchemy",
-                                "concat:generated", "cssmin:buildAlchemy",
-                                "uglify:buildAlchemy"]
+                               "copy:coffee", "concurrent:buildAlchemy",
+                               "copy:litcoffee",
+                               "copy:fonts", "copy:images",
+                               "autoprefixer", "concat:buildAlchemy",
+                               "concat:generated", "cssmin:buildAlchemy",
+                               "uglify:buildAlchemy"]
 
   releaseFlag = grunt.option('release')
 
@@ -501,8 +511,8 @@ module.exports = (grunt) ->
       ["test",
        "build",
        "string-replace", # apply version to alchemy.js
-       "shell:commitBuild", # commit dist files
        "bumpBower", # bump bower version
+       "shell:commitBuild", # commit dist files
        "release", # create tag and version
        "archiveDist", # create archive of files to zip for github release
        "concat:s3", # squash vendor and alchemy files for cdn

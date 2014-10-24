@@ -2,6 +2,7 @@
 position: 1
 title: Nodes
 ---
+<br/>
 
 # Nodes
 
@@ -31,34 +32,46 @@ caption: function(node) {
         },
             ...]
 ~~~
-<!--
 ##### nodeStyle
 
-[`object`] default:`{}`
+[`nodeType`: { `list of css style values` }] default nodeType:`all`
 
-nodeStyle takes an object where the key is the css key, and the value is the css value.  The values can be a set string, or a callback function that returns a string.  Each key/value in the object will be applied to svg element of the nodes, and therefore override any other css.  Usually this will be used for dynamic properties, such as changing the `fill-opacity` based on a property.
+A set of configuration options that assigns custom node styling.  Should return an object whose key is an nodeType, and whose value is a list of valid css styles.  
 
-For example:
+Current default configuration:
 
-~~~ js
+~~~ javascript
 {
-    "fill-opacity": function(node) {
-        return node.properties.importance;
-     },
-    "stroke-width": function(node) {
-        if (node.properties.currentCase) {
-          return "10px";
-        } else {
-          return "0px";
+    nodeStyle: {
+        "all": {
+            "radius": 10,
+            "color"  : "#68B9FE",
+            "borderColor": "#127DC1",
+            "borderWidth": function (d, radius) { radius / 3 },
+            "captionColor": "#FFFFFF",
+            "captionBackground": null,
+            "captionSize": 12,
+            "selected": {
+                "color" : "#FFFFFF"
+                "borderColor": "#349FE3"
+            },
+            "highlighted": {
+                "color" : "#EEEEFF"
+            },
+            "hidden": {
+                "color": "none" 
+                "borderColor": "none"
+            }
         }
     }
 }
 ~~~
 
-This example assigns the style attribute `fill-opacity` based on the `importance` key in the GraphJSON, and checks the boolean `currentCase` property of the node to determine if the node should get a border or not.
--->
+By default nodeStyles apply to "all" nodes.  This can be changed to be any valid [`nodeType` value](#nodeTypes).  Different styles may be applied to different nodeTypes at user's discretion.
 
-##### nodeColour 
+"selected", "highlighted", and "hidden" are conditional stylings based on current node state.  
+
+##### nodeColor 
 
 [`css color value`] default:`null`  
 
@@ -80,7 +93,7 @@ Root nodes are draggable by default. Setting to `true` means that root nodes can
 
 [`string|function`] default:`"caption"`  
 
-This defines the text that will be displayed when a user mouses over a node element.  Similiar to the [alchemy.conf.nodeCaption](#nodecaption) parameter, alchemy.conf.nodeMouseOver can receive a *string* or a *function*.  If it receives a string as in the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the **node** as an optional parameter.
+This defines the text that will be displayed when a user mouses over a node element.  Similiar to the [alchemy.conf.nodeCaption](#nodecaption) parameter, alchemy.conf.nodeMouseOver can receive a *string* or a *function*.  If it receives a string as the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the **node** as an optional parameter.
 
 For instance:
 
@@ -103,7 +116,7 @@ Used in the collision detection function, should be a number slightly more than 
 
 [`int|string|function`] default:`10`  
 
-If the default or a user specified integer, the value will be the pixel size of a node that indicates node size.  If the user specifies a string, that string will be the key, used to look up the nodeRadius on individual nodes in the GraphJSON.  For example, GraphJSON where nodes have the following values:
+If it is the default or a user specified integer, the value will be the pixel size of a node that indicates node size.  If the user specifies a string, that string will be the key, used to look up the nodeRadius on individual nodes in the GraphJSON.  For example, GraphJSON where nodes have the following values:
 
 ~~~ json
 {"nodes":[
@@ -135,7 +148,7 @@ The default size of root node(s).  Read more about how to define root nodes in y
 
 Passing a string will cause Alchemy.js to build and assign node types based on all possible filters from the GraphJSON.  For instance, if you assign "_type", "category", "foobar", etc. Alchemy.js will look for that key on every node in the GraphJSON.  This is a convenience feature and can be costly with larger data sets.
 
-The better way to build node parameters is to pass an object for the **nodeTypes** parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For Example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: `{type: ["award", "movie"]}`.  Visit our [examples gallery](/#/examples) for full examples using nodeTypes for filters and [styling](#Graph-Styling).
+The better way to build node parameters is to pass an object for the **nodeTypes** parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the "award" and "movie" nodes: `{type: ["award", "movie"]}`.  Visit our [examples gallery](/#/examples) for full examples using nodeTypes for filters and [styling](#Graph-Styling).
 
 
 ~~~ json
@@ -179,7 +192,7 @@ The better way to build node parameters is to pass an object for the **nodeTypes
 
 [`string`] default:`"root"`
 
-This is the name of key supplied in the GraphJSON that will be used to determine if a node is a root node or not.  The GraphJSON value of the supplied key is a boolean value.
+This is the name of the key supplied in the GraphJSON that will be used to determine if a node is a root node or not.  The GraphJSON value of the supplied key is a boolean value.
 
 ##### rootNodeRadius
 

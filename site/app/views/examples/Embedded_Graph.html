@@ -1,0 +1,53 @@
+<div class = "row">
+      <h2>Description</h2>
+        <p class="lead">{{current_example.desc}}</p>
+    <div id="graph-container">
+        <h3 class="filename">Graph</h3>
+        <div class="alchemy" id="alchemy"></div>
+    </div>
+</div>
+<div class="row example-code">
+  <h3 class="filename">HTML and Configuration</h3>
+  <pre pretty-print>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+    var config = {
+      dataSource: 'data/contrib.json',
+      graphHeight: function(){ return 400; },
+      graphWidth: function(){ return 400; },
+      
+      linkDistance: function(){ return 40; },
+
+      nodeTypes: {"node_type":[ "Maintainer",
+                                "Contributor"]},
+      nodeCaption: function(node){ 
+        return node.caption + " " + node.fun_fact;}
+      };
+
+    alchemy.begin(config)
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+  </pre>
+</div>
+
+<script type="text/javascript">
+    var config = {
+        dataSource: 'data/contrib.json',
+        graphHeight: function(){ return 400; },
+        graphWidth: function() { return 400; },
+
+        linkDistance: function(){ return 40; },
+
+        nodeTypes: {"node_type":["Maintainer", "Contributor"]},
+        nodeCaption: function(node){ return node.caption + " " + node.fun_fact; }
+    };
+
+    alchemy.begin(config);
+</script>
