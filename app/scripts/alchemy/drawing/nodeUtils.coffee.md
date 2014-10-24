@@ -2,7 +2,7 @@
             nodeStyle: (d) ->
                 conf = alchemy.conf          
                 if conf.cluster
-                    nodeColours = do (d)->
+                    d.fill = do (d)->
                         clustering = alchemy.layout._clustering
                         node = alchemy._nodes[d.id].getProperties()
                         clusterMap = clustering.clusterMap
@@ -12,8 +12,6 @@
                         colourIndex = clusterMap[node[key]] % colours.length
                         colour = colours[colourIndex]
                         "#{colour}"
-                else
-                    nodeColours = -> if conf.nodeColour then conf.nodeColour else ''
                 d
 
             nodeText: (d) ->

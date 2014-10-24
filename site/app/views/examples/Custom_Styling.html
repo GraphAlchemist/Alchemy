@@ -6,7 +6,7 @@
 <div class = "row" id="example4">
     <div id="graph-container" style="height:450px">
     	<h3 class="filename">Graph</h3>
-    	<div class="alchemy" id="alchemy"></div>
+    	<div class="alchemy" id="alchemy4"  style="width: 100%;"></div>
     </div>
 </div>
 
@@ -106,17 +106,141 @@
   </pre>
 </div>
 
+<div class="row example-code">
+  <h3 class="filename">graphJSON</h3>
+  
+   <pre class="prettyprint lang-js"> 
+  </pre> 
+
+</div>
+
 <script type="text/javascript">
-var config = {
-  dataSource: 'data/charlize.json',
+    // Blank any possible instance.
+    if(alchemy.force) { alchemy.force.stop() }
+    d3.select("svg").remove()
+    alchemy._nodes = {}
+    alchemy._edges = {}
 
-  linkDistance: function(){ return 40; },
-  forceLocked: false,
-  nodeTypes: {"type":["movie", "award", "person"]},
-  caption: "caption"
-  };
+    $.get("data/charlize.json", (function(res){
+          $(".lang-js").html(JSON.stringify(res, null, '\t'));
+        })
+    );
+    // start
+      var config = {
+          dataSource: 'data/charlize.json',
+          renderer: "svg",
+          graphWidth: function() {
+            return d3.select(this.divSelector).node().parentElement.clientWidth;
+          },
+          graphHeight: function() {
+            if (d3.select(this.divSelector).node().parentElement.nodeName === "BODY") {
+              return window.innerHeight;
+            } else {
+              return d3.select(this.divSelector).node().parentElement.clientHeight;
+            }
+          },
+          alpha: 0.5,
+          collisionDetection: true,
+          nodeOverlap: 25,
+          fixNodes: false,
+          fixRootNodes: false,
+          forceLocked: false,
+          linkDistance: function(){ return 40; },          
+          nodePositions: null,
+          showEditor: false,
+          captionToggle: false,
+          toggleRootNodes: false,
+          removeElement: false,
+          cluster: false,
+          clusterKey: "cluster",
+          clusterColours: d3.shuffle(["#DD79FF", "#FFFC00", "#00FF30", "#5168FF", "#00C0FF", "#FF004B", "#00CDCD", "#f83f00", "#f800df", "#ff8d8f", "#ffcd00", "#184fff", "#ff7e00"]),
+          clusterControl: false,
+          nodeStats: false,
+          edgeStats: false,
+          edgeFilters: false,
+          nodeFilters: false,
+          edgesToggle: false,
+          nodesToggle: false,
+          zoomControls: false,
+          nodeCaption: 'caption',
+          nodeCaptionsOnByDefault: false,
+          nodeStyle: {
+            "all": {
+              "radius": 10,
+              "color": "#68B9FE",
+              "borderColor": "#127DC1",
+              "borderWidth": function(d, radius) {
+                return radius / 3;
+              },
+              "captionColor": "#FFFFFF",
+              "captionBackground": null,
+              "captionSize": 12,
+              "selected": {
+                "color": "#FFFFFF",
+                "borderColor": "#349FE3"
+              },
+              "highlighted": {
+                "color": "#EEEEFF"
+              },
+              "hidden": {
+                "color": "none",
+                "borderColor": "none"
+              }
+            }
+          },
+          nodeColour: null,
+          nodeMouseOver: 'caption',
+          nodeRadius: 10,
+          nodeTypes: {"type":["movie", "award", "person"]},
+          rootNodes: 'root',
+          rootNodeRadius: 15,
+          edgeCaption: 'caption',
+          edgeCaptionsOnByDefault: false,
+          edgeClick: 'default',
+          edgeStyle: {
+            "all": {
+              "width": 4,
+              "color": "#CCC",
+              "opacity": 0.2,
+              "directed": true,
+              "curved": true,
+              "selected": {
+                "opacity": 1
+              },
+              "highlighted": {
+                "opacity": 1
+              },
+              "hidden": {
+                "opacity": 0
+              }
+            }
+          },
+          edgeTypes: null,
+          curvedEdges: false,
+          edgeWidth: function() {
+            return 4;
+          },
+          edgeOverlayWidth: 20,
+          directedEdges: false,
+          edgeArrowSize: 5,
+          search: false,
+          searchMethod: "contains",
+          backgroundColour: "#000000",
+          theme: null,
+          afterLoad: 'afterLoad',
+          divSelector: '#alchemy4',
+          initialScale: 1,
+          initialTranslate: [0, 0],
+          scaleExtent: [0.5, 2.4],
+          dataWarning: "default",
+          warningMessage: "There be no data!  What's going on?"
+    };
 
-alchemy.begin(config);
-$('pre').addClass('prettyprint');
-prettyPrint();
+    setTimeout(function(){
+      if (!d3.select("#alchemy4").empty() && d3.select("#alchemy4 svg").empty()){
+        alchemy.begin(config)    
+      }}, 300)
+
+    $('pre').addClass('prettyprint');
+    prettyPrint();
 </script>
