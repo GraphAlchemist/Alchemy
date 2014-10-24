@@ -30,7 +30,7 @@ Alchemy.js has a number of features that rely on the underlying data.  Most of t
 Captions are the text that displays in the graph visualization.  By default, the captions will display on search active, on node hover, and when filtering.  In the configuration, [nodeCaption](#nodecaption) defaults to "caption" which means that Alchemy.js will look for a "caption" key on each node.
 
 ### Clustering 
-Clustering can be enabled in the configuration be setting [cluster](#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes, which will enable a clustering algorithm that colors and positions to nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
+Clustering can be enabled in the configuration by setting [cluster](#cluster) to `true`.  Alchemy.js will then look for a "cluster" key on the nodes, which will enable a clustering algorithm that colors and positions to nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.
 
 ### Defining Root Nodes
 Any node containing a root key that is truthy will be considered a root node.  For example:

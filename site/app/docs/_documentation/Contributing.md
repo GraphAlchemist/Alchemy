@@ -39,7 +39,7 @@ npm install
 bower install
 ~~~
 
-When you feel like your contribution is battle ready, run the tests locally
+When you feel like your contribution is battle ready, run the tests locally with
 `grunt test.`  If everything passes, feel free to submit a pull request.  We may have some conversations about pieces of it, or we may merge it right away.
 
 Before we merge your code, you'll need to sign our [contributor agreement](https://docs.google.com/a/graphalchemist.com/forms/d/1ypqMsBPrfzPpvQPXYdfw12u9xK5pNiHeMAuYImzEli4/viewform).  It's pretty minor; feel free to reach out if you have questions.

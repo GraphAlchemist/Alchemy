@@ -5,18 +5,18 @@ title: Graph Styling
 
 # Graph Styling: Overview
 
-Alchemy.js uses a combination of the GraphJSON exposed to the app and the configurations defined to make it intuitive to style the graph visualization with css like you would style any other svg.  However, there are a few styles that have to be assigned dynamically via JavaScript and the Alchemy configurations.
+Alchemy.js uses a combination of the GraphJSON exposed to the app and the configurations defined for styling. This makes it intuitive to style the graph visualization with css like you would style any other svg.  However, there are a few styles that have to be assigned dynamically via JavaScript and the Alchemy configurations.
 
 ## Alchemy.conf properties that affect Graph Styling
 
 Some of the different ways the graph is *styled* in [alchemy.conf](#Configuration): 
 
-  * [nodeColour](#nodecolour)
+  * [nodeColor](#nodecolor)
   * [nodeRadius](#noderadius)
   * [rootNodeRadius](#rootnoderadius)
   * [graphHeight](#graphheight)
   * [graphWidth](#graphwidth)
-  * [clusterColours](#clustercolours)
+  * [clusterColors](#clustercolors)
 
 CSS can be used to style the graph in tandem with [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes).
 
@@ -112,7 +112,7 @@ The following data source of Alchemy.js contributors would, by default, result i
 
 ## Overriding Default Styles
 
-To give the graph some classes we can play with define the node types and edge types in your conf.  For our sample data, you might end up with something like the following:
+To give the graph some classes we can play with, define the node types and edge types in your conf.  For our sample data, you might end up with something like the following:
 
 ~~~ json
 var conf = {
@@ -125,7 +125,7 @@ var conf = {
 alchemy.begin(conf)
 ~~~
 
-Now the nodes and edges receive classes that correspond to the data, and so you can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:
+Now the nodes and edges receive classes that correspond to the data. You can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:
 
 ~~~ css
         /* Nodes */
