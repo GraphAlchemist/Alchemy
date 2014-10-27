@@ -1,7 +1,6 @@
 do ->
 	describe "alchemy.get", ->
 
-
         describe "alchemy.get.allNodes()", ->
 	        it "should return an array of all nodes", () ->
 	            expect(alchemy.get.allNodes()).to.have.length(6)
