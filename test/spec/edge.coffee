@@ -1,12 +1,10 @@
 do ->
     describe "alchemy.models.Edge", ->
 
-        before (done)->
-            alchemy.begin({'dataSource': 'sample_data/contrib.json'})
-            setTimeout(done, 1000)
+        require 'helper.coffee'
 
         describe "@constructor", ->
-            describe '@_d3', ->
+           describe '@_d3', ->
                 it "should initialize as an object", ->
                     testEdge = alchemy._edges["1-0"][0]
                     _d3Type = typeof testEdge._d3
