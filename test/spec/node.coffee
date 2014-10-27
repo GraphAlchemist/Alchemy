@@ -1,6 +1,9 @@
 # the testing strategy needs to invoke 1 instance of alchemy!
 # or, properly scope the different instances...
 
+# currently, these tests all pass in the browser ("grunt test:keepalive") 
+# but some fail in terminal ("grust test")
+
 do ->
 
     before (done) ->
@@ -34,6 +37,9 @@ do ->
                     arrayType = typeof []
                     edgesType.should.equal arrayType
 
+                it "should contain all and only edges with a relationship to @", ->
+                    testNode._adjacentEdges.toString().should.equal ["1-0-0", "2-0-0", "3-0-0", "4-0-0", "5-0-0"].toString()
+
         describe "_setNodeType", ->
             it "should set nodeType of @, if any", ->
                 testNode._setNodeType().should.equal "project"
@@ -45,7 +51,7 @@ do ->
 
         describe "getProperties", ->
             it "should return a list of the current node properties", ->
-                testNode.getProperties().should.equal testNode._properties
+                testNode.getProperties().should.equal testNode._properties               
                 testNode.getProperties("caption").should.equal "AlchemyJS"
 
         describe "setProperty", ->
@@ -72,25 +78,13 @@ do ->
 
         describe "toggleHidden", ->
             it "should toggle the _state of the node (and its _adjacentEdges) between 'active' and 'hidden'", ->
+                testNode._adjacentEdges.pop()
                 testNode.toggleHidden()
                 testNode._state.should.equal "hidden"
+                testNode._adjacentEdges.should.not.contain "hidden" 
 
-
-
-
-
-
-
-            # it "should contain ids of all connected edges", ->
-            #     testNode = alchemy._nodes[0]
-            #     edges = testNode._adjacentEdges
-            #     edgeIDsFromData = ["1-0", "2-0", "3-0", "4-0", "5-0"]
-
-            #     edges.should.eql edgeIDsFromData
-
-        # describe "outDegree()", ->
-        #     it "should return number of connections to node", ->
-        #         testNode = alchemy._nodes[0]
-        #         testNode.outDegree().should.equal 5
+        describe "outDegree", ->
+            it "should return the number of adjacentEdges", ->
+                testNode.outDegree().should.equal 5
 
     return
