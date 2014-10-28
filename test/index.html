@@ -31,11 +31,15 @@
     <script src="scripts/alchemy.js"></script>
     
     <!-- include spec files here... -->
+    <script src="spec/configurationTests.js"></script>
     <script src="spec/core/startGraph.js"></script>
     <script src="spec/models/node.js"></script>
     <script src="spec/models/edge.js"></script>
-    <script src="spec/configurationTests.js"></script>
     <script src="spec/api/get.js"></script>
-    <script>mocha.run()</script>
+    <script>
+        if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+            mocha.run();
+        }
+    </script>
 </body>
 </html>

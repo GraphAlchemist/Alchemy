@@ -6,10 +6,6 @@
 
 do ->
 
-    before (done) ->
-        alchemy.begin({'dataSource': 'sample_data/contrib.json', 'nodeTypes': {'role': ['maintainer', 'project']}})
-        setTimeout(done, 1000)
-
     describe "alchemy.models.Node", ->
 
         before ->
@@ -18,8 +14,7 @@ do ->
         describe "@constructor", ->
             describe '@_d3', ->
                 it "should initialize as an object", ->       
-                    _d3Type = typeof testNode._d3
-                    typeof _d3Type.should.equal typeof {}
+                    (typeof testNode._d3).should.equal typeof {}
                 
                 it "should contain properties from d3 calculations", ->
                     _d3Keys = _.keys testNode._d3
@@ -33,9 +28,7 @@ do ->
 
             describe "@_adjacentEdges", ->
                 it "should be an array", ->
-                    edgesType = typeof testNode._adjacentEdges
-                    arrayType = typeof []
-                    edgesType.should.equal arrayType
+                    (typeof testNode._adjacentEdges).should.equal typeof []
 
                 it "should contain all and only edges with a relationship to @", ->
                     testNode._adjacentEdges.toString().should.equal ["1-0-0", "2-0-0", "3-0-0", "4-0-0", "5-0-0"].toString()
