@@ -1,4 +1,4 @@
-    class alchemy.models.Edge
+    class Edge
         # takes an edge property map from GraphJSON
         # as well as an index, which is the position of the edge map in
         # the array of edges stored in alchemy._edges at each "source-target"

@@ -14,11 +14,12 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.drawing.DrawNode =
+    DrawNode = (instance)->
+        a: instance
         styleText: (node) ->
-            conf = alchemy.conf
-            utils = alchemy.drawing.NodeUtils
-            nodes = alchemy._nodes
+            conf = @a.conf
+            utils = @a.drawing.NodeUtils
+            nodes = @a._nodes
             node.selectAll "text"
                 .attr 'dy', (d) ->
                     if nodes[d.id].getProperties().root
@@ -36,7 +37,7 @@
                 .attr 'id', (d) -> "text-#{d.id}"
 
         styleNode: (node) ->
-            utils = alchemy.drawing.NodeUtils
+            utils = @a.drawing.NodeUtils
 
             node.selectAll 'circle'
                 .attr 'r', (d) ->
@@ -49,9 +50,9 @@
 
 
         setInteractions: (node) ->
-            conf = alchemy.conf
-            coreInteractions = alchemy.interactions
-            editorEnabled = alchemy.get.state("interactions") is "editor"
+            conf = @a.conf
+            coreInteractions = @a.interactions
+            editorEnabled = @a.get.state("interactions") is "editor"
 
             # reset drag
             drag = d3.behavior.drag()
@@ -61,7 +62,7 @@
                 .on "dragend", null
 
             if editorEnabled
-                editorInteractions = new alchemy.editor.Interactions
+                editorInteractions = new @a.editor.Interactions
                 node.on 'mouseup',(d)->  editorInteractions.nodeMouseUp(d)
                     .on 'mouseover', (d)-> editorInteractions.nodeMouseOver(d)
                     .on 'mouseout', (d)-> editorInteractions.nodeMouseOut(d)

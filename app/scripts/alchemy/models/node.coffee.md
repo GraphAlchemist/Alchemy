@@ -1,4 +1,4 @@
-    class alchemy.models.Node
+    class Node
         constructor: (node) ->
             a = alchemy
             conf = a.conf
@@ -8,6 +8,7 @@
             @_d3 = _.merge
                 'id': @id
                 'root': @_properties[conf.rootNodes]
+                'self': @
                 , a.svgStyles.node.populate(@)
             @_nodeType = @_setNodeType()
             @_style =

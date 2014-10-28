@@ -1,4 +1,5 @@
-    alchemy.drawing.NodeUtils =
+    Alchemy::NodeUtils = (instance)->
+            a = instance
             nodeStyle: (d) ->
                 conf = alchemy.conf          
                 if conf.cluster

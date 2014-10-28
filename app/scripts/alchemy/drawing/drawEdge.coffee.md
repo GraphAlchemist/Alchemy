@@ -14,13 +14,14 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.drawing.DrawEdge =
-        createLink: (edge) =>
-            conf = alchemy.conf
+    DrawEdge = (instance)->
+        a: instance
+        createLink: (edge) ->
+            conf = @a.conf
             curved = conf.curvedEdges
             directed = conf.directedEdges
-            interactions = alchemy.interactions
-            utils = alchemy.drawing.EdgeUtils
+            interactions = @a.interactions
+            utils = @a.drawing.EdgeUtils
 
             edge.append 'path'
                 .attr 'class', 'edge-line'
@@ -31,10 +32,10 @@
                 .attr 'class', 'edge-handler'
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
 
-        styleLink: (edge) =>
-            conf = alchemy.conf
+        styleLink: (edge) ->
+            conf = @a.conf
             directed = conf.directedEdges
-            utils = alchemy.drawing.EdgeUtils
+            utils = @a.drawing.EdgeUtils
             edge.each (d) ->
                 edgeWalk = utils.edgeWalk d
                 g = d3.select(@)
@@ -69,8 +70,8 @@
                         
                         hyp = Math.sqrt( dx * dx + dy * dy)
 
-                        offsetX = (dx * alchemy.conf.nodeRadius + 2) / hyp
-                        offsetY = (dy * alchemy.conf.nodeRadius + 2) / hyp
+                        offsetX = (dx * @a.conf.nodeRadius + 2) / hyp
+                        offsetY = (dy * @a.conf.nodeRadius + 2) / hyp
 
                         arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
                         arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
@@ -100,14 +101,14 @@
                 g.select '.edge-handler'
                         .attr('d', (d) -> g.select('.edge-line').attr('d'))
 
-        classEdge: (edge) =>
+        classEdge: (edge) ->
             edge.classed 'active', true
 
-        styleText: (edge) =>
-            conf = alchemy.conf
+        styleText: (edge) ->
+            conf = @a.conf
             curved = conf.curvedEdges
             directed = conf.directedEdges
-            utils = alchemy.drawing.EdgeUtils
+            utils = @a.drawing.EdgeUtils
 
             if curved
                 edge.select 'text' 
@@ -147,15 +148,15 @@
             #           .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
             #           .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
 
-        setInteractions: (edge) =>
-            interactions = alchemy.interactions
-            editorEnabled = alchemy.get.state("interactions") is "editor"
-            if editorEnabled
-                editorInteractions = new alchemy.editor.Interactions
-                edge.select '.edge-handler'
-                    .on 'click', editorInteractions.edgeClick
-            else
-                edge.select '.edge-handler'
-                    .on 'click', interactions.edgeClick
-                    .on 'mouseover', (d)-> interactions.edgeMouseOver(d)
-                    .on 'mouseout', (d)-> interactions.edgeMouseOut(d)
+        setInteractions: (edge) ->
+            interactions = @a.interactions
+            # editorEnabled = @a.get.state("interactions") is "editor"
+            # if editorEnabled
+            #     editorInteractions = new @a.editor.Interactions
+            #     edge.select '.edge-handler'
+            #         .on 'click', editorInteractions.edgeClick
+            # else
+            edge.select '.edge-handler'
+                .on 'click', interactions.edgeClick
+                .on 'mouseover', (d)-> interactions.edgeMouseOver(d)
+                .on 'mouseout', (d)-> interactions.edgeMouseOut(d)
