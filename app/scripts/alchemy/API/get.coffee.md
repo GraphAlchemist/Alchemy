@@ -55,14 +55,14 @@
 
         # returns one or more edges as an array
         edges: (id, ids...) ->
-            edgeList = do (id, ids) ->
-                if id?
+            allIDs = _.map arguments, (arg) -> String(arg)
+            edgeList = do () ->
+                if allIDs.length is 0
+                    _.flatten _.map alchemy._edges, (n) -> n
+                else
                     # All passed ids with artificially enforced type safety
-                    allIDs = _.map arguments, (arg) -> String(arg)
                     _.flatten _.filter alchemy._edges, (val, key)->
                         val if _.contains allIDs, key
-                else
-                    _.flatten _.map alchemy._edges, (n) -> n
 
             @_el = edgeList
             @_makeChain edgeList
