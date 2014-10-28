@@ -14,35 +14,36 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    Alchemy::interactions =
+    Alchemy::interactions = (instance)->
+        a: instance
         edgeClick: (d) ->
             d3.event.stopPropagation()
-            edge = @a._edges[d.id][d.pos]
-
+            a = _getAlchInst d
+            edge = d.self
             if edge._state != "hidden"
                 edge._state = do -> 
                     return "active" if edge._state is "selected"
                     "selected"
                 edge.setStyles()
-            if typeof @a.conf.edgeClick? is 'function'
-                @a.conf.edgeClick()
+            if typeof a.conf.edgeClick? is 'function'
+                a.conf.edgeClick()
 
         edgeMouseOver: (d) ->
-            edge = @a._edges[d.id][d.pos]
+            edge = d.self
             if edge._state != "hidden"
                 if edge._state != "selected"
                     edge._state = "highlighted"
                 edge.setStyles()
 
         edgeMouseOut: (d) ->
-            edge = @a._edges[d.id][d.pos]
+            edge = d.self
             if edge._state != "hidden"
                 if edge._state != "selected"
                     edge._state = "active"
                 edge.setStyles()
 
         nodeMouseOver: (n) ->
-            node = @a._nodes[n.id]
+            node = n.self
             if node._state != "hidden"
                 if node._state != "selected"
                     node._state = "highlighted"
@@ -55,7 +56,7 @@
                     node.properties[@a.conf.nodeMouseOver]
 
         nodeMouseOut: (n) ->
-            node = @a._nodes[n.id]
+            node = n.self
             if node._state != "hidden"
                 if node._state != "selected"
                     node._state = "active"
@@ -68,7 +69,7 @@
             return if d3.event.defaultPrevented
 
             d3.event.stopPropagation()
-            node = @a._nodes[n.id]
+            node = n.self
 
             if node._state != "hidden"
                 node._state = do -> 
@@ -79,18 +80,19 @@
                 @a.conf.nodeClick(n)
 
         zoom: (extent) ->
-                    if not @._zoomBehavior?
-                        @._zoomBehavior = d3.behavior.zoom()
-                    @._zoomBehavior.scaleExtent extent
-                                    .on "zoom", ->
-                                        @a.vis.attr("transform", "translate(#{ d3.event.translate }) 
-                                                                    scale(#{ d3.event.scale })" )
+                    if not @_zoomBehavior?
+                        @_zoomBehavior = d3.behavior.zoom()
+                    @_zoomBehavior.scaleExtent extent
+                                  .on "zoom", (d)->
+                                    console.log _getAlchInst d
+                                    @a.vis.attr("transform", "translate(#{ d3.event.translate }) 
+                                                              scale(#{ d3.event.scale })" )
                                         
         clickZoom:  (direction) ->
                         [x, y, scale] = @a.vis
-                                               .attr "transform"
-                                               .match /(-*\d+\.*\d*)/g
-                                               .map (a) -> parseFloat(a)
+                                          .attr "transform"
+                                          .match /(-*\d+\.*\d*)/g
+                                          .map (a) -> parseFloat(a)
 
                         @a.vis
                             .attr "transform", ->
@@ -127,14 +129,16 @@
             d.fixed = true
 
         nodeDragged: (d, i) ->
-            d.x += d3.event.dx
-            d.y += d3.event.dy
+            @a = d.self.a
+
+            d.x  += d3.event.dx
+            d.y  += d3.event.dy
             d.px += d3.event.dx
             d.py += d3.event.dy
 
             node = d3.select @
             node.attr "transform", "translate(#{d.x}, #{d.y})"
-            edgeIDs = @a._nodes[d.id]._adjacentEdges
+            edgeIDs = d.self._adjacentEdges
             for id in edgeIDs
                 selection = @a.vis.select "#edge-#{id}"
                 @a._drawEdges.updateEdge selection.data()[0]
@@ -149,7 +153,7 @@
             if d3.event?.defaultPrevented then return
             if @a.conf.showEditor is true
                 @a.modifyElements.nodeEditorClear()
-            
+             
             _.each @a._nodes, (n)->
                 n._state = "active"
                 n.setStyles()

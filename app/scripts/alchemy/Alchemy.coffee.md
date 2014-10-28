@@ -38,14 +38,14 @@ title: Anotated Source
                 EdgeUtils: @EdgeUtils @
                 NodeUtils: @NodeUtils @
             
-            @layout   = Layout
+            @layout     = Layout
             @clustering = Clustering
-            @models   =
-                Node: Node
-                Edge: Edge
+            
+            @models =
+                Node: @Node @
+                Edge: @Edge @
 
-            @utils        = 
-                warnings: warnings
+            @utils        = warnings: warnings
             @visControls  = {}
             @styles       = {}
             @editor       = {}
@@ -56,9 +56,10 @@ title: Anotated Source
                 "interactions": "default"
                 "layout": "default"
 
-            @startGraph = @startGraph @
+            @startGraph     = @startGraph @
             @generateLayout = @generateLayout @
-            @svgStyles = @svgStyles @
+            @svgStyles      = @svgStyles @
+            @interactions   = @interactions @
 
             # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
@@ -76,12 +77,11 @@ title: Anotated Source
 
         begin: (userConf) ->
             # overide configuration with user inputs
-            @setConf(userConf)
+            @setConf userConf
+            switch typeof @conf.dataSource
+                when 'string' then d3.json @a.conf.dataSource, @a.startGraph
+                when 'object' then @a.startGraph @a.conf.dataSource
 
-            if typeof @a.conf.dataSource is 'string'
-                d3.json @a.conf.dataSource, @a.startGraph
-            else if typeof @a.conf.dataSource is 'object'
-                @a.startGraph @a.conf.dataSource
             @
 
         setConf: (userConf) -> 
@@ -89,18 +89,23 @@ title: Anotated Source
             if userConf.theme?
                 _.merge defaults, @a.themes["#{userConf.theme}"]
 
-            for key, value of userConf
-                if key is "clusterColors" 
-                    userConf["clusterColours"] = value
-                if key is "backgroundColor"
-                    userConf["backgroundColour"] = value
-                if key is "nodeColor"
-                    userConf["nodeColour"] = value
+            for key, val of userConf
+                switch key
+                    when "clusterColors"   then userConf["clusterColours"]   = val
+                    when "backgroundColor" then userConf["backgroundColour"] = val
+                    when "nodeColor"       then userConf[nodeColour]         = val
 
             @a.conf = _.merge defaults, userConf
 
-        allNodes: => _.map @_nodes, (n) -> n.properties
-        allEdges: => _.map @_edges, (e) -> e.properties
-
     root = exports ? this
     root.Alchemy = Alchemy
+
+    # Get the instance of alchemy that an element belongs to
+    root._getAlchInst = (element)->
+        #Edge or Node
+        return element.a if element.a? 
+        #_d3 packet
+        return element.self.a if element.self?
+        #SVG element -- NOT YET WORKING
+        debugger
+        return _getAlchInst(element.__data__) if element.__data__?
