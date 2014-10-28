@@ -14,33 +14,79 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.get = 
+
+    # make js array method called ._state
+    # alchemy.set.  nest set inside of get
+
+    alchemy.get =
+        _el: []
+
+        _makeChain: (inp)->
+            returnedGet = @
+            returnedGet.__proto__ = [].__proto__
+            returnedGet.pop() while returnedGet.length
+
+            _.each inp, (e)-> returnedGet.push(e)
+            returnedGet
+
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
+            nodeList = do (id, ids) ->
                 if id?
                     # All passed ids with artificially enforced type safety
                     allIDs = _.map arguments, (arg) -> String(arg)
                     _.filter alchemy._nodes, (val, key)->
                         val if _.contains allIDs, key
                 else
-                    console.warn "Please specify a node id."
+                     _.map alchemy._nodes, (n) -> n
 
-        edges: (id=null, target=null) ->
-            # returns one or more edges as an array
-            if id? and target?
-                edge_id = "#{id}-#{target}"
-                edge = alchemy._edges[edge_id]
-                [edge]
-            else if id? and not target?
-                if alchemy._edges[id]?
-                    [_.flatten(alchemy._edges[id])]
+            @_el = nodeList
+            @_makeChain nodeList
+
+        state: (state) ->
+            elList = _.filter @_el, (e)-> e._state is state
+            @_el = elList
+            @_makeChain elList
+
+        type: (type) ->
+            elList = _.filter @_el, (e) -> e._nodeType is type or e._edgeType is type
+            @_el = elList
+            @_makeChain elList
+
+        # returns one or more edges as an array
+        edges: (id, ids...) ->
+            edgeList = do (id, ids) ->
+                if id?
+                    # All passed ids with artificially enforced type safety
+                    allIDs = _.map arguments, (arg) -> String(arg)
+                    _.flatten _.filter alchemy._edges, (val, key)->
+                        val if _.contains allIDs, key
                 else
-                    # edge does not exist, so return all edges with `id` as the 
-                    # `source OR `target` this method scans ALL edges....
-                    results = _.map alchemy._edges, (edge) ->
-                        if (edge.properties.source is id) or (edge.properties.target is id)
-                            edge.properties
-                _.compact results
+                    _.flatten _.map alchemy._edges, (n) -> n
+
+            @_el = edgeList
+            @_makeChain edgeList
+
+        # edges: (id=null, target=null) ->
+        #     # edgeList = do (id, target) ->
+        #         # returns one or more edges as an array
+        #         if id? and target?
+        #             edge_id = "#{id}-#{target}"
+        #             edge = alchemy._edges[edge_id]
+        #             [edge]
+        #         else if id? and not target?
+        #             if alchemy._edges[id]?
+        #                 [_.flatten(alchemy._edges[id])]
+        #             else
+        #                 # edge does not exist, so return all edges with `id` as the
+        #                 # `source OR `target` this method scans ALL edges....
+        #                 results = _.map alchemy._edges, (edge) ->
+        #                     if (edge.properties.source is id) or (edge.properties.target is id)
+        #                         edge.properties
+        #             _.compact results
+
+            # @_el = edgeList
+            # @_makeChain edgeList
 
         allNodes: (type) ->
             if type?
@@ -51,23 +97,23 @@
         activeNodes: () ->
             _.filter alchemy._nodes, (node) -> node if node._state is "active"
 
-        allEdges: ->
-            _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
-        
-        state: (key) -> if alchemy.state.key? then alchemy.state.key
+        # allEdges: ->
+        #     _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
 
-        clusters: ->
-            clusterMap = alchemy.layout._clustering.clusterMap
-            nodesByCluster = {}
-            _.each clusterMap, (key, value) ->
-                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
-                    node.getProperties()[alchemy.conf.clusterKey] is value
-            nodesByCluster
+        # state: (key) -> if alchemy.state.key? then alchemy.state.key
 
-        clusterColours: ->
-            clusterMap = alchemy.layout._clustering.clusterMap
-            clusterColoursObject = {}
-            _.each clusterMap, (key, value) ->
-               clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
-            clusterColoursObject
+        # clusters: ->
+        #     clusterMap = alchemy.layout._clustering.clusterMap
+        #     nodesByCluster = {}
+        #     _.each clusterMap, (key, value) ->
+        #         nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
+        #             node.getProperties()[alchemy.conf.clusterKey] is value
+        #     nodesByCluster
+
+        # clusterColours: ->
+        #     clusterMap = alchemy.layout._clustering.clusterMap
+        #     clusterColoursObject = {}
+        #     _.each clusterMap, (key, value) ->
+        #        clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
+        #     clusterColoursObject
 
