@@ -109,9 +109,6 @@ title: Anotated Source
                                 edge.properties
                 _.compact results
 
-        allNodes: => _.map @_nodes, (n) -> n.properties
-        allEdges: => _.map @_edges, (e) -> e.properties
-
     currentRelationshipTypes = {}
 
     if typeof module isnt 'undefined' and module.exports
