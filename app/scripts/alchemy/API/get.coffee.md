@@ -31,14 +31,14 @@
 
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
-            nodeList = do (id, ids) ->
-                if id?
+            allIDs = _.map arguments, (arg) -> String(arg)
+            nodeList = do () ->
+                if allIDs.length is 0
+                    _.map alchemy._nodes, (n) -> n
+                else
                     # All passed ids with artificially enforced type safety
-                    allIDs = _.map arguments, (arg) -> String(arg)
                     _.filter alchemy._nodes, (val, key)->
                         val if _.contains allIDs, key
-                else
-                     _.map alchemy._nodes, (n) -> n
 
             @_el = nodeList
             @_makeChain nodeList
