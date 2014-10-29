@@ -13,6 +13,10 @@ do ->
     describe "Configuration testing", ->
 
         #General
+        describe "renderer", ->
+            it "should be svg", ->
+                alchemy.conf.renderer.should.equal "svg"
+
         describe "dataSource", ->
             it "should specify a dataset, default null, only required user input", ->
                 alchemy.conf.dataSource.should.equal "sample_data/contrib.json"         
@@ -121,6 +125,10 @@ do ->
             it "should be an object, declaring nodeTypes for further config, null by default", ->
                 assert.deepEqual alchemy.conf.nodeTypes, {"role": ["maintainer", "project"]}
 
+        describe "nodeStyle", ->
+            it "should contain an object of programmatic styles", ->
+                Object.keys(alchemy.conf.nodeStyle.all).length.should.equal 10
+                Object.keys(alchemy.conf.nodeStyle.all).should.include "radius"
 
         #Edges
         describe "edgeCaption", ->
@@ -129,11 +137,34 @@ do ->
                 alchemy.setConf({"edgeCaption": 'source'})
                 alchemy.conf.edgeCaption.should.equal 'source'
 
+        describe "curvedEdges", ->
+            it "should be a boolean, default false", ->
+                alchemy.conf.curvedEdges.should.equal false
+                alchemy.setConf({"curvedEdges": true})
+                alchemy.conf.curvedEdges.should.equal true
+
+        describe "directedEdges", ->
+            it "should be a boolean, default false", ->
+                alchemy.conf.directedEdges.should.equal false
+                alchemy.setConf({"directedEdges": true})
+                alchemy.conf.directedEdges.should.equal true
+
+        describe "edgeCaptionsOnByDefault", ->
+            it "should be a boolean, default false", ->
+                alchemy.conf.edgeCaptionsOnByDefault.should.equal false
+                alchemy.setConf({"edgeCaptionsOnByDefault": true})
+                alchemy.conf.edgeCaptionsOnByDefault.should.equal true
+
         describe "edgeTypes", ->
             it "should be an object, declaring edgeTypes for further config, null by default", ->
                 assert.isNull alchemy.conf.edgeTypes
                 alchemy.setConf("edgeTypes": {"caption": ["Maintains", "Often_breaks", "contributes"]})
                 assert.deepEqual alchemy.conf.edgeTypes, {"caption": ["Maintains", "Often_breaks", "contributes"]}
+
+        describe "edgeStyle", ->
+            it "should contain an object of programmatic styles", ->
+                Object.keys(alchemy.conf.edgeStyle.all).length.should.equal 8
+                Object.keys(alchemy.conf.edgeStyle.all).should.include "width" and "color"
 
 
         #Editing
