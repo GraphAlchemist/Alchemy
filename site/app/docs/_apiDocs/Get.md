@@ -35,7 +35,7 @@ If provided only a single node id, this method will return an array of all edges
 alchemy.getEdges(1);
 ~~~
 
-If two ids are provided then it will return only edges that have the source node and as target node of the ids provided, provided one exists.  For example:
+If two ids are provided then it will return only edges that have the source node and target node of the ids provided, provided one exists.  For example:
 ~~~ javascript
 /* returns only edges where node with id 1 is the source
 and node with id 2 is the target */
@@ -78,7 +78,7 @@ It is important to realize that this returns an array of edge data and not the e
 <!--  -->
 
 `alchemy.get.clusters()`<br>
-API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster
+API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster.
   For example:
 
 ~~~ javascript
@@ -86,15 +86,15 @@ API method which returns a dictionary whose keys are the cluster names, and whos
 alchemy.get.clusters();
 ~~~
 
-##### alchemy.get.clusterColours()
+##### alchemy.get.clusterColors()
 <!--  -->
 
-`alchemy.get.clusterColours()`<br>
-API method which returns a dictionary whose keys are the cluster names, and whose values the hex code of the color used for that cluster
+`alchemy.get.clusterColors()`<br>
+API method which returns a dictionary whose keys are the cluster names, and whose values are the hex code of the color used for that cluster
   For example:
 
 ~~~ javascript
 /* returns all clusters, and their associated color codes */
-alchemy.get.clusterColours();
+alchemy.get.clusterColors();
 ~~~
 _______
