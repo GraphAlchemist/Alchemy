@@ -6,7 +6,7 @@
 
 do ->
 
-    describe "alchemy.models.Node", ->
+    describe "Node Testing", ->
 
         before ->
            window.testNode = alchemy._nodes[0]

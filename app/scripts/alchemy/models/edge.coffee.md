@@ -106,10 +106,9 @@
             @._state = if @._state is "hidden" then "active" else "hidden"
             @.setStyles()
 
-        # Find if both endpoints are active
-        # there are probably better ways to do this
         allNodesActive: () =>
-            source = alchemy.vis.select "#node-#{@properties.source}"
-            target = alchemy.vis.select "#node-#{@properties.target}"
-
-            !source.classed("inactive") && !target.classed("inactive")
+            sourceId = @_properties.source
+            targetId = @_properties.target
+            sourceNode = alchemy.get.nodes(sourceId)[0]
+            targetNode = alchemy.get.nodes(targetId)[0]
+            sourceNode._state is "active" and targetNode._state is "active"

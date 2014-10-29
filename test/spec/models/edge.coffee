@@ -1,6 +1,6 @@
 do ->
 
-    describe "alchemy.models.Edge", ->
+    describe "Edge testing", ->
 
         before ->
            window.testEdge = alchemy._edges["1-0"][0] 
@@ -54,7 +54,6 @@ do ->
 
         describe "setProperties(property, value)", ->
             it "should set @_properties[property] to value", ->
-                # Initial caption is "Maintains"
                 initialCaption = testEdge.getProperties('caption')
                 testEdge.setProperties "caption", "newCaption"
                 newCaption = testEdge.getProperties('caption')
@@ -64,7 +63,6 @@ do ->
                 testEdge.setProperties "caption", "Maintains"
 
             it "should change specified @_d3 property, including source/target", ->
-                # Initial source is 1
                 initialSource = testEdge._d3.source
                 testEdge.setProperties "source", 4
                 newSource = testEdge._d3.source
@@ -86,25 +84,33 @@ do ->
 
         describe "setStyles(key..., value...)", ->
             it "should appeal to alchemy.svgStyles if called bare", ->
-                # initialStyles = testEdge.getStyles()
-                # assert.deepEqual testEdge.setStyles(), initialStyles
-            #     newCaption = testEdge.getProperties('caption')
+                initialStyles = testEdge.getStyles()
+                assert.deepEqual (testEdge.setStyles().getStyles()), initialStyles
 
-            #     initialCaption.should.not.equal newCaption and
-            #     newCaption.should.not.equal "Maintains"
-            #     testEdge.setStyles "caption", "Maintains"
+            it "should update an edge style, if given a key and value", ->
+                testEdge.setStyles({"width": 6})
+                testEdge.getStyles("width").should.equal 6
 
-            # it "should change specified @_d3 property, including source/target", ->
-            #     # Initial source is 1
-            #     initialSource = testEdge._d3.source
-            #     testEdge.setStyles "source", 4
-            #     newSource = testEdge._d3.source
+            it "should update multiple styles too", ->
+                testEdge.setStyles({"width": 4, "color": "#FFFFFF", "opacity": 1})
+                assert.deepEqual testEdge.getStyles("width", "color", "opacity"), {"width": 4, "color": "#FFFFFF", "opacity": 1}
 
-            #     initialSource.should.not.equal newSource and
-            #     newSource.should.not.equal 1
-            #     testEdge.setStyles "source", 1
+            it "should allow for addition of arbitrary novel styles", ->
+                testEdge.setStyles({"noshadow": "noshadow"})
+                testEdge.getStyles("noshadow").should.equal "noshadow"
 
-            # it "should also accept and assign arbitrary properties", ->
-            #     testEdge.setStyles "Indiana", "Jones"
-            #     testEdge._properties["Indiana"].should.equal "Jones"
+        describe "toggleHidden", ->
+            it "should toggle @_state, between 'active' and 'hidden'", ->
+                testEdge._state.should.equal "hidden"
+                testEdge.toggleHidden()
+                testEdge._state.should.equal "active"
+
+        describe "allNodesActive", ->
+            it "should return a boolean, true if @._source and target are both currently active", ->
+                alchemy.get.nodes(testEdge._properties.target)[0]._state = "active"
+                testEdge.allNodesActive().should.equal true
+                alchemy.get.nodes(testEdge._properties.target)[0]._state = "hidden"
+                testEdge.allNodesActive().should.equal false
+
     return
+    
