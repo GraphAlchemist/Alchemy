@@ -18,15 +18,15 @@
         a = instance
 
         init: () -> 
-            alchemy.stats.update()
+            a.stats.update()
 
         nodeStats: () ->
             #general node stats
             nodeStats = ''
             nodeData = []
 
-            allNodes = alchemy.get.allNodes().length
-            activeNodes = alchemy.get.activeNodes().length
+            allNodes = a.get.allNodes().length
+            activeNodes = a.get.activeNodes().length
             inactiveNodes = allNodes - activeNodes
 
             nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{allNodes}</span></li>"            
@@ -34,12 +34,12 @@
             nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>"
 
             #add stats for all node types
-            if alchemy.conf.nodeTypes
-                nodeKeys = Object.keys(alchemy.conf.nodeTypes)
+            if a.conf.nodeTypes
+                nodeKeys = Object.keys(a.conf.nodeTypes)
                 nodeTypes = ''
-                for nodeType in alchemy.conf.nodeTypes[nodeKeys]
+                for nodeType in a.conf.nodeTypes[nodeKeys]
                     caption = nodeType.replace('_', ' ')
-                    nodeNum = alchemy.vis.selectAll("g.node.#{nodeType}")[0].length
+                    nodeNum = a.vis.selectAll("g.node.#{nodeType}")[0].length
                     nodeTypes += "<li class = 'list-group-item nodeType' id='li-#{nodeType}' 
                                     name = #{caption}>Number of <strong style='text-transform: uppercase'>#{caption}</strong> nodes: <span class='badge'>#{nodeNum}</span></li>"
                     nodeData.push(["#{nodeType}", nodeNum])
@@ -48,7 +48,7 @@
             #add the graph
             nodeGraph = "<li id='node-stats-graph' class='list-group-item'></li>" 
             nodeStats += nodeGraph
-            alchemy.dash
+            a.dash
                    .select '#node-stats'
                    .html nodeStats
             @insertSVG "node", nodeData
@@ -56,9 +56,9 @@
         edgeStats: () ->
             #general edge stats
             edgeData = null
-            edgeNum = alchemy.vis.selectAll(".edge")[0].length
-            activeEdges = alchemy.vis.selectAll(".edge.active")[0].length
-            inactiveEdges = alchemy.vis.selectAll(".edge.inactive")[0].length
+            edgeNum = a.vis.selectAll(".edge")[0].length
+            activeEdges = a.vis.selectAll(".edge.active")[0].length
+            inactiveEdges = a.vis.selectAll(".edge.inactive")[0].length
 
             edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>#{edgeNum}</span></li>
                         <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>#{activeEdges}</span></li>
@@ -66,30 +66,30 @@
                         <li id='edge-stats-graph' class='list-group-item'></li>"
 
             #add stats for edge types
-            if alchemy.conf.edgeTypes
+            if a.conf.edgeTypes
                 edgeData = []
-                for e in alchemy.vis.selectAll(".edge")[0]
-                    alchemy.currentRelationshipTypes[[e].caption] = true
+                for e in a.vis.selectAll(".edge")[0]
+                    a.currentRelationshipTypes[[e].caption] = true
 
-                for edgeType in alchemy.conf.edgeTypes
+                for edgeType in a.conf.edgeTypes
                     if not edgeType then continue
                     caption = edgeType.replace('_', ' ')
-                    edgeNum = alchemy.vis.selectAll(".edge.#{edgeType}")[0].length
+                    edgeNum = a.vis.selectAll(".edge.#{edgeType}")[0].length
                     edgeData.push(["#{caption}", edgeNum])
 
-            alchemy.dash
+            a.dash
                    .select '#rel-stats'
                    .html edgeGraph 
-            alchemy.stats.insertSVG "edge", edgeData
+            a.stats.insertSVG "edge", edgeData
             return edgeData
 
         insertSVG: (element, data) ->
             if data is null 
-                alchemy.dash
+                a.dash
                        .select "##{element}-stats-graph"
                        .html "<br><h4 class='no-data'>There are no #{element}Types listed in your conf.</h4>"
             else
-                width = alchemy.conf.graphWidth() * .25
+                width = a.conf.graphWidth() * .25
                 height = 250
                 radius = width / 4
                 color = d3.scale.category20()
@@ -102,7 +102,7 @@
                     .sort(null)
                     .value((d) -> d[1])
 
-                svg = alchemy.dash
+                svg = a.dash
                              .select "##{element}-stats-graph"
                              .append "svg"
                              .append "g"
@@ -115,11 +115,11 @@
                     .append "g"
                     .classed "arc", true
                     .on "mouseover", (d,i) -> 
-                        alchemy.dash
+                        a.dash
                           .select "##{data[i][0]}-stat"
                           .classed "hidden", false
                     .on "mouseout", (d,i) -> 
-                        alchemy.dash
+                        a.dash
                           .select "##{data[i][0]}-stat"
                           .classed "hidden", true
 
@@ -137,5 +137,5 @@
                     .text (d, i) -> data[i][0]
 
         update: () -> 
-            if alchemy.conf.nodeStats then alchemy.stats.nodeStats()
-            if alchemy.conf.edgeStats then alchemy.stats.edgeStats()
+            if a.conf.nodeStats then a.stats.nodeStats()
+            if a.conf.edgeStats then a.stats.edgeStats()

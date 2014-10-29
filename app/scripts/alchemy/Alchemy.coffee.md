@@ -40,6 +40,7 @@ title: Anotated Source
                 NodeUtils: @NodeUtils @
             
             @controlDash = @controlDash @
+            @stats = @stats @
 
             @layout     = Layout
             @clustering = Clustering
@@ -63,7 +64,7 @@ title: Anotated Source
             @startGraph     = @startGraph @
             @generateLayout = @generateLayout @
             @svgStyles      = @svgStyles @
-            @interactions   = @interactions @
+            @interactions   = @interactions @a
 
             # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.

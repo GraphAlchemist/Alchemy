@@ -123,7 +123,6 @@
                                    .select "#stats-header>span"
                                    .attr "class", "fa fa-2x fa-caret-down"
 
-                a.stats = a.stats @
                 a.stats.init()
 
         clustering: ->
