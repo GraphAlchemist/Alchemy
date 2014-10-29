@@ -28,7 +28,7 @@
                 a.utils.warnings.dataWarning()
 
             # create nodes map and update links
-            a.create.nodes.apply @, data.nodes
+            a.create.nodes data.nodes
 
             data.edges.forEach (e) -> a.create.edges e
 
@@ -39,6 +39,8 @@
                     .attr "xmlns", "http://www.w3.org/2000/svg"
                     .attr "xlink", "http://www.w3.org/1999/xlink"
                     .attr "pointer-events", "all"
+                    .attr "shape-rendering", "optimizeSpeed"
+                    .attr "alchInst", (d)-> Alchemy::instances.length - 1
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null

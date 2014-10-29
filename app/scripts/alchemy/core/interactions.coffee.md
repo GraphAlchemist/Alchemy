@@ -17,8 +17,10 @@
     Alchemy::interactions = (instance)->
         a: instance
         edgeClick: (d) ->
+            a = d.self.a
+
             d3.event.stopPropagation()
-            a = _getAlchInst d
+            # a = _getAlchInst d
             edge = d.self
             if edge._state != "hidden"
                 edge._state = do -> 
@@ -149,20 +151,22 @@
                 @a.force.start() #restarts force on drag
 
         deselectAll: () ->
+            a = _getAlchInst @
+
             # this function is also fired at the end of a drag, do nothing if this
             if d3.event?.defaultPrevented then return
-            if @a.conf.showEditor is true
-                @a.modifyElements.nodeEditorClear()
+            if a.conf.showEditor is true
+                a.modifyElements.nodeEditorClear()
              
-            _.each @a._nodes, (n)->
+            _.each a._nodes, (n)->
                 n._state = "active"
                 n.setStyles()
             
-            _.each @a._edges, (edge)->
+            _.each a._edges, (edge)->
                 _.each edge, (e)->
                     e._state = "active"
                     e.setStyles()
             
             # call user-specified deselect function if specified
-            if @a.conf.deselectAll and typeof(@a.conf.deselectAll is 'function')
-                @a.conf.deselectAll()
+            if a.conf.deselectAll and typeof(a.conf.deselectAll is 'function')
+                a.conf.deselectAll()

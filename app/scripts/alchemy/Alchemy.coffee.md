@@ -30,6 +30,7 @@ title: Anotated Source
 
             @version  = "#VERSION#"
             @get      = new @get @
+            @create   = new @create @
             @drawing  = 
                 DrawEdge : DrawEdge   @
                 DrawEdges: DrawEdges  @
@@ -46,6 +47,7 @@ title: Anotated Source
                 Edge: @Edge @
 
             @utils        = warnings: warnings
+            @filters      = @filters @
             @visControls  = {}
             @styles       = {}
             @editor       = {}
@@ -82,12 +84,14 @@ title: Anotated Source
                 when 'string' then d3.json @a.conf.dataSource, @a.startGraph
                 when 'object' then @a.startGraph @a.conf.dataSource
 
+            Alchemy::instances.push @
+            
             @
 
         setConf: (userConf) -> 
             # apply base themes
             if userConf.theme?
-                _.merge defaults, @a.themes["#{userConf.theme}"]
+                userConf = _.merge _.cloneDeep(defaults), @a.themes["#{userConf.theme}"]
 
             for key, val of userConf
                 switch key
@@ -95,7 +99,10 @@ title: Anotated Source
                     when "backgroundColor" then userConf["backgroundColour"] = val
                     when "nodeColor"       then userConf[nodeColour]         = val
 
-            @a.conf = _.merge defaults, userConf
+            @a.conf = _.merge _.cloneDeep(defaults), userConf
+
+        # All alchemy instances in order of creation.
+        instances: []
 
     root = exports ? this
     root.Alchemy = Alchemy
@@ -103,9 +110,13 @@ title: Anotated Source
     # Get the instance of alchemy that an element belongs to
     root._getAlchInst = (element)->
         #Edge or Node
-        return element.a if element.a? 
+        if element.a?
+            element.a 
+       
         #_d3 packet
-        return element.self.a if element.self?
-        #SVG element -- NOT YET WORKING
-        debugger
-        return _getAlchInst(element.__data__) if element.__data__?
+        else if element.self?
+            element.self.a
+       
+        #SVG element
+        else
+            Alchemy::instances[d3.select(element).attr("alchInst")]
