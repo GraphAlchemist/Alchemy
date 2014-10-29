@@ -149,15 +149,3 @@ angular.module('featCarousel', ['ui.bootstrap'])
             {image: "images/features/clusterHighlight_team.png", text: "Cluster nodes for easy identification of patterns"},
             {image: "images/features/filters&Stats_movies.png", text: "Network statistic API endpoints to use in the rest of your app"}
         ]
-
-
-   
-
-
-
-
-
-
-
-
-

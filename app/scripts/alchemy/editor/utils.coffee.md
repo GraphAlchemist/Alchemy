@@ -1,4 +1,4 @@
-    class alchemy.editor.Utils
+    class EditorUtils
         constructor: () ->
             @drawNodes = alchemy._drawNodes
             @drawEdges = alchemy._drawEdges

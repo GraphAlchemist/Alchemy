@@ -14,10 +14,11 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.drawing.DrawEdges =
+    DrawEdges = (instance)->
+        a: instance
         createEdge: (d3Edges) ->
-            drawEdge = alchemy.drawing.DrawEdge
-            edge = alchemy.vis.selectAll "g.edge"
+            drawEdge = @a.drawing.DrawEdge
+            edge = @a.vis.selectAll "g.edge"
                             .data d3Edges
             edge.enter().append 'g'
                         .attr "id", (d) -> "edge-#{d.id}-#{d.pos}"
@@ -31,13 +32,13 @@
             drawEdge.setInteractions edge
             edge.exit().remove()
 
-            if alchemy.conf.directedEdges and alchemy.conf.curvedEdges
+            if @a.conf.directedEdges and @a.conf.curvedEdges
                 edge.select('.edge-line')
                     .attr('marker-end', 'url(#arrow)')
 
         updateEdge: (d3Edge) ->
-            drawEdge = alchemy.drawing.DrawEdge
-            edge = alchemy.vis.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
+            drawEdge = @a.drawing.DrawEdge
+            edge = @a.vis.select "#edge-#{d3Edge.id}-#{d3Edge.pos}"
             drawEdge.classEdge edge
             drawEdge.styleLink edge
             drawEdge.styleText edge
