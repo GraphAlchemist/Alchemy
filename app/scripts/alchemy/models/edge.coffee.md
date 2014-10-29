@@ -59,17 +59,6 @@
                 @_setD3Properties 'edgeType', edgeType
                 edgeType
 
-            setProperties: (property, value=null) =>
-                if _.isPlainObject property
-                    _.assign @_properties, property
-                    if 'source' of property then @_setD3Properties {'source': @a._nodes[property.source]._d3}
-                    if 'target' of property then @_setD3Properties {'target': @a._nodes[property.target]._d3}
-                else
-                    @_properties[property] = value
-                    if (property is 'source') or (property is 'target')
-                        @_setD3Properties {property: @a._nodes[value]._d3}
-                @
-
             getProperties: (key=null, keys...) =>
                 if not key? and (keys.length is 0)
                     @_properties
@@ -79,12 +68,25 @@
                 else
                     @_properties[key]
 
-            # Style methods
-            getStyles: (key=null) =>
-                if key?
-                    @_style[key]
+            setProperties: (property, value=null) =>
+                if _.isPlainObject property
+                    _.assign @_properties, property
+                    if 'source' of property then @_setD3Properties {'source': alchemy._nodes[property.source]._d3}
+                    if 'target' of property then @_setD3Properties {'target': alchemy._nodes[property.target]._d3}
                 else
+                    @_properties[property] = value
+                    if (property is 'source') or (property is 'target')
+                        @_setD3Properties {property: alchemy._nodes[value]._d3}
+                @
+
+            getStyles: (key=null, keys...) =>
+                if not key? and (keys.length is 0)
                     @_style
+                else if keys.length isnt 0
+                    query = _.union [key], keys
+                    _.pick @_style, query
+                else
+                    @_style[key]
 
             setStyles: (key, value=null) ->
                 # If undefined, set styles based on state
@@ -106,10 +108,9 @@
                 @._state = if @._state is "hidden" then "active" else "hidden"
                 @.setStyles()
 
-            # Find if both endpoints are active
-            # there are probably better ways to do this
             allNodesActive: () =>
-                source = @a.vis.select "#node-#{@properties.source}"
-                target = @a.vis.select "#node-#{@properties.target}"
-
-                !source.classed("inactive") && !target.classed("inactive")
+                sourceId = @_properties.source
+                targetId = @_properties.target
+                sourceNode = alchemy.get.nodes(sourceId)[0]
+                targetNode = alchemy.get.nodes(targetId)[0]
+                sourceNode._state is "active" and targetNode._state is "active"
