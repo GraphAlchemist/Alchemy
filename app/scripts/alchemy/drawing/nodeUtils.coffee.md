@@ -2,7 +2,7 @@
             a = instance
             nodeStyle: (d) ->
                 conf = a.conf          
-                if conf.cluster
+                if conf.cluster and (node._state isnt "hidden")
                     d.fill = do (d)->
                         clustering = a.layout._clustering
                         node = a._nodes[d.id].getProperties()
@@ -10,7 +10,7 @@
                         key = a.conf.clusterKey
                         colours = conf.clusterColours
                         # Modulo makes sure to reuse colors if it runs out
-                        colourIndex = clusterMap[node[key]] % colours.length
+                        colourIndex = clusterMap[nodeProp[key]] % colours.length
                         colour = colours[colourIndex]
                         "#{colour}"
                 d

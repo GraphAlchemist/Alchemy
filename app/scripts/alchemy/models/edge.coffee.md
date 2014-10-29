@@ -33,6 +33,7 @@
                 @a._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
 
             _setD3Properties: (props) => _.merge @_d3, props
+
             _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
             _setCaption: (edge, conf) =>
@@ -43,6 +44,7 @@
                         when 'function' then cap(edge)
                 if edgeCaption
                     @_d3.caption = edgeCaption
+
             _setEdgeType: ->
                 conf = @a.conf
                 if conf.edgeTypes
