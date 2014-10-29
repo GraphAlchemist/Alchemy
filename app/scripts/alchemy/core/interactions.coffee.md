@@ -82,13 +82,14 @@
                 @a.conf.nodeClick(n)
 
         zoom: (extent) ->
-                    if not @_zoomBehavior?
-                        @_zoomBehavior = d3.behavior.zoom()
-                    @_zoomBehavior.scaleExtent extent
-                                  .on "zoom", (d)->
-                                    console.log _getAlchInst d
-                                    @a.vis.attr("transform", "translate(#{ d3.event.translate }) 
-                                                              scale(#{ d3.event.scale })" )
+            a = _getAlchInst @
+            if not @_zoomBehavior?
+                @_zoomBehavior = d3.behavior.zoom()
+            @_zoomBehavior.scaleExtent extent
+                          .on "zoom", (d)->
+                            d3.select @
+                              .attr("transform", "translate(#{ d3.event.translate }) 
+                                                     scale(#{ d3.event.scale })" )
                                         
         clickZoom:  (direction) ->
                         [x, y, scale] = @a.vis
