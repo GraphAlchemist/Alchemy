@@ -31,7 +31,7 @@ do ->
                     (typeof testNode._adjacentEdges).should.equal typeof []
 
                 it "should contain all and only edges with a relationship to @", ->
-                    testNode._adjacentEdges.toString().should.equal ["1-0-0", "2-0-0", "3-0-0", "4-0-0", "5-0-0"].toString()
+                    assert.deepEqual testNode._adjacentEdges, ["1-0-0", "2-0-0", "3-0-0", "4-0-0", "5-0-0"]
 
         describe "_setNodeType", ->
             it "should set nodeType of @, if any", ->

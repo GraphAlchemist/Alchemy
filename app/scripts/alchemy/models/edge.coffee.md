@@ -57,6 +57,15 @@
             @_setD3Properties 'edgeType', edgeType
             edgeType
 
+        getProperties: (key=null, keys...) =>
+            if not key? and (keys.length is 0)
+                @_properties
+            else if keys.length isnt 0
+                query = _.union [key], keys
+                _.pick @_properties, query
+            else
+                @_properties[key]
+
         setProperties: (property, value=null) =>
             if _.isPlainObject property
                 _.assign @_properties, property
@@ -68,21 +77,14 @@
                     @_setD3Properties {property: alchemy._nodes[value]._d3}
             @
 
-        getProperties: (key=null, keys...) =>
+        getStyles: (key=null, keys...) =>
             if not key? and (keys.length is 0)
-                @_properties
+                @_style
             else if keys.length isnt 0
                 query = _.union [key], keys
-                _.pick @_properties, query
+                _.pick @_style, query
             else
-                @_properties[key]
-
-        # Style methods
-        getStyles: (key=null) =>
-            if key?
                 @_style[key]
-            else
-                @_style
 
         setStyles: (key, value=null) ->
             # If undefined, set styles based on state
