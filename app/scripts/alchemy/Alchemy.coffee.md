@@ -39,6 +39,8 @@ title: Anotated Source
                 EdgeUtils: @EdgeUtils @
                 NodeUtils: @NodeUtils @
             
+            @controlDash = @controlDash @
+
             @layout     = Layout
             @clustering = Clustering
             

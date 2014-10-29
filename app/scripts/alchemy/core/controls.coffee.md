@@ -14,40 +14,42 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.controlDash = 
-        init: ->
+    Alchemy::controlDash = (instance) ->
+        a = instance
+
+        init: () ->
             if @dashIsShown()
-                divSelector = alchemy.conf.divSelector
+                divSelector = a.conf.divSelector
                 # add dashboard wrapper
-                alchemy.dash = d3.select "#{divSelector}"
+                a.dash = d3.select "#{divSelector}"
                                  .append "div"
                                  .attr "id", "control-dash-wrapper"
                                  .attr "class", "col-md-4 initial"
 
                 # add the dash toggle button 
-                alchemy.dash
+                a.dash
                        .append "i"
                        .attr "id", "dash-toggle"
                        .attr "class", "fa fa-flask col-md-offset-12"
 
                 # add the control dash
-                alchemy.dash
+                a.dash
                        .append "div"
                        .attr "id", "control-dash"
                        .attr "class", "col-md-12"
 
-                alchemy.dash.select '#dash-toggle'
-                       .on 'click', alchemy.interactions.toggleControlDash
+                a.dash.select '#dash-toggle'
+                       .on 'click', a.interactions.toggleControlDash
 
-                alchemy.controlDash.zoomCtrl()
-                alchemy.controlDash.search()
-                alchemy.controlDash.filters()
-                alchemy.controlDash.stats()
-                alchemy.controlDash.clustering()
+                a.controlDash.zoomCtrl()
+                a.controlDash.search()
+                a.controlDash.filters()
+                a.controlDash.stats()
+                a.controlDash.clustering()
 
         search: ->
-            if alchemy.conf.search
-                alchemy.dash
+            if a.conf.search
+                a.dash
                        .select "#control-dash"
                        .append "div"
                        .attr "id", "search"
@@ -57,11 +59,11 @@
                                 <i class='input-group-addon search-icon'><span class='fa fa-search fa-1x'></span></i>
                             </div> 
                               """
-                alchemy.search.init()
+                a.search.init()
         
         zoomCtrl: ->
-            if alchemy.conf.zoomControls 
-                alchemy.dash
+            if a.conf.zoomControls 
+                a.dash
                     .select "#control-dash-wrapper"
                     .append "div"
                     .attr "id", "zoom-controls"
@@ -70,28 +72,28 @@
                             <button id='zoom-in'  class='btn btn-defualt btn-primary'><i class='fa fa-plus'></i></button>
                             <button id='zoom-out' class='btn btn-default btn-primary'><i class='fa fa-minus'></i></button>"
                 
-                alchemy.dash
+                a.dash
                        .select '#zoom-in'
-                       .on "click", -> alchemy.interactions.clickZoom 'in'
+                       .on "click", -> a.interactions.clickZoom 'in'
                 
-                alchemy.dash
+                a.dash
                        .select '#zoom-out'
-                       .on "click", -> alchemy.interactions.clickZoom 'out'
+                       .on "click", -> a.interactions.clickZoom 'out'
                 
-                alchemy.dash
+                a.dash
                        .select '#zoom-reset'
-                       .on "click", -> alchemy.interactions.clickZoom 'reset'
+                       .on "click", -> a.interactions.clickZoom 'reset'
 
         filters: ->
-            if alchemy.conf.nodeFilters or alchemy.conf.edgeFilters
-                alchemy.dash
+            if a.conf.nodeFilters or a.conf.edgeFilters
+                a.dash
                     .select "#control-dash"
                     .append "div"
                     .attr "id", "filters"
-                alchemy.filters.init()
+                a.filters.init()
 
         stats: ->
-            if alchemy.conf.nodeStats or alchemy.conf.edgeStats
+            if a.conf.nodeStats or a.conf.edgeStats
                 stats_html = """
                         <div id = "stats-header" data-toggle="collapse" data-target="#stats #all-stats">
                         <h3>
@@ -105,26 +107,27 @@
                         </div>
                     """
 
-                alchemy.dash
+                a.dash
                     .select "#control-dash"
                     .append "div"
                     .attr "id", "stats"
                     .html stats_html
                     .select '#stats-header'
                     .on 'click', () ->
-                        if alchemy.dash.select('#all-stats').classed "in"
-                            alchemy.dash
+                        if a.dash.select('#all-stats').classed "in"
+                            a.dash
                                    .select "#stats-header>span"
                                    .attr "class", "fa fa-2x fa-caret-right"
                         else
-                            alchemy.dash
+                            a.dash
                                    .select "#stats-header>span"
                                    .attr "class", "fa fa-2x fa-caret-down"
 
-                alchemy.stats.init()
+                a.stats = a.stats @
+                a.stats.init()
 
         clustering: ->
-            if alchemy.conf.clusterControl
+            if a.conf.clusterControl
                 clusterControl_html = """
                         <div id="clustering-container">
                             <div id="cluster_control_header" data-toggle="collapse" data-target="#clustering #cluster-options">
@@ -133,17 +136,17 @@
                             </div>
                         </div>
                         """
-                alchemy.dash
+                a.dash
                     .select "#control-dash"
                     .append "div"
                     .attr "id", "clustering"
                     .html clusterControl_html
                     .select '#cluster_control_header'
 
-                alchemy.clusterControls.init()
+                a.clusterControls.init()
 
         dashIsShown: ->
-            conf = alchemy.conf
+            conf = a.conf
 
             conf.showEditor    || conf.captionToggle  || conf.toggleRootNodes ||
             conf.removeElement || conf.clusterControl || conf.nodeStats       ||
