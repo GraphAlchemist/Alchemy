@@ -1,4 +1,5 @@
     class alchemy.models.Node
+
         constructor: (node) ->
             a = alchemy
             conf = a.conf
@@ -16,12 +17,12 @@
                 else
                     conf.nodeStyle["all"]
             @_state = "active"
-
             @_adjacentEdges = []
 
         # internal methods
         _setNodeType: =>
             conf = alchemy.conf
+            
             if conf.nodeTypes
                 if _.isPlainObject conf.nodeTypes
                     lookup = Object.keys alchemy.conf.nodeTypes
@@ -36,8 +37,8 @@
         _setD3Properties: (props) =>
             _.merge @_d3, props
 
+        # Stores edge.id for easy edge lookup
         _addEdge: (edgeDomID) ->
-            # Stores edge.id for easy edge lookup
             @_adjacentEdges = _.union @_adjacentEdges, [edgeDomID]
 
         # Edit node properties
@@ -58,8 +59,8 @@
             @
 
         removeProperty: (property) =>
-            if @_properties.property?
-                _.omit @_properties, property
+            if @_properties[property]
+                @_properties = _.omit @_properties, property
             @
 
 
@@ -87,6 +88,7 @@
         toggleHidden: ->
             @._state = if @._state is "hidden" then "active" else "hidden"
             @setStyles()
+
             _.each @._adjacentEdges, (id)->
                 [source, target, pos] = id.split("-")
                 e = alchemy._edges["#{source}-#{target}"][pos]

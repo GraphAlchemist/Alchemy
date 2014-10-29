@@ -31,6 +31,7 @@
             a._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
 
         _setD3Properties: (props) => _.merge @_d3, props
+
         _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
         _setCaption: (edge, conf) =>
@@ -41,6 +42,7 @@
                     when 'function' then cap(edge)
             if edgeCaption
                 @_d3.caption = edgeCaption
+
         _setEdgeType: ->
             conf = alchemy.conf
             if conf.edgeTypes
@@ -55,6 +57,15 @@
             @_setD3Properties 'edgeType', edgeType
             edgeType
 
+        getProperties: (key=null, keys...) =>
+            if not key? and (keys.length is 0)
+                @_properties
+            else if keys.length isnt 0
+                query = _.union [key], keys
+                _.pick @_properties, query
+            else
+                @_properties[key]
+
         setProperties: (property, value=null) =>
             if _.isPlainObject property
                 _.assign @_properties, property
@@ -66,21 +77,14 @@
                     @_setD3Properties {property: alchemy._nodes[value]._d3}
             @
 
-        getProperties: (key=null, keys...) =>
+        getStyles: (key=null, keys...) =>
             if not key? and (keys.length is 0)
-                @_properties
+                @_style
             else if keys.length isnt 0
                 query = _.union [key], keys
-                _.pick @_properties, query
+                _.pick @_style, query
             else
-                @_properties[key]
-
-        # Style methods
-        getStyles: (key=null) =>
-            if key?
                 @_style[key]
-            else
-                @_style
 
         setStyles: (key, value=null) ->
             # If undefined, set styles based on state
@@ -102,10 +106,9 @@
             @._state = if @._state is "hidden" then "active" else "hidden"
             @.setStyles()
 
-        # Find if both endpoints are active
-        # there are probably better ways to do this
         allNodesActive: () =>
-            source = alchemy.vis.select "#node-#{@properties.source}"
-            target = alchemy.vis.select "#node-#{@properties.target}"
-
-            !source.classed("inactive") && !target.classed("inactive")
+            sourceId = @_properties.source
+            targetId = @_properties.target
+            sourceNode = alchemy.get.nodes(sourceId)[0]
+            targetNode = alchemy.get.nodes(targetId)[0]
+            sourceNode._state is "active" and targetNode._state is "active"
