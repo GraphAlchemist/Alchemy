@@ -22,7 +22,7 @@
             nodes = @a._nodes
 
             @k = Math.sqrt Math.log(_.size(@a._nodes)) / (conf.graphWidth() * conf.graphHeight())
-            @_clustering = new @a.clustering
+            @_clustering = new @a.clustering @a
             @d3NodeInternals = _.map @a._nodes, (v,k)-> v._d3
 
             if conf.cluster
