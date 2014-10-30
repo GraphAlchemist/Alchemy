@@ -11,7 +11,7 @@
       this.getEdges = __bind(this.getEdges, this);
       this.getNodes = __bind(this.getNodes, this);
       this.begin = __bind(this.begin, this);
-      this.version = "0.3.0";
+      this.version = "0.3.1";
       this.layout = {};
       this.interactions = {};
       this.utils = {};
@@ -236,6 +236,13 @@
         });
       }
     },
+    activeNodes: function() {
+      return _.filter(alchemy._nodes, function(node) {
+        if (node._state === "active") {
+          return node;
+        }
+      });
+    },
     allEdges: function() {
       return _.flatten(_.map(alchemy._edges, function(edgeArray) {
         var e, _i, _len, _results;
@@ -282,9 +289,11 @@
 
   alchemy.clustering = (function() {
     function clustering() {
-      var nodes, _charge, _friction, _gravity, _linkDistancefn, _linkStrength;
+      var clustering, conf, nodes, _charge, _friction, _gravity, _linkDistancefn, _linkStrength;
       nodes = alchemy._nodes;
-      this.clusterKey = alchemy.conf.clusterKey;
+      conf = alchemy.conf;
+      clustering = this;
+      this.clusterKey = conf.clusterKey;
       this.identifyClusters();
       _charge = -500;
       _linkStrength = function(edge) {
@@ -599,11 +608,26 @@
         "id": "toggle-edges",
         "class": "list-group-item active-label toggle"
       }).html("Toggle Edges").on("click", function() {
-        return _.each(_.values(alchemy._edges), function(edges) {
-          return _.each(edges, function(e) {
-            return e.toggleHidden();
+        if (_.contains(_.pluck(_.flatten(_.values(alchemy._edges)), "_state"), "active")) {
+          return _.each(_.values(alchemy._edges), function(edges) {
+            return _.each(edges, function(e) {
+              if (e._state === "active") {
+                return e.toggleHidden();
+              }
+            });
           });
-        });
+        } else {
+          return _.each(_.values(alchemy._edges), function(edges) {
+            return _.each(edges, function(e) {
+              var source, target;
+              source = alchemy._nodes[e._properties.source];
+              target = alchemy._nodes[e._properties.target];
+              if (source._state === "active" && target._state === "active") {
+                return e.toggleHidden();
+              }
+            });
+          });
+        }
       });
     },
     nodesToggle: function() {
@@ -611,12 +635,23 @@
         "id": "toggle-nodes",
         "class": "list-group-item active-label toggle"
       }).html("Toggle Nodes").on("click", function() {
-        return _.each(_.values(alchemy._nodes), function(n) {
-          if (alchemy.conf.toggleRootNodes && n._d3.root) {
-            return;
-          }
-          return n.toggleHidden();
-        });
+        if (_.contains(_.pluck(_.values(alchemy._nodes), "_state"), "active")) {
+          return _.each(_.values(alchemy._nodes), function(n) {
+            if (alchemy.conf.toggleRootNodes && n._d3.root) {
+              return;
+            }
+            if (n._state === "active") {
+              return n.toggleHidden();
+            }
+          });
+        } else {
+          return _.each(_.values(alchemy._nodes), function(n) {
+            if (alchemy.conf.toggleRootNodes && n._d3.root) {
+              return;
+            }
+            return n.toggleHidden();
+          });
+        }
       });
     },
     update: function() {
@@ -624,16 +659,21 @@
         var element, tag;
         element = d3.select(this);
         tag = element.attr("name");
-        return alchemy.vis.selectAll("." + tag).each(function(d) {
-          var edge, node;
+        alchemy.vis.selectAll("." + tag).each(function(d) {
+          var edge, node, source, target;
           if (alchemy._nodes[d.id] != null) {
             node = alchemy._nodes[d.id];
             return node.toggleHidden();
           } else {
             edge = alchemy._edges[d.id][0];
-            return edge.toggleHidden();
+            source = alchemy._nodes[edge._properties.source];
+            target = alchemy._nodes[edge._properties.target];
+            if (source._state === "active" && target._state === "active") {
+              return edge.toggleHidden();
+            }
           }
         });
+        return alchemy.stats.nodeStats();
       });
     }
   };
@@ -827,7 +867,6 @@
     function Layout() {
       this.linkDistancefn = __bind(this.linkDistancefn, this);
       this.tick = __bind(this.tick, this);
-      this.collide = __bind(this.collide, this);
       this.linkStrength = __bind(this.linkStrength, this);
       this.gravity = __bind(this.gravity, this);
       var conf, nodes;
@@ -835,12 +874,9 @@
       nodes = alchemy._nodes;
       this.k = Math.sqrt(Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight()));
       this._clustering = new alchemy.clustering;
-      if (conf.collisionDetection) {
-        this.d3NodeInternals = _.map(alchemy._nodes, function(v, k) {
-          return v._d3;
-        });
-        this.q = d3.geom.quadtree(this.d3NodeInternals);
-      }
+      this.d3NodeInternals = _.map(alchemy._nodes, function(v, k) {
+        return v._d3;
+      });
       if (conf.cluster) {
         this._charge = function() {
           return this._clustering.layout.charge;
@@ -892,11 +928,7 @@
     };
 
     Layout.prototype.friction = function() {
-      if (alchemy.conf.cluster) {
-        return 0.7;
-      } else {
-        return 0.9;
-      }
+      return 0.9;
     };
 
     Layout.prototype.collide = function(node) {
@@ -927,12 +959,13 @@
     };
 
     Layout.prototype.tick = function() {
-      var edges, node, _i, _len, _ref;
-      if (alchemy.conf.collisionDetection) {
+      var edges, node, q, _i, _len, _ref;
+      if (alchemy.conf.collisionDetectionls) {
+        q = d3.geom.quadtree(this.d3NodeInternals);
         _ref = this.d3NodeInternals;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           node = _ref[_i];
-          this.q.visit(this.collide(node));
+          q.visit(this.collide(node));
         }
       }
       alchemy.vis.selectAll("g.node").attr("transform", function(d) {
@@ -1067,6 +1100,8 @@
         return alchemy.create.edges(e);
       });
       alchemy.vis = d3.select(conf.divSelector).attr("style", "width:" + (conf.graphWidth()) + "px; height:" + (conf.graphHeight()) + "px; background:" + conf.backgroundColour).append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("xlink", "http://www.w3.org/1999/xlink").attr("pointer-events", "all").on('click', alchemy.interactions.deselectAll).call(alchemy.interactions.zoom(conf.scaleExtent)).on("dblclick.zoom", null).append('g').attr("transform", "translate(" + conf.initialTranslate + ") scale(" + conf.initialScale + ")");
+      alchemy.interactions.zoom().scale(conf.initialScale);
+      alchemy.interactions.zoom().translate(conf.initialTranslate);
       alchemy.generateLayout();
       alchemy.controlDash.init();
       d3Edges = _.flatten(_.map(alchemy._edges, function(edgeArray) {
@@ -1105,14 +1140,6 @@
           alchemy[conf.afterLoad] = true;
         }
       }
-      if (conf.initialScale !== alchemy.defaults.initialScale) {
-        alchemy.interactions.zoom().scale(conf.initialScale);
-        return;
-      }
-      if (conf.initialTranslate !== alchemy.defaults.initialTranslate) {
-        alchemy.interactions.zoom().translate(conf.initialTranslate);
-        return;
-      }
       if (conf.cluster || conf.directedEdges) {
         defs = d3.select("" + alchemy.conf.divSelector + " svg").append("svg:defs");
       }
@@ -1125,6 +1152,9 @@
         } else {
           marker.attr('refX', 1);
         }
+      }
+      if (conf.nodeStats) {
+        alchemy.stats.nodeStats();
       }
       if (conf.showEditor) {
         editor = new alchemy.editor.Editor;
@@ -1140,29 +1170,32 @@
       return alchemy.stats.update();
     },
     nodeStats: function() {
-      var activeNodes, caption, inactiveNodes, nodeGraph, nodeKey, nodeNum, nodeStats, nodeType, nodeTypes, _i, _len, _ref;
+      var activeNodes, allNodes, caption, inactiveNodes, nodeData, nodeGraph, nodeKeys, nodeNum, nodeStats, nodeType, nodeTypes, _i, _len, _ref;
       nodeStats = '';
-      nodeNum = alchemy.vis.selectAll(".node")[0].length;
-      activeNodes = alchemy.vis.selectAll(".node.active")[0].length;
-      inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length;
-      nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>" + nodeNum + "</span></li>";
+      nodeData = [];
+      allNodes = alchemy.get.allNodes().length;
+      activeNodes = alchemy.get.activeNodes().length;
+      inactiveNodes = allNodes - activeNodes;
+      nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>" + allNodes + "</span></li>";
       nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>" + activeNodes + "</span></li>";
       nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>" + inactiveNodes + "</span></li>";
       if (alchemy.conf.nodeTypes) {
-        nodeKey = Object.keys(alchemy.conf.nodeTypes);
+        nodeKeys = Object.keys(alchemy.conf.nodeTypes);
         nodeTypes = '';
-        _ref = alchemy.conf.nodeTypes[nodeKey];
+        _ref = alchemy.conf.nodeTypes[nodeKeys];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
           nodeType = _ref[_i];
           caption = nodeType.replace('_', ' ');
           nodeNum = alchemy.vis.selectAll("g.node." + nodeType)[0].length;
-          nodeTypes += "<li class = 'list-group-item nodeType' id='li-" + nodeType + "' name = " + caption + ">Number of nodes of type " + caption + ": <span class='badge'>" + nodeNum + "</span></li>";
+          nodeTypes += "<li class = 'list-group-item nodeType' id='li-" + nodeType + "' name = " + caption + ">Number of <strong style='text-transform: uppercase'>" + caption + "</strong> nodes: <span class='badge'>" + nodeNum + "</span></li>";
+          nodeData.push(["" + nodeType, nodeNum]);
         }
         nodeStats += nodeTypes;
       }
       nodeGraph = "<li id='node-stats-graph' class='list-group-item'></li>";
       nodeStats += nodeGraph;
-      return alchemy.dash.select('#node-stats').html(nodeStats);
+      alchemy.dash.select('#node-stats').html(nodeStats);
+      return this.insertSVG("node", nodeData);
     },
     edgeStats: function() {
       var activeEdges, caption, e, edgeData, edgeGraph, edgeNum, edgeType, inactiveEdges, _i, _j, _len, _len1, _ref, _ref1;
@@ -1192,27 +1225,6 @@
       alchemy.dash.select('#rel-stats').html(edgeGraph);
       alchemy.stats.insertSVG("edge", edgeData);
       return edgeData;
-    },
-    nodeStats: function() {
-      var activeNodes, inactiveNodes, nodeData, nodeGraph, nodeKey, nodeNum, nodeType, totalNodes, _i, _len, _ref;
-      nodeData = null;
-      totalNodes = alchemy.vis.selectAll(".node")[0].length;
-      activeNodes = alchemy.vis.selectAll(".node.active")[0].length;
-      inactiveNodes = alchemy.vis.selectAll(".node.inactive")[0].length;
-      if (alchemy.conf.nodeTypes) {
-        nodeData = [];
-        nodeKey = Object.keys(alchemy.conf.nodeTypes);
-        _ref = alchemy.conf.nodeTypes[nodeKey];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          nodeType = _ref[_i];
-          nodeNum = alchemy.vis.selectAll("g.node." + nodeType)[0].length;
-          nodeData.push(["" + nodeType, nodeNum]);
-        }
-      }
-      nodeGraph = "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>" + totalNodes + "</span></li> <li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>" + activeNodes + "</span></li> <li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>" + inactiveNodes + "</span></li> <li id='node-stats-graph' class='list-group-item'></li>";
-      alchemy.dash.select('#node-stats').html(nodeGraph);
-      alchemy.stats.insertSVG("node", nodeData);
-      return nodeData;
     },
     insertSVG: function(element, data) {
       var arc, arcs, color, height, pie, radius, svg, width;
@@ -1772,10 +1784,10 @@
 
   alchemy.drawing.NodeUtils = {
     nodeStyle: function(d) {
-      var conf, nodeColours;
+      var conf;
       conf = alchemy.conf;
       if (conf.cluster) {
-        nodeColours = (function(d) {
+        d.fill = (function(d) {
           var clusterMap, clustering, colour, colourIndex, colours, key, node;
           clustering = alchemy.layout._clustering;
           node = alchemy._nodes[d.id].getProperties();
@@ -1786,14 +1798,6 @@
           colour = colours[colourIndex];
           return "" + colour;
         })(d);
-      } else {
-        nodeColours = function() {
-          if (conf.nodeColour) {
-            return conf.nodeColour;
-          } else {
-            return '';
-          }
-        };
       }
       return d;
     },
@@ -1844,12 +1848,11 @@
         fill = toFunc(style.color);
         stroke = toFunc(style.borderColor);
         strokeWidth = toFunc(style.borderWidth);
-        svgStyles = {
-          "radius": radius(d),
-          "fill": fill(d),
-          "stroke": stroke(d),
-          "stroke-width": strokeWidth(d, radius(d))
-        };
+        svgStyles = {};
+        svgStyles["radius"] = radius(d);
+        svgStyles["fill"] = fill(d);
+        svgStyles["stroke"] = stroke(d);
+        svgStyles["stroke-width"] = strokeWidth(d, radius(d));
         return svgStyles;
       }
     },
@@ -2494,6 +2497,8 @@
         if (_.isPlainObject(conf.edgeTypes)) {
           lookup = Object.keys(alchemy.conf.edgeTypes);
           edgeType = this._properties[lookup];
+        } else if (_.isArray(conf.edgeTypes)) {
+          edgeType = this._properties["caption"];
         } else if (typeof conf.edgeTypes === 'string') {
           edgeType = this._properties[conf.edgeTypes];
         }
@@ -2708,9 +2713,16 @@
       this._state = this._state === "hidden" ? "active" : "hidden";
       this.setStyles();
       return _.each(this._adjacentEdges, function(id) {
-        var pos, source, target, _ref;
+        var e, pos, source, sourceState, target, targetState, _ref;
         _ref = id.split("-"), source = _ref[0], target = _ref[1], pos = _ref[2];
-        return alchemy._edges["" + source + "-" + target][pos].toggleHidden();
+        e = alchemy._edges["" + source + "-" + target][pos];
+        sourceState = alchemy._nodes["" + source]._state;
+        targetState = alchemy._nodes["" + target]._state;
+        if (e._state === "hidden" && (sourceState === "active" && targetState === "active")) {
+          return e.toggleHidden();
+        } else if (e._state === "active" && (sourceState === "hidden" || targetState === "hidden")) {
+          return e.toggleHidden();
+        }
       });
     };
 

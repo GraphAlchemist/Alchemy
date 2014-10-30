@@ -14,30 +14,33 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.remove =
+    class Alchemy::remove
+        constructor: (instance)->
+            @a = instance
+
         nodes: (nodeMap) ->
             _.each nodeMap, (n) ->
                 if n._nodeType?
                     _.each n._adjacentEdges, (adjacentEdge) ->
                         [source, target, pos] = adjacentEdge.split("-")
-                        _.remove alchemy._nodes[target]._adjacentEdges, (targetAdjacentEdge) ->
+                        _.remove n.a._nodes[target]._adjacentEdges, (targetAdjacentEdge) ->
                             [tSource, tTarget, tPos] = targetAdjacentEdge.split("-")
                             if tTarget is n.id.toString() or tSource  is n.id.toString()
                                 targetAdjacentEdge
-                        delete alchemy._edges[source + "-" + target]
-                        alchemy.vis.select("#edge-" + source + "-" + target + "-" + pos).remove()
-                    delete alchemy._nodes[n.id]
-                    alchemy.vis.select("#node-" + n.id).remove()
+                        delete n.a._edges[source + "-" + target]
+                        n.a.vis.select("#edge-" + source + "-" + target + "-" + pos).remove()
+                    delete n.a._nodes[n.id]
+                    n.a.vis.select("#node-" + n.id).remove()
         edges: (edgeMap) ->
             _.each edgeMap, (e) ->
                 if e._edgeType?
-                    _.remove alchemy._nodes[e._properties.source]._adjacentEdges, (adjacentEdge) ->
+                    _.remove e.a._nodes[e._properties.source]._adjacentEdges, (adjacentEdge) ->
                         [source, target, pos] = adjacentEdge.split("-")
                         if target is e._properties.target.toString()
                             adjacentEdge
-                    _.remove alchemy._nodes[e._properties.target]._adjacentEdges, (adjacentEdge) ->
+                    _.remove e.a._nodes[e._properties.target]._adjacentEdges, (adjacentEdge) ->
                         [source, target, pos] = adjacentEdge.split("-")
                         if source is e._properties.source.toString()
                             adjacentEdge
-                    delete alchemy._edges[e.id]
-                    alchemy.vis.select("#edge-" + e.id + "-" + e._index).remove()
+                    delete e.a._edges[e.id]
+                    e.a.vis.select("#edge-" + e.id + "-" + e._index).remove()

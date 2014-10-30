@@ -16,9 +16,10 @@
 
 
     # make js array method called ._state
-    # alchemy.set.  nest set inside of get
+    # @a.set.  nest set inside of get
 
-    alchemy.get =
+    Alchemy::get = (instance)->
+        a: instance
         _el: []
 
         _makeChain: (inp)->
@@ -30,38 +31,42 @@
 
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
-            if id?
-                allIDs = _.map arguments, (arg) -> String(arg)
-                nodeList = do () ->
-                    if id is "all-nodes"
-                        _.map alchemy._nodes, (n) -> n
-                    else
-                        # All passed ids with artificially enforced type safety
-                        _.filter alchemy._nodes, (val, key)->
-                            val if _.contains allIDs, key
+                    if id?
+                        allIDs = _.map arguments, (arg) -> String(arg)
+                        a = @.a
+                        nodeList = do (a) ->
+                            if id is "all-nodes"
+                                _.map a._nodes, (n) -> n
+                            else
+                                # All passed ids with artificially enforced type safety
+                                _.filter a._nodes, (val, key)->
+                                    val if _.contains allIDs, key
 
-            @_el = nodeList
-            @_makeChain nodeList
+                    @_el = nodeList
+                    @_makeChain nodeList
 
         # returns one or more edges as an array
         edges: (id, ids...) ->
             if id?
                 allIDs = _.map arguments, (arg) -> String(arg)
-                edgeList = do () ->
+                a = @.a
+                edgeList = do (a) ->
                     if id is "all-edges"
-                        _.flatten _.map alchemy._edges, (n) -> n
+                        _.flatten _.map a._edges, (n) -> n
                     else
                         # All passed ids with artificially enforced type safety
-                        _.flatten _.filter alchemy._edges, (val, key)->
+                        _.flatten _.filter a._edges, (val, key)->
                             val if _.contains allIDs, key
 
             @_el = edgeList
             @_makeChain edgeList
 
-        state: (state) ->
+        elState: (state) ->
             elList = _.filter @_el, (e)-> e._state is state
             @_el = elList
             @_makeChain elList
+
+        state: (key) -> if @a.state.key? then @a.state.key
 
         type: (type) ->
             elList = _.filter @_el, (e) -> e._nodeType is type or e._edgeType is type
@@ -70,25 +75,24 @@
 
         allNodes: (type) ->
             if type?
-                _.filter alchemy._nodes, (n) -> n if n._nodeType is type
+                _.filter @a._nodes, (n) -> n if n._nodeType is type
             else
-                _.map alchemy._nodes, (n) -> n
+                _.map @a._nodes, (n) -> n
 
         activeNodes: () ->
-            _.filter alchemy._nodes, (node) -> node if node._state is "active"
+            _.filter @a._nodes, (node) -> node if node._state is "active"
 
         clusters: ->
-            clusterMap = alchemy.layout._clustering.clusterMap
+            clusterMap = @a.layout._clustering.clusterMap
             nodesByCluster = {}
             _.each clusterMap, (key, value) ->
-                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
-                    node.getProperties()[alchemy.conf.clusterKey] is value
+                nodesByCluster[value] = _.select @a.get.allNodes(), (node) ->
+                    node.getProperties()[@a.conf.clusterKey] is value
             nodesByCluster
 
         clusterColours: ->
-            clusterMap = alchemy.layout._clustering.clusterMap
+            clusterMap = @a.layout._clustering.clusterMap
             clusterColoursObject = {}
             _.each clusterMap, (key, value) ->
-               clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
+               clusterColoursObject[value] = @a.conf.clusterColours[key % @a.conf.clusterColours.length]
             clusterColoursObject
-

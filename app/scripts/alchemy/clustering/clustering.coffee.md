@@ -14,14 +14,15 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    class alchemy.clustering
-        constructor: ->
-            nodes = alchemy._nodes
-            conf = alchemy.conf
+    class Clustering
+        constructor: (instance)->
+            @a = instance
+            nodes = @a._nodes
+            conf = @a.conf
             clustering = @
 
             @clusterKey = conf.clusterKey
-            @identifyClusters()
+            @identifyClusters @a
         
             _charge = -500
             _linkStrength = (edge) ->
@@ -34,7 +35,7 @@
             _friction = () ->
                 0.7
             _linkDistancefn = (edge) ->
-                nodes = alchemy._nodes
+                nodes = edge.self.a._nodes
                 if nodes[edge.source.id]._properties.root or nodes[edge.target.id]._properties.root
                     300
                 else if nodes[edge.source.id]._properties[@clusterKey] is nodes[edge.target.id]._properties[@clusterKey]
@@ -50,20 +51,20 @@
                 linkDistancefn: (edge) -> _linkDistancefn(edge)
                 gravity: (k) -> _gravity(k)
 
-        identifyClusters: ->
-            nodes = alchemy.get.allNodes()
-            clusters = _.uniq _.map(_.values(nodes), (node)-> node.getProperties()[alchemy.conf.clusterKey])
+        identifyClusters: (a)->
+            nodes = a.get.allNodes()
+            clusters = _.uniq _.map(_.values(nodes), (node)-> node.getProperties()[a.conf.clusterKey])
             @clusterMap = _.zipObject clusters, [0..clusters.length]
         
         getClusterColour: (clusterValue) ->
             # Modulo reuses colors if not enough are supplied
-            index = @clusterMap[clusterValue] % alchemy.conf.clusterColours.length
-            alchemy.conf.clusterColours[index]
+            index = @clusterMap[clusterValue] % @a.conf.clusterColours.length
+            @a.conf.clusterColours[index]
 
         edgeGradient: (edges) ->
-            defs = alchemy.vis.select "#{alchemy.conf.divSelector} svg"
+            defs = @a.vis.select "#{@a.conf.divSelector} svg"
             Q = {}
-            nodes = alchemy._nodes
+            nodes = @a._nodes
             for edge in _.map(edges, (edge) -> edge._d3)
                 # skip root
                 continue if nodes[edge.source.id]._properties.root or nodes[edge.target.id]._properties.root
@@ -84,12 +85,12 @@
                 gradient.append("svg:stop").attr("offset", "0%").attr "stop-color", Q[ids]['startColour']
                 gradient.append("svg:stop").attr("offset", "100%").attr "stop-color", Q[ids]['endColour']
         
-    alchemy.clusterControls =
+    Alchemy::clusterControls =
         init: ()->
             changeClusterHTML = """
                                 <input class='form-control form-inline' id='cluster-key' placeholder="Cluster Key"></input>
                                 """
-            alchemy.dash
+            @a.dash
                    .select "#clustering-container"
                    .append "div"
                    .attr "id", "cluster-key-container"
@@ -97,27 +98,27 @@
                    .html changeClusterHTML
                    .style "display", "none"
                 
-            alchemy.dash
+            @a.dash
                    .select "#cluster_control_header"
                    .on "click", ()->
-                        element = alchemy.dash.select "#cluster-key-container"
+                        element = @a.dash.select "#cluster-key-container"
                         display = element.style "display"
 
                 element.style "display", (e)-> if display is "block" then "none" else "block"
 
-                if alchemy.dash.select("#cluster-key-container").style("display") is "none"
-                    alchemy.dash
+                if @a.dash.select("#cluster-key-container").style("display") is "none"
+                    @a.dash
                            .select "#cluster-arrow"
                            .attr "class", "fa fa-2x fa-caret-right"
                 else 
-                    alchemy.dash
+                    @a.dash
                            .select "#cluster-arrow"
                            .attr "class", "fa fa-2x fa-caret-down"
             
-            alchemy.dash
+            @a.dash
                 .select "#cluster-key"
                 .on "keydown", -> 
                     if d3.event.keyIdentifier is "Enter"
-                        alchemy.conf.cluster = true
-                        alchemy.conf.clusterKey = this.value
-                        alchemy.generateLayout()
+                        @a.conf.cluster = true
+                        @a.conf.clusterKey = this.value
+                        @a.generateLayout()

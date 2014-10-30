@@ -54,7 +54,7 @@ By default edgeStyles apply to "all" edges.  This can be changed to be any valid
 
 "selected", "highlighted", and "hidden" are conditional stylings based on current edge state.  
 
-If `alchemy.conf.cluster` is `true` then styling is assigned by edge gradients take priority.  Read more about the [`cluster` configuration](#cluster).
+If `alchemy.conf.cluster` is `true` then styling between nodes of the same cluster will receive that cluster's color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors. Read more about the [`cluster` configuration](#cluster).
 
 ##### edgeTypes
 

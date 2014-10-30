@@ -1,4 +1,4 @@
-    alchemy.utils.warnings = 
+    class warnings
         dataWarning: ->
             if alchemy.conf.dataWarning and typeof alchemy.conf.dataWarning is 'function'
                 alchemy.conf.dataWarning()

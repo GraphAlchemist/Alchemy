@@ -5,13 +5,13 @@ title: Node Methods
 
 # Node Methods
 
-When *node* data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.
+When **node** data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.
 
 ##### node.getProperties
 <!--  -->
 
 `node.getProperties([property])`<br>
-If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally a string or array can be provided to return only specified properties. 
+If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally, a string or array can be provided to return only specified properties. 
 
 For example:
 
@@ -48,7 +48,7 @@ node.setProperty({
 ##### node.removeProperty
 <!--  -->
 
-`node.removeProperty('property'[,'more_properties'])<br>
+`node.removeProperty('property'[,'more_properties'])`<br>
 Remove one or more properties from a given node.
 
 ~~~ javascript

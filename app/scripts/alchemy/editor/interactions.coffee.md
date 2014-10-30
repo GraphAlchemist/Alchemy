@@ -1,4 +1,4 @@
-    class alchemy.editor.Interactions
+    class EditorInteractions
         # @mouseUpNode = null
         # @sourceNode = null
         # @targetNode = null

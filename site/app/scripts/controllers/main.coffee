@@ -45,6 +45,7 @@ angular.module('site')
             #     @sectionSnap(section)
             #     return
         return
+        
 
 angular.module('navigation', ['ui.bootstrap'])
     .controller 'navCtrl', ($scope, $location, $route, $http) ->
@@ -80,6 +81,7 @@ angular.module('navigation', ['ui.bootstrap'])
             else if $scope.hidden is true
                 $scope.hidden = false
 
+
 angular.module('alchemyExamples', ['ngRoute'])
     .controller 'examplesCtrl', ($scope, $location, $routeParams) ->
         showExample = (name) ->
@@ -103,7 +105,7 @@ angular.module('alchemyExamples', ['ngRoute'])
                 'Custom_Styling':
                     name: 'Custom Styling'
                     src: 'views/examples/Custom_Styling.html',
-                    desc: "An example illustrating how to apply custom styles to the graph, overriding Alchemy.css by using nodeTypes and edgeTypes."
+                    desc: "An example illustrating how to apply custom styles to the graph, overriding Alchemy's default configuration by using nodeTypes and edgeTypes."
                 'Full_Application':    
                     name: 'Full Application'
                     src: 'views/examples/Full_Application.html'
@@ -112,8 +114,7 @@ angular.module('alchemyExamples', ['ngRoute'])
                     name: 'Advanced Styling'
                     src: 'views/examples/Advanced_Styling.html'
                     id: 'Advanced_Styling'
-                    desc: 'Styling based on node and edge properties.'
-                    
+                    desc: 'Differential styling based on the properties of nodes and edges.'
 
             $scope.orderedExamples = ['Basic_Graph', 'Embedded_Graph', 
                                       'Custom_Styling','Advanced_Styling',
@@ -148,15 +149,3 @@ angular.module('featCarousel', ['ui.bootstrap'])
             {image: "images/features/clusterHighlight_team.png", text: "Cluster nodes for easy identification of patterns"},
             {image: "images/features/filters&Stats_movies.png", text: "Network statistic API endpoints to use in the rest of your app"}
         ]
-
-
-   
-
-
-
-
-
-
-
-
-
