@@ -82,14 +82,13 @@
                 @a.conf.nodeClick(n)
 
         zoom: (extent) ->
-            a = _getAlchInst @
             if not @_zoomBehavior?
-                @_zoomBehavior = d3.behavior.zoom()
+                conf = this.a.conf
+                @_zoomBehavior = d3.behavior.zoom().center([conf.graphWidth()/2, conf.graphHeight()/2])
             @_zoomBehavior.scaleExtent extent
                           .on "zoom", (d)->
-                            d3.select @
-                              .attr("transform", "translate(#{ d3.event.translate }) 
-                                                     scale(#{ d3.event.scale })" )
+                            d3.select(@).select("g")
+                              .attr("transform", "translate(#{ d3.event.translate })scale(#{ d3.event.scale })")
                                         
         clickZoom:  (direction) ->
                         [x, y, scale] = @a.vis
@@ -147,9 +146,10 @@
                 @a._drawEdges.updateEdge selection.data()[0]
 
         nodeDragended: (d, i) ->
+            a = d.self.a
             d3.select(@).classed "dragging": false
-            if !@a.conf.forceLocked  #@a.configuration for forceLocked
-                @a.force.start() #restarts force on drag
+            if !a.conf.forceLocked  #@a.configuration for forceLocked
+                a.force.start() #restarts force on drag
 
         deselectAll: () ->
             a = _getAlchInst @

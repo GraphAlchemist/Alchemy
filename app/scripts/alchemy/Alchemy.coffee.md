@@ -63,7 +63,7 @@ title: Anotated Source
             @generateLayout = @generateLayout @
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @
-
+            @search         = @search @
             # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
             @_nodes = {}
