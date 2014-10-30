@@ -33,6 +33,7 @@
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
 
         styleLink: (edge) ->
+            a = @a
             conf = @a.conf
             directed = conf.directedEdges
             utils = @a.drawing.EdgeUtils
@@ -70,8 +71,8 @@
                         
                         hyp = Math.sqrt( dx * dx + dy * dy)
 
-                        offsetX = (dx * @a.conf.nodeRadius + 2) / hyp
-                        offsetY = (dy * @a.conf.nodeRadius + 2) / hyp
+                        offsetX = (dx * conf.nodeRadius + 2) / hyp
+                        offsetY = (dy * conf.nodeRadius + 2) / hyp
 
                         arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
                         arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
@@ -80,26 +81,26 @@
 
                 else
                     if conf.directedEdges
-                        """
-                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}
-                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY} 
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY} 
-                        L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}
-                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
-                        Z
-                        """
+
+                        ["M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}"
+                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}"
+                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}"
+                         "L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY}"
+                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY}"
+                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}"
+                         "L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}"
+                         "Z"].join " "
+
+
                     else
-                        """
-                        M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}
-                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}
-                        L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}
-                        L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}
-                        Z
-                        """
+                        ["M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}"
+                         "L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}"
+                         "L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}"
+                         "L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}"
+                         "Z"].join " "
+
                 g.select '.edge-handler'
-                        .attr('d', (d) -> g.select('.edge-line').attr('d'))
+                    .attr 'd', (d) -> g.select('.edge-line').attr('d')
 
         classEdge: (edge) ->
             edge.classed 'active', true
