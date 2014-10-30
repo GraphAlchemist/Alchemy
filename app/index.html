@@ -41,7 +41,14 @@
         <script type="text/javascript">
           var config = {
             dataSource: "sample_data/contrib.json", 
-            edgeStats: true
+            edgeStats: true, 
+            nodeStats: true, 
+            edgeFilters: true,
+            nodeFilters: true,
+            edgesToggle: true,
+            nodesToggle: true, 
+            nodeTypes: {"role": ["Maintainer", "Contributor", "project"]}, 
+            edgeTypes: {"caption": ["maintains", "Often_breaks", "contributes"] }
           }
 
           var chemConfig = {
