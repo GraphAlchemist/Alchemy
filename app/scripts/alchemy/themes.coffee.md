@@ -1,4 +1,4 @@
-    alchemy.themes = 
+    Alchemy::themes = 
         "default":
             "backgroundColour": "#000000"
             "nodeStyle":
@@ -33,6 +33,7 @@
                         "opacity": 0
 
         "white":
+            "theme": "white"
             "backgroundColour": "#FFFFFF"
             "nodeStyle":
                 "all":
