@@ -147,9 +147,10 @@
                 @a._drawEdges.updateEdge selection.data()[0]
 
         nodeDragended: (d, i) ->
+            a = d.self.a
             d3.select(@).classed "dragging": false
-            if !@a.conf.forceLocked  #@a.configuration for forceLocked
-                @a.force.start() #restarts force on drag
+            if !a.conf.forceLocked  #@a.configuration for forceLocked
+                a.force.start() #restarts force on drag
 
         deselectAll: () ->
             a = _getAlchInst @
