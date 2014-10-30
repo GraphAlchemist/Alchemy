@@ -59,9 +59,8 @@
                     @_properties[property] = value
                 @
 
-            removeProperty: (property) =>
-                if @_properties.property?
-                    _.omit @_properties, property
+            removeProperty: (property) ->
+                delete @_properties[property]
                 @
 
 
@@ -87,13 +86,14 @@
                 @
 
             toggleHidden: ->
-                @._state = if @._state is "hidden" then "active" else "hidden"
+                a = @a
+                @_state = if @_state is "hidden" then "active" else "hidden"
                 @setStyles()
-                _.each @._adjacentEdges, (id)->
+                _.each @_adjacentEdges, (id)->
                     [source, target, pos] = id.split("-")
-                    e = @a._edges["#{source}-#{target}"][pos]
-                    sourceState = @a._nodes["#{source}"]._state
-                    targetState = @a._nodes["#{target}"]._state
+                    e = a._edges["#{source}-#{target}"][pos]
+                    sourceState = a._nodes["#{source}"]._state
+                    targetState = a._nodes["#{target}"]._state
                     if e._state is "hidden" and (sourceState is "active" and targetState is "active")
                       e.toggleHidden()
                     else if e._state is "active" and (sourceState is "hidden" or targetState is "hidden")
