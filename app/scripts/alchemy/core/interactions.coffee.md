@@ -151,6 +151,8 @@
             if !a.conf.forceLocked  #@a.configuration for forceLocked
                 a.force.start() #restarts force on drag
 
+        nodeDoubleClick: (d)-> null
+
         deselectAll: () ->
             a = _getAlchInst @
 
