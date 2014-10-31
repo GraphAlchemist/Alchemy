@@ -1,13 +1,14 @@
     Alchemy::NodeUtils = (instance)->
             a = instance
             nodeStyle: (d) ->
-                conf = a.conf          
+                conf = a.conf
+                node = d.self
                 if conf.cluster and (node._state isnt "hidden")
                     d.fill = do (d)->
                         clustering = a.layout._clustering
-                        node = a._nodes[d.id].getProperties()
+                        nodeProp = node.getProperties()
                         clusterMap = clustering.clusterMap
-                        key = a.conf.clusterKey
+                        key = conf.clusterKey
                         colours = conf.clusterColours
                         # Modulo makes sure to reuse colors if it runs out
                         colourIndex = clusterMap[nodeProp[key]] % colours.length

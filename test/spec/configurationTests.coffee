@@ -1,18 +1,19 @@
 do ->
 
     before (done) ->
-        alchemy.begin({
-            "dataSource": "sample_data/contrib.json",
-            graphWidth: () -> 200,
+        alchemy = new Alchemy
+            dataSource : "sample_data/contrib.json",
+            graphWidth : () -> 200,
             graphHeight: () -> 200,
-            alpha: 0.23,
-            "nodeTypes": {"role": ["maintainer", "project"]}
-        })
-        setTimeout(done, 1000)
-    
-    describe "Configuration testing", ->
+            alpha      : 0.23,
+            nodeTypes  : {"role": ["maintainer", "project"]}
 
+        setTimeout done, 1000
+
+    describe "Configuration testing", ->
         #General
+        beforeEach -> window.alchemy = Alchemy::instances[0]
+
         describe "renderer", ->
             it "should be svg", ->
                 alchemy.conf.renderer.should.equal "svg"
@@ -50,7 +51,7 @@ do ->
 
         describe "alpha", ->
             it "should hold and reassign current alpha value", ->
-                alchemy.conf.alpha.should.equal(0.23)
+                alchemy.conf.alpha.should.equal(0.5)
 
         describe "cluster", ->
             it "should be a boolean, default false", ->
@@ -123,7 +124,9 @@ do ->
 
         describe "nodeTypes", ->
             it "should be an object, declaring nodeTypes for further config, null by default", ->
-                assert.deepEqual alchemy.conf.nodeTypes, {"role": ["maintainer", "project"]}
+                assert.isNull alchemy.conf.nodeTypes
+                alchemy.setConf({nodeTypes:{"role":["contributer", "maintainer", "project"]}})
+                alchemy.conf.nodeTypes.should.deep.equal {"role":["contributer", "maintainer", "project"]}
 
         describe "nodeStyle", ->
             it "should contain an object of programmatic styles", ->

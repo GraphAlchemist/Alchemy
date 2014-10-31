@@ -87,10 +87,8 @@
                         @_zoomBehavior = d3.behavior.zoom()
                     @_zoomBehavior.scaleExtent extent
                                   .on "zoom", (d)->
-                                    console.log _getAlchInst d
                                     a.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                               scale(#{ d3.event.scale })" )
-                                        
         clickZoom:  (direction) ->
                         [x, y, scale] = a.vis
                                           .attr "transform"
@@ -147,6 +145,7 @@
                 a._drawEdges.updateEdge selection.data()[0]
 
         nodeDragended: (d, i) ->
+            a = d.self.a
             d3.select(@).classed "dragging": false
             if !a.conf.forceLocked  #a.configuration for forceLocked
                 a.force.start() #restarts force on drag

@@ -8,8 +8,7 @@ do ->
 
     describe "Node Testing", ->
 
-        before ->
-           window.testNode = alchemy._nodes[0]
+        before -> window.testNode = alchemy._nodes[0]
 
         describe "@constructor", ->
             describe '@_d3', ->
@@ -35,6 +34,7 @@ do ->
 
         describe "_setNodeType", ->
             it "should set nodeType of @, if any", ->
+                testNode.a.conf.nodeTypes = {"role":["project", "Maintainer", "Contributor"]}
                 testNode._setNodeType().should.equal "project"
 
         describe "_addEdge", ->

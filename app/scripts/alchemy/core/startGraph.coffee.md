@@ -78,8 +78,8 @@
             # configuration for forceLocked
             if !conf.forceLocked
                 a.force
-                        .on "tick", a.layout.tick
-                        .start()
+                 .on "tick", a.layout.tick
+                 .start()
 
             # call user-specified functions after load function if specified
             # deprecate?
