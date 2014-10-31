@@ -153,9 +153,12 @@ module.exports = (grunt) ->
 
     # Test settings
     karma:
-      unit:
+      options:
         configFile: "test/karma.conf.coffee"
+      dist:
         singleRun: true
+      dev:
+        singleRun: false
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -497,9 +500,10 @@ module.exports = (grunt) ->
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     if target is "keepalive"
-      grunt.task.run ["connect:test:keepalive", "karma"]
+      grunt.task.run ["connect:test", "karma:dev"]
+      # grunt.fail.warn('this task needs to be updated to work with karma')
     else
-      grunt.task.run ["connect:test", "karma"]
+      grunt.task.run ["connect:test", "karma:dist"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",

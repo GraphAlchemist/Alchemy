@@ -8,21 +8,22 @@ module.exports = (config) ->
     
     # frameworks to use
     # available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["mocha"]
+    frameworks: ["mocha", "chai", "fixture"]
     
     # list of files / patterns to load in the browser
     files: [
-      "node_modules/chai/chai.js"
+      # "node_modules/chai/chai.js"
       "app/bower_components/jquery/dist/jquery.js"
       "app/bower_components/bootstrap/dist/js/bootstrap.js"
       "app/bower_components/lodash/dist/lodash.compat.js"
       "app/bower_components/d3/d3.min.js"
-      # ".tmp/scripts/alchemy.js"
-      ".tmp/spec/configurationTests.js"
-      ".tmp/spec/core/startGraph.js"
-      ".tmp/spec/models/node.js"
-      ".tmp/spec/models/edge.js"
-      ".tmp/spec/api/get.js"
+      ".tmp/scripts/alchemy.js"
+      "test/spec/configurationTests.coffee"
+      "test/spec/core/startGraph.coffee"
+      "test/spec/models/node.coffee"
+      "test/spec/models/edge.coffee"
+      "test/spec/api/get.coffee"
+      "app/sample_data/contrib.json"
     ]
     
     # list of files to exclude
@@ -30,7 +31,15 @@ module.exports = (config) ->
     
     # preprocess matching files before serving them to the browser
     # available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-    preprocessors: {}
+    preprocessors: 
+      # we should probably have a real "html" fixture, instead of 
+      # creating things dynamically, for example in spec/configurationTests.coffee
+      # with the <div id="alchemy">
+      # 'test/index.html' : ['html2js'],
+      "app/sample_data/contrib.json": ['html2js']
+      "test/contrib.json": ['html2js']
+      'test/spec/**/*.coffee': ['coffee']
+
     
     # test results reporter to use
     # possible values: 'dots', 'progress'
@@ -59,8 +68,9 @@ module.exports = (config) ->
       # "IE"
     ]
     
-    # Continuous Integration mode
-    # if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    # Defined in Gruntfile
+    # # Continuous Integration mode
+    # # if true, Karma captures browsers, runs the tests and exits
+    # singleRun: false
 
   return
