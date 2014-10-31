@@ -5,8 +5,6 @@ angular.module('site',['ngRoute'
                        'featCarousel'
                        'angular-inview'
                        'navigation'
-                       
-                       
                        ])
   .config ($routeProvider) ->
     $routeProvider
