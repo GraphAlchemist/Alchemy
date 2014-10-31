@@ -33,7 +33,6 @@
                        .html nodeTypes
 
             if a.conf.edgeTypes
-
                 if _.isPlainObject a.conf.edgeTypes
                     types = _.values(a.conf.edgeTypes)[0]
                 else

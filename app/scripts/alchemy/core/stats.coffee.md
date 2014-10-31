@@ -56,11 +56,11 @@
         edgeStats: () ->
             #general edge stats
             edgeData = null
-            edgeNum = a.vis.selectAll(".edge")[0].length
-            activeEdges = a.vis.selectAll(".edge.active")[0].length
-            inactiveEdges = a.vis.selectAll(".edge.inactive")[0].length
+            allEdges = a.get.allEdges().length
+            activeEdges = a.get.activeEdges().length
+            inactiveEdges = allEdges - activeEdges
 
-            edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>#{edgeNum}</span></li>
+            edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>#{allEdges}</span></li>
                         <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>#{activeEdges}</span></li>
                         <li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>#{inactiveEdges}</span></li>
                         <li id='edge-stats-graph' class='list-group-item'></li>"
@@ -68,8 +68,6 @@
             #add stats for edge types
             if a.conf.edgeTypes
                 edgeData = []
-                for e in a.vis.selectAll(".edge")[0]
-                    a.currentRelationshipTypes[[e].caption] = true
 
                 for edgeType in a.conf.edgeTypes
                     if not edgeType then continue
