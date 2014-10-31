@@ -39,6 +39,9 @@ title: Anotated Source
                 DrawNodes: DrawNodes  @
                 EdgeUtils: @EdgeUtils @
                 NodeUtils: @NodeUtils @
+            
+            @controlDash = @controlDash @
+            @stats = @stats @
 
             @layout     = Layout
             @clustering = Clustering
@@ -54,7 +57,6 @@ title: Anotated Source
             @editor       = {}
             @log          = {}
 
-            @currentRelationshipTypes = {}
             @state =
                 "interactions": "default"
                 "layout": "default"
@@ -64,7 +66,8 @@ title: Anotated Source
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @
             @search         = @search @
-            # alchemy._nodes stores a node object as the value with the unique
+
+	    # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
             @_nodes = {}
 

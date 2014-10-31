@@ -95,9 +95,9 @@
                     sourceState = a._nodes["#{source}"]._state
                     targetState = a._nodes["#{target}"]._state
                     if e._state is "hidden" and (sourceState is "active" and targetState is "active")
-                      e.toggleHidden()
+                        e.toggleHidden()
                     else if e._state is "active" and (sourceState is "hidden" or targetState is "hidden")
-                      e.toggleHidden()
+                        e.toggleHidden()
 
             # Convenience methods
             outDegree: () -> @_adjacentEdges.length

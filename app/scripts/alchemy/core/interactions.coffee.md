@@ -15,7 +15,8 @@
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     Alchemy::interactions = (instance)->
-        a: instance
+        a = instance
+
         edgeClick: (d) ->
             a = d.self.a
 
@@ -50,12 +51,12 @@
                 if node._state != "selected"
                     node._state = "highlighted"
                     node.setStyles()
-                if typeof @a.conf.nodeMouseOver is 'function'
-                    @a.conf.nodeMouseOver(node)
-                else if typeof @a.conf.nodeMouseOver is ('number' or 'string')
+                if typeof a.conf.nodeMouseOver is 'function'
+                    a.conf.nodeMouseOver(node)
+                else if typeof a.conf.nodeMouseOver is ('number' or 'string')
                     # the user provided an integer or string to be used
                     # as a data lookup key on the node in the graph json
-                    node.properties[@a.conf.nodeMouseOver]
+                    node.properties[a.conf.nodeMouseOver]
 
         nodeMouseOut: (n) ->
             node = n.self
@@ -63,8 +64,8 @@
                 if node._state != "selected"
                     node._state = "active"
                     node.setStyles()
-                if @a.conf.nodeMouseOut? and typeof @a.conf.nodeMouseOut is 'function'
-                    @a.conf.nodeMouseOut(n)
+                if a.conf.nodeMouseOut? and typeof a.conf.nodeMouseOut is 'function'
+                    a.conf.nodeMouseOut(n)
 
         nodeClick: (n) ->
             # Don't consider drag a click
@@ -78,31 +79,29 @@
                     return "active" if node._state is "selected"
                     "selected"
                 node.setStyles()
-            if typeof @a.conf.nodeClick is 'function'
-                @a.conf.nodeClick(n)
+            if typeof a.conf.nodeClick is 'function'
+                a.conf.nodeClick(n)
 
         zoom: (extent) ->
-            if not @_zoomBehavior?
-                conf = this.a.conf
-                @_zoomBehavior = d3.behavior.zoom().center([conf.graphWidth()/2, conf.graphHeight()/2])
-            @_zoomBehavior.scaleExtent extent
-                          .on "zoom", (d)->
-                            d3.select(@).select("g")
-                              .attr("transform", "translate(#{ d3.event.translate })scale(#{ d3.event.scale })")
-                                        
+                    if not @_zoomBehavior?
+                        @_zoomBehavior = d3.behavior.zoom()
+                    @_zoomBehavior.scaleExtent extent
+                                  .on "zoom", (d)->
+                                    a.vis.attr("transform", "translate(#{ d3.event.translate }) 
+                                                              scale(#{ d3.event.scale })" )
         clickZoom:  (direction) ->
-                        [x, y, scale] = @a.vis
+                        [x, y, scale] = a.vis
                                           .attr "transform"
                                           .match /(-*\d+\.*\d*)/g
                                           .map (a) -> parseFloat(a)
 
-                        @a.vis
+                        a.vis
                             .attr "transform", ->
                                 if direction is "in"
-                                    scale += 0.2 if scale < @a.conf.scaleExtent[1]
+                                    scale += 0.2 if scale < a.conf.scaleExtent[1]
                                     return "translate(#{x},#{y}) scale(#{ scale })"
                                 else if direction is "out"
-                                    scale -= 0.2 if scale > @a.conf.scaleExtent[0]
+                                    scale -= 0.2 if scale > a.conf.scaleExtent[0]
                                     return "translate(#{x},#{y}) scale(#{ scale })"
                                 else if direction is "reset"
                                     return "translate(0,0) scale(1)"
@@ -115,9 +114,9 @@
 
         toggleControlDash: () ->
             #toggle off-canvas class on click
-            offCanvas = @a.dash.classed("off-canvas") or
-                        @a.dash.classed("initial")
-            @a.dash
+            offCanvas = a.dash.classed("off-canvas") or
+                        a.dash.classed("initial")
+            a.dash
                    .classed {
                         "off-canvas": !offCanvas,
                         "initial"   : false,
@@ -131,7 +130,7 @@
             d.fixed = true
 
         nodeDragged: (d, i) ->
-            @a = d.self.a
+            a = d.self.a
 
             d.x  += d3.event.dx
             d.y  += d3.event.dy
@@ -142,13 +141,13 @@
             node.attr "transform", "translate(#{d.x}, #{d.y})"
             edgeIDs = d.self._adjacentEdges
             for id in edgeIDs
-                selection = @a.vis.select "#edge-#{id}"
-                @a._drawEdges.updateEdge selection.data()[0]
+                selection = a.vis.select "#edge-#{id}"
+                a._drawEdges.updateEdge selection.data()[0]
 
         nodeDragended: (d, i) ->
             a = d.self.a
             d3.select(@).classed "dragging": false
-            if !a.conf.forceLocked  #@a.configuration for forceLocked
+            if !a.conf.forceLocked  #a.configuration for forceLocked
                 a.force.start() #restarts force on drag
 
         nodeDoubleClick: (d)-> null
