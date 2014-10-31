@@ -63,9 +63,9 @@ module.exports = (config) ->
     # available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
       "Chrome"
-      # "Firefox"
-      # "Safari"
-      # "IE"
+      "Firefox"
+      "Safari"
+      "IE"
     ]
     
     # Defined in Gruntfile
