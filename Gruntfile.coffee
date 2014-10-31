@@ -75,7 +75,7 @@ module.exports = (grunt) ->
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["coffee:test", "test:watch"]
+        tasks: ["coffee:test", "test:watch"], 
 
       gruntfile:
         files: ["Gruntfile.coffee"]
@@ -145,12 +145,17 @@ module.exports = (grunt) ->
 
 
     # Mocha testing framework configuration options
-    mocha:
-      all:
-        options:
-          run: true
-          urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
+    # mocha:
+    #   all:
+    #     options:
+    #       run: true
+    #       urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
 
+    # Test settings
+    karma:
+      unit:
+        configFile: "test/karma.conf.coffee"
+        singleRun: true
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -492,9 +497,9 @@ module.exports = (grunt) ->
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     if target is "keepalive"
-      grunt.task.run ["connect:test:keepalive", "mocha"]
+      grunt.task.run ["connect:test:keepalive", "karma"]
     else
-      grunt.task.run ["connect:test", "mocha"]
+      grunt.task.run ["connect:test", "karma"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",
