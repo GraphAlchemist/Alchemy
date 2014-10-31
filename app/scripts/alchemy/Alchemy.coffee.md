@@ -50,7 +50,7 @@ title: Anotated Source
                 Node: @Node @
                 Edge: @Edge @
 
-            @utils        = warnings: warnings
+            @utils        = warnings: new warnings @
             @filters      = @filters @
             @visControls  = {}
             @styles       = {}
