@@ -56,7 +56,6 @@ title: Anotated Source
             @editor       = {}
             @log          = {}
 
-            @currentRelationshipTypes = {}
             @state =
                 "interactions": "default"
                 "layout": "default"

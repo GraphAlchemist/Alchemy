@@ -33,11 +33,14 @@
                        .html nodeTypes
 
             if a.conf.edgeTypes
-                for e in a.dash.selectAll(".edge")[0]
-                    a.currentRelationshipTypes[[e].caption] = true
+
+                if _.isPlainObject a.conf.edgeTypes
+                    types = _.values(a.conf.edgeTypes)[0]
+                else
+                    types = a.conf.edgeTypes
 
                 edgeTypes = ''
-                for edgeType in a.conf.edgeTypes
+                for edgeType in types
                     # Create Filter list element
                     caption = edgeType.replace '_', ' '
                     edgeTypes += "<li class='list-group-item edgeType' role='menuitem' id='li-#{edgeType}' name=#{edgeType}>#{caption}</li>"
@@ -158,18 +161,19 @@
         #create nodes toggle
         nodesToggle: () ->
             a.dash.select "#filters form"
-              .append "li"
-              .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
-              .html "Toggle Nodes"
-              .on "click", ->
-                  if _.contains(_.pluck(_.values(a._nodes), "_state"), "active")
-                    _.each _.values(a._nodes), (n)->
-                        if a.conf.toggleRootNodes and n._d3.root then return
-                        if n._state is "active" then n.toggleHidden()
-                  else
-                    _.each _.values(a._nodes), (n)->
-                        if a.conf.toggleRootNodes and n._d3.root then return
-                        n.toggleHidden()
+                .append "li"
+                .attr {"id":"toggle-nodes","class":"list-group-item active-label toggle"}
+                .html "Toggle Nodes"
+                .on "click", ->
+                    nodes = _.values(a._nodes)
+                    if _.contains _.pluck(nodes, "_state"), "active"
+                        _.each nodes, (n)->
+                            if a.conf.toggleRootNodes and n._d3.root then return
+                            if n._state is "active" then n.toggleHidden()
+                    else
+                        _.each _.values(a._nodes), (n)->
+                            if a.conf.toggleRootNodes and n._d3.root then return
+                            n.toggleHidden()
 
         #update filters
         update: () ->
@@ -187,5 +191,5 @@
                                 source = a._nodes[edge._properties.source]
                                 target = a._nodes[edge._properties.target]
                                 if source._state is "active" and target._state is "active"
-                                  edge.toggleHidden()
+                                    edge.toggleHidden()
                     a.stats.nodeStats()
