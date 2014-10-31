@@ -14,18 +14,19 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.drawing.EdgeUtils =
+    Alchemy::EdgeUtils = (instance)->
+        a: instance
         edgeStyle: (d) ->
-            edge = alchemy._edges[d.id][d.pos]
-            styles = alchemy.svgStyles.edge.update edge
-            nodes = alchemy._nodes
+            conf = @a.conf
+            edge = @a._edges[d.id][d.pos]
+            styles = @a.svgStyles.edge.update edge
+            nodes = @a._nodes
 
             # edge styles based on clustering
-            if alchemy.conf.cluster
-                clustering = alchemy.layout._clustering
+            if @a.conf.cluster
+                clustering = @a.layout._clustering
                 styles.stroke = do (d) ->
-                    nodes = alchemy._nodes
-                    clusterKey = alchemy.conf.clusterKey
+                    clusterKey = conf.clusterKey
                     source = nodes[d.source.id]._properties
                     target = nodes[d.target.id]._properties
                     if source.root or target.root
@@ -54,7 +55,7 @@ This is the primary function used to draw the svg paths between
 two nodes for directed or undirected noncurved edges. 
 
         edgeWalk: (edge) ->
-            arrowSize = alchemy.conf.edgeArrowSize
+            arrowSize = @a.conf.edgeArrowSize
             arrowScale = 0.3
             
 Build a right triangle.
@@ -127,7 +128,7 @@ for the curve of the node.
         # Temporary drop in to reimplement curved directed edges.
         # Will be replaced once the math for the better alternative is worked out.
         curvedDirectedEdgeWalk: (edge, point)->
-            conf = alchemy.conf
+            conf = @a.conf
 
             # build a right triangle
             width  = edge.target.x - edge.source.x
@@ -174,9 +175,9 @@ for the curve of the node.
             else
                 0
         middlePath: (edge) ->
-            pathNode = alchemy.vis
-                              .select "#path-#{edge.id}"
-                              .node()
+            pathNode = @a.vis
+                         .select "#path-#{edge.id}"
+                         .node()
             midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
  
             x: midPoint.x

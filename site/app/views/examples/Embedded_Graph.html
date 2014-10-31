@@ -36,19 +36,18 @@
 &lt;/html&gt;
   </pre>
 </div>
+
 <div class="row example-code">
   <h3 class="filename">graphJSON</h3>
+   <pre id="graphJSON">
+    <div code-panel></div>
+   </pre> 
   
-   <pre id="graphJSON" class="prettyprint lang-js"> 
-  </pre> 
 
 </div>
 
 <script type="text/javascript">
-    $.get("data/contrib.json", (function(res){
-        $("#graphJSON").html(JSON.stringify(res, null, '\t'));
-      })
-    );
+    
 
     // Blank any possible instance.
     if(alchemy.force) { alchemy.force.stop() }

@@ -14,13 +14,16 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    class alchemy.Layout
-        constructor: ->
-            conf = alchemy.conf
-            nodes = alchemy._nodes
-            @k = Math.sqrt Math.log(_.size(alchemy._nodes)) / (conf.graphWidth() * conf.graphHeight())
-            @_clustering = new alchemy.clustering
-            @d3NodeInternals = _.map alchemy._nodes, (v,k)-> v._d3
+    class Layout
+        constructor: (instance)->
+            @a = instance
+
+            conf = @a.conf
+            nodes = @a._nodes
+
+            @k = Math.sqrt Math.log(_.size(@a._nodes)) / (conf.graphWidth() * conf.graphHeight())
+            @_clustering = new @a.clustering @a
+            @d3NodeInternals = _.map @a._nodes, (v,k)-> v._d3
 
             if conf.cluster
                 @_charge = () -> @_clustering.layout.charge
@@ -46,7 +49,7 @@
             
 
         gravity: () =>
-            if alchemy.conf.cluster
+            if @a.conf.cluster
                 @_clustering.layout.gravity @k
             else
                 50 * @k
@@ -57,7 +60,7 @@
         friction: () -> 0.9
 
         collide: (node) ->
-            conf = alchemy.conf
+            conf = @a.conf
             r = 2 * (node.radius + node['stroke-width']) + conf.nodeOverlap
             nx1 = node.x - r
             nx2 = node.x + r
@@ -70,7 +73,7 @@
                     l = Math.sqrt(x * x + y * y)
                     r = r
                     if l < r
-                        l = (l - r) / l * alchemy.conf.alpha
+                        l = (l - r) / l * @a.conf.alpha
                         node.x -= x *= l
                         node.y -= y *= l
                         quad.point.x += x
@@ -81,28 +84,28 @@
                 y2 < ny1
 
         tick: () =>
-            if alchemy.conf.collisionDetectionls
+            if @a.conf.collisionDetectionls
                 q = d3.geom.quadtree @d3NodeInternals
                 for node in @d3NodeInternals
                     q.visit @collide(node)
 
-            # alchemy.node
-            alchemy.vis
+            # @a.node
+            @a.vis
                 .selectAll "g.node"
                 .attr "transform", (d) -> "translate(#{d.x},#{d.y})"
 
-            edges = alchemy.vis.selectAll "g.edge"
-            @drawEdge = alchemy.drawing.DrawEdge
+            edges = @a.vis.selectAll "g.edge"
+            @drawEdge = @a.drawing.DrawEdge
             @drawEdge.styleText edges
             @drawEdge.styleLink edges
 
         positionRootNodes: () ->
-            conf = alchemy.conf
+            conf = @a.conf
             container =
                 width: conf.graphWidth()
                 height: conf.graphHeight()
 
-            rootNodes = _.filter alchemy.get.allNodes(), (node) -> node.getProperties('root')
+            rootNodes = _.filter @a.get.allNodes(), (node) -> node.getProperties('root')
             # if there is one root node, position it in the center
             if rootNodes.length is 1
                 n = rootNodes[0]
@@ -121,26 +124,28 @@
         chargeDistance: () ->
             500
 
-        linkDistancefn: (edge) =>
+        linkDistancefn: (edge) ->
             @_linkDistancefn edge
 
         charge: () ->
             @_charge()
 
-    alchemy.generateLayout = (start=false)->
-        conf = alchemy.conf
+    Alchemy::generateLayout = (instance)->
+        a = instance
+        (start=false)->
+            conf = a.conf
 
-        alchemy.layout = new alchemy.Layout
-        alchemy.force = d3.layout.force()
-            .size [conf.graphWidth(), conf.graphHeight()]
-            .nodes _.map(alchemy._nodes, (node) -> node._d3)
-            .links _.flatten(_.map(alchemy._edges, (edgeArray) -> e._d3 for e in edgeArray))
+            a.layout = new Layout a
+            a.force = d3.layout.force()
+                .size [conf.graphWidth(), conf.graphHeight()]
+                .theta 1.0
+                .gravity a.layout.gravity()
+                .friction a.layout.friction()
 
-        alchemy.force
-            .charge alchemy.layout.charge()
-            .linkDistance (link) -> alchemy.layout.linkDistancefn(link)
-            .theta 1.0
-            .gravity alchemy.layout.gravity()
-            .linkStrength (link) -> alchemy.layout.linkStrength(link)
-            .friction alchemy.layout.friction()
-            .chargeDistance alchemy.layout.chargeDistance()
+                .nodes _.map(a._nodes, (node) -> node._d3)
+                .links _.flatten _.map(a._edges, (edgeArray) -> e._d3 for e in edgeArray)
+                .linkDistance (link) -> a.layout.linkDistancefn link
+                .linkStrength (link) -> a.layout.linkStrength link
+                
+                .charge a.layout.charge()
+                .chargeDistance a.layout.chargeDistance()            

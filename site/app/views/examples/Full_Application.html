@@ -76,13 +76,14 @@ alchemy.begin(config);
   <h3 class="filename">graphJSON</h3>
   
    <pre class="prettyprint lang-js"> 
-  </pre> 
-
+   </pre> 
+  
 </div>
 
 <script type="text/javascript">
   $.get("data/team.json", (function(res){
-        $(".lang-js").html(JSON.stringify(res, null, '\t'));
+        $(".lang-js").html(prettyPrintOne(JSON.stringify(res, null, 4)));
       })
   );
+  
   </script>
