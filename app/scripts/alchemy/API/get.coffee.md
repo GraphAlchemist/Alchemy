@@ -14,36 +14,64 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    class Alchemy::get
-        constructor: (instance)->
-            @a = instance
+
+    # make js array method called ._state
+    # @a.set.  nest set inside of get
+
+    Alchemy::get = (instance)->
+        a: instance
+        _el: []
+
+        _makeChain: (inp)->
+            returnedGet = @
+            returnedGet.__proto__ = [].__proto__
+            returnedGet.pop() while returnedGet.length
+            _.each inp, (e)-> returnedGet.push(e)
+            returnedGet
 
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
-                if id?
-                    # All passed ids with artificially enforced type safety
-                    allIDs = _.map arguments, (arg) -> String(arg)
-                    _.filter @a._nodes, (val, key)->
-                        val if _.contains allIDs, key
-                else
-                    console.warn "Please specify a node id."
+                    if id?
+                        allIDs = _.map arguments, (arg) -> String(arg)
+                        a = @.a
+                        nodeList = do (a) ->
+                            if id is "all-nodes"
+                                _.map a._nodes, (n) -> n
+                            else
+                                # All passed ids with artificially enforced type safety
+                                _.filter a._nodes, (val, key)->
+                                    val if _.contains allIDs, key
 
-        edges: (id=null, target=null) ->
-            # returns one or more edges as an array
-            if id? and target?
-                edge_id = "#{id}-#{target}"
-                edge = @a._edges[edge_id]
-                [edge]
-            else if id? and not target?
-                if @a._edges[id]?
-                    [_.flatten(@a._edges[id])]
-                else
-                    # edge does not exist, so return all edges with `id` as the 
-                    # `source OR `target` this method scans ALL edges....
-                    results = _.map @a._edges, (edge) ->
-                        if (edge.properties.source is id) or (edge.properties.target is id)
-                            edge.properties
-                _.compact results
+                    @_el = nodeList
+                    @_makeChain nodeList
+
+        # returns one or more edges as an array
+        edges: (id, ids...) ->
+            if id?
+                allIDs = _.map arguments, (arg) -> String(arg)
+                a = @.a
+                edgeList = do (a) ->
+                    if id is "all-edges"
+                        _.flatten _.map a._edges, (n) -> n
+                    else
+                        # All passed ids with artificially enforced type safety
+                        _.flatten _.filter a._edges, (val, key)->
+                            val if _.contains allIDs, key
+
+            @_el = edgeList
+            @_makeChain edgeList
+
+        elState: (state) ->
+            elList = _.filter @_el, (e)-> e._state is state
+            @_el = elList
+            @_makeChain elList
+
+        state: (key) -> if @a.state.key? then @a.state.key
+
+        type: (type) ->
+            elList = _.filter @_el, (e) -> e._nodeType is type or e._edgeType is type
+            @_el = elList
+            @_makeChain elList
 
         allNodes: (type) ->
             if type?
@@ -53,11 +81,6 @@
 
         activeNodes: () ->
             _.filter @a._nodes, (node) -> node if node._state is "active"
-
-        allEdges: ->
-            _.flatten _.map(@a._edges, (edgeArray) -> e for e in edgeArray)
-        
-        state: (key) -> if @a.state.key? then @a.state.key
 
         clusters: ->
             clusterMap = @a.layout._clustering.clusterMap
@@ -73,4 +96,3 @@
             _.each clusterMap, (key, value) ->
                clusterColoursObject[value] = @a.conf.clusterColours[key % @a.conf.clusterColours.length]
             clusterColoursObject
-
