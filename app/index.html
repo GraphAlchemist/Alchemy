@@ -41,25 +41,9 @@
         <script type="text/javascript">
           var config = {
             dataSource: "sample_data/contrib.json", 
-            edgeStats: true, 
-            nodeStats: true, 
-            edgeFilters: true,
-            nodeFilters: true,
-            edgesToggle: true,
-            nodesToggle: true, 
-            nodeTypes: {"role": ["Maintainer", "Contributor", "project"]}, 
-            edgeTypes: {"caption": ["Maintains", "Often_Breaks", "contributes"] }
-            //edgeTypes: ["Maintains", "Often_Breaks", "contributes"]
           }
 
-          var chemConfig = {
-            divSelector: "#chemistry", 
-            dataSource: "sample_data/movies.json",
-            edgeStats: true
-          }
-          
           var alchemy = new Alchemy(config)
-          var chemistry = new Alchemy(chemConfig)
         </script>
     </body>
 </html>

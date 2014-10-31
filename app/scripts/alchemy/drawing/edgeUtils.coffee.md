@@ -17,6 +17,7 @@
     Alchemy::EdgeUtils = (instance)->
         a: instance
         edgeStyle: (d) ->
+            conf = @a.conf
             edge = @a._edges[d.id][d.pos]
             styles = @a.svgStyles.edge.update edge
             nodes = @a._nodes
@@ -25,8 +26,7 @@
             if @a.conf.cluster
                 clustering = @a.layout._clustering
                 styles.stroke = do (d) ->
-                    nodes = @a._nodes
-                    clusterKey = @a.conf.clusterKey
+                    clusterKey = conf.clusterKey
                     source = nodes[d.source.id]._properties
                     target = nodes[d.target.id]._properties
                     if source.root or target.root

@@ -108,9 +108,10 @@
 
 <div class="row example-code">
   <h3 class="filename">graphJSON</h3>
+   <pre id="graphJSON">
+    <div code-panel></div>
+   </pre> 
   
-   <pre class="prettyprint lang-js"> 
-  </pre> 
 
 </div>
 
@@ -121,10 +122,7 @@
     alchemy._nodes = {}
     alchemy._edges = {}
 
-    $.get("data/charlize.json", (function(res){
-          $(".lang-js").html(JSON.stringify(res, null, '\t'));
-        })
-    );
+    
     // start
       var config = {
           dataSource: 'data/charlize.json',

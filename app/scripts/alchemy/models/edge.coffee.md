@@ -68,6 +68,17 @@
                 else
                     @_properties[key]
 
+            setProperties: (property, value=null) =>
+                if _.isPlainObject property
+                    _.assign @_properties, property
+                    if 'source' of property then @_setD3Properties {'source': alchemy._nodes[property.source]._d3}
+                    if 'target' of property then @_setD3Properties {'target': alchemy._nodes[property.target]._d3}
+                else
+                    @_properties[property] = value
+                    if (property is 'source') or (property is 'target')
+                        @_setD3Properties {property: alchemy._nodes[value]._d3}
+                @
+
             getStyles: (key=null, keys...) =>
                 if not key? and (keys.length is 0)
                     @_style
@@ -114,4 +125,3 @@
                 sourceNode = alchemy.get.nodes(sourceId)[0]
                 targetNode = alchemy.get.nodes(targetId)[0]
                 sourceNode._state is "active" and targetNode._state is "active"
-

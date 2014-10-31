@@ -59,9 +59,8 @@
                     @_properties[property] = value
                 @
 
-            removeProperty: (property) =>
-                if @_properties.property?
-                    _.omit @_properties, property
+            removeProperty: (property) ->
+                delete @_properties[property]
                 @
 
 
@@ -90,7 +89,7 @@
                 a = @a
                 @_state = if @_state is "hidden" then "active" else "hidden"
                 @setStyles()
-                _.each @._adjacentEdges, (id)->
+                _.each @_adjacentEdges, (id)->
                     [source, target, pos] = id.split("-")
                     e = a._edges["#{source}-#{target}"][pos]
                     sourceState = a._nodes["#{source}"]._state
