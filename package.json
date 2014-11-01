@@ -47,7 +47,8 @@
     "coffee-script": "^1.8.0",
     "karma-fixture": "^0.2.1-1",
     "karma-html2js-preprocessor": "^0.1.0",
-    "grunt-mocha": "^0.4.11"
+    "grunt-mocha": "^0.4.11",
+    "karma-phantomjs-launcher": "^0.1.4"
   },
   "engines": {
     "node": ">=0.8.0"

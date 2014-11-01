@@ -157,8 +157,13 @@ module.exports = (grunt) ->
         configFile: "test/karma.conf.coffee"
       dist:
         singleRun: true
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'IE']
       dev:
         singleRun: false
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'IE']
+      pullRequest:
+        singleRun: true
+        browsers: ['PhantomJS', 'Firefox']
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -499,11 +504,13 @@ module.exports = (grunt) ->
 
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
-    if target is "keepalive"
-      grunt.task.run ["connect:test", "karma:dev"]
-      # grunt.fail.warn('this task needs to be updated to work with karma')
-    else
-      grunt.task.run ["connect:test", "karma:dist"]
+    switch target
+      when "keepalive"
+        grunt.task.run ["connect:test", "karma:dev"]
+      when "dist"
+        grunt.task.run ["connect:test", "karma:dist"]
+      when "pr"
+        grunt.task.run ["connect:test", "karma:pullRequest"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",
@@ -514,10 +521,10 @@ module.exports = (grunt) ->
                                "uglify:buildAlchemy"]
 
   releaseFlag = grunt.option('release')
-
+  pullRequest = grunt.option('pr')                          
   grunt.registerTask "default",
     if releaseFlag
-      ["test",
+      ["test:dist",
        "build",
        "string-replace", # apply version to alchemy.js
        "bumpBower", # bump bower version
@@ -529,6 +536,9 @@ module.exports = (grunt) ->
        "s3:production" # publish files to s3 for cdn
        "shell:docs", # publish docs
       ]
+    else if pullRequest
+      ["test:pr",
+       "build"]
     else
-      ["test",
+      ["test:dist",
        "build"]
