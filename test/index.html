@@ -29,13 +29,14 @@
     <script src="bower_components/lodash/dist/lodash.compat.js"></script>
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="scripts/alchemy.js"></script>
-    
+
     <!-- include spec files here... -->
     <script src="spec/configurationTests.js"></script>
     <script src="spec/core/startGraph.js"></script>
     <script src="spec/models/node.js"></script>
     <script src="spec/models/edge.js"></script>
     <script src="spec/api/get.js"></script>
+    <script src="spec/api/remove.js"></script>
     <script>
         if (navigator.userAgent.indexOf('PhantomJS') < 0) {
             mocha.run();
