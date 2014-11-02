@@ -13,7 +13,7 @@
     "grunt-bower-install": "~0.7.0",
     "grunt-concurrent": "~0.4.0",
     "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-coffee": "git://github.com/hustonhedinger/grunt-contrib-coffee.git#eee38fa950eefe5ff940f0eaba69d00dbacd6b7c",
+    "grunt-contrib-coffee": "~0.12.0",
     "grunt-contrib-compass": "~0.7.0",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-connect": "~0.5.0",
@@ -24,7 +24,6 @@
     "grunt-contrib-jshint": "~0.7.0",
     "grunt-contrib-uglify": "~0.2.0",
     "grunt-contrib-watch": "~0.5.2",
-    "grunt-mocha": "^0.4.11",
     "grunt-newer": "~0.6.0",
     "grunt-release": "~0.7.0",
     "grunt-rev": "~0.1.0",
@@ -36,7 +35,20 @@
     "jshint-stylish": "~0.1.3",
     "load-grunt-tasks": "~0.2.0",
     "time-grunt": "~0.2.0",
-    "yo": "~1.1.2"
+    "yo": "~1.1.2",
+    "karma-chai": "~0.0.2",
+    "karma-coffee-preprocessor": "~0.1.2",
+    "karma-mocha": "^0.1.9",
+    "karma-chrome-launcher": "^0.1.5",
+    "karma-firefox-launcher": "^0.1.3",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-ie-launcher": "^0.1.5",
+    "grunt-karma": "~0.9.0",
+    "coffee-script": "^1.8.0",
+    "karma-fixture": "^0.2.1-1",
+    "karma-html2js-preprocessor": "^0.1.0",
+    "grunt-mocha": "^0.4.11",
+    "karma-phantomjs-launcher": "^0.1.4"
   },
   "engines": {
     "node": ">=0.8.0"

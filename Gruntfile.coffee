@@ -75,7 +75,7 @@ module.exports = (grunt) ->
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["coffee:test", "test:watch"]
+        tasks: ["coffee:test", "test:watch"], 
 
       gruntfile:
         files: ["Gruntfile.coffee"]
@@ -145,12 +145,25 @@ module.exports = (grunt) ->
 
 
     # Mocha testing framework configuration options
-    mocha:
-      all:
-        options:
-          run: true
-          urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
+    # mocha:
+    #   all:
+    #     options:
+    #       run: true
+    #       urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
 
+    # Test settings
+    karma:
+      options:
+        configFile: "test/karma.conf.coffee"
+      dist:
+        singleRun: true
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'IE']
+      dev:
+        singleRun: false
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'IE']
+      pullRequest:
+        singleRun: true
+        browsers: ['PhantomJS', 'Firefox']
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -491,10 +504,13 @@ module.exports = (grunt) ->
 
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
-    if target is "keepalive"
-      grunt.task.run ["connect:test:keepalive", "mocha"]
-    else
-      grunt.task.run ["connect:test", "mocha"]
+    switch target
+      when "keepalive"
+        grunt.task.run ["connect:test", "karma:dev"]
+      when "dist"
+        grunt.task.run ["connect:test", "karma:dist"]
+      when "pr"
+        grunt.task.run ["connect:test", "karma:pullRequest"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",
@@ -505,10 +521,10 @@ module.exports = (grunt) ->
                                "uglify:buildAlchemy"]
 
   releaseFlag = grunt.option('release')
-
+  pullRequest = grunt.option('pr')                          
   grunt.registerTask "default",
     if releaseFlag
-      ["test",
+      ["test:dist",
        "build",
        "string-replace", # apply version to alchemy.js
        "bumpBower", # bump bower version
@@ -520,6 +536,9 @@ module.exports = (grunt) ->
        "s3:production" # publish files to s3 for cdn
        "shell:docs", # publish docs
       ]
+    else if pullRequest
+      ["test:pr",
+       "build"]
     else
-      ["test",
+      ["test:dist",
        "build"]
