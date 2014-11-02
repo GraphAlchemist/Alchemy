@@ -32,14 +32,11 @@
         </pre>
         </div>
 
-
 <div class="row example-code">
   <h3 class="filename">graphJSON</h3>
-  <code>
-    <pre pretty-print class="prettyprint prettyprinted" id="graphJSON">
-    </pre> 
-  </code>
-
+    <pre id="graphJSON">
+     <div code-panel></div>
+    </pre>
 </div>
 
 <script type="text/javascript">
@@ -49,10 +46,7 @@
     alchemy._nodes = {}
     alchemy._edges = {}
 
-    $.get("data/charlize.json", (function(res){
-            $("#graphJSON").html(JSON.stringify(res, null, '\t'));
-          })
-      );
+    
     // Start
     var config = {
           dataSource: 'data/charlize.json',
@@ -169,4 +163,6 @@
     }}, 300)
   $('pre').addClass('prettyprint');
     prettyPrint();
+
+   
 </script>

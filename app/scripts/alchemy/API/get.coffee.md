@@ -82,6 +82,14 @@
         activeNodes: () ->
             _.filter @a._nodes, (node) -> node if node._state is "active"
 
+        allEdges: ->
+            _.flatten _.map(@a._edges, (edgeArray) -> e for e in edgeArray)
+
+        activeEdges: ->
+            _.filter @a.get.allEdges(), (edge) -> edge if edge._state is "active"
+        
+        state: (key) -> if @a.state.key? then @a.state.key
+
         clusters: ->
             clusterMap = @a.layout._clustering.clusterMap
             nodesByCluster = {}

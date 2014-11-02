@@ -14,7 +14,7 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    Alchemy::startGraph = (instance)->
+    Alchemy::startGraph = (instance) ->
         a = instance
 
         (data) ->
@@ -52,7 +52,7 @@
             a.interactions.zoom().translate conf.initialTranslate
 
             a.generateLayout()
-            # a.controlDash.init()
+            a.controlDash.init()
 
             #enter/exit nodes/edges
             d3Edges = _.flatten _.map(a._edges, (edgeArray) -> e._d3 for e in edgeArray)
@@ -78,8 +78,8 @@
             # configuration for forceLocked
             if !conf.forceLocked
                 a.force
-                        .on "tick", a.layout.tick
-                        .start()
+                 .on "tick", a.layout.tick
+                 .start()
 
             # call user-specified functions after load function if specified
             # deprecate?

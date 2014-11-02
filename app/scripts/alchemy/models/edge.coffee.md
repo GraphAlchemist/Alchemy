@@ -87,6 +87,17 @@
                     _.pick @_style, query
                 else
                     @_style[key]
+                    
+            setProperties: (property, value=null) =>
+                if _.isPlainObject property
+                    _.assign @_properties, property
+                    if 'source' of property then @_setD3Properties {'source': @a._nodes[property.source]._d3}
+                    if 'target' of property then @_setD3Properties {'target': @a._nodes[property.target]._d3}
+                else
+                    @_properties[property] = value
+                    if (property is 'source') or (property is 'target')
+                        @_setD3Properties {property: @a._nodes[value]._d3}
+                @
 
             setStyles: (key, value=null) ->
                 # If undefined, set styles based on state
