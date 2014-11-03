@@ -21,7 +21,6 @@
             a = d.self.a
 
             d3.event.stopPropagation()
-            # a = _getAlchInst d
             edge = d.self
             if edge._state != "hidden"
                 edge._state = do -> 
@@ -87,6 +86,7 @@
                         @_zoomBehavior = d3.behavior.zoom()
                     @_zoomBehavior.scaleExtent extent
                                   .on "zoom", (d)->
+                                    a = Alchemy::getInst this
                                     a.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                               scale(#{ d3.event.scale })" )
         clickZoom:  (direction) ->
@@ -150,8 +150,10 @@
             if !a.conf.forceLocked  #a.configuration for forceLocked
                 a.force.start() #restarts force on drag
 
+        nodeDoubleClick: (d)-> null
+
         deselectAll: () ->
-            a = _getAlchInst @
+            a = Alchemy::getInst @
 
             # this function is also fired at the end of a drag, do nothing if this
             if d3.event?.defaultPrevented then return

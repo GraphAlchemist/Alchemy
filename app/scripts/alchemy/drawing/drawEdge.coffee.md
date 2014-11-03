@@ -31,6 +31,7 @@
             edge.append 'path'
                 .attr 'class', 'edge-handler'
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
+                .style 'opacity', "0"
 
         styleLink: (edge) ->
             a = @a

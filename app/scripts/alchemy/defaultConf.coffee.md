@@ -132,5 +132,6 @@
         initialScale: 1
         initialTranslate: [0,0]
         scaleExtent: [0.5, 2.4]
+        exportSVG: false
         dataWarning: "default"
         warningMessage: "There be no data!  What's going on?"

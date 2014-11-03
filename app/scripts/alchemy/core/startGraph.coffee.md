@@ -34,13 +34,14 @@
 
             # create SVG
             a.vis = d3.select conf.divSelector
-                .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour}"
+                .attr "style", "width:#{conf.graphWidth()}px; height:#{conf.graphHeight()}px; background:#{conf.backgroundColour};"
                 .append "svg"
                     .attr "xmlns", "http://www.w3.org/2000/svg"
                     .attr "xlink", "http://www.w3.org/1999/xlink"
                     .attr "pointer-events", "all"
                     .attr "shape-rendering", "optimizeSpeed"
-                    .attr "alchInst", (d)-> Alchemy::instances.length - 1
+                    .attr "style", "background:#{conf.backgroundColour};"
+                    .attr "alchInst", (d)-> Alchemy::instances.length
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null
