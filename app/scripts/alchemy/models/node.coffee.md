@@ -89,15 +89,27 @@
                 a = @a
                 @_state = if @_state is "hidden" then "active" else "hidden"
                 @setStyles()
-                _.each @_adjacentEdges, (id)->
-                    [source, target, pos] = id.split("-")
-                    e = a._edges["#{source}-#{target}"][pos]
+                _.each @_adjacentEdges, (e)->
+                    [source, target] = e.id.split("-")
                     sourceState = a._nodes["#{source}"]._state
                     targetState = a._nodes["#{target}"]._state
                     if e._state is "hidden" and (sourceState is "active" and targetState is "active")
                         e.toggleHidden()
                     else if e._state is "active" and (sourceState is "hidden" or targetState is "hidden")
                         e.toggleHidden()
+
+                # a = @a
+                # @_state = if @_state is "hidden" then "active" else "hidden"
+                # @setStyles()
+                # _.each @_adjacentEdges, (id)->
+                #     [source, target, pos] = id.split("-")
+                #     e = a._edges["#{source}-#{target}"][pos]
+                #     sourceState = a._nodes["#{source}"]._state
+                #     targetState = a._nodes["#{target}"]._state
+                #     if e._state is "hidden" and (sourceState is "active" and targetState is "active")
+                #         e.toggleHidden()
+                #     else if e._state is "active" and (sourceState is "hidden" or targetState is "hidden")
+                #         e.toggleHidden()
 
             # Convenience methods
             outDegree: () -> @_adjacentEdges.length
