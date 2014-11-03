@@ -9,7 +9,7 @@ do ->
         # again, not the correct way to create a 'fixture',
         # and should be fixed in favor of a more robust implementation
         d3.select('body').append('div').attr('id', 'alchemy')
-        debugger
+        
         alchemy = new Alchemy
             dataSource : contrib_json,
             graphWidth : () -> 200,

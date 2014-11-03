@@ -187,13 +187,9 @@ module.exports = (grunt) ->
       sauce:
         singleRun: true
         browsers: ['PhantomJS', 'sl_safari_mac', 'sl_chrome_mac', 'sl_firefox']#'sl_ie_windows']
-        username: sauce_user_name
-        accessKey: sauce_access_key
       local:
         singleRun: false
         browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'sl_ie_windows']
-        username: sauce_user_name
-        accessKey: sauce_access_key
       pullRequest:
         singleRun: true
         browsers: ['PhantomJS', 'Firefox']
