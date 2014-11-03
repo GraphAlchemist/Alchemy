@@ -52,6 +52,7 @@ title: Anotated Source
 
             @utils        = warnings: warnings
             @filters      = @filters @
+            @exports      = @exports @
             @visControls  = {}
             @styles       = {}
             @editor       = {}
