@@ -8,7 +8,6 @@
             a.dash.select "#all-exports"
              .append "li"
              .attr
-                # class: "btn btn-default"
                 class: "list-group-item active-label toggle"
              .html "SVG"
              .on "click", (e)->
