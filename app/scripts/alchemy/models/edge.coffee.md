@@ -87,7 +87,7 @@
                     _.pick @_style, query
                 else
                     @_style[key]
-                    
+
             setProperties: (property, value=null) =>
                 if _.isPlainObject property
                     _.assign @_properties, property
@@ -125,3 +125,19 @@
                 sourceNode = alchemy.get.nodes(sourceId)[0]
                 targetNode = alchemy.get.nodes(targetId)[0]
                 sourceNode._state is "active" and targetNode._state is "active"
+
+            remove: ->
+                a = @a
+                e = @
+                _.remove a._nodes[e._properties.source]._adjacentEdges, (adjacentEdge) ->
+                    [source, target, pos] = adjacentEdge.split("-")
+                    if target is e._properties.target.toString()
+                        adjacentEdge
+                _.remove a._nodes[e._properties.target]._adjacentEdges, (adjacentEdge) ->
+                    [source, target, pos] = adjacentEdge.split("-")
+                    if source is e._properties.source.toString()
+                        adjacentEdge
+                delete a._edges[e.id]
+                a.vis.select("#edge-" + e.id + "-" + e._index).remove()
+                filteredLinkList = _.filter a.force.links(), (link) -> link if link.id != e.id
+                alchemy.force.links(filteredLinkList)
