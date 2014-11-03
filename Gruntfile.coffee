@@ -10,6 +10,16 @@ module.exports = (grunt) ->
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
 
+  # set up sauce labs credentials 
+  if grunt.file.isFile('./sauce.yml')
+    s3Config = grunt.file.readYAML('./sauce.yml')
+    sauce_user_name = s3Config.SAUCE_USERNAME
+    sauce_access_key = s3Config.SAUCE_ACCESS_KEY
+  else
+    sauce_user_name = ''
+    sauce_access_key = ''
+
+  # set up s3 credentials
   if grunt.file.isFile('./s3.yml')
     s3Config = grunt.file.readYAML('./s3.yml')
     key_id = s3Config.AWS_ACCESS_KEY_ID
@@ -155,15 +165,41 @@ module.exports = (grunt) ->
     karma:
       options:
         configFile: "test/karma.conf.coffee"
-      dist:
+        sauceLabs:
+          startConnect: true
+        reporters: ['saucelabs']
+        customLaunchers:
+          sl_safari_mac:
+            base: 'SauceLabs'
+            browserName: 'safari'
+          sl_chrome_mac:
+            base: 'SauceLabs'
+            browserName: 'chrome'
+          sl_ie_windows:
+            base: 'SauceLabs'
+            browserName: 'internet explorer'
+          sl_firefox:
+            base: 'SauceLabs'
+            browserName: 'firefox'
+      travis:
         singleRun: true
-        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'IE']
-      dev:
+        browsers: ['PhantomJS', 'sl_safari_mac', 'sl_chrome_mac', 'sl_firefox']#, 'sl_ie_windows']
+      sauce:
+        singleRun: true
+        browsers: ['PhantomJS', 'sl_safari_mac', 'sl_chrome_mac', 'sl_firefox']#'sl_ie_windows']
+        username: sauce_user_name
+        accessKey: sauce_access_key
+      local:
         singleRun: false
-        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'IE']
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'sl_ie_windows']
+        username: sauce_user_name
+        accessKey: sauce_access_key
       pullRequest:
         singleRun: true
         browsers: ['PhantomJS', 'Firefox']
+        sauceLabs: false
+        customLaunchers: false
+        reporters: false
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -505,12 +541,15 @@ module.exports = (grunt) ->
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
     switch target
+      # for debugging tasks locally
       when "keepalive"
-        grunt.task.run ["connect:test", "karma:dev"]
+        grunt.task.run ["connect:test", "karma:local"]
       when "dist"
-        grunt.task.run ["connect:test", "karma:dist"]
+        grunt.task.run ["connect:test", "karma:sauce"]
       when "pr"
         grunt.task.run ["connect:test", "karma:pullRequest"]
+      when "travis"
+        grunt.task.run ["connect:test", "karma:travis"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",
@@ -521,8 +560,10 @@ module.exports = (grunt) ->
                                "uglify:buildAlchemy"]
 
   releaseFlag = grunt.option('release')
-  pullRequest = grunt.option('pr')                          
+  pullRequest = grunt.option('pr') 
+  travis = grunt.option('travis')                         
   grunt.registerTask "default",
+    # release alchemy and build docs
     if releaseFlag
       ["test:dist",
        "build",
@@ -536,9 +577,15 @@ module.exports = (grunt) ->
        "s3:production" # publish files to s3 for cdn
        "shell:docs", # publish docs
       ]
+    # Travis-ci on a commit to the main repo branches
+    else if travis
+      ["test:travis",
+       "build"]
+    # Travis-ci on a pull request
     else if pullRequest
       ["test:pr",
        "build"]
+    # test with sauce and build scripts
     else
       ["test:dist",
        "build"]

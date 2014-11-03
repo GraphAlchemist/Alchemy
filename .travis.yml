@@ -12,4 +12,9 @@ before_script:
 script:
     - bower install
     - bower install ./test
-    - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && grunt || grunt -pr'
+    - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && grunt -travis || grunt -pr'
+env:
+  global:
+    - secure: AehzFi76FXA6uhXzrBd8taxqguT8CX1SfnYaK4e2NhHMCj2eyD+54SABFA2FWfc6ly90CTUkgu8t90QwwsefJGqowcPpVm0orLEhl13JXHO+iLKCWTMEOK42wA/LBkbbrQ2XzI60Heo4E9N/tRcYvq7ejGLIjgYa58tTEPRRyjI=
+    - secure: EQJdvC1Xy0UARklysrCpsPVYHHWU1WJjVSM8+RMxGvTi9YCyx8MvTU7DfumHOoE7BFz8nN51/pcPAJJ7qfYXMYZpTDa9pQfYszTseHoQhqH6rJHtEjCv+QCpHjxHyPd6twwi1zPkv6ljBP62XV++PVF7WsXw0ywEgbqHmA5LqcI=
+
