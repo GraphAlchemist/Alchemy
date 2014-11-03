@@ -87,6 +87,7 @@
                         @_zoomBehavior = d3.behavior.zoom()
                     @_zoomBehavior.scaleExtent extent
                                   .on "zoom", (d)->
+                                    a = _getAlchInst this
                                     a.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                               scale(#{ d3.event.scale })" )
         clickZoom:  (direction) ->
