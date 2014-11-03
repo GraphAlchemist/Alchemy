@@ -38,9 +38,9 @@
             _setD3Properties: (props) =>
                 _.merge @_d3, props
 
-            _addEdge: (edgeDomID) ->
+            _addEdge: (edge) ->
                 # Stores edge.id for easy edge lookup
-                @_adjacentEdges = _.union @_adjacentEdges, [edgeDomID]
+                @_adjacentEdges = _.union @_adjacentEdges, [edge]
 
             # Edit node properties
             getProperties: (key=null, keys...) =>
@@ -103,18 +103,7 @@
             outDegree: () -> @_adjacentEdges.length
 
             remove: ->
-                a = @a
-                n = @
-                _.each n._adjacentEdges, (adjacentEdge) ->
-                    [source, target, pos] = adjacentEdge.split("-")
-                    nextNode = if source is n.id.toString() then target else source
-                    _.remove a._nodes[nextNode]._adjacentEdges, (targetAdjacentEdge) ->
-                        [tSource, tTarget, tPos] = targetAdjacentEdge.split("-")
-                        if tTarget is n.id.toString() or tSource  is n.id.toString()
-                            targetAdjacentEdge
-                    delete a._edges[source + "-" + target]
-                    a.vis.select("#edge-" + source + "-" + target + "-" + pos).remove()
-                    filteredLinkList = _.filter a.force.links(), (link) -> link if link.id != source + "-" + target
-                    a.force.links(filteredLinkList)
-                delete a._nodes[n.id]
-                a.vis.select("#node-" + n.id).remove()
+                _.each @._adjacentEdges, (adjacentEdge) ->
+                    adjacentEdge.remove()
+                delete @a._nodes[@.id]
+                @a.vis.select("#node-" + @.id).remove()
