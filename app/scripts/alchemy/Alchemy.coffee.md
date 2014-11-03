@@ -68,7 +68,7 @@ title: Anotated Source
             @interactions   = @interactions @
             @search         = @search @
 
-	    # alchemy._nodes stores a node object as the value with the unique
+	        # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
             @_nodes = {}
 
@@ -125,3 +125,6 @@ title: Anotated Source
 
     root = exports ? this
     root.Alchemy = Alchemy
+
+    #Backwards compatible alchemy.begin() for single instances
+    root.alchemy = begin: (config)-> root.alchemy = new Alchemy(config)
