@@ -14,6 +14,7 @@
                         colourIndex = clusterMap[nodeProp[key]] % colours.length
                         colour = colours[colourIndex]
                         "#{colour}"
+                    d.stroke = d.fill
                 d
 
             nodeText: (d) ->
