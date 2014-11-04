@@ -14,7 +14,7 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.defaults =
+    defaults =
 
         # Renderer
         renderer: "svg"
@@ -132,5 +132,6 @@
         initialScale: 1
         initialTranslate: [0,0]
         scaleExtent: [0.5, 2.4]
+        exportSVG: false
         dataWarning: "default"
         warningMessage: "There be no data!  What's going on?"

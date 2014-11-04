@@ -5,13 +5,13 @@ title: Node Methods
 
 # Node Methods
 
-When *node* data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.
+When **node** data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.
 
 ##### node.getProperties
 <!--  -->
 
 `node.getProperties([property])`<br>
-If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally a string or array can be provided to return only specified properties. 
+If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally, a string or array can be provided to return only specified properties. 
 
 For example:
 
@@ -30,7 +30,9 @@ node.getProperties(['firstName', 'lastName', 'age']);
 <!--  -->
 
 `node.setProperty(['property', 'value']|[Object])`<br>
-Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  For example:
+Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  
+
+For example:
 
 ~~~ javascript
 // Grab the node with id 1
@@ -48,8 +50,10 @@ node.setProperty({
 ##### node.removeProperty
 <!--  -->
 
-`node.removeProperty('property'[,'more_properties'])<br>
-Remove one or more properties from a given node.
+`node.removeProperty('property'[,'more_properties'])`<br>
+Remove one or more properties from a given node.  This method removes the entire property key value from the node.  Use the [node.setProperty](#nodesetproperty) method to change a property.
+
+For Example:
 
 ~~~ javascript
 // Grab the node with id 1
@@ -84,3 +88,4 @@ var new_styles = {
 };
 some_node.setStyle(new_styles);
 ~~~
+_______

@@ -14,60 +14,110 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    alchemy.get = 
+
+    # make js array method called ._state
+    # @a.set.  nest set inside of get
+
+    Alchemy::get = (instance)->
+        a: instance
+        _el: []
+        _elType: null
+        _makeChain: (inp)->
+            returnedGet = @
+            returnedGet.__proto__ = [].__proto__
+            returnedGet.pop() while returnedGet.length
+            _.each inp, (e)-> returnedGet.push(e)
+            returnedGet
+
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
-                if id?
+                    if id?
+                        allIDs = _.map arguments, (arg) -> String(arg)
+                        a = @.a
+                        nodeList = do (a) ->
+                            # All passed ids with artificially enforced type safety
+                            _.filter a._nodes, (val, key)->
+                                val if _.contains allIDs, key
+                    @_elType = "node"
+                    @_el = nodeList
+                    @_makeChain nodeList
+
+        # returns one or more edges as an array
+        edges: (id, ids...) ->
+            if id?
+                allIDs = _.map arguments, (arg) -> String(arg)
+                a = @.a
+                edgeList = do (a) ->
                     # All passed ids with artificially enforced type safety
-                    allIDs = _.map arguments, (arg) -> String(arg)
-                    _.filter alchemy._nodes, (val, key)->
+                    _.flatten _.filter a._edges, (val, key)->
                         val if _.contains allIDs, key
-                else
-                    console.warn "Please specify a node id."
+            @_elType = "edge"
+            @_el = edgeList
+            @_makeChain edgeList
 
-        edges: (id=null, target=null) ->
-            # returns one or more edges as an array
-            if id? and target?
-                edge_id = "#{id}-#{target}"
-                edge = alchemy._edges[edge_id]
-                [edge]
-            else if id? and not target?
-                if alchemy._edges[id]?
-                    [_.flatten(alchemy._edges[id])]
-                else
-                    # edge does not exist, so return all edges with `id` as the 
-                    # `source OR `target` this method scans ALL edges....
-                    results = _.map alchemy._edges, (edge) ->
-                        if (edge.properties.source is id) or (edge.properties.target is id)
-                            edge.properties
-                _.compact results
+        all: ->
+            a = @a
+            elType = @_elType
+            @_el = do (elType)->
+                switch elType
+                    when "node" then return _.values a._nodes
+                    when "edge" then return _.flatten _.map a._edges, (e)-> e
+            @_makeChain @_el
 
-        allNodes: (type) ->
-            if type?
-                _.filter alchemy._nodes, (n) -> n if n._nodeType is type
-            else
-                _.map alchemy._nodes, (n) -> n
+        elState: (state) ->
+            elList = _.filter @_el, (e)-> e._state is state
+            @_el = elList
+            @_makeChain elList
+
+        state: (key) -> if @a.state.key? then @a.state.key
+
+        type: (type) ->
+            elList = _.filter @_el, (e) -> e._nodeType is type or e._edgeType is type
+            @_el = elList
+            @_makeChain elList
 
         activeNodes: () ->
-            _.filter alchemy._nodes, (node) -> node if node._state is "active"
+            _.filter @a._nodes, (node) -> node if node._state is "active"
 
-        allEdges: ->
-            _.flatten _.map(alchemy._edges, (edgeArray) -> e for e in edgeArray)
+        activeEdges: ->
+            _.filter @a.get.allEdges(), (edge) -> edge if edge._state is "active"
         
-        state: (key) -> if alchemy.state.key? then alchemy.state.key
+        state: (key) -> if @a.state.key? then @a.state.key
 
         clusters: ->
-            clusterMap = alchemy.layout._clustering.clusterMap
+            clusterMap = @a.layout._clustering.clusterMap
             nodesByCluster = {}
             _.each clusterMap, (key, value) ->
-                nodesByCluster[value] = _.select alchemy.get.allNodes(), (node) ->
-                    node.getProperties()[alchemy.conf.clusterKey] is value
+                nodesByCluster[value] = _.select @a.get.allNodes(), (node) ->
+                    node.getProperties()[@a.conf.clusterKey] is value
             nodesByCluster
 
         clusterColours: ->
-            clusterMap = alchemy.layout._clustering.clusterMap
+            clusterMap = @a.layout._clustering.clusterMap
             clusterColoursObject = {}
             _.each clusterMap, (key, value) ->
-               clusterColoursObject[value] = alchemy.conf.clusterColours[key % alchemy.conf.clusterColours.length]
+               clusterColoursObject[value] = @a.conf.clusterColours[key % @a.conf.clusterColours.length]
             clusterColoursObject
 
+        ###### ALL METHODS BELOW THIS POINT WILL BE DEPRECATED UPON 1.0 ######
+        allEdges: ->
+            _.flatten _.map(@a._edges, (edgeArray) -> e for e in edgeArray)
+
+        allNodes: (type) ->
+            if type?
+                _.filter @a._nodes, (n) -> n if n._nodeType is type
+            else
+                _.map @a._nodes, (n) -> n
+
+        getNodes: (id, ids...)->
+            a = @a
+            ids.push(id)
+            _.map ids, (id)-> a._nodes[id]
+
+        getEdges: (id=null, target=null)->
+            a = @a
+            if id? and target?
+                edge_id = "#{id}-#{target}"
+                @a._edges[edge_id]
+            else if id? and not target?
+                @a._nodes[id]._adjacentEdges

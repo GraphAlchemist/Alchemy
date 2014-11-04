@@ -100,11 +100,11 @@ module.exports = (grunt) ->
     # The actual grunt server settings
     connect:
       options:
-        port: 9002
+        port: 9003
         
         # Change this to '0.0.0.0' to access the server from outside.
         hostname: "localhost"
-        livereload: 35729
+        livereload: 35728
 
       livereload:
         options:
@@ -502,7 +502,6 @@ module.exports = (grunt) ->
         configFile: "test/karma.conf.coffee"
         singleRun: true
 
-  grunt.loadNpmTasks('grunt-string-replace')
   grunt.registerTask "serve", "Compile then start a connect web server", (target) ->
     if target is "dist"
       return grunt.task.run([

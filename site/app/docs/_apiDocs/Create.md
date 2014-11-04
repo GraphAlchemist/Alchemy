@@ -4,6 +4,7 @@ title: Create
 ---
 
 # Create
+
 <p></p>
 
 ##### alchemy.createNodes
@@ -46,7 +47,7 @@ This method receives objects which are property maps of edges as defined in [Gra
 }
 ~~~
 
-An unlimited number of edges can exist between the same source and target node, and in the same direction.  Alchemy will generate internal unique ids for each edge created.  However, if an "id" is provided in the *edge map* provided to the *createEdge* method, new edges will only be created if the same "id" **does not already exist**.  
+An unlimited number of edges can exist between the same source and target node, and in the same direction.  Alchemy will generate internal unique ids for each edge created.  However, new edges will only be created if the same "id" **does not already exist**. If an "id" is provided in the *edge map* that has already been provided to the *createEdge* method, no new edge will be created.   
 
 Examples:
 
@@ -64,3 +65,4 @@ var edgeWithId = {"id": 100, "source": 1, "target": 2};
 // and create an edge with "edgeMap" properties
 alchemy.createEdges(edgeWithId, someEdgeMap);
 ~~~
+_______
