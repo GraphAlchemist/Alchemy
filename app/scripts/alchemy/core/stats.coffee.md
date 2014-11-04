@@ -22,16 +22,15 @@
 
         nodeStats: () ->
             #general node stats
-            nodeStats = ''
             nodeData = []
 
             allNodes = a.get.allNodes().length
             activeNodes = a.get.activeNodes().length
             inactiveNodes = allNodes - activeNodes
 
-            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{allNodes}</span></li>"            
-            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>"
-            nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li>"
+            nodeStats = "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>#{allNodes}</span></li>           
+                        <li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>#{activeNodes}</span></li>
+                        <li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>#{inactiveNodes}</span></li></br>"
 
             #add stats for all node types
             if a.conf.nodeTypes
@@ -55,31 +54,37 @@
 
         edgeStats: () ->
             #general edge stats
-            edgeData = null
+            edgeData = []
+
             allEdges = a.get.allEdges().length
             activeEdges = a.get.activeEdges().length
             inactiveEdges = allEdges - activeEdges
 
-            edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>#{allEdges}</span></li>
+            edgeStats = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>#{allEdges}</span></li>
                         <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>#{activeEdges}</span></li>
-                        <li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>#{inactiveEdges}</span></li>
-                        <li id='edge-stats-graph' class='list-group-item'></li>"
+                        <li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>#{inactiveEdges}</span></li></br>"
 
             #add stats for edge types
             if a.conf.edgeTypes
-                edgeData = []
-
-                for edgeType in a.conf.edgeTypes
+                edgeKeys = _.values(alchemy.conf.edgeTypes)[0]
+                edgeTypes = ''
+                for edgeType in edgeKeys
                     if not edgeType then continue
                     caption = edgeType.replace('_', ' ')
-                    edgeNum = a.vis.selectAll(".edge.#{edgeType}")[0].length
+                    edgeNum = _.filter(a.get.allEdges(), (edge) -> edge if edge._edgeType is edgeType).length
+                    edgeTypes += "<li class = 'list-group-item edgeType' id='li-#{edgeType}' 
+                                    name = #{caption}>Number of <strong style='text-transform: uppercase'>#{caption}</strong> relationships: <span class='badge'>#{edgeNum}</span></li>"                    
                     edgeData.push(["#{caption}", edgeNum])
+                edgeStats += edgeTypes
 
+            #add the graph
+            edgeGraph = "<li id='node-stats-graph' class='list-group-item'></li>" 
+            edgeStats += edgeGraph
             a.dash
                    .select '#rel-stats'
-                   .html edgeGraph 
-            a.stats.insertSVG "edge", edgeData
-            return edgeData
+                   .html edgeStats 
+            @insertSVG "edge", edgeData
+
 
         insertSVG: (element, data) ->
             if data is null 
@@ -135,5 +140,5 @@
                     .text (d, i) -> data[i][0]
 
         update: () -> 
-            if a.conf.nodeStats then a.stats.nodeStats()
-            if a.conf.edgeStats then a.stats.edgeStats()
+            if a.conf.nodeStats then @nodeStats()
+            if a.conf.edgeStats then @edgeStats()
