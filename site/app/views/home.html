@@ -17,7 +17,7 @@
         </div>
         <div class="row" id="code">
             <code>
-                alchemy.begin(yourConfig);
+                var alchemy = new Alchemy(yourConfig);
             </code>
         </div>
         <i class="fa fa-arrow-down float-right" ng-click="sectionSnap('#carousel-wrapper')"></i>
@@ -86,9 +86,9 @@
 
       nodeTypes: {"node_type": ["Maintainer", "Contributor"]},
       caption: function(node){ return node.caption; }
-      };
+    };
 
-    alchemy.begin(config)
+    alchemy = new Alchemy(config)
   &lt;/script&gt;
 &lt;/body&gt;
 &lt;/html&gt;
