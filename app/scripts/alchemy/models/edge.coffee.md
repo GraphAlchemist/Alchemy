@@ -29,8 +29,8 @@
                     , @a.svgStyles.edge.populate @
                 @_setCaption(edge, conf)
                 # Add id to source/target's edgelist
-                @a._nodes["#{edge.source}"]._addEdge "#{@id}-#{@_index}"
-                @a._nodes["#{edge.target}"]._addEdge "#{@id}-#{@_index}"
+                @a._nodes["#{edge.source}"]._addEdge @
+                @a._nodes["#{edge.target}"]._addEdge @
 
             _setD3Properties: (props) => _.merge @_d3, props
 
@@ -87,7 +87,7 @@
                     _.pick @_style, query
                 else
                     @_style[key]
-                    
+
             setProperties: (property, value=null) =>
                 if _.isPlainObject property
                     _.assign @_properties, property
@@ -125,3 +125,9 @@
                 sourceNode = alchemy.get.nodes(sourceId)[0]
                 targetNode = alchemy.get.nodes(targetId)[0]
                 sourceNode._state is "active" and targetNode._state is "active"
+
+            remove: ->
+                delete @a._edges[@.id]
+                @a.vis.select("#edge-" + @.id + "-" + @._index).remove()
+                filteredLinkList = _.filter @a.force.links(), (link) -> link if link.id != @.id
+                @a.force.links(filteredLinkList)

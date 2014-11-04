@@ -21,31 +21,8 @@
         nodes: (nodeMap) ->
             _.each nodeMap, (n) ->
                 if n._nodeType?
-                    _.each n._adjacentEdges, (adjacentEdge) ->
-                        [source, target, pos] = adjacentEdge.split("-")
-                        nextNode = if source is n.id.toString() then target else source
-                        _.remove n.a._nodes[nextNode]._adjacentEdges, (targetAdjacentEdge) ->
-                            [tSource, tTarget, tPos] = targetAdjacentEdge.split("-")
-                            if tTarget is n.id.toString() or tSource  is n.id.toString()
-                                targetAdjacentEdge
-                        delete n.a._edges[source + "-" + target]
-                        n.a.vis.select("#edge-" + source + "-" + target + "-" + pos).remove()
-                        filteredLinkList = _.filter alchemy.force.links(), (link) -> link if link.id != source + "-" + target
-                        alchemy.force.links(filteredLinkList)
-                    delete n.a._nodes[n.id]
-                    n.a.vis.select("#node-" + n.id).remove()
+                    n.remove()
         edges: (edgeMap) ->
             _.each edgeMap, (e) ->
                 if e._edgeType?
-                    _.remove e.a._nodes[e._properties.source]._adjacentEdges, (adjacentEdge) ->
-                        [source, target, pos] = adjacentEdge.split("-")
-                        if target is e._properties.target.toString()
-                            adjacentEdge
-                    _.remove e.a._nodes[e._properties.target]._adjacentEdges, (adjacentEdge) ->
-                        [source, target, pos] = adjacentEdge.split("-")
-                        if source is e._properties.source.toString()
-                            adjacentEdge
-                    delete e.a._edges[e.id]
-                    e.a.vis.select("#edge-" + e.id + "-" + e._index).remove()
-                    filteredLinkList = _.filter alchemy.force.links(), (link) -> link if link.id != e.id
-                    alchemy.force.links(filteredLinkList)
+                    e.remove()

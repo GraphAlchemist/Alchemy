@@ -3,7 +3,7 @@ do ->
     describe "Edge testing", ->
 
         before ->
-           window.testEdge = alchemy._edges["1-0"][0] 
+           window.testEdge = alchemy._edges["1-0"][0]
 
         describe "@constructor", ->
 
@@ -24,10 +24,8 @@ do ->
                 source = alchemy._nodes[testEdge._d3.source.id]
                 target = alchemy._nodes[testEdge._d3.target.id]
 
-                fullEdgeId = "#{testEdge.id}-0"
-
-                sourceKnowsEdge = _.contains source._adjacentEdges, fullEdgeId
-                targetKnowsEdge = _.contains target._adjacentEdges, fullEdgeId
+                sourceKnowsEdge = _.contains source._adjacentEdges, testEdge
+                targetKnowsEdge = _.contains target._adjacentEdges, testEdge
 
                 sourceKnowsEdge.should.equal true
                 targetKnowsEdge.should.equal true
@@ -113,4 +111,4 @@ do ->
                 testEdge.allNodesActive().should.equal false
 
     return
-    
+

@@ -17,7 +17,7 @@
                 if selectedElements.classed 'node'
                     editor.nodeEditor selectedElements.datum()
                     alchemy.dash
-                        .select "#node-editor" 
+                        .select "#node-editor"
                         .attr "class", "enabled"
                         .style "opacity", 1
                 else if selectedElements.classed 'edge'
@@ -60,12 +60,12 @@
                                 .id
 
                 node_data = alchemy._nodes[nodeID]
-                if node_data?  
+                if node_data?
                     for edge in node_data.adjacentEdges
-                        alchemy._edges = _.omit alchemy._edges, "#{edge}"
+                        alchemy._edges = _.omit alchemy._edges, "#{edge.id}-#{edge._index}"
                         alchemy.edge = alchemy.edge.data _.map(alchemy._edges, (e) -> e._d3), (e)->e.id
                         alchemy.vis
-                               .select "#edge-#{edge}"
+                               .select "#edge-#{edge.id}-#{edge._index}"
                                .remove()
                     alchemy._nodes = _.omit alchemy._nodes, "#{nodeID}"
                     alchemy.node = alchemy.node.data _.map(alchemy._nodes, (n) -> n._d3), (n)->n.id
