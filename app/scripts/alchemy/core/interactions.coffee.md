@@ -59,6 +59,7 @@
 
         nodeMouseOut: (n) ->
             node = n.self
+            a = node.a
             if node._state != "hidden"
                 if node._state != "selected"
                     node._state = "active"

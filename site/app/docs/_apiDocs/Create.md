@@ -4,6 +4,7 @@ title: Create
 ---
 
 # Create
+
 <p></p>
 
 ##### alchemy.createNodes
@@ -64,3 +65,4 @@ var edgeWithId = {"id": 100, "source": 1, "target": 2};
 // and create an edge with "edgeMap" properties
 alchemy.createEdges(edgeWithId, someEdgeMap);
 ~~~
+_______

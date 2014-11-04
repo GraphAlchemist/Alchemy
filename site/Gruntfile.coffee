@@ -502,7 +502,6 @@ module.exports = (grunt) ->
         configFile: "test/karma.conf.coffee"
         singleRun: true
 
-  grunt.loadNpmTasks('grunt-string-replace')
   grunt.registerTask "serve", "Compile then start a connect web server", (target) ->
     if target is "dist"
       return grunt.task.run([

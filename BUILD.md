@@ -46,6 +46,16 @@ grunt serve
 
 Alchemy will now be running at localhost:9000.  The Alchemy app that is running is based on the inline configuration in `./app/index.html`.  Additionally, there are a number of sample data sets to play with in the `./app/sample_data/` directory.
 
+Testing
+-------
+Alchemy uses Karma to run test in the mocha framework.  There are a few different that tests are run:  
+
+1. You can run Alchemy's test locally with the `grunt test` command
+1. Continuous integrations runs the test on pull requests using the `grunt test:pr`
+1. Commits made to the main [GraphAlchemist/Alchemy](https://github.com/GraphAlchemist/alchemy) directly are tested on sauce labs by travis using the `grunt test:travis` command
+1. You can use sauce labs to test Alchemy locally by providing [sauce labs credentials](https://saucelabs.com/docs/onboarding) `export SAUCE_USERNAME=foo
+export SAUCE_ACCESS_KEY=bar and runnnig `grunt test:dist`
+
 
 Building the Docs
 -----------------

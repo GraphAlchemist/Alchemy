@@ -51,6 +51,10 @@ do ->
             it "should accept parameters [property, value], and set @'s property to that value", ->
                 testNode.setProperty("caption", "ChemistryPy")
                 testNode.getProperties("caption").should.equal "ChemistryPy"
+            it "should accept parameters {property1: value1, property2: value2}, and set multiple properties", ->
+                testNode.setProperty({"foo": "bar", "this": "that"})
+                testNode.getProperties("foo").should.equal "bar"
+                testNode.getProperties("this").should.equal "that"
 
         describe "removeProperty", ->
             it "should accept parameter [property] and remove said property/properties if exist", ->
