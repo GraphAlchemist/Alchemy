@@ -10,7 +10,7 @@
         userConf = null;
       }
       this.a = this;
-      this.version = "#VERSION#";
+      this.version = "0.3.1";
       this.get = new this.get(this);
       this.remove = new this.remove(this);
       this.create = new this.create(this);
@@ -50,6 +50,10 @@
       this.search = this.search(this);
       this._nodes = {};
       this._edges = {};
+      this.getNodes = this.get.getNodes;
+      this.getEdges = this.get.getEdges;
+      this.allNodes = this.get.allNodes;
+      this.allEdges = this.get.allEdges;
       if (userConf) {
         this.begin(userConf);
       }
@@ -183,6 +187,7 @@
     return {
       a: instance,
       _el: [],
+      _elType: null,
       _makeChain: function(inp) {
         var returnedGet;
         returnedGet = this;
@@ -204,19 +209,14 @@
           });
           a = this.a;
           nodeList = (function(a) {
-            if (id === "all-nodes") {
-              return _.map(a._nodes, function(n) {
-                return n;
-              });
-            } else {
-              return _.filter(a._nodes, function(val, key) {
-                if (_.contains(allIDs, key)) {
-                  return val;
-                }
-              });
-            }
+            return _.filter(a._nodes, function(val, key) {
+              if (_.contains(allIDs, key)) {
+                return val;
+              }
+            });
           })(a);
         }
+        this._elType = "node";
         this._el = nodeList;
         return this._makeChain(nodeList);
       },
@@ -229,21 +229,32 @@
           });
           a = this.a;
           edgeList = (function(a) {
-            if (id === "all-edges") {
-              return _.flatten(_.map(a._edges, function(n) {
-                return n;
-              }));
-            } else {
-              return _.flatten(_.filter(a._edges, function(val, key) {
-                if (_.contains(allIDs, key)) {
-                  return val;
-                }
-              }));
-            }
+            return _.flatten(_.filter(a._edges, function(val, key) {
+              if (_.contains(allIDs, key)) {
+                return val;
+              }
+            }));
           })(a);
         }
+        this._elType = "edge";
         this._el = edgeList;
         return this._makeChain(edgeList);
+      },
+      all: function() {
+        var a, elType;
+        a = this.a;
+        elType = this._elType;
+        this._el = (function(elType) {
+          switch (elType) {
+            case "node":
+              return _.values(a._nodes);
+            case "edge":
+              return _.flatten(_.map(a._edges, function(e) {
+                return e;
+              }));
+          }
+        })(elType);
+        return this._makeChain(this._el);
       },
       elState: function(state) {
         var elList;
@@ -266,36 +277,12 @@
         this._el = elList;
         return this._makeChain(elList);
       },
-      allNodes: function(type) {
-        if (type != null) {
-          return _.filter(this.a._nodes, function(n) {
-            if (n._nodeType === type) {
-              return n;
-            }
-          });
-        } else {
-          return _.map(this.a._nodes, function(n) {
-            return n;
-          });
-        }
-      },
       activeNodes: function() {
         return _.filter(this.a._nodes, function(node) {
           if (node._state === "active") {
             return node;
           }
         });
-      },
-      allEdges: function() {
-        return _.flatten(_.map(this.a._edges, function(edgeArray) {
-          var e, _i, _len, _results;
-          _results = [];
-          for (_i = 0, _len = edgeArray.length; _i < _len; _i++) {
-            e = edgeArray[_i];
-            _results.push(e);
-          }
-          return _results;
-        }));
       },
       activeEdges: function() {
         return _.filter(this.a.get.allEdges(), function(edge) {
@@ -328,6 +315,55 @@
           return clusterColoursObject[value] = this.a.conf.clusterColours[key % this.a.conf.clusterColours.length];
         });
         return clusterColoursObject;
+      },
+      allEdges: function() {
+        return _.flatten(_.map(this.a._edges, function(edgeArray) {
+          var e, _i, _len, _results;
+          _results = [];
+          for (_i = 0, _len = edgeArray.length; _i < _len; _i++) {
+            e = edgeArray[_i];
+            _results.push(e);
+          }
+          return _results;
+        }));
+      },
+      allNodes: function(type) {
+        if (type != null) {
+          return _.filter(this.a._nodes, function(n) {
+            if (n._nodeType === type) {
+              return n;
+            }
+          });
+        } else {
+          return _.map(this.a._nodes, function(n) {
+            return n;
+          });
+        }
+      },
+      getNodes: function() {
+        var a, id, ids;
+        id = arguments[0], ids = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        a = this.a;
+        ids.push(id);
+        return _.map(ids, function(id) {
+          return a._nodes[id];
+        });
+      },
+      getEdges: function(id, target) {
+        var a, edge_id;
+        if (id == null) {
+          id = null;
+        }
+        if (target == null) {
+          target = null;
+        }
+        a = this.a;
+        if ((id != null) && (target != null)) {
+          edge_id = "" + id + "-" + target;
+          return this.a._edges[edge_id];
+        } else if ((id != null) && (target == null)) {
+          return this.a._nodes[id]._adjacentEdges;
+        }
       }
     };
   };
@@ -340,58 +376,15 @@
     remove.prototype.nodes = function(nodeMap) {
       return _.each(nodeMap, function(n) {
         if (n._nodeType != null) {
-          _.each(n._adjacentEdges, function(adjacentEdge) {
-            var filteredLinkList, nextNode, pos, source, target, _ref;
-            _ref = adjacentEdge.split("-"), source = _ref[0], target = _ref[1], pos = _ref[2];
-            nextNode = source === n.id.toString() ? target : source;
-            _.remove(n.a._nodes[nextNode]._adjacentEdges, function(targetAdjacentEdge) {
-              var tPos, tSource, tTarget, _ref1;
-              _ref1 = targetAdjacentEdge.split("-"), tSource = _ref1[0], tTarget = _ref1[1], tPos = _ref1[2];
-              if (tTarget === n.id.toString() || tSource === n.id.toString()) {
-                return targetAdjacentEdge;
-              }
-            });
-            delete n.a._edges[source + "-" + target];
-            n.a.vis.select("#edge-" + source + "-" + target + "-" + pos).remove();
-            filteredLinkList = _.filter(alchemy.force.links(), function(link) {
-              if (link.id !== source + "-" + target) {
-                return link;
-              }
-            });
-            return alchemy.force.links(filteredLinkList);
-          });
-          delete n.a._nodes[n.id];
-          return n.a.vis.select("#node-" + n.id).remove();
+          return n.remove();
         }
       });
     };
 
     remove.prototype.edges = function(edgeMap) {
       return _.each(edgeMap, function(e) {
-        var filteredLinkList;
         if (e._edgeType != null) {
-          _.remove(e.a._nodes[e._properties.source]._adjacentEdges, function(adjacentEdge) {
-            var pos, source, target, _ref;
-            _ref = adjacentEdge.split("-"), source = _ref[0], target = _ref[1], pos = _ref[2];
-            if (target === e._properties.target.toString()) {
-              return adjacentEdge;
-            }
-          });
-          _.remove(e.a._nodes[e._properties.target]._adjacentEdges, function(adjacentEdge) {
-            var pos, source, target, _ref;
-            _ref = adjacentEdge.split("-"), source = _ref[0], target = _ref[1], pos = _ref[2];
-            if (source === e._properties.source.toString()) {
-              return adjacentEdge;
-            }
-          });
-          delete e.a._edges[e.id];
-          e.a.vis.select("#edge-" + e.id + "-" + e._index).remove();
-          filteredLinkList = _.filter(alchemy.force.links(), function(link) {
-            if (link.id !== e.id) {
-              return link;
-            }
-          });
-          return alchemy.force.links(filteredLinkList);
+          return e.remove();
         }
       });
     };
@@ -878,6 +871,7 @@
       nodeMouseOut: function(n) {
         var node;
         node = n.self;
+        a = node.a;
         if (node._state !== "hidden") {
           if (node._state !== "selected") {
             node._state = "active";
@@ -960,7 +954,7 @@
         return d.fixed = true;
       },
       nodeDragged: function(d, i) {
-        var edgeIDs, id, node, selection, _i, _len, _results;
+        var edges, node;
         a = d.self.a;
         d.x += d3.event.dx;
         d.y += d3.event.dy;
@@ -968,14 +962,12 @@
         d.py += d3.event.dy;
         node = d3.select(this);
         node.attr("transform", "translate(" + d.x + ", " + d.y + ")");
-        edgeIDs = d.self._adjacentEdges;
-        _results = [];
-        for (_i = 0, _len = edgeIDs.length; _i < _len; _i++) {
-          id = edgeIDs[_i];
-          selection = a.vis.select("#edge-" + id);
-          _results.push(a._drawEdges.updateEdge(selection.data()[0]));
-        }
-        return _results;
+        edges = d.self._adjacentEdges;
+        return _.each(edges, function(edge) {
+          var selection;
+          selection = a.vis.select("#edge-" + edge.id + "-" + edge._index);
+          return a._drawEdges.updateEdge(selection.data()[0]);
+        });
       },
       nodeDragended: function(d, i) {
         a = d.self.a;
@@ -1337,14 +1329,11 @@
       },
       nodeStats: function() {
         var activeNodes, allNodes, caption, inactiveNodes, nodeData, nodeGraph, nodeKeys, nodeNum, nodeStats, nodeType, nodeTypes, _i, _len, _ref;
-        nodeStats = '';
         nodeData = [];
         allNodes = a.get.allNodes().length;
         activeNodes = a.get.activeNodes().length;
         inactiveNodes = allNodes - activeNodes;
-        nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>" + allNodes + "</span></li>";
-        nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>" + activeNodes + "</span></li>";
-        nodeStats += "<li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>" + inactiveNodes + "</span></li>";
+        nodeStats = "<li class = 'list-group-item gen_node_stat'>Number of nodes: <span class='badge'>" + allNodes + "</span></li> <li class = 'list-group-item gen_node_stat'>Number of active nodes: <span class='badge'>" + activeNodes + "</span></li> <li class = 'list-group-item gen_node_stat'>Number of inactive nodes: <span class='badge'>" + inactiveNodes + "</span></li></br>";
         if (a.conf.nodeTypes) {
           nodeKeys = Object.keys(a.conf.nodeTypes);
           nodeTypes = '';
@@ -1364,28 +1353,35 @@
         return this.insertSVG("node", nodeData);
       },
       edgeStats: function() {
-        var activeEdges, allEdges, caption, edgeData, edgeGraph, edgeNum, edgeType, inactiveEdges, _i, _len, _ref;
-        edgeData = null;
+        var activeEdges, allEdges, caption, edgeData, edgeGraph, edgeKeys, edgeNum, edgeStats, edgeType, edgeTypes, inactiveEdges, _i, _len;
+        edgeData = [];
         allEdges = a.get.allEdges().length;
         activeEdges = a.get.activeEdges().length;
         inactiveEdges = allEdges - activeEdges;
-        edgeGraph = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>" + allEdges + "</span></li> <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>" + activeEdges + "</span></li> <li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>" + inactiveEdges + "</span></li> <li id='edge-stats-graph' class='list-group-item'></li>";
+        edgeStats = "<li class = 'list-group-item gen_edge_stat'>Number of relationships: <span class='badge'>" + allEdges + "</span></li> <li class = 'list-group-item gen_edge_stat'>Number of active relationships: <span class='badge'>" + activeEdges + "</span></li> <li class = 'list-group-item gen_edge_stat'>Number of inactive relationships: <span class='badge'>" + inactiveEdges + "</span></li></br>";
         if (a.conf.edgeTypes) {
-          edgeData = [];
-          _ref = a.conf.edgeTypes;
-          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-            edgeType = _ref[_i];
+          edgeKeys = _.values(alchemy.conf.edgeTypes)[0];
+          edgeTypes = '';
+          for (_i = 0, _len = edgeKeys.length; _i < _len; _i++) {
+            edgeType = edgeKeys[_i];
             if (!edgeType) {
               continue;
             }
             caption = edgeType.replace('_', ' ');
-            edgeNum = a.vis.selectAll(".edge." + edgeType)[0].length;
+            edgeNum = _.filter(a.get.allEdges(), function(edge) {
+              if (edge._edgeType === edgeType) {
+                return edge;
+              }
+            }).length;
+            edgeTypes += "<li class = 'list-group-item edgeType' id='li-" + edgeType + "' name = " + caption + ">Number of <strong style='text-transform: uppercase'>" + caption + "</strong> relationships: <span class='badge'>" + edgeNum + "</span></li>";
             edgeData.push(["" + caption, edgeNum]);
           }
+          edgeStats += edgeTypes;
         }
-        a.dash.select('#rel-stats').html(edgeGraph);
-        a.stats.insertSVG("edge", edgeData);
-        return edgeData;
+        edgeGraph = "<li id='node-stats-graph' class='list-group-item'></li>";
+        edgeStats += edgeGraph;
+        a.dash.select('#rel-stats').html(edgeStats);
+        return this.insertSVG("edge", edgeData);
       },
       insertSVG: function(element, data) {
         var arc, arcs, color, height, pie, radius, svg, width;
@@ -1423,10 +1419,10 @@
       },
       update: function() {
         if (a.conf.nodeStats) {
-          a.stats.nodeStats();
+          this.nodeStats();
         }
         if (a.conf.edgeStats) {
-          return a.stats.edgeStats();
+          return this.edgeStats();
         }
       }
     };
@@ -1617,7 +1613,7 @@
           return edge.select('text').each(function(d) {
             var captionAngle, dx, edgeWalk;
             edgeWalk = utils.edgeWalk(d);
-            captionAngle = utils.captionAngle(d);
+            captionAngle = utils.captionAngle(edgeWalk.edgeAngle);
             if (captionAngle === 180) {
               dx = -edgeWalk.edgeLength / 2;
             } else {
@@ -1692,6 +1688,12 @@
             return conf.rootNodeRadius / 2;
           } else {
             return conf.nodeRadius * 2 - 5;
+          }
+        }).attr('visibility', function(d) {
+          if (nodes[d.id]._state === "hidden") {
+            return "hidden";
+          } else {
+            return "visible";
           }
         }).html(function(d) {
           return utils.nodeText(d);
@@ -1918,6 +1920,7 @@
         return Math.atan2(height, width) / Math.PI * 180;
       },
       captionAngle: function(angle) {
+        debugger;
         if (angle < -90 || angle > 90) {
           return 180;
         } else {
@@ -1965,6 +1968,7 @@
             colour = colours[colourIndex];
             return "" + colour;
           })(d);
+          d.stroke = d.fill;
         }
         return d;
       },
@@ -2533,13 +2537,13 @@
           _ref1 = node_data.adjacentEdges;
           for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
             edge = _ref1[_j];
-            alchemy._edges = _.omit(alchemy._edges, "" + edge);
+            alchemy._edges = _.omit(alchemy._edges, "" + edge.id + "-" + edge._index);
             alchemy.edge = alchemy.edge.data(_.map(alchemy._edges, function(e) {
               return e._d3;
             }), function(e) {
               return e.id;
             });
-            alchemy.vis.select("#edge-" + edge).remove();
+            alchemy.vis.select("#edge-" + edge.id + "-" + edge._index).remove();
           }
           alchemy._nodes = _.omit(alchemy._nodes, "" + nodeID);
           alchemy.node = alchemy.node.data(_.map(alchemy._nodes, function(n) {
@@ -2635,8 +2639,8 @@
           'self': this
         }, this.a.svgStyles.edge.populate(this));
         this._setCaption(edge, conf);
-        this.a._nodes["" + edge.source]._addEdge("" + this.id + "-" + this._index);
-        this.a._nodes["" + edge.target]._addEdge("" + this.id + "-" + this._index);
+        this.a._nodes["" + edge.source]._addEdge(this);
+        this.a._nodes["" + edge.target]._addEdge(this);
       }
 
       Edge.prototype._setD3Properties = function(props) {
@@ -2804,6 +2808,18 @@
         return sourceNode._state === "active" && targetNode._state === "active";
       };
 
+      Edge.prototype.remove = function() {
+        var filteredLinkList;
+        delete this.a._edges[this.id];
+        this.a.vis.select("#edge-" + this.id + "-" + this._index).remove();
+        filteredLinkList = _.filter(this.a.force.links(), function(link) {
+          if (link.id !== this.id) {
+            return link;
+          }
+        });
+        return this.a.force.links(filteredLinkList);
+      };
+
       return Edge;
 
     })();
@@ -2857,8 +2873,8 @@
         return _.merge(this._d3, props);
       };
 
-      Node.prototype._addEdge = function(edgeDomID) {
-        return this._adjacentEdges = _.union(this._adjacentEdges, [edgeDomID]);
+      Node.prototype._addEdge = function(edge) {
+        return this._adjacentEdges = _.union(this._adjacentEdges, [edge]);
       };
 
       Node.prototype.getProperties = function() {
@@ -2926,10 +2942,9 @@
         a = this.a;
         this._state = this._state === "hidden" ? "active" : "hidden";
         this.setStyles();
-        return _.each(this._adjacentEdges, function(id) {
-          var e, pos, source, sourceState, target, targetState, _ref;
-          _ref = id.split("-"), source = _ref[0], target = _ref[1], pos = _ref[2];
-          e = a._edges["" + source + "-" + target][pos];
+        return _.each(this._adjacentEdges, function(e) {
+          var source, sourceState, target, targetState, _ref;
+          _ref = e.id.split("-"), source = _ref[0], target = _ref[1];
           sourceState = a._nodes["" + source]._state;
           targetState = a._nodes["" + target]._state;
           if (e._state === "hidden" && (sourceState === "active" && targetState === "active")) {
@@ -2942,6 +2957,14 @@
 
       Node.prototype.outDegree = function() {
         return this._adjacentEdges.length;
+      };
+
+      Node.prototype.remove = function() {
+        _.each(this._adjacentEdges, function(adjacentEdge) {
+          return adjacentEdge.remove();
+        });
+        delete this.a._nodes[this.id];
+        return this.a.vis.select("#node-" + this.id).remove();
       };
 
       return Node;
