@@ -80,6 +80,13 @@ title: Anotated Source
             # is typically 1.
             @_edges = {}
 
+            # Bind legacy API methods to earlier location
+            # These will be deprecated on release-1.0
+            @getNodes = @get.getNodes
+            @getEdges = @get.getEdges
+            @allNodes = @get.allNodes
+            @allEdges = @get.allEdges
+
             @begin userConf if userConf
 
         begin: (userConf) ->

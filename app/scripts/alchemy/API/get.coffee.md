@@ -21,7 +21,7 @@
     Alchemy::get = (instance)->
         a: instance
         _el: []
-
+        _elType: null
         _makeChain: (inp)->
             returnedGet = @
             returnedGet.__proto__ = [].__proto__
@@ -35,13 +35,10 @@
                         allIDs = _.map arguments, (arg) -> String(arg)
                         a = @.a
                         nodeList = do (a) ->
-                            if id is "all-nodes"
-                                _.map a._nodes, (n) -> n
-                            else
-                                # All passed ids with artificially enforced type safety
-                                _.filter a._nodes, (val, key)->
-                                    val if _.contains allIDs, key
-
+                            # All passed ids with artificially enforced type safety
+                            _.filter a._nodes, (val, key)->
+                                val if _.contains allIDs, key
+                    @_elType = "node"
                     @_el = nodeList
                     @_makeChain nodeList
 
@@ -51,15 +48,21 @@
                 allIDs = _.map arguments, (arg) -> String(arg)
                 a = @.a
                 edgeList = do (a) ->
-                    if id is "all-edges"
-                        _.flatten _.map a._edges, (n) -> n
-                    else
-                        # All passed ids with artificially enforced type safety
-                        _.flatten _.filter a._edges, (val, key)->
-                            val if _.contains allIDs, key
-
+                    # All passed ids with artificially enforced type safety
+                    _.flatten _.filter a._edges, (val, key)->
+                        val if _.contains allIDs, key
+            @_elType = "edge"
             @_el = edgeList
             @_makeChain edgeList
+
+        all: ->
+            a = @a
+            elType = @_elType
+            @_el = do (elType)->
+                switch elType
+                    when "node" then return _.values a._nodes
+                    when "edge" then return _.flatten _.map a._edges, (e)-> e
+            @_makeChain @_el
 
         elState: (state) ->
             elList = _.filter @_el, (e)-> e._state is state
@@ -73,17 +76,8 @@
             @_el = elList
             @_makeChain elList
 
-        allNodes: (type) ->
-            if type?
-                _.filter @a._nodes, (n) -> n if n._nodeType is type
-            else
-                _.map @a._nodes, (n) -> n
-
         activeNodes: () ->
             _.filter @a._nodes, (node) -> node if node._state is "active"
-
-        allEdges: ->
-            _.flatten _.map(@a._edges, (edgeArray) -> e for e in edgeArray)
 
         activeEdges: ->
             _.filter @a.get.allEdges(), (edge) -> edge if edge._state is "active"
@@ -104,3 +98,26 @@
             _.each clusterMap, (key, value) ->
                clusterColoursObject[value] = @a.conf.clusterColours[key % @a.conf.clusterColours.length]
             clusterColoursObject
+
+        ###### ALL METHODS BELOW THIS POINT WILL BE DEPRECATED UPON 1.0 ######
+        allEdges: ->
+            _.flatten _.map(@a._edges, (edgeArray) -> e for e in edgeArray)
+
+        allNodes: (type) ->
+            if type?
+                _.filter @a._nodes, (n) -> n if n._nodeType is type
+            else
+                _.map @a._nodes, (n) -> n
+
+        getNodes: (id, ids...)->
+            a = @a
+            ids.push(id)
+            _.map ids, (id)-> a._nodes[id]
+
+        getEdges: (id=null, target=null)->
+            a = @a
+            if id? and target?
+                edge_id = "#{id}-#{target}"
+                @a._edges[edge_id]
+            else if id? and not target?
+                @a._nodes[id]._adjacentEdges
