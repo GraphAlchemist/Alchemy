@@ -10,6 +10,16 @@ module.exports = (grunt) ->
   require("time-grunt") grunt
   pkg = grunt.file.readJSON('./package.json')
 
+  # set up sauce labs credentials 
+  if grunt.file.isFile('./sauce.yml')
+    s3Config = grunt.file.readYAML('./sauce.yml')
+    sauce_user_name = s3Config.SAUCE_USERNAME
+    sauce_access_key = s3Config.SAUCE_ACCESS_KEY
+  else
+    sauce_user_name = ''
+    sauce_access_key = ''
+
+  # set up s3 credentials
   if grunt.file.isFile('./s3.yml')
     s3Config = grunt.file.readYAML('./s3.yml')
     key_id = s3Config.AWS_ACCESS_KEY_ID
@@ -75,7 +85,7 @@ module.exports = (grunt) ->
 
       coffeeTest:
         files: ["test/spec/{,*/}*.{coffee,litcoffee,coffee.md}"]
-        tasks: ["coffee:test", "test:watch"]
+        tasks: ["coffee:test", "test:watch"], 
 
       gruntfile:
         files: ["Gruntfile.coffee"]
@@ -145,12 +155,47 @@ module.exports = (grunt) ->
 
 
     # Mocha testing framework configuration options
-    mocha:
-      all:
-        options:
-          run: true
-          urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
+    # mocha:
+    #   all:
+    #     options:
+    #       run: true
+    #       urls: ["http://<%= connect.test.options.hostname %>:<%= connect.test.options.port %>/index.html"]
 
+    # Test settings
+    karma:
+      options:
+        configFile: "test/karma.conf.coffee"
+        sauceLabs:
+          startConnect: true
+        reporters: ['saucelabs']
+        customLaunchers:
+          sl_safari_mac:
+            base: 'SauceLabs'
+            browserName: 'safari'
+          sl_chrome_mac:
+            base: 'SauceLabs'
+            browserName: 'chrome'
+          sl_ie_windows:
+            base: 'SauceLabs'
+            browserName: 'internet explorer'
+          sl_firefox:
+            base: 'SauceLabs'
+            browserName: 'firefox'
+      travis:
+        singleRun: true
+        browsers: ['PhantomJS', 'sl_safari_mac', 'sl_chrome_mac', 'sl_firefox']#, 'sl_ie_windows']
+      sauce:
+        singleRun: true
+        browsers: ['PhantomJS', 'sl_safari_mac', 'sl_chrome_mac', 'sl_firefox']#'sl_ie_windows']
+      local:
+        singleRun: false
+        browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari', 'sl_ie_windows']
+      pullRequest:
+        singleRun: true
+        browsers: ['PhantomJS', 'Firefox']
+        # sauceLabs: []
+        # customLaunchers: []
+        # reporters: []
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -491,10 +536,17 @@ module.exports = (grunt) ->
 
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
-    if target is "keepalive"
-      grunt.task.run ["connect:test:keepalive", "mocha"]
-    else
-      grunt.task.run ["connect:test", "mocha"]
+    if not target then target = "keepalive"
+    switch target
+      # for debugging tasks locally
+      when "keepalive"
+        grunt.task.run ["connect:test", "karma:local"]
+      when "dist"
+        grunt.task.run ["connect:test", "karma:sauce"]
+      when "pr"
+        grunt.task.run ["connect:test", "karma:pullRequest"]
+      when "travis"
+        grunt.task.run ["connect:test", "karma:travis"]
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",
@@ -505,10 +557,12 @@ module.exports = (grunt) ->
                                "uglify:buildAlchemy"]
 
   releaseFlag = grunt.option('release')
-
+  pullRequest = grunt.option('pr') 
+  travis = grunt.option('travis')                         
   grunt.registerTask "default",
+    # release alchemy and build docs
     if releaseFlag
-      ["test",
+      ["test:dist",
        "build",
        "string-replace", # apply version to alchemy.js
        "bumpBower", # bump bower version
@@ -520,6 +574,15 @@ module.exports = (grunt) ->
        "s3:production" # publish files to s3 for cdn
        "shell:docs", # publish docs
       ]
+    # Travis-ci on a commit to the main repo branches
+    else if travis
+      ["test:travis",
+       "build"]
+    # Travis-ci on a pull request
+    else if pullRequest
+      ["test:pr",
+       "build"]
+    # test with sauce and build scripts
     else
-      ["test",
+      ["test:dist",
        "build"]

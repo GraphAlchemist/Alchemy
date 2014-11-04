@@ -37,7 +37,8 @@
     "karma": "~0.12.23",
     "karma-jasmine": "~0.1.5",
     "grunt-gh-pages": "~0.9.1",
-    "grunt-jekyll": "^0.4.2"
+    "grunt-jekyll": "^0.4.2",
+    "grunt-string-replace": "^1.0.0"
   },
   "engines": {
     "node": ">=0.10.0"

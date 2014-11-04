@@ -3,6 +3,8 @@ Alchemy
  
 [![Build Status](https://travis-ci.org/GraphAlchemist/Alchemy.svg?branch=master)](https://travis-ci.org/GraphAlchemist/Alchemy)
 
+[![Sauce Test Status](https://saucelabs.com/browser-matrix/hdngr.svg)](https://saucelabs.com/u/hdngr)
+
 Alchemy.js is a graph drawing application built in [d3](http://d3js.org/).
 
 Alchemy.js was built so that developers could easily get up and running with Graph visualization applications, and not much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.

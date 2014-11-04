@@ -85,12 +85,12 @@ angular.module('navigation', ['ui.bootstrap'])
 angular.module('alchemyExamples', ['ngRoute'])
     .controller 'examplesCtrl', ($scope, $location, $routeParams) ->
         showExample = (name) ->
+            _.forEach $scope.examples, (example) -> example.state = undefined
             e = $scope.examples[name]
             e.state = 'active'
             $scope.current_example = e
-            $location.path("/examples/#{name}")
-            if angular.element("#removethis")?
-                angular.element("#removethis").remove()
+            if angular.element("#dive-in")?
+                angular.element("#dive-in").remove()
         
         $scope.init = ->
             $scope.examples =
@@ -123,10 +123,8 @@ angular.module('alchemyExamples', ['ngRoute'])
 
             if 'exampleName' of $routeParams
                 showExample($routeParams.exampleName)
-
             return
 
-        # should probably be moved to a directive
         $scope.showExample = (name) ->
             showExample(name)
             return

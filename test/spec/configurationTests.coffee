@@ -1,8 +1,17 @@
 do ->
 
     before (done) ->
+        # There must be an easier way to do this
+        # https://github.com/billtrik/karma-fixture
+        # we are accessing the 'fixture' plugin's internals here:
+        contrib_string = window.__html__['app/sample_data/contrib.json']
+        window.contrib_json = JSON.parse(contrib_string)
+        # again, not the correct way to create a 'fixture',
+        # and should be fixed in favor of a more robust implementation
+        d3.select('body').append('div').attr('id', 'alchemy')
+        
         alchemy = new Alchemy
-            dataSource : "sample_data/contrib.json",
+            dataSource : contrib_json,
             graphWidth : () -> 200,
             graphHeight: () -> 200,
             alpha      : 0.23,
@@ -20,7 +29,7 @@ do ->
 
         describe "dataSource", ->
             it "should specify a dataset, default null, only required user input", ->
-                alchemy.conf.dataSource.should.equal "sample_data/contrib.json"         
+                alchemy.conf.dataSource.should.deep.equal contrib_json
 
         describe "divSelector", ->
             it "should specify a div on page for each instance, default '#alchemy'", ->

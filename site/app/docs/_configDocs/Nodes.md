@@ -32,6 +32,7 @@ caption: function(node) {
         },
             ...]
 ~~~
+
 ##### nodeStyle
 
 [`nodeType`: { `list of css style values` }] default nodeType:`all`

@@ -50,8 +50,9 @@ title: Anotated Source
                 Node: @Node @
                 Edge: @Edge @
 
-            @utils        = warnings: warnings
+            @utils        = warnings: new warnings @
             @filters      = @filters @
+            @exports      = @exports @
             @visControls  = {}
             @styles       = {}
             @editor       = {}
@@ -67,7 +68,7 @@ title: Anotated Source
             @interactions   = @interactions @
             @search         = @search @
 
-	    # alchemy._nodes stores a node object as the value with the unique
+	        # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
             @_nodes = {}
 
@@ -78,6 +79,13 @@ title: Anotated Source
             # The value is an array of edge 'packets', where the length of the array
             # is typically 1.
             @_edges = {}
+
+            # Bind legacy API methods to earlier location
+            # These will be deprecated on release-1.0
+            @getNodes = @get.getNodes
+            @getEdges = @get.getEdges
+            @allNodes = @get.allNodes
+            @allEdges = @get.allEdges
 
             @begin userConf if userConf
 
@@ -108,19 +116,22 @@ title: Anotated Source
         # All alchemy instances in order of creation.
         instances: []
 
+        getInst: (element)->
+            #Edge or Node
+            if element.a?
+                element.a
+
+            #_d3 packet
+            else if element.self?
+                element.self.a
+
+            #SVG element
+            else
+                Alchemy::instances[d3.select(element).attr("alchInst")]
+
+
     root = exports ? this
     root.Alchemy = Alchemy
 
-    # Get the instance of alchemy that an element belongs to
-    root._getAlchInst = (element)->
-        #Edge or Node
-        if element.a?
-            element.a
-
-        #_d3 packet
-        else if element.self?
-            element.self.a
-
-        #SVG element
-        else
-            Alchemy::instances[d3.select(element).attr("alchInst")]
+    #Backwards compatible alchemy.begin() for single instances
+    root.alchemy = begin: (config)-> root.alchemy = new Alchemy(config)

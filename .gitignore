@@ -12,3 +12,4 @@ site/dist
 .grunt
 archive
 s3.yml
+sauce.yml

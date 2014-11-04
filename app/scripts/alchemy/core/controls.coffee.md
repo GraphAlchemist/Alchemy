@@ -46,6 +46,7 @@
                 a.controlDash.filters()
                 a.controlDash.stats()
                 a.controlDash.clustering()
+                a.controlDash.exports()
 
         search: ->
             if a.conf.search
@@ -60,7 +61,7 @@
                             </div> 
                               """
                 a.search.init()
-        
+ 
         zoomCtrl: ->
             if a.conf.zoomControls 
                 a.dash
@@ -125,6 +126,26 @@
 
                 a.stats.init()
 
+        exports: ->
+            if a.conf.exportSVG
+                exports_html = """
+                        <div id="exports-header" data-toggle="collapse" data-target="#all-exports" style="padding:10px;">
+                            <h3>
+                                Exports
+                            </h3>
+                            <span class="fa fa-caret-right fa-2x"></span>
+                        </div>
+                        <div id="all-exports" class="collapse"></div>
+                        """
+                a.dash.select "#control-dash"
+                 .append "div"
+                 .attr "id", "exports"
+                 .attr "style", "padding: 0.5em 1em; border-bottom: thin dashed #E89619; color: white;"
+                 .html exports_html
+                 .select "#exports-header"
+
+                a.exports.init()
+
         clustering: ->
             if a.conf.clusterControl
                 clusterControl_html = """
@@ -150,4 +171,5 @@
             conf.showEditor    || conf.captionToggle  || conf.toggleRootNodes ||
             conf.removeElement || conf.clusterControl || conf.nodeStats       ||
             conf.edgeStats     || conf.edgeFilters    || conf.nodeFilters     || 
-            conf.edgesToggle   || conf.nodesToggle    || conf.search
+            conf.edgesToggle   || conf.nodesToggle    || conf.search          ||
+            conf.exportSVG

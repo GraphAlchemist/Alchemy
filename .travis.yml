@@ -1,10 +1,20 @@
 language: node_js
 node_js:
-  - "0.10"
+    - "0.10"
+before_install:
+# If the build is a pull request set up Mozilla for testing
+# If it is not a pull request, Travis will have access to security credentials for sauce labs 
+    - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && echo "set up sauce labs tests" || export DISPLAY=:99.0'
+    - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && echo "set up sauce labs tests" || sh -e /etc/init.d/xvfb start'
 before_script:
     - gem update --system
     - gem install compass
 script:
     - bower install
     - bower install ./test
-    - grunt
+    - '[ "${TRAVIS_PULL_REQUEST}" = "false" ] && grunt -travis || grunt -pr'
+env:
+  global:
+    - secure: AehzFi76FXA6uhXzrBd8taxqguT8CX1SfnYaK4e2NhHMCj2eyD+54SABFA2FWfc6ly90CTUkgu8t90QwwsefJGqowcPpVm0orLEhl13JXHO+iLKCWTMEOK42wA/LBkbbrQ2XzI60Heo4E9N/tRcYvq7ejGLIjgYa58tTEPRRyjI=
+    - secure: EQJdvC1Xy0UARklysrCpsPVYHHWU1WJjVSM8+RMxGvTi9YCyx8MvTU7DfumHOoE7BFz8nN51/pcPAJJ7qfYXMYZpTDa9pQfYszTseHoQhqH6rJHtEjCv+QCpHjxHyPd6twwi1zPkv6ljBP62XV++PVF7WsXw0ywEgbqHmA5LqcI=
+
