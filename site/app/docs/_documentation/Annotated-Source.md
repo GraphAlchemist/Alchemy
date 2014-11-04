@@ -971,7 +971,7 @@ title: Anotated Source
                     if not @_zoomBehavior?
                         @_zoomBehavior = d3.behavior.zoom()
                     @_zoomBehavior.scaleExtent extent
-                                  .on "zoom", (d)->
+                                  .on "zoom", (d) ->
                                     a = Alchemy::getInst this
                                     a.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                               scale(#{ d3.event.scale })" )
@@ -1311,7 +1311,7 @@ title: Anotated Source
                     .attr "pointer-events", "all"
                     .attr "shape-rendering", "optimizeSpeed"
                     .attr "style", "background:#{conf.backgroundColour};"
-                    .attr "alchInst", (d)-> Alchemy::instances.length
+                    .attr "alchInst", (d) -> Alchemy::instances.length - 1
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null
@@ -2196,7 +2196,6 @@ for the curve of the node.
             Math.atan2(height, width) / Math.PI * 180
         
         captionAngle: (angle) ->
-            debugger
             if angle < -90 or angle > 90
                 180
             else
