@@ -193,9 +193,9 @@ module.exports = (grunt) ->
       pullRequest:
         singleRun: true
         browsers: ['PhantomJS', 'Firefox']
-        sauceLabs: false
-        customLaunchers: false
-        reporters: false
+        # sauceLabs: []
+        # customLaunchers: []
+        # reporters: []
 
     # Compiles CoffeeScript to JavaScript
     coffee:
@@ -536,6 +536,7 @@ module.exports = (grunt) ->
 
   grunt.registerTask "test", (target) ->
     grunt.task.run ["clean:server", "copy:coffee", "concurrent:test", "autoprefixer"]  if target isnt "watch"
+    if not target then target = "keepalive"
     switch target
       # for debugging tasks locally
       when "keepalive"
