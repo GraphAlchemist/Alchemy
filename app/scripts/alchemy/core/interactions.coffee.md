@@ -23,7 +23,7 @@
             d3.event.stopPropagation()
             edge = d.self
             if edge._state != "hidden"
-                edge._state = do -> 
+                edge._state = do ->
                     return "active" if edge._state is "selected"
                     "selected"
                 edge.setStyles()
@@ -75,7 +75,7 @@
             node = n.self
 
             if node._state != "hidden"
-                node._state = do -> 
+                node._state = do ->
                     return "active" if node._state is "selected"
                     "selected"
                 node.setStyles()
@@ -140,9 +140,9 @@
 
             node = d3.select @
             node.attr "transform", "translate(#{d.x}, #{d.y})"
-            edgeIDs = d.self._adjacentEdges
-            for id in edgeIDs
-                selection = a.vis.select "#edge-#{id}"
+            edges = d.self._adjacentEdges
+            _.each edges, (edge) ->
+                selection = a.vis.select "#edge-#{edge.id}-#{edge._index}"
                 a._drawEdges.updateEdge selection.data()[0]
 
         nodeDragended: (d, i) ->
@@ -160,16 +160,16 @@
             if d3.event?.defaultPrevented then return
             if a.conf.showEditor is true
                 a.modifyElements.nodeEditorClear()
-             
+
             _.each a._nodes, (n)->
                 n._state = "active"
                 n.setStyles()
-            
+
             _.each a._edges, (edge)->
                 _.each edge, (e)->
                     e._state = "active"
                     e.setStyles()
-            
+
             # call user-specified deselect function if specified
             if a.conf.deselectAll and typeof(a.conf.deselectAll is 'function')
                 a.conf.deselectAll()
