@@ -10,7 +10,7 @@
         userConf = null;
       }
       this.a = this;
-      this.version = "0.3.1";
+      this.version = "0.4.0";
       this.get = new this.get(this);
       this.remove = new this.remove(this);
       this.create = new this.create(this);
