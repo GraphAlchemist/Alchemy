@@ -23,9 +23,14 @@
             node.selectAll "text"
                 .attr 'dy', (d) ->
                     if nodes[d.id].getProperties().root
-                        conf.rootNodeRadius / 2 
-                    else 
+                        conf.rootNodeRadius / 2
+                    else
                         conf.nodeRadius * 2 - 5
+                .attr 'visibility', (d) ->
+                    if nodes[d.id]._state is "hidden"
+                        "hidden"
+                    else
+                        "visible"
                 .html (d) -> utils.nodeText(d)
                 .style "display", (d)->
                     return "block" if conf.nodeCaptionsOnByDefault
@@ -69,7 +74,7 @@
                     .on 'dblclick', (d)-> coreInteractions.nodeDoubleClick(d)
                     .on 'click', (d)-> editorInteractions.nodeClick(d)
 
-            else 
+            else
                 node.on 'mouseup', null
                     .on 'mouseover', (d)-> coreInteractions.nodeMouseOver(d)
                     .on 'mouseout', (d)-> coreInteractions.nodeMouseOut(d)
