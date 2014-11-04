@@ -170,6 +170,7 @@ for the curve of the node.
             Math.atan2(height, width) / Math.PI * 180
         
         captionAngle: (angle) ->
+            debugger
             if angle < -90 or angle > 90
                 180
             else

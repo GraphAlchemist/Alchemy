@@ -125,7 +125,7 @@
                 edge.select 'text'
                     .each (d) ->
                         edgeWalk = utils.edgeWalk d
-                        captionAngle = utils.captionAngle(d)
+                        captionAngle = utils.captionAngle(edgeWalk.edgeAngle)
                         if captionAngle is 180
                             dx = - edgeWalk.edgeLength / 2
                         else
