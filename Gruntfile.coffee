@@ -193,9 +193,9 @@ module.exports = (grunt) ->
       pullRequest:
         singleRun: true
         browsers: ['PhantomJS', 'Firefox']
-        sauceLabs: false
-        customLaunchers: false
-        reporters: false
+        # sauceLabs: []
+        # customLaunchers: []
+        # reporters: []
 
     # Compiles CoffeeScript to JavaScript
     coffee:
