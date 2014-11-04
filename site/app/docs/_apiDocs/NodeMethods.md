@@ -30,7 +30,9 @@ node.getProperties(['firstName', 'lastName', 'age']);
 <!--  -->
 
 `node.setProperty(['property', 'value']|[Object])`<br>
-Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  For example:
+Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  
+
+For example:
 
 ~~~ javascript
 // Grab the node with id 1
@@ -49,7 +51,9 @@ node.setProperty({
 <!--  -->
 
 `node.removeProperty('property'[,'more_properties'])`<br>
-Remove one or more properties from a given node.
+Remove one or more properties from a given node.  This method removes the entire property key value from the node.  Use the [node.setProperty](#nodesetproperty) method to change a property.
+
+For Example:
 
 ~~~ javascript
 // Grab the node with id 1
@@ -84,3 +88,4 @@ var new_styles = {
 };
 some_node.setStyle(new_styles);
 ~~~
+_______
