@@ -5,24 +5,25 @@ title: Graph Styling
 
 # Graph Styling: Overview
 
-Alchemy.js uses a combination of the GraphJSON exposed to the app and the configurations defined for styling. This makes it intuitive to style the graph visualization with css like you would style any other svg.  However, there are a few styles that have to be assigned dynamically via JavaScript and the Alchemy configurations.
-
-## Alchemy.conf properties that affect Graph Styling
+Alchemy.js uses simple and intuitive configuration options to define graph styling.
 
 Some of the different ways the graph is *styled* in [alchemy.conf](#Configuration): 
 
-  * [nodeColor](#nodecolor)
-  * [nodeRadius](#noderadius)
+## Alchemy.conf properties that affect Graph Styling
+
+  * [nodeStyle](#nodeStyle)
+  * [edgeStyle](#edgeStyle)
   * [rootNodeRadius](#rootnoderadius)
   * [graphHeight](#graphheight)
   * [graphWidth](#graphwidth)
   * [clusterColors](#clustercolors)
 
-CSS can be used to style the graph in tandem with [nodeTypes](#nodetypes) and [edgeTypes](#edgetypes).
+CSS can be used to style the svg elements on the graph in tandem with [nodeStyle](#nodeStyle) and [edgeStyle](#edgeStyle), though this is usually unnecessary.
+The `nodeStyle` and `edgeStyle` keys include options to base styling around both data and user interactions, and as such are more more powerful, flexible, and dynamic.
 
 ## Styling the graph using node and edge types
 
-As always, check out the [examples gallery](/#/examples) for full examples.  Below is a short example to give you an idea of the possibilities.
+All forms of styling can be assigned based on [nodeType](#nodetype) and [edgeType](#edgetype) which are defined in your configuration. Below is a short example to give you an idea of the possibilities. As always, check out the [examples gallery](/#/examples) for full examples.
 
 
 ## Sample Data
@@ -120,12 +121,40 @@ var conf = {
     "nodeTypes": {"role": ["Maintainer",
                            "Contributor",
                            "project"]},
-    "edgeTypes": "caption"
+    "edgeTypes": {"caption": ["Maintains",
+                              "Contributes"]},
+    "nodeStyle": {
+        "project": {
+            color: "#00ff0e",
+        },
+        "Maintainer":{
+            color: "#00ff0e",
+            borderColor: "#00ffda"
+        },
+        "Contributor": {
+            color: "#ff7921",
+            borderColor: "#4f07ff"
+        }
+    },
+    "edgeStyle": {
+        "Maintains": {
+            color: "#00fffa",
+            width: 5
+        },
+        "contributes": {
+            color: "#ff00f3",
+            borderWidth: 10
+        }
+    }
+
 };
 alchemy.begin(conf)
 ~~~
 
-Now the nodes and edges receive classes that correspond to the data. You can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:
+![Wild Graph Styles](img/graphstyling2.png)
+
+##Styling with CSS
+Styling through CSS tends to be inflexible, as it's not related to the data in any way.  However, some people may want to use an obscure feature offered by SVG/CSS, and we've made sure that that is easy to do. The svg elements of the nodes and edges receive classes that correspond to the types defined in the configuration options `edgeTypes` and `nodeTypes`. To create the same graph with css you can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:
 
 ~~~ css
         /* Nodes */
@@ -173,6 +202,6 @@ Now the nodes and edges receive classes that correspond to the data. You can ass
         }
 ~~~
 
-![Wild Graph Styles](img/graphstyling2.png)
+
 
 ____
