@@ -54,7 +54,7 @@ alchemy.begin(config);
 &lt;/body&gt;
 &lt;/html&gt;
   </pre> </div> <div class="row example-code"> <h3 class="filename">graphJSON</h3> <pre class="prettyprint lang-js"> 
-  </pre> </div> <script type="text/javascript">$.get("data/team.json", (function(res){
-        $(".lang-js").html(JSON.stringify(res, null, '\t'));
+   </pre> </div> <script type="text/javascript">$.get("data/team.json", (function(res){
+        $(".lang-js").html(prettyPrintOne(JSON.stringify(res, null, 4)));
       })
   );</script>

@@ -111,12 +111,14 @@
 
 <p class="lead">Alchemy.js is a graph drawing application built almost entirely in <a href="http://d3js.org/">d3</a>.</p>
 
-<p class="lead">Alchemy.js was built so that developers could easily get up and running with Graph visualization applications, without much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.</p>
+<p class="lead">Alchemy.js was built so that developers could easily get up and running with graph visualization applications, without much over head.  Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.</p>
 
-<p class="lead">Additionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.</p>
+<p class="lead">Additionally, because Alchemy.js is built with <a href="http://d3js.org/">d3</a>, the core application can easily be extended with any of the other features included in <a href="http://d3js.org/">d3</a>.</p>
+<p><br /></p>
 
 <h2 id="quick-start">Quick Start</h2>
-<p>Alchemy.js requires 3 things, <strong>alchemy.css</strong>, <strong>alchemy.js</strong>, and <strong>data</strong>.  Additionally, Alchemy requires CSS, JavaScript, and font dependencies.  These dependencies with version numbers can be found in the <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/bower.json" target="_blank">bower.json file</a> on GitHub, can be loaded via the vendor.js and vendor.css files as outlined below, and are listed here:</p>
+
+<p>Alchemy.js requires three things, <strong>alchemy.css</strong>, <strong>alchemy.js</strong>, and <strong>data</strong>.  Additionally, Alchemy requires CSS, JavaScript, and font dependencies.  These dependencies with version numbers can be found in the <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/bower.json" target="_blank">bower.json file</a> on GitHub, can be loaded via the vendor.js and vendor.css files as outlined below, and are listed here:</p>
 
 <ul>
   <li><a href="http://jquery.com/">jQuery</a></li>
@@ -126,17 +128,17 @@
   <li><a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a> (for the control dash)</li>
 </ul>
 
-<p>The following are 3 different ways to get started with Alchemy.js.</p>
+<p>The following are three different ways to get started with Alchemy.js.</p>
 
-<h3 id="use-the-alchemy-cdn">Use The Alchemy CDN</h3>
+<h3 id="use-the-alchemy-content-delivery-network">Use The Alchemy Content Delivery Network</h3>
 
 <ol>
-  <li>Include the CDNs</li>
-</ol>
+  <li>
+    <p>Include the CDNs</p>
 
-<blockquote>
-  <blockquote>
-    <div><table class="CodeRay"><tr>
+    <blockquote>
+      <blockquote>
+        <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
@@ -146,19 +148,19 @@
 <span class="tag">&lt;script</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://cdn.graphalchemist.com/alchemy.min.js</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
 </pre></td>
 </tr></table>
-    </div>
-  </blockquote>
-</blockquote>
+        </div>
+      </blockquote>
+    </blockquote>
 
-<blockquote>
-  <blockquote>
-    <p><em>Note</em>: The CDNs include all vendor files.  Additionally, <strong>alchemy.js</strong>, <strong>alchemy.min.js</strong>, <strong>alchemy.css</strong>, and <strong>alchemy.min.css</strong> will always be updated with the latest release of Alchemy - <strong>using file names without versions can lead to breaking changes in your application</strong> whenever the CDN is updated.  To avoid this, simply use the version number in the file names in the <a href="http://semver.org/">sem ver</a> format - MAJOR.MINOR.PATCH.  For example:</p>
-  </blockquote>
-</blockquote>
+    <blockquote>
+      <blockquote>
+        <p><em>Note</em>: The CDNs include all vendor files.  Additionally, <strong>alchemy.js</strong>, <strong>alchemy.min.js</strong>, <strong>alchemy.css</strong>, and <strong>alchemy.min.css</strong> will always be updated with the latest release of Alchemy - <strong>using file names without versions can lead to breaking changes in your application</strong> whenever the CDN is updated.  To avoid this, simply use the version number in the file names in the <a href="http://semver.org/">sem ver</a> format - MAJOR.MINOR.PATCH.  For example:</p>
+      </blockquote>
+    </blockquote>
 
-<blockquote>
-  <blockquote>
-    <div><table class="CodeRay"><tr>
+    <blockquote>
+      <blockquote>
+        <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
@@ -168,29 +170,34 @@
      <span class="tag">&lt;script</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://cdn.graphalchemist.com/alchemy.0.2.min.js</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
 </pre></td>
 </tr></table>
-    </div>
-  </blockquote>
-</blockquote>
+        </div>
+      </blockquote>
+    </blockquote>
+  </li>
+  <li>
+    <p>Include an element with “alchemy” as the id and class**</p>
 
-<ol>
-  <li>Include an element with “alchemy” as the id and class**</li>
-</ol>
+    <blockquote>
+      <blockquote>
+        <p>The <em>alchemy class</em> is used to apply styles while the <em>alchemy id</em> is used programatically.  By default Alchemy.js looks for the <em>#alchemy</em> div but this can be overridden.  See <a href="http://localhost:9002/docs/#divselector">divSelector</a></p>
 
-<blockquote>
-  <blockquote>
-    <p>The <em>alchemy class</em> is used to apply styles while the <em>alchemy id</em> is used programatically.  By default Alchemy.js looks for the <em>#alchemy</em> div but this can be overridden.  See <a href="http://localhost:9002/docs/#divselector">divSelector</a></p>
-
-    <div><table class="CodeRay"><tr>
+        <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 </pre></td>
   <td class="code"><pre>  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">alchemy</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">alchemy</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
 </pre></td>
 </tr></table>
-    </div>
+        </div>
 
-    <p><strong>Provide Alchemy.js with a <a href="#GraphJSON">GraphJSON</a> dataSource:</strong></p>
+      </blockquote>
+    </blockquote>
+  </li>
+  <li>
+    <p>Provide Alchemy.js with a <a href="#GraphJSON">GraphJSON</a> dataSource</p>
 
-    <div><table class="CodeRay"><tr>
+    <blockquote>
+      <blockquote>
+        <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
@@ -242,10 +249,17 @@
       };
 </pre></td>
 </tr></table>
-    </div>
-    <p><strong>start Alchemy.js:</strong></p>
+        </div>
 
-    <div><table class="CodeRay"><tr>
+      </blockquote>
+    </blockquote>
+  </li>
+  <li>
+    <p>Start Alchemy.js</p>
+
+    <blockquote>
+      <blockquote>
+        <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
 <a href="#n2" name="n2">2</a>
 <a href="#n3" name="n3">3</a>
@@ -255,8 +269,16 @@
 <span class="tag">&lt;/script&gt;</span>
 </pre></td>
 </tr></table>
-    </div>
-    <p><strong>Be amazed:</strong>  <br />
+        </div>
+
+      </blockquote>
+    </blockquote>
+  </li>
+</ol>
+
+<blockquote>
+  <blockquote>
+    <p><strong>Be amazed.</strong>  <br />
 <img src="img/threenodes.png" alt="Two Nodes" /></p>
   </blockquote>
 </blockquote>
@@ -283,7 +305,8 @@
   <li><strong>Add an element with “alchemy” as the id and class</strong>    </li>
   <li><strong>Provide Alchemy.js with a graphJSON dataSource.</strong>    </li>
   <li><strong>start Alchemy.js.</strong>    </li>
-  <li><strong>Be amazed.</strong>        </li>
+  <li><strong>Be amazed.</strong><br />
+<br />  </li>
 </ul>
 
 <h3 id="install-with-bower">Install with Bower</h3>
@@ -296,6 +319,7 @@
 </pre></td>
 </tr></table>
 </div>
+<p><br /></p>
 
 <h2 id="next-steps">Next Steps</h2>
 <p>Alchemy.js relies on a flexible and open data format called <strong><a href="#GraphJSON">GraphJSON</a></strong> and can do a lot more than draw small graphs.  Alchemy.js includes a large and growing set of default configurations that can be easily overridden.  Check out the <strong><a href="#Configuration">configuration</a></strong> documentation to learn about all of the ways Alchemy.js can be configured out of the box.</p>
@@ -313,11 +337,13 @@
 
 <p>Alchemy.js is initialized using the <code>alchemy.begin(your_config)</code> where the <strong>your_config</strong> object includes any of the configurations here that you would like to override.</p>
 
-<p>The only configuration absolutely necessary is the <a href="#datasource">dataSource</a> configuration.  See the <a href="#quick-start">Quick Start</a> or <a href="#examples">Examples</a> for more examples of how to initialize Alchemy.js.</p>
+<p>The only configuration absolutely necessary is the <a href="#datasource">dataSource</a> configuration.  See <a href="#quick-start">Quick Start</a> or <a href="#examples">Examples</a> for more examples of how to initialize Alchemy.js.</p>
 
-<p>Additionally, configurations for any app are available at the alchemy.conf endpoint after the app has been initialized.</p>
+<p>Additionally, configurations for any app are available at the alchemy.conf endpoint after the app has been initialized.   </p>
 
 <section class="config-doc" id="Nodes">
+
+<p><br /></p>
 
 <h1 id="nodes">Nodes</h1>
 
@@ -362,7 +388,8 @@
 </pre></td>
 </tr></table>
 </div>
-<p>##### nodeStyle</p>
+
+<h5 id="nodestyle">nodeStyle</h5>
 
 <p>[<code>nodeType</code>: { <code>list of css style values</code> }] default nodeType:<code>all</code></p>
 
@@ -428,7 +455,7 @@
 
 <p>“selected”, “highlighted”, and “hidden” are conditional stylings based on current node state.  </p>
 
-<h5 id="nodecolour">nodeColour</h5>
+<h5 id="nodecolor">nodeColor</h5>
 
 <p>[<code>css color value</code>] default:<code>null</code>  </p>
 
@@ -450,7 +477,7 @@
 
 <p>[<code>string|function</code>] default:<code>"caption"</code>  </p>
 
-<p>This defines the text that will be displayed when a user mouses over a node element.  Similiar to the <a href="#nodecaption">alchemy.conf.nodeCaption</a> parameter, alchemy.conf.nodeMouseOver can receive a <em>string</em> or a <em>function</em>.  If it receives a string as in the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the <strong>node</strong> as an optional parameter.</p>
+<p>This defines the text that will be displayed when a user mouses over a node element.  Similiar to the <a href="#nodecaption">alchemy.conf.nodeCaption</a> parameter, alchemy.conf.nodeMouseOver can receive a <em>string</em> or a <em>function</em>.  If it receives a string as the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the <strong>node</strong> as an optional parameter.</p>
 
 <p>For instance:</p>
 
@@ -480,7 +507,7 @@
 
 <p>[<code>int|string|function</code>] default:<code>10</code>  </p>
 
-<p>If the default or a user specified integer, the value will be the pixel size of a node that indicates node size.  If the user specifies a string, that string will be the key, used to look up the nodeRadius on individual nodes in the GraphJSON.  For example, GraphJSON where nodes have the following values:</p>
+<p>If it is the default or a user specified integer, the value will be the pixel size of a node that indicates node size.  If the user specifies a string, that string will be the key, used to look up the nodeRadius on individual nodes in the GraphJSON.  For example, GraphJSON where nodes have the following values:</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -528,7 +555,7 @@
 
 <p>Passing a string will cause Alchemy.js to build and assign node types based on all possible filters from the GraphJSON.  For instance, if you assign “_type”, “category”, “foobar”, etc. Alchemy.js will look for that key on every node in the GraphJSON.  This is a convenience feature and can be costly with larger data sets.</p>
 
-<p>The better way to build node parameters is to pass an object for the <strong>nodeTypes</strong> parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For Example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the “award” and “movie” nodes: <code>{type: ["award", "movie"]}</code>.  Visit our <a href="/#/examples">examples gallery</a> for full examples using nodeTypes for filters and <a href="#Graph-Styling">styling</a>.</p>
+<p>The better way to build node parameters is to pass an object for the <strong>nodeTypes</strong> parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the “award” and “movie” nodes: <code>{type: ["award", "movie"]}</code>.  Visit our <a href="/#/examples">examples gallery</a> for full examples using nodeTypes for filters and <a href="#Graph-Styling">styling</a>.</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -608,7 +635,7 @@
 
 <p>[<code>string</code>] default:<code>"root"</code></p>
 
-<p>This is the name of key supplied in the GraphJSON that will be used to determine if a node is a root node or not.  The GraphJSON value of the supplied key is a boolean value.</p>
+<p>This is the name of the key supplied in the GraphJSON that will be used to determine if a node is a root node or not.  The GraphJSON value of the supplied key is a boolean value.</p>
 
 <h5 id="rootnoderadius-1">rootNodeRadius</h5>
 
@@ -695,7 +722,7 @@
 
 <p>“selected”, “highlighted”, and “hidden” are conditional stylings based on current edge state.  </p>
 
-<p>If <code>alchemy.conf.cluster</code> is <code>true</code> then styling is assigned by edge gradients take priority.  Read more about the <a href="#cluster"><code>cluster</code> configuration</a>.</p>
+<p>If <code>alchemy.conf.cluster</code> is <code>true</code> then styling between nodes of the same cluster will receive that cluster’s color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors. Read more about the <a href="#cluster"><code>cluster</code> configuration</a>.</p>
 
 <h5 id="edgetypes">edgeTypes</h5>
 
@@ -815,27 +842,27 @@
 
 <h5 id="graphheight">graphHeight</h5>
 
-<p>[<code>function</code>] default:<a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L20">See source.</a></p>
+<p>[<code>function</code>] default: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L20">See source.</a></p>
 
-<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen height on load.  The user can define there own custom function for graphHeight or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
+<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen height on load.  The user can define their own custom function for graphHeight or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
 
 <h5 id="graphwidth">graphWidth</h5>
 
-<p>[<code>function</code>] default:<a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L22">See source.</a></p>
+<p>[<code>function</code>] default: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L22">See source.</a></p>
 
-<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen width on load.  The user can define there own custom function for <strong>graphWidth</strong> or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
+<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen width on load.  The user can define their own custom function for graphWidth or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
 
 <h5 id="alpha">alpha</h5>
 
 <p>[<code>float</code>] default:<code>0.5</code>  </p>
 
-<p>Is a part of the d3 force layout, <code>alpha</code> sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the force layout in the <a href="https://github.com/mbostock/d3/wiki/Force-Layout#alpha">d3 docs</a>.</p>
+<p>Part of the d3 force layout. <code>alpha</code> sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the force layout in the <a href="https://github.com/mbostock/d3/wiki/Force-Layout#alpha">d3 docs</a>.</p>
 
 <h5 id="cluster">cluster</h5>
 
 <p>[<code>bool</code>] default:<code>false</code> </p>
 
-<p>Clustering nodes will have a major effect on layout and color and is one of Alchemy’s most powerful off the shelf features..  To cluster nodes, simply set cluster to <code>true</code>. Alchemy.js will expect a ‘cluster’ key for each node in the provided GraphJSON whose value is an integer.  For example: </p>
+<p>Clustering nodes will have a major effect on layout and color. This is one of Alchemy’s most powerful off the shelf features. To cluster nodes, simply set cluster to <code>true</code>. Alchemy.js will expect a ‘cluster’ key for each node in the provided GraphJSON whose value is an integer.  For example: </p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -891,7 +918,7 @@
 </tr></table>
 </div>
 
-<p>The value for cluster will be used to look up a color from <a href="#clustercolours"><code>alchemy.conf.clusterColours</code></a>.  All nodes of the same cluster will receive the same colour.  Edges between nodes of the same cluster will receive that cluster’s colour, while edges that span between two nodes in different clusters will receive an inverse gradient of the colours of the two colours.  This makes it easy to visually identify ‘boundary spanners’ in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.  For example:
+<p>The value for cluster will be used to look up a color from <a href="#clustercolors"><code>alchemy.conf.clusterColors</code></a>.  All nodes of the same cluster will receive the same color.  Edges between nodes of the same cluster will receive that cluster’s color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors.  This makes it easy to visually identify ‘boundary spanners’ in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.  For example:
 <img src="img/cluster.png" alt="cluster" />  <br />
 <!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON--></p>
 
@@ -905,7 +932,7 @@
 
 <p><code>clusterControl</code> adds a form to the control dash allowing you to specify different cluster keys.  Any property of a node in your GraphJSON can be used.</p>
 
-<h5 id="clustercolours">clusterColours</h5>
+<h5 id="clustercolors">clusterColors</h5>
 
 <p>[<code>array of css colors</code>] default:</p>
 
@@ -921,7 +948,7 @@
 </tr></table>
 </div>
 
-<p>Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the <a href="https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle">d3.shuffle</a> method.  Colours can be predictably assigned to colours by simply providing the colours in the position of the corresponding cluster.  For instance, in an array of the following colours <code>[red, green, yellow, orange]</code>, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster orange would be 3, etc.  See <a href="#cluster">cluster</a> for more information on how clustering works in Alchemy.js.</p>
+<p>Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the <a href="https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle">d3.shuffle</a> method.  Colors can be predictably assigned to colors by simply providing the colors in the position of the corresponding cluster.  For instance, in an array of the following colors <code>[red, green, yellow, orange]</code>, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster 3 would be orange, etc.  See <a href="#cluster">cluster</a> for more information on how clustering works in Alchemy.js.</p>
 
 <h5 id="collisiondetection">collisionDetection</h5>
 
@@ -933,13 +960,13 @@
 
 <p>[<code>bool</code>] default:<code>true</code> </p>
 
-<p>By default that force layout does not continue after initial layout is performed.  Setting <strong>forceLocked</strong> to <code>false</code> will allow the force layout to run on node drag, click, and other interactions.</p>
+<p>By default the force layout does not continue after initial layout is performed.  Setting forceLocked to <code>false</code> will allow the force layout to run on node drag, click, and other interactions.</p>
 
 <h5 id="linkdistancefn">linkDistancefn</h5>
 
-<p>[<code>function</code>] default:<a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/layout.coffee#L137">See source.</a> </p>
+<p>[<code>function</code>] default: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/layout.coffee#L137">See source.</a> </p>
 
-<p>Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance in the config.  Your custom function will have the edge as well as our layout constant <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/startGraph.coffee#L79">k</a> available.  For example, <code>yourLinkDistanceFn: function(edge, k) { return edge.something * k}</code>
+<p>Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance in the config.  Your custom function will have the edge as well as our layout constant <a href="https://github.com/GraphAlchemist/Alchemy/blob/release-0.3/app/scripts/alchemy/core/layout.coffee.md">k</a> available.  For example, <code>yourLinkDistanceFn: function(edge, k) { return edge.something * k}</code>
 Read more about how linkDistance is used in d3’s force layout <a href="https://github.com/mbostock/d3/wiki/Force-Layout#linkDistance">here</a>.</p>
 
 <!-- ##### nodePositions 
@@ -964,7 +991,7 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 
 <p>[<code>bool</code>] default:<code>false</code> </p>
 
-<p>When both <code>showEditor</code> is true, an Editor menu where you can directly edit elements on the graph is created. When the editor is showing in the Control Dash, there are currently two options, remove element and editor interactions. When the editor interactions are enabled, adding nodes and edges is a simple as clicking and dragging.</p>
+<p>When <code>showEditor</code> is true, an editor menu where you can directly edit elements on the graph is created. When the editor is showing in the control dash, there are currently two options, remove element and editor interactions. When the editor interactions are enabled, adding nodes and edges is as simple as clicking and dragging.</p>
 
 <h5 id="removeelement">removeElement</h5>
 
@@ -997,31 +1024,31 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 
 <p>[<code>bool</code>] default:<code>false</code></p>
 
-<p>If set to true, alchemy will load a set of filters that correspond to edge types defined in the <a href="#edgetypes"><code>edgeTypes</code></a> parameter, into the filters section of the control dash.</p>
+<p>If set to true, alchemy will load a set of filters that correspond to edge types, defined in the <a href="#edgetypes"><code>edgeTypes</code></a> parameter, into the filters section of the control dash.</p>
 
 <h5 id="nodefilters">nodeFilters</h5>
 
 <p>[<code>bool</code>] default:<code>false</code>  </p>
 
-<p>If set to true, alchemy will load a set of filters that correspond to node types as defined in the <a href="#nodetypes"><code>nodeTypes</code></a> into the filters section of the control dash.</p>
+<p>If set to true, alchemy will load a set of filters that correspond to node types, as defined in the <a href="#nodetypes"><code>nodeTypes</code></a> parameter, into the filters section of the control dash.</p>
 
 <h5 id="captionstoggle">captionsToggle</h5>
 
 <p>[<code>bool</code>] default:<code>false</code></p>
 
-<p>Allow toggling of caption visibility.  When toggled, <code>.hidden</code> is assigned to all captions.  The default <code>hidden</code> class can easily be overwritten to allow different colors or opacities for node captions when hidden.  See <a href="../#Graph-Styling">graph styling</a> for examples of use cases.</p>
+<p>Allows toggling of caption visibility.</p>
 
 <h5 id="edgestoggle">edgesToggle</h5>
 
 <p>[<code>bool</code>] default:<code>false</code> </p>
 
-<p>Allow toggling of edge visibility.  When toggled, <code>.hidden</code> is assigned to all edges.  The default <code>hidden</code> class can easily be overwritten to include different levels of opacity or color upon toggle.  See <a href="#Graph-Styling">graph styling</a> for examples of use cases.</p>
+<p>Allows toggling of edge visibility.  When toggled, <code>.hidden</code> is assigned to all edges.  The default <code>hidden</code> class can easily be overwritten to include different levels of opacity or color upon toggle.  See <a href="#Graph-Styling">graph styling</a> for examples of use cases.</p>
 
 <h5 id="nodestoggle">nodesToggle</h5>
 
 <p>[<code>bool</code>] default:<code>false</code></p>
 
-<p>Allow toggling of node visibility.  When toggled, <code>.hidden</code> is assigned to all nodes.  The default <code>hidden</code> class can easily be overwritten to include different levels of opacity or color upon toggle.  When used in tandem with <a href="#edgestoggle">edgesToggle</a> nodes can be removed with edges still being visible.  Nodes toggle is also useful for applying a custom set of styles for the <code>.hidden</code> class that is applied to all nodes on toggle.  See <a href="#Graph-Styling">graph styling</a> for examples of use cases.</p>
+<p>Allows toggling of node visibility.  When toggled, <code>.hidden</code> is assigned to all nodes.  The default <code>hidden</code> class can easily be overwritten to include different levels of opacity or color upon toggle.  When used in tandem with <a href="#edgestoggle">edgesToggle</a>, nodes can be removed with edges still being visible.   <code>nodesToggle</code> is also useful for applying a custom set of styles for the <code>.hidden</code> class that is applied to all nodes on toggle.  See <a href="#Graph-Styling">graph styling</a> for examples of use cases.</p>
 
 <hr />
 
@@ -1091,7 +1118,7 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 
 <p>[<code>string, function</code>] default:<code>"afterLoad"</code> </p>
 
-<p>If <code>afterLoad</code> receives a string, that string is passed to <code>alchemy</code> as a top level key that returns <code>true</code> when the graph has loaded.  This maybe helpful for certain applications where the graph context is being watch and events can be fired when <code>alchemy.afterLoad</code> or <code>alchemy.someOtherString</code> is <code>true</code>.</p>
+<p>If <code>afterLoad</code> receives a string, that string is passed to <code>alchemy</code> as a top level key that returns <code>true</code> when the graph has loaded.  This may be helpful for certain applications where the graph context is being watched and events can be fired when <code>alchemy.afterLoad</code> or <code>alchemy.someOtherString</code> is <code>true</code>.</p>
 
 <p>If <code>afterLoad</code> receives a function, that function is simply run after the graph is drawn.  E.g. <code>alchemy.someFunction()</code></p>
 
@@ -1154,7 +1181,7 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 <p>Captions are the text that displays in the graph visualization.  By default, the captions will display on search active, on node hover, and when filtering.  In the configuration, <a href="#nodecaption">nodeCaption</a> defaults to “caption” which means that Alchemy.js will look for a “caption” key on each node.</p>
 
 <h3 id="clustering">Clustering</h3>
-<p>Clustering can be enabled in the configuration be setting <a href="#cluster">cluster</a> to <code>true</code>.  Alchemy.js will then look for a “cluster” key on the nodes, which will enable a clustering algorithm that colors and positions to nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.</p>
+<p>Clustering can be enabled in the configuration by setting <a href="#cluster">cluster</a> to <code>true</code>.  Alchemy.js will then look for a “cluster” key on the nodes, which will enable a clustering algorithm that colors and positions to nodes.  This is especially useful for social network analysis and any form of exploratory data analysis.</p>
 
 <h3 id="defining-root-nodes">Defining Root Nodes</h3>
 <p>Any node containing a root key that is truthy will be considered a root node.  For example:</p>
@@ -2752,26 +2779,27 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
     <section class="doc" id="Graph-Styling">
         <h1 id="graph-styling-overview">Graph Styling: Overview</h1>
 
-<p>Alchemy.js uses a combination of the GraphJSON exposed to the app and the configurations defined to make it intuitive to style the graph visualization with css like you would style any other svg.  However, there are a few styles that have to be assigned dynamically via JavaScript and the Alchemy configurations.</p>
-
-<h2 id="alchemyconf-properties-that-affect-graph-styling">Alchemy.conf properties that affect Graph Styling</h2>
+<p>Alchemy.js uses simple and intuitive configuration options to define graph styling.</p>
 
 <p>Some of the different ways the graph is <em>styled</em> in <a href="#Configuration">alchemy.conf</a>: </p>
 
+<h2 id="alchemyconf-properties-that-affect-graph-styling">Alchemy.conf properties that affect Graph Styling</h2>
+
 <ul>
-  <li><a href="#nodecolour">nodeColour</a></li>
-  <li><a href="#noderadius">nodeRadius</a></li>
+  <li><a href="#nodeStyle">nodeStyle</a></li>
+  <li><a href="#edgeStyle">edgeStyle</a></li>
   <li><a href="#rootnoderadius">rootNodeRadius</a></li>
   <li><a href="#graphheight">graphHeight</a></li>
   <li><a href="#graphwidth">graphWidth</a></li>
-  <li><a href="#clustercolours">clusterColours</a></li>
+  <li><a href="#clustercolors">clusterColors</a></li>
 </ul>
 
-<p>CSS can be used to style the graph in tandem with <a href="#nodetypes">nodeTypes</a> and <a href="#edgetypes">edgeTypes</a>.</p>
+<p>CSS can be used to style the svg elements on the graph in tandem with <a href="#nodeStyle">nodeStyle</a> and <a href="#edgeStyle">edgeStyle</a>, though this is usually unnecessary.
+The <code>nodeStyle</code> and <code>edgeStyle</code> keys include options to base styling around both data and user interactions, and as such are more more powerful, flexible, and dynamic.</p>
 
 <h2 id="styling-the-graph-using-node-and-edge-types">Styling the graph using node and edge types</h2>
 
-<p>As always, check out the <a href="/#/examples">examples gallery</a> for full examples.  Below is a short example to give you an idea of the possibilities.</p>
+<p>All forms of styling can be assigned based on <a href="#nodetype">nodeType</a> and <a href="#edgetype">edgeType</a> which are defined in your configuration. Below is a short example to give you an idea of the possibilities. As always, check out the <a href="/#/examples">examples gallery</a> for full examples.</p>
 
 <h2 id="sample-data">Sample Data</h2>
 
@@ -2935,7 +2963,7 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 
 <h2 id="overriding-default-styles">Overriding Default Styles</h2>
 
-<p>To give the graph some classes we can play with define the node types and edge types in your conf.  For our sample data, you might end up with something like the following:</p>
+<p>To give the graph some classes we can play with, define the node types and edge types in your conf.  For our sample data, you might end up with something like the following:</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -2946,20 +2974,73 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 <a href="#n6" name="n6">6</a>
 <a href="#n7" name="n7">7</a>
 <a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+<a href="#n12" name="n12">12</a>
+<a href="#n13" name="n13">13</a>
+<a href="#n14" name="n14">14</a>
+<a href="#n15" name="n15">15</a>
+<a href="#n16" name="n16">16</a>
+<a href="#n17" name="n17">17</a>
+<a href="#n18" name="n18">18</a>
+<a href="#n19" name="n19">19</a>
+<strong><a href="#n20" name="n20">20</a></strong>
+<a href="#n21" name="n21">21</a>
+<a href="#n22" name="n22">22</a>
+<a href="#n23" name="n23">23</a>
+<a href="#n24" name="n24">24</a>
+<a href="#n25" name="n25">25</a>
+<a href="#n26" name="n26">26</a>
+<a href="#n27" name="n27">27</a>
+<a href="#n28" name="n28">28</a>
+<a href="#n29" name="n29">29</a>
+<strong><a href="#n30" name="n30">30</a></strong>
+<a href="#n31" name="n31">31</a>
+<a href="#n32" name="n32">32</a>
+<a href="#n33" name="n33">33</a>
 </pre></td>
   <td class="code"><pre><span class="error">v</span><span class="error">a</span><span class="error">r</span> <span class="error">c</span><span class="error">o</span><span class="error">n</span><span class="error">f</span> <span class="error">=</span> {
     <span class="key"><span class="delimiter">&quot;</span><span class="content">dataSource</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">sample_data/contrib.json</span><span class="delimiter">&quot;</span></span>,
     <span class="key"><span class="delimiter">&quot;</span><span class="content">nodeTypes</span><span class="delimiter">&quot;</span></span>: {<span class="key"><span class="delimiter">&quot;</span><span class="content">role</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">Maintainer</span><span class="delimiter">&quot;</span></span>,
                            <span class="string"><span class="delimiter">&quot;</span><span class="content">Contributor</span><span class="delimiter">&quot;</span></span>,
                            <span class="string"><span class="delimiter">&quot;</span><span class="content">project</span><span class="delimiter">&quot;</span></span>]},
-    <span class="key"><span class="delimiter">&quot;</span><span class="content">edgeTypes</span><span class="delimiter">&quot;</span></span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">caption</span><span class="delimiter">&quot;</span></span>
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">edgeTypes</span><span class="delimiter">&quot;</span></span>: {<span class="key"><span class="delimiter">&quot;</span><span class="content">caption</span><span class="delimiter">&quot;</span></span>: [<span class="string"><span class="delimiter">&quot;</span><span class="content">Maintains</span><span class="delimiter">&quot;</span></span>,
+                              <span class="string"><span class="delimiter">&quot;</span><span class="content">Contributes</span><span class="delimiter">&quot;</span></span>]},
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">nodeStyle</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">project</span><span class="delimiter">&quot;</span></span>: {
+            <span class="error">c</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#00ff0e</span><span class="delimiter">&quot;</span></span>,
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">Maintainer</span><span class="delimiter">&quot;</span></span>:{
+            <span class="error">c</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#00ff0e</span><span class="delimiter">&quot;</span></span>,
+            <span class="error">b</span><span class="error">o</span><span class="error">r</span><span class="error">d</span><span class="error">e</span><span class="error">r</span><span class="error">C</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#00ffda</span><span class="delimiter">&quot;</span></span>
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">Contributor</span><span class="delimiter">&quot;</span></span>: {
+            <span class="error">c</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#ff7921</span><span class="delimiter">&quot;</span></span>,
+            <span class="error">b</span><span class="error">o</span><span class="error">r</span><span class="error">d</span><span class="error">e</span><span class="error">r</span><span class="error">C</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#4f07ff</span><span class="delimiter">&quot;</span></span>
+        }
+    },
+    <span class="key"><span class="delimiter">&quot;</span><span class="content">edgeStyle</span><span class="delimiter">&quot;</span></span>: {
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">Maintains</span><span class="delimiter">&quot;</span></span>: {
+            <span class="error">c</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#00fffa</span><span class="delimiter">&quot;</span></span>,
+            <span class="error">w</span><span class="error">i</span><span class="error">d</span><span class="error">t</span><span class="error">h</span>: <span class="integer">5</span>
+        },
+        <span class="key"><span class="delimiter">&quot;</span><span class="content">contributes</span><span class="delimiter">&quot;</span></span>: {
+            <span class="error">c</span><span class="error">o</span><span class="error">l</span><span class="error">o</span><span class="error">r</span>: <span class="string"><span class="delimiter">&quot;</span><span class="content">#ff00f3</span><span class="delimiter">&quot;</span></span>,
+            <span class="error">b</span><span class="error">o</span><span class="error">r</span><span class="error">d</span><span class="error">e</span><span class="error">r</span><span class="error">W</span><span class="error">i</span><span class="error">d</span><span class="error">t</span><span class="error">h</span>: <span class="integer">10</span>
+        }
+    }
+
 }<span class="error">;</span>
 <span class="error">a</span><span class="error">l</span><span class="error">c</span><span class="error">h</span><span class="error">e</span><span class="error">m</span><span class="error">y</span><span class="error">.</span><span class="error">b</span><span class="error">e</span><span class="error">g</span><span class="error">i</span><span class="error">n</span><span class="error">(</span><span class="error">c</span><span class="error">o</span><span class="error">n</span><span class="error">f</span><span class="error">)</span>
 </pre></td>
 </tr></table>
 </div>
 
-<p>Now the nodes and edges receive classes that correspond to the data, and so you can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:</p>
+<p><img src="img/graphstyling2.png" alt="Wild Graph Styles" /></p>
+
+<h2 id="styling-with-css">Styling with CSS</h2>
+<p>Styling through CSS tends to be inflexible, as it’s not related to the data in any way.  However, some people may want to use an obscure feature offered by SVG/CSS, and we’ve made sure that that is easy to do. The svg elements of the nodes and edges receive classes that correspond to the types defined in the configuration options <code>edgeTypes</code> and <code>nodeTypes</code>. To create the same graph with css you can assign css styles based on those classes.  Based on our data and this example we can use this css to generate the graph that follows:</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -3053,8 +3134,6 @@ Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide
 </tr></table>
 </div>
 
-<p><img src="img/graphstyling2.png" alt="Wild Graph Styles" /></p>
-
 <hr />
 
     </section>
@@ -3126,7 +3205,7 @@ bower install
 </tr></table>
 </div>
 
-<p>When you feel like your contribution is battle ready, run the tests locally
+<p>When you feel like your contribution is battle ready, run the tests locally with
 <code>grunt test.</code>  If everything passes, feel free to submit a pull request.  We may have some conversations about pieces of it, or we may merge it right away.</p>
 
 <p>Before we merge your code, you’ll need to sign our <a href="https://docs.google.com/a/graphalchemist.com/forms/d/1ypqMsBPrfzPpvQPXYdfw12u9xK5pNiHeMAuYImzEli4/viewform">contributor agreement</a>.  It’s pretty minor; feel free to reach out if you have questions.</p>
@@ -3174,10 +3253,7 @@ a_bunch_of_nodes = alchemy.getNodes(<span class="integer">1</span>, <span class=
 
 <p>This API call returns the Alchemy node object and not the elements used by the renderer such as an SVG element.  </p>
 
-<p>Future releases will include many more convenience functions for pragmatically accessing DOM elements.  In the meantime, the elements can be accessed directly using standard css selectors like <code>#node-id1</code>.</p>
-
 <h5 id="alchemygetedges">alchemy.getEdges</h5>
-<!--  -->
 
 <p><code>alchemy.getEdges(nodeId[, targetID])</code><br />
 If provided only a single node id, this method will return an array of all edges that are either the <em>source</em> or <em>target</em> of that node.  For example:</p>
@@ -3192,18 +3268,7 @@ alchemy.getEdges(<span class="integer">1</span>);
 </tr></table>
 </div>
 
-<p>If two ids are provided then it will return only edges that have the source node and as target node of the ids provided, provided one exists.  For example:
-~~~ javascript
-/* returns only edges where node with id 1 is the source
-and node with id 2 is the target */
-some_edges = alchemy.getEdges(1,2);</p>
-
-<p>/* returns only edges where node with id 2 is the source
-and node with id 1 is the target */
-some_other_edges = alchemy.getEdges(2,1);
-~~~</p>
-
-<p>It is important to realize that this returns the Alchemy Edge object.  Currently there are a number of methods for working with Edge data and edge styles.  Future releases will include even more ways to work with the DOM elements directly. In the meantime, if you wish to access the SVG elements directly, use standard css selectors like <code>#edge-nodeID-targetID</code>.  For example:</p>
+<p>If two ids are provided then it will return only edges that have the source node and target node of the ids provided, provided one exists.  For example:</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -3211,19 +3276,23 @@ some_other_edges = alchemy.getEdges(2,1);
 <a href="#n3" name="n3">3</a>
 <a href="#n4" name="n4">4</a>
 <a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
 </pre></td>
-  <td class="code"><pre><span class="comment">// use jquery to select an edge group &lt;g&gt; element</span>
-<span class="keyword">var</span> some_edge = <span class="predefined">$</span>(<span class="string"><span class="delimiter">&quot;</span><span class="content">#edge-1-2</span><span class="delimiter">&quot;</span></span>);
+  <td class="code"><pre><span class="comment">/* returns only edges where node with id 1 is the source
+and node with id 2 is the target */</span>
+some_edges = alchemy.getEdges(<span class="integer">1</span>,<span class="integer">2</span>);
 
-<span class="comment">/* use d3 to select an edge group element */</span>
-<span class="keyword">var</span> some_edge = d3.select(<span class="string"><span class="delimiter">&quot;</span><span class="content">#edge-1-2</span><span class="delimiter">&quot;</span></span>);
+<span class="comment">/* returns only edges where node with id 2 is the source
+and node with id 1 is the target */</span>
+some_other_edges = alchemy.getEdges(<span class="integer">2</span>,<span class="integer">1</span>);
 </pre></td>
 </tr></table>
 </div>
 
+<p>It is important to realize that this returns the Alchemy Edge object and not an SVG element.</p>
+
 <h5 id="alchemyallnodes">alchemy.allNodes</h5>
-<!-- change to reflect #359? -->
-<!-- change to getAllNodes() in 1.0 release -->
 
 <p><code>alchemy.allNodes()</code><br />
 Currently, takes no arguments and returns an array of all nodes that are loaded into Alchemy. This is useful for creating custom functions that act upon all nodes, however, keep in mind that directly working on datasets with large numbers of nodes could take a while, and care should be taken when doing so.</p>
@@ -3231,8 +3300,6 @@ Currently, takes no arguments and returns an array of all nodes that are loaded 
 <p>It is important to realize this returns an array of node data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered ‘state’ of the node (such as <code>hidden</code>, <code>selected</code>, etc…) has no effect on the results of <code>allNodes()</code>, and if the node is loaded it will be returned.  If a node has been deleted in the editor, however, it is no longer loaded into Alchemy and will not appear in the result.</p>
 
 <h5 id="alchemyalledges">alchemy.allEdges</h5>
-<!-- change to reflect #359? -->
-<!-- change to getAllEdges() in 1.0 release -->
 
 <p><code>alchemy.allEdges()</code><br />
 Currently, takes no arguments and returns an array of all edges that are loaded into Alchemy.  This is useful for creating custom functions that act upon all edges, such as batch property assignment.  Keep in mind however, that directly working on datasets with large numbers of edges could take a while, and care should be taken when doing so.</p>
@@ -3240,10 +3307,9 @@ Currently, takes no arguments and returns an array of all edges that are loaded 
 <p>It is important to realize that this returns an array of edge data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered ‘state’ of the edges (such as <code>hidden</code>, <code>selected</code>, etc…) has no effect on the results of <code>allEdges()</code>, and if the edge is loaded it will be returned.  If an edge has been deleted in the editor (either directly, or indirectly be deleting it’s source or target node) then it is no longer loaded into Alchemy and will not appear in the result.</p>
 
 <h5 id="alchemygetclusters">alchemy.get.clusters()</h5>
-<!--  -->
 
 <p><code>alchemy.get.clusters()</code><br />
-API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster
+API method which returns a dictionary whose keys are the cluster names, and whose values are arrays of all the nodes in that cluster.
   For example:</p>
 
 <div><table class="CodeRay"><tr>
@@ -3256,11 +3322,11 @@ alchemy.get.clusters();
 </tr></table>
 </div>
 
-<h5 id="alchemygetclustercolours">alchemy.get.clusterColours()</h5>
+<h5 id="alchemygetclustercolors">alchemy.get.clusterColors()</h5>
 <!--  -->
 
-<p><code>alchemy.get.clusterColours()</code><br />
-API method which returns a dictionary whose keys are the cluster names, and whose values the hex code of the color used for that cluster
+<p><code>alchemy.get.clusterColors()</code><br />
+API method which returns a dictionary whose keys are the cluster names, and whose values are the hex code of the color used for that cluster
   For example:</p>
 
 <div><table class="CodeRay"><tr>
@@ -3268,7 +3334,7 @@ API method which returns a dictionary whose keys are the cluster names, and whos
 <a href="#n2" name="n2">2</a>
 </pre></td>
   <td class="code"><pre><span class="comment">/* returns all clusters, and their associated color codes */</span>
-alchemy.get.clusterColours();
+alchemy.get.clusterColors();
 </pre></td>
 </tr></table>
 </div>
@@ -3280,6 +3346,7 @@ alchemy.get.clusterColours();
 <section class="api-doc" id="Create">
 
 <h1 id="create">Create</h1>
+
 <p></p>
 
 <h5 id="alchemycreatenodes">alchemy.createNodes</h5>
@@ -3341,7 +3408,7 @@ This method receives objects which are property maps of edges as defined in <a h
 </tr></table>
 </div>
 
-<p>An unlimited number of edges can exist between the same source and target node, and in the same direction.  Alchemy will generate internal unique ids for each edge created.  However, if an “id” is provided in the <em>edge map</em> provided to the <em>createEdge</em> method, new edges will only be created if the same “id” <strong>does not already exist</strong>.  </p>
+<p>An unlimited number of edges can exist between the same source and target node, and in the same direction.  Alchemy will generate internal unique ids for each edge created.  However, new edges will only be created if the same “id” <strong>does not already exist</strong>. If an “id” is provided in the <em>edge map</em> that has already been provided to the <em>createEdge</em> method, no new edge will be created.   </p>
 
 <p>Examples:</p>
 
@@ -3374,6 +3441,7 @@ alchemy.createEdges(edgeWithId, someEdgeMap);
 </pre></td>
 </tr></table>
 </div>
+<hr />
 
 
 </section>
@@ -3382,13 +3450,13 @@ alchemy.createEdges(edgeWithId, someEdgeMap);
 
 <h1 id="node-methods">Node Methods</h1>
 
-<p>When <em>node</em> data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.</p>
+<p>When <strong>node</strong> data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.</p>
 
 <h5 id="nodegetproperties">node.getProperties</h5>
 <!--  -->
 
 <p><code>node.getProperties([property])</code><br />
-If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally a string or array can be provided to return only specified properties. </p>
+If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally, a string or array can be provided to return only specified properties. </p>
 
 <p>For example:</p>
 
@@ -3418,7 +3486,9 @@ node.getProperties([<span class="string"><span class="delimiter">'</span><span c
 <!--  -->
 
 <p><code>node.setProperty(['property', 'value']|[Object])</code><br />
-Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  For example:</p>
+Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  </p>
+
+<p>For example:</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -3449,8 +3519,10 @@ node.setProperty({
 <h5 id="noderemoveproperty">node.removeProperty</h5>
 <!--  -->
 
-<p>`node.removeProperty(‘property’[,’more_properties’])<br />
-Remove one or more properties from a given node.</p>
+<p><code>node.removeProperty('property'[,'more_properties'])</code><br />
+Remove one or more properties from a given node.  This method removes the entire property key value from the node.  Use the <a href="#nodesetproperty">node.setProperty</a> method to change a property.</p>
+
+<p>For Example:</p>
 
 <div><table class="CodeRay"><tr>
   <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
@@ -3480,7 +3552,7 @@ node.setProperty(<span class="string"><span class="delimiter">'</span><span clas
 </tr></table>
 </div>
 
-<h5 id="nodesetstyle">node.setStyle</h5>
+<h5 id="nodesetstyles">node.setStyles</h5>
 <!--  -->
 
 <p><code>node.setStyle(['nodeStyleKey', 'nodeStyleValue'| Map of nodeStyles)</code><br />
@@ -3514,6 +3586,54 @@ some_node.setStyle(new_styles);
 </tr></table>
 </div>
 
+<h5 id="nodegetstyles">node.getStyles</h5>
+<!--  -->
+
+<p><code>node.getStyles(['property'])</code><br /></p>
+
+<p>To get the styles of a particular node, you can call the getStyles() method.  If <code>property</code> is blank, it will return an object consisting of all the styles.  If a specific property is passed, it will return the current setting for that style.</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Get node</span>
+<span class="keyword">var</span> some_node = alchemy.getNodes(<span class="integer">1</span>);
+<span class="comment">// Check the node radius</span>
+some_node.getStyles(<span class="string"><span class="delimiter">'</span><span class="content">radius</span><span class="delimiter">'</span></span>)
+<span class="comment">// See all styles for some_node</span>
+some_node.getStyles()
+</pre></td>
+</tr></table>
+</div>
+
+<h5 id="nodetogglehidden">node.toggleHidden</h5>
+<!-- -->
+
+<p><code>node.toggleHidden()</code></p>
+
+<p>Toggles the state of the node between <code>hidden</code> and <code>active</code>, and then renders the correct styles for that state.</p>
+
+<h5 id="nodeoutdegree">node.outDegree</h5>
+<!-- -->
+
+<p><code>node.outDegree()</code></p>
+
+<p>Returns the number of edges connected to that node.</p>
+
+<h5 id="noderemove">node.remove</h5>
+<!-- -->
+
+<p><code>node.remove()</code></p>
+
+<p>Deletes the node from Alchemy.  The node is removed from both the node data and the rendering and cannot be readded without reloading the data or creating it manually with alchemy.create.nodes() </p>
+
+<hr />
+
 
 </section>
 
@@ -3521,9 +3641,155 @@ some_node.setStyle(new_styles);
 
 <h1 id="edge-methods">Edge Methods</h1>
 
-<p>When <em>edge</em> data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.</p>
+<p>When <strong>edge</strong> data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.</p>
 
-<p>…</p>
+<h5 id="edgegetproperties">edge.getProperties</h5>
+<!--  -->
+
+<p><code>edge.getProperties([property])</code><br />
+If no parameter is specified, returns all of the properties of a given edge, including any properties edited or changed by the application.  If a single parameter, or multiple parameters are specified, the method will return an object with the specified properties and their parameters.</p>
+
+<p>For example:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Grab the node with id 1 </span>
+<span class="keyword">var</span> node = alchemy.get.edge(<span class="integer">1</span>);
+<span class="comment">// Return all properties</span>
+node.getProperties();
+<span class="comment">// Return only the value of property 'firstName'</span>
+node.getProperties(<span class="string"><span class="delimiter">'</span><span class="content">firstName</span><span class="delimiter">'</span></span>);
+<span class="comment">// Return only the value of property 'firstName', 'lastName', and 'age'</span>
+node.getProperties([<span class="string"><span class="delimiter">'</span><span class="content">firstName</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">lastName</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">age</span><span class="delimiter">'</span></span>]);
+</pre></td>
+</tr></table>
+</div>
+
+<h5 id="edgesetproperties">edge.setProperties</h5>
+<!--  -->
+
+<p><code>edge.setProperties(['property', 'value']|[Object])</code><br />
+Set the property of an edge with the supplied value, or set the value of multiple properties at once by providing a map of key values.  </p>
+
+<p>For example:</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Grab the edge that has a source node of id 1</span>
+<span class="comment">// and a target of id 2</span>
+<span class="keyword">var</span> edge = alchemy.get.edge(<span class="integer">1</span>, <span class="integer">2</span>);
+<span class="comment">// Set property 'startDate' to 'yesterday'</span>
+node.setProperties(<span class="string"><span class="delimiter">'</span><span class="content">startDate</span><span class="delimiter">'</span></span>, <span class="string"><span class="delimiter">'</span><span class="content">yesterday</span><span class="delimiter">'</span></span>);
+<span class="comment">// Set multiple properties at once</span>
+node.setProperties({
+    <span class="key"><span class="delimiter">'</span><span class="content">startDate</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">yesterday</span><span class="delimiter">'</span></span>, 
+    <span class="key"><span class="delimiter">'</span><span class="content">endDate</span><span class="delimiter">'</span></span>: <span class="predefined-constant">null</span>, 
+    <span class="key"><span class="delimiter">'</span><span class="content">role</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">Engineer</span><span class="delimiter">'</span></span>
+});
+</pre></td>
+</tr></table>
+</div>
+
+<h5 id="edgegetstyles">edge.getStyles</h5>
+<!--  -->
+
+<p><code>edge.getStyles(['property'])</code><br /></p>
+
+<p>To get the styles of a particular edge, you can call the getStyles() method.  If <code>property</code> is blank, it will return an object consisting of all the styles.  If a specific property is passed, it will return the current setting for that style.</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Get edge</span>
+<span class="keyword">var</span> some_edge = alchemy.getEdges(<span class="integer">1</span>, <span class="integer">2</span>);
+<span class="comment">// Check the edge radius</span>
+some_edge.getStyles(<span class="string"><span class="delimiter">'</span><span class="content">radius</span><span class="delimiter">'</span></span>)
+<span class="comment">// See all styles for some_edge</span>
+some_edge.getStyles()
+</pre></td>
+</tr></table>
+</div>
+
+<h5 id="edgesetstyles">edge.setStyles</h5>
+<!-- -->
+
+<p><code>edge.setStyle(['edgeStyleKey', 'edgeStyleValue'| Map of edgeStyles)</code><br />
+Alchemy abstracts the styles of the graph, making it easy to access them programatically.  A complete set of “edgeStyles” are referenced in the <a href="#edgeStyle">edgeStyle</a> section.  Multiple styles can be assigned at once by passing in an object with the keys being the name of the style. If no arguments are passed, the edge is restyled based on the styles set in the configuration for it’s current state.</p>
+
+<div><table class="CodeRay"><tr>
+  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
+<a href="#n2" name="n2">2</a>
+<a href="#n3" name="n3">3</a>
+<a href="#n4" name="n4">4</a>
+<a href="#n5" name="n5">5</a>
+<a href="#n6" name="n6">6</a>
+<a href="#n7" name="n7">7</a>
+<a href="#n8" name="n8">8</a>
+<a href="#n9" name="n9">9</a>
+<strong><a href="#n10" name="n10">10</a></strong>
+<a href="#n11" name="n11">11</a>
+</pre></td>
+  <td class="code"><pre><span class="comment">// Get edge</span>
+<span class="keyword">var</span> some_edge = alchemy.getEdges(<span class="integer">1</span>, <span class="integer">2</span>);
+
+<span class="comment">// Change the width of the edge to 10 pixels</span>
+some_edge.setStyle(<span class="string"><span class="delimiter">'</span><span class="content">width</span><span class="delimiter">'</span></span>, <span class="integer">10</span>);
+
+<span class="comment">// Change multiple styles at once.</span>
+some_edge.setStyle({<span class="key"><span class="delimiter">'</span><span class="content">width</span><span class="delimiter">'</span></span>: <span class="integer">10</span>, <span class="key"><span class="delimiter">'</span><span class="content">color</span><span class="delimiter">'</span></span>: <span class="string"><span class="delimiter">'</span><span class="content">white</span><span class="delimiter">'</span></span>});
+
+<span class="comment">// Refresh/reload style based on current state</span>
+some_edge.setStyle(new_styles);
+</pre></td>
+</tr></table>
+</div>
+
+<h5 id="edgetogglehidden">edge.toggleHidden</h5>
+<!-- -->
+
+<p><code>edge.toggleHidden()</code></p>
+
+<p>Toggles the state of the edge between <code>hidden</code> and <code>active</code>, and then renders the correct styles for that state.</p>
+
+<h5 id="edgeallnodesactive">edge.allNodesActive</h5>
+<!-- -->
+
+<p><code>edge.allNodesActive()</code></p>
+
+<p>Returns true or false based on whether both the source and target node are active.</p>
+
+<h5 id="edgeremove">edge.remove</h5>
+<!-- -->
+
+<p><code>edge.remove()</code></p>
+
+<p>Deletes the edge from Alchemy.  The edge is removed from both the edge data and the rendered visual.  It cannot be readded without reloading the data or creating it manually with alchemy.create.edges() </p>
+
+<hr />
 
 
 </section>
