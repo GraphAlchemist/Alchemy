@@ -127,7 +127,13 @@
                 sourceNode._state is "active" and targetNode._state is "active"
 
             remove: ->
-                delete @a._edges[@.id]
+                edge = @
+                delete @a._edges[edge.id]
+
+                if @a._nodes[edge._properties.source]?
+                    _.remove @a._nodes[edge._properties.source]._adjacentEdges, (e) -> e if e.id is edge.id
+                if @a._nodes[edge._properties.target]?
+                    _.remove @a._nodes[edge._properties.target]._adjacentEdges, (e) -> e if e.id is edge.id
                 @a.vis.select("#edge-" + @.id + "-" + @._index).remove()
                 filteredLinkList = _.filter @a.force.links(), (link) -> link if link.id != @.id
                 @a.force.links(filteredLinkList)

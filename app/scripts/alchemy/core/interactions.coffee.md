@@ -86,7 +86,7 @@
                     if not @_zoomBehavior?
                         @_zoomBehavior = d3.behavior.zoom()
                     @_zoomBehavior.scaleExtent extent
-                                  .on "zoom", (d)->
+                                  .on "zoom", (d) ->
                                     a = Alchemy::getInst this
                                     a.vis.attr("transform", "translate(#{ d3.event.translate }) 
                                                               scale(#{ d3.event.scale })" )

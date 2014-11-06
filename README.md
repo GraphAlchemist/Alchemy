@@ -1,6 +1,6 @@
 Alchemy
 =======
- 
+<!-- Build should not fail update commit -->
 [![Build Status](https://travis-ci.org/GraphAlchemist/Alchemy.svg?branch=master)](https://travis-ci.org/GraphAlchemist/Alchemy)
 
 [![Sauce Test Status](https://saucelabs.com/browser-matrix/hdngr.svg)](https://saucelabs.com/u/hdngr)

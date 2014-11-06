@@ -23,8 +23,8 @@ do ->
             it "should remove array of edges when passed multiple edges", ->
                 alchemy.remove.edges([testEdge2, testEdge3])
                 expect(_.flatten _.values alchemy._edges).to.not.deep.include.members([testEdge2, testEdge3])
-            it "should remove array of all edges when passed 'all-edges'", ->
-                alchemy.remove.edges(alchemy.get.edges('all-edges'))
+            it "should remove array of all edges when passed 'alledges'", ->
+                alchemy.remove.edges(alchemy.get.edges().all())
                 expect(_.flatten _.values alchemy._edges).to.deep.eq []
 
         describe "nodes", ->
@@ -34,8 +34,8 @@ do ->
             it "should remove array of nodes when passed multiple nodes", ->
                 alchemy.remove.nodes([testNode2, testNode3])
                 expect(_.values alchemy._nodes).to.not.deep.include.members([testNode2, testNode3])
-            it "should remove array of all nodes when passed 'all-nodes'", ->
-                alchemy.remove.nodes(alchemy.get.nodes('all-nodes'))
+            it "should remove array of all nodes when passed 'allnodes'", ->
+                alchemy.remove.nodes(alchemy.get.nodes().all())
                 expect(_.values alchemy._nodes).to.deep.eq []
 
     return
