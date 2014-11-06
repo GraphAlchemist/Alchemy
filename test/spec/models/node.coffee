@@ -61,6 +61,11 @@ do ->
                 testNode.removeProperty("caption")
                 testNode._properties.should.not.include.keys "caption"
 
+        describe "removeProperty", ->
+            it "should also accept multiple properties", ->
+                testNode.removeProperty("role", "id", "root")
+                testNode._properties.should.not.include.keys "root"
+
         describe "getStyles", ->
             it "should accept optional parameter [key] and return style object or value", ->
                 testNode.getStyles().should.include.keys "radius"
