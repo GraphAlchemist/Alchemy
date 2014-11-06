@@ -75,10 +75,12 @@ do ->
 
         describe "getStyles(key[s]...)", ->
             it "should return current styles for @ at given key[s], no keys returns all", ->
-                testEdge.getStyles("color").should.equal "#CCC"
-                assert.deepEqual testEdge.getStyles("opacity", "curved"), {"opacity": 0, "curved": true}
+                testEdge.getStyles("color").should.eql ["#CCC"]
+                assert.deepEqual testEdge.getStyles("opacity", "curved"), [0, true]
                 (Object.keys testEdge.getStyles()).length.should.equal 11
 
+            it "should return the styles for all keys passed in", ->
+                testEdge.getStyles("color", "width").should.eql(["#CCC", 4])
 
         describe "setStyles(key..., value...)", ->
             it "should appeal to alchemy.svgStyles if called bare", ->
@@ -87,15 +89,15 @@ do ->
 
             it "should update an edge style, if given a key and value", ->
                 testEdge.setStyles({"width": 6})
-                testEdge.getStyles("width").should.equal 6
+                testEdge.getStyles("width")[0].should.equal 6
 
             it "should update multiple styles too", ->
-                testEdge.setStyles({"width": 4, "color": "#FFFFFF", "opacity": 1})
-                assert.deepEqual testEdge.getStyles("width", "color", "opacity"), {"width": 4, "color": "#FFFFFF", "opacity": 1}
+                testEdge.setStyles {"width": 4, "color": "#FFFFFF", "opacity": 1}
+                assert.deepEqual testEdge.getStyles("width", "color", "opacity"), [4, "#FFFFFF", 1]
 
             it "should allow for addition of arbitrary novel styles", ->
                 testEdge.setStyles({"noshadow": "noshadow"})
-                testEdge.getStyles("noshadow").should.equal "noshadow"
+                testEdge.getStyles("noshadow")[0].should.equal "noshadow"
 
         describe "toggleHidden", ->
             it "should toggle @_state, between 'active' and 'hidden'", ->

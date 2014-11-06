@@ -69,14 +69,17 @@ do ->
         describe "getStyles", ->
             it "should accept optional parameter [key] and return style object or value", ->
                 testNode.getStyles().should.include.keys "radius"
-                testNode.getStyles("captionSize").should.equal 12
+                testNode.getStyles("captionSize").should.eql [12]
+
+            it "should return a value for each key passed in", ->
+                testNode.getStyles("captionSize", "color").should.eql [12, "#68B9FE"]
 
         describe "setStyles", ->
             it "should accept [key, value] and update or create the property, and draw the resultant state", ->
                 testNode.setStyles("radius", 20)
-                testNode.getStyles("radius").should.equal 20
+                testNode.getStyles("radius")[0].should.equal 20
                 testNode.setStyles("foo", "bar")
-                testNode.getStyles("foo").should.equal "bar"
+                testNode.getStyles("foo")[0].should.equal "bar"
 
         describe "toggleHidden", ->
             it "should toggle the _state of the node (and its _adjacentEdges) between 'active' and 'hidden'", ->
