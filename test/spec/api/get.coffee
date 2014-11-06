@@ -22,8 +22,8 @@ do ->
                 expect(values).to.deep.eq [5, 6]
 
         describe "nodes", ->
-            it "should return array of all nodes when passed 'all-nodes'", ->
-                containedNodes = _.map alchemy.get.nodes('all-nodes'), (n)-> n
+            it "should return array of all nodes when chained with .all()'", ->
+                containedNodes = _.map alchemy.get.nodes().all(), (n)-> n
                 expect(containedNodes).to.deep.include.members(_.values testNodes);
             it "should return array of single node when passed one node id", ->
                 containedNode = _.map alchemy.get.nodes(0), (n)-> n
@@ -33,8 +33,8 @@ do ->
                 expect(containedNodes).to.deep.include.members([testNode1, testNode2]);
 
         describe "edges", ->
-            it "should return array of all edges when passed 'all-edges'", ->
-                containedEdges = _.map alchemy.get.edges('all-edges'), (e)-> e
+            it "should return array of all edges when chained with .all()", ->
+                containedEdges = _.map alchemy.get.edges().all(), (e)-> e
                 expect(containedEdges).to.deep.include.members(_.values testEdges);
             it "should return array of single edge when passed one edge id", ->
                 containedEdge = _.map alchemy.get.edges("1-0"), (e)-> e

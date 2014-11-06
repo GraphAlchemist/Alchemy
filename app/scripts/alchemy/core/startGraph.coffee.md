@@ -41,7 +41,7 @@
                     .attr "pointer-events", "all"
                     .attr "shape-rendering", "optimizeSpeed"
                     .attr "style", "background:#{conf.backgroundColour};"
-                    .attr "alchInst", (d)-> Alchemy::instances.length
+                    .attr "alchInst", (d) -> Alchemy::instances.length - 1
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null
