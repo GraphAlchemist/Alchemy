@@ -59,10 +59,8 @@
                     @_properties[property] = value
                 @
 
-            removeProperty: (property) ->
-                delete @_properties[property]
-                @
-
+            removeProperty: (property, properties...) ->
+                delete @_properties[prop] for prop in arguments                
 
             # Style methods
             getStyles: (key=null) =>
