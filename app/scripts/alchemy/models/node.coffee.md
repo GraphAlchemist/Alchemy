@@ -103,7 +103,6 @@
             outDegree: () -> @_adjacentEdges.length
 
             remove: ->
-                _.each @._adjacentEdges, (adjacentEdge) ->
-                    adjacentEdge.remove()
+                @._adjacentEdges[0].remove() until _.isEmpty @._adjacentEdges
                 delete @a._nodes[@.id]
                 @a.vis.select("#node-" + @.id).remove()
