@@ -60,15 +60,14 @@
                 @
 
             removeProperty: (property, properties...) ->
-                delete @_properties[prop] for prop in arguments  
-                @              
+                delete @_properties[prop] for prop in arguments
+                @
 
             # Style methods
-            getStyles: (key=null) =>
-                if key?
-                    @_style[key]
-                else
-                    @_style
+            getStyles: (key, keys...) =>
+                node = @
+                return node._style if key is undefined
+                _.map arguments, (arg)-> node._style[arg]
 
             setStyles: (key, value=null) ->
                 # If undefined, set styles based on state
