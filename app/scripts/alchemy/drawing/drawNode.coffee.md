@@ -31,7 +31,7 @@
                         "hidden"
                     else
                         "visible"
-                .html (d) -> utils.nodeText(d)
+                .text (d) -> utils.nodeText(d)
                 .style "display", (d)->
                     return "block" if conf.nodeCaptionsOnByDefault
 
