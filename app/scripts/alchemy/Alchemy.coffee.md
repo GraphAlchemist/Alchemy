@@ -116,18 +116,9 @@ title: Anotated Source
         # All alchemy instances in order of creation.
         instances: []
 
-        getInst: (element)->
-            #Edge or Node
-            if element.a?
-                element.a
-
-            #_d3 packet
-            else if element.self?
-                element.self.a
-
-            #SVG element
-            else
-                Alchemy::instances[d3.select(element).attr("alchInst")]
+        getInst: (svg)->
+            instNumber = parseInt d3.select(svg).attr("alchInst")
+            Alchemy::instances[instNumber - 1]
 
 
     root = exports ? this
