@@ -39,7 +39,6 @@
                     .attr "xmlns", "http://www.w3.org/2000/svg"
                     .attr "xlink", "http://www.w3.org/1999/xlink"
                     .attr "pointer-events", "all"
-                    .attr "shape-rendering", "optimizeSpeed"
                     .attr "style", "background:#{conf.backgroundColour};"
                     .attr "alchInst", Alchemy::instances.length
                     .on 'click', a.interactions.deselectAll

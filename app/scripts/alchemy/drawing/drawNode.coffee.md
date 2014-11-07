@@ -50,7 +50,6 @@
                         d.radius()
                     else
                         d.radius
-                .attr 'shape-rendering', 'optimizeSpeed'
                 .each (d) -> d3.select(@).style utils.nodeStyle d
 
 
