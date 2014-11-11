@@ -29,6 +29,7 @@ title: Anotated Source
             @a = @
 
             @version  = "#VERSION#"
+            # give access to default conf
             @get      = new @get @
             @remove   = new @remove @
             @create   = new @create @
@@ -103,7 +104,7 @@ title: Anotated Source
         setConf: (userConf) ->
             # apply base themes
             if userConf.theme?
-                userConf = _.merge _.cloneDeep(defaults), @a.themes["#{userConf.theme}"]
+                userConf = _.merge _.cloneDeep(@defaults), @a.themes["#{userConf.theme}"]
 
             for key, val of userConf
                 switch key
@@ -111,7 +112,7 @@ title: Anotated Source
                     when "backgroundColor" then userConf["backgroundColour"] = val
                     when "nodeColor"       then userConf[nodeColour]         = val
 
-            @a.conf = _.merge _.cloneDeep(defaults), userConf
+            @a.conf = _.merge _.cloneDeep(@defaults), userConf
 
         # All alchemy instances in order of creation.
         instances: []
