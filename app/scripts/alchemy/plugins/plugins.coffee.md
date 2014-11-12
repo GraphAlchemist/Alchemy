@@ -11,6 +11,4 @@ and any defined plugins are initialized.  For example: `foo = new Alchemy({plugi
                     if not instance.plugins[p]
                         console.warn("It looks like the plugin, #{p} you are trying to load, has not been included.")
                     else
-                        instance.plugins[p]()
-                    
-                    # console.log("foo")
+                        instance.plugins[p](instance)
