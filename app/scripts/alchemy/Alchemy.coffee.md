@@ -80,7 +80,7 @@ title: Anotated Source
             # The value is an array of edge 'packets', where the length of the array
             # is typically 1.
             @_edges = {}
-
+        
             # Bind legacy API methods to earlier location
             # These will be deprecated on release-1.0
             @getNodes = @get.getNodes
@@ -92,7 +92,8 @@ title: Anotated Source
 
         begin: (userConf) ->
             # overide configuration with user inputs
-            @setConf userConf
+            conf = @setConf userConf
+            @plugins.init conf, @a
             switch typeof @conf.dataSource
                 when 'string' then d3.json @a.conf.dataSource, @a.startGraph
                 when 'object' then @a.startGraph @a.conf.dataSource
@@ -117,7 +118,7 @@ title: Anotated Source
         # All alchemy instances in order of creation.
         instances: []
 
-        getInst: (element)->
+        getInst: (element) ->
             #Edge or Node
             if element.a?
                 element.a
@@ -129,7 +130,6 @@ title: Anotated Source
             #SVG element
             else
                 Alchemy::instances[d3.select(element).attr("alchInst")]
-
 
     root = exports ? this
     root.Alchemy = Alchemy

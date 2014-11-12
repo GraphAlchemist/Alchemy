@@ -16,6 +16,7 @@
 
     Alchemy::defaults =
 
+        plugins: null
         # Renderer
         renderer: "svg"
 

@@ -15,7 +15,7 @@
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
     class Alchemy::remove
-        constructor: (instance)->
+        constructor: (instance) ->
             @a = instance
 
         nodes: (nodeMap) ->

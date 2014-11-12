@@ -39,8 +39,15 @@
         
         <script src="scripts/alchemy.js"></script>
         <script type="text/javascript">
+          Alchemy.prototype.plugins.trees = function() {
+              console.log("the trees plugin has been initialized");
+          };
+          Alchemy.prototype.plugins.airplanes = function() {
+              console.log("the airplanes plugin has been initialized");
+          };
           var config = {
             dataSource: "sample_data/contrib.json",
+            plugins: ["trees", "airplanes", "foobar"]
             // curvedEdges: true
           }
 
