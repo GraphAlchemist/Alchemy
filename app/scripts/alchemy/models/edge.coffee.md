@@ -130,6 +130,6 @@
                     _.remove @a._nodes[edge._properties.source]._adjacentEdges, (e) -> e if e.id is edge.id
                 if @a._nodes[edge._properties.target]?
                     _.remove @a._nodes[edge._properties.target]._adjacentEdges, (e) -> e if e.id is edge.id
-                @a.vis.select("#edge-" + @.id + "-" + @._index).remove()
-                filteredLinkList = _.filter @a.force.links(), (link) -> link if link.id != @.id
+                @a.vis.select("#edge-" + edge.id + "-" + edge._index).remove()
+                filteredLinkList = _.filter @a.force.links(), (link) -> link if link.id != edge.id
                 @a.force.links(filteredLinkList)
