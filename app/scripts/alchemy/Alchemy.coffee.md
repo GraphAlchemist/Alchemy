@@ -69,6 +69,7 @@ title: Anotated Source
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @
             @search         = @search @
+            @plugins        = @plugins @
 
 	        # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
@@ -94,11 +95,11 @@ title: Anotated Source
         begin: (userConf) ->
             # overide configuration with user inputs
             conf = @setConf userConf
-            @plugins.init conf, @a
             switch typeof @conf.dataSource
                 when 'string' then d3.json @a.conf.dataSource, @a.startGraph
                 when 'object' then @a.startGraph @a.conf.dataSource
-
+            
+            @plugins.init()
             Alchemy::instances.push @
 
             @
