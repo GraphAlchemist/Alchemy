@@ -29,6 +29,7 @@ title: Anotated Source
             @a = @
 
             @version  = "#VERSION#"
+            # give access to default conf
             @get      = new @get @
             @remove   = new @remove @
             @create   = new @create @
@@ -80,7 +81,7 @@ title: Anotated Source
             # The value is an array of edge 'packets', where the length of the array
             # is typically 1.
             @_edges = {}
-
+        
             # Bind legacy API methods to earlier location
             # These will be deprecated on release-1.0
             @getNodes = @get.getNodes
@@ -92,7 +93,8 @@ title: Anotated Source
 
         begin: (userConf) ->
             # overide configuration with user inputs
-            @setConf userConf
+            conf = @setConf userConf
+            @plugins.init conf, @a
             switch typeof @conf.dataSource
                 when 'string' then d3.json @a.conf.dataSource, @a.startGraph
                 when 'object' then @a.startGraph @a.conf.dataSource
@@ -104,7 +106,7 @@ title: Anotated Source
         setConf: (userConf) ->
             # apply base themes
             if userConf.theme?
-                userConf = _.merge _.cloneDeep(defaults), @a.themes["#{userConf.theme}"]
+                userConf = _.merge _.cloneDeep(@defaults), @a.themes["#{userConf.theme}"]
 
             for key, val of userConf
                 switch key
@@ -112,7 +114,7 @@ title: Anotated Source
                     when "backgroundColor" then userConf["backgroundColour"] = val
                     when "nodeColor"       then userConf[nodeColour]         = val
 
-            @a.conf = _.merge _.cloneDeep(defaults), userConf
+            @a.conf = _.merge _.cloneDeep(@defaults), userConf
 
         # All alchemy instances in order of creation.
         instances: []
@@ -120,7 +122,6 @@ title: Anotated Source
         getInst: (svg)->
             instNumber = parseInt d3.select(svg).attr("alchInst")
             Alchemy::instances[instNumber]
-
 
     root = exports ? this
     root.Alchemy = Alchemy

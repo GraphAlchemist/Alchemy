@@ -1,6 +1,6 @@
 (function() {
   "Alchemy.js is a graph drawing application for the web.\nCopyright (C) 2014  GraphAlchemist, Inc.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Affero General Public License for more details.\n\nYou should have received a copy of the GNU Affero General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.\nlets";
-  var Alchemy, Clustering, DrawEdge, DrawEdges, DrawNode, DrawNodes, Editor, EditorInteractions, EditorUtils, Layout, defaults, root, warnings,
+  var Alchemy, Clustering, DrawEdge, DrawEdges, DrawNode, DrawNodes, Editor, EditorInteractions, EditorUtils, Layout, root, warnings,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -10,7 +10,7 @@
         userConf = null;
       }
       this.a = this;
-      this.version = "0.4.0";
+      this.version = "#VERSION#";
       this.get = new this.get(this);
       this.remove = new this.remove(this);
       this.create = new this.create(this);
@@ -75,7 +75,7 @@
     Alchemy.prototype.setConf = function(userConf) {
       var key, val;
       if (userConf.theme != null) {
-        userConf = _.merge(_.cloneDeep(defaults), this.a.themes["" + userConf.theme]);
+        userConf = _.merge(_.cloneDeep(this.defaults), this.a.themes["" + userConf.theme]);
       }
       for (key in userConf) {
         val = userConf[key];
@@ -90,7 +90,7 @@
             userConf[nodeColour] = val;
         }
       }
-      return this.a.conf = _.merge(_.cloneDeep(defaults), userConf);
+      return this.a.conf = _.merge(_.cloneDeep(this.defaults), userConf);
     };
 
     Alchemy.prototype.instances = [];
@@ -1428,7 +1428,7 @@
     };
   };
 
-  defaults = {
+  Alchemy.prototype.defaults = {
     renderer: "svg",
     graphWidth: function() {
       return d3.select(this.divSelector).node().parentElement.clientWidth;

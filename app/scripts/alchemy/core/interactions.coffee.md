@@ -79,6 +79,7 @@
                     return "active" if node._state is "selected"
                     "selected"
                 node.setStyles()
+            
             if typeof a.conf.nodeClick is 'function'
                 a.conf.nodeClick(n)
 
@@ -113,16 +114,16 @@
                         @._zoomBehavior.scale(scale)
                                        .translate([x,y])
 
-        toggleControlDash: () ->
-            #toggle off-canvas class on click
-            offCanvas = a.dash.classed("off-canvas") or
-                        a.dash.classed("initial")
-            a.dash
-                   .classed {
-                        "off-canvas": !offCanvas,
-                        "initial"   : false,
-                        "on-canvas" : offCanvas
-                    }
+        # toggleControlDash: () ->
+        #     #toggle off-canvas class on click
+        #     offCanvas = a.dash.classed("off-canvas") or
+        #                 a.dash.classed("initial")
+        #     a.dash
+        #            .classed {
+        #                 "off-canvas": !offCanvas,
+        #                 "initial"   : false,
+        #                 "on-canvas" : offCanvas
+        #             }
 
         nodeDragStarted: (d, i) ->
             d3.event.preventDefault
