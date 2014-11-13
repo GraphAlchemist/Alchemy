@@ -119,7 +119,7 @@ title: Anotated Source
 
         getInst: (svg)->
             instNumber = parseInt d3.select(svg).attr("alchInst")
-            Alchemy::instances[instNumber - 1]
+            Alchemy::instances[instNumber]
 
 
     root = exports ? this
