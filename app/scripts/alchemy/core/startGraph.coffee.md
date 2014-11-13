@@ -118,3 +118,5 @@
                     .on 'keydown', editorInteractions.deleteSelected
 
                 editor.startEditor()
+
+            a.initial = true

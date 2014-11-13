@@ -38,7 +38,6 @@
             _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
             _setCaption: (edge, conf) ->
-                debugger
                 cap = conf.edgeCaption
                 edgeCaption = do (edge) ->
                     switch typeof cap

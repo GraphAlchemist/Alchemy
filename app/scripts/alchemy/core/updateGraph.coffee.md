@@ -15,10 +15,6 @@
             a.force.tick() while a.force.alpha() > 0.005
             a.force.on "tick", a.layout.tick
               .start()
-            console.log "!=============!"
-            console.log a, a._drawEdges
-            console.log "!=============!"
-           
 
             a.vis.selectAll 'g.node'
                 .attr 'transform', (id, i) -> "translate(#{id.x}, #{id.y})"

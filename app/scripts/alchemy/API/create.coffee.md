@@ -39,6 +39,8 @@
             for n in nodeMaps
                 # check if the node already exists
                 registerNode n
+
+            @a.updateGraph() if @a.initial
             
         edges: (edgeMap, edgeMaps...) ->
             a = this.a
@@ -74,3 +76,4 @@
                         [aEdge]
              allEdges = _.uniq _.flatten arguments
              _.each allEdges, (e)-> registerEdge e
+             @a.updateGraph() if @a.initial
