@@ -27,6 +27,7 @@
                     'target': @a._nodes[@_properties.target]._d3
                     'self': @
                     , @a.svgStyles.edge.populate @
+                
                 @_setCaption(edge, conf)
                 # Add id to source/target's edgelist
                 @a._nodes["#{edge.source}"]._addEdge @
@@ -36,7 +37,7 @@
 
             _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
-            _setCaption: (edge, conf) =>
+            _setCaption: (edge, conf) ->
                 cap = conf.edgeCaption
                 edgeCaption = do (edge) ->
                     switch typeof cap

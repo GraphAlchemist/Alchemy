@@ -29,7 +29,7 @@
                     "node #{nodeType} active"
                 .attr 'id', (d) -> "node-#{d.id}"
                 .classed 'root', (d) -> d.root
-
+            
             drawNode.createNode node
             drawNode.styleNode node
             drawNode.styleText node

@@ -73,7 +73,7 @@
                     l = Math.sqrt(x * x + y * y)
                     r = r
                     if l < r
-                        l = (l - r) / l * @a.conf.alpha
+                        l = (l - r) / l * conf.alpha
                         node.x -= x *= l
                         node.y -= y *= l
                         quad.point.x += x
@@ -84,12 +84,10 @@
                 y2 < ny1
 
         tick: () =>
-            if @a.conf.collisionDetectionls
+            if @a.conf.collisionDetection
                 q = d3.geom.quadtree @d3NodeInternals
                 for node in @d3NodeInternals
                     q.visit @collide(node)
-
-            # @a.node
             @a.vis
                 .selectAll "g.node"
                 .attr "transform", (d) -> "translate(#{d.x},#{d.y})"

@@ -80,7 +80,6 @@ and edge itself.  The length of startPathX is then accounted for in the edgeLeng
             startPathX = 0 + edge.source.radius + edge.source['stroke-width'] - (edgeWidth / 2) + curveOffset
             edgeLength = hyp - startPathX - curveOffset * 1.5
 
-
 The absolute angle of the edge used for caption rendering and
 path rendering.
 

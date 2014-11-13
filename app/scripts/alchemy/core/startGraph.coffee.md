@@ -39,9 +39,8 @@
                     .attr "xmlns", "http://www.w3.org/2000/svg"
                     .attr "xlink", "http://www.w3.org/1999/xlink"
                     .attr "pointer-events", "all"
-                    .attr "shape-rendering", "optimizeSpeed"
                     .attr "style", "background:#{conf.backgroundColour};"
-                    .attr "alchInst", (d) -> Alchemy::instances.length - 1
+                    .attr "alchInst", Alchemy::instances.length
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null
@@ -119,3 +118,5 @@
                     .on 'keydown', editorInteractions.deleteSelected
 
                 editor.startEditor()
+
+            a.initial = true
