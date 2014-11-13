@@ -63,6 +63,7 @@ title: Anotated Source
                 "layout": "default"
 
             @startGraph     = @startGraph @
+            @updateGraph    = @updateGraph @
             @generateLayout = @generateLayout @
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @

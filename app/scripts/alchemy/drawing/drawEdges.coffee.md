@@ -24,7 +24,7 @@
                         .attr "id", (d) -> "edge-#{d.id}-#{d.pos}"
                         .attr 'class', (d)->
                             "edge #{d.edgeType}"
-                        .attr 'source-target', (d) -> "#{d.source.id}-#{d.target.id}"    
+                        .attr 'source-target', (d) -> "#{d.source.id}-#{d.target.id}"
             drawEdge.createLink edge
             drawEdge.classEdge edge
             drawEdge.styleLink edge

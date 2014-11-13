@@ -36,6 +36,8 @@
                     return "block" if conf.nodeCaptionsOnByDefault
 
         createNode: (node) ->
+            node = _.difference node, node.select("circle").data()
+            node.__proto__ = d3.select().__proto__
             node.append 'circle'
                 .attr 'id', (d) -> "circle-#{d.id}"
             node.append 'svg:text'
