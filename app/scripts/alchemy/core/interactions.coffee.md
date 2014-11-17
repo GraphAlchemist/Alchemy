@@ -18,17 +18,20 @@
         a = instance
 
         edgeClick: (d) ->
-            a = d.self.a
-
+            # Don't consider drag a click
+            return if d3.event.defaultPrevented
+            # Don't tell alchemy about the click
             d3.event.stopPropagation()
+            # Convert d3.edge to alchemy.edge
             edge = d.self
+
+            if typeof a.conf.edgeClick is 'function'
+                a.conf.edgeClick(edge)
             if edge._state != "hidden"
                 edge._state = do ->
                     return "active" if edge._state is "selected"
                     "selected"
                 edge.setStyles()
-            if typeof a.conf.edgeClick? is 'function'
-                a.conf.edgeClick()
 
         edgeMouseOver: (d) ->
             edge = d.self
