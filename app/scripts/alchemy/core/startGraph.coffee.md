@@ -23,12 +23,13 @@
             if d3.select(conf.divSelector).empty()
                 console.warn a.utils.warnings.divWarning()
 
-            # see if data is ok
+            # Verify passed in data
             if not data
                 data =
                   nodes:[]
                   edges:[]
                 a.utils.warnings.dataWarning()
+            if not data.edges? then data.edges = []
 
             # create nodes map and update links
             a.create.nodes data.nodes
