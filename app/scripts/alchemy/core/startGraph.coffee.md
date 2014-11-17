@@ -25,6 +25,9 @@
 
             # see if data is ok
             if not data
+                data =
+                  nodes:[]
+                  edges:[]
                 a.utils.warnings.dataWarning()
 
             # create nodes map and update links
