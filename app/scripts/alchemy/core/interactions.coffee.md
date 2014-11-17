@@ -70,17 +70,19 @@
         nodeClick: (n) ->
             # Don't consider drag a click
             return if d3.event.defaultPrevented
-
+            # Don't tell alchemy about the click
             d3.event.stopPropagation()
+            # Convert d3.node to alchemy.node
             node = n.self
+
+            if typeof a.conf.nodeClick is 'function'
+                a.conf.nodeClick(node)
 
             if node._state != "hidden"
                 node._state = do ->
                     return "active" if node._state is "selected"
                     "selected"
                 node.setStyles()
-            if typeof a.conf.nodeClick is 'function'
-                a.conf.nodeClick(n)
 
         zoom: (extent) ->
                     if not @_zoomBehavior?

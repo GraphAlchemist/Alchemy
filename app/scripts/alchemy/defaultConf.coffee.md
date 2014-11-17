@@ -94,6 +94,7 @@
         nodeTypes: null
         rootNodes: 'root'
         rootNodeRadius: 15
+        nodeClick: null
 
         # Edges
         edgeCaption: 'caption'
