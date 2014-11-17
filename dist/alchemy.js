@@ -44,10 +44,12 @@
         "layout": "default"
       };
       this.startGraph = this.startGraph(this);
+      this.updateGraph = this.updateGraph(this);
       this.generateLayout = this.generateLayout(this);
       this.svgStyles = this.svgStyles(this);
       this.interactions = this.interactions(this);
       this.search = this.search(this);
+      this.plugins = this.plugins(this);
       this._nodes = {};
       this._edges = {};
       this.getNodes = this.get.getNodes;
@@ -60,7 +62,8 @@
     }
 
     Alchemy.prototype.begin = function(userConf) {
-      this.setConf(userConf);
+      var conf;
+      conf = this.setConf(userConf);
       switch (typeof this.conf.dataSource) {
         case 'string':
           d3.json(this.a.conf.dataSource, this.a.startGraph);
@@ -68,6 +71,7 @@
         case 'object':
           this.a.startGraph(this.a.conf.dataSource);
       }
+      this.plugins.init();
       Alchemy.prototype.instances.push(this);
       return this;
     };
@@ -95,14 +99,10 @@
 
     Alchemy.prototype.instances = [];
 
-    Alchemy.prototype.getInst = function(element) {
-      if (element.a != null) {
-        return element.a;
-      } else if (element.self != null) {
-        return element.self.a;
-      } else {
-        return Alchemy.prototype.instances[d3.select(element).attr("alchInst")];
-      }
+    Alchemy.prototype.getInst = function(svg) {
+      var instNumber;
+      instNumber = parseInt(d3.select(svg).attr("alchInst"));
+      return Alchemy.prototype.instances[instNumber];
     };
 
     return Alchemy;
@@ -125,7 +125,7 @@
     }
 
     create.prototype.nodes = function() {
-      var a, n, nodeMap, nodeMaps, registerNode, results, _i, _len;
+      var a, n, nodeMap, nodeMaps, registerNode, _i, _len;
       nodeMap = arguments[0], nodeMaps = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       a = this.a;
       registerNode = function(node) {
@@ -139,16 +139,17 @@
         }
       };
       nodeMaps = _.union(nodeMaps, nodeMap);
-      results = [];
       for (_i = 0, _len = nodeMaps.length; _i < _len; _i++) {
         n = nodeMaps[_i];
         registerNode(n);
       }
-      return results;
+      if (this.a.initial) {
+        return this.a.updateGraph();
+      }
     };
 
     create.prototype.edges = function() {
-      var a, edgeMap, edgeMaps, registerEdge;
+      var a, allEdges, edgeMap, edgeMaps, registerEdge;
       edgeMap = arguments[0], edgeMaps = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
       a = this.a;
       registerEdge = function(edge) {
@@ -172,10 +173,12 @@
           }
         }
       };
-      if (edgeMaps.length !== 0) {
-        return console.warn("Make sure this function supports multiple arguments");
-      } else {
-        return registerEdge(edgeMap);
+      allEdges = _.uniq(_.flatten(arguments));
+      _.each(allEdges, function(e) {
+        return registerEdge(e);
+      });
+      if (this.a.initial) {
+        return this.a.updateGraph();
       }
     };
 
@@ -938,15 +941,6 @@
         }
         return this._zoomBehavior.scale(scale).translate([x, y]);
       },
-      toggleControlDash: function() {
-        var offCanvas;
-        offCanvas = a.dash.classed("off-canvas") || a.dash.classed("initial");
-        return a.dash.classed({
-          "off-canvas": !offCanvas,
-          "initial": false,
-          "on-canvas": offCanvas
-        });
-      },
       nodeDragStarted: function(d, i) {
         d3.event.preventDefault;
         d3.event.sourceEvent.stopPropagation();
@@ -1091,7 +1085,7 @@
           l = Math.sqrt(x * x + y * y);
           r = r;
           if (l < r) {
-            l = (l - r) / l * this.a.conf.alpha;
+            l = (l - r) / l * conf.alpha;
             node.x -= x *= l;
             node.y -= y *= l;
             quad.point.x += x;
@@ -1104,7 +1098,7 @@
 
     Layout.prototype.tick = function() {
       var edges, node, q, _i, _len, _ref;
-      if (this.a.conf.collisionDetectionls) {
+      if (this.a.conf.collisionDetection) {
         q = d3.geom.quadtree(this.d3NodeInternals);
         _ref = this.d3NodeInternals;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -1252,9 +1246,7 @@
       data.edges.forEach(function(e) {
         return a.create.edges(e);
       });
-      a.vis = d3.select(conf.divSelector).attr("style", "width:" + (conf.graphWidth()) + "px; height:" + (conf.graphHeight()) + "px; background:" + conf.backgroundColour + ";").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("xlink", "http://www.w3.org/1999/xlink").attr("pointer-events", "all").attr("shape-rendering", "optimizeSpeed").attr("style", "background:" + conf.backgroundColour + ";").attr("alchInst", function(d) {
-        return Alchemy.prototype.instances.length - 1;
-      }).on('click', a.interactions.deselectAll).call(a.interactions.zoom(conf.scaleExtent)).on("dblclick.zoom", null).append('g').attr("transform", "translate(" + conf.initialTranslate + ") scale(" + conf.initialScale + ")");
+      a.vis = d3.select(conf.divSelector).attr("style", "width:" + (conf.graphWidth()) + "px; height:" + (conf.graphHeight()) + "px; background:" + conf.backgroundColour + ";").append("svg").attr("xmlns", "http://www.w3.org/2000/svg").attr("xlink", "http://www.w3.org/1999/xlink").attr("pointer-events", "all").attr("style", "background:" + conf.backgroundColour + ";").attr("alchInst", Alchemy.prototype.instances.length).on('click', a.interactions.deselectAll).call(a.interactions.zoom(conf.scaleExtent)).on("dblclick.zoom", null).append('g').attr("transform", "translate(" + conf.initialTranslate + ") scale(" + conf.initialScale + ")");
       a.interactions.zoom().scale(conf.initialScale);
       a.interactions.zoom().translate(conf.initialTranslate);
       a.generateLayout();
@@ -1315,8 +1307,9 @@
         editor = new a.editor.Editor;
         editorInteractions = new a.editor.Interactions;
         d3.select("body").on('keydown', editorInteractions.deleteSelected);
-        return editor.startEditor();
+        editor.startEditor();
       }
+      return a.initial = true;
     };
   };
 
@@ -1428,7 +1421,40 @@
     };
   };
 
+  Alchemy.prototype.updateGraph = function(instance) {
+    var a;
+    a = instance;
+    return function() {
+      var d3Edges, d3Nodes;
+      a.generateLayout();
+      d3Edges = _.flatten(_.map(a._edges, function(edgeArray) {
+        var e, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = edgeArray.length; _i < _len; _i++) {
+          e = edgeArray[_i];
+          _results.push(e._d3);
+        }
+        return _results;
+      }));
+      d3Nodes = _.map(a._nodes, function(n) {
+        return n._d3;
+      });
+      a._drawEdges.createEdge(d3Edges);
+      a._drawNodes.createNode(d3Nodes);
+      a.layout.positionRootNodes();
+      a.force.start();
+      while (a.force.alpha() > 0.005) {
+        a.force.tick();
+      }
+      a.force.on("tick", a.layout.tick).start();
+      return a.vis.selectAll('g.node').attr('transform', function(id, i) {
+        return "translate(" + id.x + ", " + id.y + ")";
+      });
+    };
+  };
+
   Alchemy.prototype.defaults = {
+    plugins: null,
     renderer: "svg",
     graphWidth: function() {
       return d3.select(this.divSelector).node().parentElement.clientWidth;
@@ -1695,7 +1721,7 @@
           } else {
             return "visible";
           }
-        }).html(function(d) {
+        }).text(function(d) {
           return utils.nodeText(d);
         }).style("display", function(d) {
           if (conf.nodeCaptionsOnByDefault) {
@@ -1704,6 +1730,8 @@
         });
       },
       createNode: function(node) {
+        node = _.difference(node, node.select("circle").data());
+        node.__proto__ = d3.select().__proto__;
         node.append('circle').attr('id', function(d) {
           return "circle-" + d.id;
         });
@@ -1720,7 +1748,7 @@
           } else {
             return d.radius;
           }
-        }).attr('shape-rendering', 'optimizeSpeed').each(function(d) {
+        }).each(function(d) {
           return d3.select(this).style(utils.nodeStyle(d));
         });
       },
@@ -2618,7 +2646,6 @@
         this.getStyles = __bind(this.getStyles, this);
         this.setProperties = __bind(this.setProperties, this);
         this.getProperties = __bind(this.getProperties, this);
-        this._setCaption = __bind(this._setCaption, this);
         this._setID = __bind(this._setID, this);
         this._setD3Properties = __bind(this._setD3Properties, this);
         this.a = instance;
@@ -2734,19 +2761,15 @@
       };
 
       Edge.prototype.getStyles = function() {
-        var key, keys, query;
+        var edge, key, keys;
         key = arguments[0], keys = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-        if (key == null) {
-          key = null;
+        edge = this;
+        if (key === void 0) {
+          return edge._style;
         }
-        if ((key == null) && (keys.length === 0)) {
-          return this._style;
-        } else if (keys.length !== 0) {
-          query = _.union([key], keys);
-          return _.pick(this._style, query);
-        } else {
-          return this._style[key];
-        }
+        return _.map(arguments, function(arg) {
+          return edge._style[arg];
+        });
       };
 
       Edge.prototype.setProperties = function(property, value) {
@@ -2808,11 +2831,26 @@
       };
 
       Edge.prototype.remove = function() {
-        var filteredLinkList;
-        delete this.a._edges[this.id];
-        this.a.vis.select("#edge-" + this.id + "-" + this._index).remove();
+        var edge, filteredLinkList;
+        edge = this;
+        delete this.a._edges[edge.id];
+        if (this.a._nodes[edge._properties.source] != null) {
+          _.remove(this.a._nodes[edge._properties.source]._adjacentEdges, function(e) {
+            if (e.id === edge.id) {
+              return e;
+            }
+          });
+        }
+        if (this.a._nodes[edge._properties.target] != null) {
+          _.remove(this.a._nodes[edge._properties.target]._adjacentEdges, function(e) {
+            if (e.id === edge.id) {
+              return e;
+            }
+          });
+        }
+        this.a.vis.select("#edge-" + edge.id + "-" + edge._index).remove();
         filteredLinkList = _.filter(this.a.force.links(), function(link) {
-          if (link.id !== this.id) {
+          if (link.id !== edge.id) {
             return link;
           }
         });
@@ -2904,20 +2942,26 @@
         return this;
       };
 
-      Node.prototype.removeProperty = function(property) {
-        delete this._properties[property];
+      Node.prototype.removeProperty = function() {
+        var prop, properties, property, _i, _len;
+        property = arguments[0], properties = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        for (_i = 0, _len = arguments.length; _i < _len; _i++) {
+          prop = arguments[_i];
+          delete this._properties[prop];
+        }
         return this;
       };
 
-      Node.prototype.getStyles = function(key) {
-        if (key == null) {
-          key = null;
+      Node.prototype.getStyles = function() {
+        var key, keys, node;
+        key = arguments[0], keys = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        node = this;
+        if (key === void 0) {
+          return node._style;
         }
-        if (key != null) {
-          return this._style[key];
-        } else {
-          return this._style;
-        }
+        return _.map(arguments, function(arg) {
+          return node._style[arg];
+        });
       };
 
       Node.prototype.setStyles = function(key, value) {
@@ -2959,9 +3003,9 @@
       };
 
       Node.prototype.remove = function() {
-        _.each(this._adjacentEdges, function(adjacentEdge) {
-          return adjacentEdge.remove();
-        });
+        while (!_.isEmpty(this._adjacentEdges)) {
+          this._adjacentEdges[0].remove();
+        }
         delete this.a._nodes[this.id];
         return this.a.vis.select("#node-" + this.id).remove();
       };
@@ -2969,6 +3013,19 @@
       return Node;
 
     })();
+  };
+
+  Alchemy.prototype.plugins = function(instance) {
+    return {
+      init: function() {
+        return _.each(_.keys(instance.conf.plugins), function(key) {
+          instance.plugins[key] = Alchemy.prototype.plugins[key](instance);
+          if (instance.plugins[key].init != null) {
+            return instance.plugins[key].init();
+          }
+        });
+      }
+    };
   };
 
   Alchemy.prototype.themes = {
