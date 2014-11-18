@@ -30,9 +30,11 @@ title: Anotated Source
 
             @version  = "#VERSION#"
             # give access to default conf
-            @get      = new @get @
-            @remove   = new @remove @
-            @create   = new @create @
+            @get      = new @Get    @
+            @remove   = new @Remove @
+            @create   = new @Create @
+            @set      = new @Set    @
+
             @drawing  =
                 DrawEdge : DrawEdge   @
                 DrawEdges: DrawEdges  @
