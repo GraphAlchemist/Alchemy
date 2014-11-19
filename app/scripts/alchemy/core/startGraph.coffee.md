@@ -44,7 +44,7 @@
                     .attr "xlink", "http://www.w3.org/1999/xlink"
                     .attr "pointer-events", "all"
                     .attr "style", "background:#{conf.backgroundColour};"
-                    .attr "alchInst", Alchemy::instances.length
+                    .attr "alchInst", (Alchemy::instances.length - 1)
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null
