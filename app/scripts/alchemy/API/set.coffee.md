@@ -14,5 +14,6 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    Alchemy::set =
-        state: (key, value) -> alchemy.state.key = value
+    Alchemy::Set = (instance)->
+        a    : instance
+        state: (key, value) -> @a.state.key = value

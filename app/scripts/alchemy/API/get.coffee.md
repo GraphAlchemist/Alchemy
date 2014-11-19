@@ -18,7 +18,7 @@
     # make js array method called ._state
     # @a.set.  nest set inside of get
 
-    Alchemy::get = (instance) ->
+    Alchemy::Get = (instance) ->
         a: instance
         _el: []
         _elType: null
