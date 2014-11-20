@@ -1,0 +1,35 @@
+<div class="row"> <h2>Description</h2> <p class="lead">{{current_example.desc}}</p> </div> <div class="row" id="example4"> <div id="graph-container" style="height:450px"> <h3 class="filename">Graph</h3> <div class="alchemy" id="alchemy" style="width: 100%"></div> </div> </div> <div class="row example-code"> <h3 class="filename">HTML and Configuration</h3> <pre pretty-print>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;alchemy&quot;&gt;&lt;/div&gt;
+
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+
+    alchemy.begin({
+        	dataSource: "actors.json", 
+        	nodeCaption: 'name', 
+        	nodeMouseOver: 'name',
+            cluster: true,
+            clusterColours: ["#1B9E77","#D95F02","#7570B3","#E7298A","#66A61E","#E6AB02"]})
+
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+  </pre> </div> <div class="row example-code"> <h3 class="filename">graphJSON</h3> <pre id="graphJSON">
+    <div code-panel></div>
+   </pre> </div> <script type="text/javascript">var config = {
+        dataSource: 'data/actors.json', 
+    	nodeCaption: 'name', 
+    	nodeMouseOver: 'name',
+        cluster: true,
+        clusterColours: ["#1B9E77","#D95F02","#7570B3","#E7298A","#66A61E","#E6AB02"]
+    };
+    
+    alchemy = new Alchemy(config)
+
+    $('pre').addClass('prettyprint');
+    prettyPrint();</script>

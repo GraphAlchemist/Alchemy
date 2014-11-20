@@ -1,0 +1,77 @@
+<div class="row"> <h2>Description</h2> <p class="lead">{{current_example.desc}}</p> </div> <div id="graph-container" class="row"> <h3 class="filename">Graph</h3> <div class="alchemy" id="alchemy" style="height:450px; width: 100%"></div> </div> <div class="row example-code"> <h3 class="filename">HTML and Configuration</h3> <pre pretty-print>
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;/&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div class=&quot;alchemy&quot; id=&quot;graph&quot;&gt;&lt;/div&gt;
+
+  &lt;script src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot;&gt;
+       var config = {
+            dataSource: "data/irc.json",
+            edgeTypes: {"edgeType":["IS_IN", "REFERENCED"]}, 
+            nodeTypes: {"nodeType":["room", "user"]},
+            forceLocked: false,
+            nodeCaption: 'id',
+            edgeCaption: 'edgeType',
+            nodeStyle: {
+              "room": {
+                "color"      : "#F6F",
+                "radius"     : 20,
+                "borderWidth": 8
+              },
+              "user":{
+                "radius"     : 4
+              }
+            },
+            edgeStyle: {
+              "IS_IN": {
+                "width": 1,
+                "color": "rgba(255,255,255,0.4)"
+              },
+              "REFERENCED": {
+                "width": 3,
+                "color": "rgb(0,255,0)"
+              }
+            }
+          }
+
+        alchemy = new Alchemy(config)
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+        </pre> </div> <div class="row example-code"> <h3 class="filename">graphJSON</h3> <pre id="graphJSON">
+      <div code-panel></div>
+    </pre> </div> <script type="text/javascript">var config = {
+        dataSource: "data/irc.json",
+        edgeTypes: {"edgeType":["IS_IN", "REFERENCED"]}, 
+        nodeTypes: {"nodeType":["room", "user"]},
+        forceLocked: false,
+        nodeCaption: 'id',
+        edgeCaption: 'edgeType',
+        nodeStyle: {
+          "room": {
+            "color"      : "#F6F",
+            "radius"     : 20,
+            "borderWidth": 8
+          },
+          "user":{
+            "radius"     : 4
+          }
+        },
+        edgeStyle: {
+          "IS_IN": {
+            "width": 1,
+            "color": "rgba(255,255,255,0.4)"
+          },
+          "REFERENCED": {
+            "width": 3,
+            "color": "rgb(0,255,0)"
+          }
+        }
+      };  
+    alchemy = new Alchemy(config)
+
+    $('pre').addClass('prettyprint');
+      prettyPrint();</script>
