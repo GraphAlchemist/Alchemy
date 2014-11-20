@@ -11,10 +11,10 @@ do ->
         d3.select('body').append('div').attr('id', 'alchemy')
         
         alchemy = new Alchemy
-            dataSource : contrib_json,
-            graphWidth : () -> 200,
-            graphHeight: () -> 200,
-            alpha      : 0.23,
+            dataSource : contrib_json
+            graphWidth : () -> 200
+            graphHeight: () -> 200
+            alpha      : 0.23
             nodeTypes  : {"role": ["maintainer", "project"]}
 
         setTimeout done, 1000

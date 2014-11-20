@@ -74,8 +74,6 @@ module.exports = (grunt) ->
     shell:
       commitBuild:
         command: "git add -A && git commit -am 'commit dist files for #{pkg.version}'"
-      docs:
-        command: 'grunt --gruntfile site/Gruntfile.coffee'
 
     # Watches files for changes and runs tasks based on the changed files
     watch:
@@ -499,10 +497,6 @@ module.exports = (grunt) ->
         cwd: "<%= yeoman.dist %>"
         src: "**"
 
-      litcoffee:
-        files:
-          'site/app/docs/_documentation/Annotated-Source.md':'.tmp/scripts/alchemysrc.coffee.md'
-
     concurrent:
       # Run some tasks in parallel to speed up build process
       server: ["compass:server", "coffee:dev",  "copy:styles"]
@@ -560,7 +554,7 @@ module.exports = (grunt) ->
   pullRequest = grunt.option('pr') 
   travis = grunt.option('travis')                         
   grunt.registerTask "default",
-    # release alchemy and build docs
+    # release alchemy
     if releaseFlag
       ["test:dist",
        "build",
@@ -572,7 +566,6 @@ module.exports = (grunt) ->
        "concat:s3", # squash vendor and alchemy files for cdn
        "concat:s3Version", # apply version numbers for cdn
        "s3:production" # publish files to s3 for cdn
-       "shell:docs", # publish docs
       ]
     # Travis-ci on a commit to the main repo branches
     else if travis

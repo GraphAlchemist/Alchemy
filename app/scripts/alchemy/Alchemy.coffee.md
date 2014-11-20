@@ -29,9 +29,12 @@ title: Anotated Source
             @a = @
 
             @version  = "#VERSION#"
-            @get      = new @get @
-            @remove   = new @remove @
-            @create   = new @create @
+            # give access to default conf
+            @get      = new @Get    @
+            @remove   = new @Remove @
+            @create   = new @Create @
+            @set      = new @Set    @
+
             @drawing  =
                 DrawEdge : DrawEdge   @
                 DrawEdges: DrawEdges  @
@@ -63,10 +66,12 @@ title: Anotated Source
                 "layout": "default"
 
             @startGraph     = @startGraph @
+            @updateGraph    = @updateGraph @
             @generateLayout = @generateLayout @
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @
             @search         = @search @
+            @plugins        = @plugins @
 
 	        # alchemy._nodes stores a node object as the value with the unique
             # id specified in the GraphJSON.
@@ -91,11 +96,12 @@ title: Anotated Source
 
         begin: (userConf) ->
             # overide configuration with user inputs
-            @setConf userConf
+            conf = @setConf userConf
             switch typeof @conf.dataSource
                 when 'string' then d3.json @a.conf.dataSource, @a.startGraph
                 when 'object' then @a.startGraph @a.conf.dataSource
-
+            
+            @plugins.init()
             Alchemy::instances.push @
 
             @
@@ -103,7 +109,7 @@ title: Anotated Source
         setConf: (userConf) ->
             # apply base themes
             if userConf.theme?
-                userConf = _.merge _.cloneDeep(defaults), @a.themes["#{userConf.theme}"]
+                userConf = _.merge _.cloneDeep(@defaults), @a.themes["#{userConf.theme}"]
 
             for key, val of userConf
                 switch key
@@ -111,24 +117,14 @@ title: Anotated Source
                     when "backgroundColor" then userConf["backgroundColour"] = val
                     when "nodeColor"       then userConf[nodeColour]         = val
 
-            @a.conf = _.merge _.cloneDeep(defaults), userConf
+            @a.conf = _.merge _.cloneDeep(@defaults), userConf
 
         # All alchemy instances in order of creation.
         instances: []
 
-        getInst: (element)->
-            #Edge or Node
-            if element.a?
-                element.a
-
-            #_d3 packet
-            else if element.self?
-                element.self.a
-
-            #SVG element
-            else
-                Alchemy::instances[d3.select(element).attr("alchInst")]
-
+        getInst: (svg)->
+            instNumber = parseInt d3.select(svg).attr("alchInst")
+            Alchemy::instances[instNumber]
 
     root = exports ? this
     root.Alchemy = Alchemy

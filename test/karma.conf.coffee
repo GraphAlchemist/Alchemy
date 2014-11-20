@@ -25,6 +25,7 @@ module.exports = (config) ->
       "test/spec/models/edge.coffee"
       "test/spec/api/get.coffee"
       "test/spec/api/remove.coffee"
+      "test/spec/plugins/plugins.coffee"
       "app/sample_data/contrib.json"
     ]
     

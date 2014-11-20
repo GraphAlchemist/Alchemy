@@ -18,7 +18,7 @@
     # make js array method called ._state
     # @a.set.  nest set inside of get
 
-    Alchemy::get = (instance)->
+    Alchemy::Get = (instance) ->
         a: instance
         _el: []
         _elType: null
@@ -60,8 +60,8 @@
             elType = @_elType
             @_el = do (elType)->
                 switch elType
-                    when "node" then return _.values a._nodes
-                    when "edge" then return _.flatten _.map a._edges, (e)-> e
+                    when "node" then return a.elements.nodes.val
+                    when "edge" then return a.elements.edges.flat
             @_makeChain @_el
 
         elState: (state) ->
@@ -100,14 +100,13 @@
             clusterColoursObject
 
         ###### ALL METHODS BELOW THIS POINT WILL BE DEPRECATED UPON 1.0 ######
-        allEdges: ->
-            _.flatten _.map(@a._edges, (edgeArray) -> e for e in edgeArray)
+        allEdges: -> @a.elements.nodes.flat
 
         allNodes: (type) ->
             if type?
                 _.filter @a._nodes, (n) -> n if n._nodeType is type
             else
-                _.map @a._nodes, (n) -> n
+                @a.elements.nodes.val
 
         getNodes: (id, ids...)->
             a = @a

@@ -27,6 +27,7 @@
                     'target': @a._nodes[@_properties.target]._d3
                     'self': @
                     , @a.svgStyles.edge.populate @
+                
                 @_setCaption(edge, conf)
                 # Add id to source/target's edgelist
                 @a._nodes["#{edge.source}"]._addEdge @
@@ -36,7 +37,7 @@
 
             _setID: (e) => if e.id? then e.id else "#{e.source}-#{e.target}"
 
-            _setCaption: (edge, conf) =>
+            _setCaption: (edge, conf) ->
                 cap = conf.edgeCaption
                 edgeCaption = do (edge) ->
                     switch typeof cap
@@ -79,14 +80,10 @@
                         @_setD3Properties {property: alchemy._nodes[value]._d3}
                 @
 
-            getStyles: (key=null, keys...) =>
-                if not key? and (keys.length is 0)
-                    @_style
-                else if keys.length isnt 0
-                    query = _.union [key], keys
-                    _.pick @_style, query
-                else
-                    @_style[key]
+            getStyles: (key, keys...) =>
+                edge = @
+                return edge._style if key is undefined
+                _.map arguments, (arg)-> edge._style[arg]
 
             setProperties: (property, value=null) =>
                 if _.isPlainObject property
@@ -127,7 +124,13 @@
                 sourceNode._state is "active" and targetNode._state is "active"
 
             remove: ->
-                delete @a._edges[@.id]
-                @a.vis.select("#edge-" + @.id + "-" + @._index).remove()
-                filteredLinkList = _.filter @a.force.links(), (link) -> link if link.id != @.id
+                edge = @
+                delete @a._edges[edge.id]
+
+                if @a._nodes[edge._properties.source]?
+                    _.remove @a._nodes[edge._properties.source]._adjacentEdges, (e) -> e if e.id is edge.id
+                if @a._nodes[edge._properties.target]?
+                    _.remove @a._nodes[edge._properties.target]._adjacentEdges, (e) -> e if e.id is edge.id
+                @a.vis.select("#edge-" + edge.id + "-" + edge._index).remove()
+                filteredLinkList = _.filter @a.force.links(), (link) -> link if link.id != edge.id
                 @a.force.links(filteredLinkList)

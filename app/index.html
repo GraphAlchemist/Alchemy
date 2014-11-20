@@ -26,7 +26,6 @@
         <![endif]-->
 
         <div class="alchemy" id="alchemy"></div>
-        <div class="alchemy" id="chemistry"></div>
 
         <!-- build:js({.tmp,app}) scripts/vendor.js -->
         <!-- bower:js -->
@@ -39,9 +38,9 @@
         
         <script src="scripts/alchemy.js"></script>
         <script type="text/javascript">
+          
           var config = {
-            dataSource: "sample_data/contrib.json",
-            // curvedEdges: true
+            dataSource: "sample_data/contrib.json"
           }
 
           var alchemy = new Alchemy(config)

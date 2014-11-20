@@ -18,17 +18,20 @@
         a = instance
 
         edgeClick: (d) ->
-            a = d.self.a
-
+            # Don't consider drag a click
+            return if d3.event.defaultPrevented
+            # Don't tell alchemy about the click
             d3.event.stopPropagation()
+            # Convert d3.edge to alchemy.edge
             edge = d.self
+
+            if typeof a.conf.edgeClick is 'function'
+                a.conf.edgeClick(edge)
             if edge._state != "hidden"
                 edge._state = do ->
                     return "active" if edge._state is "selected"
                     "selected"
                 edge.setStyles()
-            if typeof a.conf.edgeClick? is 'function'
-                a.conf.edgeClick()
 
         edgeMouseOver: (d) ->
             edge = d.self
@@ -70,17 +73,19 @@
         nodeClick: (n) ->
             # Don't consider drag a click
             return if d3.event.defaultPrevented
-
+            # Don't tell alchemy about the click
             d3.event.stopPropagation()
+            # Convert d3.node to alchemy.node
             node = n.self
+
+            if typeof a.conf.nodeClick is 'function'
+                a.conf.nodeClick(node)
 
             if node._state != "hidden"
                 node._state = do ->
                     return "active" if node._state is "selected"
                     "selected"
                 node.setStyles()
-            if typeof a.conf.nodeClick is 'function'
-                a.conf.nodeClick(n)
 
         zoom: (extent) ->
                     if not @_zoomBehavior?
@@ -113,16 +118,16 @@
                         @._zoomBehavior.scale(scale)
                                        .translate([x,y])
 
-        toggleControlDash: () ->
-            #toggle off-canvas class on click
-            offCanvas = a.dash.classed("off-canvas") or
-                        a.dash.classed("initial")
-            a.dash
-                   .classed {
-                        "off-canvas": !offCanvas,
-                        "initial"   : false,
-                        "on-canvas" : offCanvas
-                    }
+        # toggleControlDash: () ->
+        #     #toggle off-canvas class on click
+        #     offCanvas = a.dash.classed("off-canvas") or
+        #                 a.dash.classed("initial")
+        #     a.dash
+        #            .classed {
+        #                 "off-canvas": !offCanvas,
+        #                 "initial"   : false,
+        #                 "on-canvas" : offCanvas
+        #             }
 
         nodeDragStarted: (d, i) ->
             d3.event.preventDefault

@@ -16,14 +16,14 @@
 
     class Layout
         constructor: (instance)->
-            @a = instance
+            @a = a = instance
 
             conf = @a.conf
             nodes = @a._nodes
 
             @k = Math.sqrt Math.log(_.size(@a._nodes)) / (conf.graphWidth() * conf.graphHeight())
             @_clustering = new @a.clustering @a
-            @d3NodeInternals = _.map @a._nodes, (v,k)-> v._d3
+            @d3NodeInternals = a.elements.nodes.d3
 
             if conf.cluster
                 @_charge = () -> @_clustering.layout.charge
@@ -45,8 +45,6 @@
                 @_linkDistancefn = (edge) -> conf.linkDistancefn
             else if typeof conf.linkDistancefn is 'function'
                 @_linkDistancefn = (edge) -> conf.linkDistancefn(edge)
-
-            
 
         gravity: () =>
             if @a.conf.cluster
@@ -73,7 +71,7 @@
                     l = Math.sqrt(x * x + y * y)
                     r = r
                     if l < r
-                        l = (l - r) / l * @a.conf.alpha
+                        l = (l - r) / l * conf.alpha
                         node.x -= x *= l
                         node.y -= y *= l
                         quad.point.x += x
@@ -83,19 +81,19 @@
                 y1 > ny2 or
                 y2 < ny1
 
-        tick: () =>
-            if @a.conf.collisionDetectionls
+        tick: (draw) =>
+            a     = @a
+            nodes = a.elements.nodes.svg
+            edges = a.elements.edges.svg
+
+            if a.conf.collisionDetection
                 q = d3.geom.quadtree @d3NodeInternals
                 for node in @d3NodeInternals
                     q.visit @collide(node)
 
-            # @a.node
-            @a.vis
-                .selectAll "g.node"
-                .attr "transform", (d) -> "translate(#{d.x},#{d.y})"
+            nodes.attr "transform", (d) -> "translate(#{d.x},#{d.y})"
 
-            edges = @a.vis.selectAll "g.edge"
-            @drawEdge = @a.drawing.DrawEdge
+            @drawEdge = a.drawing.DrawEdge
             @drawEdge.styleText edges
             @drawEdge.styleLink edges
 
@@ -105,7 +103,7 @@
                 width: conf.graphWidth()
                 height: conf.graphHeight()
 
-            rootNodes = _.filter @a.get.allNodes(), (node) -> node.getProperties('root')
+            rootNodes = _.filter @a.elements.nodes.val, (node) -> node.getProperties('root')
             # if there is one root node, position it in the center
             if rootNodes.length is 1
                 n = rootNodes[0]
@@ -121,20 +119,16 @@
                     n._d3.y = container.height / 2
                     n._d3.fixed = true
 
-        chargeDistance: () ->
-            500
+        chargeDistance: () -> 500
 
-        linkDistancefn: (edge) ->
-            @_linkDistancefn edge
+        linkDistancefn: (edge) -> @_linkDistancefn edge
 
-        charge: () ->
-            @_charge()
+        charge: () -> @_charge()
 
     Alchemy::generateLayout = (instance)->
         a = instance
         (start=false)->
             conf = a.conf
-
             a.layout = new Layout a
             a.force = d3.layout.force()
                 .size [conf.graphWidth(), conf.graphHeight()]
@@ -142,8 +136,8 @@
                 .gravity a.layout.gravity()
                 .friction a.layout.friction()
 
-                .nodes _.map(a._nodes, (node) -> node._d3)
-                .links _.flatten _.map(a._edges, (edgeArray) -> e._d3 for e in edgeArray)
+                .nodes a.elements.nodes.d3
+                .links a.elements.edges.d3
                 .linkDistance (link) -> a.layout.linkDistancefn link
                 .linkStrength (link) -> a.layout.linkStrength link
                 

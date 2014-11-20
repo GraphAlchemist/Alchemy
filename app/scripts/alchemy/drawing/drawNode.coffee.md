@@ -31,11 +31,13 @@
                         "hidden"
                     else
                         "visible"
-                .html (d) -> utils.nodeText(d)
+                .text (d) -> utils.nodeText(d)
                 .style "display", (d)->
                     return "block" if conf.nodeCaptionsOnByDefault
 
         createNode: (node) ->
+            node = _.difference node, node.select("circle").data()
+            node.__proto__ = d3.select().__proto__
             node.append 'circle'
                 .attr 'id', (d) -> "circle-#{d.id}"
             node.append 'svg:text'
@@ -50,7 +52,6 @@
                         d.radius()
                     else
                         d.radius
-                .attr 'shape-rendering', 'optimizeSpeed'
                 .each (d) -> d3.select(@).style utils.nodeStyle d
 
 

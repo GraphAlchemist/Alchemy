@@ -14,7 +14,7 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    class Alchemy::create
+    class Alchemy::Create
         constructor: (instance)->
             @a = instance
         nodes: (nodeMap, nodeMaps...) ->
@@ -36,11 +36,12 @@
 
             nodeMaps = _.union nodeMaps, nodeMap
             # create the results set
-            results = []
             for n in nodeMaps
                 # check if the node already exists
                 registerNode n
-            results
+
+            @a.updateGraph() if @a.initial
+            
         edges: (edgeMap, edgeMaps...) ->
             a = this.a
             registerEdge = (edge) ->
@@ -73,8 +74,6 @@
                         aEdge = new a.models.Edge(edge, 0)
                         a._edges["#{edge.source}-#{edge.target}"] = [aEdge]
                         [aEdge]
-                        
-            if edgeMaps.length isnt 0
-                console.warn "Make sure this function supports multiple arguments"
-            else
-                registerEdge edgeMap
+             allEdges = _.uniq _.flatten arguments
+             _.each allEdges, (e)-> registerEdge e
+             @a.updateGraph() if @a.initial

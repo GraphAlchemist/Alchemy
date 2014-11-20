@@ -59,17 +59,15 @@
                     @_properties[property] = value
                 @
 
-            removeProperty: (property) ->
-                delete @_properties[property]
+            removeProperty: (property, properties...) ->
+                delete @_properties[prop] for prop in arguments
                 @
 
-
             # Style methods
-            getStyles: (key=null) =>
-                if key?
-                    @_style[key]
-                else
-                    @_style
+            getStyles: (key, keys...) =>
+                node = @
+                return node._style if key is undefined
+                _.map arguments, (arg)-> node._style[arg]
 
             setStyles: (key, value=null) ->
                 # If undefined, set styles based on state
@@ -103,7 +101,6 @@
             outDegree: () -> @_adjacentEdges.length
 
             remove: ->
-                _.each @._adjacentEdges, (adjacentEdge) ->
-                    adjacentEdge.remove()
+                @._adjacentEdges[0].remove() until _.isEmpty @._adjacentEdges
                 delete @a._nodes[@.id]
                 @a.vis.select("#node-" + @.id).remove()
