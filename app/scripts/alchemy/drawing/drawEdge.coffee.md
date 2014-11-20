@@ -18,10 +18,6 @@
         a: instance
         createLink: (edge) ->
             conf = @a.conf
-            curved = conf.curvedEdges
-            directed = conf.directedEdges
-            interactions = @a.interactions
-            utils = @a.drawing.EdgeUtils
 
             edge.append 'path'
                 .attr 'class', 'edge-line'
@@ -36,68 +32,33 @@
         styleLink: (edge) ->
             a = @a
             conf = @a.conf
-            directed = conf.directedEdges
             utils = @a.drawing.EdgeUtils
             edge.each (d) ->
                 edgeWalk = utils.edgeWalk d
+                
+                curviness = if conf.curvedEdges then 30 else 0
+                curve = curviness / 10
+
+                startx = d.source.radius + (d["stroke-width"] / 2)
+                starty = curviness / 10
+                midpoint = edgeWalk.edgeLength / 2
+                endx = edgeWalk.edgeLength - (d.target.radius - (d.target["stroke-width"] / 2))
+                endy =  curviness / 10
+
                 g = d3.select(@)
                 g.style utils.edgeStyle d
-                if !conf.curvedEdges #and !directed
-                    g.attr('transform', 
-                       "translate(#{edgeWalk.startEdgeX}, #{edgeWalk.startEdgeY}) rotate(#{edgeWalk.edgeAngle})")
+                g.attr('transform', 
+                    "translate(#{d.source.x}, #{d.source.y}) rotate(#{edgeWalk.edgeAngle})")
+                g.select '.edge-line'
+                 .attr 'd', do ->
+                    line = "M#{startx},#{starty}q#{midpoint},#{curviness} #{endx},#{endy}"
 
-                g.select('.edge-line')
-                 .attr 'd',
-
-**This can be refactored for readability (please!)**                    
-                
-                if conf.curvedEdges
-                        angle = utils.edgeAngle d
-
-                        sideOfY = if Math.abs(angle) > 90 then -1 else 1
-                        sideOfX = do (angle) ->
-                                return 0 if angle is 0
-                                return if angle < 0 then -1 else 1
-
-                        startLine = utils.startLine(d)
-                        endLine = utils.endLine(d)
-                        sourceX = startLine.x
-                        sourceY = startLine.y
-                        targetX = endLine.x
-                        targetY = endLine.y
-
-                        dx = targetX - sourceX
-                        dy = targetY - sourceY
-                        
-                        hyp = Math.sqrt( dx * dx + dy * dy)
-
-                        offsetX = (dx * conf.nodeRadius + 2) / hyp
-                        offsetY = (dy * conf.nodeRadius + 2) / hyp
-
-                        arrowX = (-sideOfX * ( conf.edgeArrowSize )) + offsetX
-                        arrowY = ( sideOfY * ( conf.edgeArrowSize )) + offsetY
-                        "M #{startLine.x},#{startLine.y} A #{hyp}, #{hyp} #{utils.captionAngle(d)} 0, 1 #{endLine.x}, #{endLine.y}"
-                        # "M #{sourceX-offsetX},#{sourceY-offsetY} A #{hyp}, #{hyp} #{utils.edgeAngle(d)} 0, 1 #{targetX - arrowX}, #{targetY - arrowY}"
-
-                else
                     if conf.directedEdges
+                        w = d["stroke-width"] * 2
+                        arrow = "l#{-w},#{w + curve} l#{w},#{-w - curve} l#{-w},#{-w + curve}"
 
-                        ["M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}"
-                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendBottomY}"
-                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipBottomY}"
-                         "L #{edgeWalk.arrowEndX} #{edgeWalk.arrowEndY}"
-                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowTipTopY}"
-                         "L #{edgeWalk.arrowBendX} #{edgeWalk.arrowBendTopY}"
-                         "L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}"
-                         "Z"].join " "
-
-
-                    else
-                        ["M #{edgeWalk.startPathX} #{edgeWalk.startPathBottomY}"
-                         "L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendBottomY}"
-                         "L #{edgeWalk.arrowEndX} #{edgeWalk.arrowBendTopY}"
-                         "L #{edgeWalk.startPathX} #{edgeWalk.startPathTopY}"
-                         "Z"].join " "
+                        return line + arrow
+                    line
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')
@@ -108,46 +69,17 @@
         styleText: (edge) ->
             conf = @a.conf
             curved = conf.curvedEdges
-            directed = conf.directedEdges
             utils = @a.drawing.EdgeUtils
 
-            if curved
-                edge.select 'text' 
-                    .each (d) ->
-                        edgeWalk = utils.edgeWalk d
-                        d3.select(@).attr 'dx', (d) -> utils.middlePath(d).x
-                                    .attr 'dy', (d) -> utils.middlePath(d).y + 20
-                                    .attr 'transform', "rotate(#{utils.captionAngle(d)})"
-                                    .text d.caption
-                                    .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
-            else
-                edge.select 'text'
-                    .each (d) ->
-                        edgeWalk = utils.edgeWalk d
-                        captionAngle = utils.captionAngle(edgeWalk.edgeAngle)
-                        if captionAngle is 180
-                            dx = - edgeWalk.edgeLength / 2
-                        else
-                            dx = edgeWalk.edgeLength / 2
-                        d3.select(@).attr 'dx', "#{dx}"
-                                    .attr 'dy', "#{- d['stroke-width'] * 1.1}"
-                                    .attr 'transform', "rotate(#{captionAngle})"
-                                    .text d.caption
-                                    .style "display", (d)->
-                                        return "block" if conf.edgeCaptionsOnByDefault
-
-            # TODO: Code to start having text follow path.
-            # This will eliminate the need for alot of math and extra work if we can
-            # simply get the text to xlink to the path itself.  It's not currently
-            # working and we need to get on with the release, but it needs to be
-            # implemented.
-            #
-            # edge.select 'text'
-            #     .each (d) ->
-            #         d3.select @
-            #           .text d.caption
-            #           .style "display", (d)-> return "block" if conf.edgeCaptionsOnByDefault
-            #           .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
+            edge.select 'text'
+                .each (d) ->
+                    edgeWalk = utils.edgeWalk d
+                    dx = edgeWalk.edgeLength / 2
+                    d3.select(@).attr 'dx', "#{dx}"
+                                .text d.caption
+                                .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
+                                .style "display", (d)->
+                                    return "block" if conf.edgeCaptionsOnByDefault
 
         setInteractions: (edge) ->
             interactions = @a.interactions
