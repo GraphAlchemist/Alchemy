@@ -124,3 +124,4 @@
                 editor.startEditor()
 
             a.initial = true
+            Alchemy::Index a
