@@ -61,8 +61,8 @@
             a.controlDash.init()
 
             #enter/exit nodes/edges
-            d3Edges = alchemy.elements.edges.d3
-            d3Nodes = alchemy.elements.nodes.d3
+            d3Edges = a.elements.edges.d3
+            d3Nodes = a.elements.nodes.d3
 
             # if start
             a.layout.positionRootNodes()
