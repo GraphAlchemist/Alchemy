@@ -544,7 +544,6 @@ module.exports = (grunt) ->
 
   grunt.registerTask 'build', ["clean:dist", "useminPrepare",
                                "copy:coffee", "concurrent:buildAlchemy",
-                               "copy:litcoffee",
                                "copy:fonts", "copy:images",
                                "autoprefixer", "concat:buildAlchemy",
                                "concat:generated", "cssmin:buildAlchemy",
@@ -556,7 +555,7 @@ module.exports = (grunt) ->
   grunt.registerTask "default",
     # release alchemy
     if releaseFlag
-      ["test:dist",
+      [#"test:dist",
        "build",
        "string-replace", # apply version to alchemy.js
        "bumpBower", # bump bower version
