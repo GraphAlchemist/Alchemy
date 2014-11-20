@@ -555,7 +555,7 @@ module.exports = (grunt) ->
   grunt.registerTask "default",
     # release alchemy
     if releaseFlag
-      [#"test:dist",
+      ["test:dist",
        "build",
        "string-replace", # apply version to alchemy.js
        "bumpBower", # bump bower version
