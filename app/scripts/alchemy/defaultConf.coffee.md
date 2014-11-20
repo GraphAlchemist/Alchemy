@@ -95,11 +95,11 @@
         nodeTypes: null
         rootNodes: 'root'
         rootNodeRadius: 15
+        nodeClick: null
 
         # Edges
         edgeCaption: 'caption'
         edgeCaptionsOnByDefault: false
-        edgeClick: 'default'
         edgeStyle:
             "all":
                 "width": 4
@@ -119,6 +119,7 @@
         edgeOverlayWidth: 20
         directedEdges: false
         edgeArrowSize: 5
+        edgeClick: null
 
         # Search
         search: false

@@ -4,11 +4,8 @@
         ()->
             a.generateLayout()
             
-            d3Edges = _.flatten _.map(a._edges, (edgeArray) -> e._d3 for e in edgeArray)
-            d3Nodes = _.map a._nodes, (n) -> n._d3
-
-            a._drawEdges.createEdge d3Edges
-            a._drawNodes.createNode d3Nodes
+            a._drawEdges.createEdge a.elements.edges.d3
+            a._drawNodes.createNode a.elements.nodes.d3
 
             a.layout.positionRootNodes()
             a.force.start()
@@ -16,5 +13,5 @@
             a.force.on "tick", a.layout.tick
               .start()
 
-            a.vis.selectAll 'g.node'
+            a.elements.nodes.svg
                 .attr 'transform', (id, i) -> "translate(#{id.x}, #{id.y})"
