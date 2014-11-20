@@ -52,8 +52,8 @@
                 gravity: (k) -> _gravity(k)
 
         identifyClusters: (a)->
-            nodes = a.get.allNodes()
-            clusters = _.uniq _.map(_.values(nodes), (node)-> node.getProperties()[a.conf.clusterKey])
+            nodes = a.elements.nodes.val
+            clusters = _.uniq _.map(nodes, (node)-> node.getProperties()[a.conf.clusterKey])
             @clusterMap = _.zipObject clusters, [0..clusters.length]
         
         getClusterColour: (clusterValue) ->
