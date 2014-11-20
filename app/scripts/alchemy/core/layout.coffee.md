@@ -81,7 +81,7 @@
                 y1 > ny2 or
                 y2 < ny1
 
-        tick: () =>
+        tick: (draw) =>
             a     = @a
             nodes = a.elements.nodes.svg
             edges = a.elements.edges.svg

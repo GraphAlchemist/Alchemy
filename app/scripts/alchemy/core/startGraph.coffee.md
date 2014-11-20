@@ -67,6 +67,9 @@
             # if start
             a.layout.positionRootNodes()
             a.force.start()
+            if conf.forceLocked
+                while a.force.alpha() > 0.005
+                    a.force.tick()
 
             a._drawEdges = a.drawing.DrawEdges
             a._drawNodes = a.drawing.DrawNodes
@@ -76,14 +79,14 @@
 
             a.index()
 
+            a.elements.nodes.svg
+             .attr "transform", (id,i)-> "translate(#{id.x}, #{id.y})"
+
             console.log Date() + ' completed initial computation'
             
-            a.force.on "tick", a.layout.tick
-            # configuration for forceLocked
-            if conf.forceLocked
-                a.force.tick() while a.force.alpha() > 0.005
-            else
-                a.force.start()
+            if !conf.forceLocked
+                a.force.on "tick", a.layout.tick
+                 .start()
 
             # call user-specified functions after load function if specified
             # deprecate?
