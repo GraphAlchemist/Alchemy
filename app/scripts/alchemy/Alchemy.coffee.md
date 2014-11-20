@@ -34,6 +34,7 @@ title: Anotated Source
             @remove   = new @Remove @
             @create   = new @Create @
             @set      = new @Set    @
+            @search   = new @Search @
 
             @drawing  =
                 DrawEdge : DrawEdge   @
@@ -70,7 +71,6 @@ title: Anotated Source
             @generateLayout = @generateLayout @
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @
-            @search         = @search @
             @plugins        = @plugins @
 
 	        # alchemy._nodes stores a node object as the value with the unique
