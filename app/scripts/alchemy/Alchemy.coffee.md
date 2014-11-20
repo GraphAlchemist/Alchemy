@@ -30,9 +30,11 @@ title: Anotated Source
 
             @version  = "#VERSION#"
             # give access to default conf
-            @get      = new @get @
-            @remove   = new @remove @
-            @create   = new @create @
+            @get      = new @Get    @
+            @remove   = new @Remove @
+            @create   = new @Create @
+            @set      = new @Set    @
+
             @drawing  =
                 DrawEdge : DrawEdge   @
                 DrawEdges: DrawEdges  @
@@ -82,7 +84,7 @@ title: Anotated Source
             # The value is an array of edge 'packets', where the length of the array
             # is typically 1.
             @_edges = {}
-        
+
             # Bind legacy API methods to earlier location
             # These will be deprecated on release-1.0
             @getNodes = @get.getNodes

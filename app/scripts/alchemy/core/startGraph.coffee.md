@@ -23,9 +23,13 @@
             if d3.select(conf.divSelector).empty()
                 console.warn a.utils.warnings.divWarning()
 
-            # see if data is ok
+            # Verify passed in data
             if not data
+                data =
+                  nodes:[]
+                  edges:[]
                 a.utils.warnings.dataWarning()
+            if not data.edges? then data.edges = []
 
             # create nodes map and update links
             a.create.nodes data.nodes
@@ -40,7 +44,7 @@
                     .attr "xlink", "http://www.w3.org/1999/xlink"
                     .attr "pointer-events", "all"
                     .attr "style", "background:#{conf.backgroundColour};"
-                    .attr "alchInst", Alchemy::instances.length
+                    .attr "alchInst", (Alchemy::instances.length - 1)
                     .on 'click', a.interactions.deselectAll
                     .call a.interactions.zoom(conf.scaleExtent)
                     .on "dblclick.zoom", null
@@ -51,34 +55,37 @@
             a.interactions.zoom().scale conf.initialScale
             a.interactions.zoom().translate conf.initialTranslate
 
+            a.index = Alchemy::Index a
+
             a.generateLayout()
             a.controlDash.init()
 
             #enter/exit nodes/edges
-            d3Edges = _.flatten _.map(a._edges, (edgeArray) -> e._d3 for e in edgeArray)
-            d3Nodes = _.map a._nodes, (n) -> n._d3
+            d3Edges = a.elements.edges.d3
+            d3Nodes = a.elements.nodes.d3
 
             # if start
             a.layout.positionRootNodes()
             a.force.start()
-            while a.force.alpha() > 0.005
-                a.force.tick()
+            if conf.forceLocked
+                while a.force.alpha() > 0.005
+                    a.force.tick()
 
             a._drawEdges = a.drawing.DrawEdges
-            a._drawEdges.createEdge d3Edges
             a._drawNodes = a.drawing.DrawNodes
+
+            a._drawEdges.createEdge d3Edges
             a._drawNodes.createNode d3Nodes 
 
-            initialComputationDone = true
+            a.index()
+
+            a.elements.nodes.svg
+             .attr "transform", (id,i)-> "translate(#{id.x}, #{id.y})"
+
             console.log Date() + ' completed initial computation'
-
-            nodes = a.vis.selectAll 'g.node'
-                            .attr 'transform', (id, i) -> "translate(#{id.x}, #{id.y})"
-
-            # configuration for forceLocked
+            
             if !conf.forceLocked
-                a.force
-                 .on "tick", a.layout.tick
+                a.force.on "tick", a.layout.tick
                  .start()
 
             # call user-specified functions after load function if specified
@@ -89,24 +96,8 @@
                 else if typeof conf.afterLoad is 'string'
                     a[conf.afterLoad] = true
 
-            if conf.cluster or conf.directedEdges
+            if conf.cluster
                 defs = d3.select("#{a.conf.divSelector} svg").append "svg:defs"
-
-            if conf.directedEdges
-                arrowSize = conf.edgeArrowSize + (conf.edgeWidth() * 2)
-                marker = defs.append "svg:marker"
-                    .attr "id", "arrow"
-                    .attr "viewBox", "0 -#{arrowSize * 0.4} #{arrowSize} #{arrowSize}"
-                    .attr 'markerUnits', 'userSpaceOnUse'
-                    .attr "markerWidth", arrowSize
-                    .attr "markerHeight", arrowSize
-                    .attr "orient", "auto"
-                marker.append "svg:path"
-                    .attr "d", "M #{arrowSize},0 L 0,#{arrowSize * 0.4} L 0,-#{arrowSize * 0.4}"
-                if conf.curvedEdges
-                    marker.attr "refX", arrowSize + 1
-                else
-                    marker.attr 'refX', 1 
 
             if conf.nodeStats
                 a.stats.nodeStats()
