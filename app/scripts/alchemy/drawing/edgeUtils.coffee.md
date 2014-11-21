@@ -43,16 +43,36 @@
 
             styles
 
+This is the primary function used to draw the svg paths between
+two nodes for directed or undirected noncurved edges. 
+
+        edgeWalk: (edge) ->
+            a = @a
+            conf = a.conf
+            edgeLength = @edgeAngle(edge).edgeLength
+            curviness = if conf.curvedEdges then 3 else 0
+
+            startx = (edge.source.radius + (edge["stroke-width"] / 2))
+            starty = curviness
+            midpoint = edgeLength / 2
+            endx = (edgeLength ) - (edge.target.radius - (edge.target["stroke-width"] / 2))
+            endy =  curviness
+
+            debugger
+
+            if conf.directedEdges
+                w = edge["stroke-width"] * 2
+                arrow = "l#{-w},#{w + curviness} l#{w},#{-w - curviness} l#{-w},#{-w + curviness}"
+
+            return "M#{startx},#{starty}q#{midpoint},#{curviness} #{endx},#{endy}"
+
         triangle: (edge) ->
             width = edge.target.x - edge.source.x
             height = edge.target.y - edge.source.y
             hyp = Math.sqrt height * height + width * width
             [width, height, hyp]
 
-This is the primary function used to draw the svg paths between
-two nodes for directed or undirected noncurved edges. 
-
-        edgeWalk: (edge) ->
+        edgeAngle: (edge) ->
             [width, height, hyp] = @triangle edge
 
             edgeWidth = edge['stroke-width']
@@ -65,10 +85,6 @@ two nodes for directed or undirected noncurved edges.
             edgeAngle: Math.atan2(height, width) / Math.PI * 180
             edgeLength: edgeLength
 
-        middleLine: (edge) -> @curvedDirectedEdgeWalk edge, 'middle'
-        startLine: (edge) -> @curvedDirectedEdgeWalk edge, 'linkStart'
-        endLine: (edge) -> @curvedDirectedEdgeWalk edge, 'linkEnd'
-        
         edgeLength: (edge) ->
             # build a right triangle
             width  = edge.target.x - edge.source.x
@@ -85,19 +101,3 @@ two nodes for directed or undirected noncurved edges.
                 180
             else
                 0
-        middlePath: (edge) ->
-            pathNode = @a.vis
-                         .select "#path-#{edge.id}"
-                         .node()
-            midPoint = pathNode.getPointAtLength pathNode.getTotalLength()/2
- 
-            x: midPoint.x
-            y: midPoint.y
-                
-        # Temporary fill in for curved edges until math is completed for new path only edges
-        middlePathCurve: (edge) ->
-            pathNode = d3.select("#path-#{edge.id}").node()
-            midPoint = pathNode.getPointAtLength(pathNode.getTotalLength()/2)
-
-            x: midPoint.x
-            y: midPoint.y

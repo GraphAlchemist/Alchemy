@@ -29,36 +29,18 @@
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
                 .style 'opacity', "0"
 
-        styleLink: (edge) ->
+        styleLink: (edges) ->
             a = @a
-            conf = @a.conf
-            utils = @a.drawing.EdgeUtils
-            edge.each (d) ->
-                edgeWalk = utils.edgeWalk d
-                
-                curviness = if conf.curvedEdges then 30 else 0
-                curve = curviness / 10
-
-                startx = d.source.radius + (d["stroke-width"] / 2)
-                starty = curviness / 10
-                midpoint = edgeWalk.edgeLength / 2
-                endx = edgeWalk.edgeLength - (d.target.radius - (d.target["stroke-width"] / 2))
-                endy =  curviness / 10
-
+            conf = a.conf
+            utils = a.drawing.EdgeUtils
+            edges.each (edge) ->
                 g = d3.select(@)
-                g.style utils.edgeStyle d
+                g.style utils.edgeStyle edge
                 g.attr('transform', 
-                    "translate(#{d.source.x}, #{d.source.y}) rotate(#{edgeWalk.edgeAngle})")
+                    "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{utils.edgeAngle(edge)})")
                 g.select '.edge-line'
                  .attr 'd', do ->
-                    line = "M#{startx},#{starty}q#{midpoint},#{curviness} #{endx},#{endy}"
-
-                    if conf.directedEdges
-                        w = d["stroke-width"] * 2
-                        arrow = "l#{-w},#{w + curve} l#{w},#{-w - curve} l#{-w},#{-w + curve}"
-
-                        return line + arrow
-                    line
+                    line = utils.edgeWalk edge
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')
@@ -73,8 +55,8 @@
 
             edge.select 'text'
                 .each (d) ->
-                    edgeWalk = utils.edgeWalk d
-                    dx = edgeWalk.edgeLength / 2
+                    edgeLength = utils.edgeAngle(d).edgeLength
+                    dx = edgeLength / 2
                     d3.select(@).attr 'dx', "#{dx}"
                                 .text d.caption
                                 .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
