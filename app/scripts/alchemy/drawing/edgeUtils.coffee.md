@@ -49,22 +49,25 @@ two nodes for directed or undirected noncurved edges.
         edgeWalk: (edge) ->
             a = @a
             conf = a.conf
-            edgeLength = @edgeAngle(edge).edgeLength
+            edgeData = @edgeData edge
+            edgeLength = edgeData.edgeLength
+            sx = edge.source.x
+            sy = edge.source.y
+            tx = edge.target.x
+            ty = edge.target.y
             curviness = if conf.curvedEdges then 3 else 0
-
-            startx = (edge.source.radius + (edge["stroke-width"] / 2))
+            
+            startx = edge.source.x
             starty = curviness
             midpoint = edgeLength / 2
-            endx = (edgeLength ) - (edge.target.radius - (edge.target["stroke-width"] / 2))
+            endx = edge.target.x
             endy =  curviness
-
-            debugger
 
             if conf.directedEdges
                 w = edge["stroke-width"] * 2
                 arrow = "l#{-w},#{w + curviness} l#{w},#{-w - curviness} l#{-w},#{-w + curviness}"
 
-            return "M#{startx},#{starty}q#{midpoint},#{curviness} #{endx},#{endy}"
+            return "M#{sx} #{sy} Q #{((sx + tx) / 2)} #{((sy + ty) / 2) * -0.5} #{tx} #{ty}"
 
         triangle: (edge) ->
             width = edge.target.x - edge.source.x
@@ -72,7 +75,7 @@ two nodes for directed or undirected noncurved edges.
             hyp = Math.sqrt height * height + width * width
             [width, height, hyp]
 
-        edgeAngle: (edge) ->
+        edgeData: (edge) ->
             [width, height, hyp] = @triangle edge
 
             edgeWidth = edge['stroke-width']

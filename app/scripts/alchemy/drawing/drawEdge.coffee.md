@@ -33,11 +33,13 @@
             a = @a
             conf = a.conf
             utils = a.drawing.EdgeUtils
+
             edges.each (edge) ->
                 g = d3.select(@)
+                edgeData = utils.edgeData edge
                 g.style utils.edgeStyle edge
-                g.attr('transform', 
-                    "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{utils.edgeAngle(edge)})")
+                #g.attr('transform', 
+                #    "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{edgeData.edgeAngle})")
                 g.select '.edge-line'
                  .attr 'd', do ->
                     line = utils.edgeWalk edge
@@ -53,15 +55,15 @@
             curved = conf.curvedEdges
             utils = @a.drawing.EdgeUtils
 
-            edge.select 'text'
-                .each (d) ->
-                    edgeLength = utils.edgeAngle(d).edgeLength
-                    dx = edgeLength / 2
-                    d3.select(@).attr 'dx', "#{dx}"
-                                .text d.caption
-                                .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
-                                .style "display", (d)->
-                                    return "block" if conf.edgeCaptionsOnByDefault
+            # edge.select 'text'
+            #     .each (d) ->
+            #         edgeLength = utils.edgeAngle(d).edgeLength
+            #         dx = edgeLength / 2
+            #         d3.select(@).attr 'dx', "#{dx}"
+            #                     .text d.caption
+            #                     .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
+            #                     .style "display", (d)->
+            #                         return "block" if conf.edgeCaptionsOnByDefault
 
         setInteractions: (edge) ->
             interactions = @a.interactions
