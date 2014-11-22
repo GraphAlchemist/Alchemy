@@ -49,25 +49,88 @@ two nodes for directed or undirected noncurved edges.
         edgeWalk: (edge) ->
             a = @a
             conf = a.conf
-            edgeData = @edgeData edge
-            edgeLength = edgeData.edgeLength
-            sx = edge.source.x
-            sy = edge.source.y
-            tx = edge.target.x
-            ty = edge.target.y
-            curviness = if conf.curvedEdges then 3 else 0
+
+            distance = Math.abs(edge.source.x - edge.target.x)
+            padding = 1
+            shaftRadius = edge["stroke-width"]
+            arrowWidth = shaftRadius * 2
+            headRadius = shaftRadius * 2
+            headLength = headRadius * 2
+
+            start = { x: edge.source.x, y: edge.source.y, r: edge.source.radius }
+            end = { x: edge.target.x, y: edge.target.y, r: edge.target.radius }
+
+            d = end.x - start.x
+
+            radiusRatio = (start.r + padding) / (end.r + headLength + padding)
+            homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
+
+            offsets = [-3, -2, -1, 1, 2, 3]
+
+            curves = _.map offsets, (offset) ->
+                square = (num) ->
+                    return num * num
+
+                angle = offset * headRadius * 2 / start.r
+
+                startAttach = { x: Math.cos( angle ) * (start.r + padding), y: Math.sin( angle ) * (start.r + padding) }
+                gradient = startAttach.y / (startAttach.x - homotheticCenter)
+                hc = startAttach.y - gradient * startAttach.x
+                p = end.x
+
+                A = 1 + square(gradient)
+                B = 2 * (gradient * hc - p)
+                C = square(hc) + square(p) - square(end.r + headLength + padding)
+
+                endAttach = { x: (-B - Math.sqrt( square( B*2 ) - 4 * A * C )) / (2 * A) }
+                endAttach.y = (endAttach.x - homotheticCenter) * gradient
+
+                g1 = -startAttach.x / startAttach.y
+                c1 = startAttach.y + (square( startAttach.x ) / startAttach.y)
+                g2 = -(endAttach.x - end.x) / endAttach.y
+                c2 = endAttach.y + (endAttach.x - end.x) * endAttach.x / endAttach.y
+
+                cx = ( c1 - c2 ) / (g2 - g1)
+                cy = g1 * cx + c1
+
+                arcRadius = 5 # Math.sqrt(square(cx - startAttach.x) + square(cy - startAttach.y))
+                startTangent = (dr) ->
+                    dx = (dr < 0 ? -1 : 1) * Math.sqrt(square(dr) / (1 + square(g1)))
+                    dy = g1 * dx
+                    return [
+                        startAttach.x + dx + start.x,
+                        startAttach.y + dy + start.y
+                    ].join(",")
+
+                endTangent = (dr) ->
+                    dx = (dr < 0 ? -1 : 1) * Math.sqrt(square(dr) / (1 + square(g2)))
+                    dy = g2 * dx
+                    return [
+                        end.x,  
+                        end.y
+                    ].join(",")
+
+                endNormal = (dc) ->
+                    dx = (dc < 0 ? -1 : 1) * Math.sqrt(square(dc) / (1 + square(1 / g2)))
+                    dy = dx / g2
+                    return [
+                        end.x + dx,
+                        end.y - dy
+                    ].join(",")
+
+                return path: [
+                        "M", startTangent(-shaftRadius),
+                        "L", startTangent(shaftRadius),
+                        "A", arcRadius - shaftRadius, arcRadius - shaftRadius, 0, 0, (if offset > 0 then 0 else 1), endTangent(-shaftRadius),
+                        "L", endTangent(-headRadius),
+                        "L", endNormal(headLength),
+                        "L", endTangent(headRadius),
+                        "L", endTangent(shaftRadius),
+                        "A", arcRadius + shaftRadius, arcRadius + shaftRadius, 0, 0, (if offset < 0 then 0 else 1), startTangent(-shaftRadius)
+                    ].join( " " )
             
-            startx = edge.source.x
-            starty = curviness
-            midpoint = edgeLength / 2
-            endx = edge.target.x
-            endy =  curviness
-
-            if conf.directedEdges
-                w = edge["stroke-width"] * 2
-                arrow = "l#{-w},#{w + curviness} l#{w},#{-w - curviness} l#{-w},#{-w + curviness}"
-
-            return "M#{sx} #{sy} Q #{((sx + tx) / 2)} #{((sy + ty) / 2) * -0.5} #{tx} #{ty}"
+            console.log curves
+            return curves[3].path
 
         triangle: (edge) ->
             width = edge.target.x - edge.source.x
