@@ -38,11 +38,11 @@
                 g = d3.select(@)
                 edgeData = utils.edgeData edge
                 g.style utils.edgeStyle edge
-                #g.attr('transform', 
-                #    "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{edgeData.edgeAngle})")
+                g.attr('transform', 
+                    "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{utils.edgeAngle(edge)})")
                 g.select '.edge-line'
                  .attr 'd', do ->
-                    line = utils.edgeWalk edge
+                    line = utils.newEdgeWalk edge
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')

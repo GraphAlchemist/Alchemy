@@ -46,6 +46,25 @@
 This is the primary function used to draw the svg paths between
 two nodes for directed or undirected noncurved edges. 
 
+        newEdgeWalk: (edge) ->
+            a = @a
+            square = (num) ->
+                return num * num
+            padding = 15
+
+            # straight.  works perfect(?)
+            # xDist = Math.abs(edge.source.x - edge.target.x)
+            # yDist = Math.abs(edge.source.y - edge.target.y)
+            # distance = Math.sqrt(square(xDist) + square(yDist)) - padding
+            # return "M #{padding} 0 L #{distance} 0 stroke='white'"
+
+            #curved - to center.  looks good, but is wrong
+            xDist = Math.abs(edge.source.x - edge.target.x)
+            yDist = Math.abs(edge.source.y - edge.target.y)
+            distance = Math.sqrt(square(xDist) + square(yDist))
+            mid = distance / 2
+            return "M 0 0 Q #{mid} 100 #{distance} 0 stroke='white'"
+
         edgeWalk: (edge) ->
             a = @a
             conf = a.conf
@@ -130,7 +149,7 @@ two nodes for directed or undirected noncurved edges.
                     ].join( " " )
             
             console.log curves
-            return curves[3].path
+            return curves[2].path
 
         triangle: (edge) ->
             width = edge.target.x - edge.source.x
