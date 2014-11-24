@@ -14,7 +14,13 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    API::Set = (instance, api)->
-        a    : instance
-        api  : api
-        state: (key, value) -> @a.state.key = value
+    class API
+        constructor: (instance)->
+            @a = instance
+
+            @get    = @Get instance, @
+            @create = @Create instance, @
+            @remove = @Remove instance, @
+            @set    = @Set instance, @
+
+            @filter = @Filter instance, @

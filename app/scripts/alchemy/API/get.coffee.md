@@ -14,11 +14,7 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-    # make js array method called ._state
-    # @a.set.  nest set inside of get
-
-    Alchemy::Get = (instance) ->
+    API::Get = (instance) ->
         a: instance
         _el: []
         _elType: null

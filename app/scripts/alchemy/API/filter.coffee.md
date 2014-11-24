@@ -14,7 +14,18 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    API::Set = (instance, api)->
-        a    : instance
-        api  : api
-        state: (key, value) -> @a.state.key = value
+    API::Filter = (instance)->
+        a: instance
+        nodes: (type)->
+            conf  = @a.conf
+            nodes = @a.elements.nodes.val
+
+            _.each nodes, (n)->
+                n.toggleHidden() if n._nodeType is type
+
+        edges: (type)->
+            conf  = @a.conf
+            edges = @a.elements.edges.flat
+
+            _.each edges, (e)->
+                e.toggleHidden() if e._edgeType is type

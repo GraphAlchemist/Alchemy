@@ -29,11 +29,14 @@ title: Anotated Source
             @a = @
 
             @version  = "#VERSION#"
-            # give access to default conf
-            @get      = new @Get    @
-            @remove   = new @Remove @
-            @create   = new @Create @
-            @set      = new @Set    @
+
+            # Alchemy API methods
+            @api    = new API @
+            @get    = @api.get
+            @remove = @api.remove
+            @create = @api.create
+            @set    = @api.set
+            @filter = @api.filter
 
             @drawing  =
                 DrawEdge : DrawEdge   @
