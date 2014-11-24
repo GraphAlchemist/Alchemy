@@ -1,5 +1,5 @@
     
-    Alchemy::Index = (instance, all)->
+    Alchemy::Index = (instance)->
         a = instance
 
         # Index maintains an index of common mappings/selections of
@@ -28,11 +28,13 @@
         elements.nodes.d3 = do -> _.map nodes.val, (n)-> n._d3
         elements.edges.d3 = do -> _.map edges.flat, (e)-> e._d3
 
+        if a.initial
+            elements.nodes.svg = do -> a.vis.selectAll 'g.node'
+            elements.edges.svg = do -> a.vis.selectAll 'g.edge'
+
         a.elements = elements
 
         () ->
-
             # Auxiliary indexes.
             a.elements.nodes.svg = do -> a.vis.selectAll 'g.node'
-
             a.elements.edges.svg  = do -> a.vis.selectAll 'g.edge'
