@@ -33,7 +33,6 @@ title: Anotated Source
             # Alchemy API methods
             @api    = new API @
             @get    = @api.get
-            @remove = @api.remove
             @create = @api.create
             @set    = @api.set
             @filter = @api.filter
@@ -73,7 +72,6 @@ title: Anotated Source
             @generateLayout = @generateLayout @
             @svgStyles      = @svgStyles @
             @interactions   = @interactions @
-            @search         = @search @
             @plugins        = @plugins @
 
 	        # alchemy._nodes stores a node object as the value with the unique
