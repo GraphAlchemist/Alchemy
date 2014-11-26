@@ -24,6 +24,8 @@
                 .attr 'id', (d) -> "path-#{d.id}"
             edge.filter (d) -> d.caption?
                 .append 'text'
+                .append 'textPath'
+                .classed "textpath", true
             edge.append 'path'
                 .attr 'class', 'edge-handler'
                 .style 'stroke-width', "#{conf.edgeOverlayWidth}"
@@ -34,24 +36,40 @@
             conf = @a.conf
             utils = @a.drawing.EdgeUtils
             edge.each (d) ->
-                edgeWalk = utils.edgeWalk d
-                
+
+                [width, height, hyp] = utils.triangle d
+
+                source = 
+                    r : d.source.radius + d.source['stroke-width']
+                    x : d.source.x
+                    y : d.source.y
+
+                target = 
+                    r : d.target.radius + d.target['stroke-width']
+                    x : d.target.x
+                    y : d.target.y
+
+                e = 
+                    width  : d['stroke-width']
+                    length : hyp - ((target.r + source.r))
+                    angle  : Math.atan2(height, width) / Math.PI * 180
+
                 curviness = if conf.curvedEdges then 30 else 0
                 curve = curviness / 10
-
-                startx = d.source.radius + (d["stroke-width"] / 2)
-                starty = curviness / 10
-                midpoint = edgeWalk.edgeLength / 2
-                endx = edgeWalk.edgeLength - (d.target.radius - (d.target["stroke-width"] / 2))
-                endy =  curviness / 10
+                
+                startx = source.r
+                starty = curve
+                midpoint = e.length / 2
+                endx = e.length
+                endy = curve
 
                 g = d3.select(@)
                 g.style utils.edgeStyle d
                 g.attr('transform', 
-                    "translate(#{d.source.x}, #{d.source.y}) rotate(#{edgeWalk.edgeAngle})")
+                    "translate(#{d.source.x}, #{d.source.y}) rotate(#{e.angle})")
                 g.select '.edge-line'
                  .attr 'd', do ->
-                    line = "M#{startx},#{starty}q#{midpoint},#{curviness} #{endx},#{endy}"
+                    line = "M#{startx},#{starty}q#{midpoint},#{curve * 10} #{endx},#{endy}"
 
                     if conf.directedEdges
                         w = d["stroke-width"] * 2
@@ -62,7 +80,7 @@
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')
-
+                    .style "stroke-width", "100px"
         classEdge: (edge) ->
             edge.classed 'active', true
 
@@ -74,12 +92,17 @@
             edge.select 'text'
                 .each (d) ->
                     edgeWalk = utils.edgeWalk d
+                    captionAngle = utils.captionAngle edgeWalk.edgeLength
                     dx = edgeWalk.edgeLength / 2
-                    d3.select(@).attr 'dx', "#{dx}"
-                                .text d.caption
-                                .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
-                                .style "display", (d)->
-                                    return "block" if conf.edgeCaptionsOnByDefault
+                    dy = - d['stroke-width'] * 2
+                    d3.select(@)
+                      .attr 'dx', "#{dx}"
+                      .attr "dy", "#{dy}"
+                      .select ".textpath"
+                      .text d.caption
+                      .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
+                      .style "display", (d)->
+                        return "block" if conf.edgeCaptionsOnByDefault
 
         setInteractions: (edge) ->
             interactions = @a.interactions

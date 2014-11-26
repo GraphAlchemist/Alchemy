@@ -40,8 +40,11 @@
                 # check if the node already exists
                 registerNode n
 
-            @a.updateGraph() if @a.initial
-            
+            if @a.initial
+                @a.index = Alchemy::Index @a 
+                @a.index()
+                @a.updateGraph()
+
         edges: (edgeMap, edgeMaps...) ->
             a = this.a
             registerEdge = (edge) ->
@@ -76,4 +79,7 @@
                         [aEdge]
              allEdges = _.uniq _.flatten arguments
              _.each allEdges, (e)-> registerEdge e
-             @a.updateGraph() if @a.initial
+             if @a.initial
+                @a.index = Alchemy::Index @a 
+                @a.index()
+                @a.updateGraph()
