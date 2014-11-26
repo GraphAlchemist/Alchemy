@@ -14,15 +14,4 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    class API::Remove
-        constructor: (instance) ->
-            @a = instance
-
-        nodes: (nodeMap) ->
-            _.each nodeMap, (n) ->
-                if n._nodeType?
-                    n.remove()
-        edges: (edgeMap) ->
-            _.each edgeMap, (e) ->
-                if e._edgeType?
-                    e.remove()
+    Remove = remove : -> _.each @_el, (e)-> e.remove()

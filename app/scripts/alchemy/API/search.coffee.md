@@ -14,26 +14,33 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    class Alchemy::Search
-        constructor: (instance) ->
-            @a = instance
+    API::Search = (instance, api)->
+        a = instance
+        search = (query)->
+            query = do ->
+                return query       if a.conf.searchMethod is "contains"
+                return "^#{query}" if a.conf.searchMethod is "begins"
 
-        nodes: (query) ->
-            a = @a
+            regex = new RegExp query, "i"
+
+            _.filter api._el, (el)-> regex.test el._properties.caption
+
+        search.nodes = (query) ->
+            query = do ->
+                return query       if a.conf.searchMethod is "contains"
+                return "^#{query}" if a.conf.searchMethod is "begins"
+            
+            regex = new RegExp query, "i"
+            
+            _.filter a._nodes, (node) -> regex.test node._properties.caption
+
+        search.edges = (query) ->
             if a.conf.searchMethod is "contains" 
-                _.filter a._nodes, (node) -> 
-                    node if (new RegExp query, "i").test(node._properties.caption)
-
-            if a.conf.searchMethod is "begins"
-                _.filter a._nodes, (node) -> 
-                    node if (new RegExp("^" + query, "i")).test(node._properties.caption)
-
-        edges: (query) ->
-            a = @a
-            if a.conf.searchMethod is "contains" 
-                _.filter [].concat.apply([], _.map(a._edges)), (edge) -> 
+                _.filter @a.elements.edges.flat, (edge) -> 
                     edge if (new RegExp query, "i").test(edge._properties.caption)
 
             if a.conf.searchMethod is "begins" 
-                _.filter [].concat.apply([], _.map(a._edges)), (edge) -> 
+                _.filter @a.elements.edges.flat, (edge) -> 
                     edge if (new RegExp "^" + query, "i").test(edge._properties.caption)
+
+        search

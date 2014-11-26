@@ -14,19 +14,12 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    API::Get = (instance) ->
+    API::Get = (instance, api) ->
         a: instance
-        _el: []
-        _elType: null
-        _makeChain: (inp)->
-            returnedGet = @
-            returnedGet.__proto__ = [].__proto__
-            returnedGet.pop() while returnedGet.length
-            _.each inp, (e)-> returnedGet.push(e)
-            returnedGet
-
+        api: api
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
+                    nodeList = []
                     if id?
                         allIDs = _.map arguments, (arg) -> String(arg)
                         a = @.a
@@ -34,9 +27,9 @@
                             # All passed ids with artificially enforced type safety
                             _.filter a._nodes, (val, key)->
                                 val if _.contains allIDs, key
-                    @_elType = "node"
-                    @_el = nodeList
-                    @_makeChain nodeList
+                    @api._elType = "node"
+                    @api._el = nodeList
+                    @api._makeChain nodeList, @
 
         # returns one or more edges as an array
         edges: (id, ids...) ->
@@ -47,30 +40,30 @@
                     # All passed ids with artificially enforced type safety
                     _.flatten _.filter a._edges, (val, key)->
                         val if _.contains allIDs, key
-            @_elType = "edge"
-            @_el = edgeList
-            @_makeChain edgeList
+            @api._elType = "edge"
+            @api._el = edgeList
+            @api._makeChain edgeList, @
 
         all: ->
             a = @a
-            elType = @_elType
-            @_el = do (elType)->
+            elType = @api._elType
+            @api._el = do (elType)->
                 switch elType
                     when "node" then return a.elements.nodes.val
                     when "edge" then return a.elements.edges.flat
-            @_makeChain @_el
+            @api._makeChain @api._el, @
 
         elState: (state) ->
-            elList = _.filter @_el, (e)-> e._state is state
-            @_el = elList
-            @_makeChain elList
+            elList = _.filter @api._el, (e)-> e._state is state
+            @api._el = elList
+            @api._makeChain elList, @
 
         state: (key) -> if @a.state.key? then @a.state.key
 
         type: (type) ->
-            elList = _.filter @_el, (e) -> e._nodeType is type or e._edgeType is type
-            @_el = elList
-            @_makeChain elList
+            elList = _.filter @api._el, (e) -> e._nodeType is type or e._edgeType is type
+            @api._el = elList
+            @api._makeChain elList, @
 
         activeNodes: () ->
             _.filter @a._nodes, (node) -> node if node._state is "active"

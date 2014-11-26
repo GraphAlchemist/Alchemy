@@ -18,9 +18,26 @@
         constructor: (instance)->
             @a = instance
 
-            @get    = @Get instance, @
+            # API Methods
+            @get    = @Get instance,    @
             @create = @Create instance, @
-            @remove = @Remove instance, @
-            @set    = @Set instance, @
+            @set    = @Set instance,    @
+            @remove =  Remove.remove
 
             @filter = @Filter instance, @
+            @search = @Search instance, @
+
+            # Internal selection tracking for method chaining
+            @_el        = []
+            @_elType    = null
+            @_makeChain = (inp, endpoint)->
+                @__proto__ = [].__proto__
+                endpoint.__proto__ = [].__proto__
+
+                @pop() while @.length
+                endpoint.pop() while endpoint.length
+
+                @push(e) for e in inp
+                Array::push.apply endpoint, @_el
+
+                _.extend endpoint, @
