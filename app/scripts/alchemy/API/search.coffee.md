@@ -35,12 +35,13 @@
             _.filter a._nodes, (node) -> regex.test node._properties.caption
 
         search.edges = (query) ->
-            if a.conf.searchMethod is "contains" 
-                _.filter @a.elements.edges.flat, (edge) -> 
-                    edge if (new RegExp query, "i").test(edge._properties.caption)
+            query = do ->
+                return query       if a.conf.searchMethod is "contains"
+                return "^#{query}" if a.conf.searchMethod is "begins"
+            
+            regex = new RegExp query, "i"
 
-            if a.conf.searchMethod is "begins" 
-                _.filter @a.elements.edges.flat, (edge) -> 
-                    edge if (new RegExp "^" + query, "i").test(edge._properties.caption)
+            _.filter a.elements.edges.flat, (edge) ->
+                regex.test edge._properties.caption
 
         search
