@@ -26,6 +26,7 @@ module.exports = (config) ->
       "test/spec/api/get.coffee"
       "test/spec/api/remove.coffee"
       "test/spec/plugins/plugins.coffee"
+      "test/spec/uiTests.coffee"
       "app/sample_data/contrib.json"
     ]
     
