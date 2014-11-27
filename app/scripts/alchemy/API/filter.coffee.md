@@ -14,4 +14,27 @@
     # You should have received a copy of the GNU Affero General Public License
     # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-    Remove = remove : -> _.each @_el, (e)-> e.remove()
+    API::Filter = (instance, api)->
+        a = instance 
+
+        filter = (type)->
+            _.each api._el, (el)-> 
+                key = do ->
+                    "_edgeType"  if api._elType is "edge"
+                    "_nodeType"  if api._elType is "node"
+
+                el.toggleHidden() if el[key] is type
+
+        filter.nodes = (type)->
+            nodes = a.elements.nodes.val
+
+            _.each nodes, (n)->
+                n.toggleHidden() if n._nodeType is type
+        
+        filter.edges = (type)->
+            edges = a.elements.edges.flat
+
+            _.each edges, (e)->
+                e.toggleHidden() if e._edgeType is type
+
+        filter

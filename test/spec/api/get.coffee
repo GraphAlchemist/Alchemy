@@ -13,14 +13,6 @@ do ->
             window.testEdge1 = alchemy._edges["1-0"]
             window.testEdge2 = alchemy._edges["2-0"]
 
-        describe "_makeChain", ->
-            it "should update get __proto__ to []", ->
-                alchemy.get._makeChain()
-                expect(alchemy.get.__proto__).to.eq [].__proto__
-            it "should return values passed", ->
-                values = _.map alchemy.get._makeChain([5, 6]), (n)-> n
-                expect(values).to.deep.eq [5, 6]
-
         describe "nodes", ->
             it "should return array of all nodes when chained with .all()'", ->
                 containedNodes = _.map alchemy.get.nodes().all(), (n)-> n
