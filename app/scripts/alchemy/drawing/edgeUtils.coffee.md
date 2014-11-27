@@ -46,9 +46,7 @@
 This is the primary function used to draw the svg paths between
 two nodes for directed or undirected noncurved edges. 
 
-        newEdgeWalk: (edge) ->
-            # THIS IS THE FINAL SPOT THAT IS RIGHT DONT UNDO MORE OR REDO LESS
-
+        edgeWalk: (edge) ->
             a = @a
             square = (num) ->
                 return num * num
@@ -65,6 +63,7 @@ two nodes for directed or undirected noncurved edges.
             startX = 0
             startY = 0
             startR = edge.source.radius
+
             # end = { x: distance, y: 0, r: edge.target.radius }
             endX = distance
             endY = 0
@@ -90,9 +89,6 @@ two nodes for directed or undirected noncurved edges.
 
             endAttachX = (-(b) - Math.sqrt(square(b) - 4 * a * c)) / (2 * a)
             endAttachY = (endAttachX - homotheticCenter) * gradient
-
-            # rotatedPlane = d3.select("#edge-#{edge.id}-#{edge.pos}")
-            # rotatedPlane.append("circle").attr("r", 1).style("fill", "#F00").attr({cy:"#{endAttachY}", cx:"#{endAttachX}"})
 
             g1 = -startAttachX / startAttachY
             c1 = startAttachY + (square(startAttachX) / startAttachY)

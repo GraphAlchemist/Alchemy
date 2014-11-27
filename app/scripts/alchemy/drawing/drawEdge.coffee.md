@@ -42,7 +42,7 @@
                     "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{utils.edgeAngle(edge)})")
                 g.select '.edge-line'
                  .attr 'd', do ->
-                    utils.newEdgeWalk edge
+                    utils.edgeWalk edge
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')
