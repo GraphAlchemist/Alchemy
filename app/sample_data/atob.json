@@ -1,0 +1,20 @@
+{
+  "comment": "Simple 2 node system for edge draw practice",
+  "nodes": [
+    {
+      "id": 0,
+      "caption": "Target",
+    },
+    {
+      "id": 1,
+      "caption": "Source"
+    }
+  ],
+  "edges": [
+    {
+      "source": 1,
+      "target": 0,
+      "caption": "Edge"
+    }
+  ]
+}
