@@ -19,20 +19,22 @@
         api: api
         # returns one or more nodes as an array
         nodes: (id, ids...) ->
-                    nodeList = []
-                    if id?
-                        allIDs = _.map arguments, (arg) -> String(arg)
-                        a = @.a
-                        nodeList = do (a) ->
-                            # All passed ids with artificially enforced type safety
-                            _.filter a._nodes, (val, key)->
-                                val if _.contains allIDs, key
-                    @api._elType = "node"
-                    @api._el = nodeList
-                    @api._makeChain nodeList, @
+            nodeList = []
+            if id?
+                args = _.flatten arguments
+                allIDs = _.map args, (arg) -> String(arg)
+                a = @.a
+                nodeList = do (a) ->
+                    # All passed ids with artificially enforced type safety
+                    _.filter a._nodes, (val, key)->
+                        val if _.contains allIDs, key
+            @api._elType = "node"
+            @api._el = nodeList
+            @api._makeChain nodeList, @
 
         # returns one or more edges as an array
         edges: (id, ids...) ->
+            edgeList = []
             if id?
                 allIDs = _.map arguments, (arg) -> String(arg)
                 a = @.a
