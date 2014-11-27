@@ -51,10 +51,11 @@ two nodes for directed or undirected noncurved edges.
             square = (num) ->
                 return num * num
             padding = 6
-            arrowWidth = 1.2
+            arrowWidth = 1.8
             shaftRadius = arrowWidth / 2
             headRadius = shaftRadius * 2
             headLength = headRadius * 2
+
             xDist = edge.source.x - edge.target.x
             yDist = edge.source.y - edge.target.y
             distance = Math.sqrt(square(xDist) + square(yDist))
@@ -74,6 +75,7 @@ two nodes for directed or undirected noncurved edges.
             radiusRatio = (startR + padding) / (endR + headLength + padding)
             homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
 
+            # changing this # changes severity of arc.  make variable by # of edges?
             angle = 3 * headRadius * 2 / startR 
 
             startAttachX = Math.cos(angle) * (startR + padding)
