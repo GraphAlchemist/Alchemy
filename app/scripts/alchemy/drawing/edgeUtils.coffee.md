@@ -47,6 +47,8 @@ This is the primary function used to draw the svg paths between
 two nodes for directed or undirected noncurved edges. 
 
         newEdgeWalk: (edge) ->
+            # THIS IS THE FINAL SPOT THAT IS RIGHT DONT UNDO MORE OR REDO LESS
+
             a = @a
             square = (num) ->
                 return num * num
@@ -55,45 +57,52 @@ two nodes for directed or undirected noncurved edges.
             shaftRadius = arrowWidth / 2
             headRadius = shaftRadius * 2
             headLength = headRadius * 2
-            xDist = Math.abs(edge.source.x - edge.target.x)
-            yDist = Math.abs(edge.source.y - edge.target.y)
-            # distance = Math.sqrt(square(xDist) + square(yDist))
+            xDist = edge.source.x - edge.target.x
+            yDist = edge.source.y - edge.target.y
+            distance = Math.sqrt(square(xDist) + square(yDist))
 
-            start = { x: 0, y: 0, r: edge.source.radius }
-            end = { x: xDist, y: 0, r: edge.target.radius }
+            # start = { x: 0, y: 0, r: edge.source.radius }
+            startX = 0
+            startY = 0
+            startR = edge.source.radius
+            # end = { x: distance, y: 0, r: edge.target.radius }
+            endX = distance
+            endY = 0
+            endR = edge.target.radius
 
-            d = end.x - start.x
+            d = endX - startX
 
-            radiusRatio = (start.r + padding) / (end.r + headLength + padding)
+            radiusRatio = (startR + padding) / (endR + headLength + padding)
             homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
 
-            angle = 3 * headRadius * 2 / start.r 
+            angle = 3 * headRadius * 2 / startR 
 
-            startAttach = { x: Math.cos(angle) * (start.r + padding), y: Math.sin(angle) * (start.r + padding) }
-            
-            gradient = startAttach.y / (startAttach.x - homotheticCenter)
-            hc = startAttach.y - gradient * startAttach.x
-            p = end.x
+            startAttachX = Math.cos(angle) * (startR + padding)
+            startAttachY = Math.sin(angle) * (startR + padding)
+
+            gradient = startAttachY / (startAttachX - homotheticCenter)
+            hc = startAttachY - gradient * startAttachX
+            p = endX
 
             a = 1 + square(gradient)
             b = 2 * (gradient * hc - p)
-            c = square(hc) + square(p) - square(end.r + headLength + padding)
+            c = square(hc) + square(p) - square(endR + headLength + padding)
 
-            endAttach = { x: (-b - Math.sqrt(square(b) - 4 * a * c)) / (2 * a) }
-            endAttach.y = (endAttach.x - homotheticCenter) * gradient
+            endAttachX = (-(b) - Math.sqrt(square(b) - 4 * a * c)) / (2 * a)
+            endAttachY = (endAttachX - homotheticCenter) * gradient
 
             # rotatedPlane = d3.select("#edge-#{edge.id}-#{edge.pos}")
-            # rotatedPlane.append("circle").attr("r", 1).style("fill", "#F00").attr({cy:"#{endAttach.y}", cx:"#{endAttach.x}"})
+            # rotatedPlane.append("circle").attr("r", 1).style("fill", "#F00").attr({cy:"#{endAttachY}", cx:"#{endAttachX}"})
 
-            g1 = -startAttach.x / startAttach.y
-            c1 = startAttach.y + (square(startAttach.x) / startAttach.y)
-            g2 = -(endAttach.x - end.x) / endAttach.y
-            c2 = endAttach.y + (endAttach.x - end.x) * endAttach.x / endAttach.y
+            g1 = -startAttachX / startAttachY
+            c1 = startAttachY + (square(startAttachX) / startAttachY)
+            g2 = -(endAttachX - endX) / endAttachY
+            c2 = endAttachY + (endAttachX - endX) * endAttachX / endAttachY
 
             cx = (c1 - c2) / (g2 - g1)
             cy = g1 * cx + c1
 
-            arcRadius = Math.sqrt(square(cx - startAttach.x) + square(cy - startAttach.y))
+            arcRadius = Math.sqrt(square(cx - startAttachX) + square(cy - startAttachY))
 
             startTangent = (dr) ->
                 if dr < 0
@@ -102,7 +111,7 @@ two nodes for directed or undirected noncurved edges.
                     num = 1
                 dx = num * Math.sqrt(square(dr) / (1 + square(g1)))
                 dy = g1 * dx
-                return [startAttach.x + dx, startAttach.y + dy].join(",")
+                return "#{startAttachX + dx}, #{startAttachY + dy}"
 
             endTangent = (dr) ->
                 if dr < 0
@@ -111,7 +120,7 @@ two nodes for directed or undirected noncurved edges.
                     num = 1
                 dx = num * Math.sqrt(square(dr) / (1 + square(g2)))
                 dy = g2 * dx
-                return [endAttach.x + dx, endAttach.y + dy].join(",")
+                return "#{endAttachX + dx}, #{endAttachY + dy}"
 
             endNormal = (dc) ->
                 if dc < 0
@@ -120,45 +129,8 @@ two nodes for directed or undirected noncurved edges.
                     num = 1
                 dx = num * Math.sqrt(square(dc) / (1 + square((1 / g2))))
                 dy = dx / g2
-                return [endAttach.x + dx, endAttach.y - dy].join(",")
-
-            console.log "
-                headLength = #{headLength} \n
-                headRadius = #{headRadius} \n
-                shaftRadius = #{shaftRadius} \n
-                startAttach = #{startAttach.x}, #{startAttach.y} \n
-                endAttach = #{endAttach.x}, #{endAttach.y} \n
-                radiusRatio = #{radiusRatio} \n
-                homotheticCenter = #{homotheticCenter} \n
-                angle = #{angle} \n
-                p = #{p} \n
-                gradient = #{gradient} \n
-                hc = #{hc} \n
-                g1 = #{g1} \n
-                c1 = #{c1} \n
-                g2 = #{g2} \n
-                c2 = #{c2} \n
-                cx = #{cx} \n
-                cy = #{cy} \n
-                arcRadius = #{arcRadius} \n
-                shaftRadius = #{shaftRadius} \n
-                startTangent = #{startTangent(-shaftRadius)} \n
-                endTangent = #{endTangent(-shaftRadius)} \n
-                endNormal = #{endNormal(headLength)} \n
-                ----------------------------------"
-
-            console.log "
-                PATH -------- \n
-                M #{startTangent(-shaftRadius)} \n
-                L #{startTangent(shaftRadius)}  \n
-                A #{arcRadius - shaftRadius}, #{arcRadius - shaftRadius} 0 0 1 #{endTangent(-shaftRadius)} \n
-                L #{endTangent(-headRadius)} \n
-                L #{endNormal(headLength)} \n
-                L #{endTangent(headRadius)} \n
-                L #{endTangent(shaftRadius)} \n
-                A #{arcRadius + shaftRadius}, #{arcRadius + shaftRadius} 0 0 0 #{startTangent(-shaftRadius)}"
-
-
+                return "#{endAttachX + dx}, #{endAttachY - dy}"
+            
             return "
                 M #{startTangent(-shaftRadius)}
                 L #{startTangent(shaftRadius)}
@@ -167,7 +139,8 @@ two nodes for directed or undirected noncurved edges.
                 L #{endNormal(headLength)}
                 L #{endTangent(headRadius)}
                 L #{endTangent(shaftRadius)}
-                A #{arcRadius + shaftRadius}, #{arcRadius + shaftRadius} 0 0 1 #{startTangent(-shaftRadius)}"
+                A #{arcRadius + shaftRadius}, #{arcRadius + shaftRadius} 0 0 1 #{startTangent(-shaftRadius)}
+                Z"
             # straight.  works perfect(?)
             # xDist = Math.abs(edge.source.x - edge.target.x)
             # yDist = Math.abs(edge.source.y - edge.target.y)
@@ -181,92 +154,6 @@ two nodes for directed or undirected noncurved edges.
             # mid = distance / 2
             # return "M #{x} #{y} Q #{mid} 100 #{distance} #{y *2}"
             # return "M 0 0 Q #{mid} 100 #{distance} 0 stroke='white'"
-
-        edgeWalk: (edge) ->
-            a = @a
-            conf = a.conf
-
-            distance = Math.abs(edge.source.x - edge.target.x)
-            padding = 1
-            shaftRadius = edge["stroke-width"]
-            arrowWidth = shaftRadius * 2
-            headRadius = shaftRadius * 2
-            headLength = headRadius * 2
-
-            start = { x: edge.source.x, y: edge.source.y, r: edge.source.radius }
-            end = { x: edge.target.x, y: edge.target.y, r: edge.target.radius }
-
-            d = end.x - start.x
-
-            radiusRatio = (start.r + padding) / (end.r + headLength + padding)
-            homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
-
-            offsets = [-3, -2, -1, 1, 2, 3]
-
-            curves = _.map offsets, (offset) ->
-                square = (num) ->
-                    return num * num
-
-                angle = offset * headRadius * 2 / start.r
-
-                startAttach = { x: Math.cos( angle ) * (start.r + padding), y: Math.sin( angle ) * (start.r + padding) }
-                gradient = startAttach.y / (startAttach.x - homotheticCenter)
-                hc = startAttach.y - gradient * startAttach.x
-                p = end.x
-
-                A = 1 + square(gradient)
-                B = 2 * (gradient * hc - p)
-                C = square(hc) + square(p) - square(end.r + headLength + padding)
-
-                endAttach = { x: (-B - Math.sqrt( square( B*2 ) - 4 * A * C )) / (2 * A) }
-                endAttach.y = (endAttach.x - homotheticCenter) * gradient
-
-                g1 = -startAttach.x / startAttach.y
-                c1 = startAttach.y + (square( startAttach.x ) / startAttach.y)
-                g2 = -(endAttach.x - end.x) / endAttach.y
-                c2 = endAttach.y + (endAttach.x - end.x) * endAttach.x / endAttach.y
-
-                cx = ( c1 - c2 ) / (g2 - g1)
-                cy = g1 * cx + c1
-
-                arcRadius = 5 # Math.sqrt(square(cx - startAttach.x) + square(cy - startAttach.y))
-                startTangent = (dr) ->
-                    dx = (dr < 0 ? -1 : 1) * Math.sqrt(square(dr) / (1 + square(g1)))
-                    dy = g1 * dx
-                    return [
-                        startAttach.x + dx + start.x,
-                        startAttach.y + dy + start.y
-                    ].join(",")
-
-                endTangent = (dr) ->
-                    dx = (dr < 0 ? -1 : 1) * Math.sqrt(square(dr) / (1 + square(g2)))
-                    dy = g2 * dx
-                    return [
-                        endAttach.x + dx,  
-                        endAttach.y + dy
-                    ].join(",")
-
-                endNormal = (dc) ->
-                    dx = (dc < 0 ? -1 : 1) * Math.sqrt(square(dc) / (1 + square(1 / g2)))
-                    dy = dx / g2
-                    return [
-                        endAttach.x + dx,
-                        endAttach.y - dy
-                    ].join(",")
-
-                return path: [
-                        "M", startTangent(-shaftRadius),
-                        "L", startTangent(shaftRadius),
-                        "A", arcRadius - shaftRadius, arcRadius - shaftRadius, 0, 0, (if offset > 0 then 0 else 1), endTangent(-shaftRadius),
-                        "L", endTangent(-headRadius),
-                        "L", endNormal(headLength),
-                        "L", endTangent(headRadius),
-                        "L", endTangent(shaftRadius),
-                        "A", arcRadius + shaftRadius, arcRadius + shaftRadius, 0, 0, (if offset < 0 then 0 else 1), startTangent(-shaftRadius)
-                    ].join( " " )
-            
-            console.log curves
-            return curves[2].path
 
         triangle: (edge) ->
             width = edge.target.x - edge.source.x
