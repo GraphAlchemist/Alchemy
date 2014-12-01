@@ -3,11 +3,13 @@
   "nodes": [
     {
       "id": 0,
-      "caption": "Source"
+      "caption": "Source", 
+      "type": "source"
     },
     {
       "id": 1,
-      "caption": "Target"
+      "caption": "Target", 
+      "type": "target"
     }
   ],
   "edges": [

@@ -40,11 +40,12 @@
         <script type="text/javascript">
           
           var config = {
-            dataSource: "sample_data/atob.json", 
-            captionsToggle: true
-            
-            // curvedEdges: true, 
-            // directedEdges: true
+            dataSource: "sample_data/movies.json", 
+            captionsToggle: true, 
+            forceLocked: true, 
+            nodeTypes: { "type": ["source", "target"]},
+            nodeStyle: {"source": {"radius": 30}}
+            //directedEdges: true
           }
 
           var alchemy = new Alchemy(config)
