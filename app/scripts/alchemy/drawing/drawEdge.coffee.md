@@ -81,127 +81,142 @@
             styles
 
         edgeWalk: (edge) ->
-            alch = @a
+            a = @a
 
             square = (num) ->
                 return num * num
 
-            padding = alch.conf.nodePadding
+            source = edge.source
+            target = edge.target
 
-            if !alch.conf.curvedEdges and !alch.conf.directedEdges
-            # return straight, undirected edges
-                source = edge.source
-                target = edge.target
-                sourcePadding = source.radius + padding
-                targetPadding = target.radius + padding
+            if !a.conf.curvedEdges 
+
+                padding = a.conf.nodePadding
+
+                sourcePadding = source.radius + padding + (source["stroke-width"] / 2)
+                targetPadding = target.radius + padding + (target["stroke-width"] / 2)
                 xDist = edge.source.x - edge.target.x
                 yDist = edge.source.y - edge.target.y
-                distance = Math.sqrt(square(xDist) + square(yDist)) 
-                return "M #{sourcePadding} 0 L #{distance - targetPadding} 0"
+                distance = Math.sqrt(square(xDist) + square(yDist))
 
-            # else if !alch.conf.curvedEdges
+                if !a.conf.directedEdges 
+                    # return straight, undirected path
+                    return "M #{sourcePadding} 0 L #{distance - targetPadding} 0"
+                else
+                    # return straight, directed path
+                    headLength = a.conf.edgeWidth() * 2.4
+                    return "
+                    M #{sourcePadding} 0 
+                    L #{distance - targetPadding - headLength} 0
+                    l 0 2
+                    l #{headLength/2} -2
+                    l #{-headLength/2} -2
+                    L #{distance - targetPadding - headLength} 0
+                    "
+                    
 
-            # padding = edge.source.radius
-            # arrowWidth = 2.4 # optimal = 2.4, breaks outside [~0.4..3.3]
-            # shaftRadius = arrowWidth / 2
-            # headRadius = shaftRadius * 2
-            # headLength = headRadius * 2
+            else
 
-            # xDist = edge.source.x - edge.target.x
-            # yDist = edge.source.y - edge.target.y
-            # edgeLength = Math.sqrt(square(xDist) + square(yDist))
+                padding = a.conf.edgeWidth() * 1.7
+                arrowWidth = a.conf.edgeWidth() * 0.6 
+                shaftRadius = arrowWidth / 2
+                headRadius = shaftRadius * 2.4
+                headLength = if a.conf.directedEdges then headRadius * 2 else 0.0001
 
-            # # start = { x: 0, y: 0, r: edge.source.radius }
-            # startX = 0
-            # startY = 0
-            # startR = edge.source.radius
+                xDist = edge.source.x - edge.target.x
+                yDist = edge.source.y - edge.target.y
+                edgeLength = Math.sqrt(square(xDist) + square(yDist))
 
-            # # end = { x: edgeLength, y: 0, r: edge.target.radius }
-            # endX = edgeLength
-            # endY = 0
-            # endR = edge.target.radius
+                # start = { x: 0, y: 0, r: edge.source.radius }
+                startX = 0
+                startY = 0
+                startR = edge.source.radius
 
-            # d = endX - startX
+                # end = { x: edgeLength, y: 0, r: edge.target.radius }
+                endX = edgeLength
+                endY = 0
+                endR = edge.target.radius
 
-            # radiusRatio = (startR + padding) / (endR + headLength + padding)
-            # homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
+                d = endX - startX
 
-            # # arcDegree changes severity of arc
-            # # optimal values = [1, 2, 3].  breaks outside [~(0.1)..~(3)]
-            # arcDegree = 1
-            # angle = arcDegree * headRadius * 2 / startR 
+                radiusRatio = (startR + padding) / (endR + headLength + padding)
+                homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
 
-            # startAttachX = Math.cos(angle) * (startR + padding)
-            # startAttachY = Math.sin(angle) * (startR + padding)
+                # arcDegree changes severity of arc
+                # optimal values = [1, 2, 3].  breaks outside [~(0.1)..~(3)]
+                arcDegree = 2
+                angle = arcDegree * headRadius * 2 / startR 
 
-            # gradient = startAttachY / (startAttachX - homotheticCenter)
-            # hc = startAttachY - gradient * startAttachX
-            # p = endX
+                startAttachX = Math.cos(angle) * (startR + padding)
+                startAttachY = Math.sin(angle) * (startR + padding)
 
-            # a = 1 + square(gradient)
-            # b = 2 * (gradient * hc - p)
-            # c = square(hc) + square(p) - square(endR + headLength + padding)
+                gradient = startAttachY / (startAttachX - homotheticCenter)
+                hc = startAttachY - gradient * startAttachX
+                p = endX
 
-            # endAttachX = (-(b) - Math.sqrt(square(b) - 4 * a * c)) / (2 * a)
-            # endAttachY = (endAttachX - homotheticCenter) * gradient
+                A = 1 + square(gradient)
+                B = 2 * (gradient * hc - p)
+                C = square(hc) + square(p) - square(endR + headLength + padding)
 
-            # g1 = -startAttachX / startAttachY
-            # c1 = startAttachY + (square(startAttachX) / startAttachY)
-            # g2 = -(endAttachX - endX) / endAttachY
-            # c2 = endAttachY + (endAttachX - endX) * endAttachX / endAttachY
+                endAttachX = (-(B) - Math.sqrt(square(B) - 4 * A * C)) / (2 * A)
+                endAttachY = (endAttachX - homotheticCenter) * gradient
 
-            # cx = (c1 - c2) / (g2 - g1)
-            # cy = g1 * cx + c1
+                g1 = -startAttachX / startAttachY
+                c1 = startAttachY + (square(startAttachX) / startAttachY)
+                g2 = -(endAttachX - endX) / endAttachY
+                c2 = endAttachY + (endAttachX - endX) * endAttachX / endAttachY
 
-            # arcRadius = Math.sqrt(square(cx - startAttachX) + square(cy - startAttachY))
+                cx = (c1 - c2) / (g2 - g1)
+                cy = g1 * cx + c1
 
-            # startTangent = (dr) ->
-            #     if dr < 0
-            #         num = -1
-            #     else 
-            #         num = 1
-            #     dx = num * Math.sqrt(square(dr) / (1 + square(g1)))
-            #     dy = g1 * dx
-            #     return "#{startAttachX + dx}, #{startAttachY + dy}"
+                arcRadius = Math.sqrt(square(cx - startAttachX) + square(cy - startAttachY))
 
-            # endTangent = (dr) ->
-            #     if dr < 0
-            #         num = -1
-            #     else 
-            #         num = 1
-            #     dx = num * Math.sqrt(square(dr) / (1 + square(g2)))
-            #     dy = g2 * dx
-            #     return "#{endAttachX + dx}, #{endAttachY + dy}"
+                startTangent = (dr) ->
+                    if dr < 0
+                        num = -1
+                    else 
+                        num = 1
+                    dx = num * Math.sqrt(square(dr) / (1 + square(g1)))
+                    dy = g1 * dx
+                    return "#{startAttachX + dx}, #{startAttachY + dy}"
 
-            # endNormal = (dc) ->
-            #     if dc < 0
-            #         num = -1
-            #     else 
-            #         num = 1
-            #     dx = num * Math.sqrt(square(dc) / (1 + square((1 / g2))))
-            #     dy = dx / g2
-            #     return "#{endAttachX + dx}, #{endAttachY - dy}"
+                endTangent = (dr) ->
+                    if dr < 0
+                        num = -1
+                    else 
+                        num = 1
+                    dx = num * Math.sqrt(square(dr) / (1 + square(g2)))
+                    dy = g2 * dx
+                    return "#{endAttachX + dx}, #{endAttachY + dy}"
 
-            # else if !alch.conf.directedEdges
-            # # Curved undirected
-            #     return "
-            #     M #{startTangent(-shaftRadius)}
-            #     A #{arcRadius - shaftRadius}, #{arcRadius - shaftRadius} 0 0 0 #{endTangent(-shaftRadius)}
-            #     L #{endNormal(headLength)}
-            #     "
-            # else
-            # # compute and return curved edges
-            #     return "
-            #     M #{startTangent(-shaftRadius)}
-            #     L #{startTangent(shaftRadius)}
-            #     A #{arcRadius - shaftRadius}, #{arcRadius - shaftRadius} 0 0 0 #{endTangent(-shaftRadius)}
-            #     L #{endTangent(-headRadius)}
-            #     L #{endNormal(headLength)}
-            #     L #{endTangent(headRadius)}
-            #     L #{endTangent(shaftRadius)}
-            #     A #{arcRadius + shaftRadius}, #{arcRadius + shaftRadius} 0 0 1 #{startTangent(-shaftRadius)}
-            #     Z
-            #     "
+                endNormal = (dc) ->
+                    if dc < 0
+                        num = -1
+                    else 
+                        num = 1
+                    dx = num * Math.sqrt(square(dc) / (1 + square((1 / g2))))
+                    dy = dx / g2
+                    return "#{endAttachX + dx}, #{endAttachY - dy}"
+
+                if !a.conf.directedEdges
+                # return curved, undirected path
+                    return "
+                    M #{startTangent(-shaftRadius)}
+                    A #{arcRadius - shaftRadius}, #{arcRadius - shaftRadius} 0 0 0 #{endTangent(-shaftRadius)}
+                    "
+                else
+                # return curved, directed path
+                    return "
+                    M #{startTangent(-shaftRadius)}
+                    L #{startTangent(shaftRadius)}
+                    A #{arcRadius - shaftRadius}, #{arcRadius - shaftRadius} 0 0 0 #{endTangent(-shaftRadius)}
+                    L #{endTangent(-headRadius)}
+                    L #{endNormal(headLength)}
+                    L #{endTangent(headRadius)}
+                    L #{endTangent(shaftRadius)}
+                    A #{arcRadius + shaftRadius}, #{arcRadius + shaftRadius} 0 0 1 #{startTangent(-shaftRadius)}
+                    Z
+                    "
 
         styleLink: (edges) ->
             a = @a
@@ -217,6 +232,8 @@
                 g.select '.edge-line'
                  .attr 'd', do ->
                     utils.edgeWalk edge
+                 .attr 'stroke-width', do ->
+                    a.conf.edgeWidth
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')

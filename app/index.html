@@ -42,10 +42,11 @@
           var config = {
             dataSource: "sample_data/movies.json", 
             captionsToggle: true, 
-            forceLocked: true, 
-            nodeTypes: { "type": ["source", "target"]},
-            nodeStyle: {"source": {"radius": 30}}
-            //directedEdges: true
+            forceLocked: false,
+            // nodeTypes: { "type": ["source", "target"]},
+            // nodeStyle: {"source": {"radius": 20, }},
+            // directedEdges: true, 
+            // curvedEdges: true
           }
 
           var alchemy = new Alchemy(config)
