@@ -114,7 +114,6 @@
                     L #{distance - targetPadding - headLength} 0
                     "
                     
-
             else
 
                 padding = a.conf.edgeWidth() * 1.7
@@ -143,8 +142,8 @@
                 homotheticCenter = -d * radiusRatio / (1 - radiusRatio)
 
                 # arcDegree changes severity of arc
-                # optimal values = [1, 2, 3].  breaks outside [~(0.1)..~(3)]
-                arcDegree = 2
+                # optimal values = [1..3].  breaks outside [~(0.1)..~(3.1)]
+                arcDegree = 1.5
                 angle = arcDegree * headRadius * 2 / startR 
 
                 startAttachX = Math.cos(angle) * (startR + padding)
