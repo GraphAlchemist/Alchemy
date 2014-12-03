@@ -42,7 +42,6 @@ title: Anotated Source
                 DrawEdges: DrawEdges  @
                 DrawNode : DrawNode   @
                 DrawNodes: DrawNodes  @
-                EdgeUtils: @EdgeUtils @
                 NodeUtils: @NodeUtils @
             
             @controlDash = @controlDash @
