@@ -41,6 +41,13 @@
       "github": "DaveTorbeck",
       "role": "Contributor",
       "fun_fact": ""
+    },
+    {
+      "id": 6,
+      "caption": "Harland Hauger",
+      "github": "nunayerBeezwax",
+      "role": "Maintainer",
+      "fun_fact": "ideas available by free download, visit physical interface"
     }
   ],
   "edges": [
@@ -67,7 +74,12 @@
     {
       "source": 5,
       "target": 0,
-      "caption": "contributes"
+      "caption": "Contributes"
+    },
+    {
+      "source": 6,
+      "target": 0,
+      "caption": "Maintains"
     }
   ]
 }
