@@ -256,7 +256,7 @@
                         else
                             0
                     dx = edgeLength / 2
-                    dy = d['stroke-width'] * 4
+                    dy = - d['stroke-width'] * 2
                     d3.select(@)
                       .attr 'dx', "#{dx}"
                       .attr "dy", "#{dy}"
