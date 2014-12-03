@@ -57,36 +57,6 @@
 
         edgeStyle: (d) ->
             conf = @a.conf
-<<<<<<< HEAD
-            utils = @a.drawing.EdgeUtils
-            edge.each (d) ->
-
-                [width, height, hyp] = utils.triangle d
-
-                source = 
-                    r : d.source.radius + d.source['stroke-width']
-                    x : d.source.x
-                    y : d.source.y
-
-                target = 
-                    r : d.target.radius + d.target['stroke-width']
-                    x : d.target.x
-                    y : d.target.y
-
-                e = 
-                    width  : d['stroke-width']
-                    length : hyp - ((target.r + source.r))
-                    angle  : Math.atan2(height, width) / Math.PI * 180
-
-                curviness = if conf.curvedEdges then 30 else 0
-                curve = curviness / 10
-                
-                startx = source.r
-                starty = curve
-                midpoint = e.length / 2
-                endx = e.length
-                endy = curve
-=======
             edge = @a._edges[d.id][d.pos]
             styles = @a.svgStyles.edge.update edge
             nodes = @a._nodes
@@ -157,7 +127,6 @@
                 xDist = edge.source.x - edge.target.x
                 yDist = edge.source.y - edge.target.y
                 edgeLength = Math.sqrt(square(xDist) + square(yDist))
->>>>>>> ed710abf21e7dc03e4e669f816eec28d6bc32caa
 
                 # start = { x: 0, y: 0, r: edge.source.radius }
                 startX = 0
@@ -260,26 +229,12 @@
                 edgeData = utils.edgeData edge
                 g.style utils.edgeStyle edge
                 g.attr('transform', 
-<<<<<<< HEAD
-                    "translate(#{d.source.x}, #{d.source.y}) rotate(#{e.angle})")
-                g.select '.edge-line'
-                 .attr 'd', do ->
-                    line = "M#{startx},#{starty}q#{midpoint},#{curve * 10} #{endx},#{endy}"
-
-                    if conf.directedEdges
-                        w = d["stroke-width"] * 2
-                        arrow = "l#{-w},#{w + curve} l#{w},#{-w - curve} l#{-w},#{-w + curve}"
-
-                        return line + arrow
-                    line
-=======
                     "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{utils.edgeAngle(edge)})")
                 g.select '.edge-line'
                  .attr 'd', do ->
                     utils.edgeWalk edge
                  .attr 'stroke-width', do ->
                     a.conf.edgeWidth
->>>>>>> ed710abf21e7dc03e4e669f816eec28d6bc32caa
 
                 g.select '.edge-handler'
                     .attr 'd', (d) -> g.select('.edge-line').attr('d')
@@ -289,16 +244,19 @@
 
         styleText: (edge) ->
             conf = @a.conf
-            curved = conf.curvedEdges
-            utils = @a.drawing.DrawEdge
 
             edge.select 'text'
                 .each (d) ->
-<<<<<<< HEAD
-                    edgeWalk = utils.edgeWalk d
-                    captionAngle = utils.captionAngle edgeWalk.edgeLength
-                    dx = edgeWalk.edgeLength / 2
-                    dy = - d['stroke-width'] * 2
+                    xDist = d.source.x - d.target.x
+                    yDist = d.source.y - d.target.y
+                    edgeLength = Math.sqrt(xDist**2 + yDist**2)
+                    captionAngle: (angle) ->
+                        if angle < -90 or angle > 90
+                            180
+                        else
+                            0
+                    dx = edgeLength / 2
+                    dy = d['stroke-width'] * 4
                     d3.select(@)
                       .attr 'dx', "#{dx}"
                       .attr "dy", "#{dy}"
@@ -307,15 +265,6 @@
                       .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
                       .style "display", (d)->
                         return "block" if conf.edgeCaptionsOnByDefault
-=======
-                    edgeLength = utils.edgeData(d).edgeLength
-                    dx = edgeLength / 2
-                    d3.select(@).attr 'dx', "#{dx}"
-                                .text d.caption
-                                .attr "xlink:xlink:href", "#path-#{d.source.id}-#{d.target.id}"
-                                .style "display", (d)->
-                                    return "block" if conf.edgeCaptionsOnByDefault
->>>>>>> ed710abf21e7dc03e4e669f816eec28d6bc32caa
 
         setInteractions: (edge) ->
             interactions = @a.interactions
