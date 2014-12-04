@@ -103,9 +103,9 @@
 
                 # takes a key, value or map of key values
                 # the user passes a map of styles to set multiple styles at once
-                if _.isPlainObject key
+                else if _.isPlainObject key
                     _.assign @_style, key
-                else if typeof key is "string"
+                else
                     @_style[key] = value
 
                 @_setD3Properties @a.svgStyles.edge.update(@)
