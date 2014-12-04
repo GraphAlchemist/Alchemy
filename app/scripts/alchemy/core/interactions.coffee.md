@@ -22,15 +22,16 @@
             return if d3.event.defaultPrevented
             # Don't tell alchemy about the click
             d3.event.stopPropagation()
+
             # Convert d3.edge to alchemy.edge
             edge = d.self
 
             if typeof a.conf.edgeClick is 'function'
                 a.conf.edgeClick(edge)
+
             if edge._state != "hidden"
-                edge._state = do ->
-                    return "active" if edge._state is "selected"
-                    "selected"
+                edge._state = 
+                    if edge._state is "highlighted" then "selected" else "active"
                 edge.setStyles()
 
         edgeMouseOver: (d) ->

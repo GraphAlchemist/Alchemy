@@ -26,10 +26,6 @@
                 .append 'text'
                 .append 'textPath'
                 .classed "textpath", true
-            edge.append 'path'
-                .attr 'class', 'edge-handler'
-                .style 'stroke-width', "#{conf.edgeOverlayWidth}"
-                .style 'opacity', "0"
 
         triangle: (edge) ->
             width = edge.target.x - edge.source.x
@@ -58,7 +54,7 @@
         edgeStyle: (d) ->
             conf = @a.conf
             edge = @a._edges[d.id][d.pos]
-            styles = @a.svgStyles.edge.update edge
+            styles = @a.svgStyles.edge.populate edge
             nodes = @a._nodes
 
             # edge styles based on clustering
@@ -227,7 +223,7 @@
             edges.each (edge) ->
                 g = d3.select(@)
                 edgeData = utils.edgeData edge
-                g.style utils.edgeStyle edge
+
                 g.attr('transform', 
                     "translate(#{edge.source.x}, #{edge.source.y}) rotate(#{utils.edgeAngle(edge)})")
                 g.select '.edge-line'
@@ -235,16 +231,15 @@
                     utils.edgeWalk edge
                  .attr 'stroke-width', do ->
                     a.conf.edgeWidth
+                 .style utils.edgeStyle edge
 
-                g.select '.edge-handler'
-                    .attr 'd', (d) -> g.select('.edge-line').attr('d')
-                    .style "stroke-width", "100px"
+
+
         classEdge: (edge) ->
             edge.classed 'active', true
 
         styleText: (edge) ->
             conf = @a.conf
-
             edge.select 'text'
                 .each (d) ->
                     xDist = d.source.x - d.target.x
@@ -266,7 +261,7 @@
                       .style "display", (d)->
                         return "block" if conf.edgeCaptionsOnByDefault
 
-        setInteractions: (edge) ->
+        setInteractions: (edges) ->
             interactions = @a.interactions
             # editorEnabled = @a.get.state("interactions") is "editor"
             # if editorEnabled
@@ -274,7 +269,8 @@
             #     edge.select '.edge-handler'
             #         .on 'click', editorInteractions.edgeClick
             # else
-            edge.select '.edge-handler'
-                .on 'click', interactions.edgeClick
-                .on 'mouseover', (d)-> interactions.edgeMouseOver(d)
-                .on 'mouseout', (d)-> interactions.edgeMouseOut(d)
+            edges
+                 .on 'click', interactions.edgeClick 
+                 .on 'mouseover', (d)-> interactions.edgeMouseOver(d)
+                 .on 'mouseout', (d)-> interactions.edgeMouseOut(d)
+                

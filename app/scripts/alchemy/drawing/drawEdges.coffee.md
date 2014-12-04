@@ -18,23 +18,22 @@
         a: instance
         createEdge: (d3Edges) ->
             drawEdge = @a.drawing.DrawEdge
-            edge = @a.vis.selectAll "g.edge"
-                            .data d3Edges
-            edge.enter().append 'g'
-                        .attr "id", (d) -> "edge-#{d.id}-#{d.pos}"
-                        .attr 'class', (d)->
-                            "edge #{d.edgeType}"
-                        .attr 'source-target', (d) -> "#{d.source.id}-#{d.target.id}"
-            drawEdge.createLink edge
-            drawEdge.classEdge edge
-            drawEdge.styleLink edge
-            drawEdge.styleText edge
-            drawEdge.setInteractions edge
-            edge.exit().remove()
 
-            if @a.conf.directedEdges and @a.conf.curvedEdges
-                edge.select('.edge-line')
-                    .attr('marker-end', 'url(#arrow)')
+            d3edges = @a.vis.selectAll "g.edge"
+                        .data d3Edges
+
+            d3edges.enter().append 'g'
+                    .attr "id", (d) -> "edge-#{d.id}-#{d.pos}"
+                    .attr 'class', (d)->
+                            "edge #{d.edgeType}"
+                    .attr 'source-target', (d) -> "#{d.source.id}-#{d.target.id}"
+
+            drawEdge.createLink d3edges
+            drawEdge.classEdge d3edges
+            drawEdge.styleLink d3edges
+            drawEdge.styleText d3edges
+            drawEdge.setInteractions d3edges
+            d3edges.exit().remove()
 
         updateEdge: (d3Edge) ->
             drawEdge = @a.drawing.DrawEdge
