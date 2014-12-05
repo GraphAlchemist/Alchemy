@@ -24,6 +24,8 @@
             @set    = @Set instance,    @
             @remove =  Remove.remove
 
+            @force = @Force instance, @
+
             @filter = @Filter instance, @
             @search = @Search instance, @
 
