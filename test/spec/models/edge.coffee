@@ -76,8 +76,8 @@ do ->
         describe "getStyles(key[s]...)", ->
             it "should return current styles for @ at given key[s], no keys returns all", ->
                 testEdge.getStyles("color").should.eql ["#CCC"]
-                assert.deepEqual testEdge.getStyles("opacity", "curved"), [0, true]
-                (Object.keys testEdge.getStyles()).length.should.equal 11
+                assert.deepEqual testEdge.getStyles("opacity", "curved"), [0.2, true]
+                (Object.keys testEdge.getStyles()).length.should.equal 8
 
             it "should return the styles for all keys passed in", ->
                 testEdge.getStyles("color", "width").should.eql(["#CCC", 4])
