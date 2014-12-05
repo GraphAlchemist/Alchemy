@@ -47,6 +47,7 @@ title: Anotated Source
             
             @controlDash = @controlDash @
             @stats = @stats @
+            @search = @search @
 
             @layout     = Layout
             @clustering = Clustering
