@@ -119,16 +119,16 @@
                         @._zoomBehavior.scale(scale)
                                        .translate([x,y])
 
-        # toggleControlDash: () ->
-        #     #toggle off-canvas class on click
-        #     offCanvas = a.dash.classed("off-canvas") or
-        #                 a.dash.classed("initial")
-        #     a.dash
-        #            .classed {
-        #                 "off-canvas": !offCanvas,
-        #                 "initial"   : false,
-        #                 "on-canvas" : offCanvas
-        #             }
+        toggleControlDash: () ->
+            #toggle off-canvas class on click
+            offCanvas = a.dash.classed("off-canvas") or
+                        a.dash.classed("initial")
+            a.dash
+                   .classed {
+                        "off-canvas": !offCanvas,
+                        "initial"   : false,
+                        "on-canvas" : offCanvas
+                    }
 
         nodeDragStarted: (d, i) ->
             d3.event.preventDefault

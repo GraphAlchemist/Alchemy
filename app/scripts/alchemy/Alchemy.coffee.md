@@ -36,6 +36,7 @@ title: Anotated Source
             @create = @api.create
             @set    = @api.set
             @filter = @api.filter
+            @forceLayout = @api.force
 
             @drawing  =
                 DrawEdge : DrawEdge   @
@@ -46,6 +47,7 @@ title: Anotated Source
             
             @controlDash = @controlDash @
             @stats = @stats @
+            @search = @search @
 
             @layout     = Layout
             @clustering = Clustering

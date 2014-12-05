@@ -90,6 +90,6 @@ do ->
 
         describe "outDegree", ->
             it "should return the number of adjacentEdges", ->
-                testNode.outDegree().should.equal 5
+                testNode.outDegree().should.equal 6
 
     return
