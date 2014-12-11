@@ -20,7 +20,7 @@
         nodes: (nodeMap, nodeMaps...) ->
             a = this.a
             registerNode = (node) ->
-                # check if the node already exists
+                # if the node does not yet exist, create and register it
                 if not a._nodes[node.id]
                     aNode = new a.models.Node(node)
                     a._nodes[node.id] = aNode
@@ -34,15 +34,13 @@
                                 retrieve the node and then using the Node methods.
                                 """)
 
-            nodeMaps = _.union nodeMaps, nodeMap
+            nodeMaps = _.uniq _.flatten arguments
             # create the results set
             for n in nodeMaps
-                # check if the node already exists
                 registerNode n
 
             if @a.initial
                 @a.index = Alchemy::Index @a 
-                @a.index()
                 @a.updateGraph()
 
         edges: (edgeMap, edgeMaps...) ->
@@ -77,9 +75,10 @@
                         aEdge = new a.models.Edge(edge, 0)
                         a._edges["#{edge.source}-#{edge.target}"] = [aEdge]
                         [aEdge]
+
              allEdges = _.uniq _.flatten arguments
+
              _.each allEdges, (e)-> registerEdge e
              if @a.initial
                 @a.index = Alchemy::Index @a 
-                @a.index()
                 @a.updateGraph()
