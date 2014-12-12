@@ -50,6 +50,13 @@
     
         
 
+        <div class="section-bar list-group-item" id="#nav-">
+            <a class="level-1" href="#">  </a>
+        </div>
+
+    
+        
+
         <div class="section-bar list-group-item" id="#nav-Start">
             <a class="level-1" href="#Start"> Start </a>
         </div>
@@ -106,6 +113,25 @@
 
     
 
+    <section class="doc">
+        <!-- ---
+position: 5
+title: Overriding Defaults
+---
+
+# Overriding Defaults: Overview
+
+All defaults for the alchemy application are defined in the **[alchemyConf.coffee file](https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/alchemyConf.coffee)**.  The following specifies how to override defaults with user defined functions and parameters.
+
+### TODO
+
+_____ -->
+
+    </section>
+
+
+    
+
     <section class="doc" id="Start">
         <h2 id="philosophy">Philosophy</h2>
 
@@ -133,127 +159,70 @@
 <h3 id="use-the-alchemy-content-delivery-network">Use The Alchemy Content Delivery Network</h3>
 
 <ol>
-  <li>
-    <p>Include the CDNs</p>
+  <li>Include the CDNs</li>
+</ol>
 
-    <blockquote>
-      <blockquote>
-        <div><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
-<a href="#n2" name="n2">2</a>
-<a href="#n3" name="n3">3</a>
-</pre></td>
-  <td class="code"><pre><span class="tag">&lt;link</span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">stylesheet</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://cdn.graphalchemist.com/alchemy.min.css</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-...
-<span class="tag">&lt;script</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://cdn.graphalchemist.com/alchemy.min.js</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-</pre></td>
-</tr></table>
-        </div>
-      </blockquote>
-    </blockquote>
+<pre><code>&gt;&gt; ~~~ html
+&gt;&gt; &lt;link rel="stylesheet" href="http://cdn.graphalchemist.com/alchemy.min.css"&gt;
+&gt;&gt; ...
+&gt;&gt; &lt;script type="text/javascript" src="http://cdn.graphalchemist.com/alchemy.min.js"&gt;
+&gt;&gt; ~~~
 
-    <blockquote>
-      <blockquote>
-        <p><em>Note</em>: The CDNs include all vendor files.  Additionally, <strong>alchemy.js</strong>, <strong>alchemy.min.js</strong>, <strong>alchemy.css</strong>, and <strong>alchemy.min.css</strong> will always be updated with the latest release of Alchemy - <strong>using file names without versions can lead to breaking changes in your application</strong> whenever the CDN is updated.  To avoid this, simply use the version number in the file names in the <a href="http://semver.org/">sem ver</a> format - MAJOR.MINOR.PATCH.  For example:</p>
-      </blockquote>
-    </blockquote>
+&gt;&gt;  *Note*: The CDNs include all vendor files.  Additionally, **alchemy.js**, **alchemy.min.js**, **alchemy.css**, and **alchemy.min.css** will always be updated with the latest release of Alchemy - **using file names without versions can lead to breaking changes in your application** whenever the CDN is updated.  To avoid this, simply use the version number in the file names in the [sem ver](http://semver.org/) format - MAJOR.MINOR.PATCH.  For example:
 
-    <blockquote>
-      <blockquote>
-        <div><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
-<a href="#n2" name="n2">2</a>
-<a href="#n3" name="n3">3</a>
-</pre></td>
-  <td class="code"><pre>    <span class="tag">&lt;link</span> <span class="attribute-name">rel</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">stylesheet</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">href</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://cdn.graphalchemist.com/alchemy.0.2.min.css</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-    ...
-     <span class="tag">&lt;script</span> <span class="attribute-name">type</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">text/javascript</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">src</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">http://cdn.graphalchemist.com/alchemy.0.2.min.js</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span>
-</pre></td>
-</tr></table>
-        </div>
-      </blockquote>
-    </blockquote>
-  </li>
-  <li>
-    <p>Include an element with “alchemy” as the id and class**</p>
+&gt;&gt; ~~~html
+&gt;&gt;     &lt;link rel="stylesheet" href="http://cdn.graphalchemist.com/alchemy.0.2.min.css"&gt;
+&gt;&gt;     ...
+&gt;&gt;      &lt;script type="text/javascript" src="http://cdn.graphalchemist.com/alchemy.0.2.min.js"&gt;
+&gt;&gt; ~~~
+</code></pre>
 
-    <blockquote>
-      <blockquote>
-        <p>The <em>alchemy class</em> is used to apply styles while the <em>alchemy id</em> is used programatically.  By default Alchemy.js looks for the <em>#alchemy</em> div but this can be overridden.  See <a href="http://localhost:9002/docs/#divselector">divSelector</a></p>
+<ol>
+  <li>Include an element with “alchemy” as the id and class**</li>
+</ol>
 
-        <div><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
-</pre></td>
-  <td class="code"><pre>  <span class="tag">&lt;div</span> <span class="attribute-name">id</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">alchemy</span><span class="delimiter">&quot;</span></span> <span class="attribute-name">class</span>=<span class="string"><span class="delimiter">&quot;</span><span class="content">alchemy</span><span class="delimiter">&quot;</span></span><span class="tag">&gt;</span><span class="tag">&lt;/div&gt;</span>
-</pre></td>
-</tr></table>
-        </div>
+<pre><code>&gt;&gt;   The *alchemy class* is used to apply styles while the *alchemy id* is used programatically.  By default Alchemy.js looks for the *#alchemy* div but this can be overridden.  See [divSelector](http://localhost:9002/docs/#divselector)
+&gt;&gt; 
+&gt;&gt; ~~~ html
+&gt;&gt;   &lt;div id="alchemy" class="alchemy"&gt;&lt;/div&gt;
+&gt;&gt; ~~~
+&gt;&gt; 
+</code></pre>
 
-      </blockquote>
-    </blockquote>
-  </li>
-  <li>
-    <p>Provide Alchemy.js with a <a href="#GraphJSON">GraphJSON</a> dataSource</p>
+<ol>
+  <li>Provide Alchemy.js with a <a href="#GraphJSON">GraphJSON</a> dataSource</li>
+</ol>
 
-    <blockquote>
-      <blockquote>
-        <div><table class="CodeRay"><tr>
-  <td class="line-numbers"><pre><a href="#n1" name="n1">1</a>
-<a href="#n2" name="n2">2</a>
-<a href="#n3" name="n3">3</a>
-<a href="#n4" name="n4">4</a>
-<a href="#n5" name="n5">5</a>
-<a href="#n6" name="n6">6</a>
-<a href="#n7" name="n7">7</a>
-<a href="#n8" name="n8">8</a>
-<a href="#n9" name="n9">9</a>
-<strong><a href="#n10" name="n10">10</a></strong>
-<a href="#n11" name="n11">11</a>
-<a href="#n12" name="n12">12</a>
-<a href="#n13" name="n13">13</a>
-<a href="#n14" name="n14">14</a>
-<a href="#n15" name="n15">15</a>
-<a href="#n16" name="n16">16</a>
-<a href="#n17" name="n17">17</a>
-<a href="#n18" name="n18">18</a>
-<a href="#n19" name="n19">19</a>
-<strong><a href="#n20" name="n20">20</a></strong>
-<a href="#n21" name="n21">21</a>
-<a href="#n22" name="n22">22</a>
-<a href="#n23" name="n23">23</a>
-<a href="#n24" name="n24">24</a>
-</pre></td>
-  <td class="code"><pre>  <span class="keyword">var</span> some_data = 
-      {
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">nodes</span><span class="delimiter">&quot;</span></span>: [
-          {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>
-          },
-          {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="integer">2</span>
-          },
-          {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">id</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>
-          }
-        ],
-        <span class="key"><span class="delimiter">&quot;</span><span class="content">edges</span><span class="delimiter">&quot;</span></span>: [
-          {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">target</span><span class="delimiter">&quot;</span></span>: <span class="integer">2</span>
-          },
-          {
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">source</span><span class="delimiter">&quot;</span></span>: <span class="integer">1</span>,
-            <span class="key"><span class="delimiter">&quot;</span><span class="content">target</span><span class="delimiter">&quot;</span></span>: <span class="integer">3</span>,
-          }
-        ]
-      };
-</pre></td>
-</tr></table>
-        </div>
+<pre><code>&gt;&gt;~~~ javascript
+&gt;&gt;   var some_data = 
+&gt;&gt;       {
+&gt;&gt;         "nodes": [
+&gt;&gt;           {
+&gt;&gt;             "id": 1
+&gt;&gt;           },
+&gt;&gt;           {
+&gt;&gt;             "id": 2
+&gt;&gt;           },
+&gt;&gt;           {
+&gt;&gt;             "id": 3
+&gt;&gt;           }
+&gt;&gt;         ],
+&gt;&gt;         "edges": [
+&gt;&gt;           {
+&gt;&gt;             "source": 1,
+&gt;&gt;             "target": 2
+&gt;&gt;           },
+&gt;&gt;           {
+&gt;&gt;             "source": 1,
+&gt;&gt;             "target": 3,
+&gt;&gt;           }
+&gt;&gt;         ]
+&gt;&gt;       };
+&gt;&gt; ~~~
+&gt;&gt;
+</code></pre>
 
-      </blockquote>
-    </blockquote>
-  </li>
+<ol>
   <li>
     <p>Start Alchemy.js</p>
 
@@ -3231,10 +3200,10 @@ bower install
 
 <p></p>
 
-<h5 id="alchemygetnodes">alchemy.getNodes</h5>
+<h5 id="alchemygetnodes">alchemy.get.nodes</h5>
 <!--  Method should return Alchemy node object, not just properties -->
 
-<p><code>alchemy.getNodes(nodeId[, nodeIDn])</code><br />
+<p><code>alchemy.get.nodes(nodeId[, nodeIDn])</code><br />
 Accepts one or more node ids and returns an array of those nodes which can then be directly acted upon.  This is useful for displaying or directly manipulating node data for batch property assignment, specific positioning, more specific filtering, and countless other special use cases.</p>
 
 <div><table class="CodeRay"><tr>
@@ -3244,18 +3213,19 @@ Accepts one or more node ids and returns an array of those nodes which can then 
 <a href="#n4" name="n4">4</a>
 </pre></td>
   <td class="code"><pre><span class="comment">// Get the node with id 1</span>
-some_node = alchemy.getNodes(<span class="integer">1</span>);
+some_node = alchemy.get.nodes(<span class="integer">1</span>);
 <span class="comment">// Get multiple nodes at once, returning an array</span>
-a_bunch_of_nodes = alchemy.getNodes(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, ... id);
+a_bunch_of_nodes = alchemy.get.nodes(<span class="integer">1</span>, <span class="integer">2</span>, <span class="integer">3</span>, ... id);
 </pre></td>
 </tr></table>
 </div>
 
-<p>This API call returns the Alchemy node object and not the elements used by the renderer such as an SVG element.  </p>
+<p>This API call returns the Alchemy node object and not the elements used by the renderer such as an SVG element.
+This selection can be further acted on with methods such as <code>filter</code>, <code>search</code>, <code>remove</code> and others.</p>
 
-<h5 id="alchemygetedges">alchemy.getEdges</h5>
+<h5 id="alchemygetedges">alchemy.get.edges</h5>
 
-<p><code>alchemy.getEdges(nodeId[, targetID])</code><br />
+<p><code>alchemy.get.edges(edgeId[, edgeID])</code><br />
 If provided only a single node id, this method will return an array of all edges that are either the <em>source</em> or <em>target</em> of that node.  For example:</p>
 
 <div><table class="CodeRay"><tr>
@@ -3292,19 +3262,28 @@ some_other_edges = alchemy.getEdges(<span class="integer">2</span>,<span class="
 
 <p>It is important to realize that this returns the Alchemy Edge object and not an SVG element.</p>
 
-<h5 id="alchemyallnodes">alchemy.allNodes</h5>
+<h5 id="alchemygetnodesall">alchemy.get.nodes().all()</h5>
 
-<p><code>alchemy.allNodes()</code><br />
+<p><code>alchemy.get.nodes().all()</code><br />
 Currently, takes no arguments and returns an array of all nodes that are loaded into Alchemy. This is useful for creating custom functions that act upon all nodes, however, keep in mind that directly working on datasets with large numbers of nodes could take a while, and care should be taken when doing so.</p>
 
-<p>It is important to realize this returns an array of node data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered ‘state’ of the node (such as <code>hidden</code>, <code>selected</code>, etc…) has no effect on the results of <code>allNodes()</code>, and if the node is loaded it will be returned.  If a node has been deleted in the editor, however, it is no longer loaded into Alchemy and will not appear in the result.</p>
+<p>It is important to realize this returns an array of node data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered ‘state’ of the node (such as <code>hidden</code>, <code>selected</code>, etc…) has no effect on the results, and if the node is loaded it will be returned.  If a node has been deleted in the editor, however, it is no longer loaded into Alchemy and will not appear in the result.</p>
 
-<h5 id="alchemyalledges">alchemy.allEdges</h5>
+<h5 id="alchemygetedgesall">alchemy.get.edges().all()</h5>
 
-<p><code>alchemy.allEdges()</code><br />
+<p><code>alchemy.get.edges().all()</code><br />
 Currently, takes no arguments and returns an array of all edges that are loaded into Alchemy.  This is useful for creating custom functions that act upon all edges, such as batch property assignment.  Keep in mind however, that directly working on datasets with large numbers of edges could take a while, and care should be taken when doing so.</p>
 
-<p>It is important to realize that this returns an array of edge data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered ‘state’ of the edges (such as <code>hidden</code>, <code>selected</code>, etc…) has no effect on the results of <code>allEdges()</code>, and if the edge is loaded it will be returned.  If an edge has been deleted in the editor (either directly, or indirectly be deleting it’s source or target node) then it is no longer loaded into Alchemy and will not appear in the result.</p>
+<p>It is important to realize that this returns an array of edge data and not the elements used by the renderer such as SVG elements, which can easily be accessed using standard css selectors.  Please also note that the rendered ‘state’ of the edges (such as <code>hidden</code>, <code>selected</code>, etc…) has no effect on the results, and if the edge is loaded it will be returned.  If an edge has been deleted in the editor (either directly, or indirectly be deleting it’s source or target node) then it is no longer loaded into Alchemy and will not appear in the result.</p>
+
+<h5 id="alchemyselectionremove">alchemySelection.remove()</h5>
+
+<p><code>alchemy.get.nodes(nodeIDs...).remove()</code>
+<code>alchemy.get.edges(edgeIDs...).remove()</code>
+<code>alchemy.search.nodes(query).remove()</code>
+<code>alchemy.search.edges(query).remove()</code></p>
+
+<p>Permenantly removes all elements in the current selection.</p>
 
 <h5 id="alchemygetclusters">alchemy.get.clusters()</h5>
 
@@ -3339,6 +3318,71 @@ alchemy.get.clusterColors();
 </tr></table>
 </div>
 <hr />
+
+
+</section>
+
+<section class="api-doc" id="Filter">
+
+<h1 id="filter">Filter</h1>
+<p></p>
+
+<p>Filtering in alchemy refers to the hiding and showing of particular nodes and edges.</p>
+
+<p>Filtering via the API can work in two ways.
+First, it can be called on the top level with <code>alchemy.filter.nodes()</code> and <code>alchemy.filter.edges()</code> if you want to filter from all nodes and all edges.</p>
+
+<p>If you want to filter based on a subset of those elements, <code>filter()</code> can also be called on an alchemy selection. eg: <code>alchemy.get.nodes(...).filter()</code>.</p>
+
+<h5 id="alchemyfilternodes">alchemy.filter.nodes()</h5>
+<!-- -->
+<p><code>alchemy.filter.nodes(type)</code><br />
+This will filter all nodes of the passed in type.  Doing this requires that you have set the <code>nodeTypes</code> key in your configuration.</p>
+
+<h5 id="alchemyfilteredges">alchemy.filter.edges()</h5>
+<!-- -->
+<p><code>alchemy.filter.edges(type)</code><br />
+This will filter all edges of the passed in type.  Doing this requires that you have set the <code>edgeTypes</code> key in your configuration.</p>
+
+<h5 id="alchemyselectionfilter">alchemySelection.filter()</h5>
+<!-- -->
+<p><code>alchemy.get.nodes(nodeIDs).filter(type)</code><br />
+<code>alchemy.get.edges(edgeIDs).filter(type)</code><br />
+This will filter the elements in the current selection based on the type passed in.  Doing this requires that you have set <code>nodeTypes</code> and <code>edgeTypes</code> keys in your configuration.
+<code>filter()</code> can be called on any selection, including those returned by the <code>search()</code> API endpoint.</p>
+
+
+</section>
+
+<section class="api-doc" id="Search">
+
+<h1 id="search">Search</h1>
+
+<p></p>
+
+<h5 id="alchemyselectionsearch">alchemySelection.search()</h5>
+<!-- -->
+<p><code>alchemy.get.nodes(nodeIDs...).search(query)</code>
+<code>alchemy.get.edges(edgeIDs...).search(query)</code></p>
+
+<p>Performs a search on the current selection.
+The query argument is a string and it searches through the ‘caption’ keys of any elements in the current selection.
+Depending on whether the configuration option <code>searchMethod</code> is set to “contains” or “begins”, the search can either find elements whose caption contains a substring of <code>query</code> or begins with the substring <code>query</code>.</p>
+
+<h5 id="alchemyapisearchnodes">alchemy.api.search.nodes()</h5>
+<!-- -->
+<p><code>alchemy.api.search.nodes(query)</code></p>
+
+<p>Performs a search on all node captions.
+Depending on whether the configuration option <code>searchMethod</code> is set to “contains” or “begins”, the search can either find elements whose caption contains a substring of <code>query</code> or begins with the substring <code>query</code>.</p>
+
+<h5 id="alchemyapisearchedges">alchemy.api.search.edges()</h5>
+<!-- -->
+<p><code>alchemy.api.search.edges(query)</code></p>
+
+<p>Performs a search on all edge captions.
+Depending on whether the configuration option <code>searchMethod</code> is set to “contains” or “begins”, the search can either find elements whose caption contains a substring of <code>query</code> or begins with the substring <code>query</code>.</p>
+
 
 
 </section>
@@ -3442,6 +3486,37 @@ alchemy.createEdges(edgeWithId, someEdgeMap);
 </tr></table>
 </div>
 <hr />
+
+
+</section>
+
+<section class="api-doc" id="Force-Layout">
+
+<h1 id="forcelayout">ForceLayout</h1>
+
+<p></p>
+
+<h5 id="alchemyforcelayoutstart">alchemy.forceLayout.start()</h5>
+<!-- -->
+<p><code>alchemy.forceLayout.start()</code><br />
+This method starts up the force layout.  Any fixed nodes, such as root nodes or nodes that have been fixed by clicking/dragging will remain fixed.
+Any other node can and will be adjusted by the force layout.  Because it recalculates position of all nodes from the beginning of the algorithm,
+non-fixed nodes may end up in positions far from where you left them.  For a more consistent and less radical change, use <code>alchemy.forceLayout.toggle()</code>
+which resumes the current force layout instead of starting a new one.</p>
+
+<h5 id="alchemyforcelayoutstop">alchemy.forceLayout.stop()</h5>
+<!-- -->
+<p><code>alchemy.forceLayout.stop()</code><br />
+This method stops the force layout.  All nodes and edges will remain in the position that they are in when the method is called until either
+<code>alchemy.forceLayout.start()</code> or <code>alchemy.forceLayout.toggle()</code> is called.</p>
+
+<h5 id="alchemyforcelayouttoggle">alchemy.forceLayout.toggle()</h5>
+<!-- -->
+<p><code>alchemy.forceLayout.toggle()</code><br />
+If the force layout is currently running, this method will cause it to stop and freeze all nodes/edges in their position until <code>alchemy.forceLayout.start()</code>
+is called, or <code>alchemy.forceLayout.toggle()</code> is called again.  If the force layout is currently stopped, calling it will resume the current layout.  In most
+cases this is what you should use for starting and stopping the layout, as <code>alchemy.forceLayout.start()</code> will generate a new layout and may change positions of
+nodes more freely.</p>
 
 
 </section>
