@@ -10,7 +10,7 @@
         userConf = null;
       }
       this.a = this;
-      this.version = "0.4.1";
+      this.version = "0.4.2";
       this.api = new API(this);
       this.get = this.api.get;
       this.create = this.api.create;

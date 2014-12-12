@@ -1,6 +1,6 @@
 {
   "name": "alchemyjs",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "main": [
     "dist/alchemy.min.css",
     "dist/alchemy.min.js"
