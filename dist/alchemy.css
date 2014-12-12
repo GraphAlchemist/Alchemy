@@ -237,7 +237,7 @@ defs #arrow path {
 .fa-caret-down,
 .fa-search {
   margin: 0 5px;
-  color: #e89619;
+  color: #E89619;
 }
 
 #search {
@@ -269,7 +269,7 @@ defs #arrow path {
 #stats {
   padding: 0.5em 1em;
   background-color: transparent;
-  border-bottom: thin dashed #e89619;
+  border-bottom: thin dashed #E89619;
 }
 
 #stats #stats-header {
@@ -311,7 +311,7 @@ defs #arrow path {
 #stats #node-stats-graph .no-data,
 #stats #edge-stats-graph .no-data {
   margin: 30px 0;
-  color: #e89619;
+  color: #E89619;
 }
 
 #stats .badge {
@@ -323,7 +323,7 @@ defs #arrow path {
 #editor {
   padding: 0.5em 1em;
   background-color: transparent;
-  border-bottom: thin dashed #e89619;
+  border-bottom: thin dashed #E89619;
 }
 
 #editor h3 {
@@ -367,7 +367,7 @@ defs #arrow path {
   cursor: default;
   background: #2E2E2E;
   border: thin transparent solid;
-  color: #e89619;
+  color: #E89619;
   border-right: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -375,12 +375,12 @@ defs #arrow path {
 
 #editor #element-options input[type="submit"],
 #editor #element-options #update-properties {
-  color: #e89619;
+  color: #E89619;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   width: auto;
   background: rgba(255,255,255,0.1);
-  border: thin solid #e89619;
+  border: thin solid #E89619;
   text-align: center;
 }
 
@@ -430,7 +430,7 @@ defs #arrow path {
 }
 
 #editor #editor-interactions.active {
-  color: #e89619;
+  color: #E89619;
 }
 
 #editor #editor-interactions.inactive {
@@ -457,7 +457,7 @@ defs #arrow path {
 }
 
 #control-dash-wrapper.initial #dash-toggle {
-  color: #e89619;
+  color: #E89619;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -470,7 +470,7 @@ defs #arrow path {
 }
 
 #control-dash-wrapper.off-canvas #dash-toggle {
-  color: #e89619;
+  color: #E89619;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -489,7 +489,7 @@ defs #arrow path {
 }
 
 #control-dash-wrapper.on-canvas #dash-toggle:hover {
-  color: #e89619;
+  color: #E89619;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -574,7 +574,7 @@ defs #arrow path {
 #filters {
   padding: 0.5em 1em;
   background-color: transparent;
-  border-bottom: thin dashed #e89619;
+  border-bottom: thin dashed #E89619;
   color: white;
 }
 
@@ -655,7 +655,7 @@ defs #arrow path {
 }
 
 #filters .disabled:hover {
-  color: #fdc670;
+  color: #FDC670;
 }
 
 .alchemy {

@@ -201,7 +201,7 @@ svg {
 .fa-caret-right,
 .fa-caret-down {
   margin: 0 5px;
-  color: #68b9fe;
+  color: #68B9FE;
 }
 
 #search {
@@ -249,7 +249,7 @@ svg {
 #stats {
   padding: 0.5em 1em;
   background-color: transparent;
-  border-bottom: thin dashed #68b9fe;
+  border-bottom: thin dashed #68B9FE;
 }
 
 #stats #stats-header {
@@ -291,7 +291,7 @@ svg {
 #stats #node-stats-graph .no-data,
 #stats #edge-stats-graph .no-data {
   margin: 30px 0;
-  color: #68b9fe;
+  color: #68B9FE;
 }
 
 #stats .badge {
@@ -303,7 +303,7 @@ svg {
 #editor {
   padding: 0.5em 1em;
   background-color: transparent;
-  border-bottom: thin dashed #68b9fe;
+  border-bottom: thin dashed #68B9FE;
 }
 
 #editor h3 {
@@ -347,7 +347,7 @@ svg {
   cursor: default;
   background: #2E2E2E;
   border: thin transparent solid;
-  color: #68b9fe;
+  color: #68B9FE;
   border-right: none;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -380,12 +380,12 @@ svg {
 
 #editor #element-options input[type="submit"],
 #editor #element-options #update-properties {
-  color: #68b9fe;
+  color: #68B9FE;
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
   width: auto;
   background: rgba(255,255,255,0.1);
-  border: thin solid #68b9fe;
+  border: thin solid #68B9FE;
   text-align: center;
 }
 
@@ -410,7 +410,7 @@ svg {
 }
 
 #editor #editor-interactions.active {
-  color: #68b9fe;
+  color: #68B9FE;
 }
 
 #editor #editor-interactions.inactive {
@@ -436,7 +436,7 @@ svg {
 }
 
 #control-dash-wrapper.initial #dash-toggle {
-  color: #68b9fe;
+  color: #68B9FE;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -449,7 +449,7 @@ svg {
 }
 
 #control-dash-wrapper.off-canvas #dash-toggle {
-  color: #68b9fe;
+  color: #68B9FE;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -468,7 +468,7 @@ svg {
 }
 
 #control-dash-wrapper.on-canvas #dash-toggle:hover {
-  color: #68b9fe;
+  color: #68B9FE;
   -webkit-animation: 4s pulse linear;
   animation: 4s pulse linear;
 }
@@ -558,7 +558,7 @@ svg {
 #filters {
   padding: 0.5em 1em;
   background-color: transparent;
-  border-bottom: thin dashed #68b9fe;
+  border-bottom: thin dashed #68B9FE;
   color: white;
 }
 
@@ -639,7 +639,7 @@ svg {
 }
 
 #filters .disabled:hover {
-  color: #68b9fe;
+  color: #68B9FE;
 }
 
 .alchemy {

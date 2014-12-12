@@ -1,6 +1,6 @@
 (function() {
   "Alchemy.js is a graph drawing application for the web.\nCopyright (C) 2014  GraphAlchemist, Inc.\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU Affero General Public License as published by\nthe Free Software Foundation, either version 3 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU Affero General Public License for more details.\n\nYou should have received a copy of the GNU Affero General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.\nlets";
-  var Alchemy, Clustering, DrawEdge, DrawEdges, DrawNode, DrawNodes, Editor, EditorInteractions, EditorUtils, Layout, root, warnings,
+  var API, Alchemy, Clustering, DrawEdge, DrawEdges, DrawNode, DrawNodes, Editor, EditorInteractions, EditorUtils, Layout, Remove, root, warnings,
     __slice = [].slice,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
@@ -11,20 +11,22 @@
       }
       this.a = this;
       this.version = "0.4.1";
-      this.get = new this.Get(this);
-      this.remove = new this.Remove(this);
-      this.create = new this.Create(this);
-      this.set = new this.Set(this);
+      this.api = new API(this);
+      this.get = this.api.get;
+      this.create = this.api.create;
+      this.set = this.api.set;
+      this.filter = this.api.filter;
+      this.forceLayout = this.api.force;
       this.drawing = {
         DrawEdge: DrawEdge(this),
         DrawEdges: DrawEdges(this),
         DrawNode: DrawNode(this),
         DrawNodes: DrawNodes(this),
-        EdgeUtils: this.EdgeUtils(this),
         NodeUtils: this.NodeUtils(this)
       };
       this.controlDash = this.controlDash(this);
       this.stats = this.stats(this);
+      this.search = this.search(this);
       this.layout = Layout;
       this.clustering = Clustering;
       this.models = {
@@ -49,7 +51,6 @@
       this.generateLayout = this.generateLayout(this);
       this.svgStyles = this.svgStyles(this);
       this.interactions = this.interactions(this);
-      this.search = this.search(this);
       this.plugins = this.plugins(this);
       this._nodes = {};
       this._edges = {};
@@ -120,95 +121,177 @@
     }
   };
 
-  Alchemy.prototype.Create = (function() {
-    function Create(instance) {
+  API = (function() {
+    function API(instance) {
       this.a = instance;
+      this.get = this.Get(instance, this);
+      this.create = this.Create(instance, this);
+      this.set = this.Set(instance, this);
+      this.remove = Remove.remove;
+      this.force = this.Force(instance, this);
+      this.filter = this.Filter(instance, this);
+      this.search = this.Search(instance, this);
+      this._el = [];
+      this._elType = null;
+      this._makeChain = function(inp, endpoint) {
+        var e, _i, _len;
+        this.__proto__ = [].__proto__;
+        endpoint.__proto__ = [].__proto__;
+        while (this.length) {
+          this.pop();
+        }
+        while (endpoint.length) {
+          endpoint.pop();
+        }
+        for (_i = 0, _len = inp.length; _i < _len; _i++) {
+          e = inp[_i];
+          this.push(e);
+        }
+        Array.prototype.push.apply(endpoint, this._el);
+        return _.extend(endpoint, this);
+      };
     }
 
-    Create.prototype.nodes = function() {
-      var a, n, nodeMap, nodeMaps, registerNode, _i, _len;
-      nodeMap = arguments[0], nodeMaps = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-      a = this.a;
-      registerNode = function(node) {
-        var aNode;
-        if (!a._nodes[node.id]) {
-          aNode = new a.models.Node(node);
-          a._nodes[node.id] = aNode;
-          return [aNode];
-        } else {
-          return console.warn("A node with the id " + node.id + " already exists.\nConsider using the @a.get.nodes() method to \nretrieve the node and then using the Node methods.");
-        }
-      };
-      nodeMaps = _.union(nodeMaps, nodeMap);
-      for (_i = 0, _len = nodeMaps.length; _i < _len; _i++) {
-        n = nodeMaps[_i];
-        registerNode(n);
-      }
-      if (this.a.initial) {
-        return this.a.updateGraph();
-      }
-    };
-
-    Create.prototype.edges = function() {
-      var a, allEdges, edgeMap, edgeMaps, registerEdge;
-      edgeMap = arguments[0], edgeMaps = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-      a = this.a;
-      registerEdge = function(edge) {
-        var aEdge, edgeArray;
-        if (edge.id && !a._edges[edge.id]) {
-          aEdge = new a.models.Edge(edge);
-          a._edges[edge.id] = [aEdge];
-          return [aEdge];
-        } else if (edge.id && a._edges[edge.id]) {
-          return console.warn("An edge with that id " + someEdgeMap.id + " already exists.\nConsider using the @a.get.edge() method to \nretrieve the edge and then using the Edge methods.\nNote: id's are not required for edges.  Alchemy will create\nan unlimited number of edges for the same source and target node.\nSimply omit 'id' when creating the edge.");
-        } else {
-          edgeArray = a._edges["" + edge.source + "-" + edge.target];
-          if (edgeArray) {
-            aEdge = new a.models.Edge(edge, edgeArray.length);
-            edgeArray.push(aEdge);
-            return [aEdge];
-          } else {
-            aEdge = new a.models.Edge(edge, 0);
-            a._edges["" + edge.source + "-" + edge.target] = [aEdge];
-            return [aEdge];
-          }
-        }
-      };
-      allEdges = _.uniq(_.flatten(arguments));
-      _.each(allEdges, function(e) {
-        return registerEdge(e);
-      });
-      if (this.a.initial) {
-        return this.a.updateGraph();
-      }
-    };
-
-    return Create;
+    return API;
 
   })();
 
-  Alchemy.prototype.Get = function(instance) {
+  API.prototype.Create = function(instance, api) {
     return {
       a: instance,
-      _el: [],
-      _elType: null,
-      _makeChain: function(inp) {
-        var returnedGet;
-        returnedGet = this;
-        returnedGet.__proto__ = [].__proto__;
-        while (returnedGet.length) {
-          returnedGet.pop();
-        }
-        _.each(inp, function(e) {
-          return returnedGet.push(e);
-        });
-        return returnedGet;
-      },
+      api: api,
       nodes: function() {
-        var a, allIDs, id, ids, nodeList;
+        var a, n, nodeMap, nodeMaps, registerNode, _i, _len;
+        nodeMap = arguments[0], nodeMaps = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        a = this.a;
+        registerNode = function(node) {
+          var aNode;
+          if (!a._nodes[node.id]) {
+            aNode = new a.models.Node(node);
+            a._nodes[node.id] = aNode;
+            return [aNode];
+          } else {
+            return console.warn("A node with the id " + node.id + " already exists.\nConsider using the @a.get.nodes() method to \nretrieve the node and then using the Node methods.");
+          }
+        };
+        nodeMaps = _.uniq(_.flatten(arguments));
+        for (_i = 0, _len = nodeMaps.length; _i < _len; _i++) {
+          n = nodeMaps[_i];
+          registerNode(n);
+        }
+        if (this.a.initial) {
+          this.a.index = Alchemy.prototype.Index(this.a);
+          return this.a.updateGraph();
+        }
+      },
+      edges: function() {
+        var a, allEdges, edgeMap, edgeMaps, registerEdge;
+        edgeMap = arguments[0], edgeMaps = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        a = this.a;
+        registerEdge = function(edge) {
+          var aEdge, edgeArray;
+          if (edge.id && !a._edges[edge.id]) {
+            aEdge = new a.models.Edge(edge);
+            a._edges[edge.id] = [aEdge];
+            return [aEdge];
+          } else if (edge.id && a._edges[edge.id]) {
+            return console.warn("An edge with that id " + someEdgeMap.id + " already exists.\nConsider using the @a.get.edge() method to \nretrieve the edge and then using the Edge methods.\nNote: id's are not required for edges.  Alchemy will create\nan unlimited number of edges for the same source and target node.\nSimply omit 'id' when creating the edge.");
+          } else {
+            edgeArray = a._edges["" + edge.source + "-" + edge.target];
+            if (edgeArray) {
+              aEdge = new a.models.Edge(edge, edgeArray.length);
+              edgeArray.push(aEdge);
+              return [aEdge];
+            } else {
+              aEdge = new a.models.Edge(edge, 0);
+              a._edges["" + edge.source + "-" + edge.target] = [aEdge];
+              return [aEdge];
+            }
+          }
+        };
+        allEdges = _.uniq(_.flatten(arguments));
+        _.each(allEdges, function(e) {
+          return registerEdge(e);
+        });
+        if (this.a.initial) {
+          this.a.index = Alchemy.prototype.Index(this.a);
+          return this.a.updateGraph();
+        }
+      }
+    };
+  };
+
+  API.prototype.Filter = function(instance, api) {
+    var a, filter;
+    a = instance;
+    filter = function(type) {
+      return _.each(api._el, function(el) {
+        var key;
+        key = (function() {
+          if (api._elType === "edge") {
+            "_edgeType";
+          }
+          if (api._elType === "node") {
+            return "_nodeType";
+          }
+        })();
+        if (el[key] === type) {
+          return el.toggleHidden();
+        }
+      });
+    };
+    filter.nodes = function(type) {
+      var nodes;
+      nodes = a.elements.nodes.val;
+      return _.each(nodes, function(n) {
+        if (n._nodeType === type) {
+          return n.toggleHidden();
+        }
+      });
+    };
+    filter.edges = function(type) {
+      var edges;
+      edges = a.elements.edges.flat;
+      return _.each(edges, function(e) {
+        if (e._edgeType === type) {
+          return e.toggleHidden();
+        }
+      });
+    };
+    return filter;
+  };
+
+  API.prototype.Force = function(instance, api) {
+    var a;
+    a = instance;
+    return {
+      toggle: function() {
+        if (a.force.alpha() > 0) {
+          return a.force.stop();
+        } else {
+          return a.force.resume();
+        }
+      },
+      start: function() {
+        return a.force.start();
+      },
+      stop: function() {
+        return a.force.stop();
+      }
+    };
+  };
+
+  API.prototype.Get = function(instance, api) {
+    return {
+      a: instance,
+      api: api,
+      nodes: function() {
+        var a, allIDs, args, id, ids, nodeList;
         id = arguments[0], ids = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        nodeList = [];
         if (id != null) {
-          allIDs = _.map(arguments, function(arg) {
+          args = _.flatten(arguments);
+          allIDs = _.map(args, function(arg) {
             return String(arg);
           });
           a = this.a;
@@ -220,13 +303,14 @@
             });
           })(a);
         }
-        this._elType = "node";
-        this._el = nodeList;
-        return this._makeChain(nodeList);
+        this.api._elType = "node";
+        this.api._el = nodeList;
+        return this.api._makeChain(nodeList, this);
       },
       edges: function() {
         var a, allIDs, edgeList, id, ids;
         id = arguments[0], ids = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
+        edgeList = [];
         if (id != null) {
           allIDs = _.map(arguments, function(arg) {
             return String(arg);
@@ -240,15 +324,15 @@
             }));
           })(a);
         }
-        this._elType = "edge";
-        this._el = edgeList;
-        return this._makeChain(edgeList);
+        this.api._elType = "edge";
+        this.api._el = edgeList;
+        return this.api._makeChain(edgeList, this);
       },
       all: function() {
         var a, elType;
         a = this.a;
-        elType = this._elType;
-        this._el = (function(elType) {
+        elType = this.api._elType;
+        this.api._el = (function(elType) {
           switch (elType) {
             case "node":
               return a.elements.nodes.val;
@@ -256,15 +340,15 @@
               return a.elements.edges.flat;
           }
         })(elType);
-        return this._makeChain(this._el);
+        return this.api._makeChain(this.api._el, this);
       },
       elState: function(state) {
         var elList;
-        elList = _.filter(this._el, function(e) {
+        elList = _.filter(this.api._el, function(e) {
           return e._state === state;
         });
-        this._el = elList;
-        return this._makeChain(elList);
+        this.api._el = elList;
+        return this.api._makeChain(elList, this);
       },
       state: function(key) {
         if (this.a.state.key != null) {
@@ -273,11 +357,11 @@
       },
       type: function(type) {
         var elList;
-        elList = _.filter(this._el, function(e) {
+        elList = _.filter(this.api._el, function(e) {
           return e._nodeType === type || e._edgeType === type;
         });
-        this._el = elList;
-        return this._makeChain(elList);
+        this.api._el = elList;
+        return this.api._makeChain(elList, this);
       },
       activeNodes: function() {
         return _.filter(this.a._nodes, function(node) {
@@ -360,34 +444,69 @@
     };
   };
 
-  Alchemy.prototype.Remove = (function() {
-    function Remove(instance) {
-      this.a = instance;
+  Remove = {
+    remove: function() {
+      return _.each(this._el, function(e) {
+        return e.remove();
+      });
     }
+  };
 
-    Remove.prototype.nodes = function(nodeMap) {
-      return _.each(nodeMap, function(n) {
-        if (n._nodeType != null) {
-          return n.remove();
+  API.prototype.Search = function(instance, api) {
+    var a, search;
+    a = instance;
+    search = function(query) {
+      var regex;
+      query = (function() {
+        if (a.conf.searchMethod === "contains") {
+          return query;
         }
+        if (a.conf.searchMethod === "begins") {
+          return "^" + query;
+        }
+      })();
+      regex = new RegExp(query, "i");
+      return _.filter(api._el, function(el) {
+        return regex.test(el._properties.caption);
       });
     };
-
-    Remove.prototype.edges = function(edgeMap) {
-      return _.each(edgeMap, function(e) {
-        if (e._edgeType != null) {
-          return e.remove();
+    search.nodes = function(query) {
+      var regex;
+      query = (function() {
+        if (a.conf.searchMethod === "contains") {
+          return query;
         }
+        if (a.conf.searchMethod === "begins") {
+          return "^" + query;
+        }
+      })();
+      regex = new RegExp(query, "i");
+      return _.filter(a._nodes, function(node) {
+        return regex.test(node._properties.caption);
       });
     };
+    search.edges = function(query) {
+      var regex;
+      query = (function() {
+        if (a.conf.searchMethod === "contains") {
+          return query;
+        }
+        if (a.conf.searchMethod === "begins") {
+          return "^" + query;
+        }
+      })();
+      regex = new RegExp(query, "i");
+      return _.filter(a.elements.edges.flat, function(edge) {
+        return regex.test(edge._properties.caption);
+      });
+    };
+    return search;
+  };
 
-    return Remove;
-
-  })();
-
-  Alchemy.prototype.Set = function(instance) {
+  API.prototype.Set = function(instance, api) {
     return {
       a: instance,
+      api: api,
       state: function(key, value) {
         return this.a.state.key = value;
       }
@@ -806,7 +925,7 @@
     };
   })(this);
 
-  Alchemy.prototype.Index = function(instance, all) {
+  Alchemy.prototype.Index = function(instance) {
     var a, edges, elements, nodes;
     a = instance;
     elements = {
@@ -836,6 +955,14 @@
         return e._d3;
       });
     })();
+    if (a.initial) {
+      elements.nodes.svg = (function() {
+        return a.vis.selectAll('g.node');
+      })();
+      elements.edges.svg = (function() {
+        return a.vis.selectAll('g.edge');
+      })();
+    }
     a.elements = elements;
     return function() {
       a.elements.nodes.svg = (function() {
@@ -862,12 +989,7 @@
           a.conf.edgeClick(edge);
         }
         if (edge._state !== "hidden") {
-          edge._state = (function() {
-            if (edge._state === "selected") {
-              return "active";
-            }
-            return "selected";
-          })();
+          edge._state = edge._state === "highlighted" ? "selected" : "active";
           return edge.setStyles();
         }
       },
@@ -975,6 +1097,15 @@
           this._zoomBehavior = d3.behavior.zoom();
         }
         return this._zoomBehavior.scale(scale).translate([x, y]);
+      },
+      toggleControlDash: function() {
+        var offCanvas;
+        offCanvas = a.dash.classed("off-canvas") || a.dash.classed("initial");
+        return a.dash.classed({
+          "off-canvas": !offCanvas,
+          "initial": false,
+          "on-canvas": offCanvas
+        });
       },
       nodeDragStarted: function(d, i) {
         d3.event.preventDefault;
@@ -1443,6 +1574,7 @@
       a.generateLayout();
       a._drawEdges.createEdge(a.elements.edges.d3);
       a._drawNodes.createNode(a.elements.nodes.d3);
+      a.index();
       a.layout.positionRootNodes();
       a.force.start();
       while (a.force.alpha() > 0.005) {
@@ -1524,6 +1656,7 @@
     rootNodes: 'root',
     rootNodeRadius: 15,
     nodeClick: null,
+    nodePadding: 0,
     edgeCaption: 'caption',
     edgeCaptionsOnByDefault: false,
     edgeStyle: {
@@ -1577,67 +1710,211 @@
         edge.append('path').attr('class', 'edge-line').attr('id', function(d) {
           return "path-" + d.id;
         });
-        edge.filter(function(d) {
+        return edge.filter(function(d) {
           return d.caption != null;
-        }).append('text');
-        return edge.append('path').attr('class', 'edge-handler').style('stroke-width', "" + conf.edgeOverlayWidth).style('opacity', "0");
+        }).append('text').append('textPath').classed("textpath", true);
       },
-      styleLink: function(edge) {
+      triangle: function(edge) {
+        var height, hyp, width;
+        width = edge.target.x - edge.source.x;
+        height = edge.target.y - edge.source.y;
+        hyp = Math.sqrt(height * height + width * width);
+        return [width, height, hyp];
+      },
+      edgeData: function(edge) {
+        var curveOffset, edgeLength, edgeWidth, height, hyp, startPathX, width, _ref;
+        _ref = this.triangle(edge), width = _ref[0], height = _ref[1], hyp = _ref[2];
+        edgeWidth = edge['stroke-width'];
+        curveOffset = 2;
+        startPathX = edge.source.radius + edge.source['stroke-width'] - (edgeWidth / 2) + curveOffset;
+        edgeLength = hyp - startPathX - curveOffset * 1.5;
+        return {
+          edgeAngle: Math.atan2(height, width) / Math.PI * 180,
+          edgeLength: edgeLength
+        };
+      },
+      edgeAngle: function(edge) {
+        var height, width;
+        width = edge.target.x - edge.source.x;
+        height = edge.target.y - edge.source.y;
+        return Math.atan2(height, width) / Math.PI * 180;
+      },
+      edgeStyle: function(d) {
+        var clustering, conf, edge, nodes, styles;
+        conf = this.a.conf;
+        edge = this.a._edges[d.id][d.pos];
+        styles = this.a.svgStyles.edge.populate(edge);
+        nodes = this.a._nodes;
+        if (this.a.conf.cluster) {
+          clustering = this.a.layout._clustering;
+          styles.stroke = (function(d) {
+            var clusterKey, gid, id, index, source, target;
+            clusterKey = conf.clusterKey;
+            source = nodes[d.source.id]._properties;
+            target = nodes[d.target.id]._properties;
+            if (source.root || target.root) {
+              index = source.root ? target[clusterKey] : source[clusterKey];
+              return "" + (clustering.getClusterColour(index));
+            } else if (source[clusterKey] === target[clusterKey]) {
+              index = source[clusterKey];
+              return "" + (clustering.getClusterColour(index));
+            } else if (source[clusterKey] !== target[clusterKey]) {
+              id = "" + source[clusterKey] + "-" + target[clusterKey];
+              gid = "cluster-gradient-" + id;
+              return "url(#" + gid + ")";
+            }
+          })(d);
+        }
+        return styles;
+      },
+      edgeWalk: function(edge) {
+        var A, B, C, a, angle, arcDegree, arcRadius, arrowWidth, c1, c2, cx, cy, d, distance, edgeLength, endAttachX, endAttachY, endNormal, endR, endTangent, endX, endY, g1, g2, gradient, hc, headLength, headRadius, homotheticCenter, p, padding, radiusRatio, shaftRadius, source, sourcePadding, square, startAttachX, startAttachY, startR, startTangent, startX, startY, target, targetPadding, xDist, yDist;
+        a = this.a;
+        square = function(num) {
+          return num * num;
+        };
+        source = edge.source;
+        target = edge.target;
+        if (!a.conf.curvedEdges) {
+          padding = a.conf.nodePadding;
+          sourcePadding = source.radius + padding + (source["stroke-width"] / 2);
+          targetPadding = target.radius + padding + (target["stroke-width"] / 2);
+          xDist = edge.source.x - edge.target.x;
+          yDist = edge.source.y - edge.target.y;
+          distance = Math.sqrt(square(xDist) + square(yDist));
+          if (!a.conf.directedEdges) {
+            return "M " + sourcePadding + " 0 L " + (distance - targetPadding) + " 0";
+          } else {
+            headLength = a.conf.edgeWidth() * 2.4;
+            return "M " + sourcePadding + " 0 L " + (distance - targetPadding - headLength) + " 0 l 0 2 l " + (headLength / 2) + " -2 l " + (-headLength / 2) + " -2 L " + (distance - targetPadding - headLength) + " 0";
+          }
+        } else {
+          padding = a.conf.edgeWidth() * 1.7;
+          arrowWidth = a.conf.edgeWidth() * 0.6;
+          shaftRadius = arrowWidth / 2;
+          headRadius = shaftRadius * 2.4;
+          headLength = a.conf.directedEdges ? headRadius * 2 : 0.0001;
+          xDist = edge.source.x - edge.target.x;
+          yDist = edge.source.y - edge.target.y;
+          edgeLength = Math.sqrt(square(xDist) + square(yDist));
+          startX = 0;
+          startY = 0;
+          startR = edge.source.radius;
+          endX = edgeLength;
+          endY = 0;
+          endR = edge.target.radius;
+          d = endX - startX;
+          radiusRatio = (startR + padding) / (endR + headLength + padding);
+          homotheticCenter = -d * radiusRatio / (1 - radiusRatio);
+          arcDegree = 1.5;
+          angle = arcDegree * headRadius * 2 / startR;
+          startAttachX = Math.cos(angle) * (startR + padding);
+          startAttachY = Math.sin(angle) * (startR + padding);
+          gradient = startAttachY / (startAttachX - homotheticCenter);
+          hc = startAttachY - gradient * startAttachX;
+          p = endX;
+          A = 1 + square(gradient);
+          B = 2 * (gradient * hc - p);
+          C = square(hc) + square(p) - square(endR + headLength + padding);
+          endAttachX = (-B - Math.sqrt(square(B) - 4 * A * C)) / (2 * A);
+          endAttachY = (endAttachX - homotheticCenter) * gradient;
+          g1 = -startAttachX / startAttachY;
+          c1 = startAttachY + (square(startAttachX) / startAttachY);
+          g2 = -(endAttachX - endX) / endAttachY;
+          c2 = endAttachY + (endAttachX - endX) * endAttachX / endAttachY;
+          cx = (c1 - c2) / (g2 - g1);
+          cy = g1 * cx + c1;
+          arcRadius = Math.sqrt(square(cx - startAttachX) + square(cy - startAttachY));
+          startTangent = function(dr) {
+            var dx, dy, num;
+            if (dr < 0) {
+              num = -1;
+            } else {
+              num = 1;
+            }
+            dx = num * Math.sqrt(square(dr) / (1 + square(g1)));
+            dy = g1 * dx;
+            return "" + (startAttachX + dx) + ", " + (startAttachY + dy);
+          };
+          endTangent = function(dr) {
+            var dx, dy, num;
+            if (dr < 0) {
+              num = -1;
+            } else {
+              num = 1;
+            }
+            dx = num * Math.sqrt(square(dr) / (1 + square(g2)));
+            dy = g2 * dx;
+            return "" + (endAttachX + dx) + ", " + (endAttachY + dy);
+          };
+          endNormal = function(dc) {
+            var dx, dy, num;
+            if (dc < 0) {
+              num = -1;
+            } else {
+              num = 1;
+            }
+            dx = num * Math.sqrt(square(dc) / (1 + square(1 / g2)));
+            dy = dx / g2;
+            return "" + (endAttachX + dx) + ", " + (endAttachY - dy);
+          };
+          if (!a.conf.directedEdges) {
+            return "M " + (startTangent(-shaftRadius)) + " A " + (arcRadius - shaftRadius) + ", " + (arcRadius - shaftRadius) + " 0 0 0 " + (endTangent(-shaftRadius));
+          } else {
+            return "M " + (startTangent(-shaftRadius)) + " L " + (startTangent(shaftRadius)) + " A " + (arcRadius - shaftRadius) + ", " + (arcRadius - shaftRadius) + " 0 0 0 " + (endTangent(-shaftRadius)) + " L " + (endTangent(-headRadius)) + " L " + (endNormal(headLength)) + " L " + (endTangent(headRadius)) + " L " + (endTangent(shaftRadius)) + " A " + (arcRadius + shaftRadius) + ", " + (arcRadius + shaftRadius) + " 0 0 1 " + (startTangent(-shaftRadius)) + " Z";
+          }
+        }
+      },
+      styleLink: function(edges) {
         var a, conf, utils;
         a = this.a;
-        conf = this.a.conf;
-        utils = this.a.drawing.EdgeUtils;
-        return edge.each(function(d) {
-          var curve, curviness, edgeWalk, endx, endy, g, midpoint, startx, starty;
-          edgeWalk = utils.edgeWalk(d);
-          curviness = conf.curvedEdges ? 30 : 0;
-          curve = curviness / 10;
-          startx = d.source.radius + (d["stroke-width"] / 2);
-          starty = curviness / 10;
-          midpoint = edgeWalk.edgeLength / 2;
-          endx = edgeWalk.edgeLength - (d.target.radius - (d.target["stroke-width"] / 2));
-          endy = curviness / 10;
+        conf = a.conf;
+        utils = a.drawing.DrawEdge;
+        return edges.each(function(edge) {
+          var edgeData, g;
           g = d3.select(this);
-          g.style(utils.edgeStyle(d));
-          g.attr('transform', "translate(" + d.source.x + ", " + d.source.y + ") rotate(" + edgeWalk.edgeAngle + ")");
-          g.select('.edge-line').attr('d', (function() {
-            var arrow, line, w;
-            line = "M" + startx + "," + starty + "q" + midpoint + "," + curviness + " " + endx + "," + endy;
-            if (conf.directedEdges) {
-              w = d["stroke-width"] * 2;
-              arrow = "l" + (-w) + "," + (w + curve) + " l" + w + "," + (-w - curve) + " l" + (-w) + "," + (-w + curve);
-              return line + arrow;
-            }
-            return line;
-          })());
-          return g.select('.edge-handler').attr('d', function(d) {
-            return g.select('.edge-line').attr('d');
-          });
+          edgeData = utils.edgeData(edge);
+          g.attr('transform', "translate(" + edge.source.x + ", " + edge.source.y + ") rotate(" + (utils.edgeAngle(edge)) + ")");
+          return g.select('.edge-line').attr('d', (function() {
+            return utils.edgeWalk(edge);
+          })()).attr('stroke-width', (function() {
+            return a.conf.edgeWidth;
+          })()).style(utils.edgeStyle(edge));
         });
       },
       classEdge: function(edge) {
         return edge.classed('active', true);
       },
       styleText: function(edge) {
-        var conf, curved, utils;
+        var conf;
         conf = this.a.conf;
-        curved = conf.curvedEdges;
-        utils = this.a.drawing.EdgeUtils;
         return edge.select('text').each(function(d) {
-          var dx, edgeWalk;
-          edgeWalk = utils.edgeWalk(d);
-          dx = edgeWalk.edgeLength / 2;
-          return d3.select(this).attr('dx', "" + dx).text(d.caption).attr("xlink:xlink:href", "#path-" + d.source.id + "-" + d.target.id).style("display", function(d) {
+          var dx, dy, edgeLength, xDist, yDist;
+          xDist = d.source.x - d.target.x;
+          yDist = d.source.y - d.target.y;
+          edgeLength = Math.sqrt(Math.pow(xDist, 2) + Math.pow(yDist, 2));
+          ({
+            captionAngle: function(angle) {
+              if (angle < -90 || angle > 90) {
+                return 180;
+              } else {
+                return 0;
+              }
+            }
+          });
+          dx = edgeLength / 2;
+          dy = -d['stroke-width'] * 2;
+          return d3.select(this).attr('dx', "" + dx).attr("dy", "" + dy).select(".textpath").text(d.caption).attr("xlink:xlink:href", "#path-" + d.source.id + "-" + d.target.id).style("display", function(d) {
             if (conf.edgeCaptionsOnByDefault) {
               return "block";
             }
           });
         });
       },
-      setInteractions: function(edge) {
+      setInteractions: function(edges) {
         var interactions;
         interactions = this.a.interactions;
-        return edge.select('.edge-handler').on('click', interactions.edgeClick).on('mouseover', function(d) {
+        return edges.on('click', interactions.edgeClick).on('mouseover', function(d) {
           return interactions.edgeMouseOver(d);
         }).on('mouseout', function(d) {
           return interactions.edgeMouseOut(d);
@@ -1650,25 +1927,22 @@
     return {
       a: instance,
       createEdge: function(d3Edges) {
-        var drawEdge, edge;
+        var d3edges, drawEdge;
         drawEdge = this.a.drawing.DrawEdge;
-        edge = this.a.vis.selectAll("g.edge").data(d3Edges);
-        edge.enter().append('g').attr("id", function(d) {
+        d3edges = this.a.vis.selectAll("g.edge").data(d3Edges);
+        d3edges.enter().append('g').attr("id", function(d) {
           return "edge-" + d.id + "-" + d.pos;
         }).attr('class', function(d) {
           return "edge " + d.edgeType;
         }).attr('source-target', function(d) {
           return "" + d.source.id + "-" + d.target.id;
         });
-        drawEdge.createLink(edge);
-        drawEdge.classEdge(edge);
-        drawEdge.styleLink(edge);
-        drawEdge.styleText(edge);
-        drawEdge.setInteractions(edge);
-        edge.exit().remove();
-        if (this.a.conf.directedEdges && this.a.conf.curvedEdges) {
-          return edge.select('.edge-line').attr('marker-end', 'url(#arrow)');
-        }
+        drawEdge.createLink(d3edges);
+        drawEdge.classEdge(d3edges);
+        drawEdge.styleLink(d3edges);
+        drawEdge.styleText(d3edges);
+        drawEdge.setInteractions(d3edges);
+        return d3edges.exit().remove();
       },
       updateEdge: function(d3Edge) {
         var drawEdge, edge;
@@ -1811,105 +2085,6 @@
         drawNode.styleNode(node);
         drawNode.styleText(node);
         return drawNode.setInteractions(node);
-      }
-    };
-  };
-
-  Alchemy.prototype.EdgeUtils = function(instance) {
-    return {
-      a: instance,
-      edgeStyle: function(d) {
-        var clustering, conf, edge, nodes, styles;
-        conf = this.a.conf;
-        edge = this.a._edges[d.id][d.pos];
-        styles = this.a.svgStyles.edge.update(edge);
-        nodes = this.a._nodes;
-        if (this.a.conf.cluster) {
-          clustering = this.a.layout._clustering;
-          styles.stroke = (function(d) {
-            var clusterKey, gid, id, index, source, target;
-            clusterKey = conf.clusterKey;
-            source = nodes[d.source.id]._properties;
-            target = nodes[d.target.id]._properties;
-            if (source.root || target.root) {
-              index = source.root ? target[clusterKey] : source[clusterKey];
-              return "" + (clustering.getClusterColour(index));
-            } else if (source[clusterKey] === target[clusterKey]) {
-              index = source[clusterKey];
-              return "" + (clustering.getClusterColour(index));
-            } else if (source[clusterKey] !== target[clusterKey]) {
-              id = "" + source[clusterKey] + "-" + target[clusterKey];
-              gid = "cluster-gradient-" + id;
-              return "url(#" + gid + ")";
-            }
-          })(d);
-        }
-        return styles;
-      },
-      triangle: function(edge) {
-        var height, hyp, width;
-        width = edge.target.x - edge.source.x;
-        height = edge.target.y - edge.source.y;
-        hyp = Math.sqrt(height * height + width * width);
-        return [width, height, hyp];
-      },
-      edgeWalk: function(edge) {
-        var curveOffset, edgeLength, edgeWidth, height, hyp, startPathX, width, _ref;
-        _ref = this.triangle(edge), width = _ref[0], height = _ref[1], hyp = _ref[2];
-        edgeWidth = edge['stroke-width'];
-        curveOffset = 2;
-        startPathX = edge.source.radius + edge.source['stroke-width'] - (edgeWidth / 2) + curveOffset;
-        edgeLength = hyp - startPathX - curveOffset * 1.5;
-        return {
-          edgeAngle: Math.atan2(height, width) / Math.PI * 180,
-          edgeLength: edgeLength
-        };
-      },
-      middleLine: function(edge) {
-        return this.curvedDirectedEdgeWalk(edge, 'middle');
-      },
-      startLine: function(edge) {
-        return this.curvedDirectedEdgeWalk(edge, 'linkStart');
-      },
-      endLine: function(edge) {
-        return this.curvedDirectedEdgeWalk(edge, 'linkEnd');
-      },
-      edgeLength: function(edge) {
-        var height, hyp, width;
-        width = edge.target.x - edge.source.x;
-        height = edge.target.y - edge.source.y;
-        return hyp = Math.sqrt(height * height + width * width);
-      },
-      edgeAngle: function(edge) {
-        var height, width;
-        width = edge.target.x - edge.source.x;
-        height = edge.target.y - edge.source.y;
-        return Math.atan2(height, width) / Math.PI * 180;
-      },
-      captionAngle: function(angle) {
-        if (angle < -90 || angle > 90) {
-          return 180;
-        } else {
-          return 0;
-        }
-      },
-      middlePath: function(edge) {
-        var midPoint, pathNode;
-        pathNode = this.a.vis.select("#path-" + edge.id).node();
-        midPoint = pathNode.getPointAtLength(pathNode.getTotalLength() / 2);
-        return {
-          x: midPoint.x,
-          y: midPoint.y
-        };
-      },
-      middlePathCurve: function(edge) {
-        var midPoint, pathNode;
-        pathNode = d3.select("#path-" + edge.id).node();
-        midPoint = pathNode.getPointAtLength(pathNode.getTotalLength() / 2);
-        return {
-          x: midPoint.x,
-          y: midPoint.y
-        };
       }
     };
   };
@@ -2744,10 +2919,9 @@
         }
         if (key === void 0) {
           key = this.a.svgStyles.edge.populate(this);
-        }
-        if (_.isPlainObject(key)) {
+        } else if (_.isPlainObject(key)) {
           _.assign(this._style, key);
-        } else if (typeof key === "string") {
+        } else {
           this._style[key] = value;
         }
         this._setD3Properties(this.a.svgStyles.edge.update(this));

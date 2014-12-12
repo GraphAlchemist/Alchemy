@@ -1,0 +1,1339 @@
+{
+  "nodes": [
+    {
+      "id": "angularjs",
+      "nodeType": "room"
+    },
+    {
+      "id": "emberjs",
+      "nodeType": "room"
+    },
+    {
+      "id": "knockoutjs",
+      "nodeType": "room"
+    },
+    {
+      "id": "BahamutWC",
+      "nodeType": "user"
+    },
+    {
+      "id": "BahamutWC",
+      "nodeType": "user"
+    },
+    {
+      "id": "BahamutWC",
+      "nodeType": "user"
+    },
+    {
+      "id": "Chubbs",
+      "nodeType": "user"
+    },
+    {
+      "id": "Grokling",
+      "nodeType": "user"
+    },
+    {
+      "id": "Oka",
+      "nodeType": "user"
+    },
+    {
+      "id": "Respek",
+      "nodeType": "user"
+    },
+    {
+      "id": "Slim",
+      "nodeType": "user"
+    },
+    {
+      "id": "TL",
+      "nodeType": "user"
+    },
+    {
+      "id": "Terminus",
+      "nodeType": "user"
+    },
+    {
+      "id": "alexut",
+      "nodeType": "user"
+    },
+    {
+      "id": "ali",
+      "nodeType": "user"
+    },
+    {
+      "id": "amh345",
+      "nodeType": "user"
+    },
+    {
+      "id": "anger",
+      "nodeType": "user"
+    },
+    {
+      "id": "areologist",
+      "nodeType": "user"
+    },
+    {
+      "id": "b-ot",
+      "nodeType": "user"
+    },
+    {
+      "id": "balr0g",
+      "nodeType": "user"
+    },
+    {
+      "id": "brogrammer",
+      "nodeType": "user"
+    },
+    {
+      "id": "burzum2",
+      "nodeType": "user"
+    },
+    {
+      "id": "cactauz",
+      "nodeType": "user"
+    },
+    {
+      "id": "cj",
+      "nodeType": "user"
+    },
+    {
+      "id": "cjohnson",
+      "nodeType": "user"
+    },
+    {
+      "id": "ctanga",
+      "nodeType": "user"
+    },
+    {
+      "id": "d0de",
+      "nodeType": "user"
+    },
+    {
+      "id": "dan_j",
+      "nodeType": "user"
+    },
+    {
+      "id": "dmack",
+      "nodeType": "user"
+    },
+    {
+      "id": "doug64k",
+      "nodeType": "user"
+    },
+    {
+      "id": "ebi",
+      "nodeType": "user"
+    },
+    {
+      "id": "eir",
+      "nodeType": "user"
+    },
+    {
+      "id": "ged",
+      "nodeType": "user"
+    },
+    {
+      "id": "guideX",
+      "nodeType": "user"
+    },
+    {
+      "id": "hicker",
+      "nodeType": "user"
+    },
+    {
+      "id": "ish",
+      "nodeType": "user"
+    },
+    {
+      "id": "jaawerth",
+      "nodeType": "user"
+    },
+    {
+      "id": "jlmitch5dev",
+      "nodeType": "user"
+    },
+    {
+      "id": "jso",
+      "nodeType": "user"
+    },
+    {
+      "id": "lebster",
+      "nodeType": "user"
+    },
+    {
+      "id": "lif",
+      "nodeType": "user"
+    },
+    {
+      "id": "miep1",
+      "nodeType": "user"
+    },
+    {
+      "id": "mixonic",
+      "nodeType": "user"
+    },
+    {
+      "id": "mmun",
+      "nodeType": "user"
+    },
+    {
+      "id": "mu",
+      "nodeType": "user"
+    },
+    {
+      "id": "oniijin",
+      "nodeType": "user"
+    },
+    {
+      "id": "pen",
+      "nodeType": "user"
+    },
+    {
+      "id": "reavengr1y",
+      "nodeType": "user"
+    },
+    {
+      "id": "reduce",
+      "nodeType": "user"
+    },
+    {
+      "id": "ree",
+      "nodeType": "user"
+    },
+    {
+      "id": "roo",
+      "nodeType": "user"
+    },
+    {
+      "id": "roqo",
+      "nodeType": "user"
+    },
+    {
+      "id": "snurfery",
+      "nodeType": "user"
+    },
+    {
+      "id": "stormbytes",
+      "nodeType": "user"
+    },
+    {
+      "id": "syntax",
+      "nodeType": "user"
+    },
+    {
+      "id": "t",
+      "nodeType": "user"
+    },
+    {
+      "id": "uskerine",
+      "nodeType": "user"
+    },
+    {
+      "id": "wafflej0ck_",
+      "nodeType": "user"
+    },
+    {
+      "id": "wecc",
+      "nodeType": "user"
+    },
+    {
+      "id": "windsurf_",
+      "nodeType": "user"
+    },
+    {
+      "id": "woah",
+      "nodeType": "user"
+    },
+    {
+      "id": "zomg",
+      "nodeType": "user"
+    }
+  ],
+  "edges": [
+    {
+      "source": "BahamutWC",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Chubbs",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Chubbs",
+      "target": "zomg",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "anger",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "burzum2",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "ctanga",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "oniijin",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "stormbytes",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "windsurf_",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Grokling",
+      "target": "zomg",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Oka",
+      "target": "Oka",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Oka",
+      "target": "Terminus",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Oka",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Oka",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Respek",
+      "target": "ebi",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Respek",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Respek",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "Oka",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "cj",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "cjohnson",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "doug64k",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "ree",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "Terminus",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "alexut",
+      "target": "cj",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "alexut",
+      "target": "cjohnson",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "alexut",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "amh345",
+      "target": "doug64k",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "amh345",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "areologist",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "areologist",
+      "target": "snurfery",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "areologist",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "b-ot",
+      "target": "Respek",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "b-ot",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "balr0g",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "balr0g",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "balr0g",
+      "target": "zomg",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "brogrammer",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "burzum2",
+      "target": "Grokling",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "burzum2",
+      "target": "dmack",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "burzum2",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cactauz",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cjohnson",
+      "target": "Respek",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cjohnson",
+      "target": "alexut",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cjohnson",
+      "target": "dan_j",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cjohnson",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cjohnson",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "cjohnson",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "ctanga",
+      "target": "eir",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "ctanga",
+      "target": "jaawerth",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "ctanga",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "ctanga",
+      "target": "woah",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "d0de",
+      "target": "cj",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "d0de",
+      "target": "cjohnson",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "d0de",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "d0de",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dan_j",
+      "target": "cj",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dan_j",
+      "target": "cjohnson",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dan_j",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dan_j",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dmack",
+      "target": "burzum2",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dmack",
+      "target": "mmun",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dmack",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "dmack",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "Respek",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "Terminus",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "alexut",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "amh345",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "cj",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "cjohnson",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "guideX",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "reduce",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "ree",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "roo",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "doug64k",
+      "target": "uskerine",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "guideX",
+      "target": "doug64k",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "guideX",
+      "target": "jso",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "guideX",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "guideX",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "hicker",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "areologist",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "ctanga",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "ish",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "roqo",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jaawerth",
+      "target": "wafflej0ck_",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jlmitch5dev",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jlmitch5dev",
+      "target": "wafflej0ck_",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "jlmitch5dev",
+      "target": "zomg",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "lebster",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "lebster",
+      "target": "wafflej0ck_",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "miep1",
+      "target": "eir",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "miep1",
+      "target": "lif",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "miep1",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "miep1",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "miep1",
+      "target": "wecc",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "mixonic",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "mixonic",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "oniijin",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "reavengr1y",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "reavengr1y",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "roqo",
+      "target": "jaawerth",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "roqo",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "roqo",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "snurfery",
+      "target": "ish",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "snurfery",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "stormbytes",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "stormbytes",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "stormbytes",
+      "target": "roo",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "stormbytes",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "uskerine",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "uskerine",
+      "target": "doug64k",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "uskerine",
+      "target": "jso",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "uskerine",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "Slim",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "TL",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "jaawerth",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "jlmitch5dev",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "lebster",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "mu",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "syntax",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "zomg",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wecc",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wecc",
+      "target": "miep1",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "wecc",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "windsurf_",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "Chubbs",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "ali",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "balr0g",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "ged",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "jlmitch5dev",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "pen",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "ree",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "stormbytes",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "t",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "zomg",
+      "target": "wafflej0ck_",
+      "edgeType": "REFERENCED"
+    },
+    {
+      "source": "BahamutWC",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "BahamutWC",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Chubbs",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Grokling",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Oka",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Oka",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Oka",
+      "target": "knockoutjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Respek",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Slim",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "TL",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "Terminus",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "alexut",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ali",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "amh345",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "anger",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "anger",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "areologist",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "b-ot",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "balr0g",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "balr0g",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "balr0g",
+      "target": "knockoutjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "brogrammer",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "burzum2",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "cactauz",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "cj",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "cjohnson",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ctanga",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ctanga",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ctanga",
+      "target": "knockoutjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "d0de",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "dan_j",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "dmack",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "dmack",
+      "target": "knockoutjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "doug64k",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ebi",
+      "target": "knockoutjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ebi",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "eir",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ged",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "guideX",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "guideX",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "hicker",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ish",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "jaawerth",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "jaawerth",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "jlmitch5dev",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "jso",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "lebster",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "lif",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "miep1",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "miep1",
+      "target": "knockoutjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "mixonic",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "mmun",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "mu",
+      "target": "emberjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "mu",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "oniijin",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "pen",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "reavengr1y",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "reavengr1y",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "reduce",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "ree",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "roo",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "roqo",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "snurfery",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "stormbytes",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "syntax",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "t",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "uskerine",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "wafflej0ck_",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "wecc",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "windsurf_",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "woah",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    },
+    {
+      "source": "zomg",
+      "target": "angularjs",
+      "edgeType": "IS_IN"
+    }
+  ]
+}
