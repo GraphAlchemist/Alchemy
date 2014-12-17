@@ -1,0 +1,201 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <h3 id="edges">Edges</h3>
+<p></p>
+
+<p>By default, edges do not require an ID, only a source and target.  If, however, there are multiple edges that share the same source and target, a unique ID will be required.</p>
+<h5 id="edgecaption">edgeCaption</h5>
+<p>[<code>string</code>] default:<code>&#39;caption&#39;</code> </p>
+<p>Just like nodes, edges can store descriptive data.  The edgeCaption is the text that will display &#39;on hover&#39; and by default alchemy looks for &#39;caption&#39; in the corresponding edge object from the GraphJSON.</p>
+<h5 id="edgeclick">edgeClick</h5>
+<p>[<code>&quot;default&quot;|function</code>] default:<code>&#39;default&#39;</code></p>
+<p>The action that occurs when the user clicks an edge.  When the string <code>&#39;default&#39;</code> is passed in, edges and their captions (if specified) select upon click, and deselects when reclicked. This is the same as the default interaction for nodes.  If a different interaction is desired, a function can be passed in.</p>
+<h5 id="edgestyle">edgeStyle</h5>
+<p>[<code>edgeType</code>: { <code>list of css style values</code> }] default edgeType:<code>all</code></p>
+<p>A set of configuration options that assigns custom edge styling.  Should return an object whose key is an edgeType, and whose value is a list of valid css styles.  </p>
+<p>Current default configuration:</p>
+<pre><code class="lang-javascript">{
+  edgeStyle: {
+    &quot;all&quot;: {
+      &quot;width&quot;: 4,
+      &quot;color&quot;: &quot;#CCC&quot;,
+      &quot;opacity&quot;: 0.2,
+      &quot;selected&quot;: {
+          &quot;opacity&quot;: 1
+        },
+      &quot;highlighted&quot;: {
+          &quot;opacity&quot;: 1
+        },
+      &quot;hidden&quot;: {
+          &quot;opacity&quot;: 0
+        }
+    }
+  }
+}</code></pre>
+<p>By default edgeStyles apply to &quot;all&quot; edges.  This can be changed to be any valid <a href="#edgeTypes"><code>edgeType</code> value</a>.  Different styles may be applied to different edgeTypes at user&#39;s discretion.</p>
+<p>&quot;selected&quot;, &quot;highlighted&quot;, and &quot;hidden&quot; are conditional stylings based on current edge state.  </p>
+<p>If <code>alchemy.conf.cluster</code> is <code>true</code> then styling between nodes of the same cluster will receive that cluster&#39;s color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors. Read more about the <a href="#cluster"><code>cluster</code> configuration</a>.</p>
+<h5 id="edgetypes">edgeTypes</h5>
+<p>[<code>array of strings|object</code>] default:<code>null</code></p>
+<p>Similiar to <a href="#nodetypes">nodeTypes</a>, a string value will cause Alchemy.js to create an index of edgeTypes based on looking up the values for the parameter on each edge in the GraphJSON.  Below <strong>caption</strong> would create edgeTypes based on the captions provided.  This is a convenience function and can become very costly on larger data sets.</p>
+<p>The correct way to define edgeTypes is by passing an object.  The object passed should correspond to keys and values in the GraphJSON that alchemy will use to create filters. For Example, based on the following GraphJSON, you would pass <code>{&quot;caption&quot;: [&quot;acted in&quot;, &quot;parent of&quot;]}</code> to tell Alchemy.js to look for a &quot;caption&quot; key on each edge, and then build types for &quot;acted in&quot; and &quot;parent of&quot; edges.  These types can be used for <a href="#edgefilters">edge filters</a> as well as <a href="#Graph-Styling">styling</a>.</p>
+<pre><code class="lang-json">&quot;edges&quot;: [
+ {
+            &quot;source&quot;: 95421,
+            &quot;target&quot;: 714293,
+            &quot;caption&quot;: &quot;acted in&quot;
+        },
+        {
+            &quot;source&quot;: 95421,
+            &quot;taget&quot;: 95426,
+            &quot;caption&quot;: &quot;parent of&quot;
+        },
+        {
+            &quot;source&quot;: 95421,
+            &quot;role&quot;: &quot;Devlin Moran&quot;,
+            &quot;target&quot;: 603720,
+            &quot;caption&quot;: &quot;acted in&quot;
+        },...]
+...}</code></pre>
+<h5 id="curvededges">curvedEdges</h5>
+<p>[<code>bool</code>] default:<code>false</code></p>
+<p>The boolean value of <code>curvedEdges</code> determines whether the edges are rendered as straight lines or curved.  Currently, this feature is mainly aesthetic, though down the line it will allow more flexability in how to show multiple edges shared between the same two nodes.</p>
+<h5 id="edgewidth">edgeWidth</h5>
+<p>[<code>int|function</code>] default:<code>4</code></p>
+<p>Width, in pixels, of the rendered edge. If passed a function, the first callback variable is the data, and the second is the index which can be used to return the integer that defines the edge width.</p>
+<h5 id="edgeoverlaywidth">edgeOverlayWidth</h5>
+<p>[<code>int</code>] default:<code>20</code></p>
+<p>To make it easier for the end user to click on an edge, each edge has an invisible overlay to which event handlers are applied.  The edgeOverlayWidth will control the width of this overlay, in effect creating an accuracy level for edge clicks.  The default value of <code>20</code> will be good for most graphs, but for use cases where there will be extreme amounts of edges, decreasing this value will allow more accurate targeting. </p>
+<h5 id="directededges">directedEdges</h5>
+<p>[<code>bool</code>] default:<code>false</code></p>
+<p>Determines whether arrows are drawn on the rendered edge.  Direction is implied from the initial <code>source</code> and <code>target</code> keys set in the GraphJSON.</p>
+<p>For example:</p>
+<pre><code class="lang-json">{
+  &quot;edges&quot;: [
+    {
+      &quot;source&quot;: 95421,
+      &quot;target&quot;: 714293,
+      &quot;caption&quot;: &quot;acted in&quot;
+    }
+  ]
+}</code></pre>
+<p>The arrow will point toward the <code>target</code> node and away from the <code>source</code> node.</p>
+<h5 id="edgearrowsize">edgeArrowSize</h5>
+<p>[<code>int</code>] default:<code>5</code></p>
+<p>Size, in pixels, of the arrow applied to directed edges.  Only relevant if <code>directedEdges</code> is <code>true</code>. </p>
+<hr>
+
+  </body>
+</html>

@@ -10887,7 +10887,7 @@ hr {
   height: 45px;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_buttonsVars\.scss}line{font-family:\00003171}}
-#btn-alchemy-rel h3 {
+#btn-alchemy-rel h4 {
   margin-top: 10px;
   margin-bottom: 0;
 }
@@ -11577,6 +11577,7 @@ code {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\0000352}}
 .col-md-12 #sidebar .section-bar.active {
   background-color: white;
+  /*border: thin solid $bright-orange;*/
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\0000355}}
 .col-md-12 #sidebar .section-bar.active > a {
@@ -11609,12 +11610,23 @@ code {
   color: #E89619;
   font-size: 18px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\0000384}}
+.col-md-12 #sidebar .section-bar .lvl-2-extended a.level-2 {
+  /*	 &:before{
+  	 	width: 16px;
+  	 	height: 100%;
+  	 	margin-right: 10px;
+  	 	content: "";
+  	 	background: url(../img/alchemyFlatLogoMini.png) no-repeat;
+  	 }*/
+}
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\0000393}}
 .col-md-12 #sidebar .section-bar .lvl-2-extended a.level-3 {
   border: none;
   padding-left: 20px;
   margin-left: 40px;
   border-left: medium solid #E89619;
+  /*background: transparent;*/
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\00003100}}
 .col-md-12 #sidebar .section-bar .lvl-2-extended div.level-3 {
@@ -11631,6 +11643,9 @@ code {
   overflow-x: hidden;
   flex-flow: column nowrap;
   flex-shrink: 50;
+  /* :nth-child(2n){
+   	background-color: #eee;
+   }*/
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\00003118}}
 .col-md-12 #doc-content #pointer {
@@ -11655,6 +11670,7 @@ code {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\00003137}}
 .col-md-12 #doc-content .doc h1, .col-md-12 #doc-content .doc h2, .col-md-12 #doc-content .doc h3, .col-md-12 #doc-content .doc h4 {
   margin-top: 0;
+  /*padding-top: 25px;*/
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\00003142}}
 .col-md-12 #doc-content .doc p ~ h5 {
@@ -11676,6 +11692,7 @@ code {
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\00003157}}
 .col-md-12 #doc-content .doc pre span {
+  /*override coderay and bootstrap styles*/
   background-color: transparent !important;
 }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/aquilo\/projects\/ga\/AlchemySite\/app\/docs\/styles\/scss\/_docs\.scss}line{font-family:\00003161}}

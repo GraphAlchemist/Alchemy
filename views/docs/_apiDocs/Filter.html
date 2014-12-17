@@ -1,0 +1,141 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <hr>
+<p>position: 2</p>
+<h2 id="title-filter">title: Filter</h2>
+<h1 id="filter">Filter</h1>
+<p></p>
+
+<p>Filtering in alchemy refers to the hiding and showing of particular nodes and edges.</p>
+<p>Filtering via the API can work in two ways.
+First, it can be called on the top level with <code>alchemy.filter.nodes()</code> and <code>alchemy.filter.edges()</code> if you want to filter from all nodes and all edges.</p>
+<p>If you want to filter based on a subset of those elements, <code>filter()</code> can also be called on an alchemy selection. eg: <code>alchemy.get.nodes(...).filter()</code>.</p>
+<h5 id="alchemy-filter-nodes-">alchemy.filter.nodes()</h5>
+<p><!-- -->
+<code>alchemy.filter.nodes(type)</code><br>
+This will filter all nodes of the passed in type.  Doing this requires that you have set the <code>nodeTypes</code> key in your configuration.</p>
+<h5 id="alchemy-filter-edges-">alchemy.filter.edges()</h5>
+<p><!-- -->
+<code>alchemy.filter.edges(type)</code><br>
+This will filter all edges of the passed in type.  Doing this requires that you have set the <code>edgeTypes</code> key in your configuration.</p>
+<h5 id="alchemyselection-filter-">alchemySelection.filter()</h5>
+<p><!-- -->
+<code>alchemy.get.nodes(nodeIDs).filter(type)</code><br>
+<code>alchemy.get.edges(edgeIDs).filter(type)</code><br>
+This will filter the elements in the current selection based on the type passed in.  Doing this requires that you have set <code>nodeTypes</code> and <code>edgeTypes</code> keys in your configuration.
+<code>filter()</code> can be called on any selection, including those returned by the <code>search()</code> API endpoint.</p>
+
+  </body>
+</html>

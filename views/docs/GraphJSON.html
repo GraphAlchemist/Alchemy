@@ -1,0 +1,882 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <title>doc</title> <style>/*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }</style>  <body> <h2 id="graphjson">GraphJSON</h2> <p>Alchemy.js takes a simple data format called GraphJSON. GraphJSON is similiar to GeoJSON in many ways, and is a standardized way to represent connected data in applications. In the future, Alchemy.js will use GraphJSON for the transfer and storage of attributes that will allow for more robust visual representations of the underlying graph data. For now, GraphJSON serves as a lightweight and flexible representation of graph data, easily consumed locally or over the web.</p> <h3 id="the-format">The Format</h3> <p>GraphJSON is a JSON object that contains two objects, <strong>nodes</strong> and <strong>edges</strong>:</p> <pre><code class="lang-json">{
+    &quot;nodes&quot;: [...],
+    &quot;edges&quot;: [...]
+
+}</code></pre> <p>The <strong>nodes</strong> and <strong>edges</strong> objects are arrays of the individual nodes and edges that will be represented in the Graph visualization. </p> <h3 id="nodes-and-edges">Nodes and Edges</h3> <p>The only requirement for node objects is that they receive an <strong>id</strong> key that is unique (in the scope of the GraphJSON). The only requirement for edge objects is that they receive a <strong>source</strong> and <strong>target</strong> key that correspond to the source and target nodes. If there are multiple edges with identical source and targets, those edges MUST have a unique id.</p> <h3 id="features">Features</h3> <p>Alchemy.js has a number of features that rely on the underlying data. Most of the below features are supported by the example GraphJSON that follows.</p> <h3 id="captions">Captions</h3> <p>Captions are the text that displays in the graph visualization. By default, the captions will display on search active, on node hover, and when filtering. In the configuration, <a href="#nodecaption">nodeCaption</a> defaults to &quot;caption&quot; which means that Alchemy.js will look for a &quot;caption&quot; key on each node.</p> <h3 id="dynamic-clustering">Dynamic Clustering</h3> <p>Clustering can be enabled in the configuration by setting <a href="#cluster">cluster</a> to <code>true</code>. Alchemy.js will then look for a &quot;cluster&quot; key on the nodes, which will enable a clustering algorithm that colors and positions to nodes. This is especially useful for social network analysis and any form of exploratory data analysis.</p> <h3 id="defining-root-nodes">Defining Root Nodes</h3> <p>Any node containing a root key that is truthy will be considered a root node. For example:</p> <pre><code class="lang-json">{
+  &quot;nodes&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;root&quot;: true
+    },
+    ...
+  ],
+  ...
+}</code></pre> <p>See the &quot;Charlize&quot; node below or any of the GraphJSON in our <a href="/#/examples">examples gallery</a> for an example in context.</p> <h3 id="nodetypes-and-edgetypes">nodeTypes and edgeTypes</h3> <p>Node and edge types are used for a number of tasks, including styling and filtering. By default, <a href="#nodetypes">nodeTypes</a> and <a href="#edgetypes">edgeTypes</a> are not defined. In the GraphJSON example <a href="#sample-graphjson">below</a>, <strong>nodeTypes</strong> might look as follows </p> <pre><code>  {&quot;nodeTypes&quot;: {&quot;type&quot;: [&quot;award&quot;, &quot;actor&quot;, &quot;movie&quot;...]}</code></pre> <p>while <strong>edgeTypes</strong> might look like this </p> <pre><code>&quot;edgeTypes&quot;: {&quot;caption&quot;: [&quot;ACTED_IN&quot;, &quot;DIRECTED&quot;, &quot;NOMINATED&quot;, etc.]}</code></pre> <p>To include nodeTypes and edgeTypes to your application, add them into your script tag where you defined your dataset. </p> <p><em>Note</em>: Attributes in the GraphJSON can serve multiple purposes. <strong>caption</strong> on the edges is used for categorizing nodes as well as the text that will display on hover interactions.</p> <h3 id="sample-graphjson">Sample GraphJSON</h3> <p>Below is sample GraphJSON which contains all of the movies, awards, and other people that Charlize Theron is connected to.</p> <pre><code class="lang-json">{
+  &quot;nodes&quot;: [
+    {
+      &quot;caption&quot;: &quot;Screen Actors Guild Award for Outstanding Performance by a Female Actor in a Miniseries or Television Movie&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595472
+    },
+    {
+      &quot;caption&quot;: &quot;Children of the Corn III: Urban Harvest&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 626470
+    },
+    {
+      &quot;caption&quot;: &quot;Sleepwalking&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 795744
+    },
+    {
+      &quot;caption&quot;: &quot;That Thing You Do!&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 692946
+    },
+    {
+      &quot;caption&quot;: &quot;Trapped&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 689794
+    },
+    {
+      &quot;caption&quot;: &quot;Head in the Clouds&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 709577
+    },
+    {
+      &quot;caption&quot;: &quot;Waking Up in Reno&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 635905
+    },
+    {
+      &quot;caption&quot;: &quot;Battle in Seattle&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 734583
+    },
+    {
+      &quot;caption&quot;: &quot;Mighty Joe Young&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 662595
+    },
+    {
+      &quot;caption&quot;: &quot;Academy Award for Actress in a Leading Role&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 593781
+    },
+    {
+      &quot;caption&quot;: &quot;The Devil&#39;s Advocate&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 740763
+    },
+    {
+      &quot;caption&quot;: &quot;Screen Actors Guild Award for Outstanding Performance by a Cast in a Motion Picture&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595440
+    },
+    {
+      &quot;caption&quot;: &quot;Silver Bear for Best Actress&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 601507
+    },
+    {
+      &quot;caption&quot;: &quot;The Curse of the Jade Scorpion&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 649461
+    },
+    {
+      &quot;caption&quot;: &quot;MTV Movie Award for Best Female Performance&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595074
+    },
+    {
+      &quot;caption&quot;: &quot;15 Minutes&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 634248
+    },
+    {
+      &quot;caption&quot;: &quot;The Burning Plain&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 670704
+    },
+    {
+      &quot;caption&quot;: &quot;The Life and Death of Peter Sellers&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 794982
+    },
+    {
+      &quot;caption&quot;: &quot;Prometheus&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 608746
+    },
+    {
+      &quot;caption&quot;: &quot;Teen Choice Award for Choice Summer Movie Star: Female&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 599909
+    },
+    {
+      &quot;caption&quot;: &quot;Chicago Film Critics Association Award for Best Actress&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 623686
+    },
+    {
+      &quot;caption&quot;: &quot;Golden Globe Award for Best Supporting Actress - Series, Miniseries or Television Film&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 598027
+    },
+    {
+      &quot;caption&quot;: &quot;Golden Globe Award for Best Actress - Musical or Comedy Film&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595206
+    },
+    {
+      &quot;caption&quot;: &quot;Mad Max: Fury Road&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 804341
+    },
+    {
+      &quot;caption&quot;: &quot;In the Valley of Elah&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 621675
+    },
+    {
+      &quot;caption&quot;: &quot;Screen Actors Guild Award for Outstanding Performance by a Female Actor in a Leading Role&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 593954
+    },
+    {
+      &quot;caption&quot;: &quot;Golden Raspberry Award for Worst Actress&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 594134
+    },
+    {
+      &quot;caption&quot;: &quot;East of Havana&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 609415
+    },
+    {
+      &quot;caption&quot;: &quot;The Road&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 627715
+    },
+    {
+      &quot;caption&quot;: &quot;Golden Globe Award for Best Actress - Drama Film&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 593776
+    },
+    {
+      &quot;caption&quot;: &quot;Charles Jacobus Theron&quot;,
+      &quot;type&quot;: &quot;person&quot;,
+      &quot;id&quot;: 314008
+    },
+    {
+      &quot;caption&quot;: &quot;Jackson Theron&quot;,
+      &quot;type&quot;: &quot;person&quot;,
+      &quot;id&quot;: 314009
+    },
+    {
+      &quot;caption&quot;: &quot;Primetime Emmy Award for Outstanding Supporting Actress in a Miniseries or a Movie&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595684
+    },
+    {
+      &quot;caption&quot;: &quot;The Cider House Rules&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 801237
+    },
+    {
+      &quot;caption&quot;: &quot;The Astronaut&#39;s Wife&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 657006
+    },
+    {
+      &quot;caption&quot;: &quot;Broadcast Film Critics Association Award for Best Actress&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 601849
+    },
+    {
+      &quot;caption&quot;: &quot;Hancock&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 652245
+    },
+    {
+      &quot;caption&quot;: &quot;Charlize Theron&quot;,
+      &quot;root&quot;: true,
+      &quot;id&quot;: 314003
+    },
+    {
+      &quot;caption&quot;: &quot;Stuart Townsend&quot;,
+      &quot;type&quot;: &quot;person&quot;,
+      &quot;id&quot;: 314004
+    },
+    {
+      &quot;caption&quot;: &quot;Stephan Jenkins&quot;,
+      &quot;type&quot;: &quot;person&quot;,
+      &quot;id&quot;: 314005
+    },
+    {
+      &quot;caption&quot;: &quot;Benoni, Gauteng&quot;,
+      &quot;type&quot;: &quot;person&quot;,
+      &quot;id&quot;: 314006
+    },
+    {
+      &quot;caption&quot;: &quot;Gerda Jacoba Aletta Maritz&quot;,
+      &quot;type&quot;: &quot;person&quot;,
+      &quot;id&quot;: 314007
+    },
+    {
+      &quot;caption&quot;: &quot;Æon Flux&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 663286
+    },
+    {
+      &quot;caption&quot;: &quot;Snow White and the Huntsman&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 599907
+    },
+    {
+      &quot;caption&quot;: &quot;Young Adult&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 661733
+    },
+    {
+      &quot;caption&quot;: &quot;Reindeer Games&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 761000
+    },
+    {
+      &quot;caption&quot;: &quot;Monster&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 729778
+    },
+    {
+      &quot;caption&quot;: &quot;The Legend of Bagger Vance&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 804616
+    },
+    {
+      &quot;caption&quot;: &quot;Teen Choice Award for Choice Hissy Fit: Film&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 599908
+    },
+    {
+      &quot;caption&quot;: &quot;The Yards&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 781638
+    },
+    {
+      &quot;caption&quot;: &quot;MTV Movie Award for Best Kiss&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595095
+    },
+    {
+      &quot;caption&quot;: &quot;Celebrity&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 611629
+    },
+    {
+      &quot;caption&quot;: &quot;Astro Boy&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 818608
+    },
+    {
+      &quot;caption&quot;: &quot;North Country&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 784437
+    },
+    {
+      &quot;caption&quot;: &quot;2 Days in the Valley&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 615556
+    },
+    {
+      &quot;caption&quot;: &quot;Satellite Award for Best Actress – Motion Picture&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595704
+    },
+    {
+      &quot;caption&quot;: &quot;Trial and Error&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 799574
+    },
+    {
+      &quot;caption&quot;: &quot;National Society of Film Critics Award for Best Actress&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595702
+    },
+    {
+      &quot;caption&quot;: &quot;Independent Spirit Award for Best Female Lead&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595703
+    },
+    {
+      &quot;caption&quot;: &quot;Two Eyes Staring&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 788889
+    },
+    {
+      &quot;caption&quot;: &quot;Sweet November&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 811358
+    },
+    {
+      &quot;caption&quot;: &quot;Teen Choice Movie Award: Villain&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 595082
+    },
+    {
+      &quot;caption&quot;: &quot;Satellite Award for Best Supporting Actress – Drama&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 602151
+    },
+    {
+      &quot;caption&quot;: &quot;San Francisco Film Critics Circle Award for Best Actress&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 669827
+    },
+    {
+      &quot;caption&quot;: &quot;Independent Spirit Award for Best First Feature&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 599387
+    },
+    {
+      &quot;caption&quot;: &quot;The Italian Job&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 817380
+    },
+    {
+      &quot;caption&quot;: &quot;Hollywood Confidential&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 711550
+    },
+    {
+      &quot;caption&quot;: &quot;Men of Honor&quot;,
+      &quot;type&quot;: &quot;movie&quot;,
+      &quot;id&quot;: 682763
+    },
+    {
+      &quot;caption&quot;: &quot;BAFTA Award for Best Actress in a Leading Role&quot;,
+      &quot;type&quot;: &quot;award&quot;,
+      &quot;id&quot;: 594478
+    }
+  ],
+  &quot;edges&quot;: [
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 621675,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 818608,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 601849,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 649461,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 669827,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 608746,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 593954,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595702,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 601849,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595095,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 729778,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595703,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 811358,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595472,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 661733,
+      &quot;caption&quot;: &quot;PRODUCED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 784437,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 634248,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 662595,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 804616,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595703,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 626470,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 599387,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 599908,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 682763,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595702,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 788889,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 657006,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 795744,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 593781,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 594478,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 594134,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595074,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 692946,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 740763,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314005,
+      &quot;target&quot;: 314003,
+      &quot;caption&quot;: &quot;PARTNER_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 711550,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595440,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 801237,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 599907,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 761000,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 781638,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 670704,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 609415,
+      &quot;caption&quot;: &quot;PRODUCED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 314009,
+      &quot;caption&quot;: &quot;PARENT_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 652245,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 661733,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 602151,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 635905,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 799574,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 593781,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 817380,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 611629,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 729778,
+      &quot;caption&quot;: &quot;PRODUCED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 709577,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 804341,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 627715,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 794982,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 623686,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595082,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 689794,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 788889,
+      &quot;caption&quot;: &quot;PRODUCED&quot;
+    },
+    {
+      &quot;source&quot;: 314007,
+      &quot;target&quot;: 314003,
+      &quot;caption&quot;: &quot;PARENT_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 593776,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 734583,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 598027,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 601507,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 599909,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 314004,
+      &quot;caption&quot;: &quot;PARTNER_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 663286,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 314006,
+      &quot;caption&quot;: &quot;BORN_AT&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 615556,
+      &quot;caption&quot;: &quot;ACTED_IN&quot;
+    },
+    {
+      &quot;source&quot;: 314004,
+      &quot;target&quot;: 314003,
+      &quot;caption&quot;: &quot;PARTNER_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314008,
+      &quot;target&quot;: 314003,
+      &quot;caption&quot;: &quot;PARENT_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 314005,
+      &quot;caption&quot;: &quot;PARTNER_OF&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 795744,
+      &quot;caption&quot;: &quot;PRODUCED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595704,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 670704,
+      &quot;caption&quot;: &quot;EXEC_PRODUCED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 593954,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595206,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 593776,
+      &quot;caption&quot;: &quot;RECEIVED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595704,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 595684,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    },
+    {
+      &quot;source&quot;: 314003,
+      &quot;target&quot;: 599387,
+      &quot;caption&quot;: &quot;NOMINATED&quot;
+    }
+  ]
+}</code></pre> <hr>  

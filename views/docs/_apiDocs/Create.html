@@ -1,0 +1,166 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <h3 id="create">Create</h3>
+<p></p>
+
+<h5 id="alchemy-createnodes">alchemy.createNodes</h5>
+<!--  -->
+
+<p><code>alchemy.createNodes(node map[, another node map])</code>
+<br>
+This method receives objects which are property maps of nodes as defined in <a href="#GraphJSON">GraphJSON</a>. For example:</p>
+<pre><code class="lang-json">{
+    &quot;id&quot;: 1,
+    &quot;firstName&quot;: &quot;Grace&quot;,
+    &quot;lastName&quot;: &quot;Andrews&quot;,
+    &quot;age&quot;: 27,
+    &quot;homeTown&quot;: &quot;Accra&quot;
+}</code></pre>
+<p>This method can be used to create one or more nodes at a time.  For example:</p>
+<pre><code class="lang-javascript">// Create one node
+var grace = {&quot;id&quot;: 1, &quot;firstName&quot;: &quot;Grace&quot;, ...};
+alchemy.createNodes(grace);
+// Create multiple nodes
+var matt = {&quot;id&quot;: 2, &quot;firstName&quot;: &quot;Matt&quot;, ...};
+alchemy.createNodes(grace, matt);</code></pre>
+<h5 id="alchemy-createedges">alchemy.createEdges</h5>
+<!--  -->
+
+<p><code>alchemy.createEdges(edge map[, another edge map])</code><br>
+This method receives objects which are property maps of edges as defined in <a href="#GraphJSON">GraphJSON</a>.  For example:</p>
+<pre><code class="lang-json">{
+    &quot;source&quot;: 1,
+    &quot;target&quot;: 2,
+    &quot;strength&quot;: 20,
+    &quot;relationship&quot;: &quot;Loves&quot;
+}</code></pre>
+<p>An unlimited number of edges can exist between the same source and target node, and in the same direction.  Alchemy will generate internal unique ids for each edge created.  However, new edges will only be created if the same &quot;id&quot; <strong>does not already exist</strong>. If an &quot;id&quot; is provided in the <em>edge map</em> that has already been provided to the <em>createEdge</em> method, no new edge will be created.   </p>
+<p>Examples:</p>
+<pre><code class="lang-javascript">// create a single edge
+var someEdgeMap = {&quot;source&quot;: 1, &quot;target&quot;: 2, ...}
+alchemy.createEdges(someEdgeMap);
+// create two more edges with exactly the same properties -
+// in the same direction - 3 edges total!
+alchemy.createEdges(someEdgeMap, someEdgeMap);
+// edgemap with an id
+var edgeWithId = {&quot;id&quot;: 100, &quot;source&quot;: 1, &quot;target&quot;: 2};
+// create a single edge if the provided id 
+// does not already exist, 
+// and create an edge with &quot;edgeMap&quot; properties
+alchemy.createEdges(edgeWithId, someEdgeMap);</code></pre>
+<hr>
+
+  </body>
+</html>

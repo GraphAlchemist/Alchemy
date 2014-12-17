@@ -1,0 +1,112 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <title>doc</title> <style>/*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }</style>  <body> <h2 id="contributing">Contributing</h2> <p></p> <p> If you&#39;re eager to contribute, that&#39;s great! Check out our <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/BUILD.md">build file</a> for more info on how to get started.</p> <h3 id="some-things-to-know">Some Things to Know</h3> <p>Alchemy.js uses <a href="http://yeoman.io/">Yeoman.io</a> to manage workflow, and <a href="http://yeoman.io/learning/index.html">their documentation</a> is a great resource to get up and running quickly.</p> <p>If you are familiar with Yeoman already, it will be helpful to know how Alchemy&#39;s grunt tasks are configured. The main grunt task, <code>buildAlchemy</code>, whether being used in development or to build Alchemy.js for distribution, does the following:</p> <ul> <li>Copies all coffee script files into <code>.tmp</code> directory</li> <li>Concats all of the coffee script files with the <code>start.coffee</code> at the beginning and the <code>end.coffee</code> file at (you guessed it) the end</li> </ul> <p>In development, there is an <code>alchemy.src.coffee</code> file in the <code>.tmp</code> directory, making it easy to use mapping files to debug the coffeescript directly.</p> <h3 id="how-to-contribute">How to contribute</h3> <p>First off - <a href="mailto:robot@graphalchemist.com">get in touch</a>! It is helpful to hear from you - especially if you are planning to contribute some large, amazing feature. It is always great to touch base and make sure that what you are planning is in sync with the road map.</p> <p>We&#39;d love your help in making Alchemy.js better. A good place to start is always with the existing issues. Did you notice a bug that wasn&#39;t there or a feature that should REALLY exist? Ticket it, and let&#39;s start a conversation.</p> <p>If you&#39;d like to contribute code for a bug fix or even a feature, here is the process:</p> <pre><code class="lang-bash"># Fork Alchemy.js repo
+git clone &lt;my_fork_of_this_repo&gt;
+git checkout -b &lt;my_awesome_new_feature&gt;
+# delete master and name your branch after the feature
+# or bug you are getting after to avoid confusion
+git branch -D master
+#node and bower dependencies
+npm install
+bower install</code></pre> <p>When you feel like your contribution is battle ready, run the tests locally with <code>grunt test.</code> If everything passes, feel free to submit a pull request. We may have some conversations about pieces of it, or we may merge it right away.</p> <p>Before we merge your code, you&#39;ll need to sign our <a href="https://docs.google.com/a/graphalchemist.com/forms/d/1ypqMsBPrfzPpvQPXYdfw12u9xK5pNiHeMAuYImzEli4/viewform">contributor agreement</a>. It&#39;s pretty minor; feel free to reach out if you have questions.</p> <hr>  

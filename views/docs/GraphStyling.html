@@ -1,0 +1,250 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <title>doc</title> <style>/*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }</style>  <body> <h2 id="graphstyling">GraphStyling</h2> <p>Alchemy.js uses simple and intuitive configuration options to define graph styling.</p> <p>Some of the different ways the graph is <em>styled</em> in <a href="#Configuration">alchemy.conf</a>: </p> <h3 id="alchemy-conf-properties-that-affect-graph-styling">Alchemy.conf properties that affect Graph Styling</h3> <ul> <li><a href="#nodeStyle">nodeStyle</a></li> <li><a href="#edgeStyle">edgeStyle</a></li> <li><a href="#rootnoderadius">rootNodeRadius</a></li> <li><a href="#graphheight">graphHeight</a></li> <li><a href="#graphwidth">graphWidth</a></li> <li><a href="#clustercolors">clusterColors</a></li> </ul> <p>CSS can be used to style the svg elements on the graph in tandem with <a href="#nodeStyle">nodeStyle</a> and <a href="#edgeStyle">edgeStyle</a>, though this is usually unnecessary. The <code>nodeStyle</code> and <code>edgeStyle</code> keys include options to base styling around both data and user interactions, and as such are more more powerful, flexible, and dynamic.</p> <h3 id="styling-the-graph-using-node-and-edge-types">Styling the graph using node and edge types</h3> <p>All forms of styling can be assigned based on <a href="#nodetype">nodeType</a> and <a href="#edgetype">edgeType</a> which are defined in your configuration. Below is a short example to give you an idea of the possibilities. As always, check out the <a href="/#/examples">examples gallery</a> for full examples.</p> <h3 id="sample-data">Sample Data</h3> <p>The following data source of Alchemy.js contributors would, by default, result in the graph viz that follows:</p> <pre><code class="lang-json">{
+    &quot;comment&quot;: &quot;AlchemyJS contributors&quot;,
+    &quot;nodes&quot;: [
+        {
+            &quot;id&quot;: 0,
+            &quot;caption&quot;: &quot;AlchemyJS&quot;,
+            &quot;role&quot;: &quot;project&quot;,
+            &quot;root&quot;: true
+        },
+        {
+            &quot;id&quot;: 1,
+            &quot;caption&quot;: &quot;Huston Hedinger&quot;,
+            &quot;github&quot;: &quot;hustonhedinger&quot;,
+            &quot;role&quot;: &quot;Maintainer&quot;,
+            &quot;fun_fact&quot;: &quot;hooligan&quot;
+        },
+        {
+            &quot;id&quot;: 2,
+            &quot;caption&quot;: &quot;Grace Andrews&quot;,
+            &quot;github&quot;: &quot;Grace-Andrews&quot;,
+            &quot;role&quot;: &quot;Maintainer&quot;,
+            &quot;fun_fact&quot;: &quot;was born left handed, now right handed.&quot;
+        },
+        {
+            &quot;id&quot;: 3,
+            &quot;caption&quot;: &quot;Isabella Jorissen&quot;,
+            &quot;github&quot;: &quot;ifjorissen&quot;,
+            &quot;role&quot;: &quot;Maintainer&quot;,
+            &quot;fun_fact&quot;: &quot;knows a lot of digits of pi. Also loves pie.&quot;
+        },
+        {
+            &quot;id&quot;: 4,
+            &quot;caption&quot;: &quot;Matt Cox&quot;,
+            &quot;github&quot;: &quot;MDCox&quot;,
+            &quot;role&quot;: &quot;Maintainer&quot;,
+            &quot;fun_fact&quot;: &quot;is not fun&quot;
+        },
+        {
+            &quot;id&quot;: 5,
+            &quot;caption&quot;: &quot;Dave Torbeck&quot;,
+            &quot;github&quot;: &quot;DaveTorbeck&quot;,
+            &quot;role&quot;: &quot;Contributor&quot;,
+            &quot;fun_fact&quot;: &quot;&quot;
+        }
+    ],
+    &quot;edges&quot;: [
+        {
+            &quot;source&quot;: 1,
+            &quot;target&quot;: 0,
+            &quot;caption&quot;: &quot;Maintains&quot;
+        },
+        {
+            &quot;source&quot;: 2,
+            &quot;target&quot;: 0,
+            &quot;caption&quot;: &quot;Maintains&quot;
+        },
+        {
+            &quot;source&quot;: 3,
+            &quot;target&quot;: 0,
+            &quot;caption&quot;: &quot;Maintains&quot;
+        },
+        {
+            &quot;source&quot;: 4,
+            &quot;target&quot;: 0,
+            &quot;caption&quot;: &quot;Often Breaks&quot;
+        },
+        {
+            &quot;source&quot;: 5,
+            &quot;target&quot;: 0,
+            &quot;caption&quot;: &quot;contributes&quot;
+        }
+    ]
+}</code></pre> <h3 id="default-visualization">Default Visualization</h3> <p><img src="../docs/img/graphstyling1.png" alt="Contrib Default Styles"> </p> <h3 id="overriding-default-styles">Overriding Default Styles</h3> <p>To give the graph some classes we can play with, define the node types and edge types in your conf. For our sample data, you might end up with something like the following:</p> <pre><code class="lang-json">var conf = {
+    &quot;dataSource&quot;: &quot;sample_data/contrib.json&quot;,
+    &quot;nodeTypes&quot;: {&quot;role&quot;: [&quot;Maintainer&quot;,
+                           &quot;Contributor&quot;,
+                           &quot;project&quot;]},
+    &quot;edgeTypes&quot;: {&quot;caption&quot;: [&quot;Maintains&quot;,
+                              &quot;Contributes&quot;]},
+    &quot;nodeStyle&quot;: {
+        &quot;project&quot;: {
+            color: &quot;#00ff0e&quot;,
+        },
+        &quot;Maintainer&quot;:{
+            color: &quot;#00ff0e&quot;,
+            borderColor: &quot;#00ffda&quot;
+        },
+        &quot;Contributor&quot;: {
+            color: &quot;#ff7921&quot;,
+            borderColor: &quot;#4f07ff&quot;
+        }
+    },
+    &quot;edgeStyle&quot;: {
+        &quot;Maintains&quot;: {
+            color: &quot;#00fffa&quot;,
+            width: 5
+        },
+        &quot;contributes&quot;: {
+            color: &quot;#ff00f3&quot;,
+            borderWidth: 10
+        }
+    }
+
+};
+alchemy.begin(conf)</code></pre> <p><img src="../docs/img/graphstyling2.png" alt="Wild Graph Styles"></p> <h3 id="styling-with-css">Styling with CSS</h3> <p>Styling through CSS tends to be inflexible, as it&#39;s not related to the data in any way. However, some people may want to use an obscure feature offered by SVG/CSS, and we&#39;ve made sure that that is easy to do. The svg elements of the nodes and edges receive classes that correspond to the types defined in the configuration options <code>edgeTypes</code> and <code>nodeTypes</code>. To create the same graph with css you can assign css styles based on those classes. Based on our data and this example we can use this css to generate the graph that follows:</p> <pre><code class="lang-css">        /* Nodes */
+        .Maintainer circle {
+            fill: #00ff0e;
+            stroke: #00ffda;
+        }
+
+        .Contributor circle {
+            fill: #ff7921;
+            stroke: #4f07ff;
+        }
+
+        /* Node Captions */
+        .Contributor text {
+            display: block;
+            font-size: 30px;
+            fill: #00fff7;
+        }
+
+        /* Root Node Caption */
+        .root.project text {
+            display: block;
+            font-size: 40px;
+            fill: #ff6e00;
+        }
+
+        /* Edges */
+        line.Maintains {
+            stroke: #00fffa;
+            stroke-width: 5px;
+            stroke-opacity: 1;
+        }
+
+        line.Often.Breaks{
+            stroke: #ff0000;#ff00f3;
+            stroke-width: 10px;
+            stroke-opacity: 1;
+        }
+
+        line.contributes {
+            stroke: #ff00f3;
+            stroke-width: 10px;
+            stroke-opacity: 1;
+        }</code></pre> <hr>  

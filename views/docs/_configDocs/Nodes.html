@@ -1,0 +1,245 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <p><br/></p>
+<h3 id="nodes">Nodes</h3>
+<p></p>
+
+<p>Various configuration properties for nodes are available in the Alchemy.conf, including:</p>
+<h5 id="nodecaption">nodeCaption</h5>
+<p>[<code>string|function</code>] default:<code>&quot;caption&quot;</code> </p>
+<p>The configuration for the text that will appear as the caption on a node used during filtering and searching.  The string parameter defined should provide a key within the GraphJSON.  By default alchemy will look for a &quot;caption&quot; key on each node in the graphJSON, however any key present on <em>some</em> or <em>all</em> of the nodes can be provided.  The user can also provide a function.  The function can take <strong>node</strong> as a parameter and that will use the node objects in the GraphJSON to build the caption.  For example, where the GraphJSON node objects contain &quot;firstName&quot; and &quot;lastName&quot;:  </p>
+<pre><code class="lang-javascript">caption: function(node) {
+    return &quot;&quot; + node.firstName + &quot; &quot; + node.lastName;
+  }</code></pre>
+<pre><code class="lang-json">&quot;nodes&quot;: [
+        {
+            ...
+            &quot;firstName&quot;: &quot;Kate&quot;,
+            &quot;lastName&quot;: &quot;Smith&quot;
+        },
+            ...]</code></pre>
+<h5 id="nodestyle">nodeStyle</h5>
+<p>[<code>nodeType</code>: { <code>list of css style values</code> }] default nodeType:<code>all</code></p>
+<p>A set of configuration options that assigns custom node styling.  Should return an object whose key is an nodeType, and whose value is a list of valid css styles.  </p>
+<p>Current default configuration:</p>
+<pre><code class="lang-javascript">{
+    nodeStyle: {
+        &quot;all&quot;: {
+            &quot;radius&quot;: 10,
+            &quot;color&quot;  : &quot;#68B9FE&quot;,
+            &quot;borderColor&quot;: &quot;#127DC1&quot;,
+            &quot;borderWidth&quot;: function (d, radius) { radius / 3 },
+            &quot;captionColor&quot;: &quot;#FFFFFF&quot;,
+            &quot;captionBackground&quot;: null,
+            &quot;captionSize&quot;: 12,
+            &quot;selected&quot;: {
+                &quot;color&quot; : &quot;#FFFFFF&quot;
+                &quot;borderColor&quot;: &quot;#349FE3&quot;
+            },
+            &quot;highlighted&quot;: {
+                &quot;color&quot; : &quot;#EEEEFF&quot;
+            },
+            &quot;hidden&quot;: {
+                &quot;color&quot;: &quot;none&quot; 
+                &quot;borderColor&quot;: &quot;none&quot;
+            }
+        }
+    }
+}</code></pre>
+<p>By default nodeStyles apply to &quot;all&quot; nodes.  This can be changed to be any valid <a href="#nodeTypes"><code>nodeType</code> value</a>.  Different styles may be applied to different nodeTypes at user&#39;s discretion.</p>
+<p>&quot;selected&quot;, &quot;highlighted&quot;, and &quot;hidden&quot; are conditional stylings based on current node state.  </p>
+<h5 id="nodecolor">nodeColor</h5>
+<p>[<code>css color value</code>] default:<code>null</code>  </p>
+<p>This is a convenience parameter to quickly assign a default color to all nodes.  This method will overwrite any styles assigned by the css.  For more on how to assign colors to specific nodes read about <a href="#nodetypes">nodeTypes</a> and our <a href="#Graph-Styling">guide to graph styling</a>.</p>
+<h5 id="fixnodes">fixNodes</h5>
+<p>[<code>bool</code>] default:<code>false</code>  </p>
+<p>All nodes are draggable by default.  Setting to <code>true</code> means that nodes will not be draggable after their initial layout.</p>
+<h5 id="fixrootnodes">fixRootNodes</h5>
+<p>[<code>bool</code>] default:<code>false</code></p>
+<p>Root nodes are draggable by default. Setting to <code>true</code> means that root nodes cannot be dragged after their initial layout.  You can find more information on how to define root nodes in the GraphJSON <a href="#defining-root-nodes">here</a>.</p>
+<h5 id="nodemouseover">nodeMouseOver</h5>
+<p>[<code>string|function</code>] default:<code>&quot;caption&quot;</code>  </p>
+<p>This defines the text that will be displayed when a user mouses over a node element.  Similiar to the <a href="#nodecaption">alchemy.conf.nodeCaption</a> parameter, alchemy.conf.nodeMouseOver can receive a <em>string</em> or a <em>function</em>.  If it receives a string as the default, it will look for that string on nodes in the graphJSON and display the text when that node is moused over.  If a function is passed, that function will be called with the <strong>node</strong> as an optional parameter.</p>
+<p>For instance:</p>
+<pre><code class="lang-js">{ 
+    &quot;nodeMouseOver&quot;: function(node) {
+        return node.someData + node.someOtherData
+}</code></pre>
+<h5 id="nodeoverlap">nodeOverlap</h5>
+<p>[<code>int</code>] default:<code>24</code>  </p>
+<p>Used in the collision detection function, should be a number slightly more than double the size of the <a href="#noderadius">nodeRadius</a> and will cause the center of all nodes to be no closer than the specified distance.     </p>
+<p><strong><em>Note</em></strong>: Keep in mind that the stroke-width of the svg element is in addition to the radius of the circle svg element and therefore nodes will overlap with a value of only 2 x the nodeRadius.  For this reason, pick a number slightly greater.</p>
+<h5 id="noderadius">nodeRadius</h5>
+<p>[<code>int|string|function</code>] default:<code>10</code>  </p>
+<p>If it is the default or a user specified integer, the value will be the pixel size of a node that indicates node size.  If the user specifies a string, that string will be the key, used to look up the nodeRadius on individual nodes in the GraphJSON.  For example, GraphJSON where nodes have the following values:</p>
+<pre><code class="lang-json">{&quot;nodes&quot;:[
+    {&quot;id&quot;: 1,
+     &quot;betweeness&quot;: 0.2}
+    {&quot;id&quot;: 2,
+     &quot;betweeness&quot;: 0.3},
+    ...],
+...}</code></pre>
+<p>If the user specifies <code>alchemy.conf.nodeRadius: &quot;betweeness&quot;</code> the nodes will be sized at 0.2px and 0.3px respectively - which will not be super useful from a visualization perspective.  So, additionally the user can specify a function that will return node size.  If the user specifies the following function, they will get something more useful for visualization - a range of values between 15px and 30px scaled based on the betweenness value of the nodes:</p>
+<pre><code class="lang-javascript">alchemy.conf.nodeRadius: function(n) {
+        return Math.max(15, Math.min(Math.floor(n.betweeness * 100), 30))
+};</code></pre>
+<h5 id="nodetypes">nodeTypes</h5>
+<p>[<code>object|string</code>] default:<code>null</code>   </p>
+<p>Passing a string will cause Alchemy.js to build and assign node types based on all possible filters from the GraphJSON.  For instance, if you assign &quot;_type&quot;, &quot;category&quot;, &quot;foobar&quot;, etc. Alchemy.js will look for that key on every node in the GraphJSON.  This is a convenience feature and can be costly with larger data sets.</p>
+<p>The better way to build node parameters is to pass an object for the <strong>nodeTypes</strong> parameter. The object passed will correspond to keys and values in the GraphJSON that alchemy will use to build and create node types. For example, based on the following GraphJSON, the user would pass the following object to alchemy.conf.nodeTypes for the &quot;award&quot; and &quot;movie&quot; nodes: <code>{type: [&quot;award&quot;, &quot;movie&quot;]}</code>.  Visit our <a href="/#/examples">examples gallery</a> for full examples using nodeTypes for filters and <a href="#Graph-Styling">styling</a>.</p>
+<pre><code class="lang-json">{&quot;nodes&quot;: [
+        {
+            &quot;name&quot;: &quot;Making Sandwiches&quot;,
+            &quot;mid&quot;: &quot;/m/09v95qs&quot;,
+            &quot;label&quot;: &quot;Making Sandwiches&quot;,
+            &quot;node_type&quot;: &quot;movie&quot;,
+            &quot;genre&quot;: [
+                &quot;Short Film&quot;
+            ],
+            &quot;type&quot;: &quot;movie&quot;,
+            &quot;id&quot;: 670298
+        },
+        {
+            &quot;name&quot;: &quot;Academy Award for Actress in a Leading Role&quot;,
+            &quot;mid&quot;: &quot;/m/0gqwc&quot;,
+            &quot;label&quot;: &quot;Academy Award for Actress in a Leading Role&quot;,
+            &quot;node_type&quot;: &quot;award&quot;,
+            &quot;genre&quot;: [],
+            &quot;type&quot;: &quot;award&quot;,
+            &quot;id&quot;: 593781
+        },
+        {
+            &quot;name&quot;: &quot;Religion, Inc.&quot;,
+            &quot;mid&quot;: &quot;/m/0g5q35v&quot;,
+            &quot;label&quot;: &quot;Religion, Inc.&quot;,
+            &quot;node_type&quot;: &quot;movie&quot;,
+            &quot;genre&quot;: [
+                &quot;Parody&quot;,
+                &quot;Comedy&quot;
+            ],
+            &quot;type&quot;: &quot;movie&quot;,
+            &quot;id&quot;: 778069
+        },...],
+...}</code></pre>
+<h5 id="rootnodes">rootNodes</h5>
+<p>[<code>string</code>] default:<code>&quot;root&quot;</code></p>
+<p>This is the name of the key supplied in the GraphJSON that will be used to determine if a node is a root node or not.  The GraphJSON value of the supplied key is a boolean value.</p>
+<h5 id="rootnoderadius">rootNodeRadius</h5>
+<p>[<code>int</code>] default:<code>15</code></p>
+<p>The default radius of root nodes.  Only applied if the key specified in rootNodes returns a boolean.</p>
+<hr>
+
+  </body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <h3 id="node-methods">Node Methods</h3>
+<p>When <strong>node</strong> data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.</p>
+<h5 id="node-getproperties">node.getProperties</h5>
+<!--  -->
+
+<p><code>node.getProperties([property])</code><br>
+If no parameter is supplied, returns the properties of a node provided by the data source as well as any properties edited by the user.  Optionally, a string or array can be provided to return only specified properties. </p>
+<p>For example:</p>
+<pre><code class="lang-javascript">// Grab the node with id 1 
+var node = alchemy.getNode(1);
+// Return all properties
+node.getProperties();
+// Return only the value of property &#39;firstName&#39;
+node.getProperties(&#39;firstName&#39;);
+// Return only the value of property &#39;firstName&#39;, &#39;lastName&#39;, and &#39;age&#39;
+node.getProperties([&#39;firstName&#39;, &#39;lastName&#39;, &#39;age&#39;]);</code></pre>
+<h5 id="node-setproperty">node.setProperty</h5>
+<!--  -->
+
+<p><code>node.setProperty([&#39;property&#39;, &#39;value&#39;]|[Object])</code><br>
+Set the property of a node with the supplied value, or set the value of multiple properties at once by providing an object.  </p>
+<p>For example:</p>
+<pre><code class="lang-javascript">// Grab the node with id 1
+var node = alchemy.getNode(1);
+// Set property &#39;firstName&#39; to &#39;Grace&#39;
+node.setProperty(&#39;firstName&#39;, &#39;Grace&#39;);
+// Set multiple properties at once
+node.setProperty({
+    &#39;firstName&#39;: &#39;Grace&#39;, 
+    &#39;lastName&#39;: &#39;Andrews&#39;, 
+    &#39;homeTown&#39;: &#39;Accra&#39;
+});</code></pre>
+<h5 id="node-removeproperty">node.removeProperty</h5>
+<!--  -->
+
+<p><code>node.removeProperty(&#39;property&#39;[,&#39;more_properties&#39;])</code><br>
+Remove one or more properties from a given node.  This method removes the entire property key value from the node.  Use the <a href="#nodesetproperty">node.setProperty</a> method to change a property.</p>
+<p>For Example:</p>
+<pre><code class="lang-javascript">// Grab the node with id 1
+var node = alchemy.getNode(1);
+// Remove &#39;firstName&#39; property
+node.removeProperty(&#39;firstName&#39;);
+// Remove multiple properties
+node.removeProperty([&#39;firstName&#39;, &#39;age&#39;, &#39;homeTown&#39;]);
+
+// Note:  To simply delete a property value, use the setProperty
+// method, setting the value to `null` or an empty string.
+node.setProperty(&#39;firstName&#39;, null);
+node.setProperty(&#39;firstName&#39;, &#39;&#39;);</code></pre>
+<h5 id="node-setstyles">node.setStyles</h5>
+<!--  -->
+
+<p><code>node.setStyle([&#39;nodeStyleKey&#39;, &#39;nodeStyleValue&#39;| Map of nodeStyles)</code><br>
+Alchemy abstracts the styles of the graph, making it easy to access them programatically.  A complete set of &quot;nodeStyles&quot; are referenced in the <a href="#GraphJSON">GraphJSON</a> section.</p>
+<pre><code class="lang-javascript">// Get node
+var some_node = alchemy.getNodes(1);
+// Change the radius of the node to 30 pixels
+some_node.setStyle(&#39;radius&#39;, 30);
+// Change multiple &quot;nodeStyle&quot; attributes at once
+var new_styles = {
+    &quot;radius&quot;: 40,
+    &quot;fill&quot;: &quot;#1e75bb&quot;,
+    &quot;stroke-width&quot;: 4
+};
+some_node.setStyle(new_styles);</code></pre>
+<h5 id="node-getstyles">node.getStyles</h5>
+<!--  -->
+
+<p><code>node.getStyles([&#39;property&#39;, &#39;properties...&#39;])</code><br></p>
+<p>To get the styles of a particular node, you can call the getStyles() method.  If <code>property</code> is blank, it will return an object consisting of all the current styles.  If arguments are passed to the function, an array will be returned that contains the current style setting of each property.</p>
+<pre><code class="lang-javascript">// Get node
+var some_node = alchemy.getNodes(1);
+
+// Check the node radius
+some_node.getStyles(&#39;radius&#39;);
+
+// Check the node radius as well as color
+some_node.getStyles(&#39;radius&#39;, &#39;color&#39;);
+
+// See all styles for some_node
+some_node.getStyles();</code></pre>
+<h5 id="node-togglehidden">node.toggleHidden</h5>
+<!-- -->
+
+<p><code>node.toggleHidden()</code></p>
+<p>Toggles the state of the node between <code>hidden</code> and <code>active</code>, and then renders the correct styles for that state.</p>
+<h5 id="node-outdegree">node.outDegree</h5>
+<!-- -->
+
+<p><code>node.outDegree()</code></p>
+<p>Returns the number of edges connected to that node.</p>
+<h5 id="node-remove">node.remove</h5>
+<!-- -->
+
+<p><code>node.remove()</code></p>
+<p>Deletes the node from Alchemy.  The node is removed from both the node data and the rendering and cannot be readded without reloading the data or creating it manually with alchemy.create.nodes() </p>
+<hr>
+
+  </body>
+</html>

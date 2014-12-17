@@ -1,0 +1,188 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <h3 id="layout">Layout</h3>
+<p></p>
+
+<h5 id="graphheight">graphHeight</h5>
+<p>[<code>function</code>] default: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L20">See source.</a></p>
+<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen height on load.  The user can define their own custom function for graphHeight or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
+<h5 id="graphwidth">graphWidth</h5>
+<p>[<code>function</code>] default: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/defaultConf.coffee#L22">See source.</a></p>
+<p>Defaults to a function that selects the height of the enclosing div.  If there is no enclosing div, the function returns the screen width on load.  The user can define their own custom function for graphWidth or a function that returns an integer to be converted to pixels.  e.g. <code>function() {return 500}</code></p>
+<h5 id="alpha">alpha</h5>
+<p>[<code>float</code>] default:<code>0.5</code>  </p>
+<p>Part of the d3 force layout. <code>alpha</code> sets the cooling parameter for the force layout.  You can read more about how changing the default value for alpha can change the force layout in the <a href="https://github.com/mbostock/d3/wiki/Force-Layout#alpha">d3 docs</a>.</p>
+<h5 id="cluster">cluster</h5>
+<p>[<code>bool</code>] default:<code>false</code> </p>
+<p>Clustering nodes will have a major effect on layout and color. This is one of Alchemy&#39;s most powerful off the shelf features. To cluster nodes, simply set cluster to <code>true</code>. Alchemy.js will expect a &#39;cluster&#39; key for each node in the provided GraphJSON whose value is an integer.  For example: </p>
+<pre><code class="lang-json">{
+    &quot;edges&quot;:[...
+    ],    
+    &quot;nodes&quot;: [
+        {
+            &quot;cluster&quot;: 4,
+            &quot;degree&quot;: 8,
+            &quot;id&quot;: &quot;P7jQJNVTAG&quot;,
+            &quot;firstName&quot;: &quot;Kate&quot;,
+        },
+        {
+            &quot;cluster&quot;: 0,
+            &quot;degree&quot;: 19,
+            &quot;id&quot;: &quot;fPKtFfXDds&quot;,
+            &quot;firstName&quot;: &quot;Katherine&quot;,
+        },
+        {
+            &quot;cluster&quot;: 0,
+            &quot;degree&quot;: 4,
+            &quot;id&quot;: &quot;QgVAXaBQg2&quot;,
+            &quot;firstName&quot;: &quot;Duane&quot;,
+        },...
+    ]
+}</code></pre>
+<p>The value for cluster will be used to look up a color from <a href="#clustercolors"><code>alchemy.conf.clusterColors</code></a>.  All nodes of the same cluster will receive the same color.  Edges between nodes of the same cluster will receive that cluster&#39;s color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors.  This makes it easy to visually identify &#39;boundary spanners&#39; in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.  For example:
+<img src="../docs/img/cluster.png" alt="cluster"><br><!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON--></p>
+<h5 id="clusterkey">clusterKey</h5>
+<p>[<code>string</code>] default:<code>&quot;cluster&quot;</code></p>
+<p>The key that Alchemy will use to determine the initial clusters if <code>cluster</code> is set to true.  If <code>clusterControl</code> is true, then this can be set dynamically from within the running alchemy visualization itself.  The type of the value that the <code>clusterKey</code> points to is not taken into account. </p>
+<h5 id="clustercontrol">clusterControl</h5>
+<p>[<code>bool</code>] default:<code>true</code></p>
+<p><code>clusterControl</code> adds a form to the control dash allowing you to specify different cluster keys.  Any property of a node in your GraphJSON can be used.</p>
+<h5 id="clustercolors">clusterColors</h5>
+<p>[<code>array of css colors</code>] default:</p>
+<pre><code class="lang-javascript">d3.shuffle([&quot;#DD79FF&quot;, &quot;#FFFC00&quot;, &quot;#00FF30&quot;, &quot;#5168FF&quot;, &quot;#00C0FF&quot;, 
+            &quot;#FF004B&quot;, &quot;#00CDCD&quot;, &quot;#f83f00&quot;, &quot;#f800df&quot;, &quot;#ff8d8f&quot;,
+            &quot;#ffcd00&quot;, &quot;#184fff&quot;, &quot;#ff7e00&quot;])</code></pre>
+<p>Provides a list of colors that can be assigned to different clusters.  The above colors are the defaults that are randomly assigned to the clusters using the <a href="https://github.com/mbostock/d3/wiki/Arrays#d3_shuffle">d3.shuffle</a> method.  Colors can be predictably assigned to colors by simply providing the colors in the position of the corresponding cluster.  For instance, in an array of the following colors <code>[red, green, yellow, orange]</code>, cluster 0 would be red, cluster 1 would be green, cluster 2 would be yellow, cluster 3 would be orange, etc.  See <a href="#cluster">cluster</a> for more information on how clustering works in Alchemy.js.</p>
+<h5 id="collisiondetection">collisionDetection</h5>
+<p>[<code>bool</code>] default:<code>true</code></p>
+<p>Turns collision detection on or off.  The function used for collision detection can be found <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/layout.coffee">here</a>, in the <code>collide</code> method.</p>
+<h5 id="forcelocked">forceLocked</h5>
+<p>[<code>bool</code>] default:<code>true</code> </p>
+<p>By default the force layout does not continue after initial layout is performed.  Setting forceLocked to <code>false</code> will allow the force layout to run on node drag, click, and other interactions.</p>
+<h5 id="linkdistancefn">linkDistancefn</h5>
+<p>[<code>function</code>] default: <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/app/scripts/alchemy/core/layout.coffee#L137">See source.</a> </p>
+<p>Alchemy.js provides the ability for a user defined custom link distance function in the force layout.  If you wish to override the default value with a function or provide another static value, simply pass it as the value for linkDistance in the config.  Your custom function will have the edge as well as our layout constant <a href="https://github.com/GraphAlchemist/Alchemy/blob/release-0.3/app/scripts/alchemy/core/layout.coffee.md">k</a> available.  For example, <code>yourLinkDistanceFn: function(edge, k) { return edge.something * k}</code>
+Read more about how linkDistance is used in d3&#39;s force layout <a href="https://github.com/mbostock/d3/wiki/Force-Layout#linkDistance">here</a>.</p>
+<!-- ##### nodePositions 
+
+[`array`] default:`null` 
+
+**not currently implemented**
+Per the [GraphJSON](http://www.graphjson.org/) specifications, users can provide GraphJSON with nodes that contain pre-calculated layout positions for nodes in pixel length.  The nodePositions parameter tells alchemy where to look up the node position.  The most obvious parameter for the user to pass would be `["x","y"]` telling alchemy to look for the `x` position for nodes with the `"x"` key on each node where available, and the `y` position with the "y" key.  A user could just as easily define a custom set of keys for their GraphJSON.  For example, ["apples","oranges"] would tell alchemy to look for the x position of nodes with the `"apples"` key and the `y` position of nodes with the `"oranges"` key. -->
+
+<hr>
+
+  </body>
+</html>

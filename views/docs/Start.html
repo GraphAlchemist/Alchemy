@@ -1,0 +1,136 @@
+<!DOCTYPE html> <html> <head> <meta charset="utf-8"> <title>doc</title> <style>/*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }</style>  <body> <p><h2 style="display:none">Start</h2></p> <h3 id="philosophy">Philosophy</h3> <p class="lead">Alchemy.js is a graph drawing application built almost entirely in <a href="http://d3js.org/">d3</a>.</p> <p class="lead">Alchemy.js was built so that developers could easily get up and running with graph visualization applications, without much over head. Minimal code is actually required to generate Alchemy.js graphs with most projects. Most customization of the application takes place by overriding default configurations, rather than direct implementation via JavaScript.</p> <p></p><p class="lead">Additionally, because Alchemy.js is built with <a href="http://d3js.org/">d3</a>, the core application can easily be extended with any of the other features included in <a href="http://d3js.org/">d3</a>.</p><br><br> <h3 id="quick-start">Quick Start</h3> <p>Alchemy.js requires three things, <strong>alchemy.css</strong>, <strong>alchemy.js</strong>, and <strong>data</strong>. Additionally, Alchemy requires CSS, JavaScript, and font dependencies. These dependencies with version numbers can be found in the <a href="https://github.com/GraphAlchemist/Alchemy/blob/master/bower.json">bower.json file</a>{:target=&quot;_blank&quot;} on GitHub, can be loaded via the vendor.js and vendor.css files as outlined below, and are listed here:</p> <ul> <li><a href="http://jquery.com/">jQuery</a></li> <li><a href="http://d3js.org/">d3</a></li> <li><a href="http://lodash.com/">Lo-Dash</a></li> <li><a href="http://getbootstrap.com/">Bootstrap</a> (for the control dash)</li> <li><a href="http://fortawesome.github.io/Font-Awesome/">Font Awesome</a> (for the control dash)</li> </ul> <p>The following are three different ways to get started with Alchemy.js.</p> <h3 id="use-the-alchemy-content-delivery-network">Use The Alchemy Content Delivery Network</h3> <ol> <li><p>Include the CDNs</p> <blockquote> <blockquote> <pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.min.css&quot;&gt;
+...
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.graphalchemist.com/alchemy.min.js&quot;&gt;</code></pre> <p> <em>Note</em>: The CDNs include all vendor files. Additionally, <strong>alchemy.js</strong>, <strong>alchemy.min.js</strong>, <strong>alchemy.css</strong>, and <strong>alchemy.min.css</strong> will always be updated with the latest release of Alchemy - <strong>using file names without versions can lead to breaking changes in your application</strong> whenever the CDN is updated. To avoid this, simply use the version number in the file names in the <a href="http://semver.org/">sem ver</a> format - MAJOR.MINOR.PATCH. For example:</p> <pre><code class="lang-html">    &lt;link rel=&quot;stylesheet&quot; href=&quot;http://cdn.graphalchemist.com/alchemy.0.2.min.css&quot;&gt;
+    ...
+     &lt;script type=&quot;text/javascript&quot; src=&quot;http://cdn.graphalchemist.com/alchemy.0.2.min.js&quot;&gt;</code></pre> </blockquote> </blockquote> </li> <li><p>Include an element with &quot;alchemy&quot; as the id and class**</p> <blockquote> <blockquote> <p> The <em>alchemy class</em> is used to apply styles while the <em>alchemy id</em> is used programatically. By default Alchemy.js looks for the <em>#alchemy</em> div but this can be overridden. See <a href="http://localhost:9002/docs/#divselector">divSelector</a></p> <pre><code class="lang-html">  &lt;div id=&quot;alchemy&quot; class=&quot;alchemy&quot;&gt;&lt;/div&gt;</code></pre> </blockquote> </blockquote> </li> <li><p>Provide Alchemy.js with a <a href="#GraphJSON">GraphJSON</a> dataSource</p> <blockquote> <blockquote> <pre><code class="lang-javascript">  var some_data = 
+      {
+        &quot;nodes&quot;: [
+          {
+            &quot;id&quot;: 1
+          },
+          {
+            &quot;id&quot;: 2
+          },
+          {
+            &quot;id&quot;: 3
+          }
+        ],
+        &quot;edges&quot;: [
+          {
+            &quot;source&quot;: 1,
+            &quot;target&quot;: 2
+          },
+          {
+            &quot;source&quot;: 1,
+            &quot;target&quot;: 3,
+          }
+        ]
+      };</code></pre> </blockquote> </blockquote> </li> <li><p>Start Alchemy.js</p> <blockquote> <blockquote> <pre><code class="lang-javascript">&lt;script&gt;
+  alchemy.begin({&quot;dataSource&quot;: some_data})
+&lt;/script&gt;</code></pre> </blockquote> </blockquote> </li> </ol> <blockquote> <blockquote> <p><strong>Be amazed.</strong><br><img src="../docs/img/threenodes.png" alt="Two Nodes"></p> </blockquote> </blockquote> <h3 id="download-and-include-alchemy-js">Download and include Alchemy.js</h3> <pre><code class="lang-html">&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;path/to/vendor.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;path/to/alchemy.css&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/vendor.js&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;path/to/alchemy.js&quot;&gt;</code></pre> <p>Repeat from above: </p> <ul> <li><strong>Add an element with &quot;alchemy&quot; as the id and class</strong> </li> <li><strong>Provide Alchemy.js with a graphJSON dataSource.</strong> </li> <li><strong>start Alchemy.js.</strong> </li> <li><strong>Be amazed.</strong><br><br> </li> </ul> <h3 id="install-with-bower">Install with Bower</h3> <p>Alchemy.js itself is a yeoman project and can easily be installed with bower.</p> <pre><code class="lang-bash">bower install alchemyjs --save</code></pre> <p><br></p> <h3 id="next-steps">Next Steps</h3> <p>Alchemy.js relies on a flexible and open data format called <strong><a href="#GraphJSON">GraphJSON</a></strong> and can do a lot more than draw small graphs. Alchemy.js includes a large and growing set of default configurations that can be easily overridden. Check out the <strong><a href="#Configuration">configuration</a></strong> documentation to learn about all of the ways Alchemy.js can be configured out of the box.</p> <hr>  

@@ -1,0 +1,197 @@
+<!DOCTYPE  html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>doc</title>
+    <style>
+      /*github.com style (c) Vasily Polovnyov <vast@whiteants.net>*/
+      pre code {
+        display: block; padding: 0.5em;
+        color: #333;
+        background: #f8f8ff
+      }
+      pre .comment,
+      pre .template_comment,
+      pre .diff .header,
+      pre .javadoc {
+        color: #998;
+        font-style: italic
+      }
+      pre .keyword,
+      pre .css .rule .keyword,
+      pre .winutils,
+      pre .javascript .title,
+      pre .nginx .title,
+      pre .subst,
+      pre .request,
+      pre .status {
+        color: #333;
+        font-weight: bold
+      }
+      pre .number,
+      pre .hexcolor,
+      pre .ruby .constant {
+        color: #099;
+      }
+      pre .string,
+      pre .tag .value,
+      pre .phpdoc,
+      pre .tex .formula {
+        color: #d14
+      }
+      pre .title,
+      pre .id {
+        color: #900;
+        font-weight: bold
+      }
+      pre .javascript .title,
+      pre .lisp .title,
+      pre .clojure .title,
+      pre .subst {
+        font-weight: normal
+      }
+      pre .class .title,
+      pre .haskell .type,
+      pre .vhdl .literal,
+      pre .tex .command {
+        color: #458;
+        font-weight: bold
+      }
+      pre .tag,
+      pre .tag .title,
+      pre .rules .property,
+      pre .django .tag .keyword {
+        color: #000080;
+        font-weight: normal
+      }
+      pre .attribute,
+      pre .variable,
+      pre .lisp .body {
+        color: #008080
+      }
+      pre .regexp {
+        color: #009926
+      }
+      pre .class {
+        color: #458;
+        font-weight: bold
+      }
+      pre .symbol,
+      pre .ruby .symbol .string,
+      pre .lisp .keyword,
+      pre .tex .special,
+      pre .prompt {
+        color: #990073
+      }
+      pre .built_in,
+      pre .lisp .title,
+      pre .clojure .built_in {
+        color: #0086b3
+      }
+      pre .preprocessor,
+      pre .pi,
+      pre .doctype,
+      pre .shebang,
+      pre .cdata {
+        color: #999;
+        font-weight: bold
+      }
+      pre .deletion {
+        background: #fdd
+      }
+      pre .addition {
+        background: #dfd
+      }
+      pre .diff .change {
+        background: #0086b3
+      }
+      pre .chunk {
+        color: #aaa
+      }
+    </style>
+  </head>
+  <body>  
+    <h3 id="edge-methods">Edge Methods</h3>
+<p>When <strong>edge</strong> data is added to Alchemy through GraphJSON from the data source, or through the API, Alchemy adds methods to the nodes that can be used universally.  These methods are then interpreted by the SVG and WebGL Renders to apply the commands appropriately.</p>
+<h5 id="edge-getproperties">edge.getProperties</h5>
+<!--  -->
+
+<p><code>edge.getProperties([property])</code><br>
+If no parameter is specified, returns all of the properties of a given edge, including any properties edited or changed by the application.  If a single parameter, or multiple parameters are specified, the method will return an object with the specified properties and their parameters.</p>
+<p>For example:</p>
+<pre><code class="lang-javascript">// Grab the node with id 1 
+var node = alchemy.get.edge(1);
+// Return all properties
+node.getProperties();
+// Return only the value of property &#39;firstName&#39;
+node.getProperties(&#39;firstName&#39;);
+// Return only the value of property &#39;firstName&#39;, &#39;lastName&#39;, and &#39;age&#39;
+node.getProperties([&#39;firstName&#39;, &#39;lastName&#39;, &#39;age&#39;]);</code></pre>
+<h5 id="edge-setproperties">edge.setProperties</h5>
+<!--  -->
+
+<p><code>edge.setProperties([&#39;property&#39;, &#39;value&#39;]|[Object])</code><br>
+Set the property of an edge with the supplied value, or set the value of multiple properties at once by providing a map of key values.  </p>
+<p>For example:</p>
+<pre><code class="lang-javascript">// Grab the edge that has a source node of id 1
+// and a target of id 2
+var edge = alchemy.get.edge(1, 2);
+// Set property &#39;startDate&#39; to &#39;yesterday&#39;
+node.setProperties(&#39;startDate&#39;, &#39;yesterday&#39;);
+// Set multiple properties at once
+node.setProperties({
+    &#39;startDate&#39;: &#39;yesterday&#39;, 
+    &#39;endDate&#39;: null, 
+    &#39;role&#39;: &#39;Engineer&#39;
+});</code></pre>
+<h5 id="edge-getstyles">edge.getStyles</h5>
+<!--  -->
+
+<p><code>edge.getStyles([&#39;property&#39;, &#39;properties...&#39;])</code><br></p>
+<p>To get the styles of a particular edge, you can call the getStyles() method.  If <code>property</code> is blank, it will return an object consisting of all the current styles.  If arguments are passed to the function, an array will be returned that contains the current style setting for each property.</p>
+<pre><code class="lang-javascript">// Get edge
+var some_edge = alchemy.getEdges(1, 2);
+
+// Check the edge width
+some_edge.getStyles(&#39;width)
+
+// Check the edge width and color
+some_edge.getStyles(&#39;width&#39;, &#39;color&#39;)
+
+// See all styles for some_edge
+some_edge.getStyles()</code></pre>
+<h5 id="edge-setstyles">edge.setStyles</h5>
+<!-- -->
+
+<p><code>edge.setStyle([&#39;edgeStyleKey&#39;, &#39;edgeStyleValue&#39;| Map of edgeStyles)</code><br>
+Alchemy abstracts the styles of the graph, making it easy to access them programatically.  A complete set of &quot;edgeStyles&quot; are referenced in the <a href="#edgeStyle">edgeStyle</a> section.  Multiple styles can be assigned at once by passing in an object with the keys being the name of the style. If no arguments are passed, the edge is restyled based on the styles set in the configuration for it&#39;s current state.</p>
+<pre><code class="lang-javascript">// Get edge
+var some_edge = alchemy.getEdges(1, 2);
+
+// Change the width of the edge to 10 pixels
+some_edge.setStyle(&#39;width&#39;, 10);
+
+// Change multiple styles at once.
+some_edge.setStyle({&#39;width&#39;: 10, &#39;color&#39;: &#39;white&#39;});
+
+// Refresh/reload style based on current state
+some_edge.setStyle(new_styles);</code></pre>
+<h5 id="edge-togglehidden">edge.toggleHidden</h5>
+<!-- -->
+
+<p><code>edge.toggleHidden()</code></p>
+<p>Toggles the state of the edge between <code>hidden</code> and <code>active</code>, and then renders the correct styles for that state.</p>
+<h5 id="edge-allnodesactive">edge.allNodesActive</h5>
+<!-- -->
+
+<p><code>edge.allNodesActive()</code></p>
+<p>Returns true or false based on whether both the source and target node are active.</p>
+<h5 id="edge-remove">edge.remove</h5>
+<!-- -->
+
+<p><code>edge.remove()</code></p>
+<p>Deletes the edge from Alchemy.  The edge is removed from both the edge data and the rendered visual.  It cannot be readded without reloading the data or creating it manually with alchemy.create.edges() </p>
+
+  </body>
+</html>
