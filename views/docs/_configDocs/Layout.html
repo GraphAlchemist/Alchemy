@@ -152,7 +152,7 @@
     ]
 }</code></pre>
 <p>The value for cluster will be used to look up a color from <a href="#clustercolors"><code>alchemy.conf.clusterColors</code></a>.  All nodes of the same cluster will receive the same color.  Edges between nodes of the same cluster will receive that cluster&#39;s color, while edges that span between two nodes in different clusters will receive an inverse gradient of the two colors.  This makes it easy to visually identify &#39;boundary spanners&#39; in social networks, unexpected links in a host of network analysis and link analysis use cases, and even to visually illustrate results of gene co-expression networks.  For example:
-<img src="../docs/img/cluster.png" alt="cluster"><br><!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON--></p>
+<img src="views/docs/img/cluster.png" alt="cluster"><br><!-- TODO: cluster should accept a string e.g. "community" "category" etc. that would correspond to the key in the graph JSON--></p>
 <h5 id="clusterkey">clusterKey</h5>
 <p>[<code>string</code>] default:<code>&quot;cluster&quot;</code></p>
 <p>The key that Alchemy will use to determine the initial clusters if <code>cluster</code> is set to true.  If <code>clusterControl</code> is true, then this can be set dynamically from within the running alchemy visualization itself.  The type of the value that the <code>clusterKey</code> points to is not taken into account. </p>
