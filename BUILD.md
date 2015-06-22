@@ -19,6 +19,9 @@ npm install -g yo
 # Install Coffee for compiling CoffeeScript into JavaScript
 npm install -g coffee-script
 
+# Install bower for frontend dependency management
+npm install -g bower
+
 # Install Compass for compiling Sass into css
 gem install compass
 
