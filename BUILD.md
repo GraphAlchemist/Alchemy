@@ -22,6 +22,9 @@ npm install -g coffee-script
 # Install bower for frontend dependency management
 npm install -g bower
 
+# Install grunt for running tasks
+npm install -g grunt-cli
+
 # Install Compass for compiling Sass into css
 gem install compass
 
