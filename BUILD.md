@@ -54,7 +54,7 @@ Alchemy will now be running at localhost:9000.  The Alchemy app that is running 
 
 Testing
 -------
-Alchemy uses Karma to run test in the mocha framework.  There are a few different that tests are run:  
+Alchemy uses Karma to run test in the mocha framework.  There are a few different tests that are run:  
 
 1. You can run Alchemy's test locally with the `grunt test` command
 1. Continuous integrations runs the test on pull requests using the `grunt test:pr`
