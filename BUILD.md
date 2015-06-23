@@ -19,6 +19,12 @@ npm install -g yo
 # Install Coffee for compiling CoffeeScript into JavaScript
 npm install -g coffee-script
 
+# Install bower for frontend dependency management
+npm install -g bower
+
+# Install grunt for running tasks
+npm install -g grunt-cli
+
 # Install Compass for compiling Sass into css
 gem install compass
 
@@ -48,7 +54,7 @@ Alchemy will now be running at localhost:9000.  The Alchemy app that is running 
 
 Testing
 -------
-Alchemy uses Karma to run test in the mocha framework.  There are a few different that tests are run:  
+Alchemy uses Karma to run test in the mocha framework.  There are a few different tests that are run:  
 
 1. You can run Alchemy's test locally with the `grunt test` command
 1. Continuous integrations runs the test on pull requests using the `grunt test:pr`
