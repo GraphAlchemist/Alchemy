@@ -99,12 +99,12 @@ title: Anotated Source
         begin: (userConf) ->
             # overide configuration with user inputs
             conf = @setConf userConf
+            Alchemy::instances.push @
             switch typeof @conf.dataSource
                 when 'string' then d3.json @a.conf.dataSource, @a.startGraph
                 when 'object' then @a.startGraph @a.conf.dataSource
             
             @plugins.init()
-            Alchemy::instances.push @
 
             @
 
