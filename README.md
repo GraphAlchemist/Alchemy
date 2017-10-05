@@ -1,7 +1,7 @@
 Alchemy
 =======
 
-###This project is looking for a maintainer!  File an issue if you are interested.
+### This project is looking for a maintainer!  File an issue if you are interested.
 
 <!-- Build should not fail update commit -->
 [![Build Status](https://travis-ci.org/GraphAlchemist/Alchemy.svg?branch=master)](https://travis-ci.org/GraphAlchemist/Alchemy)
