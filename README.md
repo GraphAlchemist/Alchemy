@@ -14,12 +14,12 @@ Alchemy.js was built so that developers could easily get up and running with Gra
 
 Additionally, because Alchemy.js is built with d3, the core application can easily be extended with any of the other features included in d3.
 
-##Quick Start and Documentation
+## Quick Start and Documentation
 Learn how to get up and running with Alchemy.js in the [docs](http://graphalchemist.github.io/Alchemy/#/docs) and check our examples in our [examples gallery](http://graphalchemist.github.io/Alchemy/#/examples).
-##Contributing 
+## Contributing 
 Read about how to contribute in the [docs](http://graphalchemist.github.io/Alchemy/#/docs/#Contributing).
 
-##Licensing
+## Licensing
 The source is licensed under the AGPLv3 license for open source and open data projects.  For commercial licensing, get in touch with the [GraphAlchemist](mailto:h@graphalchemist.com, m@graphalchemist.com, harland@graphalchemist.com?subject=Alchemy%20for%20Commercial%20Use&amp;body=I'm%20interested%20in%20Alchemy%20commercial%20licensing%20options!%0A) team. 
 
     
